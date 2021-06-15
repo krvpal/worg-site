@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Putting Your org Files Under Version Control.</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Ian Barton." />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Putting Your org Files Under Version Control.</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1f652b4">Introduction.</a></li>
+<li><a href="#org650e56e">Requirements.</a></li>
+<li><a href="#orgeda0977">Getting Started.</a>
+<ul>
+<li><a href="#orge4ba5d2">Creating a Repository.</a>
+<ul>
+<li><a href="#orgd1b2094">Excluding Files from the Repository.</a></li>
+</ul>
+</li>
+<li><a href="#orgce668ef">Adding Files to Your Repository.</a></li>
+<li><a href="#orga1b7ea0">Committing Changes.</a></li>
+</ul>
+</li>
+<li><a href="#org5e60c6f">Working With Your org Files On More Than One Computer.</a>
+<ul>
+<li><a href="#org9c237ff">Creating a Local Branch.</a></li>
+<li><a href="#org7ea2ba5">Merging Changes from a Local Branch to Your Server.</a></li>
+<li><a href="#org78b7cbf">Updating an Existing Branch of Your org Files.</a></li>
+</ul>
+</li>
+<li><a href="#org2cb2cb4">Creating a Central Repository.</a>
+<ul>
+<li><a href="#orga984cbf">Using a USB Stick as a Central Repository.</a>
+<ul>
+<li><a href="#org445dbad">Creating the Repository on the USB Stick.</a></li>
+<li><a href="#orgbf4cb33">Getting Your org Files from the USB Stick.</a></li>
+<li><a href="#org4ed5b42">Getting Your Local Changes onto the USB Stick.</a></li>
+<li><a href="#orgaff1732">Day to Day Use.</a></li>
+</ul>
+</li>
+<li><a href="#org4f10d1d">Update the Local Branch on Your Notebook from the Central Repository.</a></li>
+</ul>
+</li>
+<li><a href="#org940f52c">Day to Day Usage.</a>
+<ul>
+<li><a href="#orgf2b5fab">Working at Home.</a></li>
+<li><a href="#org7faaef9">Away from Home.</a></li>
+<li><a href="#org78c814f">Away from Home and I Forgot to Update My Files Before Leaving.</a></li>
+</ul>
+</li>
+<li><a href="#org6ac5aa0">Conclusion.</a></li>
+<li><a href="#org19531a0">Further Information.</a>
+<ul>
+<li><a href="#org1df1283">Useful bzr Plugins.</a></li>
+<li><a href="#org9a88db1">Moving Data Between bzr and git.</a>
+<ul>
+<li><a href="#org49486c8">Moving Your Data from bzr to git.</a></li>
+<li><a href="#org3b3f371">Moving Data from git to bzr.</a></li>
+</ul>
+</li>
+<li><a href="#orgdc22a13">Git Screencasts.</a></li>
+<li><a href="#org4e1faf7">Back up</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1f652b4" class="outline-2">
+<h2 id="org1f652b4">Introduction.</h2>
+<div class="outline-text-2" id="text-org1f652b4">
+<p>
+Since I discovered org mode it has gradually become my &ldquo;Information
+sink&rdquo; and most of my life seems to have moved into it. I wanted a
+system that allowed me to move my org files around between different
+computers which was easy to use and kept my files under version control.
+</p>
+
+<p>
+I use bzr for my version control, but the system I describe should
+work with any of the distributed VCS systems, such as Mercurial and
+git. Since org mode is maintained in git and many org users are using
+git, I have tried to give examples using both bzr and git.
+</p>
+
+<p>
+This isn&rsquo;t intended to be an in depth discussion of version control,
+but more of a quick overview of how you can use a version control
+system with org to keep various computer in sync and as a backup system.
+</p>
+
+<p>
+At home I normally work with my org files on an nfs share using one of
+our desktop computers. The org files themselves are stored on my local
+server. They are also automatically mirrored with a repository on my Web
+server each night.
+</p>
+
+<p>
+If I go away before I set off, I will update the local branch of my
+org files that I keep on my notebook using bzr. If I forget to update
+my local copy, I can update my notebook repository from my home
+server, or my web server as long as I have an Internet connection.
+</p>
+
+<p>
+If I can&rsquo;t connect to the Internet, the org files on my notebook are
+not usually more than 24 hours out of sync with the copy on my
+server. I can carry on working and then merge my changes when I get
+home, or can access the Internet.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org650e56e" class="outline-2">
+<h2 id="org650e56e">Requirements.</h2>
+<div class="outline-text-2" id="text-org650e56e">
+<p>
+I am assuming you already have Emacs and org installed. If you are
+using a Debian based system installing git and bzr is simply a matter
+of:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">apt-get install bzr bzrtools
+apt-get git-core  
+</pre>
+</div>
+
+<p>
+If you want to push changes to a remote server, you might also want to
+install the ncftp client.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeda0977" class="outline-2">
+<h2 id="orgeda0977">Getting Started.</h2>
+<div class="outline-text-2" id="text-orgeda0977">
+</div>
+<div id="outline-container-orge4ba5d2" class="outline-3">
+<h3 id="orge4ba5d2">Creating a Repository.</h3>
+<div class="outline-text-3" id="text-orge4ba5d2">
+<p>
+The first step is to create a repository in the directory where you
+keep your org files:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-shell">cd ~/Documents/org
+bzr init
+</pre>
+</div>
+
+<p>
+If you are using git:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">git init  
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd1b2094" class="outline-4">
+<h4 id="orgd1b2094">Excluding Files from the Repository.</h4>
+<div class="outline-text-4" id="text-orgd1b2094">
+<p>
+You might have things, such as emacs backup files, in your org
+directory that you don&rsquo;t want included in your VCS. A simple way to
+avoid them being added is to create a .bzrignore file in the org file
+directory:
+</p>
+
+<p>
+In my .bzrignore I simply have:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">*~  
+</pre>
+</div>
+
+<p>
+With git you  can create a .gitignore file, which has a very similar
+syntax to .bzrignore.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgce668ef" class="outline-3">
+<h3 id="orgce668ef">Adding Files to Your Repository.</h3>
+<div class="outline-text-3" id="text-orgce668ef">
+<p>
+Now you need to add your org files to the repository. In the directory
+where you keep you org files:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr add *.org  
+</pre>
+</div>
+
+<p>
+For git users:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">git add *.org  
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga1b7ea0" class="outline-3">
+<h3 id="orga1b7ea0">Committing Changes.</h3>
+<div class="outline-text-3" id="text-orga1b7ea0">
+<p>
+Once you have added your files to the repository you need to commit
+the changes to update the repository:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr commit -m "Imported sources."  
+</pre>
+</div>
+
+<p>
+For git users:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">git commit -a -m "Imported sources."  
+</pre>
+</div>
+
+<p>
+Commit makes a snapshot of the working state of the files. You can
+choose to commit changes at any time. There are several Emacs
+packages, which will let you do this directly from Emacs. I also run a
+cron job which commits any changes automatically each evening. The
+shell script I use is:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">#!/bin/sh
+cd ~/Documents/org
+bzr commit -m "automatic commit via cron."  
+</pre>
+</div>
+
+<p>
+If you want to commit files selectively, rather than all uncommited
+files, you can specify the file names on the command line:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr commit -m "Made some changes." myfile.org another_file.org  
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5e60c6f" class="outline-2">
+<h2 id="org5e60c6f">Working With Your org Files On More Than One Computer.</h2>
+<div class="outline-text-2" id="text-org5e60c6f">
+<p>
+You will probably want to work on your org files on more than one
+computer. The traditional method would be to copy all your org files
+between your various computers. This is error prone and you
+might end up accidentally overwriting new files with older versions.
+</p>
+
+<p>
+A better way to synchronise files between your computers is to use
+your version control system. Not only do your org files get updated,
+but you also get their complete version history. The steps you need to
+take to maintain versions of your org files on different computers are
+described below.
+</p>
+
+<p>
+Note that there are several methods which you could use, the one I
+describe works for me.
+</p>
+</div>
+
+<div id="outline-container-org9c237ff" class="outline-3">
+<h3 id="org9c237ff">Creating a Local Branch.</h3>
+<div class="outline-text-3" id="text-org9c237ff">
+<p>
+First create a local copy of your org files by making a branch. You
+can then continue working on your files locally and then use bzr or git to
+merge changes back to your main copy of org when required.
+</p>
+
+<p>
+To create an initial working branch on your local computer:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr branch ~nfs/firewall/Documents/org ~/Documents/org  
+</pre>
+</div>
+
+<p>
+For git users:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git clone ~nfs/firewall/Documents/org ~/Documents/org
+</pre>
+</div>
+
+<p>
+This command creates a local branch on my notebook from the repository
+on my file server. Note that bzr and git will create the directory for
+the branch. If the directory already exists you will get an error.
+</p>
+
+<p>
+The general format of the branch command is:
+</p>
+
+<p>
+bzr branch location directory
+</p>
+
+<p>
+bzr understands a wide variety of transport protocols, which you
+could use to create your initial branch:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">aftp://</td>
+<td class="org-left">Access using active FTP.</td>
+</tr>
+
+<tr>
+<td class="org-left">bzr://</td>
+<td class="org-left">Fast access using the Bazaar smart server.</td>
+</tr>
+
+<tr>
+<td class="org-left">bzr+ssh://</td>
+<td class="org-left">Fast access using the Bazaar smart server over SSH.</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="file://">file://</a></td>
+<td class="org-left">Access using the standard filesystem (default)</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="ftp://">ftp://</a></td>
+<td class="org-left">Access using passive FTP.</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://">http://</a></td>
+<td class="org-left">Read-only access of branches exported on the web.</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://">https://</a></td>
+<td class="org-left">Read-only access of branches exported on the web using SSL.</td>
+</tr>
+
+<tr>
+<td class="org-left">sftp://</td>
+<td class="org-left">Access using SFTP (most SSH servers provide SFTP).</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+You now have a complete copy of your org files from the file server
+and their version history in ~/Documents/org. You can simply fire up
+Emacs and work on the org files in that directory.
+</p>
+
+<p>
+If you use git the syntax is very similar. This example uses ssh:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">git clone url directory
+git clone ssh://ian@mycomputer.co.uk/~/Documents/org ~/Documents/org
+</pre>
+</div>
+
+<p>
+At any point you can commit your changes to the local repository using
+the commit command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr commit -m "Committing changes made on my notebook."
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ea2ba5" class="outline-3">
+<h3 id="org7ea2ba5">Merging Changes from a Local Branch to Your Server.</h3>
+<div class="outline-text-3" id="text-org7ea2ba5">
+<p>
+When you return back home or to the office, you will probably want to
+update the copy of org on your local server from your notebook:
+</p>
+
+<ul class="org-ul">
+<li>First you need to commit any local changes that you have made.</li>
+
+<li>Next you need to use the push command to send your changes back to</li>
+</ul>
+<p>
+the server. The basic command is:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr push  
+</pre>
+</div>
+
+<p>
+If you don&rsquo;t specify a destination location the push is made to the
+branch that this branch originated from. If you are the only person
+working with your org files, the push should update your remote copy
+without requiring any further action. If there are any conflicts take
+a look at the bzr manual on Resolving Conflicts for more information
+on how to fix the conflicts.
+</p>
+
+<p>
+Note that once the push has completed the it needs to be
+committed on the server to update your working tree:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">cd ~/nfs/firewall/Documents/org
+bzr commit -m "Merged changes from my notebook."  
+</pre>
+</div>
+
+<p>
+Up to the point of committing the merge you can choose to throw away
+any changes by using the revert option in bzr.
+</p>
+
+<p>
+Git uses the same command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">git push 
+</pre>
+</div>
+
+<p>
+Unlike bzr, git will auto commit changes after a merge. If you don&rsquo;t
+like this behaviour use the &#x2013;no-commit option to make it behave like
+bzr.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org78b7cbf" class="outline-3">
+<h3 id="org78b7cbf">Updating an Existing Branch of Your org Files.</h3>
+<div class="outline-text-3" id="text-org78b7cbf">
+<p>
+Once you have a local branch on your computer, you can update it from
+your server at any time using the following command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr pull  
+</pre>
+</div>
+
+<p>
+By default pull uses the location where you originally branched
+from. this will pull any changes from the remote location and merge
+them with your local copy.
+</p>
+
+<p>
+The command with git is the same
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">git pull   
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2cb2cb4" class="outline-2">
+<h2 id="org2cb2cb4">Creating a Central Repository.</h2>
+<div class="outline-text-2" id="text-org2cb2cb4">
+<p>
+In order to give your system maximum resilience you may want to create
+a central repository somewhere off site that is accessible from the
+Internet. Using an off site server will also increase your backup
+karma.
+</p>
+
+<p>
+Typically you will only want to store history and not working copies
+of your files in your central repository. So you can create the repository with the
+no-trees option:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr init-repo --no-trees sftp://myserver.com/bzr/myrepo  
+</pre>
+</div>
+
+<p>
+You can now use bzr to push your local branch to the central
+repository:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">cd ~/Documents/org
+bzr push sftp://myserver.com/bzr/myrepo/org-files  
+</pre>
+</div>
+
+<p>
+Git is a bit more complicated. The goal is to create a bare repository
+on the remote server. If you have ssh access to the server you can do
+it like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  ssh me@myserver.com
+  mkdir myrepo.git
+  cd myrepo.git
+  git init --bare
+</pre>
+</div>
+
+<p>
+Alternatively create the directory on your local computer and move it
+to your server via ftp or some other method.
+</p>
+
+<p>
+Now you need to push your local repository to the server:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  cd ~/my_local_git_repo/.git
+  
+</pre>
+</div>
+
+<p>
+Edit the config file in the .git directory and add something like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  [remote "origin"]
+   url = me@myserver.com:~/repositories/myrepo.git
+   fetch = +refs/heads/*:refs/remotes/origin/*
+</pre>
+</div>
+
+<p>
+If you don&rsquo;t want to edit the config file directly you can add the
+required information like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git remote add origin me@myserver.com:~/repositories/myrepo.git
+</pre>
+</div>
+
+<p>
+Note that you can call &ldquo;origin&rdquo; anything you like. Assuming that you
+have ssh access to your server you should now be able to push your
+changes to the server:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git-push push origin master
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga984cbf" class="outline-3">
+<h3 id="orga984cbf">Using a USB Stick as a Central Repository.</h3>
+<div class="outline-text-3" id="text-orga984cbf">
+<p>
+You can create a central repository on a USB stick. You might want to
+do this if you take files between your home and work computers and
+can&rsquo;t use the internet to synchronize your files because there is a
+firewall in the way.
+</p>
+
+<p>
+There are some special considerations required when using a usb stick:
+</p>
+
+<ul class="org-ul">
+<li>You need to specify that you can used mixed case in filenames, or
+you will have problems creating names like HEAD with git. Note this
+is only a problem with usb sticks formatted as FAT or VFAT.</li>
+</ul>
+
+<p>
+If you are using the gnome desktop fire up gconf-editor and navigate to
+system-&gt;storage-&gt;default\<sub>options</sub>-&gt;vfat. Edit the key &ldquo;mount<sub>options</sub>&rdquo;
+and change its value to [shortname=mixed,uid=].
+</p>
+
+<p>
+This option is the default with recent versions of Ubuntu such as
+Intrepid.
+</p>
+</div>
+
+<div id="outline-container-org445dbad" class="outline-4">
+<h4 id="org445dbad">Creating the Repository on the USB Stick.</h4>
+<div class="outline-text-4" id="text-org445dbad">
+<p>
+Using bzr to create a bare repository:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr init-repo --no-trees /media/disk/bzr-repo    
+</pre>
+</div>
+
+<p>
+Now populate the repository with your org files:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr push file:///media/disk/bzr-repo
+</pre>
+</div>
+
+<p>
+Using git the command you need to create the directory and a bare repo
+on your usb stick:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  cd /media/usbstick
+  mkdir myrepo.git
+  cd myrepo.git
+  git init --bare
+</pre>
+</div>
+
+<p>
+Now edit the config file in the .git directory of your local repo and
+add the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">    [remote "usbstick"]
+      url = /media/53141017-f3e3-407f-a08f-20b91064b7f3/repos/org.git/
+      fetch = +refs/heads/*:refs/remotes/usbstick/*  
+</pre>
+</div>
+
+<p>
+You can now push to the usb stick:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git push usbstick master
+</pre>
+</div>
+
+<p>
+You may wish to mount your usb stick in /etc/fstab using the disk&rsquo;s
+UUID to ensure that the mount point is always the same.
+</p>
+
+<p>
+Once you have made the initial push you can sync your changes to the
+usb stick like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell-script">  <span style="color: #66d9ef;">cd</span> ~/Documents/org
+
+  <span style="color: #696969;"># </span><span style="color: #696969;">bzr will default to using the saved initial location,</span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">so you don't need to specify a location. </span>
+  bzr-push
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git push usbstick master
+</pre>
+</div>
+
+<p>
+The git example assumes that the remote on the usb stick is named
+&ldquo;origin&rdquo; (the default) and the branch that you want to push from is
+named &ldquo;master&rdquo; (the default).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbf4cb33" class="outline-4">
+<h4 id="orgbf4cb33">Getting Your org Files from the USB Stick.</h4>
+<div class="outline-text-4" id="text-orgbf4cb33">
+<p>
+To get your org files from the usb stick on another computer for the
+first time.
+</p>
+
+<p>
+With bzr:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr branch /media/usbdisk/bzr-repo ~/Documents/org
+</pre>
+</div>
+<p>
+With git:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git clone /media/disk/org.git ~/Documents/org
+</pre>
+</div>
+
+<p>
+In subsequent sessions, once the local repository has been populated,
+you should use the &ldquo;pull&rdquo; command.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4ed5b42" class="outline-4">
+<h4 id="org4ed5b42">Getting Your Local Changes onto the USB Stick.</h4>
+<div class="outline-text-4" id="text-org4ed5b42">
+<p>
+When you have finished working on your local org files you need to
+commit your changes to the local repository:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr commit -m "Commit before push to usb stick."
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git commit -m "Commit before push to usb stick."
+</pre>
+</div>
+
+<p>
+To update the repo on your USB stick you need to push your changes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr push
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git push
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaff1732" class="outline-4">
+<h4 id="orgaff1732">Day to Day Use.</h4>
+<div class="outline-text-4" id="text-orgaff1732">
+<p>
+Assuming that you have successfully set up a repo on your usb stick and
+have repos on your work and home computers your work flow would look
+something like:
+</p>
+
+<p>
+Home.
+Edit your org files
+Commit your changes (<code>bzr commit</code>)
+Push the changes to your usb stick (<code>bzr push</code>)
+</p>
+
+<p>
+Work.
+</p>
+<ul class="org-ul">
+<li>Plug in your usb stick.</li>
+<li>Get the changes - <code>bzr pull</code></li>
+<li>Work on your files in Emacs.</li>
+<li>Commit the changes you made - bzr commit -m &ldquo;Commit before push to usb stick.&rdquo;</li>
+<li>Push your changes to the usb stick - <code>bzr push</code></li>
+<li>Unplug the usb stick and go home.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4f10d1d" class="outline-3">
+<h3 id="org4f10d1d">Update the Local Branch on Your Notebook from the Central Repository.</h3>
+<div class="outline-text-3" id="text-org4f10d1d">
+<p>
+Sometimes you might want to update your local branch from your central
+repository, rather than from your local server. One reason for wanting
+to do this is if you are away from home and your local computer&rsquo;s
+branch is quite out of date. If you automatically update your central
+repository daily from a cron script, the files on there should never
+be more than one day old, so if you have an Internet connection you
+can get a more recent version of your files from the central repository.
+</p>
+
+<p>
+The pull command will do this, but you need to specify the location on
+the command line:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">bzr pull sftp://myserver.co.uk/my_repo/org  
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org940f52c" class="outline-2">
+<h2 id="org940f52c">Day to Day Usage.</h2>
+<div class="outline-text-2" id="text-org940f52c">
+<p>
+I have three different scenarios for using my system:
+</p>
+</div>
+
+<div id="outline-container-orgf2b5fab" class="outline-3">
+<h3 id="orgf2b5fab">Working at Home.</h3>
+<div class="outline-text-3" id="text-orgf2b5fab">
+<p>
+My org files are on my home server in a directory accessible via
+nfs. I can either load my files via an nfs share, or run Emacs in a
+terminal on the file server.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7faaef9" class="outline-3">
+<h3 id="org7faaef9">Away from Home.</h3>
+<div class="outline-text-3" id="text-org7faaef9">
+<p>
+Update the files on my laptop before I leave:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  cd ~/Documents/org
+  bzr pull
+</pre>
+</div>
+
+<p>
+Launch Emacs using a different .emacs, which has its org configuration
+set to point to the files on my local hard disk, rather than the nfs
+share.
+</p>
+
+<p>
+When I get back home I can update the files on my server by doing a
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">cd ~/Documents/org
+bzr push  
+</pre>
+</div>
+
+<p>
+Note that push updates the repository, but not the working copy of the
+files. To update the working copy on your server you need to run bzr
+update. Alternatively, you can use the Push and Update plugin from
+<a href="https://launchpad.net/bzr-push-and-update">https://launchpad.net/bzr-push-and-update</a> , which automates this
+process for you.
+</p>
+
+<p>
+You can set up anacron to update the org files on your laptop when you
+startup, or shutdown which keeps the files on your local hard drive up
+to date in most circumstances.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org78c814f" class="outline-3">
+<h3 id="org78c814f">Away from Home and I Forgot to Update My Files Before Leaving.</h3>
+<div class="outline-text-3" id="text-org78c814f">
+<p>
+If the files on my laptop aren&rsquo;t up to date, I can use bzr to pull a
+copy from my web server via my mobile phone. If I can&rsquo;t get a signal,
+or find a wifi hotspot, the files on my laptop shouldn&rsquo;t be more than
+24 hrs out of date. I can just work on my local copy and merge the
+changes when I get back home.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ac5aa0" class="outline-2">
+<h2 id="org6ac5aa0">Conclusion.</h2>
+<div class="outline-text-2" id="text-org6ac5aa0">
+<p>
+So far my system has proved quite robust. It&rsquo;s also useful having the full version
+history of my org files on each computer.
+</p>
+</div>
+</div>
+<div id="outline-container-org19531a0" class="outline-2">
+<h2 id="org19531a0">Further Information.</h2>
+<div class="outline-text-2" id="text-org19531a0">
+<p>
+You can find out more about bzr at:
+<a href="http://doc.bazaar-vcs.org/bzr.dev/en/user-reference/bzr_man.html">http://doc.bazaar-vcs.org/bzr.dev/en/user-reference/bzr_man.html</a> and
+<a href="http://doc.bazaar-vcs.org/latest/en/mini-tutorial/index.html">http://doc.bazaar-vcs.org/latest/en/mini-tutorial/index.html</a> .
+</p>
+
+<p>
+Git&rsquo;s home page can be found at: <a href="http://git.or.cz/">http://git.or.cz/</a>
+</p>
+</div>
+
+<div id="outline-container-org1df1283" class="outline-3">
+<h3 id="org1df1283">Useful bzr Plugins.</h3>
+<div class="outline-text-3" id="text-org1df1283">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">rspush</td>
+<td class="org-left"><a href="http://bazaar-vcs.org/BzrPushExample">http://bazaar-vcs.org/BzrPushExample</a></td>
+<td class="org-left">Pushes changes using rsync. Useful if your collection of files is very large.</td>
+</tr>
+
+<tr>
+<td class="org-left">fastimport</td>
+<td class="org-left"><a href="https://launchpad.net/bzr-fastimport">https://launchpad.net/bzr-fastimport</a></td>
+<td class="org-left">Import exports streams to bzr repositories.</td>
+</tr>
+
+<tr>
+<td class="org-left">automirror</td>
+<td class="org-left"><a href="https://launchpad.net/bzr-automirror">https://launchpad.net/bzr-automirror</a></td>
+<td class="org-left">Automatically mirror the project&rsquo;s current state to another branch.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org9a88db1" class="outline-3">
+<h3 id="org9a88db1">Moving Data Between bzr and git.</h3>
+<div class="outline-text-3" id="text-org9a88db1">
+<p>
+While I was writing this tutorial I needed to move my data between my
+bzr repository and a git repository, so I could test out the various
+git commands. In the process I learnt quite a bit about moving data
+between bzr and git, which I thought I would record here in case
+someone finds it useful.
+</p>
+</div>
+
+<div id="outline-container-org49486c8" class="outline-4">
+<h4 id="org49486c8">Moving Your Data from bzr to git.</h4>
+<div class="outline-text-4" id="text-org49486c8">
+<p>
+Like most things this is easy once you know how. You need the bzr
+fast-import plugin. You can get this from
+<a href="https://launchpad.net/bzr-fastimport">https://launchpad.net/bzr-fastimport</a> . Note that although the plugin
+is named fastimport it does fast exporting too!
+</p>
+
+<p>
+First you need to create an empty git repo:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell-script">  <span style="color: #66d9ef;">mkdir</span> ~/devel/org-git
+  <span style="color: #66d9ef;">cd</span> ~/devel/org-git
+  <span style="color: #66d9ef;">git</span> init
+</pre>
+</div>
+
+<p>
+Now import your bzr repo into the empty git repo:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr fast-export --export-marks=.git/bzr.mark ~/Documents/org/.bzr | git-fast-import --export-marks=.git/git.mark
+</pre>
+</div>
+
+<p>
+If all goes well all your revisions will be imported into the git
+repo. To start working on your org files you first need to check them
+out:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  git checkout master
+</pre>
+</div>
+
+<p>
+You should also be able to import new bzr changes incrementally into
+git:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr fast-export --import-marks=.git/bzr.mark --export-marks=.git/bzr.mark ~/Documents/org.bzr/trunk | git fast-import --import-marks=.git/git.mark --export-marks=.git/git.mark
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b3f371" class="outline-4">
+<h4 id="org3b3f371">Moving Data from git to bzr.</h4>
+<div class="outline-text-4" id="text-org3b3f371">
+<p>
+You can also move your data from a git repository to a bzr one. As
+above you will need to install the bzr fastimport plugin. The
+procedure is based on the one described in the bzr documentation: <a href="http://bazaar-vcs.org/Scenarios/ConvertFromGit">http://bazaar-vcs.org/Scenarios/ConvertFromGit</a>
+</p>
+
+<p>
+Create an empty bzr repository:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  bzr init-repo bzr-org
+</pre>
+</div>
+
+<p>
+Now use git&rsquo;s fast-export to export all the branches and pipe the
+output to bzr&rsquo;s fast-import.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-shell">  $ git fast-export -M --all | (cd bzr-org; bzr fast-import -)
+</pre>
+</div>
+
+<p>
+Using git fast-export&rsquo;s -M flag embeds git&rsquo;s inferred filenames into
+the output. If you don&rsquo;t want this, drop the -M flag.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdc22a13" class="outline-3">
+<h3 id="orgdc22a13">Git Screencasts.</h3>
+<div class="outline-text-3" id="text-orgdc22a13">
+<p>
+I find screencasts a good way of learning things. Unfortunately there
+don&rsquo;t seem to be any for bzr at the time of writing. However, there
+are several excellent ones for git:
+</p>
+
+<ul class="org-ul">
+<li><a href="http://www.youtube.com/watch?v%3D4XpnKHJAok8">Linus Torvalds (author of git) on Git</a></li>
+
+<li><a href="http://www.youtube.com/watch?v%3D8dhZ9BXQgc4">Randal Schwartz on Git</a><br />
+Randal&rsquo;s screencast gives an excellent overview of git, without getting 
+too bogged down in the details.</li>
+
+<li><a href="http://gitcasts.com/">Gitcasts</a><br />
+Gitcasts are a series of short screencasts (approximately 5 mins), 
+each covering a particular aspect of git.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4e1faf7" class="outline-3">
+<h3 id="org4e1faf7">Back up</h3>
+<div class="outline-text-3" id="text-org4e1faf7">
+<p>
+Maybe a full versioning system is <b>not</b> what you&rsquo;re looking for and
+backups are enough.  <a href="http://www.20seven.org">Greg Newman</a> has a blog entry about <a href="http://www.20seven.org/journal/2009/09/backing-up-org-mode-files.html">backing up
+Org-mode files</a> under Mac.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ian Barton.</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

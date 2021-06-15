@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SQL Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">SQL Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8768d43">Introduction</a></li>
+<li><a href="#org6fb9acb">Requirements and Setup</a></li>
+<li><a href="#org7b7deb5">Org Mode Features for SQL Source Code Blocks</a>
+<ul>
+<li><a href="#orge8fbc4f">Header Arguments</a></li>
+<li><a href="#orge7de221">Sessions</a></li>
+</ul>
+</li>
+<li><a href="#org643bb2e">Examples of Use</a>
+<ul>
+<li><a href="#org8f21973">Use SQL Source Code Blocks to Prepare Query Strings</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="https://en.wikipedia.org/wiki/SQL">SQL</a>
+</p>
+</div>
+
+<div id="outline-container-org8768d43" class="outline-2">
+<h2 id="org8768d43">Introduction</h2>
+<div class="outline-text-2" id="text-org8768d43">
+<p>
+Structured Query Language, or SQL, is an ANSI and ISO standard
+programming language for managing data held in a relational database
+management system (RDBMS). SQL implementations vary in their adherence
+to the standard and how they attempt to extend the language, so that
+it is often not possible to port code across implementations without
+modification. Consequently, Org mode supports several SQL
+implementations.
+</p>
+
+<p>
+An alternative is sqlite.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6fb9acb" class="outline-2">
+<h2 id="org6fb9acb">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org6fb9acb">
+<p>
+In order to evaluate an SQL source code block you must have a properly
+installed RDBMS. Org mode supports the following implementations:
+</p>
+
+<dl class="org-dl">
+<dt>dbi</dt><dd>the DBI shell command-line tool, <a href="http://search.cpan.org/~tlowery/DBI-Shell-11.93/dbish.PL">dbish</a>, used by Perl programmers;</dd>
+
+<dt>monetdb</dt><dd>a <a href="http://www.monetdb.org/">column storage technology</a> designed to work with very
+large databases uses an executable named <code>mclient</code>;</dd>
+
+<dt>msosql</dt><dd>the <a href="http://technet.microsoft.com/en-us/library/aa214012(v%3Dsql.80).aspx">Microsoft osql Utility</a> that uses ODBC to connect to
+an RDBMS server;</dd>
+
+<dt>mysql</dt><dd><a href="http://www.mysql.com/">MySQL</a> advertises itself as the world&rsquo;s most popular open
+source database&#x2013;the executable expected by Org mode is <code>mysql</code>;</dd>
+
+<dt>postgresql</dt><dd><a href="http://www.enterprisedb.com/products-services-training/products/postgresql-overview&amp;ls%3DSEM?gclid%3DCMqe0bP7groCFQeCQgodTSwAcQ">PostgreSQL</a> advertises itself as the world&rsquo;s most
+advanced open source database&#x2013;the executable
+expected by Org mode is <code>psql</code>.</dd>
+</dl>
+
+<p>
+Emacs has shipped with<a href="http://www.emacswiki.org/emacs/SqlMode"> SQL mode</a> since version 21.4.
+</p>
+
+<p>
+You&rsquo;ll need to activate SQL source code blocks in <code>.emacs</code>.
+</p>
+
+<pre class="example">
+;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)))
+;; add additional languages with '((language . t)))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7b7deb5" class="outline-2">
+<h2 id="org7b7deb5">Org Mode Features for SQL Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org7b7deb5">
+</div>
+<div id="outline-container-orge8fbc4f" class="outline-3">
+<h3 id="orge8fbc4f">Header Arguments</h3>
+<div class="outline-text-3" id="text-orge8fbc4f">
+<p>
+The <code>:colnames</code> header argument defaults to &ldquo;yes&rdquo;.
+</p>
+
+<p>
+There are several SQL-specific header arguments:
+</p>
+
+<dl class="org-dl">
+<dt>:engine</dt><dd>one of &ldquo;dbi&rdquo;, &ldquo;monetdb&rdquo;, &ldquo;msosql&rdquo;, &ldquo;mysql&rdquo;, &ldquo;postgresql&rdquo;;</dd>
+<dt>:cmdline</dt><dd>extra command line arguments for the RDBMS executable;</dd>
+<dt>:dbhost</dt><dd>the host name;</dd>
+<dt>:dbuser</dt><dd>the user name;</dd>
+<dt>:dbpassword</dt><dd>the user&rsquo;s password;</dd>
+<dt>:database</dt><dd>the database name;</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orge7de221" class="outline-3">
+<h3 id="orge7de221">Sessions</h3>
+<div class="outline-text-3" id="text-orge7de221">
+<p>
+There is currently no support for sessions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org643bb2e" class="outline-2">
+<h2 id="org643bb2e">Examples of Use</h2>
+<div class="outline-text-2" id="text-org643bb2e">
+</div>
+<div id="outline-container-org8f21973" class="outline-3">
+<h3 id="org8f21973">Use SQL Source Code Blocks to Prepare Query Strings</h3>
+<div class="outline-text-3" id="text-org8f21973">
+<p>
+Support for SQL is also available in several languages. Typically in
+these languages, an SQL query is represented by a string. One use of
+SQL source code blocks is for editing SQL queries for use in those
+languages. The advantage is that editing can be done with SQL mode,
+instead of as a generic string in the mode of the parent language.
+</p>
+
+<p>
+The source code block, <code>quote-blks</code>, was posted to the Org mode
+mailing list by Charles Berry. The <code>blk</code> argument takes a string of
+comma separated source code block names, and the optional <code>sep</code>
+argument is a separator used in the output when there is more than one
+source code block.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgd1024d6">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">save-excursion</span>
+      <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">replace-regexp-in-string</span> <span style="color: #e2c770;">"\"\""</span> <span style="color: #e2c770;">""</span>
+       <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapconcat</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span>x<span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-babel-goto-named-src-block</span> x<span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">cadr</span>  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-get-src-block-info</span>  t<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">split-string</span> blk <span style="color: #e2c770;">","</span> t<span style="color: #eb4509;">)</span>
+        sep<span style="color: #b6e63e;">)</span>
+       t t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+
+#+name: quote-blks
+#+BEGIN_SRC emacs-lisp :var blk="abc" :var sep="\"\n\""
+    (save-excursion
+      (replace-regexp-in-string "\"\"" ""
+       (mapconcat
+        (lambda (x)
+          (org-babel-goto-named-src-block x)
+          (format "%S" (cadr  (org-babel-get-src-block-info  t))))
+        (split-string blk "," t)
+        sep)
+       t t))
+#+END_SRC
+
+</pre>
+
+<p>
+The query is written in a named SQL source code block:
+</p>
+
+<pre class="example">
+
+#+name: my-query
+#+begin_src sql
+  SELECT * FROM mytable
+  WHERE id &gt; 500
+#+end_src
+
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-sql" id="org3a9fc6c">  <span style="color: #eb4509;">SELECT</span> * <span style="color: #eb4509;">FROM</span> mytable
+  <span style="color: #eb4509;">WHERE</span> id &gt; <span style="color: #9c91e4; font-weight: bold;">500</span>
+</pre>
+</div>
+
+<p>
+Then, the query can be used in a source code block for a language,
+such as R, with SQL support.  The following code block, with its noweb
+reference to <code>quote-blkes</code> and the SQL source code block name
+</p>
+
+<pre class="example">
+
+#+begin_src R :colnames yes :noweb yes
+  library(RMySQL)
+  con &lt;- dbConnect(MySQL(), user="user", password="pwd", dbname="dbname", host="host")
+  q &lt;-
+  &lt;&lt;quote-blks("my-query")&gt;&gt;
+  c &lt;- dbGetQuery(con, q)
+  dbDisconnect(con)
+  c
+#+end_src
+
+</pre>
+
+<p>
+expands to this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">  library(RMySQL)
+  con &lt;- dbConnect(MySQL(), user="user", password="pwd", dbname="dbname", host="host")
+  q &lt;-
+  &lt;&lt;quote-blks("my-query")&gt;&gt;
+  c &lt;- dbGetQuery(con, q)
+  dbDisconnect(con)
+  c
+</pre>
+</div>
+
+<p>
+Note that the noweb reference must be on its own line.
+</p>
+
+<p>
+Alternatively, the query could be set up to run on its own:
+</p>
+
+<pre class="example">
+
+#+name: my-query
+#+header: :engine mysql
+#+header: :dbhost host
+#+header: :dbuser user
+#+header: :dbpassword pwd
+#+header: :database dbname
+#+begin_src sql
+  SELECT * FROM mytable
+  WHERE id &gt; 500
+#+end_src
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-sqlite.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">SQLite Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd[at]tsdye[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.sqlite.org/index.html">http://www.sqlite.org/index.html</a>"</span></span><span class="org-block">&gt;SQLite&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.sqlite.org/index.html">http://www.sqlite.org/index.html</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.sqlite.org/images/sqlite370_banner.gif&quot;/">http://www.sqlite.org/images/sqlite370_banner.gif"</a></span></span><span class="org-block"><a href="http://www.sqlite.org/images/sqlite370_banner.gif&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-done">[12/12]</span></span><span class="org-level-1"> </span><span class="whitespace-tab">                                   </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise </span><span class="org-link"><span class="org-headline-done"><a href="banner">banner</a></span></span><span class="org-headline-done"> source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Other">Other</a></span></span><span class="org-headline-done"> differences from supported languages
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+SQLite is a software library that implements a self-contained,
+serverless, zero-configuration, transactional SQL database engine.
+Unlike most other SQL databases, SQLite does not have a separate
+server process. SQLite reads and writes directly to ordinary disk
+files. A complete SQL database with multiple tables, indices,
+triggers, and views, is contained in a single disk file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Installation and configuration of SQLite software
+</span>
+See <span class="kc-org-link-url"><a href="http://www.sqlite.org/download.html">the SQLite download page</a></span> for installation and configuration
+instructions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Emacs configuration
+</span>
+Emacs' <span class="kc-org-link-url"><a href="http://www.emacswiki.org/emacs/SqlMode">SQL mode</a></span> supports the SQLite server. <span class="kc-org-link-url"><a href="http://www.emacswiki.org/emacs/SqlMode">SQL mode</a></span> is used to edit
+SQLite source code blocks.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org-mode configuration (org-babel-do-load-languages)
+</span>
+The <span class="org-verbatim">ob-sqlite.el</span> file is part of Emacs. To activate SQLite as
+a Babel language, simply add <span class="org-verbatim">(sqlite . t)</span> to the
+<span class="org-verbatim">org-babel-do-load-languages</span> function in your Emacs configuration file,
+as shown below:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">quote</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">emacs-lisp . t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">sqlite . t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">R . t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">python . t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Babel uses the SQLite command line shell <span class="org-verbatim">sqlite3</span> to evaluate SQL
+statements. The name of the shell is held in the variable
+<span class="org-verbatim">org-babel-sqlite3-command</span>. 
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for SQLite Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Language-specific default values
+</span>There are no language-specific default header arguments for SQLite.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Language-specific header arguments
+</span>
+There are 11 SQLite-specific header arguments.
+
+ <span class="org-list-dt">-</span> <span class="org-list-dt">db ::</span> a string with the name of the file that holds the SQLite
+         database. Babel requires this header argument. 
+ <span class="org-list-dt">-</span> <span class="org-list-dt">header ::</span> if present, turn on headers in the output format. Headers
+             are also output with the header argument <span class="org-verbatim">:colnames yes</span>.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">echo ::</span> if present, set the SQLite dot command <span class="org-verbatim">.echo</span> to <span class="org-verbatim">ON</span>.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">bail ::</span> if present, set the SQLite dot command <span class="org-verbatim">.bail</span> to <span class="org-verbatim">ON</span>.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">csv ::</span> the default SQLite output format for Babel SQLite source
+          code blocks.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">column ::</span> an SQLite output format that outputs a table-like form
+             with whitespace between columns.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">html ::</span> an SQLite output format that outputs query results as
+           simple HTML tables.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">line ::</span> an SQLite output format that outputs query results with one
+           value per line.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">list ::</span> an SQLite output format that outputs query results with the
+           separator character between fields.
+ <span class="org-list-dt">-</span> <span class="org-list-dt">separator ::</span> a string that specifies the separator character used by the
+                SQLite `list' output mode and by the SQLite dot command
+                <span class="org-verbatim">.import</span>. 
+ <span class="org-list-dt">-</span> <span class="org-list-dt">nullvalue ::</span> a string to use in place of NULL values.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Variables 
+</span>
+It is possible to pass variables to sqlite. Variables can be of type table or scalar. Variables are defined using :var=&lt;value&gt;
+and referred in the code block as $&lt;name&gt;.
+
+ <span class="org-list-dt">-</span> <span class="org-list-dt">Table variables ::</span> Table variables are exported as a temporary csv file that
+    can then be imported by sqlite. The actual value of the variable is the name of temporary csv file. 
+
+ <span class="org-list-dt">-</span> <span class="org-list-dt">Scalar variables ::</span> This is a value that will replace references
+       to variable's name. String variables should be quoted;
+       otherwise they are considered a table variable.
+    
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>SQLite sessions are not supported.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span>
+SQLite source code blocks typically return the results of a query. The
+header arguments <span class="org-verbatim">:csv</span>, <span class="org-verbatim">:column</span>, <span class="org-verbatim">:line</span>, <span class="org-verbatim">:list</span>, and <span class="org-verbatim">:html</span>
+determine the output format.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Hello World!
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: sqlite-populate-test
+,#+header: :results silent
+,#+header: :dir ~/temp/
+,#+header: :db test-sqlite.db
+,#+begin_src sqlite
+create table greeting(one varchar(10), two varchar(10));
+insert into greeting values('Hello', 'world!');
+,#+end_src
+
+,#+name: sqlite-hello
+,#+header: :list
+,#+header: :separator \ 
+,#+header: :results raw
+,#+header: :dir ~/temp/
+,#+header: :db test-sqlite.db
+,#+begin_src sqlite
+select * from greeting;
+,#+end_src
+
+,#+results: sqlite-hello
+Hello world!
+</span><span class="org-block-end-line">#+end_example
+</span>
+Note that <span class="org-verbatim">db</span> and <span class="org-verbatim">dir</span> together specify the path to the file
+that holds the SQLite database.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Using scalar variables
+</span>
+In this example we create a variable with the name of the relation to query and a value to use in a query where clause.
+Note that the replacement excludes the quotes of string variables.
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">,#+BEGIN_SRC sqlite :db /tmp/rip.db :var rel="tname" n=300 :colnames yes
+drop table if exists $rel;
+create table $rel(n int, id int);
+insert into $rel(n,id) values (1,210), (3,800);
+select * from $rel where id &gt; $n;
+,#+END_SRC
+
+,#+RESULTS:
+| 3 | 800 |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Using table variables
+</span>
+We can also pass a table to a query. In this case, the contents of the table are exported as a csv file that can then 
+be imported into a relation:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">,#+NAME: tableexample
+| id |  n |
+|----+----|
+|  1 |  5 |
+|  2 |  9 |
+|  3 | 10 |
+|  4 |  9 |
+|  5 | 10 |
+
+,#+begin_src sqlite :db /tmp/rip.db :var orgtable=tableexample :colnames yes
+drop table if exists testtable;
+create table testtable(id int, n int);
+.mode csv testtable
+.import $orgtable testtable
+select n, count(*) from testtable group by n;
+,#+end_src
+
+,#+RESULTS:
+|  n | count(*) |
+|----+----------|
+|  5 |        1 |
+|  9 |        2 |
+| 10 |        2 |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+If dropping/overwriting a table is undesirable, a temporary SQL table
+can be used to insert new values into an existing table:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">,#+begin_src sqlite :db /tmp/rip.db :var orgtable=tableexample :colnames yes
+create temporary table temp_table(id int, n int);
+.mode csv testtable
+.import $orgtable temp_table
+insert into existing_table (id, n) select id,n from temp_table;
+,#+end_src
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Using Org tables as an updatable "view" on SQLite tables
+</span>Org tables can be used to conveniently display some data from a SQLite
+table, allow the user to edit it in Org, and the re-insert the updated
+data into the underlying SQLite table. Do this by naming the results
+table, then using it as input to another SQLite block that updates
+rows. If your table has a primary key, you'll definitely want to use
+it to make sure the correct rows are edited.
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">,#+begin_src sqlite :db /tmp/reviews.db
+select id,title,rating from bookreview where rating is null;
+,#+end_src
+
+,#+name: ratings
+,#+RESULTS:
+|  5 | To Kill a Mockingbird | null |
+| 12 | Three Body Problem    | null |
+
+,#+begin_src sqlite :db /tmp/reviews.db :var ratings=ratings
+create temporary table updates (id, title, rating);
+.mode csv updates
+.import $ratings updates
+update bookreview set rating = (select rating from updates
+where bookreview.id = updates.id)
+where exists (select * from updates where updates.id = bookreview.id);
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+By editing the intermediary table to replace "null" values with a
+numerical rating, and then running the second source block, the SQLite
+table will be updated correctly.
+</pre>
+  </body>
+</html>

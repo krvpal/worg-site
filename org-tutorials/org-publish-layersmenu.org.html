@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-publish-layersmenu.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .negation-char {
+        /* font-lock-negation-char-face */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-macro {
+        /* org-macro */
+        color: #ffffff;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .regexp-grouping-backslash {
+        /* font-lock-regexp-grouping-backslash */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .regexp-grouping-construct {
+        /* font-lock-regexp-grouping-construct */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Publishing Treemenus for Org-files
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Sebastian Rose
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">sebastian_rose gmx de
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+CATEGORY:   worg-tutorial</span>
+<span class="org-meta-line">#+SETUPFILE:  ../macros.setupfile</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+  You should be comfortable with publishing Org-mode fiels to HTML already when
+  you read this. Make sure, to create the tree-style sitemap-file on export.
+
+  This Tutorial describes a simple technique to include published content into
+  other web applications. I use an external JavaScript treemenu library publish
+  by Marco Pratesi. This treemenu is fast and runs in all Browsers I'm aware
+  of. The techniqe could as well be adopted to other menu libs.
+
+  You might as well use the Menu as kind of sitemap or top menu.
+
+  <span class="org-list-dt">-</span> The homepage of Phplaymenu is here: <span class="kc-org-link-url"><a href="http://sourceforge.net/projects/phplayersmenu/">http://sourceforge.net/projects/phplayersmenu/</a></span>
+  <span class="org-list-dt">-</span> A demo can be found on <span class="kc-org-link-url"><a href="http://phplayersmenu.sourceforge.net/demo.php">http://phplayersmenu.sourceforge.net/demo.php</a></span>
+
+  Here is a screenshot of a treemenu:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Example phplayersmenu treemenu</span>
+<span class="org-meta-line">#+ATTR_HTML: style="margin-left:auto;margin-right:auto;text-align:center;"</span>
+  <span class="org-link"><a href="file:../images/sr/phplayermenu-example-tree.png">file:../images/sr/phplayermenu-example-tree.png</a></span>
+
+  <span class="org-macro">{{{BeginInfoBox}}}</span> <span class="bold">Note:</span> Prior to Org-mode commit
+  <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/org-mode/commit/4892c8899e5b99d041836749fb2d1458971be55d">4892c8899e5b99d041836749fb2d1458971be55d</a></span> (version 6.34trans), <span class="org-verbatim">sitemap-file</span>
+  <span class="org-verbatim">auto-sitemap</span> a.s.o. where called <span class="org-verbatim">index-file</span>, <span class="org-verbatim">auto-index</span> and similar. I you
+  have to work with a version released before 25th of February 2010, just
+  replace <span class="org-verbatim">sitemap</span> with <span class="org-verbatim">index</span> throughout this file.
+  <span class="org-macro">{{{EndInfoBox}}}</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How the menus work
+</span>
+  The menus are read from a string of a special structure. While it is beyond
+  this tutorial to explain the usage of the menus in details, the structure of
+  this string is important.
+
+  Each line of the string consists of these elements:
+
+  <span class="org-code">: [dots]|[text]|[link]|[title]|[icon]|[target]|[expanded]
+</span>
+  Everything in brackets is optional. So are any trailing bars, if empty.
+
+  The tree structure is represented by prepended dots.
+
+  Example:
+
+  <span class="org-code">: .|Top level directory without link
+</span>  <span class="org-code">: ..|Article 1|articles/article1.html|||main
+</span>  <span class="org-code">: ..|Article 2|articles/article2.html|||main
+</span>  <span class="org-code">: .|Snippets
+</span>  <span class="org-code">: ..|C++|snippets/c++.html|||main
+</span>  <span class="org-code">: ..|Perl|snippets/Perl.html|||main
+</span>
+  will result in either in a tree menu like this here (<span class="org-verbatim">[F]</span> is an optional
+  folder icon:
+
+  <span class="org-code">: - [F] Top level directory without link
+</span>  <span class="org-code">:    |
+</span>  <span class="org-code">:    +-- Article 1
+</span>  <span class="org-code">:    `-- Article 2
+</span>  <span class="org-code">:
+</span>  <span class="org-code">: - [F] Snippets
+</span>  <span class="org-code">:    |
+</span>  <span class="org-code">:    +-- C++
+</span>  <span class="org-code">:    `-- Perl
+</span>
+  ...or a menubar like this:
+
+  <span class="org-code">: .__________________________________.__________.
+</span>  <span class="org-code">: | Top level directory without link | Snippets |
+</span>  <span class="org-code">: `----------------------------------|          |
+</span>  <span class="org-code">:                                    | C++      |
+</span>  <span class="org-code">:                                    | Perl     |
+</span>  <span class="org-code">:                                    `----------'
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Creating the menu structure when publishing
+</span>
+  To create the menu structure, I use a modified version of the elisp function
+  <span class="org-verbatim">org-publish-org-sitemap</span>, defined in <span class="org-verbatim">Org-mode/lisp/org-publish.el</span>, that generates
+  the sitemap for HTML export. The function is called
+  <span class="org-verbatim">sr-org-notes-sitemap-complete</span> and defined in one of my emacs setup files.
+
+  Fortunately, Org-mode makes it possible to call a function after the
+  publishing process has fineshed. To make use of <span class="org-verbatim">sr-org-notes-sitemap-complete</span>,
+  add this to your publishing project's definition:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">ox-publish</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-publish-project-alist</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"org-notes"</span></span><span class="org-block">
+         </span><span class="org-block"><span class="builtin">:base-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/org/notes/"</span></span><span class="org-block">
+
+         </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...
+</span></span><span class="org-block">
+         </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Important:
+</span></span><span class="org-block">         </span><span class="org-block"><span class="builtin">:auto-sitemap</span></span><span class="org-block"> t </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">generate sitemap.org automagically
+</span></span><span class="org-block">         </span><span class="org-block"><span class="builtin">:sitemap-filename</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"sitemap.org"</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">this is the default
+</span></span><span class="org-block">         </span><span class="org-block"><span class="builtin">:sitemap-style</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"tree"</span></span><span class="org-block">
+
+         </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Layersmenu:
+</span></span><span class="org-block">         </span><span class="org-block"><span class="builtin">:completion-function</span></span><span class="org-block"> sr-org-notes-sitemap-complete
+         </span><span class="org-block"><span class="builtin">:menu/structure-file</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/path/to/menu-structure-file.txt"</span></span><span class="org-block">
+         </span><span class="org-block"><span class="builtin">:menu/link-target</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"mitte"</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">optional
+</span></span><span class="org-block">
+         </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...
+</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+  Once you re-publish your project, the menu-structure file will be created.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-level-1"><span class="org-verbatim">my-org-notes-sitemap-complete</span></span><span class="org-level-1">
+</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">sr-org-notes-sitemap-complete</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Take the sitemap-file and turn it into the menu-structure
+file for Marco Pratesi's phplayersmenu."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">base-dir </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">file-name-as-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> project-plist </span><span class="org-block"><span class="builtin">:base-directory</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">orig </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> base-dir </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> project-plist </span><span class="org-block"><span class="builtin">:sitemap-filename</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">strip-suffix </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> project-plist </span><span class="org-block"><span class="builtin">:base-extension</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">add-suffix </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> project-plist </span><span class="org-block"><span class="builtin">:html-extension</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"html"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">link-target </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> project-plist </span><span class="org-block"><span class="builtin">:menu/link-target</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"_blank"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">menu-file </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> project-plist </span><span class="org-block"><span class="builtin">:menu/structure-file</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">visiting </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">find-buffer-visiting</span></span><span class="org-block"> orig</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">visiting-output </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">find-buffer-visiting</span></span><span class="org-block"> menu-file</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">input-buffer </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">find-file</span></span><span class="org-block"> orig</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">output-buffer </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">find-file</span></span><span class="org-block"> menu-file</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">old-ndots </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">sub </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">old-sub </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> menu-file
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">throw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">sr-org-note-kb-completion-error</span></span><span class="org-block">
+             </span><span class="org-block"><span class="string">"No menu structure file provided. Giving up."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> output-buffer
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">erase-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> input-buffer
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">widen</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-bracket-link-analytic-regexp</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">link </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">match-string-no-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">text </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">match-string-no-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">5</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">pos </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">ndots </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> output-buffer
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"> strip-suffix </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">$"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> link</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> link </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">replace-match</span></span><span class="org-block"> add-suffix t t link</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> pos </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"/"</span></span><span class="org-block"> link pos</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> ndots </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> ndots </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> pos </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> pos </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">&lt;</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> ndots</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">/[</span></span><span class="org-block"><span class="string"><span class="negation-char">^</span></span></span><span class="org-block"><span class="string">/]*</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">$"</span></span><span class="org-block"> link</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> sub </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">replace-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> t t link</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> sub old-sub</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">ds </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">subs </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">split-string</span></span><span class="org-block"> sub </span><span class="org-block"><span class="string">"/"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">old-subs </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">split-string</span></span><span class="org-block"> old-sub </span><span class="org-block"><span class="string">"/"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> old-subs</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> subs</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> ds </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> ds </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">pop</span></span><span class="org-block"> old-subs</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">pop</span></span><span class="org-block"> subs</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">dolist</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">d subs</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> ds </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> ds </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">make-string</span></span><span class="org-block"> ds ?.</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"|"</span></span><span class="org-block"> d </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> old-sub sub</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">make-string</span></span><span class="org-block"> ndots ?.</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"|"</span></span><span class="org-block"> text </span><span class="org-block"><span class="string">"|"</span></span><span class="org-block"> link </span><span class="org-block"><span class="string">"|||"</span></span><span class="org-block"> link-target </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> old-ndots ndots</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> visiting </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">kill-buffer</span></span><span class="org-block"> input-buffer</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> output-buffer
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">save-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> visiting-output </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">kill-buffer</span></span><span class="org-block"> output-buffer</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Include the menu in existing pages
+</span>
+  To actually use the result, download the Phplayersmenu library and unpack
+  it. Move the following subfolders to your webroot:
+
+  * <span class="org-verbatim">phplayersmenu-3.2.0/lib/</span>
+  * <span class="org-verbatim">phplayersmenu-3.2.0/libjs/</span>
+  * <span class="org-verbatim">phplayersmenu-3.2.0/menuimages/</span>
+
+  Also choose one of the stylesheets in <span class="org-verbatim">phplayersmenu-3.2.0/</span>. In the example
+  below, the <span class="org-verbatim">layerstreemenu.css</span> is used.
+
+  Adjust the file(s) you want to include the menu in. Here is an example:
+
+<span class="org-block-begin-line">#+begin_src html -n -r
+</span><span class="org-block"> &lt;</span><span class="org-block"><span class="function-name">html</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">head</span></span><span class="org-block">&gt;
+   &lt;</span><span class="org-block"><span class="function-name">script</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">type</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"text/javascript"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="keyword">?php</span></span><span class="org-block"> include ("libjs/layersmenu-browser_detection.js"); ?&gt;
+   &lt;/</span><span class="org-block"><span class="function-name">script</span></span><span class="org-block">&gt;
+   &lt;</span><span class="org-block"><span class="function-name">link</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">rel</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"stylesheet"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"layerstreemenu.css"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">type</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"text/css"</span></span><span class="org-block">&gt;&lt;/</span><span class="org-block"><span class="function-name">link</span></span><span class="org-block">&gt; (ref:tree1)
+   &lt;</span><span class="org-block"><span class="function-name">script</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">type</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"text/javascript"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"libjs/layerstreemenu-cookies.js"</span></span><span class="org-block">&gt;&lt;/</span><span class="org-block"><span class="function-name">script</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">head</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">body</span></span><span class="org-block">&gt;
+
+    ...
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+ &lt;</span><span class="org-block"><span class="keyword">?php</span></span><span class="org-block">
+    include ("lib/PHPLIB.php");   // taken from PHPLib
+    include ("lib/layersmenu-common.inc.php");
+    include ("lib/treemenu.inc.php");          (ref:tree2)
+    if ( @ is_file ("../intranet/navigations/org.txt") )
+    {
+      $mid = new TreeMenu();  (ref:tree3)
+      $mid-&gt;setMenuStructureFile("navigations/org.txt");
+      $mid-&gt;setPrependedUrl("../org-notes/");   (ref:url1)
+      $mid-&gt;parseStructureForMenu("treemenu1");
+      print $mid-&gt;newTreeMenu("treemenu1"); (ref:tree4)
+    }
+ ?&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">body</span></span><span class="org-block">&gt;
+ &lt;/</span><span class="org-block"><span class="function-name">html</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_src
+</span>
+  What makes your menu a tree-menu, are
+
+  * the stylesheet (<span class="org-link"><a href="(tree1)">line (tree1)</a></span>),
+  * theinclusion of treemenu.inc.php (<span class="org-link"><a href="(tree2)">in line (tree2)</a></span>),
+  * the constructor used (<span class="org-link"><a href="(tree3)">line (tree3)</a></span>),
+  * and the <span class="org-verbatim">newTreeMenu()</span> method (<span class="org-link"><a href="(tree4)">called in line (tree4)</a></span>).
+
+  The (optional) <span class="org-link"><a href="(url1)">URL provided in line (url1)</a></span> is prepended to all the URLs found
+  in the menu-structure file.
+
+  See the Phplayersmenu docs on how to create horizontal and vertical menus from
+  the same structure file.
+</pre>
+  </body>
+</html>

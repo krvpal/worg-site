@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Marking Up Elements to be Exported</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Charles C. Berry" />
+<meta name="description" content="Dummy Filters for Orgmode Exporter"
+ />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Marking Up Elements to be Exported</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgbffb40b">Filters in the Exporter</a></li>
+<li><a href="#org27c66cb">Understanding Elements and Filters</a></li>
+<li><a href="#org1391ebd">A Complete Set of Filter Functions</a></li>
+<li><a href="#orge320b84">A LaTeX Backend Example</a></li>
+<li><a href="#org7ad2bf4">Options for Adding Filters</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbffb40b" class="outline-2">
+<h2 id="orgbffb40b">Filters in the Exporter</h2>
+<div class="outline-text-2" id="text-orgbffb40b">
+<p>
+The exporter in <code>ox.el</code> has more than 50 elements that can be
+filtered. Developers can write filters for new backends, and users can
+write filters to customize output to their individual needs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org27c66cb" class="outline-2">
+<h2 id="org27c66cb">Understanding Elements and Filters</h2>
+<div class="outline-text-2" id="text-org27c66cb">
+<p>
+Figuring out how to craft a filter to customize output requires
+detailed knowledge of what the elements are and how they are rendered
+by a backend. It can be fairly difficult to sort this out and keep it
+all in mind by just reading the code.
+</p>
+
+<p>
+One way to understand an element and the markup applied to it by an
+export backend is to write a filter that will mark the element.
+</p>
+
+<p>
+For example, the function
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-bold</span>
+    <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+    <span style="color: #7f7f80;">"Markup TEXT as &lt;bold&gt;TEXT&lt;/bold&gt;. Ignore BACK-END and INFO."</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;bold&gt;%s&lt;/bold&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+will show a bold element inside the tags <code>&lt;bold&gt;</code> and <code>&lt;/bold&gt;</code>.
+</p>
+
+<p>
+Using that filter with the latex backend will render
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  This text should be in <span style="font-weight: bold;">BOLD</span>.
+</pre>
+</div>
+
+<p>
+as
+</p>
+
+<pre class="example">
+This text should be in &lt;bold&gt;\textbf{BOLD}&lt;/bold&gt;.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1391ebd" class="outline-2">
+<h2 id="org1391ebd">A Complete Set of Filter Functions</h2>
+<div class="outline-text-2" id="text-org1391ebd">
+<p>
+Here is a complete set of filter functions to provide markup tags. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-body</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;body&gt;%s&lt;/body&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-bold</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Markup TEXT as &lt;bold&gt;TEXT&lt;/bold&gt;. Ignore BACK-END and INFO."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;bold&gt;%s&lt;/bold&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-babel-call</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;bbl&gt;%s&lt;/bbl&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-center-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;cnt&gt;%s&lt;/cnt&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-clock</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;clck&gt;%s&lt;/clck&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-code</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;code&gt;%s&lt;/code&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-comment</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;cmmn&gt;%s&lt;/cmmn&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-comment-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;cmm&gt;%s&lt;/cmm&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-diary-sexp</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;dry&gt;%s&lt;/dry&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-drawer</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;drwr&gt;%s&lt;/drwr&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-dynamic-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;dyn&gt;%s&lt;/dyn&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-entity</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;entt&gt;%s&lt;/entt&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-example-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;exm&gt;%s&lt;/exm&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-export-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;exprt-b&gt;%s&lt;/exprt-b&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-export-snippet</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;exprt-s&gt;%s&lt;/exprt-s&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-final-output</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;fnl&gt;%s&lt;/fnl&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-fixed-width</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;fxd&gt;%s&lt;/fxd&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-footnote-definition</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;ftnt-d&gt;%s&lt;/ftnt-d&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-footnote-reference</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;ftnt-r&gt;%s&lt;/ftnt-r&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-headline</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;hdln&gt;%s&lt;/hdln&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-horizontal-rule</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;hrz&gt;%s&lt;/hrz&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-inline-babel-call</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;inln-b&gt;%s&lt;/inln-b&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-inline-src-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;inln-s&gt;%s&lt;/inln-s&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-inlinetask</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;inln&gt;%s&lt;/inln&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-italic</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;itlc&gt;%s&lt;/itlc&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-item</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;item&gt;%s&lt;/item&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-keyword</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;kywr&gt;%s&lt;/kywr&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-latex-environment</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;ltx-n&gt;%s&lt;/ltx-n&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-latex-fragment</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;ltx-f&gt;%s&lt;/ltx-f&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-line-break</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;ln-b&gt;%s&lt;/ln-b&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-link</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;link&gt;%s&lt;/link&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-node-property</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;nd-p&gt;%s&lt;/nd-p&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">dont (defun ox-mrkup-filter-options ...)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-paragraph</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;prgr&gt;%s&lt;/prgr&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">dont (defun ox-mrkup-filter-parse-tree ...)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-plain-list</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;pln-l&gt;%s&lt;/pln-l&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-plain-text</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;pln-t&gt;%s&lt;/pln-t&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-planning</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;plnn&gt;%s&lt;/plnn&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-property-drawer</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;prp&gt;%s&lt;/prp&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-quote-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;qt-b&gt;%s&lt;/qt-b&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-radio-target</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;rd-t&gt;%s&lt;/rd-t&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-section</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;sctn&gt;%s&lt;/sctn&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-special-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;spc&gt;%s&lt;/spc&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-src-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;src&gt;%s&lt;/src&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-statistics-cookie</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;stt&gt;%s&lt;/stt&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-strike-through</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;str&gt;%s&lt;/str&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-subscript</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;sbsc&gt;%s&lt;/sbsc&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-superscript</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;sprs&gt;%s&lt;/sprs&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-table</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;tabl&gt;%s&lt;/tabl&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-table-cell</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;tbl-c&gt;%s&lt;/tbl-c&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-table-row</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;tbl-r&gt;%s&lt;/tbl-r&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-target</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;trgt&gt;%s&lt;/trgt&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-timestamp</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;tmst&gt;%s&lt;/tmst&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-underline</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;undr&gt;%s&lt;/undr&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-verbatim</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;vrbt&gt;%s&lt;/vrbt&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ox-mrkup-filter-verse-block</span>
+  <span style="color: #fd971f;">(</span>text back-end info<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;vrs&gt;%s&lt;/vrs&gt;"</span> text<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge320b84" class="outline-2">
+<h2 id="orge320b84">A LaTeX Backend Example</h2>
+<div class="outline-text-2" id="text-orge320b84">
+<p>
+Here is a derived backend that will use those tags. This backend takes
+<code>latex</code> as its parent, but other backends could be used as well.
+It is called <code>latex2</code> and can be used like this:
+</p>
+
+<pre class="example">
+M-: (org-export-to-buffer 'latex2 "latex-buffer-marked")
+</pre>
+
+
+<p>
+or 
+</p>
+
+<pre class="example">
+M-: (org-export-to-file 'latex2 "latex-file-marked.tex")
+</pre>
+
+
+
+<p>
+For many purposes only a subset of these might be needed. So the code
+could be edited to leave only those filters that are wanted.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-latex</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-export-define-derived-backend</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex2</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span>
+  <span style="color: #fd971f;">:filters-alist</span>
+  <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-body</span> . ox-mrkup-filter-body<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-bold</span> . ox-mrkup-filter-bold<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-babel-call</span> . ox-mrkup-filter-babel-call<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-center-block</span> . ox-mrkup-filter-center-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-clock</span> . ox-mrkup-filter-clock<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-code</span> . ox-mrkup-filter-code<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-comment</span> . ox-mrkup-filter-comment<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-comment-block</span> . ox-mrkup-filter-comment-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-diary-sexp</span> . ox-mrkup-filter-diary-sexp<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-drawer</span> . ox-mrkup-filter-drawer<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-dynamic-block</span> . ox-mrkup-filter-dynamic-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-entity</span> . ox-mrkup-filter-entity<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-example-block</span> . ox-mrkup-filter-example-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-export-block</span> . ox-mrkup-filter-export-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-export-snippet</span> . ox-mrkup-filter-export-snippet<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-final-output</span> . ox-mrkup-filter-final-output<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-fixed-width</span> . ox-mrkup-filter-fixed-width<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-footnote-definition</span> . ox-mrkup-filter-footnote-definition<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-footnote-reference</span> . ox-mrkup-filter-footnote-reference<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-headline</span> . ox-mrkup-filter-headline<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-horizontal-rule</span> . ox-mrkup-filter-horizontal-rule<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-inline-babel-call</span> . ox-mrkup-filter-inline-babel-call<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-inline-src-block</span> . ox-mrkup-filter-inline-src-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-inlinetask</span> . ox-mrkup-filter-inlinetask<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-italic</span> . ox-mrkup-filter-italic<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-item</span> . ox-mrkup-filter-item<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-keyword</span> . ox-mrkup-filter-keyword<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-latex-environment</span> . ox-mrkup-filter-latex-environment<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-latex-fragment</span> . ox-mrkup-filter-latex-fragment<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-line-break</span> . ox-mrkup-filter-line-break<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-link</span> . ox-mrkup-filter-link<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-node-property</span> . ox-mrkup-filter-node-property<span style="color: #b6e63e;">)</span>
+    <span style="color: #696969;">;;   </span><span style="color: #696969;">omit filter with different args</span>
+    <span style="color: #696969;">;;   </span><span style="color: #696969;">(:filter-options . ox-mrkup-filter-options)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-paragraph</span> . ox-mrkup-filter-paragraph<span style="color: #b6e63e;">)</span>
+    <span style="color: #696969;">;;   </span><span style="color: #696969;">omit filter with different args</span>
+    <span style="color: #696969;">;;   </span><span style="color: #696969;">(:filter-parse-tree . ox-mrkup-filter-parse-tree)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-plain-list</span> . ox-mrkup-filter-plain-list<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-plain-text</span> . ox-mrkup-filter-plain-text<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-planning</span> . ox-mrkup-filter-planning<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-property-drawer</span> . ox-mrkup-filter-property-drawer<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-quote-block</span> . ox-mrkup-filter-quote-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-radio-target</span> . ox-mrkup-filter-radio-target<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-section</span> . ox-mrkup-filter-section<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-special-block</span> . ox-mrkup-filter-special-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-src-block</span> . ox-mrkup-filter-src-block<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-statistics-cookie</span> . ox-mrkup-filter-statistics-cookie<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-strike-through</span> . ox-mrkup-filter-strike-through<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-subscript</span> . ox-mrkup-filter-subscript<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-superscript</span> . ox-mrkup-filter-superscript<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-table</span> . ox-mrkup-filter-table<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-table-cell</span> . ox-mrkup-filter-table-cell<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-table-row</span> . ox-mrkup-filter-table-row<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-target</span> . ox-mrkup-filter-target<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-timestamp</span> . ox-mrkup-filter-timestamp<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-underline</span> . ox-mrkup-filter-underline<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-verbatim</span> . ox-mrkup-filter-verbatim<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:filter-verse-block</span> . ox-mrkup-filter-verse-block<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ad2bf4" class="outline-2">
+<h2 id="org7ad2bf4">Options for Adding Filters</h2>
+<div class="outline-text-2" id="text-org7ad2bf4">
+<p>
+Users can add filter functions to the lists in <code>org-export-filters-alist</code>
+and subsequent exports will apply those functions accordingly.
+</p>
+
+<p>
+Alternatively, writing a derived backend in which the <code>:filters-alist</code>
+contains an entry such as:
+</p>
+
+<pre class="example">
+(:filter-bold . ox-mrkup-filter-bold)
+</pre>
+
+
+<p>
+will result in bold elements being filterd through that function. 
+</p>
+
+<p>
+The advantage of using a derived backend to experiment with filters is
+that <code>org-export-filters-alist</code> is not filled with functions that will
+need to be removed once the experiments have ended.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2013-02-05</p>
+<p class="author">Author: Charles C. Berry</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

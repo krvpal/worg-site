@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vala Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Christian Garbs" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Vala Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org37eae09">Introduction</a></li>
+<li><a href="#org5801b93">Requirements and Setup</a>
+<ul>
+<li><a href="#orgcd34a4f">Installation and configuration of Vala software</a></li>
+<li><a href="#orgce0e2c3">Emacs configuration</a></li>
+<li><a href="#org4020909">Org-mode configuration (org-babel-do-load-languages)</a></li>
+</ul>
+</li>
+<li><a href="#org1186526">Org Mode Features for Vala Source Code Blocks</a>
+<ul>
+<li><a href="#orgc4b3d9b">Header Arguments</a></li>
+<li><a href="#org189bd96">Sessions</a></li>
+<li><a href="#orgc5e6976">Result Types</a></li>
+<li><a href="#org885d03d">Other</a></li>
+</ul>
+</li>
+<li><a href="#orge351c30">Examples of Use</a>
+<ul>
+<li><a href="#orgfa62939">Hello World!</a></li>
+<li><a href="#org01d28c5">Multiple classes</a></li>
+<li><a href="#orgf0d5215">Conditional compilation</a></li>
+<li><a href="#org82d9cbb">GTK example</a></li>
+<li><a href="#org319f4b8">Commandline parameters</a></li>
+<li><a href="#org65f4b0c">Links to tutorials and other resources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="https://wiki.gnome.org/Projects/Vala">Vala</a>
+</p>
+<!-- Vala has no logo, see https://wiki.gnome.org/Projects/Vala/Logo -->
+</div>
+
+<div id="outline-container-org37eae09" class="outline-2">
+<h2 id="org37eae09">Introduction</h2>
+<div class="outline-text-2" id="text-org37eae09">
+<p>
+<a href="https://wiki.gnome.org/Projects/Vala">Vala</a> is a programming language for the GObject system (think Glib and
+GTK) that is converted to C source code and then compiled.
+</p>
+
+<p>
+You can write non-interactive programs in Vala and capture their
+output (stdout) in the orgmode document.
+</p>
+
+<p>
+You could even write interactive programs that start a GUI when you
+evaluate them, but this would be somewhat awkward because your emacs
+session will freeze while the program is running.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5801b93" class="outline-2">
+<h2 id="org5801b93">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org5801b93">
+</div>
+<div id="outline-container-orgcd34a4f" class="outline-3">
+<h3 id="orgcd34a4f">Installation and configuration of Vala software</h3>
+<div class="outline-text-3" id="text-orgcd34a4f">
+<p>
+You need to install a Vala compiler and accompanying libraries as well
+as a C compiler on your system (see <a href="https://wiki.gnome.org/Projects/Vala/ValaPlatforms">Installing Vala</a>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgce0e2c3" class="outline-3">
+<h3 id="orgce0e2c3">Emacs configuration</h3>
+<div class="outline-text-3" id="text-orgce0e2c3">
+<p>
+Apart from at least version 9.1 of Org, no other Emacs packages are required.
+</p>
+
+<p>
+Optional packages of interest might be <a href="https://www.emacswiki.org/emacs/vala-mode.el">vala-mode.el</a> (a major editing
+mode for Vala code; <a href="https://wiki.gnome.org/Projects/Vala/Emacs?action%3DAttachFile&amp;do%3Dview&amp;target%3Dvala-mode.el">alternative link</a>) or <a href="https://github.com/mygnu/flycheck-vala.el">flycheck-vala.el</a> (Flycheck
+integration).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4020909" class="outline-3">
+<h3 id="org4020909">Org-mode configuration (org-babel-do-load-languages)</h3>
+<div class="outline-text-3" id="text-org4020909">
+<p>
+The <code>ob-vala.el</code> file is part of Emacs.  To activate Vala as a Babel
+language, simply add <code>(vala . t)</code> to the <code>org-babel-do-load-languages</code>
+function in your Emacs configuration file, as shown below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">quote</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>emacs-lisp . t<span style="color: #eb4509;">)</span>
+                                     <span style="color: #eb4509;">(</span>vala . t<span style="color: #eb4509;">)</span>
+                                     <span style="color: #eb4509;">(</span>perl . t<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Babel expects a Vala compiler named <code>valac</code> in your path, but you can
+change this by editing the <code>defcustom</code> <code>org-babel-vala-compiler</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1186526" class="outline-2">
+<h2 id="org1186526">Org Mode Features for Vala Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org1186526">
+</div>
+<div id="outline-container-orgc4b3d9b" class="outline-3">
+<h3 id="orgc4b3d9b">Header Arguments</h3>
+<div class="outline-text-3" id="text-orgc4b3d9b">
+</div>
+<div id="outline-container-orgf2c9daa" class="outline-4">
+<h4 id="orgf2c9daa">Vala-specific header arguments</h4>
+<div class="outline-text-4" id="text-orgf2c9daa">
+<p>
+Vala language blocks support two special header arguments:
+</p>
+
+<ul class="org-ul">
+<li><code>:flags</code> passes arguments to the compiler</li>
+<li><code>:cmdline</code> passes commandline arguments to the generated executable</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org189bd96" class="outline-3">
+<h3 id="org189bd96">Sessions</h3>
+<div class="outline-text-3" id="text-org189bd96">
+<p>
+As Vala is a compiled language, there is no support for sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc5e6976" class="outline-3">
+<h3 id="orgc5e6976">Result Types</h3>
+<div class="outline-text-3" id="text-orgc5e6976">
+</div>
+<div id="outline-container-org99cce22" class="outline-4">
+<h4 id="org99cce22">Which result types are supported?</h4>
+<div class="outline-text-4" id="text-org99cce22">
+<p>
+There is no special result type handling.  The standard output of the
+evaluated code block is parsed by the default Babel rules.
+</p>
+
+<p>
+A single number should become a number, a single string a string.
+Multiple values are parsed as a list.  Multiple lines of multiple
+values become a table (see example).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org885d03d" class="outline-3">
+<h3 id="org885d03d">Other</h3>
+<div class="outline-text-3" id="text-org885d03d">
+</div>
+<div id="outline-container-org03d44d2" class="outline-4">
+<h4 id="org03d44d2">Differences from other supported languages</h4>
+<div class="outline-text-4" id="text-org03d44d2">
+<p>
+There currently is no support for the <a href="https://orgmode.org/manual/var.html#var"><code>:var</code></a> header.  If you need to
+pass parameters to your Vala code, you can only use <code>:flags</code> or
+<code>:cmdline</code> (see ).
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge351c30" class="outline-2">
+<h2 id="orge351c30">Examples of Use</h2>
+<div class="outline-text-2" id="text-orge351c30">
+</div>
+<div id="outline-container-orgfa62939" class="outline-3">
+<h3 id="orgfa62939">Hello World!</h3>
+<div class="outline-text-3" id="text-orgfa62939">
+<div class="org-src-container">
+<pre class="src src-vala">  class Demo.HelloWorld : GLib.Object {
+      public static int main(string[] args) {
+          stdout.printf("Hello World!\n");
+          return 0;
+      }
+  }
+</pre>
+</div>
+
+<pre class="example">
+Hello World!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org01d28c5" class="outline-3">
+<h3 id="org01d28c5">Multiple classes</h3>
+<div class="outline-text-3" id="text-org01d28c5">
+<p>
+Multiple classes can be defined in a single code block:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-vala">  class HelloWorld : GLib.Object {
+      public static void greet() {
+          stdout.printf("Hello World!\n");
+      }
+  }
+
+  class Demo : GLib.Object {
+      public static int main(string[] args) {
+          HelloWorld.greet();
+          return 0;
+      }
+  }
+</pre>
+</div>
+
+<pre class="example">
+Hello World!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf0d5215" class="outline-3">
+<h3 id="orgf0d5215">Conditional compilation</h3>
+<div class="outline-text-3" id="text-orgf0d5215">
+<p>
+The header argument <code>:flags -D FOO</code> passes the flags <code>-D FOO</code> to the
+Vala compiler so the <code>#if FOO</code> compilation option is used:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-vala">  class Demo.HelloWorld : GLib.Object {
+      public static int main(string[] args) {
+#if FOO
+          stdout.printf("Foo\n");
+#else
+          stdout.printf("No foo\n");
+#endif
+          return 0;
+      }
+  }
+</pre>
+</div>
+
+<pre class="example">
+Foo
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org82d9cbb" class="outline-3">
+<h3 id="org82d9cbb">GTK example</h3>
+<div class="outline-text-3" id="text-org82d9cbb">
+<div class="org-src-container">
+<pre class="src src-vala">using Gtk;
+
+public class HelloWorldWindow : Window {
+
+    public HelloWorldWindow () {
+        var label = new Label ("Hello World");
+        add (label);
+        set_default_size (100, 100);
+    }
+}
+
+void main (string[] args) {
+    Gtk.init (ref args);
+
+    var win = new HelloWorldWindow ();
+    win.destroy.connect (Gtk.main_quit);
+    win.show_all ();
+
+    Gtk.main ();
+}
+</pre>
+</div>
+
+<p>
+The header argument <code>:flags</code> passes <code>--pkg gtk+-3.0</code> to the Vala
+compiler to include the GTK3 library.  It needs to be installed
+(eg. package <code>libgtk-3-dev</code> on Ubuntu &gt;= 11.04).
+</p>
+
+<p>
+This example must be executed under a graphical environment.
+</p>
+
+<p>
+The output is ignored (<code>:results silent</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org319f4b8" class="outline-3">
+<h3 id="org319f4b8">Commandline parameters</h3>
+<div class="outline-text-3" id="text-org319f4b8">
+<div class="org-src-container">
+<pre class="src src-vala">  class Demo.HelloWorld : GLib.Object {
+      public static int main(string[] args) {
+          // skip args[0] as it is the binary name
+          for (int i=1; i &lt; args.length; i++) {
+              stdout.printf("argv[%d] = %s\n" , i, args[i]);
+          }
+          return 0;
+      }
+  }
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">argv[1]</td>
+<td class="org-left">=</td>
+<td class="org-left">foo</td>
+</tr>
+
+<tr>
+<td class="org-left">argv[2]</td>
+<td class="org-left">=</td>
+<td class="org-left">bar</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The header argument <code>:cmdline</code> passes commandline arguments to the
+Vala program upon execution.
+</p>
+
+<p>
+Not that the automatic conversion of the result data recognizes this
+output as a table.  You can change this by using the header argument
+<code>:results verbatim</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org65f4b0c" class="outline-3">
+<h3 id="org65f4b0c">Links to tutorials and other resources</h3>
+<div class="outline-text-3" id="text-org65f4b0c">
+<p>
+See <a href="https://wiki.gnome.org/Projects/Vala/Documentation">Vala Documentation</a> for the API documentation, tutorials, sample
+code and other resources.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Christian Garbs</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

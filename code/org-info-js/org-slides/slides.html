@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Slides with Org-Mode and JavaScript</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Sebastian Rose" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+
+<script type="text/javascript" src="../org-info.js">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+// @license-end
+</script>
+
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "0");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+// @license-end
+</script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Slides with Org-Mode and JavaScript</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9df7c09">Welcome to Org-mode and Slides</a></li>
+<li><a href="#orgb8b1460">Overview</a></li>
+<li><a href="#org9e9925e">Create the Org-mode file</a></li>
+<li><a href="#org8afe37c">Export the Org-mode file to XHTML</a></li>
+<li><a href="#orga3bcb60">Create a stylesheet for slides</a>
+<ul>
+<li><a href="#org4ef544b">CSS - body</a></li>
+<li><a href="#orgee94485">CSS - headlines</a></li>
+<li><a href="#org4fbbf86">CSS - org-info-js</a></li>
+</ul>
+</li>
+<li><a href="#orga488bea">TODOS</a></li>
+<li><a href="#org8dd3e97">DONE</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org9df7c09" class="outline-2">
+<h2 id="org9df7c09">Welcome to Org-mode and Slides</h2>
+<div class="outline-text-2" id="text-org9df7c09">
+<ul class="org-ul">
+<li>Navigate back and and forth on doubleclick and click.</li>
+<li>Use all the navigation and text facilities of org-info.js in your
+presentations.</li>
+<li>Remove warnings on click.</li>
+<li>No warnings when navigating with the mouse.</li>
+<li>Simple lists are shown item by item automatically.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb8b1460" class="outline-2">
+<h2 id="orgb8b1460">Overview</h2>
+<div class="outline-text-2" id="text-orgb8b1460">
+<ul class="org-ul">
+<li>Create the Org-mode file</li>
+<li>Export the Org-mode file to XHTML</li>
+<li>Create a stylesheet for slides</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9e9925e" class="outline-2">
+<h2 id="org9e9925e">Create the Org-mode file</h2>
+<div class="outline-text-2" id="text-org9e9925e">
+<p>
+<b>Structure for slides</b>
+</p>
+
+<pre class="example">
+* Overview
+
+  + Create the Org-mode file
+
+* Overview
+
+  + Create the Org-mode file
+  + Export the Org-mode file to XHTML
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8afe37c" class="outline-2">
+<h2 id="org8afe37c">Export the Org-mode file to XHTML</h2>
+<div class="outline-text-2" id="text-org8afe37c">
+<p>
+<code>view:slide</code>
+</p>
+
+<pre class="example">
+#+INFOJS_OPT: toc:nil ltoc:nil view:slide mouse:underline
+
+
+* COMMENT html style specifications
+# Local Variables:
+# org-export-html-style: "&lt;link rel=\"stylesheet\" \
+#                type=\"text/css\" href=\"slides.css\" /&gt;"
+# End:
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orga3bcb60" class="outline-2">
+<h2 id="orga3bcb60">Create a stylesheet for slides</h2>
+<div class="outline-text-2" id="text-orga3bcb60">
+<ul class="org-ul">
+<li>Stylesheets for slides are different.</li>
+<li>The body uses the whole width.</li>
+<li>Use the same style for all headlines.</li>
+<li>The postamble will be hidden automatically.</li>
+<li>Position org-info.js&rsquo;s window.</li>
+</ul>
+</div>
+
+<div id="outline-container-org4ef544b" class="outline-3">
+<h3 id="org4ef544b">CSS - body</h3>
+<div class="outline-text-3" id="text-org4ef544b">
+<p>
+Choose a big font!
+</p>
+
+<pre class="example">
+body
+{
+  width:100%;
+  padding:0px 0px 0px 0px;
+  margin:0px 0px 0px 0px;
+  background-image:url(img/bg.gif);
+  background-attachment:fixed;
+  background-repeat:repeat-x;
+  /* ... etc. */
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgee94485" class="outline-3">
+<h3 id="orgee94485">CSS - headlines</h3>
+<div class="outline-text-3" id="text-orgee94485">
+<p>
+Set all headlines to the same size:
+</p>
+
+<pre class="example">
+h1,h2,h3,h4,h5,h6
+{
+  font-size: 18pt;
+  font-weight:bold;
+  color:#104d8c;
+  /* ... etc. */
+}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4fbbf86" class="outline-3">
+<h3 id="org4fbbf86">CSS - org-info-js</h3>
+<div class="outline-text-3" id="text-org4fbbf86">
+<p>
+Position the org-info.js window.
+</p>
+
+<pre class="example">
+#org-info-js-window
+{
+  position:absolute;
+  top:140px;
+  left:20%;
+}
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga488bea" class="outline-2">
+<h2 id="orga488bea">TODOS</h2>
+<div class="outline-text-2" id="text-orga488bea">
+</div>
+<ul class="org-ul">
+<li><a id="org14958ba"></a><span class="todo TODO">TODO</span> More features.<br /></li>
+<li><a id="org732c7f6"></a><span class="todo TODO">TODO</span> Load stylsheets dynamically.<br /></li>
+<li><a id="org614d0cc"></a><span class="todo TODO">TODO</span> Drop lot&rsquo;s of mails with bugs and wishes.<br />
+<div class="outline-text-5" id="text-org614d0cc">
+<hr />
+</div>
+</li>
+
+<li><a id="org3908881"></a><span class="todo TODO">TODO</span> Have Fun with Org-mode and all the tools around.<br /></li>
+</ul>
+</div>
+
+<div id="outline-container-org8dd3e97" class="outline-2">
+<h2 id="org8dd3e97">DONE</h2>
+<div class="outline-text-2" id="text-org8dd3e97">
+<p>
+That&rsquo;s all folks.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Sebastian Rose</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

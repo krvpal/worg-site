@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Custom Agenda Commands</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Matt Lundin" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Custom Agenda Commands</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5ab49d3">Introduction</a></li>
+<li><a href="#org13ed5a3">How to create custom agenda commands</a>
+<ul>
+<li><a href="#org25d5e6d">Sample customization</a></li>
+</ul>
+</li>
+<li><a href="#org72f2186">A use scenario: block agenda views</a>
+<ul>
+<li><a href="#org597e0c6">An example: GTD weekly review</a></li>
+</ul>
+</li>
+<li><a href="#orgaac4acf">Making the most of local settings</a></li>
+<li><a href="#org75d6a1d">Speeding up custom agenda commands</a></li>
+<li><a href="#org6a3b88a">Other configuration ideas</a>
+<ul>
+<li><a href="#orgdbca4bd">GTD contexts</a></li>
+<li><a href="#orgf441106">Priorities</a></li>
+<li><a href="#org1efb349">Calendar style views</a></li>
+<li><a href="#org9f252d6">Printed agenda</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org5ab49d3" class="outline-2">
+<h2 id="org5ab49d3">Introduction</h2>
+<div class="outline-text-2" id="text-org5ab49d3">
+<p>
+Org-mode&rsquo;s built-in agenda commands are powerful tools for searching
+your notes and for gathering, sorting, filtering, and displaying your
+tasks. As you become familiar with the power of the agenda commands,
+you may want to:
+</p>
+
+<ul class="org-ul">
+<li>create shortcuts for frequent agenda searches (e.g., a search for
+all TODOs with the tag &ldquo;@computer&rdquo;).</li>
+<li>combine different different searches into a single <a href="https://orgmode.org/manual/Block-agenda.html#Block-agenda">block agenda</a>.
+(e.g., a daily agenda plus all TODO items with the tag &ldquo;@work&rdquo; and
+the tag &ldquo;@computer&rdquo;).</li>
+<li>change the query and display options for specific agenda searches
+(sorting, appearance, files used, etc.).</li>
+<li>set up automatic export of custom agenda views to a variety of
+formats (html, ps, txt).</li>
+<li>call user-defined functions from the <a href="https://orgmode.org/manual/Agenda-dispatcher.html#Agenda-dispatcher">agenda dispatcher</a>.</li>
+</ul>
+
+<p>
+All of these things can be accomplished with the variable
+org-agenda-custom-commands.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org13ed5a3" class="outline-2">
+<h2 id="org13ed5a3">How to create custom agenda commands</h2>
+<div class="outline-text-2" id="text-org13ed5a3">
+<p>
+The <a href="https://orgmode.org/manual/index.html">org-mode manual</a> provides a <a href="https://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views">comprehensive explanation</a> of custom
+agenda commands. This tutorial is meant to supplement the manual by
+exploring some of the uses and benefits of such customization.
+</p>
+
+<p>
+If you have not previously created a custom agenda command, the
+easiest way to get started is to type:
+</p>
+
+<pre class="example">
+M-x customize-variable RET org-agenda-custom-commands
+</pre>
+
+
+<p>
+The customization buffer for the variable provides a nice interface
+for setting custom commands as well as a full explanation of the
+different components of the setting.
+</p>
+
+<p>
+As the documentation explains, the configuration for each custom
+command is a list consisting of the following:
+</p>
+
+<dl class="org-dl">
+<dt>1) Key</dt><dd>The shortcut for invoking the command in the agenda
+dispatcher (&ldquo;h&rdquo;, &ldquo;J&rdquo;, etc.).</dd>
+<dt>2) Description (optional)</dt><dd>The description of the command that
+will be displayed in the agenda dispatcher
+(optional).</dd>
+<dt>3) Type of search</dt><dd>The desired agenda display/search. The options
+include agenda, todo, search, tags, alltodo, tags-todo,
+todo-tree, tags-tree, occur-tree, or a user-defined function.</dd>
+<dt>4) Search term</dt><dd>Depending on the type of search, this will be a
+TODO keyword, a tag (or property), a word, or a
+regular expression.</dd>
+<dt>5) Settings (optional)</dt><dd>How the agenda command should search and
+display information. These are local settings, active only for
+the command in which they are set.</dd>
+<dt>6) Export files (optional)</dt><dd>If you want the agenda view to be
+automatically exported when you type C-c a e, then you can
+include the path to the exported file here. The file extension
+will determine the export format.</dd>
+</dl>
+</div>
+
+<div id="outline-container-org25d5e6d" class="outline-3">
+<h3 id="org25d5e6d">Sample customization</h3>
+<div class="outline-text-3" id="text-org25d5e6d">
+<p>
+Here is a sample custom agenda command as one might set it in an
+.emacs file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span> 
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"c"</span> <span style="color: #e2c770;">"Desk Work"</span> tags-todo <span style="color: #e2c770;">"computer"</span> <span style="color: #696969;">;; </span><span style="color: #696969;">(1) (2) (3) (4)</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"~/org/widgets.org"</span> <span style="color: #e2c770;">"~/org/clients.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">(5)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-sorting-strategy</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>priority-up effort-down<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">(5) cont.</span>
+   <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"~/computer.html"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">(6)</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The first line in this custom command contains: 
+</p>
+
+<ol class="org-ol">
+<li>the key to trigger the search (&ldquo;c&rdquo;)</li>
+<li>a description of the search for the agenda dispatcher (&ldquo;Desk Work&rdquo;)</li>
+<li>the type of search (todo items matching a tag)</li>
+<li>the tag to search for (&ldquo;computer&rdquo;)</li>
+</ol>
+
+<p>
+The next two lines (5) set local options for this agenda command only.
+Any options you set here will not interfere with your global agenda
+settings. In this particular command, the files widgets.org and
+clients.org will be searched and the agenda display will sort the
+todos first by priority (highest priority last), then by estimated
+effort (highest effort first)&#x2014;regardless or your global
+org-agenda-sorting-strategy.
+</p>
+
+<p>
+The last line (6) specifies that this agenda view should be exported
+as HTML to &ldquo;~/computer.html&rdquo; when the agenda export function is called
+(C-c a e).
+</p>
+
+<p>
+And here is what the setting above looks like in an emacs
+customization buffer:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/mdl/org-custom-agenda-commands-1.png" alt="org-custom-agenda-commands-1.png" />
+</p>
+</div>
+
+<p>
+Of course, you need not include all of these components in every
+custom command. A more minimalistic set of instructions might look
+like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"w"</span> todo <span style="color: #e2c770;">"STARTED"</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">(1) (3) (4)</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+This will produce a list of all tasks with the todo keyword
+STARTED.[1]
+</p>
+
+<p>
+[1] If you omit a description the agenda dispatcher will simply show
+the search type and search string in place of a description.
+</p>
+
+<p>
+In addition to agenda views, custom agenda commands can also be used
+to store commonly used searches, such as sparse trees and occur trees.
+See the <a href="https://orgmode.org/manual/Sparse-trees.html#Sparse-trees">manual&rsquo;s section on sparse trees</a> for further information.
+</p>
+
+<p>
+As the examples above illustrate, agenda commands can range from
+simple stored searches to elaborate agenda views that diverge
+substantially from your normal agenda settings (different agenda
+files, different sorting strategies, different display options, etc.).
+</p>
+
+<p>
+Now, let&rsquo;s look at a few usage scenarios.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org72f2186" class="outline-2">
+<h2 id="org72f2186">A use scenario: block agenda views</h2>
+<div class="outline-text-2" id="text-org72f2186">
+<p>
+Perhaps the most common use of custom commands is to save the results
+of frequent agenda searches and (optionally) to combine multiple
+searches together in a single view.
+</p>
+
+<p>
+Let&rsquo;s imagine you&rsquo;ve just settled in at your office desk in the
+morning, ready for a good day&rsquo;s labor. You want to review your work
+before you get started. As part of your typical routine, you&rsquo;d like to
+see:
+</p>
+
+<ol class="org-ol">
+<li>your scheduled tasks and upcoming deadlines</li>
+<li>any urgent tasks with the priority &ldquo;A&rdquo;</li>
+<li>any tasks you can do at your computer or in your office or on the
+phone</li>
+<li>any headlines tagged &ldquo;project&rdquo; for which CATEGORY=&ldquo;elephants&rdquo;</li>
+<li>any headlines tagged &ldquo;review&rdquo; in the file &ldquo;circuspeanuts.org&rdquo;</li>
+<li>any items that have the todo keyword &ldquo;WAITING&rdquo;</li>
+</ol>
+
+<p>
+You could do a number of agenda searches by hand, first calling the
+agenda, then the tag-todo search (twice), then a tag search, then a
+tag search restricted to the file circuspeanuts.org, and finally the
+todo keyword search. In other words:
+</p>
+
+<pre class="example">
+C-c a a
+C-c a M +PRIORITY="A"
+C-c a M computer|office|phone
+C-c a m project+CATEGORY="elephants"
+C-x b circuspeanuts.org
+C-c a &lt; m review
+C-c a T WAITING
+</pre>
+
+
+<p>
+That would be a lot of manual labor before you had even begun your
+work. You could make your life easier by combining these searches into
+a single agenda command that compiles the results of all the searches:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"O"</span> <span style="color: #e2c770;">"Office block agenda"</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>agenda <span style="color: #e2c770;">""</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                <span style="color: #696969;">;; </span><span style="color: #696969;">limits the agenda display to a single day</span>
+    <span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"+PRIORITY=\"A\""</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"computer|office|phone"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags <span style="color: #e2c770;">"project+CATEGORY=\"elephants\""</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags <span style="color: #e2c770;">"review"</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"~/org/circuspeanuts.org"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #696969;">;; </span><span style="color: #696969;">limits the tag search to the file circuspeanuts.org</span>
+    <span style="color: #fd971f;">(</span>todo <span style="color: #e2c770;">"WAITING"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-compact-blocks</span> t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">options set here apply to the entire block</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+You&rsquo;ll notice that you can configure local settings for each of the
+searches in a block agenda. This powerful option enables fine-grained
+control of the agenda display. You could, for instance, create a block
+agenda that displays all headlines tagged &ldquo;office&rdquo; in the file
+&ldquo;widgets.org&rdquo;, followed by all headlines tagged &ldquo;computer&rdquo; in the file
+&ldquo;clients.org&rdquo;, and so on.
+</p>
+</div>
+
+<div id="outline-container-org597e0c6" class="outline-3">
+<h3 id="org597e0c6">An example: GTD weekly review</h3>
+<div class="outline-text-3" id="text-org597e0c6">
+<p>
+If you&rsquo;re into GTD, you can use org-agenda-custom-commands to create
+block views for the weekly review, such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"W"</span> <span style="color: #e2c770;">"Weekly Review"</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>agenda <span style="color: #e2c770;">""</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">7</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #696969;">; </span><span style="color: #696969;">review upcoming deadlines and appointments</span>
+                                     <span style="color: #696969;">; </span><span style="color: #696969;">type "l" in the agenda to review logged items </span>
+    <span style="color: #fd971f;">(</span>stuck <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">review stuck projects as designated by org-stuck-projects</span>
+    <span style="color: #fd971f;">(</span>todo <span style="color: #e2c770;">"PROJECT"</span><span style="color: #fd971f;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">review all projects (assuming you use todo keywords to designate projects)</span>
+    <span style="color: #fd971f;">(</span>todo <span style="color: #e2c770;">"MAYBE"</span><span style="color: #fd971f;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">review someday/maybe items</span>
+    <span style="color: #fd971f;">(</span>todo <span style="color: #e2c770;">"WAITING"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">review waiting items</span>
+   <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaac4acf" class="outline-2">
+<h2 id="orgaac4acf">Making the most of local settings</h2>
+<div class="outline-text-2" id="text-orgaac4acf">
+<p>
+Agenda commands can be used for much more than managing workload. They
+are also powerful ways to search and display notes in org files.
+</p>
+
+<p>
+One use of custom agenda commands is to create different sets of
+search options. Let&rsquo;s say, for instance, that you have three separate
+directories of org-files:
+</p>
+
+<ul class="org-ul">
+<li>&ldquo;~/org/&rdquo; for your project files</li>
+<li>&ldquo;~/website/&rdquo; for your published files</li>
+<li>&ldquo;~/archive/&rdquo; for old projects and notes</li>
+</ul>
+
+<p>
+Most of the time, you only want to search your project files, so you
+set the global option appropriately:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-files</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">file-expand-wildcards</span> <span style="color: #e2c770;">"~/org/*.org"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+But there are no doubt times when you need to search your website or
+your archive files. To make this possible, you could create the
+following commands:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"Q"</span> . <span style="color: #e2c770;">"Custom queries"</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">gives label to "Q" </span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"Qa"</span> <span style="color: #e2c770;">"Archive search"</span> search <span style="color: #e2c770;">""</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-expand-wildcards</span> <span style="color: #e2c770;">"~/archive/*.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> 
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"Qw"</span> <span style="color: #e2c770;">"Website search"</span> search <span style="color: #e2c770;">""</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-expand-wildcards</span> <span style="color: #e2c770;">"~/website/*.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"Qb"</span> <span style="color: #e2c770;">"Projects and Archive"</span> search <span style="color: #e2c770;">""</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-text-search-extra-files</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-expand-wildcards</span> <span style="color: #e2c770;">"~/archive/*.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #696969;">;; </span><span style="color: #696969;">searches both projects and archive directories</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"QA"</span> <span style="color: #e2c770;">"Archive tags search"</span> org-tags-view <span style="color: #e2c770;">""</span> 
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-expand-wildcards</span> <span style="color: #e2c770;">"~/archive/*.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+   <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Now you are only a key command away from searching different sets of
+org files.
+</p>
+
+<p>
+Note that the key triggers in the example above consist of two
+characters. If you have numerous custom agenda commands, this is a
+nice way to organize the agenda dispatcher into subpages. Only &ldquo;Q&rdquo;
+will appear on the main dispatcher view, the commands themselves will
+appear in a second view after you press &ldquo;Q&rdquo;.
+</p>
+
+<p>
+First view:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/mdl/org-custom-agenda-commands-2.png" alt="org-custom-agenda-commands-2.png" />
+</p>
+</div>
+
+<p>
+Second view (after pressing &ldquo;Q&rdquo;):
+</p>
+
+
+<div class="figure">
+<p><img src="../images/mdl/org-custom-agenda-commands-3.png" alt="org-custom-agenda-commands-3.png" />
+</p>
+</div>
+
+<p>
+The possibilities for using local search settings are myriad. One
+could, for instance, tweak display options for sparse tree searches
+via the variables org-show-hierarchy-above and org-show-entry-below
+(see <a href="https://orgmode.org/manual/Setting-options.html#Setting-options">this section of the manual</a>). Or, as Carsten explained in <a href="https://orgmode.org/list/537DBEBB-18DC-4FB9-8CC7-26D6338946FA@uva.nl">this
+mailing list post</a>, one can create custom agenda commands that default
+to a column view:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"x"</span> <span style="color: #e2c770;">"With deadline columns"</span> alltodo <span style="color: #e2c770;">""</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-overriding-columns-format</span> <span style="color: #e2c770;">"%20ITEM %DEADLINE"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-view-columns-initially</span> t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org75d6a1d" class="outline-2">
+<h2 id="org75d6a1d">Speeding up custom agenda commands</h2>
+<div class="outline-text-2" id="text-org75d6a1d">
+<p>
+The most recent versions of org-mode (the git repo or versions greater
+than 6.35) have a new variable that helps to speed up certain types of
+agenda commands. The variable is <code>org-agenda-entry-types</code> and it can
+be set <b>locally</b> within custom agenda commands via the customize
+interface.
+</p>
+
+<p>
+As always, you can learn more about the variable by typing <code>M-x
+describe-variable [RET] org-agenda-entry-types</code>. According to the
+<a href="../org-glossary.html#docstring">docstring</a>, the value <code>org-agenda-entry-types</code> is a list that consists
+of any or all of the following items:
+</p>
+
+<dl class="org-dl">
+<dt>:timestamp</dt><dd>List items containing a date stamp or date range
+matching the selected date. This includes sexp
+entries in angular brackets.</dd>
+
+<dt>:sexp</dt><dd>List entries resulting from plain diary-like sexps.</dd>
+
+<dt>:deadline</dt><dd>List deadline due on that date. When the date is
+today, also list any deadlines past due, or due
+within `org-deadline-warning-days&rsquo;. `:deadline&rsquo; must
+appear before `:scheduled&rsquo; if the setting of
+`org-agenda-skip-scheduled-if-deadline-is-shown&rsquo; is
+to have any effect.</dd>
+
+<dt>:scheduled</dt><dd>List all items which are scheduled for the given
+date. The diary for <b>today</b> also contains items
+which were scheduled earlier and are not yet marked
+DONE.</dd>
+</dl>
+
+<p>
+By default, the daily/weekly agenda includes all of these items in its
+results. Sometimes, however, you might want to construct agenda views
+that consist only of certain types of entries, such as a list of
+upcoming deadlines or a weekly or monthly calendar that includes only
+timestamps and diary sexps. The variable <code>org-agenda-entry-types</code>
+allows you to search for such a subset of items quite efficiently
+(without bothering with the other items).
+</p>
+
+<p>
+Here is an example of a weekly calendar using
+<code>org-agenda-entry-types</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"c"</span> <span style="color: #e2c770;">"Calendar"</span> agenda <span style="color: #e2c770;">""</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">7</span><span style="color: #fd971f;">)</span>                          <span style="color: #696969;">;; </span><span style="color: #696969;">[1]</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-start-on-weekday</span> <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #fd971f;">)</span>               <span style="color: #696969;">;; </span><span style="color: #696969;">[2]</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-time-grid</span> nil<span style="color: #fd971f;">)</span>                    
+            <span style="color: #fd971f;">(</span>org-agenda-repeating-timestamp-show-all t<span style="color: #fd971f;">)</span>   <span style="color: #696969;">;; </span><span style="color: #696969;">[3]</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-entry-types</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:timestamp</span> <span style="color: #fd971f;">:sexp</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>  <span style="color: #696969;">;; </span><span style="color: #696969;">[4]</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">other commands go here</span>
+          <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The options above create (1) a weekly calendar that (2) starts on
+Sunday and (3) includes all instances of repeating timestamps.
+Moreover, the calendar is generated quite quickly because the agenda
+command (4) only searches for timestamps and diary sexps and does not
+bother with deadlines and scheduling timestamps.
+</p>
+
+<p>
+Another example might arise if one wants an overview of all deadlines
+due within the next 365 days:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"d"</span> <span style="color: #e2c770;">"Upcoming deadlines"</span> agenda <span style="color: #e2c770;">""</span> 
+                  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-time-grid</span> nil<span style="color: #fd971f;">)</span>
+                   <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-deadline-warning-days</span> <span style="color: #9c91e4; font-weight: bold;">365</span><span style="color: #fd971f;">)</span>        <span style="color: #696969;">;; </span><span style="color: #696969;">[1]</span>
+                   <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-entry-types</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:deadline</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>  <span style="color: #696969;">;; </span><span style="color: #696969;">[2]</span>
+                   <span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">other commands go here</span>
+         <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+This custom command shows all deadlines that (1) fall due within the
+upcoming year. It does so quite efficiently by (2) looking for
+deadlines and nothing else. 
+</p>
+
+<p>
+Tip: if you want to exclude all agenda entry types, just set
+<code>org-agenda-entry-types</code> to nil.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6a3b88a" class="outline-2">
+<h2 id="org6a3b88a">Other configuration ideas</h2>
+<div class="outline-text-2" id="text-org6a3b88a">
+<p>
+This section is for additional ideas for configuring
+org-agenda-custom-commands. Feel free to add your own configurations
+here.
+</p>
+</div>
+
+<div id="outline-container-orgdbca4bd" class="outline-3">
+<h3 id="orgdbca4bd">GTD contexts</h3>
+<div class="outline-text-3" id="text-orgdbca4bd">
+<p>
+Keyboard shortcuts to search by GTD contexts. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"g"</span> . <span style="color: #e2c770;">"GTD contexts"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"go"</span> <span style="color: #e2c770;">"Office"</span> tags-todo <span style="color: #e2c770;">"office"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"gc"</span> <span style="color: #e2c770;">"Computer"</span> tags-todo <span style="color: #e2c770;">"computer"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"gp"</span> <span style="color: #e2c770;">"Phone"</span> tags-todo <span style="color: #e2c770;">"phone"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"gh"</span> <span style="color: #e2c770;">"Home"</span> tags-todo <span style="color: #e2c770;">"home"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"ge"</span> <span style="color: #e2c770;">"Errands"</span> tags-todo <span style="color: #e2c770;">"errands"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"G"</span> <span style="color: #e2c770;">"GTD Block Agenda"</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"office"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"computer"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"phone"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"home"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>tags-todo <span style="color: #e2c770;">"errands"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   nil                      <span style="color: #696969;">;; </span><span style="color: #696969;">i.e., no local settings</span>
+   <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"~/next-actions.html"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">exports block to this file with C-c a e</span>
+       <span style="color: #696969;">;; </span><span style="color: #696969;">..other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf441106" class="outline-3">
+<h3 id="orgf441106">Priorities</h3>
+<div class="outline-text-3" id="text-orgf441106">
+<p>
+Shortcuts to display tasks by priority level:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"p"</span> . <span style="color: #e2c770;">"Priorities"</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"pa"</span> <span style="color: #e2c770;">"A items"</span> tags-todo <span style="color: #e2c770;">"+PRIORITY=\"A\""</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"pb"</span> <span style="color: #e2c770;">"B items"</span> tags-todo <span style="color: #e2c770;">"+PRIORITY=\"B\""</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"pc"</span> <span style="color: #e2c770;">"C items"</span> tags-todo <span style="color: #e2c770;">"+PRIORITY=\"C\""</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1efb349" class="outline-3">
+<h3 id="org1efb349">Calendar style views</h3>
+<div class="outline-text-3" id="text-org1efb349">
+<p>
+The following code is useful if you want to see a weekly planner
+containing only appointments&#x2014;that is, with deadlines and scheduled
+items omitted:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+<span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"c"</span> <span style="color: #e2c770;">"Weekly schedule"</span> agenda <span style="color: #e2c770;">""</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">7</span><span style="color: #fd971f;">)</span>   <span style="color: #696969;">;; </span><span style="color: #696969;">agenda will start in week view</span>
+    <span style="color: #fd971f;">(</span>org-agenda-repeating-timestamp-show-all t<span style="color: #fd971f;">)</span>   <span style="color: #696969;">;; </span><span style="color: #696969;">ensures that repeating events appear on all relevant dates</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-skip-function</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>org-agenda-skip-entry-if <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">deadline</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">scheduled</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>  
+  <span style="color: #696969;">;; </span><span style="color: #696969;">limits agenda view to timestamped items</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Another example: you could use the following custom command to see
+deadlines due within the next 60 days:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"d"</span> <span style="color: #e2c770;">"Upcoming deadlines"</span> agenda <span style="color: #e2c770;">""</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-entry-types</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:deadline</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">a slower way to do the same thing</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">(org-agenda-skip-function '(org-agenda-skip-entry-if 'notdeadline))</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-deadline-warning-days</span> <span style="color: #9c91e4; font-weight: bold;">60</span><span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-time-grid</span> nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #696969;">;; </span><span style="color: #696969;">...other commands here</span>
+          <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9f252d6" class="outline-3">
+<h3 id="org9f252d6">Printed agenda</h3>
+<div class="outline-text-3" id="text-org9f252d6">
+<p>
+Here&rsquo;s a fairly complex example of an agenda. The command below will
+create a black-and-white block agenda that lists:
+</p>
+
+<ol class="org-ol">
+<li>An overview of appointments for the next seven days.
+<ul class="org-ul">
+<li>I.e., timestamped items but not deadlines or scheduled tasks</li>
+</ul></li>
+<li>A compact daily agenda.</li>
+<li>A list of todos sorted by context.</li>
+</ol>
+
+<p>
+The sorted todos look like this:
+</p>
+
+<pre class="example">
+[ ] errands:  Wash car
+[ ] errands:  Grocery shopping
+[ ] home:  Do laundry
+[ ] home:  Take out trash
+</pre>
+
+
+<p>
+And the entire agenda will be saved in a two-column, landscape
+postscript file when you type <code>C-c a e</code>.
+</p>
+
+<p>
+Here&rsquo;s the code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"P"</span> <span style="color: #e2c770;">"Printed agenda"</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>agenda <span style="color: #e2c770;">""</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">7</span><span style="color: #eb4509;">)</span>                      <span style="color: #696969;">;; </span><span style="color: #696969;">overview of appointments</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-start-on-weekday</span> nil<span style="color: #eb4509;">)</span>         <span style="color: #696969;">;; </span><span style="color: #696969;">calendar begins today</span>
+                        <span style="color: #eb4509;">(</span>org-agenda-repeating-timestamp-show-all t<span style="color: #eb4509;">)</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-entry-types</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">:timestamp</span> <span style="color: #fd971f;">:sexp</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span>agenda <span style="color: #e2c770;">""</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-span</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span>                      <span style="color: #696969;">; </span><span style="color: #696969;">daily agenda</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-deadline-warning-days</span> <span style="color: #9c91e4; font-weight: bold;">7</span><span style="color: #eb4509;">)</span>            <span style="color: #696969;">; </span><span style="color: #696969;">7 day advanced warning for deadlines</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-todo-keyword-format</span> <span style="color: #e2c770;">"[ ]"</span><span style="color: #eb4509;">)</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-scheduled-leaders</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">""</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-prefix-format</span> <span style="color: #e2c770;">"%t%s"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span>todo <span style="color: #e2c770;">"</span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;">"</span>                                          <span style="color: #696969;">;; </span><span style="color: #696969;">todos sorted by context</span>
+                  <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-prefix-format</span> <span style="color: #e2c770;">"[ ] %T: "</span><span style="color: #eb4509;">)</span>
+                   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-sorting-strategy</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>tag-up priority-down<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-todo-keyword-format</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span>
+                   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">org-agenda-overriding-header</span> <span style="color: #e2c770;">"\nTasks by Context\n------------------\n"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-with-colors</span> nil<span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-compact-blocks</span> t<span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-remove-tags</span> t<span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span>ps-number-of-columns <span style="color: #9c91e4; font-weight: bold;">2</span><span style="color: #fd971f;">)</span>
+             <span style="color: #fd971f;">(</span>ps-landscape-mode t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+           <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"~/agenda.ps"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #696969;">;; </span><span style="color: #696969;">other commands go here</span>
+          <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matt Lundin</p>
+<p class="date">Created: 2021-06-15 Tue 18:24</p>
+</div>
+</body>
+</html>

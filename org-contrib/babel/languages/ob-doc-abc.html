@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-abc</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="William Waites" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-abc</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb918cc3">Introduction</a></li>
+<li><a href="#orgbfba3f2">Usage</a></li>
+<li><a href="#org29b239e">Examples</a>
+<ul>
+<li><a href="#org4ecf783">PDF generation</a></li>
+<li><a href="#orga316032">SVG generation for inclusion in web pages</a></li>
+</ul>
+</li>
+<li><a href="#org9ba6f00">Compiling ABC Blocks</a></li>
+<li><a href="#orgc456ed0">Setup</a></li>
+<li><a href="#org7964c64">Requirements</a></li>
+<li><a href="#org04b628f">Issues</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Babel support for
+<a href="http://abcnotation.com/">ABC Notation</a>
+</p>
+</div>
+
+<div id="outline-container-orgb918cc3" class="outline-2">
+<h2 id="orgb918cc3">Introduction</h2>
+<div class="outline-text-2" id="text-orgb918cc3">
+<p>
+An <i>Emacs Org Babel language</i> - provided to allow <a href="http://abcnotation.com/">ABC Notation</a> Music
+Score generation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbfba3f2" class="outline-2">
+<h2 id="orgbfba3f2">Usage</h2>
+<div class="outline-text-2" id="text-orgbfba3f2">
+<p>
+Generating output in various formats (PostScript, Encapsulated
+PostScript, PDF, SVG) is done by naming the <code>:file</code> parameter
+correctly and passing the command-line options to <i>abcm2ps</i> using
+the <code>:cmdline</code> parameter.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org29b239e" class="outline-2">
+<h2 id="org29b239e">Examples</h2>
+<div class="outline-text-2" id="text-org29b239e">
+</div>
+<div id="outline-container-org4ecf783" class="outline-3">
+<h3 id="org4ecf783">PDF generation</h3>
+<div class="outline-text-3" id="text-org4ecf783">
+<pre class="example">
+#+begin_src abc :file congress.pdf
+T: The Congress
+R: reel
+M: 4/4
+L: 1/8
+K: Ador
+eAAG A2 (3Bcd | eaaf gedg | eA ~A2 eAcA | BdGB dG (3Bcd |
+eAAG A2 (3Bcd | eaaf gedB | ~c3 d (3efg ed | cdBc A2(3Bcd |
+eA ~A2 EAcd | eAaf gafg | ea ~a2 AecA | BG ~G2 B,DGB |
+AE ~E2 cA (3Bcd | eaaf gedB | ~c3 d eged | cdBc A2Bd |
+eaa^g ~a3 =g | eaaf gedg | (3efg dg (3efg dg | eaaf gabg |
+eaa^g aba=g | eaaf gedB | ~c3 d (3efg ed | cdBc A2(3Bcd |
+eaa^g  ~a3 =g | eaaf gedg | (3efg dg cgBg | eaaf gabg |
+eaa^g ab=ga | eaaf gedB | ~c3 d eged | cd (3efg agfg |
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga316032" class="outline-3">
+<h3 id="orga316032">SVG generation for inclusion in web pages</h3>
+<div class="outline-text-3" id="text-orga316032">
+<pre class="example">
+ #+begin_src abc :file john_maccol_kilbowie.svg :cmdline -g
+ T: John MacColl's March To Kilbowie Cottage
+ R: March
+ M: 4/4
+ L: 1/8
+ K: Amix
+ A&gt;B|: c4 c&gt;B A&gt;c | e4 f&gt;e c&lt;e | A&gt;B c&lt;f e&gt;c A&gt;B | c&lt;f e&gt;c B2 A&gt;B |
+ c4 c&gt;B A&gt;c | e4 f&gt;e c&lt;e | f&gt;e f&gt;c e&gt;A B&lt;c |1 A2 A2 A2 A&gt;B :|2 A2 A2 A2 f&gt;=g ||
+ a2-a&gt;f e&gt;c B&lt;c | A&gt;c e&gt;=g f&gt;c e&gt;c | a&gt;f e&lt;f ~A2-A&gt;B | c&lt;f e&gt;c B2 f&gt;=g |
+ a2-a&gt;f e&gt;c B&lt;c | A&gt;c e&gt;=g f&gt;c e&gt;c | f&lt;a c&lt;e e&gt;A B&lt;c | A2 A2 A2 f&gt;=g |
+ a2-a&gt;f e&gt;c B&lt;c | A&gt;c e&gt;=g f&gt;c e&gt;c | a&gt;f e&lt;f ~A2-A&gt;B | c&lt;f e&gt;c B2 A&gt;B |
+ c4 c&gt;B A&gt;c | e4 f&gt;e c&lt;e | f&gt;e f&gt;c e&gt;A B&lt;c | A2 A2 A2 c&gt;B |
+| : A&gt;c B&lt;c A&gt;f e&lt;f | a&gt;e f&lt;a e&gt;f c&lt;e | A&gt;c B&lt;c A&gt;f e&lt;f | a&gt;f e&gt;c B2 c&gt;B |
+ A&gt;c B&lt;c A&gt;f e&lt;f | a&gt;e f&lt;a e&gt;f c&lt;e | f&gt;e f&gt;c e&gt;A B&lt;c |1 A2 A2 A2 c&gt;B :|2 A2 A2 A2 e&gt;d ||
+ c&lt;e B&gt;c A&gt;c e&gt;A | c&lt;e a&gt;e f&gt;e c&gt;d | e&gt;c B&lt;c A2 A&gt;B | c&lt;f e&gt;c B2 e&gt;d|
+ c&lt;e B&gt;c A&gt;c e&gt;A | c&lt;e a&gt;e f&gt;e c&gt;d | e&gt;f c&lt;e e&gt;A B&lt;c | A2 A2 A2 e&gt;d |
+ c&lt;e B&gt;c A&gt;c e&gt;A | c&lt;e a&gt;e f&gt;e c&gt;d | e&gt;c B&lt;c A2 A&gt;B | c&lt;f e&gt;c B2 A&gt;B |
+ c4 c&gt;B A&gt;c | e4 f&gt;e c&lt;e | f&gt;e f&gt;c e&gt;A B&lt;c | A2 A2 A4 |
+ #+end_src
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9ba6f00" class="outline-2">
+<h2 id="org9ba6f00">Compiling ABC Blocks</h2>
+<div class="outline-text-2" id="text-org9ba6f00">
+<p>
+In <b>basic-mode</b> the key sequence <code>C-c C-c</code> within an ABC block
+will compile the block. Exporting of all blocks and Org file contents
+is initialted with the sequence <code>C-c C-e</code> (standard Org-mode export keys).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc456ed0" class="outline-2">
+<h2 id="orgc456ed0">Setup</h2>
+<div class="outline-text-2" id="text-orgc456ed0">
+<p>
+Simply add <code>abc</code> to your list of babel languages (in your init
+file):
+</p>
+
+<pre class="example">
+(org-babel-do-load-languages
+  'org-babel-load-languages
+  '(
+    (emacs-lisp . t)
+    (shell t)
+    (org t)
+    (abc t)))  &lt;==== This is the line to add
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7964c64" class="outline-2">
+<h2 id="org7964c64">Requirements</h2>
+<div class="outline-text-2" id="text-org7964c64">
+<ul class="org-ul">
+<li><a href="http://moinejf.free.fr/">abcm2ps</a>, a program that generates PostScript files from ABC Notation</li>
+<li><a href="https://github.com/mkjunker/abc-mode">abc-mode</a>, an Emacs mode for editing ABC Notation</li>
+<li><a href="http://ghostscript.com/doc/current/Ps2pdf.htm">ps2pdf</a>, a program to create PDF files from PostScript files</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org04b628f" class="outline-2">
+<h2 id="org04b628f">Issues</h2>
+<div class="outline-text-2" id="text-org04b628f">
+<p>
+Issues should be reported to the <a href="https://orgmode.org">Org-mode Mailing-list</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: William Waites</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

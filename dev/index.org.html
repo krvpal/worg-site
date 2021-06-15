@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>index.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-mode for developers
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">mdl AT imapmail DOT org
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven intestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    ../index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org-mode for developers
+</span>
+This page gather links to reference documentation and (forthcoming)
+tutorials on how to extend Org.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Git workflow
+</span>
+Org development uses a two-branches git workflow.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">master ::</span> This branch contains the latest development for Org.
+            Temporary feature branches (either local or remote) should
+            branch out from <span class="org-verbatim">master</span>.  New features should be introduced
+            into org on master.  This branch is merged to the <span class="org-verbatim">maint</span>
+            branch when a major release is made.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">maint ::</span> This branch is the "production" branch for Org.  It
+           contains stable releases and bug fixes against them.  Bugs
+           present in a release should always be fixed on <span class="org-verbatim">maint</span>,
+           which is then merged back into <span class="org-verbatim">master</span> so that the two
+           branches keep the same bugfixes.  Minor releases are made
+           so that not too many bug fixes are pending on maint.  The
+           Org version on this branch is regularly sync'ed with the
+           Emacs repository.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Git repositories
+</span>
+The git repository for Org is on <span class="org-verbatim">orgmode.org</span>:
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/org-mode">https://code.orgmode.org/bzg/org-mode</a></span>
+
+If you are a developer, you can clone it like this:
+
+<span class="org-code">: ~$ git clone git@code.orgmode.<a href="org:bzg/org-mode.git">org:bzg/org-mode.git</a>
+</span>
+To clone a read-only version of the repo:
+
+<span class="org-code">: ~$ git clone <a href="https://code.orgmode.org/bzg/org-mode.git">https://code.orgmode.org/bzg/org-mode.git</a>
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Reference documentation
+</span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-syntax.org">Syntax reference (draft)</a></span>
+
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-element-api.org">Org Element API</a></span> for the Org parser (<span class="org-verbatim">org-element.el</span>).
+
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-export-reference.org">Reference documentation</a></span> for the new export engine (<span class="org-verbatim">ox.el</span>) written
+  by Nicolas Goaziou.
+
+<span class="org-list-dt">-</span> <span class="org-link"><a href="../doc.org">Org-mode's doc </a></span>for all hooks, commands and options.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tips
+</span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-build-system.org">Org Build System</a></span> (aka Makefile)
+</pre>
+  </body>
+</html>

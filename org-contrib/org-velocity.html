@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-velocity.el &#x2014; something like Notational Velocity for Org</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Paul M. Rodriguez" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-velocity.el &#x2014; something like Notational Velocity for Org</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf3ef65b">General</a></li>
+<li><a href="#orgd66731a">How to use it</a>
+<ul>
+<li><a href="#org8a91553">The interface</a>
+<ul>
+<li><a href="#orgf8686ae">Navigating Org files</a></li>
+<li><a href="#org88422c9">Using a bucket file</a></li>
+</ul>
+</li>
+<li><a href="#orgaa33b50">Configuration</a></li>
+<li><a href="#org775e764">Loading it (No surprises here)</a></li>
+</ul>
+</li>
+<li><a href="#org2cfc186">Credits</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf3ef65b" class="outline-2">
+<h2 id="orgf3ef65b">General</h2>
+<div class="outline-text-2" id="text-orgf3ef65b">
+<p>
+<code>org-velocity</code> implements an interface for Org inspired by the
+minimalist notetaking program Notational Velocity.  The idea is to
+allow you to amass and access brief notes on many subjects
+with minimal fuss.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd66731a" class="outline-2">
+<h2 id="orgd66731a">How to use it</h2>
+<div class="outline-text-2" id="text-orgd66731a">
+<p>
+Org-velocity can be used in two ways: to store and access notes from
+anywhere in a universal bucket file; or to navigate any Org file.
+</p>
+</div>
+
+<div id="outline-container-org8a91553" class="outline-3">
+<h3 id="org8a91553">The interface</h3>
+<div class="outline-text-3" id="text-org8a91553">
+<p>
+The central command, <code>org-velocity-read</code>, prompts for search terms.
+The result is a list of all entries where those search terms appear,
+either in the heading or in the text.
+</p>
+
+<p>
+If there is only one result, <code>org-velocity</code> offers to visit that entry
+in an indirect buffer.
+</p>
+
+<p>
+If there are no results, <code>org-velocity</code> offers to create a new entry
+using <code>org-rememember</code> and supplies the search terms to the Remember
+buffer as its heading.
+</p>
+
+<p>
+If there is more than one result, <code>org-velocity</code> displays a buffer
+with the headings of all matching entries.  An entry is selected
+either by clicking on it or typing the hint character beside it.  Once
+selected the entry is visited in an indirect buffer.
+</p>
+</div>
+
+<div id="outline-container-orgf8686ae" class="outline-4">
+<h4 id="orgf8686ae">Navigating Org files</h4>
+<div class="outline-text-4" id="text-orgf8686ae">
+<p>
+The easiest way to try <code>org-velocity</code> is in an existing Org file.
+First <a href="#org775e764">load it</a>, then run:
+</p>
+
+<pre class="example">
+M-x org-velocity-read
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org88422c9" class="outline-4">
+<h4 id="org88422c9">Using a bucket file</h4>
+<div class="outline-text-4" id="text-org88422c9">
+<p>
+You can set a bucket file with:
+</p>
+
+<pre class="example">
+M-x customize-variable RET org-velocity-bucket RET 
+</pre>
+
+
+<p>
+Org-velocity will then use the bucket file as its target whenever it
+is called outside of Org.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaa33b50" class="outline-3">
+<h3 id="orgaa33b50">Configuration</h3>
+<div class="outline-text-3" id="text-orgaa33b50">
+<p>
+To configure <code>org-velocity</code>, do:
+</p>
+
+<pre class="example">
+M-x customize-group RET org-velocity RET
+</pre>
+
+
+<p>
+You may also want to bind <code>org-velocity-read</code> to a key.  Add a line
+like this to your <code>.emacs</code>:
+</p>
+
+<pre class="example">
+(global-set-key (kbd "C-c v") 'org-velocity-read)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org775e764" class="outline-3">
+<h3 id="org775e764">Loading it (No surprises here)</h3>
+<div class="outline-text-3" id="text-org775e764">
+<p>
+The easiest way is by 
+</p>
+
+<p>
+M-x customize-apropos org-modules
+</p>
+
+<p>
+Check the line for velocity.  This will cause it to be loaded every
+time you start org-mode.
+</p>
+
+<p>
+You&rsquo;ll still have to load it manually the first time.
+</p>
+
+<p>
+Of course, you can also just try it out by loading it manually.
+</p>
+
+<p>
+If you prefer to manually customize your emacs then make sure that the
+path to org&rsquo;s contrib directory is in your load-path and add the
+following to your <code>.emacs</code>.
+</p>
+
+<pre class="example">
+(require 'org-velocity)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2cfc186" class="outline-2">
+<h2 id="org2cfc186">Credits</h2>
+<div class="outline-text-2" id="text-org2cfc186">
+<p>
+Paul M. Rodriguez wrote <code>org-velocity</code> incorporating suggestions
+from Carsten Dominik and Bastien Guerry.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Paul M. Rodriguez</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

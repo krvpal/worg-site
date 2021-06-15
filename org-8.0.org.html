@@ -1,0 +1,376 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-8.0.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Upgrading to Org 8.0 or the current master branch
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Bastien Guerry
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">bzg @ gnu DOT org
+</span><span class="org-meta-line">#+LANGUAGE:  en</span>
+<span class="org-meta-line">#+OPTIONS: toc:t</span>
+<span class="org-meta-line">#+html_head: &lt;link rel="stylesheet" title="Standard" href="./style/worg.css" type="text/css" /&gt;</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+<span class="org-meta-line">#+INDEX: 8.0</span>
+<span class="org-meta-line">#+INDEX: exporter</span>
+<span class="org-meta-line">#+INDEX: migrating</span>
+
+The release of Org-mode 8.0 (and the git repository master branch, as of <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/org-mode/commit/1cac3127c2f810e83fcc1203f1dd2b15250a687e">commit 1cac3127c</a></span>)
+uses a new export framework, developed by Nicolas Goaziou. This document provides
+information on general changes to Org, as well as the steps needed to update your
+configuration properly.
+
+If the instructions below do not help solving your problem, please ask any
+question on the <span class="kc-org-link-url"><a href="https://orgmode.org/community.html">mailing list</a></span>. Keep in mind that the new export framework is under heavy
+development, and posting to the mailing list will help not only to resolve your issues,
+but also make sure that documentation is properly udpated for the benefit of others with
+similar issues.
+
+This page serves as an upgrade guide for the changes widely affecting users. <span class="italic">Please</span>
+refer to the <span class="org-link"><a href="file:exporters/ox-overview.org">new exporter overview</a></span>, which contains an up to date list of
+Org-mode exporters, and links to backend-specific setup and usage details.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Files moved to </span><span class="org-level-1"><span class="org-verbatim">contrib/</span></span><span class="org-level-1">
+</span>
+These files have been moved to the <span class="org-verbatim">contrib/</span> directory.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-colview-xemacs.el</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-mew.el</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-wl.el</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-w3m.el</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-vm.el</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">ox-taskjuggler.el</span> (was org-taskjuggler.el)
+<span class="org-list-dt">-</span> <span class="org-verbatim">ox-freemind.el</span> (was org-freemind.el)
+
+If you were using them, you need to <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Installation.html">add the </a></span><span class="kc-org-link-url"><span class="org-verbatim"><a href="https://orgmode.org/manual/Installation.html">contrib/lisp</a></span></span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/Installation.html"> directory</a></span>
+of the Org distribution to the Emacs <span class="org-verbatim">load-path</span>.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Original announcement of the new exporter
+</span>
+The most comprehensive overview of the new exporter may be found in Nicolas' merge
+announcement <span class="kc-org-link-url"><a href="https://orgmode.org/list/876229nrxf.fsf@gmail.com">in this email</a></span> to the mailing list. Please scan the post, as you may find
+answers to your questions there.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Updating global export configuration options
+</span>
+Global export options start with the <span class="org-verbatim">org-export-*</span> prefix, most of them
+are in the <span class="org-verbatim">ox.el</span> file.
+
+Most generic export options should not require any changes. If
+you find that a generic option is useless or broken or badly documented in
+the manual, please report it to the list.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Backend-specific configuration options
+</span>
+Backend-specific options are now defined via the convention <span class="org-verbatim">ox-backend-*</span>. For example:
+
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-html-*</span> for <span class="org-verbatim">HTML</span> and live in <span class="org-verbatim">ox-html.el</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">org-latex-*</span> for <span class="org-verbatim">LaTeX</span> and live in <span class="org-verbatim">ox-latex.el</span>
+<span class="org-list-dt">-</span> Etc.
+
+There is a new variable <span class="org-verbatim">org-export-backends</span> which controls what backends
+are loaded when you lauch Org.  By default, the <span class="org-verbatim">ASCII</span>, <span class="org-verbatim">HTML</span> and <span class="org-verbatim">LaTeX</span>
+are loaded; in contrast with the old exporter behavior, others will need to be explicitly
+loaded in order to use them. See the <span class="org-link"><a href="Upgrading your setup">upgrade</a></span> section for instructions.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> HTML-specific changes
+</span>
+Some html-specific options were renamed more signficantly or deleted. Examine this
+table and update accordingly: 
+
+<span class="org-table">| Org 7.9.3f (maint)                     | Master (8.0)                           |</span>
+<span class="org-table">|----------------------------------------+----------------------------------------|</span>
+<span class="org-table">| org-export-html-style                  | org-html-head                          |</span>
+<span class="org-table">| org-export-html-style-extra            | org-html-head-extra                    |</span>
+<span class="org-table">| org-export-html-style-default          | org-html-head-include-default-style    |</span>
+<span class="org-table">| org-export-html-style-include-scripts  | org-html-head-include-scripts          |</span>
+<span class="org-table">| org-export-htmlized-org-css-url        | org-org-htmlized-css-url (in ox-org.el |</span>
+<span class="org-table">|----------------------------------------+----------------------------------------|</span>
+<span class="org-table">| org-export-html-headline-anchor-format | Deleted                                |</span>
+<span class="org-table">| org-export-html-date-format-string     | Deleted                                |</span>
+<span class="org-table">| org-export-html-content-div            | Deleted                                |</span>
+<span class="org-table">| org-export-html-html-helper-timestamp  | Deleted                                |</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org publishing specific changes
+</span>Some changes also specifically affect <span class="org-verbatim">org-publish-project-alist</span> settings. The publishing
+functions are not loaded until the corresponding backend has been loaded.  You need to
+update <span class="org-verbatim">org-publish-project-alist</span> and to use the function from the new publishing engine
+in the table below: 
+
+<span class="org-table">| Old publishing engine    | New publishing engine      |</span>
+<span class="org-table">|--------------------------+----------------------------|</span>
+<span class="org-table">| org-publish-org-to-html  | org-html-publish-to-html   |</span>
+<span class="org-table">| org-publish-org-to-org   | org-org-publish-to-org     |</span>
+<span class="org-table">| org-publish-org-to-latex | org-latex-publish-to-latex |</span>
+<span class="org-table">| ...                      | ...                        |</span>
+
+
+To specify a style for the project <span class="org-verbatim">:style</span> keyword changes to <span class="org-verbatim">:html-head</span>
+
+If something does not work, please report it on the mailing list.
+
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Upgrading your setup
+</span>
+The practical implication for users upgrading from Org-mode &lt; version 7.9.4f is two-fold:
+
+<span class="org-list-dt">-</span> You must search your configuration for the existence of varaibles starting with
+  <span class="org-verbatim">org-export-</span> and change their names (e.g. <span class="org-verbatim">org-export-html-validation-link</span> is now
+  <span class="org-verbatim">org-html-validation-link</span>). <span class="italic">See sections below changes specific to the HTML and
+  Publishing backends</span>. 
+
+<span class="org-list-dt">-</span> If you use exporters in addition to <span class="org-verbatim">ASCII</span>, <span class="org-verbatim">HTML</span>, and/or <span class="org-verbatim">LaTeX</span>, you need to load them
+  explicitly in your config via one of two ways (refer to  <span class="kc-org-link-url"><a href="https://orgmode.org/list/876229nrxf.fsf@gmail.com">Nicolas' announcement</a></span>, section
+  3 on Installation, for explanation of the two methods): 
+
+<span class="bold">1: Load exporter upon first export execution per session</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">setq org-export-backends (quote (
+       beamer
+       md
+       ...
+       taskjuggler)))
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="bold">2: Loading all listed exporters upon Emacs startup</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">(require 'ox-beamer)
+(require 'ox-md)
+...
+(require 'ox-taskjuggler)
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="bold">Note:</span> Please stick to <span class="italic">one</span> of the above two methods!
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Using Org 7.9.3f or earlier versions of Org
+</span>
+For users who used the new exporter prior to its integration into the current master
+branch, here are some additional steps you may need to do in order to upgrade properly:
+
+<span class="org-list-dt">1.</span> Issue <span class="org-verbatim">make clean</span> before <span class="org-verbatim">git pull</span> and any changes to your
+   configuration.
+
+<span class="org-list-dt">2.</span> If you had already been using the new exporter from contrib, you should
+   remove the following lines from your local.mk:
+   <span class="org-code">: ORG_ADD_CONTRIB = org-e-*
+</span>
+<span class="org-list-dt">3.</span> Export engine renamed from <span class="org-verbatim">org-export</span> to <span class="org-verbatim">ox</span>
+
+<span class="org-list-dt">4.</span> Backend requires renamed <span class="org-verbatim">org-e-*</span> to <span class="org-verbatim">ox-*</span>
+
+<span class="org-list-dt">5.</span> All backend specific variables and functions renamed:
+   <span class="org-list-dt">-</span> <span class="org-verbatim">org-export-*</span> to <span class="org-verbatim">org-*</span> (e.g. org-html-xml-declaration, ..)
+   <span class="org-list-dt">-</span> <span class="org-verbatim">org-e-*</span> to <span class="org-verbatim">org-*</span> (e.g. org-latex-classes, org-ascii-bullets, ..)
+
+<span class="org-list-dt">6.</span> Generic export variables retain the name <span class="org-verbatim">org-export-*</span>,
+   (e.g. org-export-dispatch-use-expert-ui,
+   org-export-filter-headline-functions, ..)
+
+<span class="org-list-dt">7.</span> <span class="org-verbatim">org-latex-to-pdf-process</span> renamed <span class="org-verbatim">org-latex-pdf-process</span>
+
+<span class="org-list-dt">8.</span> This is a guess, export snippets and backend symbols renamed:
+   <span class="org-list-dt">-</span> <span class="org-verbatim">e-&lt;backend&gt;</span> to <span class="org-verbatim">&lt;backend&gt;</span>
+
+Again, please refer to <span class="kc-org-link-url"><a href="http://mid.gmane.org/876229nrxf.fsf@gmail.com">Nicolas' announcement</a></span> about the merge for more details.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> New global keywords
+</span>  
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> New #+TOC keyword
+</span>
+In the exporting of a table of contents, options only allowed for setting the
+level of the deepest table of contents headline, like so:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+OPTIONS: TOC:2
+</span><span class="org-block-end-line">#+end_src
+</span>
+Upon export, only first and second level headlines would be included in the generated
+table of contents. With the new exporter, a dedicated <span class="org-verbatim">#+TOC</span> now exists which allows for
+futher customization: adding table of contents, lists of tables, and lists of listings at
+specific locations during export. 
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">  ,#+TOC: headlines 2
+  ,#+TOC: tables
+  ,#+TOC: listings
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+See the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Table-of-contents.html">Table of contents</a></span> section in the manual for more information.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Syntax changes
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export snippets
+</span>
+   Export snippets are a generalization of <span class="org-code">@&lt;tag&gt;</span> concept, which has
+   been removed, and the inline version of <span class="org-code">#+begin_backend...#+end_backend</span> blocks.
+
+   Their syntax is <span class="org-code">@@backend:value</span> where <span class="org-code">backend</span> is the targetted
+   export backend (e.g. <span class="org-code">html</span>) and <span class="org-code">value</span> can contain anything but
+   <span class="org-code">@@</span>.
+
+   When export is done with <span class="org-code">backend</span>, the snippet is replaced with
+   <span class="org-code">value</span>, otherwise it is removed.  Whitespace characters around
+   the construct are never deleted.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Footnote definitions
+</span>
+   A footnote definition (not inline) can now be ended with two
+   consecutive blank lines.
+
+   As a consequence, multiple paragraphs inside can be written
+   normally, separated with blank lines, instead of relying on the
+   <span class="org-code">\par</span> command.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org-mode per-file options
+</span>
+<span class="org-list-dt">-</span> The <span class="org-verbatim">#+STYLE</span> option is now specified with <span class="org-verbatim">#+HTML_HEAD</span>
+
+<span class="org-list-dt">-</span> Using <span class="org-verbatim">#+SETUPFILE: file</span> versus <span class="org-verbatim">#+INCLUDE: "file".</span>
+
+   <span class="org-verbatim">#+INCLUDE:</span> keyword requires quotes around the file name. Those
+  are optional in <span class="org-verbatim">#+SETUPFILE:</span>.
+
+  There is now also a clear difference between these two statements.
+  The first will only read keyword statements like <span class="org-verbatim">#+TODO:</span> and use
+  this to set up the current file. The second will pull in the entire
+  content of the file during export. The <span class="org-verbatim">#+INCLUDE:</span> statement will
+  make every headline in the included file will be a child of the
+  headline containing the include keyword. You can overwrite this
+  behaviour with <span class="org-verbatim">:minlevel</span> num parameter.
+
+<span class="org-list-dt">-</span> Attribute lines now take plists (similar to <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/">Babel code block syntax</a></span>):
+
+   <span class="org-code">: #+attr_latex: :width 5cm
+</span>   <span class="org-code">: #+attr_beamer: :options width=5cm
+</span>   <span class="org-code">: #+attr_html: :width 200px
+</span>
+  <span class="bold">TIP:</span> To upgrade from old <span class="org-verbatim">attr_html</span> lines with verbatim HTML
+  attribute syntax, you could try a Perl one-liner like the following,
+  replacing <span class="org-verbatim">filename.org</span> with your file (or a bunch of files with
+  <span class="org-verbatim">*.org</span> if you're feeling adventurous -- no warranty, make sure
+  you're backed up first!).
+  
+   <span class="org-code">: perl -i.bak -pe "s/([a-z]+)=(\"|')(.*?)\2/:\1 \3/g if /^#\+attr_html/i" filename.org
+</span>
+<span class="org-list-dt">-</span> Beamer backend now interprets nested headline levels as blocks instead
+  of lists.  For more guidance, see <span class="org-link"><a href="file:exporters/beamer/ox-beamer.org">this page</a></span>.
+
+</pre>
+  </body>
+</html>

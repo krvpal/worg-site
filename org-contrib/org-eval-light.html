@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-eval-light.el &#x2014; Display result of evaluating code in various languages (light)</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-eval-light.el &#x2014; Display result of evaluating code in various languages (light)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8a9b9da">General</a></li>
+<li><a href="#orga457e31">How to use it</a>
+<ul>
+<li><a href="#orge2c0e82">Quick Example</a></li>
+<li><a href="#orgfb15a31">Loading it (No surprises here)</a></li>
+<li><a href="#orgce61472">Adding new source-code types</a></li>
+</ul>
+</li>
+<li><a href="#orgafd5380">Credits</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8a9b9da" class="outline-2">
+<h2 id="org8a9b9da">General</h2>
+<div class="outline-text-2" id="text-org8a9b9da">
+<p>
+Org-eval-light enables the execution of source code embedded in
+org-mode files.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga457e31" class="outline-2">
+<h2 id="orga457e31">How to use it</h2>
+<div class="outline-text-2" id="text-orga457e31">
+</div>
+<div id="outline-container-orge2c0e82" class="outline-3">
+<h3 id="orge2c0e82">Quick Example</h3>
+<div class="outline-text-3" id="text-orge2c0e82">
+<p>
+As a quick demonstration of use of <code>org-eval-light</code> first <a href="#orgfb15a31">load it</a> as
+described below.  Then place a <code>#+begin_src</code> block like that below in
+an org-file on your system.  Place the cursor <b>inside</b> of the block
+(in this case on the same line as the word <code>date</code>) and press
+<code>\C-c\C-c</code> calling <code>org-eval-light-current-snippet</code>.  This will run
+the <code>date</code> command in your shell, and will place the output into your
+org file after the block.  In the case of short output like below,
+<code>org-eval-light</code> will use the consise <code>:</code> style comments, but larger
+output (the cutoff default to 10 lines, but can be changed by setting
+the <code>org-eval-light-example-size-cutoff</code> variable) will be placed in
+an example block.
+</p>
+
+<pre class="example">
+#+begin_src shell
+ date
+#+end_src
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgfb15a31" class="outline-3">
+<h3 id="orgfb15a31">Loading it (No surprises here)</h3>
+<div class="outline-text-3" id="text-orgfb15a31">
+<p>
+The easiest way is by 
+</p>
+
+<p>
+M-x customize-apropos org-modules
+</p>
+
+<p>
+Check the line for eval-light.  This will cause it to be loaded every
+time you start org-mode.
+</p>
+
+<p>
+You&rsquo;ll still have to load it manually the first time.
+</p>
+
+<p>
+Of course, you can also just try it out by loading it manually.
+</p>
+
+<p>
+If you prefer to manually customize your emacs then make sure that the
+path to org&rsquo;s contrib directory is in your load-path and add the
+following to your <code>.emacs</code>.
+</p>
+
+<pre class="example">
+(require 'org-eval-light)
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgce61472" class="outline-3">
+<h3 id="orgce61472">Adding new source-code types</h3>
+<div class="outline-text-3" id="text-orgce61472">
+<p>
+<code>org-eval-light</code> is extensible.  If you would like to add a new type
+of source code to <code>org-eval-light</code> you may do so by adding the name of
+your new lang (let say <code>new_lang</code>) to the
+<code>org-eval-light-interpreters</code> variable.  You will then need to add a
+new conditional statement to the <code>org-eval-light-code</code> function
+(<b>note</b>: you should only try this if you are willing to get your hands
+dirty with some elisp).
+</p>
+
+<p>
+If you add a new code type, and get it working please share your
+changes with the mailing list.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgafd5380" class="outline-2">
+<h2 id="orgafd5380">Credits</h2>
+<div class="outline-text-2" id="text-orgafd5380">
+<p>
+Eric Schulte adapted org-eval-light from org-eval, with
+much-appreciated code and advice from Carsten Dominik.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

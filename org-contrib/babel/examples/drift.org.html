@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>drift.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .font-latex-math {
+        /* font-latex-math-face */
+        color: #268bd2;
+      }
+      .font-latex-script-char {
+        /* font-latex-script-char-face */
+        color: #727280;
+      }
+      .font-latex-sedate {
+        /* font-latex-sedate-face */
+        color: #d3d3d3;
+      }
+      .font-latex-subscript {
+        /* font-latex-subscript-face */
+        font-size: 85%;
+      }
+      .font-latex-superscript {
+        /* font-latex-superscript-face */
+        font-size: 85%;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+title:</span> <span class="org-document-title">Genetic drift
+</span><span class="org-meta-line">#+seq_todo: TODO | DONE</span>
+<span class="org-meta-line">#+property: cache no</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> A simple model of evolution
+</span>  Evolution is the result of changes in the genetic composition of
+  populations over time. One of the simplest models of evolution is as
+  follows. There is a population of N individuals, among which there
+  are two genetic types: red and blue<span class="org-footnote">[fn:1]</span>. Here is the initial
+  generation of the population (N=10).
+
+<span class="org-block-begin-line">#+begin_src ditaa :file drift-1-gen.png :cmdline -r :exports results
+</span><span class="org-block">                  /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+
+  Generation 1    |cRED| |cBLU| |cBLU| |cBLU| |cRED| |cRED| |cBLU| |cRED| |cRED| |cRED|
+                  |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+                  +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/  
+</span><span class="org-block-end-line">#+end_src
+</span>
+  There is no mutation, no selection and no sex; the next generation
+  is made up by randomly choosing 10 individuals from the previous
+  generation<span class="org-footnote">[fn:2]</span>. A single individual can be chosen more than once,
+  or not at all; the number of times an individual is chosen
+  corresponds to the number of progeny it has in the next
+  generation. Even without mutation or natural selection the
+  proportions of red and blue types will change, because different
+  individuals will have different numbers of offspring, by chance.
+
+  So the first two generations might look like this.
+
+<span class="org-block-begin-line">#+begin_src ditaa :file drift-2-gen.png :cmdline -r :exports results
+</span><span class="org-block">                  /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+
+  Generation 1    |cRED| |cBLU| |cBLU| |cBLU| |cRED| |cRED| |cBLU| |cRED| |cRED| |cRED|              
+                  |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+                  +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ 
+                  /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+
+  Generation 2    |cBLU| |cBLU| |cRED| |cRED| |cRED| |cBLU| |cRED| |cRED| |cBLU| |cBLU|              
+                  |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+                  +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ 
+</span><span class="org-block-end-line">#+end_src
+</span>
+  This is a form of evolution called "genetic drift". It is inevitable,
+  although if the population is very large it will have less effect.
+
+  Let X_t be the number of red individuals in generation t, and let p_t
+  be the proportion of red individuals. So X_1 is 6 and p_1 is 0.6. To
+  choose the number of red individuals in generation 2 we make 10
+  choices, each time having probability 6/10 of getting a red
+  individual. So X_2 is a <span class="italic">binomial</span> random variable, with 10 trials and
+  success probability 0.6. In general, the random process is described
+  by the following transition probabilities.
+
+<span class="org-block-begin-line">#+begin_src latex :file transprob.png :exports results :results graphics
+</span><span class="org-block">  </span><span class="org-block"><span class="font-latex-sedate"><span class="keyword">\begin</span></span></span><span class="org-block">{</span><span class="org-block"><span class="function-name">equation</span></span><span class="org-block">}</span><span class="org-block"><span class="font-latex-math">
+  </span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\Pr</span></span></span><span class="org-block"><span class="font-latex-math">(X</span></span><span class="org-block"><span class="font-latex-math"><span class="font-latex-script-char">_</span></span></span><span class="org-block"><span class="font-latex-subscript"><span class="font-latex-math">t</span></span></span><span class="org-block"><span class="font-latex-math">=j|X</span></span><span class="org-block"><span class="font-latex-math"><span class="font-latex-script-char">_</span></span></span><span class="org-block"><span class="font-latex-subscript"><span class="font-latex-math">{t-1}</span></span></span><span class="org-block"><span class="font-latex-math">=i) = </span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\frac</span></span></span><span class="org-block"><span class="font-latex-math">{j(j-1)}{2}</span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\Big</span></span></span><span class="org-block"><span class="font-latex-math">(</span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\frac</span></span></span><span class="org-block"><span class="font-latex-math">{i}{N}</span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\Big</span></span></span><span class="org-block"><span class="font-latex-math">)</span></span><span class="org-block"><span class="font-latex-math"><span class="font-latex-script-char">^</span></span></span><span class="org-block"><span class="font-latex-superscript"><span class="font-latex-math">j</span></span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\Big</span></span></span><span class="org-block"><span class="font-latex-math">(</span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\frac</span></span></span><span class="org-block"><span class="font-latex-math">{N-i}{N}</span></span><span class="org-block"><span class="font-latex-sedate"><span class="font-latex-math">\Big</span></span></span><span class="org-block"><span class="font-latex-math">)</span></span><span class="org-block"><span class="font-latex-math"><span class="font-latex-script-char">^</span></span></span><span class="org-block"><span class="font-latex-superscript"><span class="font-latex-math">{n-j}</span></span></span><span class="org-block"><span class="font-latex-math">
+  </span></span><span class="org-block"><span class="font-latex-sedate"><span class="keyword">\end</span></span></span><span class="org-block">{</span><span class="org-block"><span class="function-name">equation</span></span><span class="org-block">}
+</span><span class="org-block-end-line">#+end_src
+</span>
+
+  We can simulate the evolution over many generations in R. This code
+  simulates the change in frequency in a single population over 100
+  generations. We'll make the population larger (N=1000) but still
+  start off with 60% red individuals.
+
+<span class="org-meta-line">#+name: simpledrift(N=1000, X1=600, ngens=100)</span>
+<span class="org-block-begin-line">#+begin_src R :file simpledrift.png :exports both :results graphics
+</span>  p &lt;- numeric(ngens)
+  p[1] &lt;- X1/N
+  for(g in 2:ngens)
+      p[g] &lt;- rbinom(1, size=N, prob=p[g-1]) / N
+  plot(p, type="l", ylim=c(0,1), xlab="Generation", ylab="Proportion red")
+<span class="org-block-end-line">#+end_src
+</span>
+
+  But how variable is this process? To answer this we need to repeat
+  the simulation many times (i.e. simulate many identical but
+  independent populations). We could do that as follows
+
+<span class="org-block-begin-line">#+begin_src R :session t
+</span>  drift.slow &lt;- function(N, X1, ngens, nreps) {
+      p &lt;- matrix(NA, nrow=ngens, ncol=nreps)
+      p[1,] &lt;- X1/N
+      for(rep in 1:nreps) {
+          for(g in 2:ngens)
+              p[g,rep] &lt;- rbinom(1, size=N, prob=p[g-1,rep]) / N
+      }
+      p
+  }
+<span class="org-block-end-line">#+end_src
+</span>
+  But this is not a good implementation. One should make use of
+  "vectorisation", which makes the simulation much more efficient when
+  there are many replicates<span class="org-footnote">[fn:3]</span>. Note the way that rbinom simulates
+  all replicates at once, but still one generation at a time.
+
+<span class="org-block-begin-line">#+begin_src R :session t
+</span>  drift.faster &lt;- function(N, X1, ngens, nreps) {
+      p &lt;- matrix(NA, nrow=ngens, ncol=nreps)
+      p[1,] &lt;- X1/N
+      for(gen in 2:ngens)
+          p[gen,] &lt;- rbinom(n=nreps, size=N, prob=p[gen-1,]) / N
+      p
+  }
+<span class="org-block-end-line">#+end_src
+</span>
+  To run the simulation:
+
+<span class="org-meta-line">#+name: drift(N=1000, X1=600, nreps=10, ngens=100)</span>
+<span class="org-block-begin-line">#+begin_src R :session t :file repdrift.png :exports both :results graphics
+</span>  p &lt;- drift.faster(N, X1, ngens, nreps)
+  matplot(p, type="l", ylim=c(0,1), lty=1)
+<span class="org-block-end-line">#+end_src
+</span>
+  And let's quickly see how much of a speed difference the vectorisation
+  makes.
+
+<span class="org-meta-line">#+name: compare-times(N=1000, X1=600, nreps=1000, ngens=100)</span>
+<span class="org-block-begin-line">#+begin_src R :session t :colnames t :results output :exports both
+</span>  functions &lt;- c(drift.slow=drift.slow, drift.faster=drift.faster)
+  times &lt;- sapply(functions, function(f) as.numeric(system.time(f(N, X1, ngens, nreps))[1]))
+  print(times)
+  cat(sprintf("\nFactor speed-up = %.1f\n", times[1] / times[2]))
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> Every individual is chacterised by a single type; no sex,
+recombination, mutation, selection, etc.
+
+<span class="org-footnote">[fn:2]</span> All members of the previous generation die as the next
+generation is formed.
+
+<span class="org-footnote">[fn:3]</span> Note that we can't vectorise the entire simulation because
+drift is a Markov process.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Config                               </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-meta-line">#+options: author:nil date:nil num:nil toc:nil</span>
+<span class="org-meta-line">#+latex_header: \usepackage{amsmath}</span>
+<span class="org-meta-line">#+latex_header: \usepackage[left=2cm,top=2cm,right=3cm,head=2cm,foot=2cm]{geometry}</span>
+<span class="org-meta-line">#+latex_header: \newcommand{\Pr}{\text{Pr}}</span>
+<span class="org-meta-line">#+latex_header: \newcommand{\pipe}{\arrowvert}</span>
+
+<span class="comment"># Local Variables&#58;</span>
+<span class="comment"># org-export-latex-image-default-option: "width=30em"</span>
+<span class="comment"># End:</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tasks                                </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> </span><span class="org-level-3"><span class="custom">TODO</span></span><span class="org-level-3"> How do we put titles on figures?
+</span><span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> </span><span class="org-level-3"><span class="custom">TODO</span></span><span class="org-level-3"> Connect daughters to parents with lines
+</span>
+</pre>
+  </body>
+</html>

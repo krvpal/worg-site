@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-Mode Beginners Customization Guide</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Carsten Dominik" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org-Mode Beginners Customization Guide</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9c75a8a">Introduction</a></li>
+<li><a href="#orgb478bfd">The Basics</a>
+<ul>
+<li><a href="#orgacc2e05">Minimal customization</a></li>
+<li><a href="#orgbc8dac0">Five small steps toward a personalized system</a>
+<ul>
+<li><a href="#org6a292c4">One: More TODO keywords</a></li>
+<li><a href="#orgaafb727">Two: Which tags do you use most?</a></li>
+<li><a href="#org1104fba">Three: Which files are relevant for the agenda?</a></li>
+<li><a href="#org8f0b90d">Four: Find what you need to see now</a></li>
+<li><a href="#orgdcb7bbd">Five: Capture ideas with predefined templates</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5c6a658">Pretend to be a power-user</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org9425fd6">Basic setup</a></li>
+<li><a href="#org5cf6f63">Editing behavior and appearance</a></li>
+<li><a href="#org6d9993c">The TODO keywords</a></li>
+<li><a href="#org4edfb56">Tags</a></li>
+<li><a href="#orgb2f3678">Progress logging</a></li>
+<li><a href="#orgce2012b">Capture and Refile</a></li>
+<li><a href="#orgd122407">Agenda Views</a></li>
+<li><a href="#org359b45a">Export/Publishing setup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgd16196d">Become a true power user</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9c75a8a" class="outline-2">
+<h2 id="org9c75a8a">Introduction</h2>
+<div class="outline-text-2" id="text-org9c75a8a">
+<p>
+Org-mode is a highly customizable package.  It currently contains close to
+400 customization variables that can be changed to tweak every detail, and
+more than 260 are known to be actually used out there.
+</p>
+
+<p>
+However, as a beginner you do not care about this kind of flexibility.  On
+this page, we have a list of five settings that you might want to try first
+in order to personalize your system.
+</p>
+
+<p>
+Once you are done with that, we also have a list of some 40 variables that
+are <a href="https://orgmode.org/worg/org-configs/org-customization-survey-2013.html">changed by many users</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb478bfd" class="outline-2">
+<h2 id="orgb478bfd">The Basics</h2>
+<div class="outline-text-2" id="text-orgb478bfd">
+</div>
+
+<div id="outline-container-orgacc2e05" class="outline-3">
+<h3 id="orgacc2e05">Minimal customization</h3>
+<div class="outline-text-3" id="text-orgacc2e05">
+<p>
+The minimal customization needed to use Org-mode is &#x2013; <b>Nothing at all!</b>
+\par Org-mode works out of the box, and besides the steps described in the
+manual to <a href="https://orgmode.org/manual/Activation.html#Activation">activate</a> it, <i>nothing is needed at all</i>.  Just open a <i>.org</i>
+file, press <code>C-c [</code> to tell org that this is a file you want to use in your
+agenda, and start putting your life into plain text.
+</p>
+
+<p>
+OK, for completeness, let&rsquo;s just repeat what is needed to activate
+Org-mode in files with <i>.org</i> extension, and a few important key
+assignments.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">auto-mode-alist</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"\\.org\\'"</span> . org-mode<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">global-set-key</span> <span style="color: #e2c770;">"\C-cl"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-store-link</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">global-set-key</span> <span style="color: #e2c770;">"\C-ca"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-agenda</span><span style="color: #eb4509;">)</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">(global-font-lock-mode 1)  Not needed in recent emacsen</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbc8dac0" class="outline-3">
+<h3 id="orgbc8dac0">Five small steps toward a personalized system</h3>
+<div class="outline-text-3" id="text-orgbc8dac0">
+</div>
+<div id="outline-container-org6a292c4" class="outline-4">
+<h4 id="org6a292c4">One: More TODO keywords</h4>
+<div class="outline-text-4" id="text-org6a292c4">
+<p>
+Define the TODO states you find useful and single letters for fast
+selection.  Customize the variable <code>org-todo-keywords</code> or simply do this
+right in the file with<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TODO: TODO(t) STARTED(s) WAITING(w) | DONE(d) CANCELED(c)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaafb727" class="outline-4">
+<h4 id="orgaafb727">Two: Which tags do you use most?</h4>
+<div class="outline-text-4" id="text-orgaafb727">
+<p>
+You can always add tags freely and by hand, but if you configure the
+most important ones along with fast-access keys, life will be better.
+Configure the variable <code>org-tags-alist</code> or simply do this right in the
+file with<sup><a id="fnr.1.100" class="footref" href="#fn.1">1</a></sup>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+TAGS: home(h) work(w) </span><span style="color: #66d9ef;">@computer(c)</span><span style="color: #7f7f80;"> </span><span style="color: #66d9ef;">@phone(p)</span><span style="color: #7f7f80;"> errants(e)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1104fba" class="outline-4">
+<h4 id="org1104fba">Three: Which files are relevant for the agenda?</h4>
+<div class="outline-text-4" id="text-org1104fba">
+<p>
+When Org compiles agenda views like the the agenda for the current
+week (<code>C-c a a</code>) or the global TODO list (<code>C-c a t</code>), it checks all
+files in the variable <code>org-agenda-files</code>.  Instead of setting this
+variable explicitly, it is much easier to just add and remove the
+current buffer with <code>C-c [</code> and <code>C-c ]</code>, respectively.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8f0b90d" class="outline-4">
+<h4 id="org8f0b90d">Four: Find what you need to see now</h4>
+<div class="outline-text-4" id="text-org8f0b90d">
+<p>
+If you need to sharpen the predefined agenda commands, define your <a href="https://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views">own</a>
+Agenda commands, using the variable <code>org-agenda-custom-commands</code>.
+This is a pretty complex variable, but if you use the customize
+interface<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>, it is not too hard.  Everyone
+ends up customizing this one after getting comfortable with Org-mode.
+Do checkout <a href="https://orgmode.org/worg/org-tutorials/org-custom-agenda-commands.php">this tutorial</a> on building your own custom agenda commands
+as well.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdcb7bbd" class="outline-4">
+<h4 id="orgdcb7bbd">Five: Capture ideas with predefined templates</h4>
+<div class="outline-text-4" id="text-orgdcb7bbd">
+<p>
+Use <code>org-capture</code> to quickly capture ideas, tasks, and notes.
+Populate<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>
+the variable <code>org-capture-templates</code> with templates and target
+locations.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5c6a658" class="outline-2">
+<h2 id="org5c6a658">Pretend to be a power-user</h2>
+<div class="outline-text-2" id="text-org5c6a658">
+<p>
+Here is a list of the variables most frequently changed by power
+users.  The variables mentioned above are repeated in this list.  Yes,
+some power users change 60 options or more, but these showed up most
+frequently in the <a href="https://orgmode.org/worg/org-configs/org-customization-survey-2013.html">customization survey</a>.
+</p>
+</div>
+
+<div id="outline-container-org9425fd6" class="outline-4">
+<h4 id="org9425fd6">Basic setup</h4>
+<div class="outline-text-4" id="text-org9425fd6">
+<p>
+Here are a few things about basic setup that many people change.
+</p>
+
+<dl class="org-dl">
+<dt>org-directory</dt><dd>Where are my Org files typically located?  Org
+acutally uses this variable only under rare circumstances, like
+when filing remember notes in an interactive way and prompting
+you for an Org file to put the note into.</dd>
+</dl>
+
+
+<dl class="org-dl">
+<dt>org-agenda-files</dt><dd>Which <a href="https://orgmode.org/manual/Agenda-files.html#Agenda-files">files</a> do I want to be checked for entries
+when compiling my agenda?  Many people do not customize this one,
+but just use <code>C-c [</code> and <code>C-c ]</code> to add or remove the current
+file, respectively.</dd>
+
+<dt>org-startup-folded</dt><dd>When visiting an Org file, in what <a href="https://orgmode.org/manual/Visibility-cycling.html#Visibility-cycling">folding
+state</a> do I first want to see it?  Many use <code>#+STARTUP</code> options to
+set this on a <a href="https://orgmode.org/manual/In_002dbuffer-settings.html#In_002dbuffer-settings">per-file basis</a>.</dd>
+
+<dt>org-archive-location</dt><dd>When <a href="https://orgmode.org/manual/Archiving.html#Archiving">archiving</a> an entry, where will it go?</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org5cf6f63" class="outline-4">
+<h4 id="org5cf6f63">Editing behavior and appearance</h4>
+<div class="outline-text-4" id="text-org5cf6f63">
+<p>
+Besides being an organizer, Org-mode is also a text mode for writing
+and taking notes.  The following variables that influence basic
+editing behavior and the appearance of the buffer are often
+customized:
+</p>
+
+<dl class="org-dl">
+<dt>org-hide-leading-stars</dt><dd>Make the outline more list-like be <a href="https://orgmode.org/manual/Clean-view.html#Clean-view">hiding</a>
+all leading stars but one.</dd>
+
+<dt>org-odd-levels-only</dt><dd>Should <a href="https://orgmode.org/manual/Clean-view.html#Clean-view">2 stars</a> be added per level?  This
+makes the indentation more like in a book.</dd>
+
+<dt>org-special-ctrl-a/e</dt><dd>Should <code>C-a</code> and <code>C-e</code> behave specially,
+considering the headline and not the leading stars, todo
+keywords, or the trailing tags?  About equal numbers of users set
+this to <code>t</code> or to <code>reversed</code></dd>
+
+<dt>org-special-ctrl-k</dt><dd>Should <code>C-k</code> behave <a href="https://orgmode.org/worg/org-faq.html#C-k-is-killing-subtrees">specially</a> in headlines,
+considering tags and visibility state?</dd>
+
+<dt>org-completion-use-ido</dt><dd>Should <i>ido.el</i> be used for completion
+whenever it makes sense?</dd>
+
+<dt>org-return-follows-link</dt><dd>Should pressing RET on a hyperlink <a href="https://orgmode.org/manual/Handling-links.html#Handling-links">follow</a>
+the link?  People who are used to this from web browsers often
+make this choice.</dd>
+
+<dt>org-blank-before-new-entry</dt><dd>Org-mode tries to be smart about
+inserting blank lines before <a href="https://orgmode.org/manual/Structure-editing.html#Structure-editing">new entries/items</a>, by looking at
+what is before the previous entry/item.  Customize this to
+out-smart it.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org6d9993c" class="outline-4">
+<h4 id="org6d9993c">The TODO keywords</h4>
+<div class="outline-text-4" id="text-org6d9993c">
+<dl class="org-dl">
+<dt>org-todo-keywords</dt><dd>Which <a href="https://orgmode.org/manual/TODO-extensions.html#TODO-extensions">TODO keywords</a> should be used?  Also you
+can define keys for <a href="https://orgmode.org/manual/Fast-access-to-TODO-states.html#Fast-access-to-TODO-states">fast access</a> here.  Very many people use this,
+or define the keywords with a <code>#+TODO:</code> setting in the buffer.</dd>
+
+<dt>org-todo-keyword-faces</dt><dd>Here you can define different faces for
+different TODO keywords.</dd>
+
+<dt>org-enforce-todo-dependencies</dt><dd>Should unfinished children <a href="https://orgmode.org/manual/TODO-dependencies.html#TODO-dependencies">block</a>
+state changes in the parent?</dd>
+
+<dt>org-enforce-todo-checkbox-dependencies</dt><dd>Should unfinished
+checkboxes <a href="https://orgmode.org/manual/TODO-dependencies.html#TODO-dependencies">block</a> state changes in the parent?</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org4edfb56" class="outline-4">
+<h4 id="org4edfb56">Tags</h4>
+<div class="outline-text-4" id="text-org4edfb56">
+<dl class="org-dl">
+<dt>org-tag-alist</dt><dd>Which <a href="https://orgmode.org/manual/Tags.html#Tags">tags</a> should be available?  Note that tags
+besides the configured ones can be used, but for the important
+ones you can define keys for <a href="https://orgmode.org/manual/Setting-tags.html#Setting-tags">fast access</a> here.</dd>
+
+<dt>org-tags-column</dt><dd>How should tags be aligned in the headline?</dd>
+
+<dt>org-fast-tag-selection-single-key</dt><dd>Set this to make the tags
+interface even faster, if all you normally do is changing a single
+tag.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgb2f3678" class="outline-4">
+<h4 id="orgb2f3678">Progress logging</h4>
+<div class="outline-text-4" id="text-orgb2f3678">
+<dl class="org-dl">
+<dt>org-log-done</dt><dd>Do you want to <a href="https://orgmode.org/manual/Progress-logging.html#Progress-logging">capture</a> time stamps and/or notes when
+TODO state changes, in particular when a task is DONE?  A simple
+setting that many use is <code>(setq org-log-done 'time)</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgce2012b" class="outline-4">
+<h4 id="orgce2012b">Capture and Refile</h4>
+<div class="outline-text-4" id="text-orgce2012b">
+<dl class="org-dl">
+<dt>org-reverse-note-order</dt><dd>When adding new entries (or tasks) to a
+list, do I want the entry to be first or last in the list?</dd>
+</dl>
+
+<p>
+<code>org-capture</code> is great for fast capture of ideas, notes, and tasks.  It
+is one of the primary capture methods in Org-mode.
+</p>
+
+<dl class="org-dl">
+<dt>org-capture-templates</dt><dd>Prepare <a href="https://orgmode.org/manual/Capture-templates.html#Capture-templates">templates</a> for the typical notes and
+tasks you want to capture quickly.  I believe everyone using
+<code>org-capture</code> customizes this.</dd>
+
+<dt>org-default-notes-file</dt><dd>If you do not set up templates with target
+files, at least tell Org where to put captured notes.</dd>
+</dl>
+
+<p>
+<i>Refiling</i> means moving entries around, for example from a capturing
+location to the correct project.
+</p>
+
+<dl class="org-dl">
+<dt>org-refile-targets</dt><dd>What should be on the <a href="https://orgmode.org/manual/Refile-and-copy.html#Refile-and-copy">menu</a> when you refile
+tasks with <code>C-c C-w</code>?</dd>
+
+<dt>org-refile-use-outline-path</dt><dd>How would you like to select refile
+targets. Headline only, or the path along the outline hierarchy?</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgd122407" class="outline-4">
+<h4 id="orgd122407">Agenda Views</h4>
+<div class="outline-text-4" id="text-orgd122407">
+<dl class="org-dl">
+<dt>org-agenda-start-on-weekday</dt><dd>Should the <a href="https://orgmode.org/manual/Weekly_002fdaily-agenda.html#Weekly_002fdaily-agenda">agenda</a> start on Monday, or
+better today?</dd>
+
+<dt>org-agenda-ndays</dt><dd>How many days should the default agenda show?
+Default is 7, a whole week.</dd>
+
+<dt>org-agenda-include-diary</dt><dd>Should the agenda also show <a href="https://orgmode.org/manual/Weekly_002fdaily-agenda.html#Weekly_002fdaily-agenda">entries</a> from
+the Emacs diary?</dd>
+
+<dt>org-agenda-custom-commands</dt><dd>Define your <a href="https://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views">own</a> Agenda commands.
+Complex, advanced variable, but pretty much everyone ends up
+configuring it.  Use customize to configure it, this is the best
+and safest way.  Do checkout <a href="https://orgmode.org/worg/org-tutorials/org-custom-agenda-commands.php">this tutorial</a> on building your own
+custom agenda commands as well.</dd>
+
+<dt>org-agenda-sorting-strategy</dt><dd>How should things be <a href="https://orgmode.org/manual/Sorting-agenda-items.html#Sorting-agenda-items">sorted</a> in the
+agenda display.  Even though I think the defaults are very usable,
+power users tend to tweak this.</dd>
+
+<dt>org-stuck-projects</dt><dd>How to find projects that need <a href="https://orgmode.org/manual/Stuck-projects.html#Stuck-projects">attention</a>?</dd>
+</dl>
+
+<p>
+To reduce clutter in the task list for today, many users like to
+remove tasks from the daily list right when they are done.  The
+following variables give detailed control to what kind of entries this
+should apply:
+</p>
+
+<dl class="org-dl">
+<dt>org-agenda-skip-scheduled-if-done</dt><dd>Scheduled entries.  Many users
+turn this on.</dd>
+
+<dt>org-agenda-skip-deadline-if-done </dt><dd>Deadlines.  Many users turn
+this on.</dd>
+
+<dt>org-agenda-skip-timestamp-if-done</dt><dd>Entries with any timestamp,
+appointments just like scheduled and deadline entries.
+Relatively few users select this one.</dd>
+</dl>
+
+<p>
+People who use Org like a <a href="http://www.newartisans.com/2007/08/using-org-mode-as-a-day-planner.html">day planner</a>, who <a href="https://orgmode.org/manual/Deadlines-and-scheduling.html#Deadlines-and-scheduling">schedule</a> all tasks to
+specific dates, often like to not have scheduled tasks listed in their
+global TODO list, because scheduling it already means to have taking
+care of it in a sense, and because they know they will run into these
+tasks in the agenda anyway.
+</p>
+
+<dl class="org-dl">
+<dt>org-agenda-todo-ignore-deadlines</dt><dd>Don&rsquo;t show deadline tasks in
+global TODO list.</dd>
+
+<dt>org-agenda-todo-ignore-with-date</dt><dd>Don&rsquo;t show any tasks with a date
+in the global TODO list.</dd>
+
+<dt>org-agenda-todo-ignore-scheduled</dt><dd>Don&rsquo;t show scheduled tasks
+in the global TODO list.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org359b45a" class="outline-4">
+<h4 id="org359b45a">Export/Publishing setup</h4>
+<div class="outline-text-4" id="text-org359b45a">
+<dl class="org-dl">
+<dt>org-export-with-LaTeX-fragments</dt><dd>Should <a href="https://orgmode.org/manual/LaTeX-fragments.html#LaTeX-fragments">LaTeX fragments</a> be
+converted to inline images for HTML output?</dd>
+
+<dt>org-export-html-style</dt><dd>Customize the default <a href="https://orgmode.org/manual/CSS-support.html#CSS-support">style</a> for HTML
+export.</dd>
+
+<dt>org-publish-project-alist</dt><dd>Set up projects that allow many files
+to be exported and <a href="https://orgmode.org/manual/Publishing.html#Publishing">published</a> with a single command.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd16196d" class="outline-2">
+<h2 id="orgd16196d">Become a true power user</h2>
+<div class="outline-text-2" id="text-orgd16196d">
+<p>
+If you want to become a true power user, <a href="https://orgmode.org/list/FD50CA36-A385-4C80-8E86-E3BE9F352B0A@uva.nl">see</a> for yourself what some users
+do.  The Emacs customization system<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> organizes
+all variables into a structure that can be used to easily <a href="https://orgmode.org/worg/org-tutorials/org-customize.html">find the one
+particular option</a> you might be looking for.  Also, the <a href="https://orgmode.org/manual/">Org-mode manual</a> and
+the <a href="https://orgmode.org/worg/org-faq.html">FAQ</a> mention many variables in the appropriate context.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">press <code>C-c C-c</code> in the line after changing it</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara"><code>M-x customize-variable RET
+org-agenda-custom-commands RET</code></p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">M-x customize-variable RET org-capture-templates RET</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara"><code>M-x org-customize RET</code></p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Carsten Dominik</p>
+<p class="date">Created: 2021-06-15 Tue 18:24</p>
+</div>
+</body>
+</html>

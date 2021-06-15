@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>agenda-filters.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Agenda Filters and Limits
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Bastien Guerry
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">bzg AT gnu DOT org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OrgVersion: 8.0</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+This tutorial describes some useful agenda manipulations.
+
+The central notions are <span class="italic">filters</span> and <span class="italic">limits</span>.  Filters are a way to
+<span class="italic">hide</span> some agenda entries (depending on tags, categories or regular
+expressions).  <span class="italic">Limits</span> are a way to limit the list of agenda entries
+(depending on a number of tagged entries, a number of entries with <span class="org-verbatim">TODO</span>
+keywords, an effort value, or a number of entries.)
+
+Filters only act on the <span class="italic">appearence</span> of the agenda, limits act on the list
+of agenda entries itself.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Agenda filters
+</span><span class="org-meta-line">#+index: filtering, in agenda</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Filtering by tags
+</span><span class="org-meta-line">#+index: filtering, by tag</span>
+
+Here is a list of keybinding available in the agenda buffer:
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">/</span></span><span class="org-list-dt"> ::</span> Only show entries matching a tag.  This prompts for a tag to
+     filter by, which you can choose by hitting a selection letter (if
+     configured), or the first letter of the tag, or by hitting <span class="org-verbatim">TAB</span> and
+     then expand a tag.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">C-u /</span></span><span class="org-list-dt"> ::</span> Hide entries matching a tag.  You can successively call this
+     command to hide several tags.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">/ /</span></span><span class="org-list-dt"> ::</span> Reset tag filters: set tag filters to their default value, which
+     is usually <span class="org-verbatim">nil</span>, unless a tag filter has been preset.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Filtering by category
+</span><span class="org-meta-line">#+index: filtering, by category</span>
+
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">&lt;</span></span><span class="org-list-dt"> ::</span> Only show agenda entries that are from the same category than the
+     headline at point.  Hitting <span class="org-verbatim">&lt;</span> again when a category filter is active
+     will deactivate it.  This kind of filtering is <span class="italic">not</span> cumulative, as
+     headlines cannot have several categories.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">C-u &lt;</span></span><span class="org-list-dt"> ::</span> Hide agenda entries that are from the same category than the
+     headline at point.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Filtering by top parent headline
+</span><span class="org-meta-line">#+index: filtering, by top parent headline</span>
+
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">^</span></span><span class="org-list-dt"> ::</span> Only show siblings of the agenda entry at point.  This is useful
+     when there are many agenda entries and you want to process siblings in
+     priority.  Hitting <span class="org-verbatim">^</span> again when a top headline filter is active will
+     deactivate it.  This kind of filtering is <span class="italic">not</span> cumulative, as
+     headlines cannot have several topmost parents.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Filtering by regular expressions
+</span><span class="org-meta-line">#+index: filtering, by regular expressions</span>
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">=</span></span><span class="org-list-dt"> ::</span> Prompt for a regular expression and only show agenda entries that
+     match the regular expression.  You can successively filter by
+     regexps.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">C-u =</span></span><span class="org-list-dt"> ::</span> Filter out entries that match a regexp.  You can successively
+     filter out by regexps.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">C-u C-u =</span></span><span class="org-list-dt"> ::</span> Remove all regexps filters.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Combining and removing filters
+</span><span class="org-meta-line">#+index: filters, combining</span>
+<span class="org-meta-line">#+index: filters, removing</span>
+
+You can filter by tags, then by regexps, than by category, then by topmost
+parent -- in <span class="bold">any</span> order.
+
+To remove all filters from the current agenda view, hit <span class="org-verbatim">|</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-special-keyword">COMMENT</span><span class="org-level-2"> TODO Pre-filtering
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Agenda limits
+</span><span class="org-meta-line">#+index: limits, in agenda</span>
+<span class="org-meta-line">#+index: org-agenda-max-entries</span>
+<span class="org-meta-line">#+index: org-agenda-max-effort </span>
+<span class="org-meta-line">#+index: org-agenda-max-todos</span>
+<span class="org-meta-line">#+index: org-agenda-max-tags</span>
+
+Here is a list of options that you can set, either globally, or locally in
+your custom agenda:
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-agenda-max-entries</span></span><span class="org-list-dt"> ::</span> Limit the number of entries.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-agenda-max-effort</span></span><span class="org-list-dt"> ::</span> Limit the duration of accumulated efforts (as minutes).
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-agenda-max-todos</span></span><span class="org-list-dt"> ::</span> Limit the number of entries with TODO keywords.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-agenda-max-tags</span></span><span class="org-list-dt"> ::</span> Limit the number of tagged entries.
+
+When set to a positive integer, each option will exclude entries from other
+catogories: for example, <span class="org-verbatim">(setq org-agenda-max-effort 100)</span> will limit the
+agenda to 100 minutes of effort and exclude any entry that as no effort
+property.  If you want to include entries with no effort property, use a
+negative value for <span class="org-verbatim">org-agenda-max-effort</span>.
+
+One useful setup is to use <span class="org-verbatim">org-agenda-max-entries</span> locally in a custom
+command.  For example, this custom command will display the next five
+entries with a <span class="org-verbatim">NEXT</span> TODO keyword.
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"n"</span></span><span class="org-block"> todo </span><span class="org-block"><span class="string">"NEXT"</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-max-entries</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">5</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Once you mark one of these five entry as <span class="org-verbatim">DONE</span>, rebuilding the agenda will
+again the next five entries again, including the first entry that was
+excluded so far.
+
+You can also dynamically set temporary limits by pressing <span class="org-verbatim">~</span> (or <span class="org-verbatim">M-x
+org-agenda-limit-interactively RET</span>).  Those temporary limits are lost when
+rebuilding the agenda.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Dimming blocked task
+</span>
+<span class="org-meta-line">#+INDEX: dimming blocked tasks in agenda</span>
+<span class="org-meta-line">#+INDEX: blocked tasks, dimming in agenda</span>
+
+Blocked tasks are dimmed by default in the agenda.
+
+You can turn this feature off with this in your <span class="org-verbatim">.emacs.el</span> file:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-dim-blocked-tasks</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+This will actually speed up the agenda generation (see <span class="org-link"><a href="file:../agenda-optimization.org">the Worg page on
+Agenda optimization</a></span>).
+
+Then, if you want to turn this feature on temporarily for the current
+agenda, just enter <span class="org-verbatim">M-x org-agenda-dim-blocked-tasks RET</span> interactively.
+
+
+
+
+
+</pre>
+  </body>
+</html>

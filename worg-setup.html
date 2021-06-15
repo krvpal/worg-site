@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Worg setup on the <a href="https://orgmode.org">https://orgmode.org</a> server</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Worg setup on the <a href="https://orgmode.org">https://orgmode.org</a> server</h1>
+
+<div id="outline-container-org74bc02d" class="outline-2">
+<h2 id="org74bc02d">How does Worg publish itself as a website?</h2>
+<div class="outline-text-2" id="text-org74bc02d">
+<p>
+The server behind <a href="https://orgmode.org">https://orgmode.org</a> website takes care of publishing
+Worg into <code>HTML</code>.
+</p>
+</div>
+
+<div id="outline-container-org853ca32" class="outline-3">
+<h3 id="org853ca32">How long does it take for a change to be published?</h3>
+<div class="outline-text-3" id="text-org853ca32">
+<p>
+The changes should be available immediately following your <code>git push</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4c3ad95" class="outline-3">
+<h3 id="org4c3ad95">There is a problem.  Can I check the export output?</h3>
+<div class="outline-text-3" id="text-org4c3ad95">
+<p>
+As soon as you push a commit to the worg git repository on the org
+server, the publishing process is triggered.  You should see the
+output of the publishing process in your terminal.  If there&rsquo;s a
+problem, you should see the error in this output.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org98cea62" class="outline-3">
+<h3 id="org98cea62">Looks like file XXX breaks the export.  What can I do?</h3>
+<div class="outline-text-3" id="text-org98cea62">
+<ol class="org-ol">
+<li>Put this file in the FIXME directory at the root of the Worg
+repository.  Files in this FIXME directory won&rsquo;t be published.</li>
+
+<li>Fix the page or contact the author of the page telling him about the
+problem.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orge0393fc" class="outline-3">
+<h3 id="orge0393fc">Where are the &ldquo;raw&rdquo; .org files kept?</h3>
+<div class="outline-text-3" id="text-orge0393fc">
+<p>
+In addition to publishing the html versions of the .org files Worg&rsquo;s
+git repository, the raw source .org files are also put in
+<a href="https://orgmode.org/worg/sources">https://orgmode.org/worg/sources</a>. It is nice to make the .org file
+available for those following a tutorial so that the actual .org
+file is viewable in addition to reading through the online html
+version. To do this, simply link to the file in the worg sources directory:
+</p>
+<ul class="org-ul">
+<li>If the page in the git repository is <code>~/worg.git/path/to/file/file.org</code>,</li>
+<li>Link like so: <code>https://orgmode.org/worg/sources/path/to/file/file.org</code></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbb19d3e" class="outline-2">
+<h2 id="orgbb19d3e">Are there any writing conventions?</h2>
+<div class="outline-text-2" id="text-orgbb19d3e">
+<p>
+Please don&rsquo;t use <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html#Specifying-File-Variables">file variables</a> in your org files.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org743a1e0" class="outline-2">
+<h2 id="org743a1e0">Can Worg execute code (via Babel)?</h2>
+<div class="outline-text-2" id="text-org743a1e0">
+<p>
+No.  The default automated export does not allow code execution on the
+server for obvious security reasons.
+</p>
+
+<p>
+If you absolutely need code execution:
+</p>
+
+<ul class="org-ul">
+<li>double-check there is no issue when exporting this file locally</li>
+<li>send <a href="mailto:mdl%20AT%20imapmail%20DOT%20org">me</a> an email mentioning the file you want to export</li>
+<li>I will double-check it myself and manually export it if it&rsquo;s okay</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org91de229" class="outline-2">
+<h2 id="org91de229">What software is available on Worg for Babel code execution?</h2>
+<div class="outline-text-2" id="text-org91de229">
+<p>
+If babel code execution works on your machine, it doesn&rsquo;t mean it will
+work on the orgmode.org server.  Here is the list of available
+software on orgmode.org:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Software</th>
+<th scope="col" class="org-right">Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">GNU Emacs</td>
+<td class="org-right">23.1.90.1</td>
+</tr>
+
+<tr>
+<td class="org-left">shell</td>
+<td class="org-right">3.1</td>
+</tr>
+
+<tr>
+<td class="org-left">R</td>
+<td class="org-right">2.11.1</td>
+</tr>
+
+<tr>
+<td class="org-left">gnuplot-mode</td>
+<td class="org-right">O.6.0</td>
+</tr>
+
+<tr>
+<td class="org-left">gnuplot</td>
+<td class="org-right">4.4</td>
+</tr>
+
+<tr>
+<td class="org-left">latex</td>
+<td class="org-right">pdfeTeX 3.141592-1.21a-2.2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org5c850c9" class="outline-2">
+<h2 id="org5c850c9">What .emacs.el file is used on the server?</h2>
+<div class="outline-text-2" id="text-org5c850c9">
+<ul class="org-ul">
+<li><a href="https://orgmode.org/worg/code/elisp/emacs.el">https://orgmode.org/worg/code/elisp/emacs.el</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgec9bad1" class="outline-2">
+<h2 id="orgec9bad1">I want it for my own server!</h2>
+<div class="outline-text-2" id="text-orgec9bad1">
+<p>
+Here is the detailed recipe:
+</p>
+
+<ol class="org-ol">
+<li>Configure your <code>~/.emacs.el</code> to know about your publishing projects
+(more information on publishing <a href="http://www.gnu.org/software/emacs/manual/html_node/org/Publishing.html">here</a> and <a href="org-tutorials/org-publish-html-tutorial.html">here</a>).</li>
+
+<li><p>
+Use <code>(setq org-export-htmlize-output-type 'css)</code> in <code>~/.emacs.el</code>.
+</p>
+
+<p>
+(Do <code>C-h v org-export-htmlize-output-type</code> for more information
+about this.  Also <code>C-h v org-export-htmlize-generate-css</code> might
+help.)
+</p></li>
+
+<li><p>
+Create <code>~/bin/pull-worg.sh</code> containing this script:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh-mode">     #!/bin/bash
+
+     # unless this is already done elsewhere:
+     export PATH=$PATH:/home/you/bin/
+
+     # go to the place where you pull Worg
+     cd /home/you/git/worg/;
+
+     # pull worg
+     /home/you/bin/git-pull
+</pre>
+</div></li>
+
+<li><p>
+Create <code>~/bin/publish-worg.sh</code> containing this script:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh-mode">     #!/bin/bash
+
+     # Adapt it to point at your emacs executable
+     /home/you/bin/emacs23 --batch -l ~/.emacs.el -f org-publish-all
+</pre>
+</div></li>
+
+<li><p>
+Cron the two scripts to run every hour, not at the same time
+</p>
+
+<div class="org-src-container">
+<pre class="src src-generic-mode">     0 * * * * /home/you/bin/pull-worg.sh &gt;&gt; /dev/null 2&gt;&amp;1
+     30 * * * * /home/you/bin/publish-worg.sh &gt;&gt; /dev/null 2&gt;&amp;1
+</pre>
+</div></li>
+
+<li>Sit and do something else while your Org repository is
+automagically exported to HTML</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

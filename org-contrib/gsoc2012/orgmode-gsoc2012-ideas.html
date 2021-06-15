@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Google Summer of Code 2012</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thorsten Jolitz" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="./index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Google Summer of Code 2012</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgbd94628">Org Mode GSoC 2012 Ideas Page</a>
+<ul>
+<li><a href="#orgeb1cc9d">Real webprogramming with Org Mode and PicoLisp</a></li>
+<li><a href="#org1d6584c">Git merge tool for Org files</a></li>
+<li><a href="#orgd040496">Implement an Elisp backend for Ragel</a></li>
+<li><a href="#org6fef613">&ldquo;Notebook&rdquo; like console interface on top of Org Mode/ Babel</a></li>
+<li><a href="#org1b93c4d">Asynchronous code block execution for Org Babel</a></li>
+<li><a href="#orgffbc586">Piping results between Babel code blocks</a></li>
+<li><a href="#org4a2d431">Handling Babel code block output written to STDERR</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+  <div id="subtitle" style="float: center; text-align: center;">
+  <p>
+  Org Mode ideas for GNU's application to  <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2012">GSoC 2012</a>
+  </p>
+  <p>
+  <a href="http://www.google-melange.com/gsoc/homepage/google/gsoc2012"/>
+<img src="../../images/gsoc/2012/beach-books-beer-60pc.png"  alt="Beach, Books
+  and Beer"/>
+  </a>
+  </p>
+  </div>
+
+<div id="outline-container-orgbd94628" class="outline-2">
+<h2 id="orgbd94628">Org Mode GSoC 2012 Ideas Page</h2>
+<div class="outline-text-2" id="text-orgbd94628">
+</div>
+<div id="outline-container-orgeb1cc9d" class="outline-3">
+<h3 id="orgeb1cc9d">Real webprogramming with Org Mode and PicoLisp</h3>
+<div class="outline-text-3" id="text-orgeb1cc9d">
+<p>
+<b>Project Description:</b>
+<a href="http://picolisp.com/5000/!wiki?home">PicoLisp</a> is one out of many <a href="https://orgmode.org/worg/org-contrib/babel/languages/index.html">Org Babel languages</a>, but may be special in
+the sense that it does not only contribute to the static
+webpublishing capacities, but may introduce dynamic webprogramming on
+top of a real database into Org Mode. 
+</p>
+
+<p>
+Real interactive webprogramming frequently involves a (SQL) database
+like MySQL, a programming language like PHP or Python to build a MVC
+(Model-View-Controller) application on top of the database, a web
+framework for that programming language to make the programmers life
+easier (e.g. Django for Python), and a persistence layer that abstract
+away the conceptual mismatch between the SQL database and the (mostly)
+object-oriented application. Sometimes, a WYSIWYG html editor like MS
+Frontpage is invovled too, when webdesigners design the UI of the
+application. 
+</p>
+
+<p>
+Such an application needs user input (via &lt;form&gt; or &lt;input&gt; elements
+in the html pages) and needs to adapt dynamically to the users actions
+and queries by updating either the whole page or only parts of it
+(Javascript). For each user, a session is needed to keep track of the
+state of the application during his/her visit. 
+</p>
+
+<p>
+This kind of dynamic webprogramming can&rsquo;t be done with Org Mode.
+Typical webpages made with Org Mode are static in nature, even if they
+update their content frequently with some cron jobs on the server.
+There is no interaction with the user. 
+</p>
+
+<p>
+Considering the web stack for dynamic web apps described
+above, Org Mode really functions as a kind of &rsquo;Frontpage on steroids&rsquo;
+for highly skilled academics. The project idea is to let PicoLisp
+replace all the other elements of the webstack and combine Org Mode
+and PicoLisp into an entirely Lisp-based framework for dynamic web
+programming. 
+</p>
+
+<p>
+In the PicoLisp application framework, UI and database are unified.
+Database objects are first class members of the language, and the UI
+elements act directly on this object-oriented lisp database (that is
+fast and scalable). No external SQL storage is needed, no persistence
+layer between the relational world of the DB and the object-oriented
+world of the application, and no glue code (controller) that connects
+the view to the model. 
+</p>
+
+<p>
+By merging PicoLisp&rsquo;s framework for rapid web-application development
+with Org Modes framework for rapid (web-) content production via Org
+Babel, new kinds of websites produced with Org Mode should become
+possible.
+</p>
+
+<p>
+<b>Difficulty:</b>
+Medium
+</p>
+
+<p>
+<b>Requirements:</b>
+Elisp, PicoLisp
+</p>
+
+<p>
+<b>Recommended:</b> 
+Knowledge about the inner workings of Org-babel and the
+PicoLisp application programming framework, some experience with Git.
+</p>
+
+<p>
+<b>Mentors:</b>
+Bastien Guerry, Eric Schulte
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1d6584c" class="outline-3">
+<h3 id="org1d6584c">Git merge tool for Org files</h3>
+<div class="outline-text-3" id="text-org1d6584c">
+<p>
+<b>Project Description:</b>
+This project idea is about writing a git merge driver for Org mode
+files, in the way <a href="http://git.savannah.gnu.org/gitweb/?p%3Dgnulib.git%3Ba%3Dblob%3Bf%3Dlib/git-merge-changelog.c">git-merge-changelog</a> does this for GNU style
+ChangeLog files?
+</p>
+
+<p>
+One of the obstacle for using Org-mode for collaborative programs is
+that many operations add or remove text from the beginning or end of a
+file, or which add or remove a subnode from an outline tree. These are
+operations that confuse the git merger, in particular if two people
+have added something to a file, or removed/added sequential sibling
+nodes.
+</p>
+
+<p>
+I believe that this could be solved with a dedicated merge driver that
+understands the integrity of an outline (sub)tree, and that knows that
+the sequence of two new subtrees added by different people does not
+matter.
+</p>
+
+<p>
+The idea for this is actually (I believe) from Brian Gough who asked
+me about it at FOSDEM. I have now also run into this problem and would
+really find it great if such a merge driver could be written. 
+</p>
+
+<p>
+<b>Difficulty:</b>
+Hard
+</p>
+
+<p>
+<b>Requirements:</b>
+Git, Elisp, C
+</p>
+
+<p>
+<b>Recommended:</b> 
+Good understanding of Git and the structure of Org-mode files. 
+</p>
+
+<p>
+<b>Mentors:</b>
+Carsten Dominik
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd040496" class="outline-3">
+<h3 id="orgd040496">Implement an Elisp backend for Ragel</h3>
+<div class="outline-text-3" id="text-orgd040496">
+<p>
+<b>Project Description:</b>
+Ragel <a href="http://www.complang.org/ragel/">http://www.complang.org/ragel/</a> is a tool
+that integrates regular expressions and state machines under one
+umbrella. It has backends currently for C, C++, Objective-C, D, Java
+and Ruby. Programming an Elisp backend would be a manageable task for
+a GSoC project.
+</p>
+
+<p>
+After that org-mode code might become half as long and twice as
+fast - at least those sections that are heavily regex oriented.
+</p>
+
+<p>
+<b>Difficulty:</b>
+Medium
+</p>
+
+<p>
+<b>Requirements:</b>
+Elisp, RegExp
+</p>
+
+<p>
+<b>Recommended:</b> 
+Familiarity with Org-mode, regular expressions and state machines.
+</p>
+
+<p>
+<b>Mentors:</b>
+Bastien Guerry, Rustom Mody, Nicolas Goaziou
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6fef613" class="outline-3">
+<h3 id="org6fef613">&ldquo;Notebook&rdquo; like console interface on top of Org Mode/ Babel</h3>
+<div class="outline-text-3" id="text-org6fef613">
+<p>
+<b>Project Description:</b>
+Implementing a multi-programming-language &ldquo;notebook&rdquo; like console
+interface build on top of Org-mode and Babel (with both Emacs and
+HTML interfaces).
+</p>
+
+<p>
+<b>Difficulty:</b>
+Medium
+</p>
+
+<p>
+<b>Requirements:</b>
+Elisp, HTML
+</p>
+
+<p>
+<b>Recommended:</b> 
+Familiarity with Org-mode and Babel
+</p>
+
+<p>
+<b>Mentors:</b>
+Eric Schulte
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1b93c4d" class="outline-3">
+<h3 id="org1b93c4d">Asynchronous code block execution for Org Babel</h3>
+<div class="outline-text-3" id="text-org1b93c4d">
+<p>
+<b>Project Description:</b>
+Adding support for asynchronous code block execution.
+</p>
+
+<p>
+<b>Difficulty:</b>
+Medium
+</p>
+
+<p>
+<b>Requirements:</b>
+Elisp, C
+</p>
+
+<p>
+<b>Recommended:</b> 
+Good understanding of Org Babel and the GNU/Linux process model.
+</p>
+
+<p>
+<b>Mentors:</b>
+Eric Schulte
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgffbc586" class="outline-3">
+<h3 id="orgffbc586">Piping results between Babel code blocks</h3>
+<div class="outline-text-3" id="text-orgffbc586">
+<p>
+<b>Project Description:</b>
+Adding support for piping results between code blocks allowing many
+blocks to run concurrently (probably best combined with asynchronous
+execution).
+</p>
+
+<p>
+<b>Difficulty:</b>
+Medium
+</p>
+
+<p>
+<b>Requirements:</b>
+Elisp, C
+</p>
+
+<p>
+<b>Recommended:</b> 
+Good understanding of Org Babel and the GNU/Linux process model.
+</p>
+
+<p>
+<b>Mentors:</b>
+Eric Schulte
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4a2d431" class="outline-3">
+<h3 id="org4a2d431">Handling Babel code block output written to STDERR</h3>
+<div class="outline-text-3" id="text-org4a2d431">
+<p>
+<b>Project Description:</b>
+Adding support for handling output written to STDERR.
+</p>
+
+<p>
+<b>Difficulty:</b>
+Medium
+</p>
+
+<p>
+<b>Requirements:</b>
+Elisp
+</p>
+
+<p>
+<b>Recommended:</b> 
+Familiarity with Org Babel and GNU/Linux.
+</p>
+
+<p>
+<b>Mentors:</b>
+Eric Schulte
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thorsten Jolitz</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

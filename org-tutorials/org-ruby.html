@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-ruby</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Brian Dewey" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-ruby</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgec1e521">Motivation</a></li>
+<li><a href="#orgf8175a2">Using Org-ruby</a></li>
+<li><a href="#orgc7d25cf">Walkthrough: Using org-ruby with Webby</a></li>
+<li><a href="#orgf0dac25">Description</a></li>
+<li><a href="#org937e753">History</a>
+<ul>
+<li><a href="#org685ea91">2009-12-29: Version 0.4</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgec1e521" class="outline-2">
+<h2 id="orgec1e521">Motivation</h2>
+<div class="outline-text-2" id="text-orgec1e521">
+<p>
+The dominant simple plain-text markup languages for the web are
+<a href="http://www.textism.com/tools/textile/">Textile</a> and <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. A factor for the popularity of those markup
+formats is the widespread availability of simple, free packages for
+converting the formats to HTML. For example, the world of
+Ruby-powered websites has settled on <a href="http://redcloth.org/">RedCloth</a> for converting Textile
+to HTML.
+</p>
+
+<p>
+The default way to convert org-mode files to HTML is the powerful
+publishing functionality provided by <code>emacs</code>. However, <code>emacs</code> does
+not easiliy integrate into many existing website frameworks.
+</p>
+
+<p>
+<a href="http://github.com/bdewey/org-ruby"><code>Org-ruby</code></a> tries to make it easier to use org-mode files in both
+dyanmic and static website generation tools written in
+Ruby. <code>Org-ruby</code> is a simple Ruby gem to convert org-mode files to
+HTML.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf8175a2" class="outline-2">
+<h2 id="orgf8175a2">Using Org-ruby</h2>
+<div class="outline-text-2" id="text-orgf8175a2">
+<p>
+<code>Org-ruby</code> follows the same model as other Ruby markup
+libraries. You install the gem:
+</p>
+
+<pre class="example">
+  sudo gem install org-ruby
+</pre>
+
+<p>
+Then, to convert an org-file to HTML in your Ruby code:
+</p>
+
+<pre class="example">
+  require 'rubygems'
+  require 'org-ruby'
+
+  data = IO.read(filename)
+  puts Orgmode::Parser.new(data).to_html
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc7d25cf" class="outline-2">
+<h2 id="orgc7d25cf">Walkthrough: Using org-ruby with Webby</h2>
+<div class="outline-text-2" id="text-orgc7d25cf">
+<p>
+Here is an example of how to integrate <code>org-ruby</code> into <a href="http://webby.rubyforge.org/">Webby</a>, a
+static website generation tool written in Ruby. 
+</p>
+
+<p>
+Webby follows a similar pattern to other static site generation
+tools (like <a href="http://nanoc.stoneship.org/">nanoc</a>, <a href="http://jekyllrb.com/">Jekyll</a>, and <a href="http://webgen.rubyforge.org/">webgen</a>):
+</p>
+
+<ul class="org-ul">
+<li>You author website content in text with simple markup</li>
+<li>Each page is fed through one or more <i>filters</i> to produce HTML</li>
+<li>The HTML is mixed in with layouts to produce the final pages</li>
+</ul>
+
+<p>
+For a Webby site, a the source for a page may look like this:
+</p>
+
+<pre class="example">
+  ---
+  title:           Special Directories
+  created_at:      2009-12-17
+  status:          Complete
+  filter:
+    - erb
+    - maruku
+  tags:
+    - powershell
+  ---
+  &lt;%= @page.title %&gt;
+  ==================
+
+  Special Directories are a set of directories, each of which has a
+  function that will navigate you to the appropriate directory using
+  the push-location cmdlet. For example, the function `home` might
+  navigate to `c:\users\bdewey.`
+
+  Install
+  -------
+
+  Copy the module to somewhere in `ENV:PSModulePath`. Then,
+
+      InstallModule SpecialDirectories
+</pre>
+
+<p>
+In the above example, the text is written in <a href="http://daringfireball.net/projects/markdown/">Markdown</a>. At the top of
+the file, metadata informs Webby to pass the text through two
+<i>filters</i> to produce HTML. The first filter, <code>erb</code>, handles embedded
+Ruby. In this case, it will replace <code>&lt;%= @page.title %&gt;</code> with the
+page title (<code>Special Directories</code>). The second filter uses <a href="http://maruku.rubyforge.org/">Maruku</a> to
+translate Markdown into HTML.
+</p>
+
+<p>
+You can use the exact same pattern to include org-mode files in a
+Webby site. For this walkthrough, I assume you already have Webby
+installed, and that you&rsquo;ve already created a site.
+</p>
+
+<ol class="org-ol">
+<li>Make sure you have <code>org-ruby</code> installed: <code>sudo gem install
+     org-ruby</code>.</li>
+<li><p>
+You need to register a new Webby filter to handle org-mode
+content. Webby makes this easy. In the <code>lib/</code> folder of your
+site, create a file <code>orgmode.rb</code>:
+</p>
+
+<pre class="example">
+     require 'org-ruby'
+
+     Webby::Filters.register :org do |input|
+       Orgmode::Parser.new(input).to_html
+     end
+</pre>
+
+<p>
+This code creates a new filter, <code>org</code>, that will use the
+<code>org-ruby</code> parser to translate org-mode input into HTML.
+</p></li>
+<li><p>
+Create your content. For example:
+</p>
+
+<p>
+#+BEGIN<sub>EXAMPLE</sub>
+</p></li>
+</ol>
+<p>
+&#x2014;
+title:              Orgmode Parser
+created<sub>at</sub>:         2009-12-21
+status:             Under development
+filter:
+</p>
+<ul class="org-ul">
+<li>erb</li>
+<li>org</li>
+</ul>
+<p>
+tags:
+</p>
+<ul class="org-ul">
+<li>orgmode</li>
+<li>ruby</li>
+</ul>
+<p>
+&#x2014;
+&lt;%= @page.title %&gt;
+</p>
+
+<p>
+Status: &lt;%= @page.status %&gt;
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf0dac25" class="outline-2">
+<h2 id="orgf0dac25">Description</h2>
+<div class="outline-text-2" id="text-orgf0dac25">
+<p>
+Helpful Ruby routines for parsing orgmode files. The most
+significant thing this library does today is convert orgmode files
+to textile. Currently, you cannot do much to customize the
+conversion. The supplied textile conversion is optimized for
+extracting &ldquo;content&rdquo; from the orgfile as opposed to &ldquo;metadata.&rdquo;
+</p>
+</div>
+</div>
+
+<div id="outline-container-org937e753" class="outline-2">
+<h2 id="org937e753">History</h2>
+<div class="outline-text-2" id="text-org937e753">
+</div>
+<div id="outline-container-org685ea91" class="outline-3">
+<h3 id="org685ea91">2009-12-29: Version 0.4</h3>
+<div class="outline-text-3" id="text-org685ea91">
+<ul class="org-ul">
+<li>The first thing output in HTML gets the class &ldquo;title&rdquo;</li>
+<li>HTML output is now indented</li>
+<li><p>
+Proper support for multi-paragraph list items.
+</p>
+
+<p>
+See? This paragraph is part of the last bullet.
+</p></li>
+
+<li><p>
+Fixed bugs:
+</p>
+<ul class="org-ul">
+<li>&ldquo;rake spec&rdquo; wouldn&rsquo;t work on Linux. Needed &ldquo;require &lsquo;rubygems&rsquo;&rdquo;.
+#+END<sub>EXAMPLE</sub></li>
+</ul>
+
+<p>
+This file will go through the <code>erb</code> and <code>org</code> filters; as defined
+in the previous step, the <code>org</code> filter will use <code>org-ruby</code> to
+generate HTML.
+</p></li>
+</ul>
+
+<p>
+That&rsquo;s all there is to it! 
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Brian Dewey</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

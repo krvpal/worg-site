@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-LaTeX.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .font-latex-sedate {
+        /* font-latex-sedate-face */
+        color: #d3d3d3;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">LaTeX Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Tom Dye
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd [at] tsdye [dot] com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.tug.org/">http://www.tug.org/</a>"</span></span><span class="org-block">&gt;LaTeX&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+    Source Code Blocks
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.tug.org/">http://www.tug.org/</a>"</span></span><span class="org-block">&gt;
+      &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"images/latex-logo-for-banner.png"</span></span><span class="org-block">/&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+&lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-block-begin-line">#+begin_src latex :file latex-logo.png :buffer yes
+</span><span class="org-block"><span class="font-latex-sedate"><span class="keyword">\LaTeX</span></span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+RESULTS[32c4...]:</span>
+<span class="org-block-begin-line">#+begin_latex
+</span><span class="error"><a href="file:latex-logo.png">file:latex-logo.png</a></span>
+<span class="org-block-end-line">#+end_latex
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-done">[13/13]</span></span><span class="org-level-1">                                       </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Specify </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Configuration">Org Mode Configuration</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Other">Other</a></span></span><span class="org-headline-done"> differences from supported languages
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+LaTeX is a document markup language and a document preparation system
+for the TeX typesetting program.  The TeX program was developed by
+Donald Knuth at Stanford University to typeset complex mathematics.
+LaTeX is an extensible set of TeX macros designed to ease preparation
+of documents such as letters, articles, reports, and books.  The
+current version is LaTeX2e.  An ambitious update, LaTeX3, has been in
+the works for some time.
+
+Org Mode is able to export LaTeX directly<span class="org-footnote">[fn:1]</span>. LaTeX code embedded
+in an Org Mode file (not within source code blocks) is exported
+correctly to a number of the export backends<span class="org-footnote">[fn:2]</span>.
+
+LaTeX source code blocks can be used to tangle a LaTeX source file, or
+to create bitmap images or pdf snippets of arbitrary LaTeX code.
+Typically, this latter use involves mathematics, but it conceivably
+extends to any TeX output<span class="org-footnote">[fn:3]</span>. The LaTeX logo at the top of this
+page is a bitmap image generated from a simple LaTeX source code
+block.  The complex example provided by <span class="org-link"><a href="Andreas%20Leha">Andreas Leha</a></span>, below, uses the
+TikZ package to create a graphics image.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>
+In order to use LaTeX source code blocks to their full capacity, a
+working LaTeX installation is required.<span class="org-footnote">[fn:4]</span> LaTeX systems are
+distributed widely through various channels and one should be
+available for your computer system.  A good place to find one is the
+<span class="kc-org-link-url"><a href="http://www.tug.org">TeX Users Group</a></span>.
+
+Once LaTeX is installed and is working correctly, you will need to
+tell Emacs where to find the various LaTeX executable files.  The
+location of these files is likely distribution dependent: my MacTeX
+distribution places them in the <span class="org-verbatim">/usr/texbin</span> subdirectory.
+Accordingly, I have this in <span class="org-verbatim">.emacs</span>:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :exports code
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/usr/texbin"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Org Mode can generate <span class="kc-org-link-url"><a href="http://www.w3.org/Press/PNG-fact.html">Portable Network Graphics</a></span> (png) bitmaps from
+LaTeX source code blocks, which it does with the <span class="org-verbatim">dvipng</span> program that
+comes with most LaTeX distributions.  If you want to generate bitmaps
+in other file formats, then you will need to install <span class="kc-org-link-url"><a href="http://www.imagemagick.org/script/index.php">ImageMagick</a></span>, a
+software suite to create, edit, compose or convert bitmap images.
+Ensure that the ImageMagick executables are installed somewhere on the
+Emacs <span class="org-verbatim">exec-path</span>.
+
+If you plan to edit LaTeX source code blocks separately, with <span class="org-verbatim">C-c</span> ',
+or want to control the size of pdf snippets, then it is highly
+recommended that <span class="kc-org-link-url"><a href="http://www.gnu.org/software/auctex/">AucTeX</a></span> be installed, as well.  AucTeX is an
+extensible package for writing and formatting TeX files.  Assuming
+that AucTeX is installed properly, the following line in <span class="org-verbatim">.emacs</span> will
+ensure that AucTeX is loaded.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">load</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"auctex.el"</span></span><span class="org-block"> nil t t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Also highly recommended is <span class="kc-org-link-url"><a href="http://www.gnu.org/software/auctex/reftex.html">RefTeX</a></span>, a cross-reference, bibliography,
+glossary, and index manager initially written by the creator of Org
+Mode, Carsten Dominik.  Add the following line to <span class="org-verbatim">.emacs</span>:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">LaTeX-mode-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">turn-on-reftex</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+</span><span class="org-block-end-line">#+end_src
+</span>
+Finally, you'll need to ensure that <span class="org-verbatim">org-babel-load-languages</span> includes
+an entry for LaTeX.  Typically, <span class="org-verbatim">org-babel-load-languages</span> will contain
+many entries.  The example below omits other languages.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :tangle yes
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">latex . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for LaTeX Source Code Blocks
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>
+LaTeX source code blocks set default values for two standard header
+arguments.  In addition, several LaTeX-specific header arguments are
+defined to control creation of bitmap images and pdf snippets.
+ 
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> LaTeX-specific Default Values
+</span>
+The LaTeX-specific default value of the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/results.html#results">=:results= header argument</a></span> is
+"latex", which wraps the results in a <span class="org-verbatim">#+BEGIN_LaTeX ... #+END_LaTeX</span>
+block.
+
+The LaTeX-specific default value of the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/exports.html#exports">=:exports= header argument</a></span> is
+"results".
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> LaTeX-specific Header Arguments
+</span>
+The standard <span class="kc-org-link-url"><a href="https://orgmode.org/manual/file.html#file">=:file= header argument</a></span> associated with a LaTeX source
+code block by itself can take the name of either a Portable Network
+Graphics (png) or a Portable Document Format (pdf) file.  File names
+for other bitmap file types can be supplied in conjunction with the
+<span class="org-verbatim">:imagemagick</span> header argument, described below.
+
+The <span class="org-verbatim">:buffer</span> header argument is a LaTeX-specific header argument that
+takes the values <span class="org-verbatim">yes</span> or <span class="org-verbatim">no</span>.  It is consulted when a bitmap image has
+been requested using the <span class="org-verbatim">:file</span> header argument.  If <span class="org-verbatim">:buffer yes</span>, the
+default, then Org Mode consults the values of <span class="org-verbatim">org-format-latex-options</span>
+and passes these to the <span class="org-verbatim">dvipng</span> program.  If <span class="org-verbatim">:buffer no</span>, then Org Mode
+takes background and foreground colors from the Emacs buffer.
+
+Several LaTeX-specfic header arguments control production of pdf
+snippets.  The LaTeX-specific <span class="org-verbatim">:headers</span> header argument takes a Lisp
+list that specifies entries for the LaTeX preamble, e.g.,
+'("\\usepackage{tikz}").  The <span class="org-verbatim">:fit</span> header argument invokes the <span class="kc-org-link-url"><a href="http://www.ctan.org/tex-archive/macros/latex/contrib/preview">LaTeX
+preview package</a></span>, which is developed and distributed along with AucTeX.
+The <span class="org-verbatim">:border</span> header argument takes a <span class="kc-org-link-url"><a href="http://en.wikibooks.org/wiki/LaTeX/Useful_Measurement_Macros#Length_.27macros.27">LaTeX length</a></span>, which should be
+greater than <span class="org-verbatim">0.50001bp</span>, or half a usual PostScript point.  This can be
+used to make pdf pages larger than they are by default.  The header
+arguments <span class="org-verbatim">:pdfheight</span> and <span class="org-verbatim">:pdfwidth</span> set the dimensions of the pdf page.
+They can be passed a valid LaTeX length.
+
+Andreas Leha added the ability to produce bitmaps in formats other
+than png, using the LaTeX-specific <span class="org-verbatim">:imagemagick</span> header argument.
+Quoting Andreas' notice sent to the Org Mode list<span class="org-footnote">[fn:5]</span>.
+
+LaTeX source blocks now have three new options:
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:imagemagick</span></span><span class="org-list-dt"> ::</span>
+  When not nil the source block is processed to pdf and the pdf is
+  converted with ImageMagick to whatever is given as <span class="org-verbatim">:file</span>.
+  Thus, the format is not limited to png.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:iminoptions</span></span><span class="org-list-dt"> ::</span>
+  This is passed to ImageMagick before the pdf file.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:imoutoptions</span></span><span class="org-list-dt"> ::</span>
+  This is passed to ImageMagick before the output file.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>
+LaTeX does not support sessions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span>
+ The default result type is <span class="org-verbatim">latex</span>, which wraps the results in a
+<span class="org-verbatim">#+BEGIN_LaTeX ... #+END_LaTeX</span> block.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Other
+</span>
+LaTeX source code blocks are a special case because their
+functionality largely overlaps with the export facilities in Org Mode.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> "Hello World"
+</span>
+At its simplest, Org Mode evaluation of LaTeX source code blocks with
+<span class="org-verbatim">C-c C-c</span> wraps the results in a <span class="org-verbatim">#+BEGIN_LaTeX ... #+END_LaTeX</span> block.
+
+<span class="org-code">: #+name: hello-world
+: #+BEGIN_SRC latex
+: \LaTeX
+: #+END_SRC
+</span>
+<span class="org-code">: #+RESULTS: hello-world
+: #+BEGIN_LaTeX
+: \LaTeX
+: #+END_LaTeX
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Andreas Leha
+</span>
+This complex example was posted to the Org Mode list by Andreas Leha.
+It depends on a working installation of the R statistical
+software.<span class="org-footnote">[fn:6]</span> The code makes use of R sessions to preserve state
+between R source code blocks.
+
+The first source code block loads the <span class="kc-org-link-url"><a href="http://www.texample.net/tikz/resources/">TikZ package</a></span>, which defines a
+language to produce vector graphics from a geometric/algebraic
+description.
+
+<span class="org-block-begin-line">#+begin_src R :session :exports code :results silent
+</span>  library("tikzDevice")
+<span class="org-block-end-line">#+end_src
+</span>
+A simple plot is generated and output as LaTeX code by the TikZ device
+in R.
+
+<span class="org-meta-line">#+name: test_plot</span>
+<span class="org-block-begin-line">#+begin_src R :session :exports code :results output latex
+</span>  tikz(console=TRUE, width=4, height=4)
+  plot(rnorm(100), rnorm(100))
+  dummy &lt;- dev.off()
+<span class="org-block-end-line">#+end_src
+</span>
+The LaTeX output of this R code is processed by a LaTeX source code
+block, using Org Mode's noweb syntax.  Note the various <span class="org-verbatim">#+header:</span>
+lines and their settings, which serve to configure ImageMagick.  In
+this case, a png file is being produced outside the usual Org Mode
+path through <span class="org-verbatim">dvipng</span>.  Note that the header presented here has been
+simplified somewhat.  Interested readers might want to review Andreas'
+original post.
+
+<span class="org-code">: #+name: test_plot_png
+: #+header: :exports results :file test.png 
+: #+header: :imagemagick yes :iminoptions -density 600 :imoutoptions -geometry 400 
+: #+header: :fit yes :noweb yes :headers '("\\usepackage{tikz}")
+: #+begin_src latex :exports results :file test.png 
+:   &lt;&lt;test_plot()&gt;&gt;
+: #+end_src
+</span>
+With this header, the LaTeX output of the TikZ device in R yields a
+graph of the random number generation.
+
+<span class="org-meta-line">#+Caption:</span> <span class="org-block">Results of evaluating a LaTeX source code block.</span>
+<span class="org-meta-line">#+RESULTS: test_plot_png</span>
+<span class="org-link"><a href="file:images/test.png">file:images/test.png</a></span>
+
+If the header is changed so the results are not written to a file,
+then the LaTeX code generated by the TikZ device is written to the Org
+Mode buffer.  The results shown below have been shortened somewhat for
+illustrative purposes.
+
+<span class="org-code">: #+name: test_plot_tikz
+: #+begin_src latex :noweb yes :exports results
+:   &lt;&lt;test_plot()&gt;&gt;
+: #+end_src
+</span>
+<span class="org-meta-line">#+RESULTS: test_plot_tikz</span>
+<span class="org-code">: #+BEGIN_LaTeX
+: % Created by tikzDevice version 0.6.2 on 2012-02-08 21:28:07
+: % !TEX encoding = UTF-8 Unicode
+: \begin{tikzpicture}[x=1pt,y=1pt]
+: \definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+: \definecolor[named]{fillColor}{rgb}{1.00,1.00,1.00}
+: \fill[color=fillColor,fill opacity=0.00,] (0,0) rectangle (289.08,289.08);
+: \begin{scope}
+: \path[clip] ( 49.20, 61.20) rectangle (263.88,239.88);
+: \definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+: \draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (184.34, 99.14) circle (  2.25);
+:
+: ...
+:
+: \draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (143.44,134.70) circle (  2.25);
+: \end{scope}
+: \begin{scope}
+: \path[clip] (  0.00,  0.00) rectangle (289.08,289.08);
+: \definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+:
+: \draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 75.29, 61.20) -- (250.80, 61.20);
+:
+: \draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 61.20) --
+</span>:<span class="whitespace-tab">       </span>(263.88, 61.20) --
+:<span class="whitespace-tab">       </span>(263.88,239.88) --
+:<span class="whitespace-tab">       </span>( 49.20,239.88) --
+:<span class="whitespace-tab">       </span>( 49.20, 61.20);
+<span class="org-code">: \end{scope}
+: \begin{scope}
+: \path[clip] (  0.00,  0.00) rectangle (289.08,289.08);
+: \definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+: 
+: \node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (156.54, 13.20) {rnorm(100)};
+:
+: \node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 13.20,150.54) {rnorm(100)};
+: \end{scope}
+: \end{tikzpicture}
+: #+END_LaTeX
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Backend dependent execution -- conditionally export tikz to SVG on HTML export
+</span>
+This example demonstrates the handling of a LaTeX code block
+differently depending on the export backend.  If the following file is
+exported to HTML the tikz code block will be converted to an SVG
+images, while on export to pdf (through LaTeX) the tikz code will
+simply be inserted into the document verbatim.
+
+<span class="org-code">: #+LATEX_HEADER: \usepackage{tikz}
+: 
+: First execute the second code block, to define the convenience macro
+: and to set the required new variables in ob-latex.el.  Then export to
+: HTML and to pdf to see the tree exported as an SVG image and as
+: embedded tikz respectively.
+: 
+: * Tikz test
+: Here's a tree, exported to both html and pdf.
+: 
+: #+header: :file (by-backend (html "tree.svg") (t 'nil))
+: #+header: :imagemagick
+: #+header: :results (by-backend (pdf "latex") (t "raw"))
+: #+begin_src latex
+:   \usetikzlibrary{trees}
+:   \begin{tikzpicture}
+:     \node [circle, draw, fill=red!20] at (0,0) {1}
+:     child { node [circle, draw, fill=blue!30] {2}
+:       child { node [circle, draw, fill=green!30] {3} }
+:       child { node [circle, draw, fill=yellow!30] {4} }};
+:   \end{tikzpicture}
+: #+end_src
+: 
+: * COMMENT setup
+: #+begin_src emacs-lisp :results silent
+:   (setq org-babel-latex-htlatex "htlatex")
+:   (defmacro by-backend (&amp;rest body)
+:     `(case (if (boundp 'backend) (org-export-backend-name backend) nil) ,@body))
+: #+end_src
+</span>
+This allows for the automatic composition of beautiful scalable
+graphics across both HTML and pdf from a single document and image
+source.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Latex Options                                                   </span><span class="org-level-2"><span class="org-tag">:noexport:</span></span><span class="org-level-2">
+</span>
+<span class="org-meta-line">#+LATEX_HEADER: \usepackage{tikz}</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> See <span class="kc-org-link-url"><a href="https://orgmode.org/manual/LaTeX-export.html#LaTeX-export">LaTeX export</a></span> instructions in the manual.
+
+<span class="org-footnote">[fn:2]</span> See <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Embedded-LaTeX.html#Embedded-LaTeX">https://orgmode.org/manual/Embedded-LaTeX.html#Embedded-LaTeX</a></span>.
+
+<span class="org-footnote">[fn:3]</span> See <span class="kc-org-link-url"><a href="http://www.tug.org/texshowcase/">http://www.tug.org/texshowcase/</a></span> for a showcase of TeX examples.
+
+<span class="org-footnote">[fn:4]</span> You can tangle a LaTeX file without a working LaTeX
+  installation, but it won't be possible to compile this file.
+
+<span class="org-footnote">[fn:5]</span> See <span class="kc-org-link-url"><a href="http://lists.gnu.org/archive/html/emacs-orgmode/2011-02/msg01297.html">http://lists.gnu.org/archive/html/emacs-orgmode/2011-02/msg01297.html</a></span>.
+
+<span class="org-footnote">[fn:6]</span> See <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-R.html">https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-R.html</a></span>
+
+</pre>
+  </body>
+</html>

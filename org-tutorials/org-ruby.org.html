@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-ruby.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">org-ruby
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Brian Dewey
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">bdewey@gmail.com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Motivation
+</span>
+  The dominant simple plain-text markup languages for the web are
+  <span class="kc-org-link-url"><a href="http://www.textism.com/tools/textile/">Textile</a></span> and <span class="kc-org-link-url"><a href="http://daringfireball.net/projects/markdown/">Markdown</a></span>. A factor for the popularity of those markup
+  formats is the widespread availability of simple, free packages for
+  converting the formats to HTML. For example, the world of
+  Ruby-powered websites has settled on <span class="kc-org-link-url"><a href="http://redcloth.org/">RedCloth</a></span> for converting Textile
+  to HTML.
+
+  The default way to convert org-mode files to HTML is the powerful
+  publishing functionality provided by <span class="org-verbatim">emacs</span>. However, <span class="org-verbatim">emacs</span> does
+  not easiliy integrate into many existing website frameworks.
+
+  <span class="kc-org-link-url"><a href="http://github.com/bdewey/org-ruby">=Org-ruby=</a></span> tries to make it easier to use org-mode files in both
+  dyanmic and static website generation tools written in
+  Ruby. <span class="org-verbatim">Org-ruby</span> is a simple Ruby gem to convert org-mode files to
+  HTML.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using Org-ruby
+</span>
+  <span class="org-verbatim">Org-ruby</span> follows the same model as other Ruby markup
+  libraries. You install the gem:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  sudo gem install org-ruby
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+  Then, to convert an org-file to HTML in your Ruby code:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  require 'rubygems'
+  require 'org-ruby'
+
+  data = IO.read(filename)
+  puts Orgmode::Parser.new(data).to_html
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Walkthrough: Using org-ruby with Webby
+</span>
+  Here is an example of how to integrate <span class="org-verbatim">org-ruby</span> into <span class="kc-org-link-url"><a href="http://webby.rubyforge.org/">Webby</a></span>, a
+  static website generation tool written in Ruby. 
+
+  Webby follows a similar pattern to other static site generation
+  tools (like <span class="kc-org-link-url"><a href="http://nanoc.stoneship.org/">nanoc</a></span>, <span class="kc-org-link-url"><a href="http://jekyllrb.com/">Jekyll</a></span>, and <span class="kc-org-link-url"><a href="http://webgen.rubyforge.org/">webgen</a></span>):
+
+  <span class="org-list-dt">-</span> You author website content in text with simple markup
+  <span class="org-list-dt">-</span> Each page is fed through one or more <span class="italic">filters</span> to produce HTML
+  <span class="org-list-dt">-</span> The HTML is mixed in with layouts to produce the final pages
+
+  For a Webby site, a the source for a page may look like this:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  ---
+  title:           Special Directories
+  created_at:      2009-12-17
+  status:          Complete
+  filter:
+    </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> erb
+    </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> maruku
+  tags:
+    </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> powershell
+  ---
+  &lt;%= </span><span class="custom"><span class="org-formula">@page</span></span><span class="custom">.title %&gt;
+  ==================
+
+  Special Directories are a set of directories, each of which has a
+  function that will navigate you to the appropriate directory using
+  the push-location cmdlet. For example, the function `home` might
+  navigate to `c:\users\bdewey.`
+
+  Install
+  -------
+
+  Copy the module to somewhere in `ENV:PSModulePath`. Then,
+
+      InstallModule SpecialDirectories
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+  In the above example, the text is written in <span class="kc-org-link-url"><a href="http://daringfireball.net/projects/markdown/">Markdown</a></span>. At the top of
+  the file, metadata informs Webby to pass the text through two
+  <span class="italic">filters</span> to produce HTML. The first filter, <span class="org-verbatim">erb</span>, handles embedded
+  Ruby. In this case, it will replace <span class="org-code">&lt;%= </span><span class="org-code"><span class="org-formula">@page</span></span><span class="org-code">.title %&gt;</span> with the
+  page title (<span class="org-verbatim">Special Directories</span>). The second filter uses <span class="kc-org-link-url"><a href="http://maruku.rubyforge.org/">Maruku</a></span> to
+  translate Markdown into HTML.
+
+  You can use the exact same pattern to include org-mode files in a
+  Webby site. For this walkthrough, I assume you already have Webby
+  installed, and that you've already created a site.
+
+  <span class="org-list-dt">1.</span> Make sure you have <span class="org-verbatim">org-ruby</span> installed: <span class="org-verbatim">sudo gem install
+     org-ruby</span>.
+  <span class="org-list-dt">2.</span> You need to register a new Webby filter to handle org-mode
+     content. Webby makes this easy. In the <span class="org-verbatim">lib/</span> folder of your
+     site, create a file <span class="org-verbatim">orgmode.rb</span>:
+
+<span class="org-block-begin-line">     #+BEGIN_EXAMPLE
+</span><span class="custom">     require 'org-ruby'
+
+     Webby::Filters.register :org do |input|
+       Orgmode::Parser.new(input).to_html
+     end
+</span><span class="org-block-end-line">     #+END_EXAMPLE
+</span>
+     This code creates a new filter, <span class="org-verbatim">org</span>, that will use the
+     <span class="org-verbatim">org-ruby</span> parser to translate org-mode input into HTML.
+  <span class="org-list-dt">3.</span> Create your content. For example:
+
+<span class="org-block-begin-line">     #+BEGIN_EXAMPLE
+</span><span class="custom">---
+title:              Orgmode Parser
+created_at:         2009-12-21
+status:             Under development
+filter:
+  </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> erb
+  </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> org
+tags:
+  </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> orgmode
+  </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> ruby
+---
+&lt;%= </span><span class="custom"><span class="org-formula">@page</span></span><span class="custom">.title %&gt;
+
+  Status: &lt;%= </span><span class="custom"><span class="org-formula">@page</span></span><span class="custom">.status %&gt;
+
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Description
+</span>
+  Helpful Ruby routines for parsing orgmode files. The most
+  significant thing this library does today is convert orgmode files
+  to textile. Currently, you cannot do much to customize the
+  conversion. The supplied textile conversion is optimized for
+  extracting "content" from the orgfile as opposed to "metadata."
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> History
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> 2009-12-29: Version 0.4
+</span>
+   <span class="org-list-dt">-</span> The first thing output in HTML gets the class "title"
+   <span class="org-list-dt">-</span> HTML output is now indented
+   <span class="org-list-dt">-</span> Proper support for multi-paragraph list items.
+
+     See? This paragraph is part of the last bullet.
+     
+   <span class="org-list-dt">-</span> Fixed bugs:
+     <span class="org-list-dt">-</span> "rake spec" wouldn't work on Linux. Needed "require 'rubygems'".
+<span class="org-meta-line">       #+END_EXAMPLE</span>
+
+     This file will go through the <span class="org-verbatim">erb</span> and <span class="org-verbatim">org</span> filters; as defined
+     in the previous step, the <span class="org-verbatim">org</span> filter will use <span class="org-verbatim">org-ruby</span> to
+     generate HTML.
+
+  That's all there is to it! 
+</pre>
+  </body>
+</html>

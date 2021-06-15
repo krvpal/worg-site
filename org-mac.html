@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org and Mac OS X</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org and Mac OS X</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb90087b">For use within Emacs</a>
+<ul>
+<li><a href="#org4e2655d">org-mac-iCal &#x2013; import OS X iCal.app events into Emacs diary</a></li>
+<li><a href="#orgc7e9731">org-mac-link &#x2013; Hyperlink to items in mac applications</a></li>
+<li><a href="#org16ff9a6">org-mac-mail-link &#x2013; Hyperlink to messages in Mail.app</a></li>
+</ul>
+</li>
+<li><a href="#org2bde9cb">For use outside Emacs</a>
+<ul>
+<li><a href="#org3fd96c0">org-mac-protocol &#x2013; create links and remember notes from a variety of OS X applications</a>
+<ul>
+<li><a href="#org9b5f900">Obtaining</a></li>
+</ul>
+</li>
+<li><a href="#org067b7b7">org-mac-maillink &#x2013; linking to messages in OS X Microsoft Entourage app</a></li>
+<li><a href="#orga2002e3">alfred-org-capture - Use Alfred to run org-capture</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+Assorted hacks to interact with org-mode whilst working with OS X
+applications other than Emacs&#x2026;
+</p>
+
+<div id="outline-container-orgb90087b" class="outline-2">
+<h2 id="orgb90087b">For use within Emacs</h2>
+<div class="outline-text-2" id="text-orgb90087b">
+<p>
+Pull information from other applications into org-mode.
+</p>
+</div>
+
+<div id="outline-container-org4e2655d" class="outline-3">
+<h3 id="org4e2655d"><a href="org-contrib/org-mac-iCal.html">org-mac-iCal</a> &#x2013; import OS X iCal.app events into Emacs diary</h3>
+<div class="outline-text-3" id="text-org4e2655d">
+<p>
+Written by <i>Christopher Suckling</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc7e9731" class="outline-3">
+<h3 id="orgc7e9731"><a href="org-contrib/org-mac-link.html">org-mac-link</a> &#x2013; Hyperlink to items in mac applications</h3>
+<div class="outline-text-3" id="text-orgc7e9731">
+<p>
+grab the current link or selection from an open mac application and
+insert it as a hyperlink at point in an org-mode document. Written
+by <i>Anthony Lander</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org16ff9a6" class="outline-3">
+<h3 id="org16ff9a6"><a href="org-contrib/org-mac-mail-link.html">org-mac-mail-link</a> &#x2013; Hyperlink to messages in Mail.app</h3>
+<div class="outline-text-3" id="text-org16ff9a6">
+<p>
+A small elisp file that addresses linking to Mail.app messages
+directly via the <code>org-capture</code> system. For wider application
+support check out <a href="org-contrib/org-mac-link.html">org-mac-link</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2bde9cb" class="outline-2">
+<h2 id="org2bde9cb">For use outside Emacs</h2>
+<div class="outline-text-2" id="text-org2bde9cb">
+<p>
+Push information from the current application into org-mode.
+</p>
+</div>
+
+<div id="outline-container-org3fd96c0" class="outline-3">
+<h3 id="org3fd96c0"><a href="http://github.com/claviclaws/org-mac-protocol">org-mac-protocol</a> &#x2013; create links and remember notes from a variety of OS X applications</h3>
+<div class="outline-text-3" id="text-org3fd96c0">
+<p>
+Written by <i>Christopher Suckling</i>.
+Address Book support by <i>Alexander Poslavsky</i>.
+</p>
+
+<pre class="example">
+Version: 0.634
+</pre>
+
+
+<p>
+A suite of scripts that allow the user to annotate their org-mode
+buffers without switching focus from other OS X applications.
+</p>
+
+<p>
+The following applications are currently supported:
+</p>
+
+<ul class="org-ul">
+<li><a href="http://www.apple.com/safari/">Safari</a>, including links to multiple tabs</li>
+<li><a href="http://www.mozilla.org/firefox/">Firefox</a></li>
+<li><a href="http://www.google.com/chrome/">Google Chrome</a></li>
+<li>Mail</li>
+<li>Address Book</li>
+<li><a href="http://skim-app.sourceforge.net/">Skim</a></li>
+<li><a href="http://bibdesk.sourceforge.net/">BibDesk</a></li>
+<li>Pages</li>
+<li>Numbers</li>
+<li><a href="http://www.apple.com/iwork/keynote/">Keynote</a></li>
+<li><a href="http://www.apple.com/itunes/">iTunes</a></li>
+<li>Finder</li>
+<li>Terminal</li>
+</ul>
+</div>
+
+<div id="outline-container-org9b5f900" class="outline-4">
+<h4 id="org9b5f900">Obtaining</h4>
+<div class="outline-text-4" id="text-org9b5f900">
+<p>
+A git repository, together with full documentation, can be found at <a href="http://github.com/claviclaws/org-mac-protocol">http://github.com/claviclaws/org-mac-protocol</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org067b7b7" class="outline-3">
+<h3 id="org067b7b7"><a href="org-contrib/org-mac-maillink.html">org-mac-maillink</a> &#x2013; linking to messages in OS X Microsoft Entourage app</h3>
+<div class="outline-text-3" id="text-org067b7b7">
+<p>
+A short Applescript/terminal hack that allows the user to create a link to a
+message from within the Microsoft Entourage application and
+paste it directly into an Org-mode file.  The link uses the email&rsquo;s
+subject line as its description.
+Written by <i>Matt Strickland</i>.
+</p>
+</div>
+</div>
+<div id="outline-container-orga2002e3" class="outline-3">
+<h3 id="orga2002e3"><a href="org-contrib/alfred-org-capture.html">alfred-org-capture</a> - Use <a href="https://www.alfredapp.com/">Alfred</a> to run org-capture</h3>
+<div class="outline-text-3" id="text-orga2002e3">
+<p>
+Use Alfred to call up org-capture from only a couple key strokes
+Written by <i>JJ Asghar</i>. With acknowledged work by <i>Haider Rizvi,
+Robert P. Goldman, Alan Schmitt, Alexander Baier, and Damon Haley</i>
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

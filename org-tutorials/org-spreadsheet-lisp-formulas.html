@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org as a spreadsheet system: using Emacs lisp as formulas</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org as a spreadsheet system: using Emacs lisp as formulas</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf2c270d">Introduction</a></li>
+<li><a href="#orgd54a48c">Example 1: manipulate cells</a></li>
+<li><a href="#orge1e43d6">Example 2: manipulating ranges</a></li>
+<li><a href="#orge339e5f">Conclusion</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgf2c270d" class="outline-2">
+<h2 id="orgf2c270d">Introduction</h2>
+<div class="outline-text-2" id="text-orgf2c270d">
+<p>
+This tutorial explains how to use Emacs Lisp as formulas in Org tables.  If
+you want a general tutorial on how to use Org as a spreadsheet system, read
+<a href="org-spreadsheet-intro.html">this tutorial</a>.  You can also check the complete <a href="https://orgmode.org/manual/The-spreadsheet.html#The-spreadsheet">Org documentation</a> on this
+topic<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd54a48c" class="outline-2">
+<h2 id="orgd54a48c">Example 1: manipulate cells</h2>
+<div class="outline-text-2" id="text-orgd54a48c">
+<p>
+Here is a simple table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">First name</th>
+<th scope="col" class="org-left">Last Name</th>
+<th scope="col" class="org-left">Email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">John</td>
+<td class="org-left">Doe</td>
+<td class="org-left">john.doe@emacs.edu</td>
+</tr>
+
+<tr>
+<td class="org-left">Jennie</td>
+<td class="org-left">Duh</td>
+<td class="org-left">jennie.duh@emacs.edu</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+You easily notice the pattern <code>[firstname].[lastname]@emacs.edu</code> for the
+third column.  Given a first name and a last name, it should be easy to
+compute the result for the &ldquo;Email&rdquo; column.
+</p>
+
+<p>
+Okay, let&rsquo;s do it then.  First put your cursor in the third column:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/bzg/org-spreadsheet-table1.jpg" alt="org-spreadsheet-table1.jpg" />
+</p>
+</div>
+
+<p>
+Now type <code>C-c }</code> to display the table&rsquo;s coordinates.
+</p>
+
+<p>
+For each row, you want to concatenate the content of the first column
+(accessed with <code>$1</code>) to a string with a dot (&ldquo;.&rdquo;) to the cell of the second
+column (accessed with <code>$2</code>) and to the string &ldquo;@emacs.edu&rdquo;.  In Emacs Lisp,
+you would write this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span>concat $1 <span style="color: #e2c770;">"."</span> $2 <span style="color: #e2c770;">"@emacs.edu"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Now copy this formula, type <code>C-c =</code> in the bottom right field to insert a
+<i>column formula</i><sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> and copy the formula here.  Hitting <code>RET</code> will
+immediately insert the result in this field (<code>Jack.Goody@emacs.edu</code>) and
+add the <code>#+TBLFM</code> line at the bottom of the table.
+</p>
+
+<p>
+<b>Caveat</b>: beware of the initial quote: the formula is the <i>expression
+itself</i>, not its value.  This expression will only have a meaning when the
+<code>$1</code> and <code>$2</code> references will be replaced by the right strings, an the
+expression will then by applied as a formula by pressing <code>C-c C-c</code> on
+<code>#+TBLFM</code>.
+</p>
+
+<p>
+So you now have this table:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/bzg/org-spreadsheet-table2.jpg" alt="org-spreadsheet-table2.jpg" />
+</p>
+</div>
+
+<p>
+At the time the formula is evaluated, the references <code>$1</code> and <code>$2</code> are
+interpreted and replaced by the values of these cells <i>as strings</i>: you
+don&rsquo;t need to enclose <code>$1</code> with quotes (&ldquo;$1&rdquo;).
+</p>
+
+<p>
+If you want to force the references (<code>$1</code> and <code>$2</code>) to be interpreted as
+numbers, add the flag <code>;N</code> at the end of the Emacs lisp expression.  See
+for example this table
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">First name</th>
+<th scope="col" class="org-left">Last Name</th>
+<th scope="col" class="org-right">Maths</th>
+<th scope="col" class="org-right">French</th>
+<th scope="col" class="org-right">Mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">John</td>
+<td class="org-left">Doe</td>
+<td class="org-right">12</td>
+<td class="org-right">16</td>
+<td class="org-right">14</td>
+</tr>
+
+<tr>
+<td class="org-left">Jennie</td>
+<td class="org-left">Duh</td>
+<td class="org-right">15</td>
+<td class="org-right">9</td>
+<td class="org-right">12</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+where we used this formula for the fifth column:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TBLFM: $5='(/ (+ $3 $4) 2);N</span>
+</pre>
+</div>
+
+<p>
+As an exercise, try to find Emacs lisp formula for the fifth column in this
+table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">First name</th>
+<th scope="col" class="org-left">Last Name</th>
+<th scope="col" class="org-right">Maths</th>
+<th scope="col" class="org-right">French</th>
+<th scope="col" class="org-left">Mean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">John</td>
+<td class="org-left">Doe</td>
+<td class="org-right">12</td>
+<td class="org-right">16</td>
+<td class="org-left">John: 14</td>
+</tr>
+
+<tr>
+<td class="org-left">Jennie</td>
+<td class="org-left">Duh</td>
+<td class="org-right">15</td>
+<td class="org-right">9</td>
+<td class="org-left">Jennie: 12</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+All you have is the values of the first four columns.  (Hint: check the
+Emacs lisp functions <code>string-to-number</code> and <code>number-to-string</code>.)
+</p>
+
+<p>
+<b>Solution</b>: we cannot use the <code>;N</code> flag because it will force
+interpretation of the cells as numbers, and if we do so, we will not be
+able to access the value of cells in the first row.  So one idea is to
+use <code>string-to-number</code> and <code>number-to-string</code> this way:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TBLFM: $5='(concat $1 ": " (number-to-string (/ (+ (string-to-number $3) (string-to-number $4)) 2)))</span>
+</pre>
+</div>
+
+<p>
+Another idea is to use the <code>;L</code> flag: instead of using interpreting cells
+as strings or numbers, it inserts their content literally in the Emacs lisp
+expression.  So the formula above can safely be replaced by this more
+condensed one:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TBLFM: $5='(concat "$1" ": " (number-to-string (/ (+ $3 $4) 2)));L</span>
+</pre>
+</div>
+
+<p>
+Note the double-quotes around &ldquo;$1&rdquo;: that&rsquo;s because inserting a first name
+literally would mean &ldquo;it is an Emacs lisp symbol&rdquo;.  So, when using the <code>;L</code>
+flag, adding double-quotes makes sure the reference is interpreted as a
+string.
+</p>
+
+<p>
+We&rsquo;re done!
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge1e43d6" class="outline-2">
+<h2 id="orge1e43d6">Example 2: manipulating ranges</h2>
+<div class="outline-text-2" id="text-orge1e43d6">
+<p>
+Suppose now we have this table
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Col1</th>
+<th scope="col" class="org-left">Col2</th>
+<th scope="col" class="org-left">Col3</th>
+<th scope="col" class="org-left">Col4</th>
+<th scope="col" class="org-left">Col5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">?</td>
+<td class="org-left">?</td>
+<td class="org-left">in Col1 and Col2 (no duplicates)</td>
+<td class="org-left">only in Col1</td>
+<td class="org-left">only in Col2</td>
+</tr>
+
+<tr>
+<td class="org-left">?</td>
+<td class="org-left">?</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+</tr>
+
+<tr>
+<td class="org-left">?</td>
+<td class="org-left">?</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+<td class="org-left">&#x2026;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<code>Col1</code> and <code>Col2</code> contain strings.
+</p>
+
+<p>
+We want the first cell of the third column to contain a string with all the
+strings that are in both <code>Col1</code> and <code>Col2</code>, with no duplicates.  <code>Col4</code>
+contains strings that are only in <code>Col1</code> (and not in <code>Col2</code>) whereas <code>Col5</code>
+contains strings that are only in <code>Col2</code> (and not in <code>Col1</code>).
+</p>
+
+<p>
+How to automate this with an Emacs lisp formula?
+</p>
+
+<p>
+Let&rsquo;s first figure out the result we want for a simple table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Col1</th>
+<th scope="col" class="org-left">Col2</th>
+<th scope="col" class="org-left">Col3</th>
+<th scope="col" class="org-left">Col4</th>
+<th scope="col" class="org-left">Col5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">a</td>
+<td class="org-left">a b c d</td>
+<td class="org-left">c</td>
+<td class="org-left">d</td>
+</tr>
+
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">b</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">b</td>
+<td class="org-left">a</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">c</td>
+<td class="org-left">d</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Now let&rsquo;s get the values of the first column starting from the second row.
+</p>
+
+<p>
+The &ldquo;a&rdquo; on the top left cell can be accessed through the reference
+<code>@2$1</code>.  The &ldquo;c&rdquo; on the bottom left cell can be accessed through the
+reference <code>@5$1</code>.  The range of cells can then be accessed with
+<code>@2$1..@5$1</code>.
+</p>
+
+<p>
+Let&rsquo;s add this range in the first cell of <code>Col3</code>:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Col1</th>
+<th scope="col" class="org-left">Col2</th>
+<th scope="col" class="org-left">Col3</th>
+<th scope="col" class="org-left">Col4</th>
+<th scope="col" class="org-left">Col5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">a</td>
+<td class="org-left">a a b c</td>
+<td class="org-left">c</td>
+<td class="org-left">d</td>
+</tr>
+
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">b</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">b</td>
+<td class="org-left">a</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">c</td>
+<td class="org-left">d</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Here is the formula:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TBLFM: </span><span style="color: #66d9ef;">@2$3='(mapconcat</span><span style="color: #7f7f80;"> 'identity (list </span><span style="color: #66d9ef;">@2$1</span><span style="color: #7f7f80;">..@5$1) " ")</span>
+</pre>
+</div>
+
+<p>
+How to read it?
+</p>
+
+<p>
+When interpreted, the range <code>@2$1..@5$1</code> is replaced by the values of the
+cells, separated with a space.  So <code>(list @2$1..@5$1)</code> becomes <code>(list "a"
+"a" "b" "c")</code> and the whole formula becomes
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span>mapconcat <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">identity</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span> <span style="color: #e2c770;">"a"</span> <span style="color: #e2c770;">"a"</span> <span style="color: #e2c770;">"b"</span> <span style="color: #e2c770;">"c"</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">" "</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+which basically means &ldquo;Concatenate elements of (&rdquo;a&ldquo; &rdquo;a&ldquo; &rdquo;b&ldquo; &rdquo;c&ldquo;) and add a
+single space between each of them&rdquo;.
+</p>
+
+<p>
+Let&rsquo;s generalize and say that we don&rsquo;t know how many rows our table
+contains.  The range <code>@2$1..@5$1</code> becomes <code>@2$1..@&gt;$1</code> where <code>@&gt;</code> means
+&ldquo;the last row&rdquo; and <code>@&gt;$1</code> &ldquo;the last row in the first column&rdquo;.
+</p>
+
+<p>
+Remember: we want the third column to contain a string with all the strings
+that are in both <code>Col1</code> and <code>Col2</code>, with no duplicates.  Let&rsquo;s first list
+all values from <code>Col1</code> and <code>Col2</code> with <code>(list @2$1..@&gt;$1 @2$2..@&gt;$2)</code>, then
+delete duplicates like this <code>(delete-dups (list @2$1..@&gt;$1 @2$2..@&gt;$2))</code>
+then put this expression in the one we already have above.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TBLFM: </span><span style="color: #66d9ef;">@2$3='(mapconcat</span><span style="color: #7f7f80;"> 'identity (delete-dups (list </span><span style="color: #66d9ef;">@2$1</span><span style="color: #7f7f80;">..@&gt;$1 </span><span style="color: #66d9ef;">@2$2</span><span style="color: #7f7f80;">..@&gt;$2)) " ")</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Col1</th>
+<th scope="col" class="org-left">Col2</th>
+<th scope="col" class="org-left">Col3</th>
+<th scope="col" class="org-left">Col4</th>
+<th scope="col" class="org-left">Col5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">a</td>
+<td class="org-left">a b c d</td>
+<td class="org-left">?</td>
+<td class="org-left">?</td>
+</tr>
+
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">b</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">b</td>
+<td class="org-left">a</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">c</td>
+<td class="org-left">d</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Okay.  Now that you know how to manipulate ranges, you can replace the &ldquo;?&rdquo;
+with the right formulas&#x2026;  remember: <code>Col4</code> contains strings that are only
+in <code>Col1</code> and not in <code>Col2</code>, whereas <code>Col5</code> contains strings that are only
+in <code>Col2</code> and not in <code>Col1</code>.  (Hint: you can write your own functions and
+use them in an Emacs lisp formula.)
+</p>
+
+<p>
+Don&rsquo;t forget that you can edit a table&rsquo;s formulas with by hitting C-c &rsquo;
+anywhere on the table: it will open the formulas editor, which highlights
+references that the cursor is on (both in the formulas editor and in the
+table).  The formulas editor is really handy when you need to check that
+your references are correct.  Also, hitting <code>TAB</code> on a formulas in this
+editor will pretty-print the formula, which helps editing a lot !
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge339e5f" class="outline-2">
+<h2 id="orge339e5f">Conclusion</h2>
+<div class="outline-text-2" id="text-orge339e5f">
+<p>
+Please check the Org manual for (condensed but accurate and up to date)
+information on using Lisp as formulas: see the <a href="https://orgmode.org/manual/Formula-syntax-for-Lisp.html">manual online</a> or as an .
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+If you are reading this tutorial from within Emacs, go to the
+spreadsheet section of the manual by clicking on this link:
+.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+Column formulas apply to the whole column, whereas Field formulas
+only apply to the current field.  Field formulas can be inserted by
+pressing <code>C-u C-c =</code> in a field.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>fontify-src-code-blocks.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Pretty fontification of source code blocks
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Sebastien Vauban
+</span><span class="org-document-info-keyword">#+EMAIL:</span>     <span class="org-document-info">sva@mygooglest.com
+</span><span class="org-document-info-keyword">#+DATE:</span>      <span class="org-document-info">2012-01-25
+</span><span class="org-meta-line">#+DESCRIPTION:</span>
+<span class="org-meta-line">#+KEYWORDS:</span>
+<span class="org-meta-line">#+LANGUAGE:  en_US</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Description
+</span>
+This article is some "theming guide" about customizing the look and feel of an
+Org-Babel buffer inside Emacs. We'll show you how you can improve the
+appearance of source code blocks.
+
+Note that coloring the background of code blocks with native
+fontification no longer works as of <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/org-mode/commit/f8b42e8">commit f8b42e8</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Screenshot
+</span>
+Screenshot for the <span class="kc-org-link-url"><a href="https://github.com/fniessen/color-theme-leuven">Leuven</a></span> theme (light theme, i.e. with a white background):
+
+<span class="org-link"><a href="file:../images/fontified-src-code-blocks.png">file:../images/fontified-src-code-blocks.png</a></span>
+
+To configure "native fontification" (as in the above screenshot), set the
+following in your <span class="org-verbatim">.emacs</span> file:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">fontify code in code blocks
+</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-src-fontify-natively</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Configuration File
+</span>
+<span class="org-list-dt">-</span> To get the above full contributed theme, please visit <span class="org-link"><a href="file:../../../org-color-themes.org">Installing Org Color
+  themes</a></span> and copy the file <span class="kc-org-link-url"><a href="https://github.com/fniessen/color-theme-leuven/blob/master/color-theme-leuven.el">color-theme-leuven.el</a></span> in your <span class="org-verbatim">load-path</span>.
+
+<span class="org-list-dt">-</span> If you want to keep your existing Emacs color theme, and you only want to
+  customize the "delimiter lines" of the code blocks, either:
+
+  <span class="org-list-dt">+</span> Add the following lines to your current color theme:
+
+<span class="org-block-begin-line">    #+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-block-begin-line
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:underline</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#A7A6AA"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:foreground</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#008ED1"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:background</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#EAEAFF"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-block-background
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:background</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#FFFFEA"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-block-end-line
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:overline</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#A7A6AA"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:foreground</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#008ED1"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:background</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#EAEAFF"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">    #+end_src
+</span>
+  <span class="org-list-dt">+</span> Define these faces, in your <span class="org-verbatim">.emacs</span> file, <span class="italic">before</span> requiring Org (if you
+    don't have your own color theme):
+
+<span class="org-block-begin-line">    #+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defface</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-block-begin-line</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:underline</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#A7A6AA"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:foreground</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#008ED1"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:background</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#EAEAFF"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="doc">"Face used for the line delimiting the begin of source blocks."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defface</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-block-background</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:background</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#FFFFEA"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="doc">"Face used for the source block background."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defface</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-block-end-line</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:overline</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#A7A6AA"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:foreground</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#008ED1"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:background</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#EAEAFF"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="doc">"Face used for the line delimiting the end of source blocks."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">    #+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Further extensions
+</span>
+When we will have some spare time, our intention is to get the reserved
+keywords of Org-Babel (such as <span class="org-verbatim">:var</span> and <span class="org-verbatim">:exports</span>) somehow highlighted.
+Stay tuned -- or give some help!
+</pre>
+  </body>
+</html>

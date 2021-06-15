@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Header arguments and result types in Org Babel</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thorsten Jolitz, Eric Schulte" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.php"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Header arguments and result types in Org Babel</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org344190b">Generally use <code>verbatim</code> when using <code>drawer</code>, <code>raw</code> or <code>org</code></a></li>
+<li><a href="#orgfa0bb76">Common combinations of header-args and result types</a></li>
+<li><a href="#orge56904a">Setting language and file specific default header argument values</a></li>
+</ul>
+</div>
+</div>
+<p>
+For a complete header argument reference see the Org-mode manual&rsquo;s
+page which lists all <a href="https://orgmode.org/manual/Specific-header-arguments.html">Specific-header-arguments</a>.  This page holds
+ancillary notes and tricks which have not made it into the manual.
+</p>
+
+<div id="outline-container-org344190b" class="outline-2">
+<h2 id="org344190b">Generally use <code>verbatim</code> when using <code>drawer</code>, <code>raw</code> or <code>org</code></h2>
+<div class="outline-text-2" id="text-org344190b">
+<p>
+We often want to add <code>verbatim</code> (which inhibits interpretation as a
+value, which can often result in a list or table result), when
+inserting results directly into the buffer using <code>drawer</code>, <code>raw</code> or
+<code>org</code> which don&rsquo;t do tabular interpretation.
+</p>
+
+<p>
+An example w/o <code>verbatim</code>.
+</p>
+<pre class="example">
+#+begin_src sh :results drawer
+cat &lt;&lt;EOF
+| 1 | 2
+|--
+| a | b
+EOF
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+|   |    | 1 |   |   | 2 |
+|   | -- |   |   |   |   |
+|   |    | a |   |   | b |
+:END:
+</pre>
+
+
+<p>
+The same block <i>with</i> the <code>verbatim</code> flag.
+</p>
+<pre class="example">
+#+begin_src sh :results verbatim drawer
+cat &lt;&lt;EOF
+| 1 | 2
+|--
+| a | b
+EOF
+#+end_src
+
+#+RESULTS:
+:RESULTS:
+| 1 | 2 |
+|---+---|
+| a | b |
+:END:
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgfa0bb76" class="outline-2">
+<h2 id="orgfa0bb76">Common combinations of header-args and result types</h2>
+<div class="outline-text-2" id="text-orgfa0bb76">
+<p>
+Many combinations of header arguments and result types are
+supported by Org Babel. Individual languages may even define
+special header args. Like always in combinatorics, the number
+of possible combinations increases rapidly when there are several
+factors with several levels each that can be freely combined.
+</p>
+
+<p>
+The following table shows combinations of header arguments and
+result types that might be considered reasonable for many
+programming languages.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">evaluation</th>
+<th scope="col" class="org-left">collection</th>
+<th scope="col" class="org-left">type</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">(:session)</th>
+<th scope="col" class="org-left">(:results)</th>
+<th scope="col" class="org-left">(:results)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">external</td>
+<td class="org-left">value</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">output</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+
+<tr>
+<td class="org-left">session</td>
+<td class="org-left">value</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">output</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+More special header arguments and their possible values are
+summarized in the next table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">header-arg</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">values</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">:results</td>
+<td class="org-left">silent</td>
+<td class="org-left">replace</td>
+<td class="org-left">append</td>
+<td class="org-left">prepend</td>
+</tr>
+
+<tr>
+<td class="org-left">(handling)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:exports</td>
+<td class="org-left">code</td>
+<td class="org-left">results</td>
+<td class="org-left">both</td>
+<td class="org-left">none</td>
+</tr>
+
+<tr>
+<td class="org-left">:comments</td>
+<td class="org-left">yes</td>
+<td class="org-left">(no?)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:noweb</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:tangle</td>
+<td class="org-left">yes</td>
+<td class="org-left">no</td>
+<td class="org-left">filename</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:no-expand</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:file</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:dir</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:cache</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:var</td>
+<td class="org-left">x=y</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:hlines</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:colnames</td>
+<td class="org-left">nil</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:rownames</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:shebang</td>
+<td class="org-left">&ldquo;string&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:eval</td>
+<td class="org-left">never</td>
+<td class="org-left">query</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orge56904a" class="outline-2">
+<h2 id="orge56904a">Setting language and file specific default header argument values</h2>
+<div class="outline-text-2" id="text-orge56904a">
+<p>
+This may be useful to e.g., have all Python code blocks in a file use
+the same session.  The following file-local-variable syntax should be
+used, placing the customization at the end of the Org-mode file.
+</p>
+
+<pre class="example">
+#+Title: Example of default file and language session
+
+The value in this buffer is...
+#+begin_src emacs-lisp
+  org-babel-default-header-args:Python
+#+end_src
+
+#+RESULTS:
+| (:session . foo) |
+
+# Local Variables:
+# eval: (setq-local org-babel-default-header-args:Python '((:session . "foo")))
+# End:
+</pre>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thorsten Jolitz, Eric Schulte</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

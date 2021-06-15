@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AWK Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">AWK Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf30ce6b">Introduction</a></li>
+<li><a href="#orgd7e3a25">Requirements and Setup</a></li>
+<li><a href="#org87fe678">Org Mode Features for AWK Source Code Blocks</a>
+<ul>
+<li><a href="#org778b46d">Header Arguments</a></li>
+<li><a href="#org8289d30">Sessions</a></li>
+</ul>
+</li>
+<li><a href="#org77fb105">Examples of Use</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://c2.com/cgi/wiki?AwkLanguage">AWK</a>
+</p>
+</div>
+
+<div id="outline-container-orgf30ce6b" class="outline-2">
+<h2 id="orgf30ce6b">Introduction</h2>
+<div class="outline-text-2" id="text-orgf30ce6b">
+<p>
+<code>AWK</code> is a task-specific language optimized for regular expression
+record data manipulation. It is a little language that is Turing
+complete, efficient to execute, reasonably simple to express, powerful
+within its scope, and pathologically cryptic.
+</p>
+
+<p>
+A natural Org mode representation of the record data <code>AWK</code> was
+designed to manipulate is the table.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd7e3a25" class="outline-2">
+<h2 id="orgd7e3a25">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orgd7e3a25">
+<p>
+There are many <a href="http://www.faqs.org/faqs/computer-lang/awk/faq/">well-maintained AWK compatible languages</a>.  The
+variable <code>org-babel-awk-command</code> holds the name of <code>AWK</code> executable.
+The default is &ldquo;awk&rdquo;.
+</p>
+
+<p>
+To configure <code>AWK</code> source code blocks in Org mode, add the appropriate
+dotted pair to <code>org-babel-load-languages</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>awk . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org87fe678" class="outline-2">
+<h2 id="org87fe678">Org Mode Features for AWK Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org87fe678">
+</div>
+<div id="outline-container-org778b46d" class="outline-3">
+<h3 id="org778b46d">Header Arguments</h3>
+<div class="outline-text-3" id="text-org778b46d">
+<p>
+There are three <code>AWK</code>-specific header arguments.
+</p>
+<dl class="org-dl">
+<dt><code>:cmd-line</code></dt><dd>takes command line arguments to pass to the <code>AWK</code> executable</dd>
+<dt><code>:in-file</code></dt><dd>takes a path to a file of data to be processed by <code>AWK</code></dd>
+<dt><code>:stdin</code></dt><dd>takes an Org-mode data or code block reference, the
+value of which will be passed to the <code>AWK</code> process
+through STDIN</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org8289d30" class="outline-3">
+<h3 id="org8289d30">Sessions</h3>
+<div class="outline-text-3" id="text-org8289d30">
+<p>
+<code>AWK</code> does not support sessions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org77fb105" class="outline-2">
+<h2 id="org77fb105">Examples of Use</h2>
+<div class="outline-text-2" id="text-org77fb105">
+<p>
+Two examples from <a href="http://www.gnu.org/software/gawk/manual/gawk.html#Getting-Started">GNU Awk User&rsquo;s Guide</a> show simple uses of <code>AWK</code>.
+</p>
+
+<p>
+Given the table <code>bbs-list</code>
+</p>
+
+<table id="org64f1c3c" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">aardvark</td>
+<td class="org-right">555-5553</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">B</td>
+</tr>
+
+<tr>
+<td class="org-left">alpo-net</td>
+<td class="org-right">555-3412</td>
+<td class="org-left">2400/1200/300</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-left">barfly</td>
+<td class="org-right">555-7685</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-left">bites</td>
+<td class="org-right">555-1675</td>
+<td class="org-left">2400/1200/300</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-left">camelot</td>
+<td class="org-right">555-0542</td>
+<td class="org-left">300</td>
+<td class="org-left">C</td>
+</tr>
+
+<tr>
+<td class="org-left">core</td>
+<td class="org-right">555-2912</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">C</td>
+</tr>
+
+<tr>
+<td class="org-left">fooey</td>
+<td class="org-right">555-1234</td>
+<td class="org-left">2400/1200/300</td>
+<td class="org-left">B</td>
+</tr>
+
+<tr>
+<td class="org-left">foot</td>
+<td class="org-right">555-6699</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">B</td>
+</tr>
+
+<tr>
+<td class="org-left">macfoo</td>
+<td class="org-right">555-6480</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-left">sdace</td>
+<td class="org-right">555-3430</td>
+<td class="org-left">2400/1200/300</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-left">sabafoo</td>
+<td class="org-right">555-2127</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">C</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+this <code>AWK</code> source code block
+</p>
+<pre class="example">
+#+begin_src awk :stdin bbs-list
+/foo/ { print $0 }
+#+end_src
+</pre>
+
+<p>
+returns a subset of the original table
+</p>
+
+<div class="org-src-container">
+<pre class="src src-awk"><span style="color: #e2c770;">/foo/</span> <span style="color: #eb4509;">{</span> <span style="color: #9c91e4; font-weight: bold;">print</span> $0 <span style="color: #eb4509;">}</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">fooey</td>
+<td class="org-right">555-1234</td>
+<td class="org-left">2400/1200/300</td>
+<td class="org-left">B</td>
+</tr>
+
+<tr>
+<td class="org-left">foot</td>
+<td class="org-right">555-6699</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">B</td>
+</tr>
+
+<tr>
+<td class="org-left">macfoo</td>
+<td class="org-right">555-6480</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-left">sabafoo</td>
+<td class="org-right">555-2127</td>
+<td class="org-left">1200/300</td>
+<td class="org-left">C</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Given the table <code>inventory-shipped</code>
+</p>
+
+<table id="org672c39f" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Jan</td>
+<td class="org-right">13</td>
+<td class="org-right">25</td>
+<td class="org-right">15</td>
+<td class="org-right">115</td>
+</tr>
+
+<tr>
+<td class="org-left">Feb</td>
+<td class="org-right">15</td>
+<td class="org-right">32</td>
+<td class="org-right">24</td>
+<td class="org-right">226</td>
+</tr>
+
+<tr>
+<td class="org-left">Mar</td>
+<td class="org-right">15</td>
+<td class="org-right">24</td>
+<td class="org-right">34</td>
+<td class="org-right">228</td>
+</tr>
+
+<tr>
+<td class="org-left">Apr</td>
+<td class="org-right">31</td>
+<td class="org-right">52</td>
+<td class="org-right">63</td>
+<td class="org-right">420</td>
+</tr>
+
+<tr>
+<td class="org-left">May</td>
+<td class="org-right">16</td>
+<td class="org-right">34</td>
+<td class="org-right">29</td>
+<td class="org-right">208</td>
+</tr>
+
+<tr>
+<td class="org-left">Jun</td>
+<td class="org-right">31</td>
+<td class="org-right">42</td>
+<td class="org-right">75</td>
+<td class="org-right">492</td>
+</tr>
+
+<tr>
+<td class="org-left">Jul</td>
+<td class="org-right">24</td>
+<td class="org-right">34</td>
+<td class="org-right">67</td>
+<td class="org-right">436</td>
+</tr>
+
+<tr>
+<td class="org-left">Aug</td>
+<td class="org-right">15</td>
+<td class="org-right">34</td>
+<td class="org-right">47</td>
+<td class="org-right">316</td>
+</tr>
+
+<tr>
+<td class="org-left">Sep</td>
+<td class="org-right">13</td>
+<td class="org-right">55</td>
+<td class="org-right">37</td>
+<td class="org-right">277</td>
+</tr>
+
+<tr>
+<td class="org-left">Oct</td>
+<td class="org-right">29</td>
+<td class="org-right">54</td>
+<td class="org-right">68</td>
+<td class="org-right">525</td>
+</tr>
+
+<tr>
+<td class="org-left">Nov</td>
+<td class="org-right">20</td>
+<td class="org-right">87</td>
+<td class="org-right">82</td>
+<td class="org-right">577</td>
+</tr>
+
+<tr>
+<td class="org-left">Dec</td>
+<td class="org-right">17</td>
+<td class="org-right">35</td>
+<td class="org-right">61</td>
+<td class="org-right">401</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Jan</td>
+<td class="org-right">21</td>
+<td class="org-right">36</td>
+<td class="org-right">64</td>
+<td class="org-right">620</td>
+</tr>
+
+<tr>
+<td class="org-left">Feb</td>
+<td class="org-right">26</td>
+<td class="org-right">58</td>
+<td class="org-right">80</td>
+<td class="org-right">652</td>
+</tr>
+
+<tr>
+<td class="org-left">Mar</td>
+<td class="org-right">24</td>
+<td class="org-right">75</td>
+<td class="org-right">70</td>
+<td class="org-right">495</td>
+</tr>
+
+<tr>
+<td class="org-left">Apr</td>
+<td class="org-right">21</td>
+<td class="org-right">70</td>
+<td class="org-right">74</td>
+<td class="org-right">514</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+this bit of <code>AWK</code> code 
+</p>
+
+<pre class="example">
+#+begin_src awk :stdin inventory-shipped :exports results
+$1 ~ /J/
+#+end_src
+</pre>
+
+<p>
+returns this subset of the table
+</p>
+
+<div class="org-src-container">
+<pre class="src src-awk">$1 ~ <span style="color: #e2c770;">/J/</span>
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Jan</td>
+<td class="org-right">13</td>
+<td class="org-right">25</td>
+<td class="org-right">15</td>
+<td class="org-right">115</td>
+</tr>
+
+<tr>
+<td class="org-left">Jun</td>
+<td class="org-right">31</td>
+<td class="org-right">42</td>
+<td class="org-right">75</td>
+<td class="org-right">492</td>
+</tr>
+
+<tr>
+<td class="org-left">Jul</td>
+<td class="org-right">24</td>
+<td class="org-right">34</td>
+<td class="org-right">67</td>
+<td class="org-right">436</td>
+</tr>
+
+<tr>
+<td class="org-left">Jan</td>
+<td class="org-right">21</td>
+<td class="org-right">36</td>
+<td class="org-right">64</td>
+<td class="org-right">620</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

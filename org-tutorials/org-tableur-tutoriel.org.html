@@ -1,0 +1,414 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-tableur-tutoriel.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Utiliser Org comme tableur: une courte introduction
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">bzg AT altern DOT org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   fr</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+CONSTANTS: pi=3.14159265358979323846</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Retour &#224; l'index de Worg}</a></span> -- <span class="org-link"><a href="file:org-spreadsheet-intro.org">{This tutorial in </a></span><span class="org-link"><span class="bold"><a href="file:org-spreadsheet-intro.org">english</a></span></span><span class="org-link"><a href="file:org-spreadsheet-intro.org">}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+Ce court tutorial expose les connaissances de base &#224; acqu&#233;rir pour utiliser
+Org comme tableur.
+
+D&#233;marrons avec un tableau tr&#232;s simple :
+
+<span class="org-table">| &#201;tudiant | Maths | Physique |</span>
+<span class="org-table">|----------+-------+----------|</span>
+<span class="org-table">| Bertrand |    13 |       09 |</span>
+<span class="org-table">| Henri    |    15 |       14 |</span>
+<span class="org-table">| Arnold   |    17 |       13 |</span>
+
+Au format Org, ce tableau s'&#233;crit ainsi :
+
+<span class="org-code">: | Student  | Maths | Physics |
+: |----------+-------+---------|
+: | Bertrand |    13 |      09 |
+: | Henri    |    15 |      14 |
+: | Arnold   |    17 |      13 |
+</span>
+Le but de ce tutoriel est de comprendre comment aller de ce simple tableau 
+&#224; celui-ci, o&#249; nous calculons les moyennes par &#233;tudiant et par discipline:
+
+<span class="org-table">| &#201;tudiant | Maths | Physique | Moyenne |</span>
+<span class="org-table">|----------+-------+----------+---------|</span>
+<span class="org-table">| Bertrand |    13 |       09 |      11 |</span>
+<span class="org-table">| Henri    |    15 |       14 |    14.5 |</span>
+<span class="org-table">| Arnold   |    17 |       13 |      15 |</span>
+<span class="org-table">|----------+-------+----------+---------|</span>
+<span class="org-table">| Moyennes |    15 |       12 |    13.5 |</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Se familiariser avec les r&#233;f&#233;rences
+</span>
+Commen&#231;ons par la moyenne de chaque &#233;tudiants.
+
+<span class="org-code">:  | &#201;tudiant | Maths | Physique | Moyenne   |
+:  |----------+-------+----------+-----------|
+:  | Bertrand |    13 |       09 | [Formule] |
+:  | Henri    |    15 |       14 |           |
+:  | Arnold   |    17 |       13 |           |
+</span>
+Avant de pouvoir ins&#233;rer une formule dans <span class="org-verbatim">[Formule]</span>, vous devez savoir
+comment vous <span class="bold">r&#233;f&#233;rer</span> &#224; une rang&#233;e, une colonne ou &#224; une cellule.
+
+La mani&#232;re la plus simple d'apprendre la fa&#231;on dont fonctionne les
+r&#233;f&#233;rences est de taper <span class="org-verbatim">C-c ?</span> quand vous &#234;tes dans une cellule.
+
+Par exemple, si vous &#234;tes dans la cellule contenant <span class="org-verbatim">[Formule]</span>, <span class="org-verbatim">C-c ?</span>
+vous indiquera <span class="org-verbatim">line </span><span class="org-verbatim"><span class="org-formula">@2</span></span><span class="org-verbatim">, col $4, ref </span><span class="org-verbatim"><span class="org-formula">@2$4</span></span><span class="org-verbatim"> or D2</span>, ce qui signifie que vous
+&#234;tes dans la seconde rang&#233;e (ou ligne) de la quatri&#232;me colonne, et la
+r&#233;f&#233;rence &#224; cette cellule est soit <span class="org-verbatim">@2$4</span> soit <span class="org-verbatim">D2</span>.
+
+&#192; tout moment, si vous &#234;tes perdu dans les rang&#233;es et les colonnes, vous
+pouvez toujours activer une grille de visualisation des r&#233;f&#233;rences avec le
+raccourci <span class="org-verbatim">C-c }</span>:
+
+<span class="org-link"><a href="file:../images/bzg/reference_visualization.jpg">file:../images/bzg/reference_visualization.jpg</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Votre premi&#232;re formule
+</span>
+Placez le curseur dans le champ (vide) <span class="org-verbatim">[Formule]</span>.  Maintenant tapez
+<span class="org-verbatim">:=vmean($2..$3)</span> dans ce champ.  Cette formule signifie: calculer la
+moyenne (<span class="italic">mean</span> en anglais) pour les champs compris entre la deuxi&#232;me
+cellule (<span class="org-verbatim">$2</span>) et la troisi&#232;me cellule (<span class="org-verbatim">$3</span>) <span class="italic">dans cette rang&#233;e</span>.  Si vous
+pr&#233;f&#233;rez utiliser une autre notation, tapez <span class="org-verbatim">:=vmean(B&amp;..C&amp;)</span> -- dans ce
+cas, le caract&#232;re <span class="org-verbatim">&amp;</span> signifie "dans cette rang&#233;e", ce qui est implicite
+dans la notation pr&#233;c&#233;dente.
+
+Toujours dans cette rang&#233;e, tapez <span class="org-verbatim">C-c C-c</span> - vous devriez observer deux
+choses : 1) la formule est remplac&#233;e par le r&#233;sultat du calcul et 2) une
+nouvelle ligne commen&#231;ant par <span class="org-verbatim">#+TBLFM</span> est ins&#233;r&#233;e en bas du tableau.
+
+La ligne <span class="org-verbatim">#+TBLFM</span> contient toutes les formules pour la table situ&#233;e
+au-dessus -- faites attention avant d'&#233;diter cette ligne manuellement.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Formules pour les colonnes et pour les champs
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:ID:</span>       <span class="org-property-value">3f8d1e72-b076-49cc-9f3d-7da4da57dca1</span>
+  <span class="org-drawer">:END:</span>
+
+Donc, nous avons d&#233;sormais ce tableau :
+
+<span class="org-code">: | &#201;tudiant | Maths | Physique | Moyenne |
+: |----------+-------+----------+---------|
+: | Bertrand |    13 |       09 |      11 |
+: | Henri    |    15 |       14 |         |
+: | Arnold   |    17 |       13 |         |
+: #+TBLFM: </span><span class="org-code"><span class="org-formula">@2$4=vmean($2</span></span><span class="org-code">..$3)
+</span>
+Mais ce que nous voulons vraiment, c'est calculer les formules pour <span class="italic">tous
+les champs de la colonne</span> "Moyenne".  En d'autres termes, nous voulons en
+fait une <span class="org-verbatim">formule de colonne</span> (<span class="italic">column formula</span>), pas seulement
+une <span class="org-verbatim">formule de champ</span> (<span class="italic">field formula</span>.)
+
+Pour remplacer la formule avec une formule de colonne, retournez dans le
+champ o&#249; cette formule a &#233;t&#233; d&#233;finie et tapez <span class="org-code">=vmean($2..$3)</span>.  Notez que
+la seule diff&#233;rence avec ce que nous avons ins&#233;r&#233; plus haut est que cette
+formule est pr&#233;fix&#233;e par <span class="org-code">=</span> au lieu de <span class="org-code">:=</span>.  Quand c'est fait, faites un
+<span class="org-verbatim">C-c C-c</span> dans le champ : on vous demandera si vous voulez remplacer la
+formule avec une formule de colonne, ce qui est pr&#233;cis&#233;ment ce que nous
+voulons.
+
+Une fois que vous r&#233;pondez &#171; yes &#187;, la valeur dans le champ devrait &#234;tre la
+m&#234;me qu'auparavant (&#224; savoir <span class="org-verbatim">11</span>) et vous pouvez d&#233;sormais mettre &#224; jour
+tous les champs de cette colonne en r&#233;appliquant toutes les formules avec
+<span class="org-verbatim">C-u C-c *</span> (ou <span class="org-verbatim">C-c C-c</span> si vous &#234;tes sur la ligne <span class="org-verbatim">#+TBLFM</span>.)
+
+Donc nous avons maintenant ce tableau :
+
+<span class="org-code">: | &#233;tudiant | Maths | Physique | Moyenne |
+: |----------+-------+----------+---------|
+: | Bertrand |    13 |       09 |      11 |
+: | Henri    |    15 |       14 |    14.5 |
+: | Arnold   |    17 |       13 |      15 |
+: #+TBLFM: $4=vmean($2..$3)
+</span>
+Comme l'unique formule de la ligne <span class="org-verbatim">#+TBLFM</span> s'applique d&#233;sormais &#224; toute
+la colonne, elle ne contient aucune r&#233;f&#233;rence &#224; une rang&#233;e.  Avant, la
+formule &#233;tait appliqu&#233;e au champ <span class="org-verbatim">@2$4</span>, elle est maintenant appliqu&#233;e
+pour toute la quatri&#232;me colonne.
+
+Pour finir, nous pouvons ajouter la rang&#233;e pour les moyennes par
+discipline.  Cette rang&#233;e contient deux <span class="italic">formules de cellue</span>, chacune
+calculant la moyenne pour le champ situ&#233; au-dessus dans la m&#234;me colonne :
+
+<span class="org-code">: | &#201;tudiant | Maths | Physique | Moyenne |
+: |----------+-------+----------+---------|
+: | Bertrand |    13 |       09 |      11 |
+: | Henri    |    15 |       14 |    14.5 |
+: | Arnold   |    17 |       13 |      15 |
+: |----------+-------+----------+---------|
+: | Moyennes |    15 |       12 |         |
+: #+TBLFM: $4=vmean($2..$3)::@5$2=vmean(@2$2..@4$2)::@5$3=vmean(@2$3..@4$3)
+</span>
+Ce qui produit ce tableau :
+
+<span class="org-table">| &#201;tudiant | Maths | Physique | Moyenne |</span>
+<span class="org-table">|----------+-------+----------+---------|</span>
+<span class="org-table">| Bertrand |    13 |       09 |      11 |</span>
+<span class="org-table">| Henri    |    15 |       14 |    14.5 |</span>
+<span class="org-table">| Arnold   |    17 |       13 |      15 |</span>
+<span class="org-table">|----------+-------+----------+---------|</span>
+<span class="org-table">| Moyennes |    15 |       12 |         |</span>
+<span class="org-meta-line">#+TBLFM: $4=vmean($2..$3)::@5$2=vmean(@2$2..@4$2)::@5$3=vmean(@2$3..@4$3)</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &#201;diter des formules de mani&#232;re interactive
+</span>
+Pour l'instant nous avons d&#233;fini les formules en les ins&#233;rant directement
+dans les cellules du tableau : taper <span class="org-code">=</span> dans une cellule lance la
+d&#233;finition pour formule de colonne, et taper <span class="org-code">:=</span> lance la d&#233;finition pour
+une formule de cellule.
+
+Si vous pr&#233;f&#233;rez, vous pouvez &#233;diter les formules dans le <span class="italic">minibuffer</span>:
+utilisez <span class="org-verbatim">C-c = pour &#233;diter les formules de colonne et </span><span class="org-verbatim"><span class="org-verbatim">C-u C-c =</span></span> pour
+&#233;diter les formules de cellule.
+
+Mais vous pouvez aussi &#233;diter les formules de mani&#232;re plus interactive dans
+un buffer d&#233;di&#233; en tapant C-c '.  Le nouveau buffer liste toutes les
+formules du tableau et facilite l'&#233;dition des r&#233;f&#233;rences.
+
+Quand le curseur est sur une r&#233;f&#233;rence, les champs correspondant du tableau
+sont surlign&#233;s.  Sympa!  Mais vous pouvez faire encore plus : vous pouvez
+en fait choisir la r&#233;f&#233;rence en utilisant les touches
+<span class="org-verbatim">S-&lt;left/right/up/down&gt;</span> (shift + les touches du curseur).
+
+<span class="org-link"><a href="file:../images/bzg/formulas_editor.jpg">file:../images/bzg/formulas_editor.jpg</a></span>
+
+Note : vous pouvez avoir peur que de d&#233;placer une colonne avec
+<span class="org-verbatim">M-&lt;left/right&gt;</span> ou bien une rang&#233;e du tableau avec <span class="org-verbatim">M-&lt;up/down&gt;</span> perturbe
+les r&#233;f&#233;rences de la ligne <span class="org-verbatim">#+TBLFM</span>, mais chaque movement met &#224; jour
+automagiquement les r&#233;f&#233;rences de la ligne <span class="org-verbatim">#+TBLFM</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Calc et les formules Elisp
+</span>
+La syntaxe par d&#233;faut pour les formules est celle de Calc, la librairie de
+GNU Emacs pour faire des calculs.
+
+Voici un extrait du <span class="kc-org-link-url"><a href="http://www.delorie.com/gnu/docs/calc/calc_21.html">manuel de Calc</a></span> au sujet des formules alg&#233;briques :
+
+<span class="org-code">: Les formules alg&#233;briques utilise les op&#233;rateurs `+', `-', `*', `/', 
+: and `^'.  Vous pouvez utiliser les parenth&#232;ses pour clarifier l'ordre
+: d'&#233;valuation.  En l'absence de parenth&#232;ses, `^' est &#233;valu&#233; en premier,
+: puis `*', puis `/', et enfin `+' et `-'.  Par exemple, l'expression
+: 
+: 2 + 3*4*5 / 6*7^8 - 9
+: 
+: est equivalente &#224;
+: 
+: 2 + ((3*4*5) / (6*(7^8)) - 9
+</span>
+Dans les tableau org, vous pouvez utiliser des r&#233;f&#233;rences &#224; la place des
+valeurs pour faire des calculs.  Simple comme bonjour.
+
+Mais quid de l'utilisation de formules en Emacs lisp au lieu de Calc ?
+
+Disons par exemple que vous voulez associer &#224; chaque &#233;tudiant une d&#233;cimal
+du nombre Pi, en fonction de la moyenne de leurs notes en maths et en
+physiques.
+
+Pour cela vous aurez besoin de dire &#224; Org quelle est la valeur que vous
+prendrez comme valeur de Pi.  Vous pouvez le faire en ajoutant cette ligne.
+
+<span class="org-code">: #+CONSTANTS: pi=3.14159265358979323846
+</span>
+(N'oubliez pas de taper <span class="org-verbatim">C-c C-c</span> sur la ligne <span class="org-verbatim">#+CONSTANTS</span> de fa&#231;on &#224; ce
+qu'Org soit la prenne en compte.)
+
+Ensuite vous pouvez d&#233;finir une formule Emacs lisp telle que celle-ci :
+
+<span class="org-code">: $5='(substring (number-to-string $pi) (round $4) (1+ (round $4)));N
+</span>
+Hum.  Voyons ce que &#231;a veut dire.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim">(substring S A B)</span>: prendre une sous-cha&#238;ne de caract&#232;res entre les
+  positions <span class="org-verbatim">A</span> et <span class="org-verbatim">B</span> de la cha&#238;ne <span class="org-verbatim">S</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim">(number-to-string $pi)</span>: convertir la constante "Pi" en cha&#238;ne de
+  caract&#232;res.
+<span class="org-list-dt">-</span> <span class="org-verbatim">(round $4)</span>: prendre la valeur arrondie de la valeur de la colonne <span class="org-verbatim">$4</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim">;N</span>: consid&#233;rer que les valeurs dans les champs sont des nombres et non
+  des cha&#238;nes de caract&#232;res.
+
+Si la moyenne d'un &#233;tudiant est de 10, cette formule renvoie la 10&#232;me
+d&#233;cimale de Pi.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> D&#233;boguer les formules
+</span>
+Donc votre tableau ressemble d&#233;sormais &#224; ceci :
+
+<span class="org-code">: | &#201;tudiant  | Maths | Physique | Moyenne | Pi  |
+: |----------+-------+---------+------+-----------|
+: | Bertrand |    13 |      09 |   11 |         5 |
+: | Henri    |    15 |      14 | 14.5 |         7 |
+: | Arnold   |    17 |      13 |   15 |         9 |
+: #+TBLFM: $4=vmean($2..$3)::$5='(substring (number-to-string $pi) (round $4) (1+ (round $4)));N
+</span>
+Si vous revenez &#224; ce tableau mais que vous avez la flemme de comprendre ce
+que fait la function en Emacs lisp, vous pouvez aussi bien <span class="bold">d&#233;boguer</span> la
+formule et suivre les &#233;tapes du calcul une par une.
+
+Activez le d&#233;bogueur de formules avec <span class="org-verbatim">C-c {</span> et tapez <span class="org-verbatim">C-c C-c</span> dans un
+champ (ou <span class="org-verbatim">C-u C-c *</span> n'importe o&#249; dans cette table.)  Ceci lancera le
+calcul de la formule &#233;tape par &#233;tape, et affichera des d&#233;tails sur les
+diff&#233;rentes &#233;tapes de toutes les formules dans un buffer distinct.
+
+Voici ce &#224; quoi ressemble un tel buffer :
+
+<span class="org-code">: Substitution history of formula
+: Orig:   '(substring (number-to-string $pi) (round $4) (1+ (round $4)));N
+: $xyz-&gt;  '(substring (number-to-string 3.14159265358979323846) (round $4) (1+ (round $4)))
+: </span><span class="org-code"><span class="org-formula">@r$c-&gt;</span></span><span class="org-code">  '(substring (number-to-string 3.14159265358979323846) (round $4) (1+ (round $4)))
+: $1-&gt;    '(substring (number-to-string 3.14159265358979323846) (round 11) (1+ (round 11)))
+: Result: 5
+: Format: NONE
+: Final:  5
+</span>
+Une fois que vous avez fini de v&#233;rifier les formules, vous pouvez
+d&#233;sactiver le d&#233;bogueur en tapant de nouveau <span class="org-verbatim">C-c {</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Et beaucoup, beaucoup plus...
+</span>
+Utiliser Org comme syst&#232;me pour des calculs sur des tableau est vraiment
+tr&#232;s pratique.
+
+Mais vous pouvez faire bien plus que tout ce qui a &#233;t&#233; pr&#233;sent&#233; !  Utiliser
+des r&#233;f&#233;rences relatives, d&#233;finir des noms pour les colonnes et des
+param&#232;tres pour les formules, d&#233;finir des champs qui doivent &#234;tre
+automatiquement recalcul&#233;s, etc.  Pour plus de d&#233;tails sur l'utilisation
+d'Emacs lisp dans les formules, reportez vous &#224; <span class="org-link"><a href="file:org-spreadsheet-lisp-formulas.org">ce tutoriel (en anglais)</a></span>.
+
+Allez voir du c&#244;t&#233; des <span class="kc-org-link-url"><a href="https://orgmode.org/org.html#Advanced-features">fonctionnalit&#233;s avanc&#233;es</a></span> dans le manuel d'Org-mode,
+cela vous donnera un rapide aper&#231;u...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+  </body>
+</html>

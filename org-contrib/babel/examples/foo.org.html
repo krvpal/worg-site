@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>foo.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">An Org-mode Demo
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Eric Schulte
+</span><span class="org-meta-line">#+OPTIONS: num:nil ^:nil f:nil</span>
+<span class="org-meta-line">#+LATEX_HEADER: \usepackage{amscd}</span>
+<span class="org-meta-line">#+STARTUP: hideblocks</span>
+<span class="org-meta-line">#+PROPERTY: session *R* </span>
+<span class="org-meta-line">#+PROPERTY: results silent</span>
+
+<span class="comment"># some minor customization for nicer looking LaTeX output</span>
+<span class="org-block-begin-line">#+begin_LaTeX
+</span>  \hypersetup{
+    linkcolor=blue,
+    pdfborder={0 0 0 0}
+  }
+  \lstset{basicstyle=\ttfamily\bfseries\small}
+<span class="org-block-end-line">#+end_LaTeX
+</span>
+<span class="org-block-begin-line">#+begin_center
+</span>  Adapted from <span class="kc-org-link-url"><span class="italic"><a href="http://www.stat.umn.edu/~charlie/Sweave/foo.Rnw">An Sweave Demo</a></span></span> by Charles J. Geyer.
+<span class="org-block-end-line">#+end_center
+</span>
+This is a demo for using Org-babel to produce LaTeX documents with
+embedded R code.  To get started fire up Emacs and create a text file
+with the <span class="org-verbatim">.org</span> suffix.  You should see Org-mode become your major
+mode -- denoted by <span class="org-verbatim">Org</span> in your status bar.
+
+Press <span class="org-verbatim">C-c C-e</span> while viewing this Org-mode buffer and you will see a
+menu appear with options for export to a variety target formats --
+herein we'll only consider export to LaTeX.
+
+So now we have a more complicated file chain
+$$
+\begin{CD}
+   \texttt{foo.org}
+   <span class="org-formula">@&gt;\texttt{Org-mode}&gt;&gt;</span>
+   \texttt{foo.tex}
+   <span class="org-formula">@&gt;\texttt{latex}&gt;&gt;</span>
+   \texttt{foo.dvi}
+   <span class="org-formula">@&gt;\texttt{xdvi}&gt;&gt;</span>
+   \text{view of document}
+\end{CD}
+$$
+and what have we accomplished other than making it twice as annoying
+to the WYSIWYG crowds (having to use both <span class="org-verbatim">Org-mode</span> and <span class="org-verbatim">latex</span> to get
+anything that looks like the document)?
+
+Well, we can now include <span class="org-verbatim">R</span> in our document.  Here's a simple example
+<span class="org-block-begin-line">#+begin_src R :exports both
+</span>  2 + 2
+<span class="org-block-end-line">#+end_src
+</span>What I actually typed in <span class="org-verbatim">foo.org</span> was
+<span class="org-code">: #+begin_src R :exports both
+:   2 + 2
+: #+end_src
+</span>
+This is a "code block" to be processed by Org-babel.  When Org-babel
+hits such a thing, it processes it, runs R to get the results, and
+stuffs the output in the LaTeX file it is creating.  The LaTeX between
+code chunks is copied verbatim (except for in-line src code, about
+which see below).  Hence to create a <span class="italic">active</span> document you just write
+plain old text interspersed with "code blocks" which are plain old R.
+
+<span class="org-meta-line">#+LaTeX: \pagebreak[3]</span>
+
+Plots get a little more complicated.  First we make something to plot
+(simulated regression data).
+<span class="org-meta-line">#+name: reg</span>
+<span class="org-block-begin-line">#+begin_src R :results output :exports both
+</span>  n &lt;- 50
+  x &lt;- seq(1, n)
+  a.true &lt;- 3
+  b.true &lt;- 1.5
+  y.true &lt;- a.true + b.true * x
+  s.true &lt;- 17.3
+  y &lt;- y.true + s.true * rnorm(n)
+  out1 &lt;- lm(y ~ x)
+  summary(out1)
+<span class="org-block-end-line">#+end_src
+</span>(for once we won't show the code chunk itself, look at <span class="org-verbatim">foo.org</span> if
+you want to see what the actual code chunk was).
+
+Figure \ref{fig:one} (p. \pageref{fig:one}) is produced by the following code
+<span class="org-meta-line">#+name: fig1plot</span>
+<span class="org-block-begin-line">#+begin_src R :exports code
+</span>  plot(x, y)
+  abline(out1)
+<span class="org-block-end-line">#+end_src
+</span>Note that <span class="org-verbatim">x</span>, <span class="org-verbatim">y</span>, and <span class="org-verbatim">out1</span> are remembered from the preceding code
+chunk.  We don't have to regenerate them.  All code chunks are part of
+one R "session".
+<span class="org-meta-line">#+name: fig1</span>
+<span class="org-block-begin-line">#+begin_src R :exports results :noweb yes :file fig1.pdf
+</span>  <span class="org-target">&lt;&lt;fig1plot&gt;&gt;</span>
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+attr_latex: width=0.8\textwidth,placement=[p]</span>
+<span class="org-meta-line">#+label: fig:one</span>
+<span class="org-meta-line">#+caption:</span> <span class="org-block">Scatter Plot with Regression Line</span>
+<span class="org-meta-line">#+results: fig1</span>
+<span class="error"><a href="file:fig1.pdf">file:fig1.pdf</a></span>
+
+Now this was a little tricky.  We did this with two code chunks,
+one visible and one invisible.  First we did
+<span class="org-code">: #+name: fig1plot
+: #+begin_src R :exports code :file fig1plot.pdf
+:   plot(x, y)
+:   abline(out1)
+: #+end_src
+</span>where the <span class="org-verbatim">:exports code</span> indicates that only the return value (not
+code) should be exported and the <span class="org-verbatim">#+name: fig1plot</span> gives the code
+block a name (to be used later).  And "later" is almost immediate.
+Next we did
+<span class="org-code">: #+name: fig1
+: #+begin_src R :exports results :noweb yes :file fig1.pdf
+:   &lt;&lt;fig1plot&gt;&gt;
+: #+end_src
+</span>
+In this code block the <span class="org-verbatim">:file fig1.pdf</span> header argument indicates that
+the block generates a figure.  Org-babel automagically makes a PDF
+file for the figure, and Org-mode handles the export to LaTeX.  The
+<span class="org-target"><span class="org-verbatim">&lt;&lt;fig1plot&gt;&gt;</span></span> is an example of "code block reuse".  It means that we
+reuse the code of the code chunk named <span class="org-verbatim">fig1plot</span>.  The <span class="org-verbatim">:exports
+results</span> in the code block means just what it says (we've already seen
+the code---it was produced by the preceding chunk---and we don't want
+to see it again, we only want to see the results).  It is important
+that we observe the DRY/SPOT rule (<span class="italic">don't repeat yourself</span> or <span class="italic">single
+point of truth</span>) and only have one bit of code for generating the
+plot.  What the reader sees is guaranteed to be the code that made the
+plot.  If we had used cut-and-paste, just repeating the code, the
+duplicated code might get out of sync after edits.  The rest of this
+should be recognizable to anyone who has ever done a LaTeX figure.
+
+So making a figure is a bit more complicated in some ways, but much simpler
+than others.  Note the following virtues
+<span class="org-list-dt">-</span> The figure is guaranteed to be the one described by the text (at
+  least by the R in the text).
+<span class="org-list-dt">-</span> No messing around with sizing or rotations.  It just works!
+
+<span class="org-meta-line">#+name: fig2</span>
+<span class="org-block-begin-line">#+begin_src R :exports results :file fig2.pdf
+</span>  out3 &lt;- lm(y ~ x + I(x^2) + I(x^3))
+  plot(x, y)
+  curve(predict(out3, newdata=data.frame(x=x)), add = TRUE)
+<span class="org-block-end-line">#+end_src
+</span>
+Note that if you don't care to show the R code to make the figure, it
+is simpler still.  Figure \ref{fig:two} shows another plot.  What I
+actually typed in <span class="org-verbatim">foo.org</span> was
+<span class="org-code">: #+name: fig2
+: #+begin_src R :exports results :file fig2.pdf
+:   out3 &lt;- lm(y ~ x + I(x^2) + I(x^3))
+:   plot(x, y)
+:   curve(predict(out3, newdata=data.frame(x=x)), add = TRUE)
+: #+end_src
+</span>
+<span class="org-meta-line">#+attr_latex: width=0.8\textwidth,placement=[p]</span>
+<span class="org-meta-line">#+label: fig:two</span>
+<span class="org-meta-line">#+caption:</span> <span class="org-block">Scatter Plot with Cubic Regression Curve</span>
+<span class="org-meta-line">#+results: fig2</span>
+<span class="error"><a href="file:fig2.pdf">file:fig2.pdf</a></span>
+
+<span class="org-meta-line">#+LaTeX: \pagebreak</span>
+
+Now we just excluded the code for the plot from the figure (with
+<span class="org-verbatim">:exports results</span> so it doesn't show).
+
+Also note that every time we re-export Figures \ref{fig:one}
+and \ref{fig:two} change, the latter conspicuously (because the
+simulated data are random).  Everything just works.  This should tell
+you the main virtue of Org-babel.  It's always correct.  There is
+never a problem with stale cut-and-paste.
+
+<span class="org-block-begin-line">#+begin_src R :exports none
+</span>  options(scipen=10)
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="org-code">: 0
+</span>Simple numbers can be plugged into the text with the <span class="org-verbatim">src_R</span> command,
+for example, the quadratic and cubic regression coefficients in the
+preceding regression were \beta_2 = src_R{round(out3$coef[3], 4)} and \beta_3
+= src_R{round(out3$coef[4], 4)}.  Just magic!  What I actually typed
+in <span class="org-verbatim">foo.org</span> was
+<span class="org-code">: were \beta_2 = src_R{round(out3$coef[3], 4)}
+: and \beta_3 = src_R{round(out3$coef[4], 4)}
+</span><span class="org-block-begin-line">#+begin_src R :exports none
+</span>  options(scipen=0)
+<span class="org-block-end-line">#+end_src
+</span>
+The <span class="org-verbatim">xtable</span> command is used to make tables.  (The following is the
+Org-babel output of another code block that we don't explicitly show.
+Look at <span class="org-verbatim">foo.org</span> for details.)
+<span class="org-block-begin-line">#+begin_src R :exports both :results output
+</span>  out2 &lt;- lm(y ~ x + I(x^2))
+  foo &lt;- anova(out1, out2, out3)
+  foo
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-block-begin-line">#+begin_src R :exports both :results output
+</span>  class(foo)
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-block-begin-line">#+begin_src R :exports both :results output
+</span>  dim(foo)
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: foo-as-matrix</span>
+<span class="org-block-begin-line">#+begin_src R :exports both :results output
+</span>  foo &lt;- as.matrix(foo)
+  foo
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+LaTeX: \pagebreak</span>
+
+<span class="org-block-begin-line">#+begin_src R :results output latex :exports results
+</span>  library(xtable)
+  xtable(foo, caption = "ANOVA Table", label = "tab:one",
+      digits = c(0, 0, 2, 0, 2, 3, 3))
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results: foo-as-matrix</span>
+
+So now we are ready to turn the matrix <span class="org-verbatim">foo</span> into Table \ref{tab:one}
+using the R chunk
+<span class="org-code">: #+begin_src R :results output latex :exports results
+:   library(xtable)
+:   xtable(foo, caption = "ANOVA Table", label = "tab:one",
+:       digits = c(0, 0, 2, 0, 2, 3, 3))
+: #+end_src
+</span>
+(note the difference between arguments to the <span class="org-verbatim">xtable</span> function and to
+the <span class="org-verbatim">xtable</span> method of the <span class="org-verbatim">print</span> function)
+
+To summarize, Org-babel is terrific, so important that soon we'll not
+be able to get along without it.  Its virtues are
+<span class="org-list-dt">-</span> The numbers and graphics you report are actually what they
+  are claimed to be.
+<span class="org-list-dt">-</span> Your analysis is reproducible.  Even years later, when you've
+  completely forgotten what you did, the whole write-up, every single
+  number or pixel in a plot is reproducible.
+<span class="org-list-dt">-</span> Your analysis actually works---at least in this particular instance.
+  The code you show actually executes without error.
+<span class="org-list-dt">-</span> Toward the end of your work, with the write-up almost done you
+  discover an error.  Months of rework to do?  No!  Just fix the error
+  and re-export.  One single problem like this and you will have all
+  the time invested in Org-babel repaid.
+<span class="org-list-dt">-</span> This methodology provides discipline.  There's nothing that will make
+  you clean up your code like the prospect of actually revealing it to
+  the world.
+
+Whether we're talking about homework, a consulting report, a textbook,
+or a research paper.  If they involve computing and statistics, this
+is the way to do it.
+</pre>
+  </body>
+</html>

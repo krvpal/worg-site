@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>David O'Toole Org tutorial (Traduzido para o Português)</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Ricardo Cosme" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">David O'Toole Org tutorial (Traduzido para o Português)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org312afc0">Introdução</a>
+<ul>
+<li><a href="#org7b8d1ac">Obtendo org-mode</a></li>
+<li><a href="#org58c34df">Ativação</a></li>
+</ul>
+</li>
+<li><a href="#org2e13588">O básico</a>
+<ul>
+<li><a href="#orgc9ff6f2">Criando um novo arquivo</a></li>
+<li><a href="#org202584a">Uma simples lista de tarefas</a></li>
+<li><a href="#orgb6c10c4">Usando headlines para estruturar o documento</a></li>
+<li><a href="#orgbad4d53">Preenchendo as seções</a></li>
+<li><a href="#org0cc142e">Links para outros lugares</a></li>
+<li><a href="#orgc4422b2">Visão geral de um documento</a></li>
+<li><a href="#orgb85f082">Adicionando notas a uma tarefa</a></li>
+</ul>
+</li>
+<li><a href="#org2223807">Uma amostra de recursos avançados</a>
+<ul>
+<li><a href="#orgf8449f5">Configuração</a></li>
+<li><a href="#orgb84df10">Lista global de TODO</a></li>
+<li><a href="#orge7a8880">Agendamento de tarefas usando a agenda</a></li>
+</ul>
+</li>
+<li><a href="#org4f8f55f">Até mais</a></li>
+</ul>
+</div>
+</div>
+<p>
+Este documento é uma tradução para o Português por Ricardo Cosme do
+<a href="orgtutorial_dto.html">tutorial original</a> de David O'Toole.
+</p>
+
+<p>
+<a href="../index.html">{Voltar para Worg}</a>
+</p>
+
+<div id="outline-container-org312afc0" class="outline-2">
+<h2 id="org312afc0">Introdução</h2>
+<div class="outline-text-2" id="text-org312afc0">
+<p>
+Org-mode é um gerenciador de informação pessoal e uma ferramenta de
+outlining<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> para o Emacs. O objetivo deste documento é introduzir
+o leitor no uso do org-mode ensinando o básico através de um
+passo-a-passo acompanhado de imagens. A ideia aqui não é substituir o
+<a href="https://orgmode.org/org.html">manual</a>. Somente uma parte das funcionalidades são apresentadas.
+</p>
+
+<p>
+Este tutorial foi traduzido para o <a href="orgtutorial_dto-fr.html">Francês</a>, <a href="orgtutorial_dto-es.html">Espanhol</a>, <a href="http://hpcgi1.nifty.com/spen/index.cgi%3FOrgMode%2fOrgTutorial">Japonês</a>,
+<a href="http://hokmen.chan.googlepages.com/OrgTutorial.en-cn.html">Chinês</a>, e <a href="http://jmjeong.com/index.php?display=Emacs/OrgMode%22">Coreano</a>. Agradecimentos especiais aos tradutores.
+</p>
+</div>
+
+<div id="outline-container-org7b8d1ac" class="outline-3">
+<h3 id="org7b8d1ac">Obtendo org-mode</h3>
+<div class="outline-text-3" id="text-org7b8d1ac">
+<p>
+Org-mode faz parte do Emacs 22 e 23, sendo assim se você tem uma
+versão moderna do Emacs, você já o tem.
+</p>
+
+<p>
+Caso contrário você pode obtê-lo em <a href="https://orgmode.org/">org-mode home page</a>, descompactá-lo
+e configurar o load path do Emacs para o diretório lisp do pacote
+extraído:
+</p>
+
+<pre class="example">
+(add-to-list 'load-path "PATH_TO_WHERE_YOU_UNPACKED_ORGMODE/lisp")
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org58c34df" class="outline-3">
+<h3 id="org58c34df">Ativação</h3>
+<div class="outline-text-3" id="text-org58c34df">
+<p>
+Adicione o seguinte ao seu .emacs:
+</p>
+
+<pre class="example">
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+</pre>
+
+
+<p>
+Isso vai garantir que o org foi carregado e alguns atalhos básicos de
+teclado foram definidos. Nós iremos ver adiante neste documento o que
+"org-store-link" e "org-agenda" fazem.
+</p>
+
+<p>
+Mais uma coisa&#x2014;é melhor configurar à parte um diretório específico
+onde os seus arquivos org serão armazenados. Eu recomendo usar ~/org.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2e13588" class="outline-2">
+<h2 id="org2e13588">O básico</h2>
+<div class="outline-text-2" id="text-org2e13588">
+<p>
+Esta seção ilustra um uso básico mostrando o que eu usei do org-mode
+para criar este documento.
+</p>
+</div>
+
+<div id="outline-container-orgc9ff6f2" class="outline-3">
+<h3 id="orgc9ff6f2">Criando um novo arquivo</h3>
+<div class="outline-text-3" id="text-orgc9ff6f2">
+<p>
+Se você configurou o seu arquivo de inicialização do Emacs conforme
+sugeri acima, o Emacs deveria entrar no org-mode sempre que você
+visitar ou criar um arquivo com a extensão ".org".
+</p>
+
+<p>
+Eu criei um novo arquivo chamado "OrgTutorial.org" e vi o indicador
+"Org" no modeline, indicando assim que nós entramos no org-mode.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org202584a" class="outline-3">
+<h3 id="org202584a">Uma simples lista de tarefas</h3>
+<div class="outline-text-3" id="text-org202584a">
+<p>
+Primeiramente eu entrei com um <b>headline</b> chamado "Tasks" para
+armazenar tarefas. Isso não é necessário porém normalmente é
+conveniente, especialmente quando você quer manter tarefas separadas
+do corpo do documento que você está escrevendo.
+</p>
+
+<p>
+Headlines de primeiro nível começam com uma estrela; segundo nível
+começam com duas estrelas e assim por diante.
+</p>
+
+<p>
+No org-mode, itens TODO são sempre headlines. Eu entrei com um item
+TODO para "Start new org file for tutorial."
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-1.png" alt="tutorial-1.png" />
+</p>
+</div>
+
+<p>
+Isso é um pouco bobo, porque eu já comecei o novo arquivo. Sendo
+assim, vamos marcar o item TODO como DONE movendo o cursor para a
+linha do item e entrando com <b>C-c C-t</b>, que executará o comando
+<b>org-todo</b>.
+</p>
+
+<p>
+Aqui está o resultado:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-2.png" alt="tutorial-2.png" />
+</p>
+</div>
+
+<p>
+Note como o org-mode usa um timestamp para registrar quando o item
+TODO foi fechado.
+</p>
+
+<p>
+Vamos adicionar mais alguns itens TODO. Posicione o cursor na próxima
+linha e entre com <b>M-shift-RET</b> para chamar
+<b>org-insert-todo-heading</b>. Você pode entrar com o comando quantas
+vezes quiser para adicionar TODOs.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-3.png" alt="tutorial-3.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb6c10c4" class="outline-3">
+<h3 id="orgb6c10c4">Usando headlines para estruturar o documento</h3>
+<div class="outline-text-3" id="text-orgb6c10c4">
+<p>
+Normalmente a melhor forma de organizar as suas ideias é montar um
+outline<sup><a id="fnr.1.100" class="footref" href="#fn.1">1</a></sup>. Meu próximo passo é planejar os tópicos do
+tutorial. Fazendo isso você quebra a inércia intimidadora da página em
+branco em uma série de blocos menos intimidadores. Assim se torna mais
+fácil inserir o conteúdo.
+</p>
+
+<p>
+Lembre-se que uma estrela começa um título de primeiro nível, e duas
+estrelas um título de segundo nível. Se você precisar aninhar mais, vá
+em frente e use três ou mais estrelas!
+</p>
+
+<p>
+Aqui está como ficou após eu terminar o planejamento do documento:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-4.png" alt="tutorial-4.png" />
+</p>
+</div>
+
+<p>
+Note que eu marquei "Outline document" como DONE depois que eu
+terminei.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbad4d53" class="outline-3">
+<h3 id="orgbad4d53">Preenchendo as seções</h3>
+<div class="outline-text-3" id="text-orgbad4d53">
+<p>
+Você pode facilmente adicionar um texto abaixo de qualquer título.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-5.png" alt="tutorial-5.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0cc142e" class="outline-3">
+<h3 id="org0cc142e">Links para outros lugares</h3>
+<div class="outline-text-3" id="text-org0cc142e">
+<p>
+Na seção "Obtaining Org-mode" eu precisei prover um link para o site
+do org-mode. Uma sintaxe especial com colchetes é utilizada para o link:
+</p>
+
+<pre class="example">
+[[link][description]]
+</pre>
+
+
+<p>
+Veja como eu primeiramente entrei com o link e a descrição, deixando
+em aberto o último colchete:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-6.png" alt="tutorial-6.png" />
+</p>
+</div>
+
+<p>
+Então quando eu entro com o último colchete, o link "colapsa" e
+simplesmente exibe a descrição.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-7.png" alt="tutorial-7.png" />
+</p>
+</div>
+
+<p>
+Tente mover o cursor sobre o link e pressione <b>C-c C-o</b> para executar
+<b>org-open-at-point</b>.
+</p>
+
+<p>
+Você também poder fazer um link para arquivos locais. Tente visitar
+outro arquivo&#x2014;por exemplo, o seu arquivo de inicialização do
+Emacs. Então entre com <b>C-c l</b> para chamar <b>org-store-link</b>. Você vai
+ver uma mensagem que o link foi armazenado para a posição atual no
+arquivo que você está visitando.
+</p>
+
+<p>
+Então volte para o seu buffer org-mode e cole o link usando <b>C-c C-l</b>
+para chamar <b>org-insert-link</b>. (Você pode necessitar usar as setas
+para fazer scroll e procurar o link que você acabou de registrar.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc4422b2" class="outline-3">
+<h3 id="orgc4422b2">Visão geral de um documento</h3>
+<div class="outline-text-3" id="text-orgc4422b2">
+<p>
+Neste momento, o meu documento está ficando longo e eu não consigo
+visualizá-lo por completo em uma tela. Org-mode torna fácil obter uma
+visão geral do seu documento pressionando <b>shift-TAB</b>.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-9.png" alt="tutorial-9.png" />
+</p>
+</div>
+
+<p>
+Note que apenas os títulos de primeiro nível são exibidos. Você pode
+pressionar novamente <b>shift-TAB</b> para exibir <b>todas</b> os títulos,
+incluindo os itens TODO:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-10.png" alt="tutorial-10.png" />
+</p>
+</div>
+
+<p>
+Então pressione novamente para exibir a visão normal deste documento,
+com a exibição do corpo das seções:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-11.png" alt="tutorial-11.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb85f082" class="outline-3">
+<h3 id="orgb85f082">Adicionando notas a uma tarefa</h3>
+<div class="outline-text-3" id="text-orgb85f082">
+<p>
+Você pode colocar o texto que quiser abaixo de um título de um item
+TODO. Na verdade, você até pode ter subtítulos abaixo de um TODO, e
+TODOs dentro de TODOs!
+</p>
+
+<p>
+Fazer anotações nas tarefas torna mais fácil o processo de coletar
+links e pensamentos relacionados. Aninhar tarefas é ótimo para modelar
+o fluxo de trabalho&#x2014;muitas vezes, uma tarefa grande é quebrada em
+subtarefas menores que você pode finalizar assim que são concluídas.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2223807" class="outline-2">
+<h2 id="org2223807">Uma amostra de recursos avançados</h2>
+<div class="outline-text-2" id="text-org2223807">
+<p>
+Antes de terminarmos, nós vamos passar rapidamente pela lista global
+de TODOs, agendamento, e recursos da agenda. Esses recursos são
+utilizados para se combinar itens de TODO relevantes que estão em
+arquivos org distintos em uma visão por priorização e cronologia. Você
+também pode ver quais tarefas foram completadas e quando.
+</p>
+</div>
+
+<div id="outline-container-orgf8449f5" class="outline-3">
+<h3 id="orgf8449f5">Configuração</h3>
+<div class="outline-text-3" id="text-orgf8449f5">
+<p>
+Primeiramente você deve configurar a variável <b>org-agenda-files</b> para
+que o org-mode conheça quais arquivos buscar por TODOs e itens
+agendados.
+</p>
+
+<p>
+Vamos imaginar que você já tenha diversos arquivos org&#x2014;digamos, um
+para o trabalho, outro para casa, e um outro para a escola.
+</p>
+
+<p>
+Então você adiciona o seguinte ao seu arquivo de inicialização do Emacs:
+</p>
+
+<pre class="example">
+(setq org-agenda-files (list "~/org/work.org"
+                             "~/org/school.org" 
+                             "~/org/home.org"))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb84df10" class="outline-3">
+<h3 id="orgb84df10">Lista global de TODO</h3>
+<div class="outline-text-3" id="text-orgb84df10">
+<p>
+Pressione <b>C-c a t</b> para entrar no lista global TODO. Org-mode vai
+procurar por arquivos em <b>org-agenda-files</b> e apresentar uma lista de
+todos os itens de TODO em aberto:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-16.png" alt="tutorial-16.png" />
+</p>
+</div>
+
+<p>
+Você pode mover o cursor para um item de TODO diferente, e pressionar
+"t" para marcar o item como DONE, ou pressionar <b>RET</b> para entrar no
+arquivo onde o TODO está localizado.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge7a8880" class="outline-3">
+<h3 id="orge7a8880">Agendamento de tarefas usando a agenda</h3>
+<div class="outline-text-3" id="text-orge7a8880">
+<p>
+Vamos dizer que eu queira agendar "Finish document" para hoje. Eu movo
+o cursor para a linha depois do item de TODO "Finish document", e
+pressiono <b>C-c C-s</b> para executar <b>org-schedule</b>. A agenda se abre, e
+eu posso entrar com uma data ou clicar na data desejada:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-12.png" alt="tutorial-12.png" />
+</p>
+</div>
+
+<p>
+Uma vez selecionada a data, org-mode insere um timestamp de
+agendamento depois do item de TODO:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-13.png" alt="tutorial-13.png" />
+</p>
+</div>
+
+<p>
+Agora salve o arquivo, e pressione <b>C-c a a</b> para <b>org-agenda</b>. Uma
+visão do itens agendados para a semana será exibida:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-14.png" alt="tutorial-14.png" />
+</p>
+</div>
+
+<p>
+Agora pressiona "l" (letra minúscula L) para ativar a visão log. Isso
+exibe todas as tarefas terminadas e o momento em que foram concluídas.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/dto/tutorial-15.png" alt="tutorial-15.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4f8f55f" class="outline-2">
+<h2 id="org4f8f55f">Até mais</h2>
+<div class="outline-text-2" id="text-org4f8f55f">
+<p>
+Este documento é somente uma breve navegação pelo org-mode. Há mais
+esperando por você em <a href="https://orgmode.org/manual/index.html">online org-mode manual</a>.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+"Outline" é um termo em inglês que denota o planejamento de um
+documento através de um esqueleto a ser preenchido durante o
+desenvolvimento do mesmo. Estabelecer as seções do documento é uma
+forma de outline.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Ricardo Cosme</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

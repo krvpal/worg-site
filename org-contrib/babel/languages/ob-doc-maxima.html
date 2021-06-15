@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Maxima Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Maxima Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgeed3197">Introduction</a></li>
+<li><a href="#org584fe15">Requirements and Setup</a></li>
+<li><a href="#org2009c11">Org Mode Features for Maxima Source Code Blocks</a>
+<ul>
+<li><a href="#orgfd75d5f">Header Arguments</a></li>
+<li><a href="#orgba6ff67">Sessions</a></li>
+<li><a href="#orgcb4c86b">Result Types</a></li>
+</ul>
+</li>
+<li><a href="#org03ba9f7">Examples of Use</a>
+<ul>
+<li><a href="#org83ae4d5">Calculator</a></li>
+<li><a href="#orgb2c77c8">Solver</a></li>
+<li><a href="#org57a8aea">3D plots</a></li>
+<li><a href="#org94a4085">Inline Display of Maxima LaTeX Output</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://maxima.sourceforge.net/">Maxima</a>
+</p>
+<p>
+<a href="http://maxima.sourceforge.net/">
+<img src="http://maxima.sourceforge.net/i/logo.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-orgeed3197" class="outline-2">
+<h2 id="orgeed3197">Introduction</h2>
+<div class="outline-text-2" id="text-orgeed3197">
+<p>
+Maxima is a computer algebra system descended from Macsyma, which was
+originally released in 1982.  It is released under the terms of the
+GNU General Public License.
+</p>
+
+<p>
+Maxima is written in Common Lisp.  It can be accessed and extended in
+Lisp. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org584fe15" class="outline-2">
+<h2 id="org584fe15">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org584fe15">
+<p>
+Maxima binaries are available for Windows and Linux.  These either
+require a compatible Common Lisp or an executable Lisp image.  Mac OS
+X users can install via brew or MacPorts.  The combinations of
+operating system and Lisp implementation known to run Maxima can be
+found on <a href="http://maxima-project.org/wiki/index.php?title%3DMaxima_ports">the Maxima ports page</a>.
+</p>
+
+<p>
+There are several versions of Maxima, some with different names.  The
+variable <code>org-babel-maxima-command</code> can be set to the name of your
+Maxima executable.  The default value is &ldquo;maxima&rdquo;.
+</p>
+
+<p>
+Maxima ships with <code>Emacs</code> modes.  Instructions for configuring them
+can be found on <a href="http://emacswiki.org/emacs/MaximaMode">emacswiki</a>.  <code>imaxima</code> is an <code>Emacs</code> front end with
+image that displays fully typeset math in your <code>Emacs</code> window.
+</p>
+
+<p>
+You must activate Maxima by adding a line to
+<code>org-babel-load-languages</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+     <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+     <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>maxima . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">this line activates maxima</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org2009c11" class="outline-2">
+<h2 id="org2009c11">Org Mode Features for Maxima Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org2009c11">
+</div>
+<div id="outline-container-orgfd75d5f" class="outline-3">
+<h3 id="orgfd75d5f">Header Arguments</h3>
+<div class="outline-text-3" id="text-orgfd75d5f">
+<p>
+There are no Maxima-specific default header argument values.
+</p>
+
+<p>
+The header argument, <code>:cmdline</code>, can be used to pass command line
+arguments to Maxima.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgba6ff67" class="outline-3">
+<h3 id="orgba6ff67">Sessions</h3>
+<div class="outline-text-3" id="text-orgba6ff67">
+<p>
+Org-mode support for Maxima does not include sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb4c86b" class="outline-3">
+<h3 id="orgcb4c86b">Result Types</h3>
+<div class="outline-text-3" id="text-orgcb4c86b">
+<p>
+Maxima produces the full range of result types.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org03ba9f7" class="outline-2">
+<h2 id="org03ba9f7">Examples of Use</h2>
+<div class="outline-text-2" id="text-org03ba9f7">
+</div>
+<div id="outline-container-org83ae4d5" class="outline-3">
+<h3 id="org83ae4d5">Calculator</h3>
+<div class="outline-text-3" id="text-org83ae4d5">
+<p>
+The following source code block uses <code>maxima</code> as a calculator for
+powers of 12, where the powers are passed with a variable.
+</p>
+
+<pre class="example">
+#+name: test-maxima
+#+header: :exports results
+#+header: :var x=1.3121254
+#+begin_src maxima 
+  programmode: false;
+  print(12^x);
+#+end_src
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-maxima" id="org4fee385">  programmode: false;
+  print(12^x);
+</pre>
+</div>
+
+<pre class="example">
+26.06280316745402
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb2c77c8" class="outline-3">
+<h3 id="orgb2c77c8">Solver</h3>
+<div class="outline-text-3" id="text-orgb2c77c8">
+<p>
+Of course, <code>maxima</code> is more than a calculator.
+</p>
+
+<pre class="example">
+#+name: solve-maxima
+#+header: :exports results
+#+begin_src maxima :results output
+  programmode: false;
+  eq: x**2-16 = 0;
+  solution: solve(eq, x);
+  print(solution);
+#+end_src
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-maxima" id="orgdb64365">  programmode: false;
+  eq: x**2-16 = 0;
+  solution: solve(eq, x);
+  print(solution);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org57a8aea" class="outline-3">
+<h3 id="org57a8aea">3D plots</h3>
+<div class="outline-text-3" id="text-org57a8aea">
+<p>
+With <code>gnuplot</code> installed (4.0 or higher), 3D graphics are possible.
+This example is from <a href="http://maxima.sourceforge.net/maxima-gnuplot.html">a tutorial on the maxima/gnuplot interface</a>.
+</p>
+
+<pre class="example">
+#+name: 3d-maxima
+#+header: :file images/maxima-3d.png
+#+header: :exports results
+#+header: :results graphics
+#+begin_src maxima 
+  programmode: false;
+  plot3d(atan(-x^2+y^3/4),[x,-4,4],[y,-4,4],[grid,50,50],[gnuplot_pm3d,true]);
+#+end_src
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-maxima" id="org851e035">  programmode: false;
+  plot3d(atan(-x^2+y^3/4),[x,-4,4],[y,-4,4],[grid,50,50],[gnuplot_pm3d,true]);
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="images/maxima-3d.png" alt="maxima-3d.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org94a4085" class="outline-3">
+<h3 id="org94a4085">Inline Display of Maxima LaTeX Output</h3>
+<div class="outline-text-3" id="text-org94a4085">
+<p>
+<a href="http://maxima.sourceforge.net/">Maxima</a> code can be evaluated and displayed inline in Org mode
+through babel <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> as in the example below, based on RS initial
+example.
+</p>
+
+<pre class="example">
+#+NAME: solve-maxima
+#+HEADER: :exports none
+#+BEGIN_SRC maxima :results raw
+  tex(exp(-x)/x);
+#+END_SRC
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-maxima" id="orgd24a957">  tex(exp(-x)/x);
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgdbac2af" class="outline-4">
+<h4 id="orgdbac2af">Toggle inline display of latex code</h4>
+<div class="outline-text-4" id="text-orgdbac2af">
+<p>
+Latex code in org mode can be displayed inline by &rsquo;C-c C-x
+C-l&rsquo;. To remove the inline display &rsquo;C-c C-c&rsquo; is used. This is
+described further in the manual <sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgbbbfbdc" class="outline-4">
+<h4 id="orgbbbfbdc">Set scale of output</h4>
+<div class="outline-text-4" id="text-orgbbbfbdc">
+<p>
+If the inline display of the equations are illegible, the scale
+can be set by customising the variable &rsquo;org-format-latex-options&rsquo;,
+by setting the :scale variable to a value &gt;1.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf5de0ff" class="outline-4">
+<h4 id="orgf5de0ff">Export</h4>
+<div class="outline-text-4" id="text-orgf5de0ff">
+<p>
+This exports nicely to both html (C-c C-e b) and pdf (C-c C-e
+d). See <sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> and <sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> in the manual.
+</p>
+</div>
+</div>
+<div id="outline-container-orgaeb422c" class="outline-4">
+<h4 id="orgaeb422c">Noweb expansion</h4>
+<div class="outline-text-4" id="text-orgaeb422c">
+<p>
+<span class="underline">NOTE:</span> I have not tested this yet, but as Eric Schulte noted on
+the mailing list: &ldquo;Alternately, if you really want to get fancy
+you could use noweb expansion <sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup> to insert the results of the
+imaxima code block into a latex code block, and then use the
+existing latex code block functionality to convert the imaxima
+output to images of different types depending on the export
+target.&rdquo;
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+(info &ldquo;(org)Library of Babel&rdquo;)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+(info &ldquo;(org)Previewing LaTeX fragments&rdquo;)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+(info &ldquo;(org)Exporting code blocks&rdquo;)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+(info &ldquo;(org)The export dispatcher&rdquo;)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
+(info &ldquo;(org)noweb&rdquo;)
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

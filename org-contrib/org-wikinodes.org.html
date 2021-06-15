@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-wikinodes.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .success {
+        /* success */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-wikinodes.el -- CamelCase wiki-like links to Org-mode nodes
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+<span class="italic">org-wikinodes.el</span> implements CamelCase wiki-like links in Org mode.
+However, while most wiki implementations use files as the basic data
+unit, it is more natural for Org to use outline nodes.
+
+<span class="italic">org-wikinodes.el</span> turns CamelCase words into links to CamelCase
+headlines and creates missing headlines if necessary.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Installation
+</span>
+Like with most contribued modules, just customize the variable
+<span class="org-verbatim">org-modules</span> and select the line for <span class="italic">org-wikinodes</span>.
+
+If you want to use this module only in some files/directories but not
+in others, set your general preference in the variable
+<span class="org-verbatim">org-wikinodes-active</span> and then use Emacs <span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/File-Variables.html">file variables</a></span> or
+<span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html">directory-local variables</a></span> to change things where necessary.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to use this module
+</span>
+When this package is activated, any headlines that consist of only a
+single CamelCase word, optionally with a TODO keyword, a priority
+cookie and tags, are treated as a wiki node.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* TODO </span><span class="org-block"><span class="success">[#C] </span></span><span class="org-block">ThisIsAWikiNodeInOrgMode    :test:
+</span><span class="org-block-end-line">#+end_src
+</span>
+Writing the CamelCase word plainly in the text will create a link to
+that node.
+
+Following the link will jump to it, and you can return to the previous
+position with <span class="org-verbatim">C-c &amp;</span>.  If the target does not exist, it can be
+created.  By default the user will be asked if the target should be
+created, but the exact behavior can be modified using the user option
+<span class="org-verbatim">org-wikinodes-create-targets</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Wiki links across files
+</span>
+By default a match for a link is only attempted in the current file.
+However, you can make Org consider headlines in all org files in the
+same directory by setting
+
+<span class="org-code">: (setq org-wikinodes-scope 'directory)
+</span>
+In this case, to speed things up, a cache is created that remembers in
+which file a particular node can be found.  The cache is updated
+directly if you create nodes automatically by following CamelCase
+links to non-existing headlines.  However, if you create a new node by
+hand (just typing it), then you need to clear the cache before the
+node can be found from a link in a different file.  To clear the
+cache, press <span class="org-verbatim">C-c C-c</span> in any headline that is just a CamelCase word.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Export and publishing
+</span>
+<span class="italic">org-wikinodes.el</span> fully supports export and publishing.  Links will
+be functional in the published version of the files.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> CamelCase words are hard to read
+</span>
+Yes, this is true.  If you find this problematic, try <span class="org-verbatim">glasses-mode</span>
+which makes <span class="org-verbatim">CamelCase</span> words more readable by displaying them like
+<span class="org-verbatim">Camel_Case</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Author
+</span>
+<span class="italic">org-wikinodes.el</span> was written by Carsten Dominik.
+</pre>
+  </body>
+</html>

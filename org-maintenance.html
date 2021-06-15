@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org maintenance</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org maintenance</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb74b9ba">Maintainers and contributors</a></li>
+<li><a href="#orgece20c5">What&rsquo;s in a release?</a>
+<ul>
+<li><a href="#org1ffc177">We don&rsquo;t follow a release schedule</a></li>
+<li><a href="#org1d3b896">We don&rsquo;t use semantic versioning</a></li>
+<li><a href="#orge18728b">Major, minor and bugfix releases</a></li>
+<li><a href="#orgba5c888">Conventions before and after Org 9.5</a></li>
+</ul>
+</li>
+<li><a href="#org63a884e">Releasing</a>
+<ul>
+<li><a href="#orgdb1a07a">Git workflow</a></li>
+<li><a href="#org0841a15">Major release: merging master into maint</a></li>
+<li><a href="#orgc41142d">Tagging the release</a></li>
+<li><a href="#org33e80ff">Uploading the release files from the orgmode.org server</a></li>
+</ul>
+</li>
+<li><a href="#orgd844db5">Available Org&rsquo;s builds on the server</a></li>
+<li><a href="#org1844f4c">Synchronization Org and upstream Emacs</a>
+<ul>
+<li><a href="#org496c4f9">Backporting changes from upstream Emacs</a></li>
+<li><a href="#org738fb58">Updating the Org version in upstream Emacs</a>
+<ul>
+<li><a href="#orgdaa9a48">Where to files go</a></li>
+<li><a href="#orgf9b70cc">Update  <code>emacs/etc/NEWS</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7ecfc48">Updating the list of hooks/commands/options on Worg</a></li>
+<li><a href="#org8c90218">Copyright assignments</a></li>
+</ul>
+</div>
+</div>
+<p>
+This document describes the tasks the Org-mode maintainers have to do
+and how they are performed.
+</p>
+
+<div id="outline-container-orgb74b9ba" class="outline-2">
+<h2 id="orgb74b9ba">Maintainers and contributors</h2>
+<div class="outline-text-2" id="text-orgb74b9ba">
+<p>
+Carsten Dominik created Org and is still active on the list.
+</p>
+
+<p>
+Bastien Guerry is the current maintainer and release manager.
+</p>
+
+<p>
+Nicolas Goaziou is helping with anything related to org-element.el and
+the exporters.
+</p>
+
+<p>
+Kyle Meyer is backporting patches made against Org in the Emacs
+repository and update the Emacs repo with Org latest release.
+</p>
+
+<p>
+Timothy (aka &ldquo;TEC&rdquo;) and Tim Cross are &ldquo;contributor stewards&rdquo;, ensuring
+that all contributions get the attention they deserve.
+</p>
+
+<p>
+John Corless is helping with confirming reported bugs.
+</p>
+
+<p>
+Some <code>ob-*.el</code> have a dedicated maintainer (see this <a href="https://orgmode.org/list/87d015if5g.fsf@gnu.org/">call for help</a>.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgece20c5" class="outline-2">
+<h2 id="orgece20c5">What&rsquo;s in a release?</h2>
+<div class="outline-text-2" id="text-orgece20c5">
+</div>
+<div id="outline-container-org1ffc177" class="outline-3">
+<h3 id="org1ffc177">We don&rsquo;t follow a release schedule</h3>
+<div class="outline-text-3" id="text-org1ffc177">
+<p>
+Org development is the work of volunteers only and we cannot promise
+to follow a release schedule.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1d3b896" class="outline-3">
+<h3 id="org1d3b896">We don&rsquo;t use semantic versioning</h3>
+<div class="outline-text-3" id="text-org1d3b896">
+<p>
+We use the same numbering convention than semantic versioning, but we
+don&rsquo;t follow the rules of SemVer, as expressed in <a href="https://semver.org">semver.org</a>.
+</p>
+
+<p>
+A <i>major</i> release (e.g. <code>10</code>) means: &ldquo;Hear ye, hear ye!  <b>All users</b> should
+pay attention and read the release notes before upgrading!&rdquo;.
+</p>
+
+<p>
+A <i>minor</i> release (e.g. <code>10.1</code>) means: &ldquo;Hear ye, hear ye!  <b>Power users and
+Org contributors</b> shoul pay attention and read the release notes before
+upgrading!  All other users are welcome to read them too.&rdquo;
+</p>
+
+<p>
+Note that this de facto convention has been made explicit after <code>9.4</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge18728b" class="outline-3">
+<h3 id="orge18728b">Major, minor and bugfix releases</h3>
+<div class="outline-text-3" id="text-orge18728b">
+<dl class="org-dl">
+<dt>Major release</dt><dd>The release number for a major release look like
+this: <code>10</code>.  Major releases are made whenever Org is in a state where
+the feature set is consistent and we know that the features that are
+implemented will be supported in the future.</dd>
+
+<dt>Minor release</dt><dd>The release number for minor releases look like
+this: <code>10.1</code>.  Minor releases are amends to main releases: small new
+features or bugfixes.</dd>
+
+<dt>Bugfix-only releases</dt><dd>The release number for bugfixes-only
+releases looks like this: <code>10.1.1</code>.  These release contain no new
+feature at all, big or small, and only fix things that we cannot
+affort not to fix in a minor release.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgba5c888" class="outline-3">
+<h3 id="orgba5c888">Conventions before and after Org 9.5</h3>
+<div class="outline-text-3" id="text-orgba5c888">
+<p>
+Note that before <code>Org 9.5</code>, versions like <code>9.3</code>, <code>9.4</code>, etc. were really
+<i>major</i> ones.  This was confusing for some users, especially those who
+expect Org to follow semantic versioning conventions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org63a884e" class="outline-2">
+<h2 id="org63a884e">Releasing</h2>
+<div class="outline-text-2" id="text-org63a884e">
+</div>
+<div id="outline-container-orgdb1a07a" class="outline-3">
+<h3 id="orgdb1a07a">Git workflow</h3>
+<div class="outline-text-3" id="text-orgdb1a07a">
+<p>
+The git repository has two branches:
+</p>
+
+<dl class="org-dl">
+<dt>master</dt><dd>For current development.</dd>
+<dt>maint</dt><dd>For bug fixes against latest major or minor release.</dd>
+</dl>
+
+<p>
+Bug fixes always go on <code>maint</code> then are merged on <code>master</code>.
+</p>
+
+<p>
+New features always go on <code>master</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0841a15" class="outline-3">
+<h3 id="org0841a15">Major release: merging master into maint</h3>
+<div class="outline-text-3" id="text-org0841a15">
+<p>
+All commits in the <code>maint</code> branch should always be merged into the
+<code>master</code> branch.  Both minor and major releases are done from the <code>maint</code>
+branch.  When doing a major release, the <code>master</code> branch is merged into
+the <code>maint</code> branch.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc41142d" class="outline-3">
+<h3 id="orgc41142d">Tagging the release</h3>
+<div class="outline-text-3" id="text-orgc41142d">
+<p>
+When doing a major and a minor release, after all necessary merging is
+done, tag the <span class="underline">maint</span> branch for the release with:
+</p>
+
+<pre class="example">
+git tag -a release_9.1.7 -m "Adding release tag"
+</pre>
+
+
+<p>
+and push tags with
+</p>
+
+<pre class="example">
+git push --tags
+</pre>
+
+
+<p>
+We also encourage you to sign release tags like this:
+</p>
+
+<pre class="example">
+git tag -s release_9.1.7 -m "Adding release tag"
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org33e80ff" class="outline-3">
+<h3 id="org33e80ff">Uploading the release files from the orgmode.org server</h3>
+<div class="outline-text-3" id="text-org33e80ff">
+<p>
+Log on the orgmode.org server as the emacs user and <code>cd</code> to <code>~/git/org-mode</code>.
+</p>
+
+<p>
+From there do
+</p>
+
+<pre class="example">
+make release
+make upload
+</pre>
+
+
+<p>
+to create the <code>.tar.gz</code> and <code>.zip</code> files, the documentation, and to upload
+everything at the right place.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd844db5" class="outline-2">
+<h2 id="orgd844db5">Available Org&rsquo;s builds on the server</h2>
+<div class="outline-text-2" id="text-orgd844db5">
+<p>
+There are two cron tasks on the server: one that builds the ELPA
+packages and one that builds <code>org-latest.tar.gz</code> and <code>org-latest.zip</code>.
+</p>
+
+<p>
+ELPA packages are built from the <b>maint</b> branch.  One ELPA package
+contains Org&rsquo;s core, another one called &ldquo;org-plus-contrib&rdquo; contains
+Org and contributed libraries.
+</p>
+
+<p>
+<code>org-latest*</code> snapshots are built from the <b>master</b> branch.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1844f4c" class="outline-2">
+<h2 id="org1844f4c">Synchronization Org and upstream Emacs</h2>
+<div class="outline-text-2" id="text-org1844f4c">
+<p>
+Below it is described how Org is kept in sync with the upstream Emacs.
+</p>
+</div>
+
+<div id="outline-container-org496c4f9" class="outline-3">
+<h3 id="org496c4f9">Backporting changes from upstream Emacs</h3>
+<div class="outline-text-3" id="text-org496c4f9">
+<p>
+Sometimes Emacs maintainers make changes to Org files.  The process of
+propagating the changes back to the Org repository is called
+<i>backporting</i> for historical reasons.
+</p>
+
+<p>
+To find changes that need to be backported from the Emacs repository,
+the following <code>git</code> command, courtesy of <a href="http://permalink.gmane.org/gmane.emacs.devel/215861">Kyle Meyer</a>, can be used:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #66d9ef;">git</span> log $<span style="color: #fd971f;">rev</span>..origin/emacs-25 -- lisp/org doc/misc/org.texi <span style="color: #e2c770;">\</span>
+  etc/refcards/orgcard.tex etc/ORG-NEWS etc/org <span style="color: #e2c770;">\</span>
+  etc/schema/od-manifest-schema-v1.2-os.rnc <span style="color: #e2c770;">\</span>
+  etc/schema/od-schema-v1.2-os.rnc
+</pre>
+</div>
+
+<p>
+here, <code>$rev</code> is the last commit from the <code>emacs-25</code> branch that was
+backported.  The should also be done for the <code>master</code> branch.
+</p>
+
+<p>
+There is also a <a href="http://git.savannah.gnu.org/cgit/emacs.git/atom/lisp/org/">feed</a> to keep track of new changes in the <code>lisp/org</code>
+folder in the Emacs repository.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org738fb58" class="outline-3">
+<h3 id="org738fb58">Updating the Org version in upstream Emacs</h3>
+<div class="outline-text-3" id="text-org738fb58">
+<p>
+New releases of Org should be added to the <a href="https://git.savannah.gnu.org/cgit/emacs.git">Emacs repository</a>.
+</p>
+
+<p>
+Typically, Org can be synchronized by copying over files from the
+<code>emacs-sync</code> branch of the Org repository to the <code>master</code> branch of
+Emacs repository.  The <code>emacs-sync</code> branch has a few extra changes
+compared with the <code>maint</code> branch.  If the Emacs maintainers are
+planning a new release of Emacs soon, it is possible that another
+branch should be used.
+</p>
+
+<p>
+If the new release of Org contains many changes, it may be useful to
+use a separate branch before merging, e.g. <code>scratch/org-mode-merge</code>.
+This branch can then be merged with the <code>master</code> branch, when
+everything has been tested.
+</p>
+
+<p>
+Please see <a href="http://git.savannah.gnu.org/cgit/emacs.git/tree/CONTRIBUTE">CONTRIBUTE</a> in the Emacs repository for guidelines on
+contributing to the Emacs repository.
+</p>
+</div>
+
+<div id="outline-container-orgdaa9a48" class="outline-4">
+<h4 id="orgdaa9a48">Where to files go</h4>
+<div class="outline-text-4" id="text-orgdaa9a48">
+<p>
+The following list shows where files in Org repository are copied to
+in the Emacs repository, folder by folder.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="org2d3da74"></a><code>org-mode/doc</code><br />
+<div class="outline-text-5" id="text-org2d3da74">
+<dl class="org-dl">
+<dt><code>org.texi</code></dt><dd>Copy to <code>emacs/doc/misc</code>.  It may be necessary to replace,
+<code>@include org-version.inc</code> with <code>@set VERSION 9.0.9</code> or similar.</dd>
+
+<dt><code>orgcard.tex</code></dt><dd>Copy to <code>emacs/etc/refcards</code>.  Make sure that
+<code>\def\orgversionnumber</code> and <code>\def\versionyear</code> are up to date.</dd>
+</dl>
+</div>
+</li>
+
+<li><a id="org3747be5"></a><code>org-mode/etc</code><br />
+<div class="outline-text-5" id="text-org3747be5">
+<dl class="org-dl">
+<dt><code>styles/*</code></dt><dd>Copy to <code>emacs/etc/org</code>.</dd>
+
+<dt><code>schema/*.rnc</code></dt><dd>Copy to <code>emacs/etc/schema</code>.</dd>
+
+<dt><code>schema/schemas.xml</code></dt><dd>Any new entries in this file should be added
+to <code>emacs/etc/schema/schemas.xml</code>.</dd>
+
+<dt><code>ORG-NEWS</code></dt><dd>Copy to <code>emacs/etc</code></dd>
+</dl>
+</div>
+</li>
+
+<li><a id="orgec90ce5"></a><code>org-mode/lisp</code><br />
+<div class="outline-text-5" id="text-orgec90ce5">
+<ul class="org-ul">
+<li>Copy <code>*.el</code> files to <code>emacs/lisp/org</code>, except <code>org-loaddefs.el</code>!</li>
+
+<li>You should create <code>org-version.el</code> in <code>emacs/lisp/org</code>.  The file is
+created when you <code>make</code> Org.</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org195b125"></a><span class="todo TODO">TODO</span> <code>org-mode/testing</code><br /></li>
+</ul>
+</div>
+
+<div id="outline-container-orgf9b70cc" class="outline-4">
+<h4 id="orgf9b70cc">Update  <code>emacs/etc/NEWS</code></h4>
+<div class="outline-text-4" id="text-orgf9b70cc">
+<p>
+Whenever a new (major) version of Org is synchronized to the Emacs
+repository, it should be mentioned in the NEWS file.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7ecfc48" class="outline-2">
+<h2 id="org7ecfc48">Updating the list of hooks/commands/options on Worg</h2>
+<div class="outline-text-2" id="text-org7ecfc48">
+<p>
+Load the <code>mk/eldo.el</code> file then <code>M-x eldo-make-doc RET</code>.
+</p>
+
+<p>
+This will produce an org file with the documentation.
+</p>
+
+<p>
+Import this file into <code>worg/doc.org</code>, leaving the header untouched
+(except for the release number).
+</p>
+
+<p>
+Then commit and push the change on the <code>worg.git</code> repository.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8c90218" class="outline-2">
+<h2 id="org8c90218">Copyright assignments</h2>
+<div class="outline-text-2" id="text-org8c90218">
+<p>
+The maintainers needs to keep track of copyright assignments.  Even
+better, find a volunteer to do this.
+</p>
+
+<p>
+The assignment form is included in the repository as a file that you
+can send to contributors: <code>request-assign-future.txt</code>
+</p>
+
+<p>
+The list of all contributors from who we have the papers is kept on
+<a href="https://orgmode.org/worg/org-contribute.html">this Worg page</a>, so that committers can check if a patch can go into
+the core.
+</p>
+
+<p>
+The assignment process does not always go smoothly, and it has
+happened several times that it gets stuck or forgotten at the FSF.
+The contact at the FSF for this is: <code>copyright-clerk AT fsf DOT org</code>
+</p>
+
+<p>
+Emails from the paper submitter have been ignored in the past, but an
+email from the maintainers of Org mode has usually fixed such cases
+within a few days.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

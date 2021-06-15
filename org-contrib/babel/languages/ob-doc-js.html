@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-js</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="stardiviner" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-js</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org945ad28">hello, world demo</a></li>
+<li><a href="#org1e8929c">Configuration</a></li>
+<li><a href="#org4d45793">Use JavaScript libraries</a></li>
+<li><a href="#orgeaf5708">Support session for many Emacs packages</a>
+<ul>
+<li><a href="#org12f4148">Indium</a></li>
+<li><a href="#orgc25483f">skewer-mode</a></li>
+<li><a href="#org3e96476">js-comint</a></li>
+<li><a href="#org7a83dc6">helper command to insert session header argument</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org945ad28" class="outline-2">
+<h2 id="org945ad28">hello, world demo</h2>
+<div class="outline-text-2" id="text-org945ad28">
+<div class="org-src-container">
+<pre class="src src-js">console.log(<span style="color: #e2c770;">"Hello, World!"</span>);
+</pre>
+</div>
+
+<pre class="example">
+Hello, World!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1e8929c" class="outline-2">
+<h2 id="org1e8929c">Configuration</h2>
+<div class="outline-text-2" id="text-org1e8929c">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ob-js</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>js . t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span> <span style="color: #fd971f;">org-babel-load-languages</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-tangle-lang-exts</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"js"</span> . <span style="color: #e2c770;">"js"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4d45793" class="outline-2">
+<h2 id="org4d45793">Use JavaScript libraries</h2>
+<div class="outline-text-2" id="text-org4d45793">
+<p>
+<code class="src src-js">console.log()</code> is supported by default.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js"><span style="color: #eb4509;">var</span> <span style="color: #fd971f;">util</span> = require(<span style="color: #e2c770;">"util"</span>);
+console.log(<span style="color: #e2c770;">"this is a Node.js test program!"</span>);
+</pre>
+</div>
+
+<pre class="example">
+this is a Node.js test program!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgeaf5708" class="outline-2">
+<h2 id="orgeaf5708">Support session for many Emacs packages</h2>
+<div class="outline-text-2" id="text-orgeaf5708">
+<p>
+The header argument :session value of packages REPL buffer names are default.
+</p>
+
+<p>
+And they all support for auto initiate session with ob-core.el
+built-in function <code>org-babel-initiate-session</code>, which is used by
+commands like <code>org-babel-switch-to-session</code> / ([C-c C-v C-z]).
+</p>
+</div>
+
+<div id="outline-container-org12f4148" class="outline-3">
+<h3 id="org12f4148">Indium</h3>
+<div class="outline-text-3" id="text-org12f4148">
+<div class="org-src-container">
+<pre class="src src-js">console.log(<span style="color: #e2c770;">"stardiviner"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc25483f" class="outline-3">
+<h3 id="orgc25483f">skewer-mode</h3>
+<div class="outline-text-3" id="text-orgc25483f">
+<div class="org-src-container">
+<pre class="src src-js">console.log(<span style="color: #e2c770;">"stardiviner"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e96476" class="outline-3">
+<h3 id="org3e96476">js-comint</h3>
+<div class="outline-text-3" id="text-org3e96476">
+<div class="org-src-container">
+<pre class="src src-js">console.log(<span style="color: #e2c770;">"stardiviner"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a83dc6" class="outline-3">
+<h3 id="org7a83dc6">helper command to insert session header argument</h3>
+<div class="outline-text-3" id="text-org7a83dc6">
+<p>
+I write an helper command to insert session header argument easily:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ob-js-insert-session-header-arg</span> <span style="color: #fd971f;">(</span>session<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Insert ob-js `</span><span style="color: #fd971f;">SESSION</span><span style="color: #7f7f80;">' header argument.</span>
+<span style="color: #7f7f80;">- `</span><span style="color: #fd971f;">js-comint</span><span style="color: #7f7f80;">'</span>
+<span style="color: #7f7f80;">- `</span><span style="color: #fd971f;">skewer-mode</span><span style="color: #7f7f80;">'</span>
+<span style="color: #7f7f80;">- `</span><span style="color: #fd971f;">Indium</span><span style="color: #7f7f80;">'</span>
+<span style="color: #7f7f80;">"</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">list</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">completing-read</span> <span style="color: #e2c770;">"ob-js session: "</span>
+                                      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"js-comint"</span> <span style="color: #e2c770;">"skewer-mode"</span> <span style="color: #e2c770;">"indium"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-babel-insert-header-arg</span>
+   <span style="color: #e2c770;">"session"</span>
+   <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">pcase</span> session
+     <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"js-comint"</span> <span style="color: #e2c770;">"\"*Javascript REPL*\""</span><span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"skewer-mode"</span> <span style="color: #e2c770;">"\"*skewer-repl*\""</span><span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"indium"</span> <span style="color: #e2c770;">"\"*JS REPL*\""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">define-key</span> <span style="color: #fd971f;">org-babel-map</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">kbd</span> <span style="color: #e2c770;">"J"</span><span style="color: #fd971f;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ob-js-insert-session-header-arg</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: stardiviner</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

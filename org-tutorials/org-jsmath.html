@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to use jsMath with org-mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Darlan Cavalcante Moreira" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">How to use jsMath with org-mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4e62625">Why bother</a></li>
+<li><a href="#orgcbc79e2">Download jsMath</a></li>
+<li><a href="#orgc7adc05">Installation and configuration of jsMath</a></li>
+<li><a href="#org95cb054">Org setup to keep LaTeX intact for jsMath</a></li>
+<li><a href="#org6ebf73e">As pretty as it can get</a></li>
+<li><a href="#org7082a2a">Extra fonts</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org4e62625" class="outline-2">
+<h2 id="org4e62625">Why bother</h2>
+<div class="outline-text-2" id="text-org4e62625">
+<p>
+Here are some advantages and disadvantages about using jsMath instead of images.
+</p>
+<dl class="org-dl">
+<dt>Advantages</dt><dd><ul class="org-ul">
+<li>It&rsquo;s really pretty when you have all the fonts installed and you can zoom in
+without any loss of quality.</li>
+<li>No need to generate images when exporting
+<ul class="org-ul">
+<li>When you see the generated HTML page the jsMath script is run and replaces
+the latex code appropriately. Because the efficiency of the java-script
+engine in modern browsers are increasing more and more these replacements
+are usually fast even if there are a lot of equations in the generated
+page.</li>
+<li>On the other hand, creating images when exporting can take considerable
+time when there are many equations.</li>
+</ul></li>
+</ul></dd>
+
+<dt>Disadvantages</dt><dd><ul class="org-ul">
+<li>It is more difficult to setup
+<ul class="org-ul">
+<li>you have to install jsMath for authors, since you are creating pages with it.</li>
+<li>you have to install jsMath for users, that is, install the fonts that will
+be used. If this is not done, jsMath will use images for the
+equations. You won&rsquo;t need to generate the images when exporting, since
+jsMath already has all images (it just put the pieces together)</li>
+</ul></li>
+<li>It is more inconvenient to send the generated HTML page to a friend, since
+your friend will need to install the fonts used by jsMath.</li>
+</ul></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcbc79e2" class="outline-2">
+<h2 id="orgcbc79e2">Download jsMath</h2>
+<div class="outline-text-2" id="text-orgcbc79e2">
+<p>
+First we need to download jsMath for authors as explained in
+<a href="http://www.math.union.edu/~dpvc/jsMath/download/jsMath.html">http://www.math.union.edu/~dpvc/jsMath/download/jsMath.html</a>. The necessary
+files are <a href="http://sourceforge.net/project/showfiles.php?group_id=172663">here</a>. Download the latest version of jsMath and also the &ldquo;jsMath
+Image Fonts&rdquo;<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> file. Don&rsquo;t bother with the sprite fonts.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc7adc05" class="outline-2">
+<h2 id="orgc7adc05">Installation and configuration of jsMath</h2>
+<div class="outline-text-2" id="text-orgc7adc05">
+<p>
+Unpack the jsMath and jsMath-image-fonts archives, and place the fonts
+folder from the second archive into the jsMath folder from the first
+archive. That is, the fonts folder should be in the same folder as the
+jsMath.js file.
+</p>
+
+<p>
+The main configuration file for jsMath is the easy/load.js script. We need
+to tell org-mode to include this script in each generated HTML
+file. Assuming that the jsMath folder is in the same parent folder as the
+folder containing the .org files, we can just add
+</p>
+<pre class="example">
+#+STYLE: &lt;SCRIPT SRC="../jsMath/easy/load.js"&gt;&lt;/SCRIPT&gt;
+</pre>
+
+<p>
+to the beginning of each org file. Alternatively, if org-publish is utilized
+we can put
+</p>
+<pre class="example">
+:style "&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"../stylesheet.css\" /&gt;"
+</pre>
+
+<p>
+in the project definition.
+</p>
+
+
+<p>
+With that, when the HTML generated by org-mode is viewed in the browser jsMath
+will replace the equations inside the math delimiters appropriately<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>. By
+default, jsMath recognizes <code>\(</code> and <code>\)</code> as math delimiters for inline
+equations, and <code>\[</code> and <code>\]</code> (in addition to <code>$$</code>) as math delimiters for
+display equations.
+</p>
+
+<p>
+To recognize <code>$</code> as math delimiters for inline equations change
+&ldquo;processSingleDollars:&rdquo; to 1 in the easy/load.js file.
+</p>
+
+<p>
+You will probably want to load some additional plugins (for instance,
+AMSSymbols). In order to do that search for
+</p>
+<pre class="example">
+loadFiles: [],
+</pre>
+
+<p>
+in the easy/load.js file and add each plugin name separated by comma. Here I
+use
+</p>
+<pre class="example">
+loadFiles: ["extensions/AMSmath.js","extensions/AMSsymbols.js", "extensions/autobold.js", "extensions/eqn-number.js"],
+</pre>
+
+<p>
+The plugins AMSmath and AMSSymbols are self-explanatory and you will need them
+if you are using symbols or environments provided by AMS such as the symbol
+<code>\triangleq</code>.
+</p>
+
+<p>
+The plugin eqn-number is really nice. It will number equations that have a
+label and allow you to reference them later with the ref command. For instance
+</p>
+<pre class="example">
+\[
+\label{a_label}
+x=2*y
+\]
+Bla bla bla from equation \(\ref{a_label}\)
+</pre>
+
+<p>
+will create a numbered equation that can be referred as showed in the
+example<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>. The reference is a link to the equation.
+</p>
+
+<p>
+The plugin autobold causes jsMath to use \boldsymbol{...} around
+mathematics that appears within &lt;B&gt;&#x2026;&lt;/B&gt; tags or has font-weight:bold
+applied via CSS rule.
+</p>
+
+<p>
+Look in the extensions folder for other plugins (some of
+them are loaded automatically by jsMath and it is not necessary to include
+them in the loadFiles).
+</p>
+
+<p>
+As last, if the browser freezes when jsMath is being loaded, try disable the
+autoload feature in the easy/load.js file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org95cb054" class="outline-2">
+<h2 id="org95cb054">Org setup to keep LaTeX intact for jsMath</h2>
+<div class="outline-text-2" id="text-org95cb054">
+<p>
+<i>(Updated 2010-01-07 by CM)</i>
+</p>
+
+<p>
+Because we are going to process the latex code with jsMath, we
+must ensure that Org-mode leaves the latex code intact. This can
+now be done by setting the variable
+org-export-with-LaTeX-fragments to <code>verbatim</code>, e.g. by including
+this line at the beginning of the Org file:
+</p>
+<pre class="example">
+#+OPTIONS: LaTeX:verbatim
+</pre>
+
+<p>
+(Previously, the same effect was achieved with the lines
+</p>
+<pre class="example">
+#+OPTIONS: ^:nil
+#+OPTIONS: LaTeX:nil
+</pre>
+
+<p>
+but this had the side effect of turning off sub- and superscripts
+in all non-latex text. The new <code>verbatim</code> option can be used with
+<code>^:t</code>.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ebf73e" class="outline-2">
+<h2 id="org6ebf73e">As pretty as it can get</h2>
+<div class="outline-text-2" id="text-org6ebf73e">
+<p>
+jsMath should be working with org-mode by now, but it is using the image fonts
+and warns the user with a red frame at the top of the page. That means that
+the &ldquo;installation for authors&rdquo; part is done and now we only need to install
+some .ttf fonts available at the jsMath website. Download the file
+<a href="http://www.math.union.edu/~dpvc/jsMath/download/TeX-fonts-linux.tgz">TeX-fonts-linux.tgz</a> in the website. and extract the files to ~/.fonts.
+</p>
+
+<p>
+The package TeX-fonts-linux has the most common ones, but it is also good to
+install the extra fonts (to see, for instance, the &ldquo;mathcal&rdquo; symbols).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7082a2a" class="outline-2">
+<h2 id="org7082a2a">Extra fonts</h2>
+<div class="outline-text-2" id="text-org7082a2a">
+<p>
+Some additional fonts available in the <a href="http://www.math.union.edu/~dpvc/jsMath/download/extra-fonts/welcome.html">extra fonts</a> page are useful.  Download
+the zip file for authors (for instance bbold10.zip) and extract it to the
+jsMath/fonts folder. Then download the corresponding .ttf file to the ~/.fonts
+(I prefer the light version because the dark version may be confused with
+bold). You don&rsquo;t need to install all of the extra fonts. The ones I found
+useful are bbold10, cmbsy10, cmmib10, msam10 and msbm10<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+The Image Fonts are the images of each symbol that jsMath uses as a
+fallback when the user does not have the ttf fonts installed. We will install
+these fonts later and it would be possible to avoid installing the image fonts,
+but it requires an additional configuration step.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+A button &ldquo;jsMath&rdquo; should appear at the bottom east of the page.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+The Math delimiters are necessary to tell jsMath to process the \ref
+command.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+Without the extra fonts some symbols won&rsquo;t be showed even if the plugin
+is loaded, such as the &triangleq; symbol.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Darlan Cavalcante Moreira</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>weaving-a-budget.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Weaving a budget with Org &amp; ledger
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Erik Hetzner
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">egh@e6h.org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Weaving a budget with Org &amp; ledger
+</span>
+Since I am intending this tutorial for worg, I will assume that the
+reader is familiar with Org. If you are not, but are an emacs user, I
+encourage you to explore Org. It is an invaluable piece of software.
+
+Now, assuming that you are familiar (or have familiarized yourself)
+with Org, you might also be interested in using ledger. If you already
+are using it, this tutorial is for you. If you are new to ledger, you
+might find the <span class="kc-org-link-url"><a href="http://www.ledger-cli.org/3.0/doc/ledger3.html">manual</a></span> useful. The <span class="kc-org-link-url"><a href="http://hledger.org/step-by-step">hledger step-by-step</a></span> guide is also
+useful, though intended for hledger (a close cousin of ledger). I
+don&#8217;t intend to introduce the reader to ledger in this document.
+
+Now, ledger comes with a built in budget system, but I wanted to get
+an &#8220;envelope&#8221; style budget working. While this was easy to do in
+theory, in practice it proved more difficult. The theory is pretty
+simple; enevelope budgeting merely requires you to create new accounts
+to keep track of each &#8220;envelope&#8221; of money, and assign all of your
+income to those separate accounts. But in practice, it requires a huge
+amount of duplicate data-entry, even when using ledger&#8217;s automatic
+transactions, because each month&#8217;s budget tends to <span class="bold">mostly</span> but not
+<span class="bold">exactly</span> the same as the last month&#8217;s. This quickly becomes a
+nightmare when you want to change your monthly food budget over the
+past six months. The following document describes how I managed to get
+something working, with nice reporting, using Org&#8217;s babel and noweb
+features.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> The theory
+</span>
+In theory, ledger can easily be used to manage an envelope budget. The
+basic idea is that you will place all your money in different
+<span class="org-verbatim">Budgeted</span> accounts. For instance, if you earn $1000/mo and want to
+place half of that money in your food budget and the other half in
+your bars budget, you would use:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">2014/01/01 Income
+  Assets:Checking         $1000
+  Income                 -$1000
+  Budgeted:Expenses:Food   $500
+  Budgeted:Expenses:Bars   $500
+  Budget                 -$1000
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+(The <span class="org-verbatim">Budget</span> account is to ensure things balance; it should be equal
+to your income.)
+
+Now, you will use automated transactions to deplete your budget as you
+move money to your <span class="org-verbatim">Expenses</span> accounts. Here is an automated
+transaction that will work for all your expenses in 2014 and
+afterwards:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">= expr (date&gt;=[2014] and account =~ /^Expenses:/)
+  Budgeted:$account        -1
+  Budget                    1
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+Now, given expense transactions that look like:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">2014/01/02 Foo
+  Assets:Checking      -$100
+  Expenses:Food         $100
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+this will add, for every posting that starts with <span class="org-verbatim">Expenses</span>, a
+posting to <span class="org-verbatim">Budgeted:Expenses</span> and to <span class="org-verbatim">Budget</span>. This will result in
+the automated equivalent of having entered:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">2014/01/02 Foo
+  Assets:Checking         -$100
+  Expenses:Food            $100
+  Budgeted:Expenses:Foo   -$100
+  Budget                   $100
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+The automated transaction saves us a great deal of repetetive work, as
+you can see.
+
+Now, this solution will work. Each month, you will replenish your
+budget accounts by an amount equaling your income for that month, and
+as you spend money the budget accounts will be depleted as you spend
+money. But the trickiest part, I found, was in adjusting your budget
+as needed. For instance, I found that I needed a base budget for
+things like food and gas, but that other items might suddenly stop.
+For instance, you might cancel your cable, or take up a new hobby. You
+can copy and paste your base budget, but then when you go back to
+retroactively change your food budget (as you will probably need to,
+to adjust to the fact that you are spending more or less than
+anticipated), you need to go back and change all those budget entries.
+This quickly becomes a hassle.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> The practice (Org enters the picture)
+</span>
+This is where Org, and particularly babel&#8217;s noweb features come in.
+But first, let&#8217;s look at how you can use Org to generate some useful
+reports. Here is how I generate last month&#8217;s expenses:
+
+<span class="org-code">: * Last month's expenses
+: #+begin_src ledger :cmdline bal -p "last month" ^Expenses: :results output :exports results
+: !include /path/to/ledger.lgr
+: #+end_src
+</span>
+(You may need to ensure that <span class="org-verbatim">ob-ledger</span> is loaded into your Org;
+see the <span class="org-link"><a href="file:../org-contrib/babel/languages/ob-doc-ledger.org">ob-ledger doc</a></span> for details.) Now, if you type <span class="org-verbatim">C-c C-c</span> on this
+entry, it will generate a report of your expenses last month, which
+will be placed after the source block, and will look like:
+
+<span class="org-code">: #+RESULTS:
+: #+begin_example
+:             $150.00  Expenses
+:             $100.00    Food
+:              $50.00    Bars
+: --------------------
+:             $150.00
+: #+end_example
+</span>
+By using babel, you can generate a lot of useful reports and keep them
+up-to-date, exporting them to HTML or PDF for printing, etc.
+
+But some of the really useful features come when you use Org&#8217;s noweb
+to weave a budget together. noweb allows, among other things, you to
+include source blocks in other blocks. First, you&#8217;ll set up your base
+budget, which will be included in every budget. Say you know that
+every month you will spend $500 on food. You create a ledger source
+block with a name, <span class="org-verbatim">base-budget</span>:
+
+<span class="org-code">: #+name: base-budget
+: #+begin_src ledger
+:   ; :BUDGET:
+:   Budgeted:Expenses:Food  $500
+:   Budgeted:Savings
+: #+end_src
+</span>
+This means that you want $500 to go to food, and the balance to
+savings. (The first line <span class="org-verbatim">; :BUDGET:</span> is a tag to let you identify
+this as a budget; this helps with some reports.) Now, you can set up
+your budget block:
+
+<span class="org-code">: #+name: budget
+: #+begin_src ledger :noweb yes
+: = expr (date&gt;=[2014] and account =~ /^Expenses:/)
+:   Budgeted:$account        -1
+:   Budget  1
+:
+: 2014/01/01 * Budget
+:  &lt;&lt;base-budget&gt;&gt;
+:  Budget  -$1000
+: #+end_src
+</span>
+What you have done here is set up your automated transaction, as
+above, and set up your first month&#8217;s budget. You have assumed that
+your first month&#8217;s income is $1000, and you have included your base
+budget. When this is woven by noweb, <span class="org-target"><span class="org-verbatim">&lt;&lt;base-budget&gt;&gt;</span></span> will be
+replaced with the <span class="org-verbatim">base-budget</span> source block, and Org will pass the
+following on to ledger:
+
+<span class="org-code">: 2014/01/01 * Budget
+:   Budgeted:Expenses:Food  $500
+:   Budgeted:Savings
+:   Budget                -$1000
+</span>
+This will set up $500 in your food budget, and the balance ($500) for
+savings.
+
+Now, to generate a report, you can use the following:
+
+<span class="org-code">: #+begin_src ledger :cmdline bal -p "this year" ^Budgeted:Expenses -E :results output :exports results :noweb yes
+: &lt;&lt;budget&gt;&gt;
+: !include /path/to/ledger.lgr
+: #+end_src
+</span>
+Running this report (<span class="org-verbatim">C-c C-c</span>) will tell you your budget balance for
+each expense. If you budgeted $500 for food and spent $600, your
+balance will be -$100. If you spend $300, your balance will be $200.
+
+Each month, month, you will create a new budget entry in your <span class="org-verbatim">budget</span>
+source block, with the <span class="org-verbatim">Budget</span> account equaling your income that
+month. You will include your <span class="org-target"><span class="org-verbatim">&lt;&lt;base-budget&gt;&gt;</span></span>, and any adjustments
+you want to make.
+
+For example, say that in June you take up cycling. You want to budget
+$100 per month for this, but you want to start in June, not January.
+You will add the following entry to your <span class="org-verbatim">budget</span> source block:
+
+<span class="org-code">: 2014/06/01 * Budget
+:  &lt;&lt;base-budget&gt;&gt;
+:  Budgeted:Expenses:Cycling  $100
+:  Budget                   -$1000
+</span>
+This means that for June your budget will be $500 for food, $100 for
+cycling, and $400 for savings.
+
+Now, you will need to keep adding the cycling budget line every time
+from now on, so you might want, at some point, to get complicated. You
+could define a new source block with the name <span class="org-verbatim">base-budget-new</span>,
+include your old <span class="org-verbatim">base-budget</span>, using <span class="org-target"><span class="org-verbatim">&lt;&lt;base-budget&gt;&gt;</span></span>, and then
+include that in your budget entries going forward, to avoid duplicate
+typing. noweb should allow you to structure your budget entries
+however you like.
+
+I&#8217;ve found this solution to be flexible enough to allow me to manage a
+budget that is contantly being adjusted, and easy to generate
+printable reports. ledger and Org make an excellent pair.
+</pre>
+  </body>
+</html>

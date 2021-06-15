@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>backends.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-sync backends
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Aur&#233;lien Aptel
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">aurelien.aptel@gmail.com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    ../../index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+Note: everything here is a work in progress.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Workflow/Roadmap
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> First import
+</span>
+<span class="org-list-dt">-</span> the user runs <span class="org-verbatim">os-import</span>, and is prompted for a repo url
+<span class="org-list-dt">-</span> org-sync tries to match it against per-backend pattern in order to
+  chose the right one.
+<span class="org-list-dt">-</span> org-sync inserts a new headline named "Bugs of <span class="italic">repo</span>" or prompts
+  the user for a name. The headline name is not stored remotely and
+  can be changed to anything.
+<span class="org-list-dt">-</span> this headline has a set of well defined PROPERTIES used by every
+  backend and (optionally) other for a specific backend.
+<span class="org-list-dt">-</span> This headlines contains sub-headlines, one for each bug.
+<span class="org-list-dt">-</span> Again, each bug headline has a set of PROPERTIES common to every
+  backend and some for a specific one.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Synchronization
+</span>
+<span class="org-list-dt">-</span> the user runs <span class="org-verbatim">os-sync</span> which syncs each buglist in the buffer.
+<span class="org-list-dt">-</span> if the document doesn't have any buglist, inform the user to call
+  <span class="org-verbatim">os-import</span> (or call it directly).
+<span class="org-list-dt">-</span> org-sync fetches the buglist, and adds any new bugs to the
+  right buglist.
+<span class="org-list-dt">-</span> conflicting changes are handled by showing the new and the old entries in a
+  distinctive manner. The user deletes the one he doesn't want.
+<span class="org-list-dt">-</span> org-sync sends the resulting merge to the remote bugtracker.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Shared properties
+</span>
+After looking at each web service, I came up with the following set of
+properties.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Buglist
+</span>
+<span class="org-list-dt">-</span> title
+<span class="org-list-dt">-</span> source-url
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Bug
+</span>
+<span class="org-list-dt">-</span> id
+<span class="org-list-dt">-</span> status
+<span class="org-list-dt">-</span> title
+<span class="org-list-dt">-</span> description
+<span class="org-list-dt">-</span> creation-date
+<span class="org-list-dt">-</span> update-date
+<span class="org-list-dt">-</span> deadline
+<span class="org-list-dt">-</span> priority
+<span class="org-list-dt">-</span> tags
+<span class="org-list-dt">-</span> author
+<span class="org-list-dt">-</span> assignee
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Bugtrackers
+</span>
+Here are useful information about planned backends. I won't list
+detailed information about properties that don't fit in the project.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Bugzilla
+</span>
+Bugzilla is a full-featured bugtracker written in Perl. There is a
+XML-RPC and a JSON-RPC interface which Org-sync can use.
+
+Since the JSON-RPC interface was added fairly recently in Bugzilla
+(v3.6 released April 13, 2010), we should focus on the XML one.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.bugzilla.org">Bugzilla website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.bugzilla.org/docs/3.2/en/html/api/Bugzilla/WebService.html">XML-RPC API</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://landfill.bugzilla.org/bugzilla-tip-sqlite/page.cgi?id=fields.html">Bug fields in default install</a></span>
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Relevent bug properties
+</span>
+<span class="org-list-dt">-</span> id: simple unsigned number
+<span class="org-list-dt">-</span> status: there are multiple status but they all fall in the
+  open/closed categories. <span class="kc-org-link-url"><a href="https://landfill.bugzilla.org/bugzilla-tip-sqlite/page.cgi?id=fields.html#status">Status definition in default install</a></span>.
+  <span class="org-list-dt">-</span> Open: unconfirmed, confirmed, in_progress, ...
+  <span class="org-list-dt">-</span> Closed: resolved, verified, fixed, invalid, wontfix, duplicate,
+    worksforme, ...
+<span class="org-list-dt">-</span> classification &amp; component: bugs are categorised into Classifications,
+  Products and Components. classifications is the top-level
+  categorisation.
+<span class="org-list-dt">-</span> creation date
+<span class="org-list-dt">-</span> update date
+<span class="org-list-dt">-</span> severity
+<span class="org-list-dt">-</span> priority to fix
+<span class="org-list-dt">-</span> summary: short description, aka title
+<span class="org-list-dt">-</span> description
+<span class="org-list-dt">-</span> milestone: simple string
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> GitHub
+</span>
+GitHub hosts open source projects and provides git repositories along
+with other things, notably a wiki and a bugtracker (GitHub Issues).
+
+GitHub also provides a REST API for their bugtracker. The output format is JSON.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://github.com">GitHub website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://developer.github.com/v3/issues/">Bugtracker REST API</a></span>
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Relevant bug properties
+</span>
+<span class="org-list-dt">-</span> id: simple unsigned number.
+<span class="org-list-dt">-</span> title
+<span class="org-list-dt">-</span> author
+<span class="org-list-dt">-</span> description: can be fetched in various format.
+<span class="org-list-dt">-</span> state: open or closed.
+<span class="org-list-dt">-</span> creation date
+<span class="org-list-dt">-</span> update date
+<span class="org-list-dt">-</span> labels: each bug can be tagged with multiple strings ex: bug,
+  wontfix, etc.
+<span class="org-list-dt">-</span> milestone: each bug can be assigned to one milestone.
+<span class="org-list-dt">-</span> assignee: each bug can be assigned to one person.
+
+A milestone has:
+<span class="org-list-dt">-</span> id
+<span class="org-list-dt">-</span> title
+<span class="org-list-dt">-</span> description
+<span class="org-list-dt">-</span> number of open/closed issues.
+<span class="org-list-dt">-</span> deadline
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Redmine
+</span>
+Redmine is a project management web application written in Ruby. It
+has a REST API in both JSON and XML.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.redmine.org/projects/redmine">Redmine website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.redmine.org/projects/redmine/wiki/Rest_api">REST API</a></span>
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Relevant bug properties
+</span>
+<span class="org-list-dt">-</span> id: simple unsigned number
+<span class="org-list-dt">-</span> status: can be arbitrary string. <span class="kc-org-link-url"><a href="http://www.redmine.org/projects/redmine/wiki/RedmineIssueTrackingSetup">Default ones</a></span>:
+  <span class="org-list-dt">-</span> Closed: Closed, Rejected
+  <span class="org-list-dt">-</span> Open: everything else
+<span class="org-list-dt">-</span> tracker: simple string. Top-level categorisation. ex: bug, feature,
+  support, task, ...
+<span class="org-list-dt">-</span> category: second-level categorisation (can be empty).
+<span class="org-list-dt">-</span> author
+<span class="org-list-dt">-</span> creation date
+<span class="org-list-dt">-</span> update date
+<span class="org-list-dt">-</span> deadline
+<span class="org-list-dt">-</span> priority
+<span class="org-list-dt">-</span> assignee
+<span class="org-list-dt">-</span> title
+<span class="org-list-dt">-</span> description
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Google Code
+</span>
+Google has its own open source project hoster. It provides a
+bugtracker. I didn't find any API for it but each the bug list can be
+exported to CSV.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://code.google.com/">Google Code website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://code.google.com/p/chromium/issues/csv">Sample project CSV export</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Bitbucket
+</span>
+Bitbucket provides free public/private git/mercurial repository, along
+with a wiki, issue tracker, etc.
+
+There's a REST API in JSON.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://bitbucket.org">Bitbucket website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://confluence.atlassian.com/display/BITBUCKET/Using+the+bitbucket+REST+APIs">REST API</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Relevant bug properties
+</span>
+<span class="org-list-dt">-</span> id: simple unsigned number
+<span class="org-list-dt">-</span> status: fixed number of status
+  <span class="org-list-dt">-</span> Open: open, new
+  <span class="org-list-dt">-</span> Closed: resolved, on hold, duplicate, wontfix, invalid
+<span class="org-list-dt">-</span> type: category, fixed string: bug, enhancement, proposal, task
+<span class="org-list-dt">-</span> priority: fixed string: trivial, minor, major, critical, blocker
+<span class="org-list-dt">-</span> component: category, string
+<span class="org-list-dt">-</span> version: category, string
+<span class="org-list-dt">-</span> milestone: category, string
+<span class="org-list-dt">-</span> author
+<span class="org-list-dt">-</span> creation date
+<span class="org-list-dt">-</span> update date
+<span class="org-list-dt">-</span> title
+<span class="org-list-dt">-</span> description
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> TO-DO list manager
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Toodledo
+</span>
+Toodledo is yet another webservice to organize tasks. It features
+TO-DO list, folders, calendars and more.
+
+Toodledo has a REST API specifically designed for syncing. The output
+format can be JSON or XML.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://www.toodledo.com/index.php">Toodledo website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://api.toodledo.com/2/tasks/index.php">REST API</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Google Task
+</span>
+Google also has its own task manager. It's more simple and
+straightforward than Toodledo: TODO-list and dates.
+
+There's a REST API in JSON.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://mail.google.com/mail/help/tasks/">Google Tasks website</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://developers.google.com/google-apps/tasks/v1/reference/">REST API</a></span>
+</pre>
+  </body>
+</html>

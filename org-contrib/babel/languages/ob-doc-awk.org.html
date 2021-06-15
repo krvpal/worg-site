@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-awk.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .preprocessor {
+        /* font-lock-preprocessor-face */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">AWK Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd[at]tsdye[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://c2.com/cgi/wiki?AwkLanguage">http://c2.com/cgi/wiki?AwkLanguage</a>"</span></span><span class="org-block">&gt;AWK&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-done">[12/12]</span></span><span class="org-level-1">                                       </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Other">Other</a></span></span><span class="org-headline-done"> differences from supported languages
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span><span class="org-verbatim">AWK</span> is a task-specific language optimized for regular expression
+record data manipulation. It is a little language that is Turing
+complete, efficient to execute, reasonably simple to express, powerful
+within its scope, and pathologically cryptic.
+
+A natural Org mode representation of the record data <span class="org-verbatim">AWK</span> was
+designed to manipulate is the table.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>There are many <span class="kc-org-link-url"><a href="http://www.faqs.org/faqs/computer-lang/awk/faq/">well-maintained AWK compatible languages</a></span>.  The
+variable <span class="org-verbatim">org-babel-awk-command</span> holds the name of <span class="org-verbatim">AWK</span> executable.
+The default is "awk".
+
+To configure <span class="org-verbatim">AWK</span> source code blocks in Org mode, add the appropriate
+dotted pair to <span class="org-verbatim">org-babel-load-languages</span>
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :exports code
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">awk . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for AWK Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>There are three <span class="org-verbatim">AWK</span>-specific header arguments.
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:cmd-line</span></span><span class="org-list-dt"> ::</span> takes command line arguments to pass to the <span class="org-verbatim">AWK</span> executable
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:in-file</span></span><span class="org-list-dt"> ::</span> takes a path to a file of data to be processed by <span class="org-verbatim">AWK</span>
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:stdin</span></span><span class="org-list-dt"> ::</span> takes an Org-mode data or code block reference, the
+                 value of which will be passed to the <span class="org-verbatim">AWK</span> process
+                 through STDIN
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span><span class="org-verbatim">AWK</span> does not support sessions.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>
+Two examples from <span class="kc-org-link-url"><a href="http://www.gnu.org/software/gawk/manual/gawk.html#Getting-Started">GNU Awk User's Guide</a></span> show simple uses of <span class="org-verbatim">AWK</span>.
+
+Given the table <span class="org-verbatim">bbs-list</span>
+
+<span class="org-meta-line">#+name: bbs-list</span>
+<span class="org-table">| aardvark | 555-5553 | 1200/300      | B |</span>
+<span class="org-table">| alpo-net | 555-3412 | 2400/1200/300 | A |</span>
+<span class="org-table">| barfly   | 555-7685 | 1200/300      | A |</span>
+<span class="org-table">| bites    | 555-1675 | 2400/1200/300 | A |</span>
+<span class="org-table">| camelot  | 555-0542 | 300           | C |</span>
+<span class="org-table">| core     | 555-2912 | 1200/300      | C |</span>
+<span class="org-table">| fooey    | 555-1234 | 2400/1200/300 | B |</span>
+<span class="org-table">| foot     | 555-6699 | 1200/300      | B |</span>
+<span class="org-table">| macfoo   | 555-6480 | 1200/300      | A |</span>
+<span class="org-table">| sdace    | 555-3430 | 2400/1200/300 | A |</span>
+<span class="org-table">| sabafoo  | 555-2127 | 1200/300      | C |</span>
+
+this <span class="org-verbatim">AWK</span> source code block
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+begin_src awk :stdin bbs-list
+/foo/ { print $0 }
+,#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+returns a subset of the original table
+
+<span class="org-block-begin-line">#+begin_src awk :stdin bbs-list :exports results
+</span><span class="org-block"><span class="string">/foo/</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">{</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">print</span></span><span class="org-block"> $0 </span><span class="org-block"><span class="rainbow-delimiters-depth-1">}</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="org-table">| fooey   | 555-1234 | 2400/1200/300 | B |</span>
+<span class="org-table">| foot    | 555-6699 | 1200/300      | B |</span>
+<span class="org-table">| macfoo  | 555-6480 | 1200/300      | A |</span>
+<span class="org-table">| sabafoo | 555-2127 | 1200/300      | C |</span>
+
+
+Given the table <span class="org-verbatim">inventory-shipped</span>
+
+<span class="org-meta-line">#+name: inventory-shipped</span>
+<span class="org-table">| Jan | 13 | 25 | 15 | 115 |</span>
+<span class="org-table">| Feb | 15 | 32 | 24 | 226 |</span>
+<span class="org-table">| Mar | 15 | 24 | 34 | 228 |</span>
+<span class="org-table">| Apr | 31 | 52 | 63 | 420 |</span>
+<span class="org-table">| May | 16 | 34 | 29 | 208 |</span>
+<span class="org-table">| Jun | 31 | 42 | 75 | 492 |</span>
+<span class="org-table">| Jul | 24 | 34 | 67 | 436 |</span>
+<span class="org-table">| Aug | 15 | 34 | 47 | 316 |</span>
+<span class="org-table">| Sep | 13 | 55 | 37 | 277 |</span>
+<span class="org-table">| Oct | 29 | 54 | 68 | 525 |</span>
+<span class="org-table">| Nov | 20 | 87 | 82 | 577 |</span>
+<span class="org-table">| Dec | 17 | 35 | 61 | 401 |</span>
+<span class="org-table">|     |    |    |    |     |</span>
+<span class="org-table">| Jan | 21 | 36 | 64 | 620 |</span>
+<span class="org-table">| Feb | 26 | 58 | 80 | 652 |</span>
+<span class="org-table">| Mar | 24 | 75 | 70 | 495 |</span>
+<span class="org-table">| Apr | 21 | 70 | 74 | 514 |</span>
+
+this bit of <span class="org-verbatim">AWK</span> code 
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+begin_src awk :stdin inventory-shipped :exports results
+$1 ~ /J/
+,#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+returns this subset of the table
+
+<span class="org-block-begin-line">#+begin_src awk :stdin inventory-shipped :exports results
+</span><span class="org-block">$1 ~ </span><span class="org-block"><span class="string">/J/</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="org-table">| Jan | 13 | 25 | 15 | 115 |</span>
+<span class="org-table">| Jun | 31 | 42 | 75 | 492 |</span>
+<span class="org-table">| Jul | 24 | 34 | 67 | 436 |</span>
+<span class="org-table">| Jan | 21 | 36 | 64 | 620 |</span>
+
+</pre>
+  </body>
+</html>

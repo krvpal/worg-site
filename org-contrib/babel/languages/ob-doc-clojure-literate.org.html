@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-clojure-literate.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-babel-clojure Literate Programming
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">stardiviner
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">numbchild at gmail dot com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org-babel support for
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://clojure.org/">http://clojure.org/</a>"</span></span><span class="org-block">&gt;Clojure&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://clojure.org/">http://clojure.org/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://clojure.org/images/clojure-logo-120b.png&quot;/">http://clojure.org/images/clojure-logo-120b.png"</a></span></span><span class="org-block"><a href="http://clojure.org/images/clojure-logo-120b.png&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Motivation
+</span>
+Setup scaffold for Clojure Literate Programming in Org-mode.
+
+I like Emacs Org-mode &#8220;Literate Programming&#8221; very much. It&#8217;s a kind of paradigm.
+I can apply this idea on many places. Now Clojure is my favourite programming
+language. I hope to combine them together. But ob-clojure does not suitable for
+Literate Programming very much like other language babel (like Python) supports.
+
+So I decide to solve this problem in my way.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Configuration
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> my sample confguration
+</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">ob-clojure-literate</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">ob-clojure-literate-auto-jackin-p</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">no project, CIDER jack-in outside of project.
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">ISSUE: can't use `</span></span><span class="org-block"><span class="comment"><span class="constant">clj-refactor</span></span></span><span class="org-block"><span class="comment">'
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(setq ob-clojure-literate-project-location nil)
+</span></span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">use `</span></span><span class="org-block"><span class="comment"><span class="constant">ob-clojure/</span></span></span><span class="org-block"><span class="comment">' as ob-clojure-literate project.
+</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> ob-clojure-literate-project-location
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">user-emacs-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Org-mode/"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> ob-clojure-literate-default-session </span><span class="org-block"><span class="string">"*cider-repl ob-clojure*"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(add-hook 'org-mode-hook </span></span><span class="org-block"><span class="comment"><span class="org-tag">#'ob-clojure-literate-mode)</span></span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">define-key</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-babel-map</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">kbd</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"M-c"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">ob-clojure-literate-mode</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Auto Start CIDER REPL
+</span>
+Set option <span class="org-code">ob-clojure-literate-auto-jackin-p</span> to <span class="org-code">t</span>, and if
+<span class="org-code">ob-clojure-literate</span> minor mode is enabled, it will auto launch CIDER
+REPL if not exist yet.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">ob-clojure-literate-auto-jackin-p</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Specify and use default CIDER session
+</span>
+You can specify a default CIDER session name by option <span class="org-code">ob-clojure-literate-default-session</span>.
+Its value default is <span class="org-code">"</span><span class="org-code"><span class="bold">cider-repl ob-clojure</span></span><span class="org-code">"</span>.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+begin_src clojure :session "*</span><span class="org-block"><span class="bold">cider-repl ob-clojure</span></span><span class="org-block">*" :results output
+(prn *</span><span class="org-block"><span class="bold">ns</span></span><span class="org-block">*)
+,#+end_src
+
+,#+RESULTS:
+</span><span class="org-block"><span class="org-code">: </span></span><span class="org-block"><span class="org-code"><span class="org-tag"><span class="org-tag">#namespace[user]</span></span></span></span><span class="org-block"><span class="org-code">
+</span></span><span class="org-block-end-line">#+end_src
+</span>
+There is a command (<span class="org-code">ob-clojure-literate-specify-session-header-argument</span>) to insert this session
+name header argument. You can bind it to a keybinding.
+
+It is smart enough to auto choose from exist sessions if there are more than one.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support auto initiate session 
+</span>
+ob-clojure-literate has support for auto initiate session with
+ob-core.el built-in function <span class="org-code">org-babel-initiate-session</span>, which is used
+by commands like <span class="org-code">org-babel-switch-to-session</span> / ([C-c C-v C-z]).
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support insert an inline image as result
+</span>
+ob-clojure by default does not support generate graphics file link as
+inline image result like other Babel languages. Like ob-gnuplot, ob-R
+etc support this behavior.
+
+Currently ob-clojure-literate only support Incanter. Use this feature like this:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+begin_src clojure :dir "data/images" :results graphics :file "incanter-plot.png"
+(use '(incanter core stats datasets charts io pdf))
+
+(def incanter-plot (histogram (sample-normal 1000)))
+,#+end_src
+
+,#+RESULTS:
+[[</span><span class="org-block"><span class="error"><a href="file:data/images/incanter-plot.png">file:data/images/incanter-plot.png</a></span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Currently (when I write this document), CIDER is going to add
+content-type result which will support display image. The discussion and PR is at here:
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/cider/issues/1510">https://github.com/clojure-emacs/cider/issues/1510</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/cider/pull/2248/files">https://github.com/clojure-emacs/cider/pull/2248/files</a></span>
+<span class="org-list-dt">-</span> old prototype project: <span class="kc-org-link-url"><a href="https://github.com/technomancy/nrepl-discover">https://github.com/technomancy/nrepl-discover</a></span>
+<span class="org-list-dt">-</span> a nice try demo:
+  <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/cider/issues/1510#issuecomment-373988901">https://github.com/clojure-emacs/cider/issues/1510#issuecomment-373988901</a></span>
+  <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/cider/pull/2248">https://github.com/clojure-emacs/cider/pull/2248</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/cider-nrepl/pull/517">https://github.com/clojure-emacs/cider-nrepl/pull/517</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> More functions
+</span>
+There are some functions inside this library that I have not
+represented here. I might update this document someday.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Release History
+</span>
+Original this package is on GitHub (<span class="kc-org-link-url"><a href="https://github.com/stardiviner/ob-clojure-literate">https://github.com/stardiviner/ob-clojure-literate</a></span>).
+If you're interested in this project, PR welcome. or contact me.
+</pre>
+  </body>
+</html>

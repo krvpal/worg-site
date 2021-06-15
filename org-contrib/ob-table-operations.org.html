@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-table-operations.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-level-5 {
+        /* org-level-5 */
+        color: #f4a284;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .regexp-grouping-backslash {
+        /* font-lock-regexp-grouping-backslash */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .regexp-grouping-construct {
+        /* font-lock-regexp-grouping-construct */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .warning {
+        /* font-lock-warning-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Table operations --- filter or combine tables
+</span>
+  This section within the library of babel provides table operations.
+  See the documentation just below for details and working examples.
+
+  Author  : Marc-Oliver Ihm <a href="mailto:ihm%40ferntreffer.de">&lt;ihm@ferntreffer.de&gt;</a>
+  Version : 1.0
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Documentation
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Introduction
+</span>
+    The table operations (currently four) are grouped in two categories:
+    
+    <span class="org-list-dt">-</span> Filtering the rows of a single table: keeping or removing
+    <span class="org-list-dt">-</span> Combining two tables into one: merging or intersecting
+     
+    All four operations are demonstrated below.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Example tables
+</span>
+    To demonstrate we need three tables: upper, lower and keys:
+
+<span class="org-meta-line">#+name: upper</span>
+<span class="org-table">|  1 | A |</span>
+<span class="org-table">|  3 | C |</span>
+<span class="org-table">|  4 | D |</span>
+<span class="org-table">| 10 | J |</span>
+<span class="org-table">|  2 | B |</span>
+
+<span class="org-meta-line">#+name: lower</span>
+<span class="org-table">| Position | Letter |</span>
+<span class="org-table">|----------+--------|</span>
+<span class="org-table">|        2 | b      |</span>
+<span class="org-table">|        4 | d      |</span>
+<span class="org-table">|        5 | e      |</span>
+<span class="org-table">|        6 | h      |</span>
+
+<span class="org-meta-line">#+name: keys</span>
+<span class="org-table">| Position |</span>
+<span class="org-table">|----------|</span>
+<span class="org-table">|        1 |</span>
+<span class="org-table">|        2 |</span>
+<span class="org-table">|        4 |</span>
+
+    The tables upper and lower both have two columns and associate a position in
+    the alphabet with the matching letter.  E.g. the row "| 1 | A |" from table
+    upper, just states that the letter "A" comes at position 1 in the alphabet.
+
+    Nearly the same is true for table lower, only that it contains lower case
+    letters.  Some of its letters (e.g. "b") have counterparts in table upper
+    ("B"), some (e.g. "e") dont.
+
+    The table keys finally, contains keys (i.e. positions within the alphabet),
+    that can be used to select rows from either table upper or lower.
+
+    Note, that tables may have column headings or not.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Filtering a table
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Keeping rows
+</span>
+     Let's say, we want to select the upper-case letters (i.e. rows from the
+     table upper), that are given in table keys (i.e. the first, second and
+     fourth letter).
+
+     This can be described as filtering table upper and keeping only those rows,
+     that appear in table keys.
+
+     As a babel-call, this reads:
+
+<span class="org-meta-line">#+call: table-operations-filter-keep(upper,keys)</span>
+
+<span class="org-meta-line">#+results: table-operations-filter-keep(upper,keys)</span>
+<span class="org-table">| 1 | A |</span>
+<span class="org-table">| 4 | D |</span>
+<span class="org-table">| 2 | B |</span>
+
+     ,which gives exactly those rows from table upper, that are specified in
+     keys.
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Removing rows
+</span>
+     Now, if on the contrary you want to filter table upper to remove any rows,
+     which are given in table keys:
+
+<span class="org-meta-line">#+call: table-operations-filter-remove(upper,keys) :colnames yes</span>
+
+<span class="org-meta-line">#+results: table-operations-filter-remove(upper,keys)</span>
+<span class="org-table">| Position | t2c2 |</span>
+<span class="org-table">|----------+------|</span>
+<span class="org-table">|        3 | C    |</span>
+<span class="org-table">|       10 | J    |</span>
+
+     ,which is the expected result.
+
+     Please note, that the call contains the header argument ":colnames yes",
+     which causes the result table to contain the headings "Position" and
+     "t2c2". These headings are taken from the input-tables upper and
+     keys. However, as upper does not contain any headings, the heading "t2c2"
+     is generated artificially; it stands for "table 2 column 2".
+
+     If you do not want to have column names in the result table, just leave out
+     the header argument ":colnames yes" like in the first example. Note
+     however, that ":colnames no" does not give the expected effect.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Combining tables
+</span>
+    Now, lets have a look at the tables upper and lower alone and see how to
+    combine them.
+
+    Note, that we only look at combining two tables for simplicity, however, all
+    operations can be easily scaled up to seven tables.
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Merging rows
+</span>
+     We have two tables, one with upper case letters and one with lower
+     case. What now, if you want to have only one table, which contains both,
+     upper and lower case letters ?
+     
+     You may want to merge them:
+
+<span class="org-meta-line">#+call: table-operations-combine-merge(upper,lower) :colnames yes</span>
+
+<span class="org-meta-line">#+results: table-operations-combine-merge(upper,lower)</span>
+<span class="org-table">| Position | t1c2 | Letter |</span>
+<span class="org-table">|----------+------+--------|</span>
+<span class="org-table">|        1 | A    |        |</span>
+<span class="org-table">|        2 | B    | b      |</span>
+<span class="org-table">|        3 | C    |        |</span>
+<span class="org-table">|        4 | D    | d      |</span>
+<span class="org-table">|        5 |      | e      |</span>
+<span class="org-table">|        6 |      | h      |</span>
+<span class="org-table">|       10 | J    |        |</span>
+
+
+     This result combines both upper and lower case letters and lists them by
+     their position within the alphabet.
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Intersecting rows
+</span>
+     If you only want the rows, that are complete (i.e. have both upper and
+     lower case letters) you may compute the intersection:
+
+<span class="org-meta-line">#+call: table-operations-combine-intersect(upper,lower)</span>
+
+<span class="org-meta-line">#+results: table-operations-combine-intersect(upper,lower)</span>
+<span class="org-table">| 2 | B | b |</span>
+<span class="org-table">| 4 | D | d |</span>
+
+
+     ,which has only those keys and letters, that appear in both tables.
+
+     Note, that we have ommitted the headeragument ":colnames yes" so that the
+     result table has no headings.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Internals
+</span>
+   This section is not required if you just want to use table operations as
+   described above. Only if you are curious about its implementation or
+   development, you might want to have a look.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Implementation
+</span>   
+   Here is the actual lisp code, that implements the functionality of table
+   operations.
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> table-operations-filter
+</span><span class="org-superstar-leading">****</span><span class="org-level-5"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-5"> Directly callable blocks
+</span>
+<span class="org-meta-line">#+name: table-operations-filter-keep</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :noweb yes :results silent :var table=() :var filter=() 
+</span><span class="org-block">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-filter-defun&gt;&gt;
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">filter-and-table </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> filter table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">lob-table-operations-filter </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">keep</span></span><span class="org-block"> filter-and-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: table-operations-filter-remove</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :noweb yes :results silent :var table=() :var filter=() :colnames nil
+</span><span class="org-block">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-filter-defun&gt;&gt;
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">filter-and-table </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> filter table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">lob-table-operations-filter </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">remove</span></span><span class="org-block"> filter-and-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">****</span><span class="org-level-5"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-5"> Included defuns
+</span>
+<span class="org-meta-line">#+name: lob-table-operations-filter-defun</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">lob-table-operations-filter</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">what filter-and-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="doc">"Internal function for table operations in orgmode library of babel"</span></span><span class="org-block">
+  
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">keys
+          result-table
+          headings-all-tables
+          filter
+          table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">seperate headings from rest of tables
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> headings-all-tables 
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">lob-table-operations-helper-get-headings filter-and-table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">extract arguments
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> filter </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> filter-and-table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> table </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">cadr</span></span><span class="org-block"> filter-and-table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">remove hlines
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> table </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-del-hlines</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> filter </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-del-hlines</span></span><span class="org-block"> filter</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> keys </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">car</span></span><span class="org-block"> filter</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">start result with headings (reversed)
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> result-table </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">hline</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> headings-all-tables nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">dolist</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">line table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">loop over table lines 
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">equal</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">member</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> line</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> keys</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">equal</span></span><span class="org-block"> what </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">keep</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">'keep or 'remove ?
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> result-table </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> line result-table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">nreverse</span></span><span class="org-block"> result-table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> table-operations-combine
+</span><span class="org-superstar-leading">****</span><span class="org-level-5"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-5"> Directly callable blocks
+</span>
+<span class="org-meta-line">#+name: table-operations-combine-merge </span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :noweb yes :results silent :var t1=() :var t2=() :var t3=() :var t4=() :var t5=() :var t6=() :var t7=()
+</span><span class="org-block">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-combine-defun&gt;&gt;
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">tables </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> t1 t2 t3 t4 t5 t6 t7</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">lob-table-operations-combine </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">merge</span></span><span class="org-block"> tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: table-operations-combine-intersect </span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :noweb yes :results silent :var t1=() :var t2=() :var t3=() :var t4=() :var t5=() :var t6=() :var t7=()
+</span><span class="org-block">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-combine-defun&gt;&gt;
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">tables </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> t1 t2 t3 t4 t5 t6 t7</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">lob-table-operations-combine </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">intersect</span></span><span class="org-block"> tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">****</span><span class="org-level-5"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-5"> Included defuns
+</span>
+<span class="org-meta-line">#+name: lob-table-operations-combine-defun</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">lob-table-operations-combine</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">what tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="doc">"Internal function for table-operations in orgmode library of babel"</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">is-all-numbers                 
+          format-specifier
+          rest-of-tables
+          rests-of-tables
+          rest-of-rests-of-tables
+          rest-of-table
+          headings-all-tables
+          widths-of-tables
+          current-key
+          current-key-in-intersection
+          result-table
+          result-line
+          i</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">remove possible empty trailing tables
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rest-of-tables tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">cadr</span></span><span class="org-block"> rest-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rest-of-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> rest-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">setcdr</span></span><span class="org-block"> rest-of-tables nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">seperate headings from rest of tables
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> headings-all-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">lob-table-operations-helper-get-headings 
+                                 tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> result-table </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">hline</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> headings-all-tables nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">remove all remaining hlines
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> tables </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-babel-del-hlines</span></span><span class="org-block"> tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Find out, if all keys in all tables are numbers or if 
+</span></span><span class="org-block">      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">there are strings among them
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> is-all-numbers
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">catch</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">not-a-number</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">dolist</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">table tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">dolist</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">line table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">numberp</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> line</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> 
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">throw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">not-a-number</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">nil</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">t</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> format-specifier </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> is-all-numbers </span><span class="org-block"><span class="string">"%g"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Prepare functions to treat table contents in a unified way
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">flet</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">convert </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> is-all-numbers
+                          x
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">numberp</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> 
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">number-to-string</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> 
+                          x</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">less-than </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x y</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> is-all-numbers </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">&lt;</span></span><span class="org-block"> x y</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string&lt;</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">convert x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> 
+                                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">convert y</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">compare </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x y</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> is-all-numbers </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">=</span></span><span class="org-block"> x y</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">convert x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> 
+                                 </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">convert y</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">sort tables
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> tables </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                               </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">sort</span></span><span class="org-block"> table </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x y</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                                             </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">less-than </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                                                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> y</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                             tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">compute and remember table widths
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> widths-of-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">x</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">length</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">copy initially and shorten below
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rests-of-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">copy-list</span></span><span class="org-block"> tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">loop as long as the rest of table still contains lines
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block"> 
+                 </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">find lowest key among all tables, which is the key for the
+</span></span><span class="org-block">                 </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">next line of the result
+</span></span><span class="org-block">                 </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> current-key nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> current-key-in-intersection </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">t</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">remember for later
+</span></span><span class="org-block">                 </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">dolist</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">rest-of-table rests-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">loop over all tables
+</span></span><span class="org-block">                   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> rest-of-table </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">and compare against all keys
+</span></span><span class="org-block">                              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> current-key</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">less-than </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">caar</span></span><span class="org-block"> rest-of-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> 
+                                             current-key</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> current-key </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">caar</span></span><span class="org-block"> rest-of-table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                 current-key</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+            
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> result-line </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> current-key</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+            
+            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">go through all tables and collect one line for the result table
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> i </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">                      </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">table-count
+</span></span><span class="org-block">            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">cannot use dolist like above, because we need to modify the
+</span></span><span class="org-block">            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">cons-cells
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rest-of-rests-of-tables rests-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rest-of-table </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> rest-of-rests-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">incf</span></span><span class="org-block"> i</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">if table contains current key 
+</span></span><span class="org-block">                     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> rest-of-table
+                              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">compare current-key </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">caar</span></span><span class="org-block"> rest-of-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                         </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">then copy rest of line
+</span></span><span class="org-block">                         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">nconc</span></span><span class="org-block"> result-line </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cdar</span></span><span class="org-block"> rest-of-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">and shorten rest
+</span></span><span class="org-block">                                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">setcar</span></span><span class="org-block"> rest-of-rests-of-tables 
+                                        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cdar</span></span><span class="org-block"> rest-of-rests-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">and check, if current-key appears again
+</span></span><span class="org-block">                                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">caadr</span></span><span class="org-block"> rest-of-table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                                           </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">compare current-key 
+                                                    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">caadr</span></span><span class="org-block"> rest-of-table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">error</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Key '"</span></span><span class="org-block"> 
+                                                 format-specifier 
+                                                 </span><span class="org-block"><span class="string">"' appears twice within "</span></span><span class="org-block">
+                                                 </span><span class="org-block"><span class="string">"input table %i"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                                         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">convert current-key</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> i</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                       </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">otherwise fill with nil and do not shorte
+</span></span><span class="org-block">                       </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">rest of table
+</span></span><span class="org-block">                       </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block"> 
+                         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> current-key-in-intersection nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">nconc</span></span><span class="org-block"> result-line </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">make-list</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">1-</span></span><span class="org-block"> 
+                                                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">elt</span></span><span class="org-block"> widths-of-tables 
+                                                             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">1-</span></span><span class="org-block"> i</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                                                       </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                     
+                     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rest-of-rests-of-tables 
+                           </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> rest-of-rests-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                     rest-of-rests-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">condition for loop
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">eq</span></span><span class="org-block"> what </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">merge</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> current-key-in-intersection</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">store away line
+</span></span><span class="org-block">                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> result-table </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block">  
+                                    result-line 
+                                    result-table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">nreverse</span></span><span class="org-block"> result-table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Common helper functions
+</span>
+<span class="org-meta-line">#+name: lob-table-operations-helper-get-headings-defun</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">lob-table-operations-helper-get-headings</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="doc">"Internal function for table-operations in orgmode library of babel"</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">rest-of-tables tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">i </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          headings-all-tables
+          headings-one-table
+          heading-of-key</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> rest-of-tables 
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> table </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> rest-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">eq</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">cadr</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">hline</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">second line is a hline, so first is a heading
+</span></span><span class="org-block">              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block"> 
+                </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">take headings from first table row
+</span></span><span class="org-block">                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> headings-one-table </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cdar</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> heading-of-key </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> heading-of-key </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">caar</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> heading-of-key </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">caar</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">error</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Name of first column is not the same in all tables"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">setcar</span></span><span class="org-block"> rest-of-tables 
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cdar</span></span><span class="org-block"> rest-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">and shorten rest
+</span></span><span class="org-block">            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">table does not contain headings, so make them up
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> headings-one-table 
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> 
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"t%dc%d"</span></span><span class="org-block"> i x</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">number-sequence</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">length</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> headings-all-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> headings-all-tables 
+                                            headings-one-table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> rest-of-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> rest-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">incf</span></span><span class="org-block"> i</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          rest-of-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">condition for while loop
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> heading-of-key </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> heading-of-key </span><span class="org-block"><span class="string">"key"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> headings-all-tables </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> heading-of-key headings-all-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      headings-all-tables</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Debugging and testing
+</span><span class="org-superstar-leading">****</span><span class="org-level-5"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-5"> Clean up
+</span><span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">beginning-of-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"^#\\+results:.*\n</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">^</span></span><span class="org-block"><span class="string"><span class="warning">\</span></span></span><span class="org-block"><span class="string">|.+\n</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">*\n"</span></span><span class="org-block"> nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">replace-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+
+<span class="org-superstar-leading">****</span><span class="org-level-5"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-5"> Byte Compilation
+</span>
+   (byte-compile 'lob-table-operations-combine)
+   (byte-compile 'lob-table-operations-filter)
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Development
+</span><span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Versions and history
+</span>
+     <span class="org-date">[2012-03-18 So]</span> Version 1.0: 
+     <span class="org-list-dt">-</span> Added handling of hlines and table headings
+
+     <span class="org-date">[2012-01-07 Sa]</span> Version 0.01:
+     <span class="org-list-dt">-</span> Restructured as a single org-file; no special .el-file needed any more
+     <span class="org-list-dt">-</span> Combined and restructured documentation and implementation
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Bugs and Todos
+</span>
+     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Brush up documentation
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Stay below 80 columns
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Tests with more than two columns per table
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Tests with more than two tables for merging
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Handle optional table captions
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Handle hlines
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> flet within lob-table-operations-combine
+</span>     <span class="org-list-dt">-</span> <span class="org-checkbox">[-]</span> flet within directly callable blocks; try to avoid global functions
+       Not feasible, because that hinders debugging to much
+     <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Use :results silent
+</span>       
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Testcases
+</span>
+<span class="org-meta-line">#+name: upper-wide</span>
+<span class="org-table">| Position | c1 | c2 | c3 | c4 |</span>
+<span class="org-table">|----------+----+----+----+----|</span>
+<span class="org-table">|        1 | A1 | A2 | A3 | A4 |</span>
+<span class="org-table">|        3 | C1 | C2 | C3 | C4 |</span>
+<span class="org-table">|        4 | D1 | D2 | D3 | D4 |</span>
+<span class="org-table">|       10 | J1 | J2 | J3 | J4 |</span>
+<span class="org-table">|        2 | B1 | B2 | B3 | B4 |</span>
+
+<span class="org-meta-line">#+name: lower-wide</span>
+<span class="org-table">| 2 | b1 | b2 | b3 | b4 |</span>
+<span class="org-table">| 4 | d1 | d2 | d3 | d4 |</span>
+<span class="org-table">| 5 | e1 | e2 | e3 | e4 |</span>
+<span class="org-table">| 6 | h1 | h2 | h3 | h4 |</span>
+
+<span class="org-meta-line">#+name: upper-lower-wide </span>
+<span class="org-table">|  2 | Bb1 | Bb2 | Bb3 | Bb4 |</span>
+<span class="org-table">|  6 | Hh1 | Hh2 | Hh3 | Hh4 |</span>
+<span class="org-table">|  4 | Dd1 | Dd2 | Dd3 | Dd4 |</span>
+<span class="org-table">| 10 | Jj1 | Jj2 | Jj3 | Jj4 |</span>
+
+<span class="org-meta-line">#+call: table-operations-filter-keep(upper-wide,keys)</span>
+
+<span class="org-meta-line">#+results: table-operations-filter-keep(upper-wide,keys)</span>
+<span class="org-table">| 1 | A1 | A2 | A3 | A4 |</span>
+<span class="org-table">| 4 | D1 | D2 | D3 | D4 |</span>
+<span class="org-table">| 2 | B1 | B2 | B3 | B4 |</span>
+
+<span class="org-meta-line">#+call: table-operations-filter-remove(lower-wide,keys) :colnames yes</span>
+
+<span class="org-meta-line">#+results: table-operations-filter-remove(lower-wide,keys)</span>
+<span class="org-table">| Position | t2c2 | t2c3 | t2c4 | t2c5 |</span>
+<span class="org-table">|----------+------+------+------+------|</span>
+<span class="org-table">|        5 | e1   | e2   | e3   | e4   |</span>
+<span class="org-table">|        6 | h1   | h2   | h3   | h4   |</span>
+
+<span class="org-meta-line">#+call: table-operations-combine-merge(upper-wide,lower-wide) :colnames yes</span>
+
+<span class="org-meta-line">#+results: table-operations-combine-merge(upper-wide,lower-wide)</span>
+<span class="org-table">| Position | c1 | c2 | c3 | c4 | t2c2 | t2c3 | t2c4 | t2c5 |</span>
+<span class="org-table">|----------+----+----+----+----+------+------+------+------|</span>
+<span class="org-table">|        1 | A1 | A2 | A3 | A4 |      |      |      |      |</span>
+<span class="org-table">|        2 | B1 | B2 | B3 | B4 | b1   | b2   | b3   | b4   |</span>
+<span class="org-table">|        3 | C1 | C2 | C3 | C4 |      |      |      |      |</span>
+<span class="org-table">|        4 | D1 | D2 | D3 | D4 | d1   | d2   | d3   | d4   |</span>
+<span class="org-table">|        5 |    |    |    |    | e1   | e2   | e3   | e4   |</span>
+<span class="org-table">|        6 |    |    |    |    | h1   | h2   | h3   | h4   |</span>
+<span class="org-table">|       10 | J1 | J2 | J3 | J4 |      |      |      |      |</span>
+
+<span class="org-meta-line">#+call: table-operations-combine-intersect(upper-wide,lower-wide)</span>
+
+<span class="org-meta-line">#+results: table-operations-combine-intersect(upper-wide,lower-wide)</span>
+<span class="org-table">| 2 | B1 | B2 | B3 | B4 | b1 | b2 | b3 | b4 |</span>
+<span class="org-table">| 4 | D1 | D2 | D3 | D4 | d1 | d2 | d3 | d4 |</span>
+
+<span class="org-meta-line">#+call: table-operations-combine-merge(upper-wide,lower-wide,upper-lower-wide) :colnames yes</span>
+
+<span class="org-meta-line">#+results: table-operations-combine-merge(upper-wide,lower-wide,upper-lower-wide)</span>
+<span class="org-table">| Position | c1 | c2 | c3 | c4 | t2c2 | t2c3 | t2c4 | t2c5 | t3c2 | t3c3 | t3c4 | t3c5 |</span>
+<span class="org-table">|----------+----+----+----+----+------+------+------+------+------+------+------+------|</span>
+<span class="org-table">|        1 | A1 | A2 | A3 | A4 |      |      |      |      |      |      |      |      |</span>
+<span class="org-table">|        2 | B1 | B2 | B3 | B4 | b1   | b2   | b3   | b4   | Bb1  | Bb2  | Bb3  | Bb4  |</span>
+<span class="org-table">|        3 | C1 | C2 | C3 | C4 |      |      |      |      |      |      |      |      |</span>
+<span class="org-table">|        4 | D1 | D2 | D3 | D4 | d1   | d2   | d3   | d4   | Dd1  | Dd2  | Dd3  | Dd4  |</span>
+<span class="org-table">|        5 |    |    |    |    | e1   | e2   | e3   | e4   |      |      |      |      |</span>
+<span class="org-table">|        6 |    |    |    |    | h1   | h2   | h3   | h4   | Hh1  | Hh2  | Hh3  | Hh4  |</span>
+<span class="org-table">|       10 | J1 | J2 | J3 | J4 |      |      |      |      | Jj1  | Jj2  | Jj3  | Jj4  |</span>
+
+<span class="org-meta-line">#+call: table-operations-combine-intersect(upper-wide,lower-wide,upper-lower-wide)</span>
+
+<span class="org-meta-line">#+results: table-operations-combine-intersect(upper-wide,lower-wide,upper-lower-wide)</span>
+<span class="org-table">| 2 | B1 | B2 | B3 | B4 | b1 | b2 | b3 | b4 | Bb1 | Bb2 | Bb3 | Bb4 |</span>
+<span class="org-table">| 4 | D1 | D2 | D3 | D4 | d1 | d2 | d3 | d4 | Dd1 | Dd2 | Dd3 | Dd4 |</span>
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Keeping the margins
+</span>
+     (setq-default fill-column 80)
+     (column-marker-3 80)
+
+
+</pre>
+  </body>
+</html>

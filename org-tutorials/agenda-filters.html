@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agenda Filters and Limits</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Bastien Guerry" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Agenda Filters and Limits</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org51fdc0c">Introduction</a></li>
+<li><a href="#org310844b">Agenda filters</a>
+<ul>
+<li><a href="#orge49d4d6">Filtering by tags</a></li>
+<li><a href="#org9f5ff9e">Filtering by category</a></li>
+<li><a href="#org2f7e095">Filtering by top parent headline</a></li>
+<li><a href="#orgb5dcd97">Filtering by regular expressions</a></li>
+<li><a href="#org03cc3a9">Combining and removing filters</a></li>
+</ul>
+</li>
+<li><a href="#orgb09ebd7">Agenda limits</a></li>
+<li><a href="#orgd07d428">Dimming blocked task</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org51fdc0c" class="outline-2">
+<h2 id="org51fdc0c">Introduction</h2>
+<div class="outline-text-2" id="text-org51fdc0c">
+<p>
+This tutorial describes some useful agenda manipulations.
+</p>
+
+<p>
+The central notions are <i>filters</i> and <i>limits</i>.  Filters are a way to
+<i>hide</i> some agenda entries (depending on tags, categories or regular
+expressions).  <i>Limits</i> are a way to limit the list of agenda entries
+(depending on a number of tagged entries, a number of entries with <code>TODO</code>
+keywords, an effort value, or a number of entries.)
+</p>
+
+<p>
+Filters only act on the <i>appearence</i> of the agenda, limits act on the list
+of agenda entries itself.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org310844b" class="outline-2">
+<h2 id="org310844b">Agenda filters</h2>
+<div class="outline-text-2" id="text-org310844b">
+</div>
+
+<div id="outline-container-orge49d4d6" class="outline-3">
+<h3 id="orge49d4d6">Filtering by tags</h3>
+<div class="outline-text-3" id="text-orge49d4d6">
+<p>
+Here is a list of keybinding available in the agenda buffer:
+</p>
+
+<dl class="org-dl">
+<dt><code>/</code></dt><dd>Only show entries matching a tag.  This prompts for a tag to
+filter by, which you can choose by hitting a selection letter (if
+configured), or the first letter of the tag, or by hitting <code>TAB</code> and
+then expand a tag.</dd>
+
+<dt><code>C-u /</code></dt><dd>Hide entries matching a tag.  You can successively call this
+command to hide several tags.</dd>
+
+<dt><code>/ /</code></dt><dd>Reset tag filters: set tag filters to their default value, which
+is usually <code>nil</code>, unless a tag filter has been preset.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org9f5ff9e" class="outline-3">
+<h3 id="org9f5ff9e">Filtering by category</h3>
+<div class="outline-text-3" id="text-org9f5ff9e">
+<dl class="org-dl">
+<dt><code>&lt;</code></dt><dd>Only show agenda entries that are from the same category than the
+headline at point.  Hitting <code>&lt;</code> again when a category filter is active
+will deactivate it.  This kind of filtering is <i>not</i> cumulative, as
+headlines cannot have several categories.</dd>
+
+<dt><code>C-u &lt;</code></dt><dd>Hide agenda entries that are from the same category than the
+headline at point.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org2f7e095" class="outline-3">
+<h3 id="org2f7e095">Filtering by top parent headline</h3>
+<div class="outline-text-3" id="text-org2f7e095">
+<dl class="org-dl">
+<dt><code>^</code></dt><dd>Only show siblings of the agenda entry at point.  This is useful
+when there are many agenda entries and you want to process siblings in
+priority.  Hitting <code>^</code> again when a top headline filter is active will
+deactivate it.  This kind of filtering is <i>not</i> cumulative, as
+headlines cannot have several topmost parents.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgb5dcd97" class="outline-3">
+<h3 id="orgb5dcd97">Filtering by regular expressions</h3>
+<div class="outline-text-3" id="text-orgb5dcd97">
+<dl class="org-dl">
+<dt><code>=</code></dt><dd>Prompt for a regular expression and only show agenda entries that
+match the regular expression.  You can successively filter by
+regexps.</dd>
+
+<dt><code>C-u =</code></dt><dd>Filter out entries that match a regexp.  You can successively
+filter out by regexps.</dd>
+
+<dt><code>C-u C-u =</code></dt><dd>Remove all regexps filters.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org03cc3a9" class="outline-3">
+<h3 id="org03cc3a9">Combining and removing filters</h3>
+<div class="outline-text-3" id="text-org03cc3a9">
+<p>
+You can filter by tags, then by regexps, than by category, then by topmost
+parent &#x2013; in <b>any</b> order.
+</p>
+
+<p>
+To remove all filters from the current agenda view, hit <code>|</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb09ebd7" class="outline-2">
+<h2 id="orgb09ebd7">Agenda limits</h2>
+<div class="outline-text-2" id="text-orgb09ebd7">
+<p>
+Here is a list of options that you can set, either globally, or locally in
+your custom agenda:
+</p>
+
+<dl class="org-dl">
+<dt><code>org-agenda-max-entries</code></dt><dd>Limit the number of entries.</dd>
+<dt><code>org-agenda-max-effort</code></dt><dd>Limit the duration of accumulated efforts (as minutes).</dd>
+<dt><code>org-agenda-max-todos</code></dt><dd>Limit the number of entries with TODO keywords.</dd>
+<dt><code>org-agenda-max-tags</code></dt><dd>Limit the number of tagged entries.</dd>
+</dl>
+
+<p>
+When set to a positive integer, each option will exclude entries from other
+catogories: for example, <code>(setq org-agenda-max-effort 100)</code> will limit the
+agenda to 100 minutes of effort and exclude any entry that as no effort
+property.  If you want to include entries with no effort property, use a
+negative value for <code>org-agenda-max-effort</code>.
+</p>
+
+<p>
+One useful setup is to use <code>org-agenda-max-entries</code> locally in a custom
+command.  For example, this custom command will display the next five
+entries with a <code>NEXT</code> TODO keyword.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"n"</span> todo <span style="color: #e2c770;">"NEXT"</span>
+         <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-max-entries</span> <span style="color: #9c91e4; font-weight: bold;">5</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Once you mark one of these five entry as <code>DONE</code>, rebuilding the agenda will
+again the next five entries again, including the first entry that was
+excluded so far.
+</p>
+
+<p>
+You can also dynamically set temporary limits by pressing <code>~</code> (or <code>M-x
+org-agenda-limit-interactively RET</code>).  Those temporary limits are lost when
+rebuilding the agenda.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd07d428" class="outline-2">
+<h2 id="orgd07d428">Dimming blocked task</h2>
+<div class="outline-text-2" id="text-orgd07d428">
+<p>
+Blocked tasks are dimmed by default in the agenda.
+</p>
+
+<p>
+You can turn this feature off with this in your <code>.emacs.el</code> file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-dim-blocked-tasks</span> nil<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+This will actually speed up the agenda generation (see <a href="../agenda-optimization.html">the Worg page on
+Agenda optimization</a>).
+</p>
+
+<p>
+Then, if you want to turn this feature on temporarily for the current
+agenda, just enter <code>M-x org-agenda-dim-blocked-tasks RET</code> interactively.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Bastien Guerry</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

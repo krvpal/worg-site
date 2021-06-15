@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Genetic drift</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Genetic drift</h1>
+
+<div id="outline-container-orgbe196e7" class="outline-2">
+<h2 id="orgbe196e7">A simple model of evolution</h2>
+<div class="outline-text-2" id="text-orgbe196e7">
+<p>
+Evolution is the result of changes in the genetic composition of
+populations over time. One of the simplest models of evolution is as
+follows. There is a population of N individuals, among which there
+are two genetic types: red and blue<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Here is the initial
+generation of the population (N=10).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ditaa">                  /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+
+  Generation 1    |cRED| |cBLU| |cBLU| |cBLU| |cRED| |cRED| |cBLU| |cRED| |cRED| |cRED|
+                  |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+                  +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/  
+</pre>
+</div>
+
+<p>
+There is no mutation, no selection and no sex; the next generation
+is made up by randomly choosing 10 individuals from the previous
+generation<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>. A single individual can be chosen more than once,
+or not at all; the number of times an individual is chosen
+corresponds to the number of progeny it has in the next
+generation. Even without mutation or natural selection the
+proportions of red and blue types will change, because different
+individuals will have different numbers of offspring, by chance.
+</p>
+
+<p>
+So the first two generations might look like this.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-ditaa">                  /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+
+  Generation 1    |cRED| |cBLU| |cBLU| |cBLU| |cRED| |cRED| |cBLU| |cRED| |cRED| |cRED|              
+                  |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+                  +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ 
+                  /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+ /----+
+  Generation 2    |cBLU| |cBLU| |cRED| |cRED| |cRED| |cBLU| |cRED| |cRED| |cBLU| |cBLU|              
+                  |    | |    | |    | |    | |    | |    | |    | |    | |    | |    |
+                  +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ +----/ 
+</pre>
+</div>
+
+<p>
+This is a form of evolution called &ldquo;genetic drift&rdquo;. It is inevitable,
+although if the population is very large it will have less effect.
+</p>
+
+<p>
+Let X_t be the number of red individuals in generation t, and let p_t
+be the proportion of red individuals. So X_1 is 6 and p_1 is 0.6. To
+choose the number of red individuals in generation 2 we make 10
+choices, each time having probability 6/10 of getting a red
+individual. So X_2 is a <i>binomial</i> random variable, with 10 trials and
+success probability 0.6. In general, the random process is described
+by the following transition probabilities.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex">  <span style="color: #eb4509;">\begin</span>{<span style="color: #b6e63e;">equation</span>}
+<span style="color: #268bd2;">  </span><span style="color: #268bd2;">\Pr</span><span style="color: #268bd2;">(X</span><span style="color: #727280;">_t</span><span style="color: #268bd2;">=j|X</span><span style="color: #727280;">_{t-1}</span><span style="color: #268bd2;">=i) = </span><span style="color: #268bd2;">\frac</span><span style="color: #268bd2;">{j(j-1)}{2}</span><span style="color: #268bd2;">\Big</span><span style="color: #268bd2;">(</span><span style="color: #268bd2;">\frac</span><span style="color: #268bd2;">{i}{N}</span><span style="color: #268bd2;">\Big</span><span style="color: #268bd2;">)</span><span style="color: #727280;">^j</span><span style="color: #268bd2;">\Big</span><span style="color: #268bd2;">(</span><span style="color: #268bd2;">\frac</span><span style="color: #268bd2;">{N-i}{N}</span><span style="color: #268bd2;">\Big</span><span style="color: #268bd2;">)</span><span style="color: #727280;">^{n-j}</span>
+<span style="color: #268bd2;">  </span><span style="color: #eb4509;">\end</span>{<span style="color: #b6e63e;">equation</span>}
+</pre>
+</div>
+
+
+<p>
+We can simulate the evolution over many generations in R. This code
+simulates the change in frequency in a single population over 100
+generations. We&rsquo;ll make the population larger (N=1000) but still
+start off with 60% red individuals.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org725ed0c">  p &lt;- numeric(ngens)
+  p[1] &lt;- X1/N
+  for(g in 2:ngens)
+      p[g] &lt;- rbinom(1, size=N, prob=p[g-1]) / N
+  plot(p, type="l", ylim=c(0,1), xlab="Generation", ylab="Proportion red")
+</pre>
+</div>
+
+
+<p>
+But how variable is this process? To answer this we need to repeat
+the simulation many times (i.e. simulate many identical but
+independent populations). We could do that as follows
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">  drift.slow &lt;- function(N, X1, ngens, nreps) {
+      p &lt;- matrix(NA, nrow=ngens, ncol=nreps)
+      p[1,] &lt;- X1/N
+      for(rep in 1:nreps) {
+          for(g in 2:ngens)
+              p[g,rep] &lt;- rbinom(1, size=N, prob=p[g-1,rep]) / N
+      }
+      p
+  }
+</pre>
+</div>
+
+<p>
+But this is not a good implementation. One should make use of
+&ldquo;vectorisation&rdquo;, which makes the simulation much more efficient when
+there are many replicates<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>. Note the way that rbinom simulates
+all replicates at once, but still one generation at a time.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">  drift.faster &lt;- function(N, X1, ngens, nreps) {
+      p &lt;- matrix(NA, nrow=ngens, ncol=nreps)
+      p[1,] &lt;- X1/N
+      for(gen in 2:ngens)
+          p[gen,] &lt;- rbinom(n=nreps, size=N, prob=p[gen-1,]) / N
+      p
+  }
+</pre>
+</div>
+
+<p>
+To run the simulation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org97ef448">  p &lt;- drift.faster(N, X1, ngens, nreps)
+  matplot(p, type="l", ylim=c(0,1), lty=1)
+</pre>
+</div>
+
+<p>
+And let&rsquo;s quickly see how much of a speed difference the vectorisation
+makes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="orgf7e2466">  functions &lt;- c(drift.slow=drift.slow, drift.faster=drift.faster)
+  times &lt;- sapply(functions, function(f) as.numeric(system.time(f(N, X1, ngens, nreps))[1]))
+  print(times)
+  cat(sprintf("\nFactor speed-up = %.1f\n", times[1] / times[2]))
+</pre>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Every individual is chacterised by a single type; no sex,
+recombination, mutation, selection, etc.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+All members of the previous generation die as the next
+generation is formed.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+Note that we can&rsquo;t vectorise the entire simulation because
+drift is a Markov process.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

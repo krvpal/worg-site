@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Customizing Org-mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Carsten Dominik" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Customizing Org-mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge3df401">How to change the parameters for the clocktable in the Org-mode Daily Agenda</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<p>
+This page contains an illustrated example on how to use the Emacs
+customization system to find the right variable for a particular
+purpose.  Org-mode contains more than 650 options that can be used to
+fine-tune a detail, and it can be daunting to find the right variable
+for a particular job - even though more often than not, the variable
+does exist.
+</p>
+
+<p>
+The <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html#Easy-Customization">Emacs customize system</a> offers a way out.  With this tool,
+variables can be grouped and organized into a hierarchical system
+that makes it much easier to find the right one.  The best way to
+start is to <i>browse a customization group</i>.  This can be done with
+</p>
+
+<p>
+#+example
+M-x customize-browse RET
+#+end<sub>example</sub>
+</p>
+
+<p>
+which enters the top-level group for all of Emacs and lets you drill
+down from there.  Org-mode provides a special command to start
+directly in the Org group:
+</p>
+
+<p>
+#+example
+M-x org-customize RET
+#+end<sub>example</sub>
+</p>
+
+<p>
+You can also access this command from the Org menu under <code>Org -&gt;
+Customize -&gt; Brows Org Group</code>.
+</p>
+
+<div id="outline-container-orge3df401" class="outline-2">
+<h2 id="orge3df401">How to change the parameters for the clocktable in the Org-mode Daily Agenda</h2>
+<div class="outline-text-2" id="text-orge3df401">
+<p>
+So here is an example.  Recently, Flavio de Souza <a href="https://orgmode.org/list/87d4go5x8j.fsf@gmail.com">asked</a> on
+<a href="http://dir.gmane.org/gmane.emacs.orgmode">emacs-orgmode@gnu.org</a> how he could change the maximum level for the
+construction of the clock table in the Org Daily/Weekly agenda.
+</p>
+
+<p>
+Here is the illustrated answer:
+</p>
+
+
+<ol class="org-ol">
+<li><p>
+In an Org-buffer, use the menu to select
+Org -&gt; Customize -&gt; Browse Org Group
+</p>
+
+
+<div class="figure">
+<p><img src="../images/cd/customize-1.png" alt="customize-1.png" />
+</p>
+</div></li>
+
+<li><p>
+Open the &ldquo;Org Agenda&rdquo; group by clicking the &ldquo;+&rdquo; in front of it.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/cd/customize-2.png" alt="customize-2.png" />
+</p>
+</div></li>
+</ol>
+
+
+<ol class="org-ol">
+<li><p>
+Inside you find another group: &ldquo;Daily/Weekly Agenda&rdquo;, and in that group
+there is the option &ldquo;Org Agenda Clockreport Parameter Plist&rdquo;:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/cd/customize-3.png" alt="customize-3.png" />
+</p>
+</div></li>
+
+<li><p>
+When you select this variable, you are in a customization buffer
+where you can changes the parameters for this option, in your case
+you will set maxlevel to 3.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/cd/customize-4.png" alt="customize-4.png" />
+</p>
+</div></li>
+
+<li>After you are done, click on <b>Set for current section</b> and then on
+<b>Save for future sessions</b> near the top of the buffer.</li>
+</ol>
+
+
+<p>
+It may not always be as simple to find the correct variable, but with
+some clicking around, you will get there.  And if you find that a
+particular variable has a stupid name, or is not in the right group,
+<a href="mailto:emacs-orgmode@gnu.org">drop us a note</a> so that we can fix things.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Carsten Dominik</p>
+<p class="date">Created: 2021-06-15 Tue 18:24</p>
+</div>
+</body>
+</html>

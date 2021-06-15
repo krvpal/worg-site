@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-taskjuggler-scr.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">&#1050;reiranje Gantt grafikona izvozom do TaskJuggler
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Jovana Milutinovich
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">jovanam AT webhostinggeeks DOT com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   scr</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{{Nazad do Workq&#8221;s indeksa index}}</a></span>
+
+<span class="italic">Thanks to Jovana Milutinovich (</span><span class="italic"><span class="org-verbatim">jovanam AT webhostinggeeks DOT com</span></span><span class="italic">) for the translation.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Uvod
+</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/">Org mod</a></span> &#1112;&#1077; odli&#269;an dodatak za projektno planiranje , kao &#353;to je Peter Jones
+pokazao u svom &#269;lanku o <span class="kc-org-link-url"><a href="http://www.contextualdevelopment.com/articles/2008/project-planning">projektnom planiranju</a></span>. On prvo podeli projekat na
+karakteristike i zadatke, zatim procenjuje efekt i trud i iz toga
+prezentuje projektni plan. U ovom vodi&#269;u &#263;emo i&#263;i jo&#353; jedan korak napred,
+dodeli&#263;emo resurse zadacima, zatim napraviti raspored zadataka i kreirati
+odgovaraju&#263;i gantt grafikon za ovaj projekat.
+
+Koristi&#263;emo <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/">TaskJuggler</a></span> da bi rukovodili sa rasporedom zadataka,
+nivelisanjem izvora i kreiranjem bezbroj grafikona (kao <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/Gantt_chart">Gantt grafikoni</a></span>) za
+va&#353;u mu&#353;teriju na va&#353;em <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">Pointy-haired Boss</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Planirajte svoj projekat
+</span>
+Startujete kao i obi&#269;no tako &#353;to se projekat podeli na zadatke. Hajde da
+uzmemo slede&#263;i primer gde imamo da kreiramo projetak u vezi sa
+ra&#269;unovodstvom (softver):
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">  ,* Accounting Software
+  ,
+  ,** Specification
+  ,
+  ,** Software Development
+  ,*** Database coupling
+  ,*** Back-End Functions
+  ,*** Graphical User Interface
+  ,
+  ,** Software testing
+  ,*** Alpha Test
+  ,*** Beta Test
+  ,
+  ,** Manual
+  ,
+  ,** Milestones
+  ,*** Project start
+  ,*** Technology Preview
+  ,*** Beta version
+  ,*** Ship Product to Customer
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Proceniti napor
+</span>
+Sada kada ste odgonetnuli zadatke, vreme je da procenimo napor za svaki
+pojedina&#269;ni zadatak. Koriste&#263;i kolonu pregleda ovo mo&#382;e da se zavr&#353;i vrlo
+efikasno i brzo. Tako&#273;e , poma&#382;e da se defini&#353;u <span class="org-verbatim">COLUMNS</span> i standardne
+vrednosti za &#8220;Effort property&#8221; kao &#353;to je pokazano na slede&#263;oj slici:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Procenjujemo napor pomo&#263;u kolone pregleda</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Procenjujemo napor pomo&#263;u kolone pregleda"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/effort-estimation.png">file:../images/taskjuggler/effort-estimation.png</a></span>
+
+Rezultat va&#353;eg projekta Org moda &#263;e izgledati ne&#353;to sli&#269;no kao slede&#263;e:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">  ,#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d
+  ,#+COLUMNS: %70ITEM(Task) %Effort
+  ,
+  ,* Accounting Software
+  ,
+  ,** Specification
+  ,   :PROPERTIES:
+  ,   :Effort:   20d
+  ,   :END:
+  ,
+  ,** Software Development
+  ,
+  ,*** Database coupling
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :END:
+  ,
+  ,*** Back-End Functions
+  ,    :PROPERTIES:
+  ,    :Effort:   30d
+  ,    :END:
+  ,
+  ,*** Graphical User Interface
+  ,    :PROPERTIES:
+  ,    :Effort:   35d
+  ,    :END:
+  ,
+  ,** Software testing
+  ,*** Alpha Test
+  ,    :PROPERTIES:
+  ,    :Effort:   5d
+  ,    :END:
+  ,
+  ,*** Beta Test
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :END:
+  ,
+  ,** Manual
+  ,   :PROPERTIES:
+  ,   :Effort:   50d
+  ,   :END:
+  ,
+  ,** Milestones
+  ,*** Project start
+  ,*** Technology Preview
+  ,*** Beta version
+  ,*** Ship Product to Customer
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Generisati Gantt grafikone
+</span>
+Sada, pre nego &#353;to eksportujete projekat do TaskJuggler-a, treba da ka&#382;ete
+izvozniku na kom drvetu mo&#382;e prona&#263;i zadatke. Ovo radite tako &#353;to dodajete
+tag do <span class="org-code">taskjuggler_project</span> do &#269;lana &#8220;Accounting Softvare"<span class="org-footnote">[fn:1]</span>. Uradite ovo
+pomeranjem do &#8220;Accounting Softvare&#8221; naslova i kucajte slede&#263;e:
+
+<span class="org-code">: C-c C-c taskjuggler_project RET
+</span>
+&#1054;vo vam dozvoljava da imate i druge &#269;lanove za ovaj projekat kao &#353;to su
+uvod i op&#353;te napomene.
+
+Za izvoz projekta do TaskJuggler-a jednostavno ukucajte slede&#263;e:
+
+<span class="org-code">: M-x org-export-as-taskjuggler-and-open
+</span>
+&#1054;vo &#263;e vam otvoriti projekat u TaskJuggler-u kao &#353;to je i prikazano ispod.
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Gantt grafikoni u TaskJuggler-UI</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Gantt grafikoni u TaskJuggler-UI"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/TaskJugglerUI1.png">file:../images/taskjuggler/TaskJugglerUI1.png</a></span>
+
+Kako nismo dodelili nijedan resurs za rad na ovom projektu, izvoznik
+pretpostavlja da &#263;ete vi biti ti koji rade na projektu i dodeli&#263;e sve
+zadatke vama. Zadatak je serijalizovan, tj. izlazi u serijama tako da
+ne&#263;ete imati da radite mnogo posla u isto vreme i resursi &#263;e biti
+nivelisani.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Dodeljivanje resursa
+</span>
+Slede&#263;i korak je da napravite listu svih resursa koji rade na projektu i
+dodeliti im zadatke. Kreirajte &#269;lan za svaki resurs. Mo&#382;ete grupisati
+resurse kreiranjem hijerarhije. Ozna&#269;ite drvo resursa sa oznakom
+<span class="org-code">taskjuggler_resource</span> tako da izvoznik zna gde da gleda za resurs
+definicije<span class="org-footnote">[fn:2]</span>.
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">  ,* Resources</span><span class="whitespace-tab">                                  </span><span class="org-block">       :taskjuggler_resource:
+  ,** Developers
+  ,   :PROPERTIES:
+  ,   :resource_id: dev
+  ,   :END:
+  ,*** Paul Smith
+  ,    :PROPERTIES:
+  ,    :resource_id: paul
+  ,    :END:
+  ,*** S&#233;bastien Bono
+  ,    :PROPERTIES:
+  ,    :resource_id: seb
+  ,    :END:
+  ,*** Klaus M&#252;ller
+  ,
+  ,** Others
+  ,*** Peter Murphy
+  ,    :PROPERTIES:
+  ,    :resource_id: doc
+  ,    :END:
+  ,*** Dim Sung
+  ,    :PROPERTIES:
+  ,    :resource_id: test
+  ,    :END:
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Kao &#353;to &#263;ete i primetiti, tako&#273;e sam dodao <span class="org-code">resource_id</span> properties za neke
+resurse (grupe resursa). Koristi&#263;u te identifikatore za dodelu resursa
+zadacima. Izvoznik &#263;e kreirati jedinstveni ids za resurse automatski<span class="org-footnote">[fn:3]</span>,
+ali ako &#382;elite da koristite kratke forme bolje je da defini&#353;ete
+<span class="org-code">resource_id</span> properties za va&#353;e resurse. Ovo &#263;e vam tako&#273;e omogu&#263;iti da
+defini&#353;ete standardne vrednosti za dodelu kao &#353;to sledi:
+
+<span class="org-code">: #+PROPERTY: allocate_ALL dev doc test
+</span>
+Najlak&#353;i na&#269;in za dodeljivanje resursa, je ponovo kolumna pregleda. Nema
+potrebe za dodeljivanjem resursa za svaki zadatak, jer je dodeljivanje
+nasledno u TaskJuggler<span class="org-footnote">[fn:4]</span>. Primeti&#263;ete na ekranu ispod da neki zadaci
+imaju vi&#353;e nego jedan resurs dodeljen. TaskJuggler &#263;e izra&#269;unati trajanje
+svakog zadatka, baziranom na naporu i resursu koji rade na ovom zadatku.
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Dodeljivanje resursa</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Dodeljivanje resursa"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/assign-resources.png">file:../images/taskjuggler/assign-resources.png</a></span>
+
+Ako sada izvezemo projekat vide&#263;emo da je TaskJuggler organizovao neke
+zadatke paralelno (jer postoji nekoliko resursa koji mogu raditi
+paralelno).  Pogledajte sliku ispod:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Gantt grafikoni sa vi&#353;estrukim resursima</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Gantt grafikoni sa vi&#353;estrukim resursima"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/TaskJugglerUI2.png">file:../images/taskjuggler/TaskJugglerUI2.png</a></span>
+
+O&#269;igledno moramo da defini&#353;emo zavisnosti izme&#273;u zadataka.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Odrediti zavisnosti
+</span>
+Ima nekoliko na&#269;ina za definisanje zavisnosti izme&#273;u zadataka. Kada dolaze
+iz Org mod pozadine, vi &#263;ete verovatno &#382;eleti da ih defini&#353;ete koriste&#263;i
+postrojenja obezbe&#273;ena od strane Org moda, koji su ili:
+
+<span class="org-list-dt">-</span> The <span class="org-verbatim">ORDERED</span> imovina koja vam dozvoljava i navodi vas da de&#269;iji zadaci
+  moraju biti kompletirani po tome kako se pojavljuju
+
+<span class="org-list-dt">-</span>  The <span class="org-verbatim">BLOCKER</span> imovina, koja vam dozvoljava i navodi vas da zadatak
+   zavisi od
+
+    <span class="org-list-dt">-</span> od prethodnog siblinga (prethodni-sibling)
+    <span class="org-list-dt">-</span> od bilo kog drugog zadatka, startuju&#263;i <span class="org-code">task_id</span> property od
+      prethodnika
+
+Ponovo, ovo je verovatno najlak&#353;i na&#269;in za definisanje zavisnosti koriste&#263;i
+kolumnu pregleda kao &#353;to je prikazano na ekranu ispod:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Definisanje zavisnosti kori&#353;&#263;enjem kolumne pregleda</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Definisanje zavisnosti kori&#353;&#263;enjem kolumne pregleda"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/define-dependencies.png">file:../images/taskjuggler/define-dependencies.png</a></span>
+
+Na kraju, tako&#273;e postoji i zavisnost imovine koja je u korespodenciji sa
+TaskJuggler terminologijom.  Mo&#382;e se koristiti na isti na&#269;in kao <span class="org-verbatim">BLOCKER</span>
+imovina. Ovo je ilustrovano ispod gde je uzet primer &#8220;Softvare Development&#8221;
+koji je blokiran od strane zadatka &#8220;Specification&#8221;, gde mora da &#269;eka dok se
+specifikacija ne zavr&#353;i.  Zadatak &#8220;Softvare Development&#8221; je definisan kao
+<span class="org-verbatim">ORDERED</span>, i svi podzadaci moraju biti kompletirani u sekvencama. Drugi
+primer je prekretnica &#8220;Ship Product to Customer&#8221; koji &#269;eka dok se ne zavr&#353;e
+Beta i Ru&#269;ni test.
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">  ,#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d
+  ,#+PROPERTY: allocate_ALL dev doc test
+  ,#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+  ,
+  ,* Accounting Software</span><span class="whitespace-tab">                                        </span><span class="org-block">:taskjuggler_project:
+  ,
+  ,** Specification
+  ,   :PROPERTIES:
+  ,   :Effort:   20d
+  ,   :BLOCKER:  start
+  ,   :allocate: dev
+  ,   :END:
+  ,
+  ,** Software Development
+  ,   :PROPERTIES:
+  ,   :ORDERED:  t
+  ,   :BLOCKER:  previous-sibling
+  ,   :priority: 1000
+  ,   :allocate: dev
+  ,   :END:
+  ,
+  ,*** Database coupling
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :END:
+  ,
+  ,*** Back-End Functions
+  ,    :PROPERTIES:
+  ,    :Effort:   30d
+  ,    :task_id:  back_end
+  ,    :END:
+  ,
+  ,*** Graphical User Interface
+  ,    :PROPERTIES:
+  ,    :Effort:   35d
+  ,    :allocate: paul, seb
+  ,    :END:
+  ,
+  ,** Software testing
+  ,   :PROPERTIES:
+  ,   :ORDERED:  t
+  ,   :BLOCKER:  previous-sibling
+  ,   :allocate: test
+  ,   :END:
+  ,*** Alpha Test
+  ,    :PROPERTIES:
+  ,    :Effort:   5d
+  ,    :task_id:  alpha
+  ,    :END:
+  ,
+  ,*** Beta Test
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :task_id:  beta
+  ,    :allocate: test, paul
+  ,    :END:
+  ,
+  ,** Manual
+  ,   :PROPERTIES:
+  ,   :Effort:   50d
+  ,   :task_id:  manual
+  ,   :BLOCKER:  start
+  ,   :allocate: doc
+  ,   :END:
+  ,
+  ,** Milestones
+  ,*** Project start
+  ,    :PROPERTIES:
+  ,    :task_id:  start
+  ,    :END:
+  ,
+  ,*** Technology Preview
+  ,    :PROPERTIES:
+  ,    :BLOCKER:  back_end
+  ,    :END:
+  ,
+  ,*** Beta version
+  ,    :PROPERTIES:
+  ,    :BLOCKER:  alpha
+  ,    :END:
+  ,
+  ,*** Ship Product to Customer
+  ,    :PROPERTIES:
+  ,    :BLOCKER:  beta manual
+  ,    :END:
+  ,
+  ,
+  ,* Resources</span><span class="whitespace-tab">                                  </span><span class="org-block">       :taskjuggler_resource:
+  ,** Developers
+  ,   :PROPERTIES:
+  ,   :resource_id: dev
+  ,   :END:
+  ,*** Paul Smith
+  ,    :PROPERTIES:
+  ,    :resource_id: paul
+  ,    :END:
+  ,*** S&#233;bastien Bono
+  ,    :PROPERTIES:
+  ,    :resource_id: seb
+  ,    :END:
+  ,*** Klaus M&#252;ller
+  ,
+  ,** Others
+  ,*** Peter Murphy
+  ,    :PROPERTIES:
+  ,    :resource_id: doc
+  ,    :limits:   { dailymax 6.4h }
+  ,    :END:
+  ,*** Dim Sung
+  ,    :PROPERTIES:
+  ,    :resource_id: test
+  ,    :END:
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+&#1040;&#1082;&#1086; izvozite primer iznad, TaskJuggler &#263;e napraviti raspored zadataka kao
+&#353;to je pokazano na ekranu ispod.
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Gantt grafikoni za zavisnostima</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Gantt grafikoni za zavisnostima"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/TaskJugglerUI3.png">file:../images/taskjuggler/TaskJugglerUI3.png</a></span>
+
+Tako&#273;e TaskJuggler &#263;e vam dati pregled koliko &#263;e uposleni biti resursi i na
+&#269;emu rade. Pogledajte ispod sliku:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Grafikon upotrebe resursa</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Grafikon upotrebe resursa"</span>
+<span class="org-link"><a href="file:../images/taskjuggler/resource-graph.png">file:../images/taskjuggler/resource-graph.png</a></span>
+
+Na posletku, mo&#382;ete generisati <span class="org-link"><a href="file:../images/taskjuggler/project-plan.pdf">good-lookin project plans</a></span> u PDF fajlove
+&#353;tampanjem iz TaskJuggler-a.Ovo &#263;e usre&#263;iti svakog <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">pointy-haired Boss</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Export of other properties
+</span>
+
+Obi&#269;no, izvoznik upisuje imovinu &#269;lana koja je ve&#263; poznata TaskJuggler-u
+(kao smene, bukiranja, efikasnost, start, knji&#382;enje,odgovornost, reference,
+raspored, trajanje, prekretnica, bele&#353;ke, kraj, itd... za zadatke) kao i
+TaskJuggler fajlu.
+
+&#1054;stala svojstva kao kompletnost ili prioritet su izvedene iz obuhvatnih
+informacija iz Org mod fajla. TODO izjava je pravi primer kompletnosti.
+Prioritet zadatka &#263;e biti determinisan kroz prioritet cookie.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span><span class="org-footnote">[fn:1]</span> Mo&#382;ete kustomizirati tagove.
+
+<span class="org-footnote">[fn:2]</span> &#1054;pet, naravno, ovaj tag mo&#382;e biti kustomiziran.
+
+<span class="org-footnote">[fn:3]</span> Preko downcasing naslova, zamene ne-ascii znakova sa &#8220; i biranjem
+prve re&#269;i kao da je jedinstvena.
+
+<span class="org-footnote">[fn:4]</span> U TaskJuggler-u dodeljivanja su kumulativna, izvoznik me&#273;utim,
+dodaje neke kodove tako da su nasle&#273;ena dodeljivanja ignorisana kada se
+eksplicitno dodeljuju resursu.
+</pre>
+  </body>
+</html>

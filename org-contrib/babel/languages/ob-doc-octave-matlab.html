@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-octave-matlab</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Dan Davison" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-octave-matlab</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0160c28">Graphical output</a></li>
+</ul>
+</div>
+</div>
+<p>
+This file contains notes on using Matlab and Octave with Org-babel.
+</p>
+
+<p>
+An example of an octave block in Org-babel is
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">  #+begin_src octave :exports results</span>
+<span style="background-color: #000000;">  </span><span style="color: #fd971f; background-color: #000000;">,</span><span style="background-color: #000000;">n </span><span style="color: #fd971f; background-color: #000000;">=</span><span style="background-color: #000000;"> [</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">1</span><span style="color: #fd971f; background-color: #000000;">:</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">10</span><span style="background-color: #000000;">]</span><span style="color: #fd971f; background-color: #000000;">;</span>
+<span style="background-color: #000000;">  </span><span style="color: #fd971f; background-color: #000000;">,</span><span style="background-color: #000000;">x </span><span style="color: #fd971f; background-color: #000000;">=</span><span style="background-color: #000000;"> </span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">5</span><span style="color: #fd971f; background-color: #000000;">*</span><span style="background-color: #000000;">n</span><span style="color: #fd971f; background-color: #000000;">+</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">4</span><span style="color: #fd971f; background-color: #000000;">;</span>
+<span style="background-color: #000000;">  </span><span style="color: #fd971f; background-color: #000000;">,</span><span style="background-color: #000000;">ans </span><span style="color: #fd971f; background-color: #000000;">=</span><span style="background-color: #000000;"> x</span>
+<span style="color: #696969;">  #+end_src</span>
+  
+<span style="color: #7f7f80;">  #+results:</span>
+  ,| 9 | 14 | 19 | 24 | 29 | 34 | 39 | 44 | 49 | 54 |
+</pre>
+</div>
+
+<p>
+Notice that the final line is &ldquo;ans = x&rdquo;. Finishing the block with the
+simple statement &ldquo;x&rdquo; will not work. In Org-babel, Matlab and Octave
+return the result of the special variable &ldquo;ans&rdquo;, which (in Octave at
+least) is automatically updated with &ldquo;The most recently computed
+result that was not explicitly assigned to a variable&rdquo;. Therefore,
+both &ldquo;ans =x&rdquo; and &ldquo;x + 0&rdquo; would result in the desired result being
+returned, &ldquo;x&rdquo; alone will not.
+</p>
+
+<div id="outline-container-org0160c28" class="outline-2">
+<h2 id="org0160c28">Graphical output</h2>
+<div class="outline-text-2" id="text-org0160c28">
+<p>
+In order to get graphical output without leaving open graph windows
+during evaluation, the following can be used:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-octave">figure( <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">,</span> <span style="color: #e2c770;">"visible"</span><span style="color: #fd971f;">,</span> <span style="color: #e2c770;">"off"</span> )<span style="color: #fd971f;">;</span>
+sombrero<span style="color: #fd971f;">;</span>
+print <span style="color: #fd971f;">-</span>dpng chart.png<span style="color: #fd971f;">;</span>
+ans <span style="color: #fd971f;">=</span> <span style="color: #e2c770;">"chart.png"</span><span style="color: #fd971f;">;</span>
+</pre>
+</div>
+
+<p>
+The <code>figure</code> command opens an invisible graph window where the next plot commands should act.
+</p>
+
+<p>
+Then, the <code>print</code> command exports the graph to a file.
+</p>
+
+<p>
+:results file says to interpret the result as a file path.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Dan Davison</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

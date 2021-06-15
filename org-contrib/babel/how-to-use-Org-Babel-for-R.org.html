@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>how-to-use-Org-Babel-for-R.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span><span class="org-document-title">How to Use Emacs Org-Babel Mode to Write Literate Programming Document in R Language 
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Feiming Chen
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">fullname at yahoo
+</span><span class="org-meta-line">#+PROPERTY: session *R* </span>
+<span class="org-meta-line">#+PROPERTY: cache yes </span>
+<span class="org-meta-line">#+PROPERTY: results graphics </span>
+<span class="org-meta-line">#+PROPERTY: exports both </span>
+<span class="org-meta-line">#+PROPERTY: tangle yes </span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+We introduce the use of emacs org-babel model in this document.  Emacs
+Org-Babel mode is a literate programming tool (aka. active document), which
+can embed multiple programming languages, inlcuding R, in one document.
+Another popular literate programming tool for statisticians is the Sweave
+document, which can embed only R code.
+
+First we clarify the following terminologies:
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><span class="org-list-dt"><a href="http://www.gnu.org/software/emacs/">Emacs</a></span></span><span class="org-list-dt"> ::</span> The extensible, customizable, self-documenting real-time
+           display editor.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><span class="org-list-dt"><a href="http://www.gnu.org/software/emacs/">Org-mode</a></span></span><span class="org-list-dt"> ::</span> An Emacs Mode for keeping notes, maintaining ToDo lists,
+              doing project planning, and authoring with a fast and
+              effective plain-text system.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><span class="org-list-dt"><a href="https://orgmode.org/worg/org-contrib/babel/">Babel</a></span></span><span class="org-list-dt"> ::</span> It is Org-mode's ability to execute source code within
+           Org-mode documents.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to Use
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Installation
+</span>
+(August 5, 2011) <span class="org-verbatim">Babel</span> is available after Org-mode version 7.0, while
+Emacs version 23.2.1 still only has Org-mode version 6.33x.  Thus you need
+to update Org-mode (currenly at version 7.7) from <span class="kc-org-link-url"><a href="https://orgmode.org">Org Home Page</a></span>.  You can
+use Emacs Package Manager to install Org-mode easily following <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-faq.html#installing-via-elpa">this
+instruction. </a></span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Keyboard Shortcuts
+</span>
+To write a code block in a <span class="org-verbatim">.org</span> file, you can simple type <span class="org-verbatim">&lt;s</span>
+followed by TAB key.  Then a skeleton like the following is
+automatically inserted:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src 
+
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+All you need to do next is type a single letter <span class="org-verbatim">R</span> in the header and
+begin typing R code:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src R
+  </span><span class="custom"><span class="org-tag">##</span></span><span class="custom"> Edit Your R Code Here.
+  x &lt;- rnorm(100)
+  summary(x)
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+I recommend you to edit R code in <span class="kc-org-link-url"><a href="http://ess.r-project.org/">ESS</a></span> (Emacs Speaks Statistics) mode by
+typing <span class="org-verbatim">C-c '</span> (i.e. C-c and single quote) within the code block, which
+brings up a separate window with ESS enabled. After editing, you can type
+<span class="org-verbatim">C-c '</span> again to return to the main file buffer.
+
+Once you finish writing the code, you can execute them immediately by
+pressing <span class="org-verbatim">C-c C-c</span> and see the R output being inserted into the document.
+Alternatively, you can press <span class="org-verbatim">C-c C-o</span> to see the R output in a separate
+window.
+
+To generate (export to) HTML document, press <span class="org-verbatim">C-c C-e b</span>.  Note other
+document options are available upon pressing <span class="org-verbatim">C-c C-e</span>.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Emacs Customization Settings
+</span>
+The Org-Babel mode can be customized through the emacs menu item "Org",
+which can be saved to your ".emacs" file for future use. Some useful
+Org-Babel settings for statisticians are:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">(custom-set-variables
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (R . t))))
+ '(org-confirm-babel-evaluate nil))
+</span><span class="org-block-end-line">#+end_example
+</span>
+which specifies <span class="org-verbatim">R</span> language to be loaded and R code to be evaluated
+without prompt.
+
+I also specify a "skeleton" in my ".emacs" file so as to start writing
+Org file quickly:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">(define-skeleton org-skeleton
+  "Header info for a emacs-org file."
+  "Title: "
+  "#+TITLE:" str " \n"
+  "#+AUTHOR: Your Name\n"
+  "#+email: your-email@server.com\n"
+  "#+INFOJS_OPT: \n"
+  "#+BABEL: :session *R* :cache yes :results output graphics :exports both :tangle yes \n"
+  "-----"
+ )
+(global-set-key [C-S-f4] 'org-skeleton)
+</span><span class="org-block-end-line">#+end_example
+</span>
+where
+
+<span class="org-list-dt">-</span> The <span class="org-verbatim">#+INFOJS_OPT</span> option will generat a HTML document that is
+  foldable and follows the style of <span class="org-verbatim">GNU/INFO</span> document.
+<span class="org-list-dt">-</span> The <span class="org-verbatim">:session *R*</span> option makes sure all the R code is run in the
+  same session so objects generated in one code block can be accessed
+  from other code blocks.
+<span class="org-list-dt">-</span> the <span class="org-verbatim">:cache yes</span> option is used to avoid re-evaluating unchanged
+  code blocks.  This can save significant time when you revise a
+  document with a lot of R code frequently. 
+<span class="org-list-dt">-</span> The <span class="org-verbatim">:results output graphics :exports both</span> option will put both
+  the R code and its text and graphics output in the generated
+  document.
+<span class="org-list-dt">-</span> The <span class="org-verbatim">:tangle yes</span> option allows the document to be "tangled" to
+  generate pure code file.  The short-cut key for tangling is <span class="org-verbatim">C-c C-v
+  t</span>, which generates a <span class="org-verbatim">.R</span> file with all the R code extracted. 
+<span class="org-list-dt">-</span> Note the "-----" string will generate a horizontal line in HTML
+  file. 
+<span class="org-list-dt">-</span> Finally, a hotkey <span class="org-verbatim">C-S-f4</span> (while pressing Ctrl and Shift keys,
+  press F4 key) is assigned to invoke this skeleton quickly. 
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> A Complete Example
+</span>
+We use the following file <span class="org-verbatim">test-for-how-to-use-Org-Babel-for-R.org</span> as an
+example file.
+
+<span class="org-meta-line">#+INCLUDE: "test-for-how-to-use-Org-Babel-for-R.org" example</span>
+
+<span class="comment"># The exported HTML file is shown as <a href="file:test.html">test.html</a>.</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Caveats
+</span>
+<span class="org-list-dt">-</span> Keep the code block indented correctly. Otherwise the graph will not
+  be embedded in the HTML export file.
+<span class="org-list-dt">-</span> Always have the contents and plots under a section heading to avoid
+  certain exporting errors.
+<span class="org-list-dt">-</span> It makes things easier if the working directory in <span class="bold">R</span> session
+  buffer is the same as the directory of the .org file that
+  you are writing.  In this way, the plot files can easily be found. 
+<span class="org-list-dt">-</span> The macro option (<span class="org-verbatim">#+MACRO:</span>) cannot be used to save the typing
+  of header options for code blocks.  For example, it does NOT work if
+  you try to use
+
+<span class="org-block-begin-line">  #+begin_example
+</span><span class="custom">  #+MACRO: p  :file $1.png :width 1000 :height 800
+</span><span class="org-block-end-line">  #+end_example
+</span>
+  to shorten the header to
+
+<span class="org-block-begin-line">  #+begin_example
+</span><span class="custom">  #+begin_src R {{{p(plot)}}}
+</span><span class="org-block-end-line">  #+end_example
+</span>  
+</pre>
+  </body>
+</html>

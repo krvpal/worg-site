@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>test-for-how-to-use-Org-Babel-for-R.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Test
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Your Name
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">your-email@server.com
+</span><span class="org-meta-line">#+PROPERTY: session *R* </span>
+<span class="org-meta-line">#+PROPERTY: cache yes </span>
+<span class="org-meta-line">#+PROPERTY: results graphics </span>
+<span class="org-meta-line">#+PROPERTY: exports both </span>
+<span class="org-meta-line">#+PROPERTY: tangle yes </span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Example of Org-Babel for R Literate Programming
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> R text output
+</span>A simple summary. 
+<span class="org-block-begin-line">#+begin_src R 
+</span>  x &lt;- rnorm(10)
+  summary(x)
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> R graphics output
+</span>Note we use the object <span class="org-verbatim">x</span> generated in previous code block, thanks to
+the header option <span class="org-verbatim">:session *R*</span>.  The output graphics file is
+<span class="org-verbatim">a.png</span>. 
+
+<span class="org-block-begin-line">#+begin_src R  :file a.png
+</span>  y &lt;- rnorm(10)
+  plot(x, y)
+<span class="org-block-end-line">#+end_src
+</span>
+Same plot with larger dimension:
+
+<span class="org-block-begin-line">#+begin_src R  :file b.png :width 800 :height 800
+</span>  plot(x, y)
+<span class="org-block-end-line">#+end_src
+</span>
+
+
+
+
+</pre>
+  </body>
+</html>

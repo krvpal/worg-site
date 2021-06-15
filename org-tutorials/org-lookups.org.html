@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-lookups.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org tutorial on table lookup functions
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Jarmo Hurri
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">jarmo.hurri AT syk DOT fi
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   org-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+  Org provides three different functions for performing searches and
+  data dependent calculations in tables. These functions can, among
+  other things, be used to implement associative arrays, count
+  matching cells, rank results, or group data. The following examples
+  will hopefully help you in getting started with these functions.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Associative array with unique keys
+</span>
+  The most straightforward use of lookups is to treat part of an org
+  table as an associative array: a key can be used to look up a
+  corresponding value. 
+
+  Say you are taking a trip to Scandinavia, and you want to keep track
+  of how much money you have spent on the trip. You decide to convert
+  all sums to euros. Before your trip you write down the following
+  table of approximate currency rates.
+<span class="org-code">:  #+TBLNAME: rates
+: | currency        | abbreviation | euros |
+: |-----------------+--------------+-------|
+: | euro            | eur          |     1 |
+: | Norwegian krone | nok          |  0.14 |
+: | Swedish krona   | sek          |  0.12 |
+: | US dollar       | usd          |  0.77 |
+</span>
+  In what follows we will use the function <span class="org-verbatim">org-lookup-first</span> and the
+  previous table <span class="org-verbatim">rates</span> to automatically convert the sums in
+  different currencies to euros. The signature of function
+  <span class="org-verbatim">org-lookup-first</span> looks as follows:
+<span class="org-block-begin-line">  #+BEGIN_SRC elisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-lookup-first</span></span><span class="org-block"> VAL S-LIST R-LIST </span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> PREDICATE</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">  
+</span><span class="org-block-end-line">  #+END_SRC
+</span>  Assuming that <span class="org-verbatim">PREDICATE</span> is <span class="org-verbatim">nil</span>, in which case the default
+  predicate <span class="org-verbatim">equal</span> is used, this function does a search for the first
+  instance of <span class="org-verbatim">VAL</span> in <span class="org-verbatim">S-LIST</span> and returns the a value from the
+  corresponding position in <span class="org-verbatim">R-LIST</span>. In the table below, each sum is
+  assigned a currency abbreviation; a lookup is done in table <span class="org-verbatim">rates</span>
+  above in the second column for the corresponding abbreviation, and
+  then the corresponding rate is returned from the third column. For
+  each row only the first four columns need to filled; columns 5 and 6
+  are calculated automatically. Notice that an error results if the
+  key is not found: in the last row, an empty key is being searched
+  for.
+
+<span class="org-code">: |  date | expense          |  sum | currency |   rate |  euros |
+: |-------+------------------+------+----------+--------+--------|
+: |  1.3. | flights          |  324 | eur      |      1 |    324 |
+: |  4.6. | books and maps   |  243 | usd      |   0.77 | 187.11 |
+: | 30.7. | rental car       | 8300 | sek      |   0.12 |   996. |
+: |  2.7. | hotel            | 1150 | sek      |   0.12 |   138. |
+: |  2.7. | lunch            |  190 | sek      |   0.12 |   22.8 |
+: |  3.7. | fishing licenses | 1400 | nok      |   0.14 |   196. |
+: |  3.7. | gasoline         |  340 |          | </span><span class="org-code"><span class="org-tag">#ERROR</span></span><span class="org-code"> | </span><span class="org-code"><span class="org-tag">#ERROR</span></span><span class="org-code"> |
+:  #+TBLFM: $5='(org-lookup-first $4 '(remote(rates,@2$2..@&gt;$2)) '(remote(rates,@2$3..@&gt;$3)))::$6=$5*$3
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Multiple matches with preferred ordering
+</span>
+  A common task for teachers is the assignment of exam grades from
+  total marks. The starting point for such grading is a table with
+  grade boundaries. Below is one such table, with the rows in
+  increasing order of the lower bound required for a particular grade.
+
+<span class="org-code">:  #+TBLNAME: grade-boundaries
+: | lower bound | grade |
+: |-------------+-------|
+: |           0 | F     |
+: |          10 | D     |
+: |          20 | C     |
+: |          30 | B     |
+: |          40 | A     |
+</span>
+  We will use the function <span class="org-verbatim">org-lookup-last</span> and the previous table
+  <span class="org-verbatim">grade-boundaries</span> to assign grades to students based on their
+  marks. The signature of function <span class="org-verbatim">org-lookup-last</span> is exactly like
+  the signature of <span class="org-verbatim">org-lookup-first</span>:
+<span class="org-block-begin-line">  #+BEGIN_SRC elisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-lookup-last</span></span><span class="org-block"> VAL S-LIST R-LIST </span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> PREDICATE</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">  
+</span><span class="org-block-end-line">  #+END_SRC
+</span>  However, this function does a search for the <span class="italic">last</span> match in
+  <span class="org-verbatim">S-LIST</span> and returns the a value from the corresponding position in
+  <span class="org-verbatim">R-LIST</span>. Here the idea of the lookup used in assigning the grade is
+  as follows. Say a student's exam result is 33 marks.  We look for
+  the <span class="italic">last</span> row in the table for which the student's marks are greater
+  than or equal to the lower bound; in this case it is the row with
+  lower bound 30. The student's grade is the corresponding element from
+  the second column, in this case a B.
+
+  Thus, given the number of marks <span class="org-verbatim">VAL</span> of a student, we find the last
+  row of the first column of table <span class="org-verbatim">grade-boundaries</span> for which the
+  lower bound <span class="org-verbatim">S</span> fulfils <span class="org-code">(&gt;= VAL S)</span>. Thus we will use <span class="org-code">&gt;=</span> as
+  <span class="org-verbatim">PREDICATE</span> to perform the matching. Note that <span class="org-verbatim">VAL</span> and <span class="org-verbatim">S</span> are
+  assigned as arguments to the predicate in the order they are in the
+  signature of <span class="org-verbatim">org-lookup-last</span>, where <span class="org-verbatim">VAL</span> precedes <span class="org-verbatim">S-LIST</span>. The
+  following table does the conversion from total marks to the final
+  grade.  Notice the literal interpolation <span class="org-verbatim">L</span> of table values into
+  the Elisp formula, which is needed because some values are numbers
+  and some are symbols.
+
+<span class="org-code">: | student | marks | grade |
+: |---------+-------+-------|
+: | X       |    30 | B     |
+: | Y       |    29 | C     |
+: | Z       |     5 | F     |
+: | W       |    55 | A     |
+:  #+TBLFM: $3='(org-lookup-last $2 '(remote(grade-boundaries,@2$1..@&gt;$1)) '(remote(grade-boundaries,@2$2..@&gt;$2)) '&gt;=);L
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Counting matching cells
+</span>
+  The function <span class="org-verbatim">org-lookup-all</span> can not be used by itself in a table
+  equation, because it returns a list of values. However, powerful
+  lookup tasks can be performed by combining the function with other
+  Elisp functions.
+
+  As a simple example consider counting the number of missing values
+  in a table. The signature of function <span class="org-verbatim">org-lookup-all</span> is exactly
+  like the signatures of the other two lookup functions:
+<span class="org-block-begin-line">  #+BEGIN_SRC elisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-lookup-all</span></span><span class="org-block"> VAL S-LIST R-LIST </span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> PREDICATE</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">  
+</span><span class="org-block-end-line">  #+END_SRC
+</span>  However, this function does a search for the <span class="italic">all</span> matches in
+  <span class="org-verbatim">S-LIST</span> and returns the all corresponding values from the
+  corresponding positions in <span class="org-verbatim">R-LIST</span>. As is the case with
+  <span class="org-verbatim">org-lookup-first</span> and <span class="org-verbatim">org-lookup-last</span>, if <span class="org-verbatim">R-LIST</span> is <span class="org-verbatim">nil</span>, then
+  the corresponding matching values of <span class="org-verbatim">S-LIST</span> are returned
+  directly. Notice the use of the <span class="org-verbatim">E</span> flag to retain empty fields in
+  the range. Also notice that in this case we are doing the lookup in
+  a true two-dimensional range, which is thus also possible
+
+<span class="org-code">: | group | round 1 | round 2 |
+: |-------+---------+---------|
+: | A     |         |     2.4 |
+: | B     |     4.7 |      11 |
+: | C     |         |         |
+: | D     |       5 |         |
+: | E     |         |     7.2 |
+: | F     |     3.2 |     4.3 |
+: | G     |         |     4.4 |
+: | H     |         |       8 |
+: |-------+---------+---------|
+: | total | missing |       7 |
+:  #+TBLFM: </span><span class="org-code"><span class="org-formula">@&gt;$3='(length(org-lookup-all</span></span><span class="org-code"> "" '(@2$2..@-1$3) nil));E
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Ranking results
+</span>
+  Another example application of <span class="org-verbatim">org-lookup-all</span> is an automatic
+  ranking of results. In the table below, a larger total number of
+  marks is better. Notice that the Elisp expression also
+  automatically takes care of ties.
+
+<span class="org-code">: | group | marks | rank |
+: |-------+-------+------|
+: | A     |    22 |    2 |
+: | B     |    22 |    2 |
+: | C     |    14 |    4 |
+: | D     |    28 |    1 |
+: | E     |     9 |    5 |
+:  #+TBLFM: $3='(+ 1 (length (org-lookup-all $2 '(@2$2..@&gt;$2) nil '&lt;)));N
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Frequency counts from raw data
+</span>  A common situation in the analysis of data is the classification
+  (grouping) of raw data values for, e.g., visualisation. Often this
+  is done by counting the frequencies of observations within certain
+  bounds. The function <span class="org-verbatim">org-lookup-all</span>, combined with other Elisp
+  functions, can be used to perform this task. This example also shows
+  how to construct more complicated lookup rules using multiple values
+  from a table.
+
+  Consider the following table with different results from different
+  groups A-I.
+<span class="org-code">:  #+TBLNAME: raw-data
+: | group | result |
+: |-------+--------|
+: | A     |    2.3 |
+: | B     |    4.2 |
+: | C     |    1.1 |
+: | D     |    3.6 |
+: | E     |    4.5 |
+: | F     |    2.4 |
+: | G     |    1.0 |
+: | H     |    2.3 |
+: | I     |    2.8 |
+</span>
+  We will classify the results into different, mutually exclusive
+  classes. For example, the observations that will belong to the first
+  class are in the interval <span class="org-verbatim">[1, 1.9]</span> (endpoints included). In order
+  to perform this classification, we define the following two-place
+  predicate function <span class="org-verbatim">in-interval</span>. Notice that the first parameter of
+  this function is a pair whose first element is the lower bound and
+  second member the upper bound of the interval.
+
+<span class="org-code">:  #+BEGIN_SRC emacs-lisp
+:    (defun in-interval (bounds el)
+:      (and (&gt;= el (car bounds)) (&lt;= el (cadr bounds))))
+:  #+END_SRC
+</span>
+<span class="org-code">:  #+RESULTS:
+:  : in-interval
+</span>
+  Using this predicate function, we can construct a table with class
+  boundaries and corresponding frequencies. Note that the first
+  argument to the function <span class="org-verbatim">org-lookup-all</span>, which is then passed over
+  as the first argument to the predicate <span class="org-verbatim">in-interval</span>, is the pair of
+  bounds.
+
+<span class="org-code">: | lower bound | upper bound | frequency |
+: |-------------+-------------+-----------|
+: |           1 |         1.9 |         2 |
+: |           2 |         2.9 |         4 |
+: |           3 |         3.9 |         1 |
+: |           4 |         4.9 |         2 |
+:  #+TBLFM: $3='(length (org-lookup-all '($1 $2) '(remote(raw-data,@2$2..@&gt;$2)) nil 'in-interval));N
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Conclusion
+</span>
+  The org lookup functions can be used for a large number of different
+  data-dependent calculations. For example, the following spreadsheet
+  operations familiar to libreoffice or Excel users can be implemented
+  using them: <span class="org-verbatim">HLOOKUP</span>, <span class="org-verbatim">VLOOKUP</span>, <span class="org-verbatim">COUNTIF</span>, <span class="org-verbatim">SUMIF</span> and
+  <span class="org-verbatim">FREQUENCY</span>. If you have other interesting examples of the use of
+  these functions, feel free to send them to the <span class="kc-org-link-url"><a href="https://lists.gnu.org/mailman/listinfo/emacs-orgmode">org mailing list</a></span> and
+  we will be happy to add them on this page.
+</pre>
+  </body>
+</html>

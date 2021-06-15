@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Suggestions to keep your org-files tidy</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Suggestions to keep your org-files tidy</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge09ff05">Archiving: Moving away nodes, that are no longer used</a></li>
+<li><a href="#org40e739c">Cleaning up Org-Metadata</a>
+<ul>
+<li><a href="#clean-up-ids">org-id-cleanup: Cleaning up IDs from org-id</a></li>
+</ul>
+</li>
+<li><a href="#org1026545">Tidy or repair other elements of org</a></li>
+</ul>
+</div>
+</div>
+<p>
+This page collects suggestions and practices to keep your org files
+tidy.  Consider this, when need arises or simply when you feel like
+cleaning up.
+</p>
+
+<div id="outline-container-orge09ff05" class="outline-2">
+<h2 id="orge09ff05">Archiving: Moving away nodes, that are no longer used</h2>
+<div class="outline-text-2" id="text-orge09ff05">
+<p>
+Filing away content that is no longer needed, is probably the most
+effective way to cleanup and tidy your org files: Have a look at 
+<a href="org-hacks.html#archiving">archiving</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org40e739c" class="outline-2">
+<h2 id="org40e739c">Cleaning up Org-Metadata</h2>
+<div class="outline-text-2" id="text-org40e739c">
+<p>
+Tags and properties are examples for Org data, that is not only read
+by users is also processed by org itself. Because of that it is also
+possible for Org to find and remove unused pieces of metadata:
+</p>
+
+<ul class="org-ul">
+<li><a href="org-hacks.html#remove-redundant-tags">Remove redundant tags</a></li>
+<li><a href="org-hacks.html#remove-empty-property-drawers">Remove empty property drawers</a></li>
+<li><a href="org-hacks.html#check-for-misplaced-timestamps">Make sure, that timestamps for scheduled and deadline are placed correctly</a></li>
+<li><a href="org-tidy.html#clean-up-ids">Clean up IDs from org-id</a></li>
+</ul>
+</div>
+
+<div id="outline-container-clean-up-ids" class="outline-3">
+<h3 id="clean-up-ids">org-id-cleanup: Cleaning up IDs from org-id</h3>
+<div class="outline-text-3" id="text-clean-up-ids">
+<p>
+You already know org-id which comes as a part of org: It allows to
+add unique IDs to your Org-nodes, which e.g. are used in
+links and allow easy navigation within org.
+</p>
+
+<p>
+Now, if a user tends to delete those links without deleting the IDs
+the links refer to, unused IDs (with no link pointing at them) will be
+left over.
+</p>
+
+<p>
+In general this is not a problem for org-id and no intervention is
+required. However, if the user produces hundreds or thousands of such
+unreferenced IDs, this might eventually start to slow down org-id,
+especially its function org-id-update-id-locations.
+</p>
+
+<p>
+In such a situation <a href="https://github.com/marcIhm/org-id-cleanup">org-id-cleanup</a> may come in handy. It provides an
+interactive assistant, that will guide you through the process of
+finding and eventually deleting such unused IDs. You may think of this
+process as &ldquo;cleaning up IDs from org-id&rdquo;; whence the name.
+</p>
+
+<p>
+Org-id-cleanup can be tried whithout hesitation: Before each step it
+gives detailed information, so that you may bail out at will. And as a
+safety-net a log of removed IDs is written to disk.
+</p>
+
+<p>
+org-id-cleanup is available at <a href="https://melpa.org/#/org-id-cleanup">melpa</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1026545" class="outline-2">
+<h2 id="org1026545">Tidy or repair other elements of org</h2>
+<div class="outline-text-2" id="text-org1026545">
+<ul class="org-ul">
+<li><a href="org-hacks.html#align-tables-in-file">Make sure, that all tables in a file are formatted correctly</a></li>
+<li><a href="https://github.com/alphapapa/unpackaged.el#ensure-blank-lines-between-headings-and-before-contents">Ensure blank lines between headings and before contents</a></li>
+<li><a href="org-tools/index.html#fix-links">This might help to repair broken links</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

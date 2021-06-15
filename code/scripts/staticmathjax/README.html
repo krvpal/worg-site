@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jan Böcker &lt;jan.boecker@jboecker.de&gt;" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org948401e">Usage</a></li>
+<li><a href="#orgf9303de">Caveats</a></li>
+</ul>
+</div>
+</div>
+<p>
+Static MathJax v0.1 README
+</p>
+<p>
+Static MathJax is a XULRunner application which loads a HTML input
+file that uses MathJax into a browser, waits until MathJax is done
+processing, and then writes the formatted result to an output HTML
+file.
+</p>
+
+<p>
+I have only tested exports from Emacs Org-mode as input files.  (As of
+2010-08-14, MathJax is used by default with HTML exports in the
+current Org development version.)
+</p>
+
+<p>
+Optionally, references to the math fonts used will be converted to
+&ldquo;data:&rdquo; URIs, thus embedding the font data into the HTML file itself.
+(see <a href="https://en.wikipedia.org/wiki/Data_URI_scheme">https://en.wikipedia.org/wiki/Data_URI_scheme</a>)
+</p>
+
+<p>
+The code is licensed under the GNU General Public License version
+2, or, at your option, any later version.
+</p>
+
+
+<div id="outline-container-org948401e" class="outline-2">
+<h2 id="org948401e">Usage</h2>
+<div class="outline-text-2" id="text-org948401e">
+<p>
+To run Static MathJax, an existing XULRunner installation is
+required. From the directory to which you unpacked Static MathJax,
+run:
+</p>
+
+<p>
+xulrunner application.ini &lt;&#x2013;embed-fonts | &#x2013;final-mathjax-url &lt;URL&gt;&gt;
+&lt;input file&gt; &lt;output file&gt;
+</p>
+
+<p>
+If you prefer to call &ldquo;staticmathjax&rdquo; instead of &ldquo;xulrunner
+application.ini&rdquo;, link xulrunner-stub into the directory:
+ln /usr/lib/xulrunner-1.9.2.8/xulrunner-stub ./staticmathjax
+</p>
+
+<dl class="org-dl">
+<dt>input file</dt><dd>name of the input file (the result of a HTML export
+from Org-mode). It is assumed that this file uses the
+UTF-8 character encoding.</dd>
+
+<dt>output file</dt><dd>name of the output file.</dd>
+
+<dt>&#x2013;embed-fonts</dt><dd>if specified, the math fonts will be embedded into
+the output file using data: URIs</dd>
+
+<dt>&#x2013;final-mathjax-url &lt;URL&gt;</dt><dd><p>
+if &#x2013;embed-fonts is not specified, this
+must be the URL to a MathJax installation folder (e.g. &ldquo;MathJax&rdquo;
+if MathJax is installed in a subdirectory, or
+&ldquo;<a href="https://orgmode.org/mathjax">https://orgmode.org/mathjax</a>&rdquo; to use the version hosted on the Org
+website.
+</p>
+
+<p>
+All references to math fonts in the output file will point to
+this directory.
+</p></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgf9303de" class="outline-2">
+<h2 id="orgf9303de">Caveats</h2>
+<div class="outline-text-2" id="text-orgf9303de">
+<p>
+The input file must not use a MathJax installation on the
+web. Otherwise, due to a security feature of Firefox, MathJax will
+fallback to image fonts.  If you have unpacked MathJax to a
+subdirectory &ldquo;MathJax&rdquo;, specify the following in your Org file:
+</p>
+
+<p>
+The math is rendered in Firefox, so MathJax applies its
+Firefox-specific settings. When viewing the output files in other
+browsers, it will look slightly different than the result that
+running MathJax in that browser would produce.
+</p>
+
+<p>
+Internet Explorer does not use the correct font, because it only
+supports the EOT font format. For all other browsers (including
+Firefox), MathJax uses the OTF font format.
+</p>
+
+<p>
+Embedding fonts into the HTML file wastes some space due to the
+base64 encoding used in data: URIs.
+</p>
+
+<p>
+I have found no way to access stdout or set an exit code in an
+XULRunner app, so any code which calls Static MathJax has no idea if
+processing was successful and when an error occurs, graphical
+message boxes are displayed.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Jan Böcker &lt;jan.boecker@jboecker.de&gt;</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

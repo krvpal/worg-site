@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Library of Babel</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.php"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">The Library of Babel</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd5edf5d">Introduction</a></li>
+<li><a href="#orgfdd3949">Plotting code</a>
+<ul>
+<li><a href="#org3eab877">R</a></li>
+<li><a href="#orgebb3a70">Gnuplot</a></li>
+</ul>
+</li>
+<li><a href="#orgd2df700">Table/Matrix manipulation</a>
+<ul>
+<li><a href="#org2136985">Filtering a table by rows</a></li>
+<li><a href="#org8201eca">Transposing a matrix</a></li>
+<li><a href="#org7a8f7fd">Binding tables together by columns</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="logo" style="float: left; text-align: center; max-width: 340px; font-size: 8pt; margin-left: 1em;">
+  <p>
+    <img src="../../images/babel/library-of-babel.png" alt="Library of Babel"/>
+    <div id="attr">
+      The Library of Babel, by Pierre Clayette
+      <p>
+      <a href="http://downlode.org/Etext/library_of_babel.html">Full text of the Borges short story</a>
+      </p>
+    </div>
+  </p>  
+</div>
+
+<div id="outline-container-orgd5edf5d" class="outline-2">
+<h2 id="orgd5edf5d">Introduction</h2>
+<div class="outline-text-2" id="text-orgd5edf5d">
+<p>
+The Library of Babel is an extensible collection of ready-made and
+easily-shortcut-callable source-code blocks for handling common
+tasks.  Org-babel comes pre-populated with the source-code blocks
+located in this file. It is possible to add source-code blocks from
+any org-mode file to the library by calling <code>(org-babel-lob-ingest
+  "path/to/file.org")</code>.
+</p>
+
+<p>
+This file is included in worg less for viewing through the web
+interface, and more for contribution through the worg git
+repository.  If you have code snippets that you think others may
+find useful please add them to this file and <a href="file:///home/krupal/Documents/projects/worg/worg-about.html#orgfcda9c7">contribute</a> to
+worg.
+</p>
+
+<p>
+To use the Library of Babel, 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfdd3949" class="outline-2">
+<h2 id="orgfdd3949">Plotting code</h2>
+<div class="outline-text-2" id="text-orgfdd3949">
+</div>
+<div id="outline-container-org3eab877" class="outline-3">
+<h3 id="org3eab877">R</h3>
+<div class="outline-text-3" id="text-org3eab877">
+<p>
+Plot column 2 (y axis) against column 1 (x axis). Columns 3 and beyond, if present, are ignored.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org5ace6e9">plot(data)
+</pre>
+</div>
+
+<table id="org5dbd34f" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">9</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">16</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">25</td>
+</tr>
+</tbody>
+</table>
+
+<pre class="example">
+nil
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgebb3a70" class="outline-3">
+<h3 id="orgebb3a70">Gnuplot</h3>
+</div>
+</div>
+
+<div id="outline-container-orgd2df700" class="outline-2">
+<h2 id="orgd2df700">Table/Matrix manipulation</h2>
+<div class="outline-text-2" id="text-orgd2df700">
+</div>
+<div id="outline-container-org2136985" class="outline-3">
+<h3 id="org2136985">Filtering a table by rows</h3>
+<div class="outline-text-3" id="text-org2136985">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-lob-filter-table</span> <span style="color: #fd971f;">(</span>table field value<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">&gt;</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">length</span> table<span style="color: #fd971f;">)</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span>
+             <span style="color: #eb4509;">(</span><span style="color: #fd971f;">eq</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">second</span> table<span style="color: #fd971f;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">append</span>
+         <span style="color: #eb4509;">(</span><span style="color: #fd971f;">list</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">first</span> table<span style="color: #fd971f;">)</span>
+          <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>org-lob-filter-table <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cddr</span> table<span style="color: #fd971f;">)</span> field value<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">delq</span> nil
+            <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>row<span style="color: #b6e63e;">)</span>
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+                       <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> row <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span><span style="color: #fd971f;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span><span style="color: #eb4509;">)</span>
+                       <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">nth</span> field row<span style="color: #b6e63e;">)</span> value<span style="color: #fd971f;">)</span> row<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  
+  <span style="color: #eb4509;">(</span>org-lob-filter-table table field value<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8201eca" class="outline-3">
+<h3 id="org8201eca">Transposing a matrix</h3>
+<div class="outline-text-3" id="text-org8201eca">
+</div>
+<div id="outline-container-orgbf0b3f9" class="outline-4">
+<h4 id="orgbf0b3f9">Example usage</h4>
+<div class="outline-text-4" id="text-orgbf0b3f9">
+<table id="org9c194a2" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+</tbody>
+</table>
+
+<table id="orgc104964" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a8f7fd" class="outline-3">
+<h3 id="org7a8f7fd">Binding tables together by columns</h3>
+<div class="outline-text-3" id="text-org7a8f7fd">
+</div>
+<div id="outline-container-orgf44c56d" class="outline-4">
+<h4 id="orgf44c56d">Emacs lisp</h4>
+<div class="outline-text-4" id="text-orgf44c56d">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgf5d31d9"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">mapcar*</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">append</span> a b<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org90de2df" class="outline-4">
+<h4 id="org90de2df">R</h4>
+<div class="outline-text-4" id="text-org90de2df">
+<div class="org-src-container">
+<pre class="src src-R" id="org61779ab">cbind(a, b)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org098985f" class="outline-4">
+<h4 id="org098985f">Example usage</h4>
+<div class="outline-text-4" id="text-org098985f">
+<p>
+Suppose the tables are
+</p>
+
+<table id="org2c34aac" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">8</td>
+<td class="org-right">9</td>
+</tr>
+</tbody>
+</table>
+
+<table id="orgc023a9c" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-right">11</td>
+<td class="org-right">12</td>
+</tr>
+</tbody>
+</table>
+
+<table id="orga0eaf40" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">8</td>
+<td class="org-right">9</td>
+<td class="org-right">10</td>
+<td class="org-right">11</td>
+<td class="org-right">12</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The R code block can also cope with column names:
+</p>
+
+<table id="org6fdb1be" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">a</th>
+<th scope="col" class="org-right">b</th>
+<th scope="col" class="org-right">c</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">8</td>
+<td class="org-right">9</td>
+</tr>
+</tbody>
+</table>
+
+<table id="orgd74c499" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">d</th>
+<th scope="col" class="org-right">e</th>
+<th scope="col" class="org-right">f</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-right">11</td>
+<td class="org-right">12</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

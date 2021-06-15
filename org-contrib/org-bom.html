@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BOM : Bills-of-materials</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Christian Fortin" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">BOM : Bills-of-materials</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb6c291c">BOM introduction</a></li>
+<li><a href="#org5520aed">BOM keywords</a>
+<ul>
+<li><a href="#org4eb2dfb">Component</a></li>
+<li><a href="#org533e4f0">Section</a></li>
+<li><a href="#orga38e175">Qty</a></li>
+<li><a href="#org57b7858">Tag</a></li>
+</ul>
+</li>
+<li><a href="#org70e6241">Renaming BOM columns</a></li>
+<li><a href="#orgbdae33d">Multiple component&rsquo;s column</a></li>
+<li><a href="#org8a955b9">Precise section selection</a></li>
+<li><a href="#orgabab4a7">BOM total</a></li>
+<li><a href="#orgd1c5a6d">Adding a component without a table</a></li>
+<li><a href="#orge9fe3ce">Adding details</a>
+<ul>
+<li><a href="#org95f88c6">Description</a></li>
+<li><a href="#orgc424d01">Price</a></li>
+<li><a href="#org03d993f">Datasheet</a></li>
+</ul>
+</li>
+<li><a href="#orgfc14819">List of BOM parameters</a></li>
+<li><a href="#org8510dd6">Advanced and elisp functions</a>
+<ul>
+<li><a href="#org32bb25d">Speed up updates</a></li>
+<li><a href="#org51eb1bd">LaTeX mode and bom-datasheet</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+
+<div id="outline-container-orgb6c291c" class="outline-2">
+<h2 id="orgb6c291c">BOM introduction</h2>
+<div class="outline-text-2" id="text-orgb6c291c">
+<p>
+This add-on collects components across the entire org buffer (even
+in drawers), making it easy to retrieve and sort data. It uses the
+column special name as a landmark. We will refer to them as
+&rsquo;Keywords&rsquo;. The keywords are searched using a string-match function,
+which gives the ability to have multiple column with the same
+functionality, but also to use the column name as we would usually
+with org-mode. For example, we can have &rsquo;tag&rsquo; and &rsquo;tag2&rsquo;, both are
+recognized by the BOM add-on and can be used in a spreadsheet-like
+formula without any confusion. The keywords are also
+case-insensitive. &rsquo;Component&rsquo; and &rsquo;component&rsquo; will work in the same
+way.
+</p>
+
+<p>
+The BOM is usually used with a dynamic block. (You can use the
+different functions in emacs-lisp code, but this is beyond the
+purpose of this tutorial.) Here is the basic dynamic block:
+</p>
+
+<pre class="example">
+#+BEGIN: bom
+#+END:
+</pre>
+
+
+<p>
+And here is what we obtain at this point:
+</p>
+<pre class="example">
+ #+BEGIN: bom
+| Section | Tag | Component | Quantity |
+|---------+-----+-----------+----------|
+ #+END:
+</pre>
+
+
+<p>
+The table is empty, because we have to either:
+</p>
+<ol class="org-ol">
+<li>Add keywords in a table;</li>
+<li>Add a line-component.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org5520aed" class="outline-2">
+<h2 id="org5520aed">BOM keywords</h2>
+<div class="outline-text-2" id="text-org5520aed">
+</div>
+<div id="outline-container-org4eb2dfb" class="outline-3">
+<h3 id="org4eb2dfb">Component</h3>
+<div class="outline-text-3" id="text-org4eb2dfb">
+<p>
+   This is the most important keyword and act as the trigger. For
+this example, let's say we write down things we want to buy. In 
+this case, a new keyboard for our computer.  This is how the
+table should be:
+</p>
+
+<pre class="example">
+|   | Material  |
+| ! | Component |
+|---+-----------|
+|   | Keyboard  |
+</pre>
+
+
+<p>
+The &rsquo;!&rsquo; character is used in org table to specify column name, such
+as our keyword, &rsquo;component&rsquo;.
+And here is what the bill-of-materials for this table is:
+</p>
+
+<pre class="example">
+ #+BEGIN:  bom 
+| Section   | Tag | Component | Quantity |
+|-----------+-----+-----------+----------|
+| Component |     | Keyboard  |        1 |
+ #+END:
+</pre>
+
+
+<p>
+As you can see, the heading (Component) was automatically
+used as the &rsquo;section&rsquo;, which doesn&rsquo;t require attention for
+now. The quantity is, unsurprisingly, 1. There is nothing in the tag
+column for now, so let&rsquo;s dismiss it by adding the parameter <b>:no-tag
+t</b>. 
+This will results in the following:
+</p>
+<pre class="example">
+ #+BEGIN: bom  :no-tag t
+| Section   | Component | Quantity |
+|-----------+-----------+----------|
+| Component | Keyboard  |        1 |
+ #+END: 
+</pre>
+
+
+<p>
+Now suppose that our friend too wants a new keyboard.
+</p>
+
+<pre class="example">
+|   | For    | Material  |
+| ! |        | Component |
+|---+--------+-----------|
+|   | Me     | Keyboard  |
+|   | Friend | Keyboard  |
+</pre>
+
+
+<pre class="example">
+ #+BEGIN: bom :no-tag t
+| Section   | Component | Quantity |
+|-----------+-----------+----------|
+| Component | Keyboard  |        2 |
+ #+END:
+</pre>
+
+
+<p>
+As expected, we get 2 keyboards.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org533e4f0" class="outline-3">
+<h3 id="org533e4f0">Section</h3>
+<div class="outline-text-3" id="text-org533e4f0">
+<p>
+   The section is used to separate what would otherwise be an
+identical component. Suppose we don't want our friend's wishes to be
+in the same BOM as our, but still have them in the same table.
+</p>
+
+<pre class="example">
+|   | For     | Material  |
+| ! | Section | Component |
+|---+---------+-----------|
+|   | Me      | Keyboard  |
+|   | Friend  | Keyboard  |
+</pre>
+
+
+<p>
+This will results in the following BOM:
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :no-tag t
+| Section | Component | Quantity |
+|---------+-----------+----------|
+| Friend  | Keyboard  |        1 |
+| Me      | Keyboard  |        1 |
+ #+END:
+</pre>
+
+
+<p>
+Please note that when a component is given a section, it isn&rsquo;t
+associated with the heading anymore. As an alternative, you can set
+a &rsquo;:SECTION:&rsquo; property in the heading, which will be inherited by
+all the components <span class="underline">without</span> a specified section.
+Section&rsquo;s priorities are as follow: 
+</p>
+
+<ol class="org-ol">
+<li>Given section with the &rsquo;section&rsquo; keyword;</li>
+<li>The SECTION property;</li>
+<li>The heading.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orga38e175" class="outline-3">
+<h3 id="orga38e175">Qty</h3>
+<div class="outline-text-3" id="text-orga38e175">
+<p>
+   With this keyword, it is possible to specify a quantity for the
+associated component. In our always improving scenario, we now want to
+give a keyboard to another of our friend (as a gift). This is going to
+be bought at the same time as our keyboard, so they belong together.
+</p>
+
+<pre class="example">
+|   | For     | Material  |     |
+| ! | Section | Component | Qty |
+|---+---------+-----------+-----|
+|   | Me      | Keyboard  |   2 |
+|   | Friend  | Keyboard  |   1 |
+</pre>
+
+
+<pre class="example">
+ #+BEGIN: bom :no-tag t
+| Section | Component | Quantity |
+|---------+-----------+----------|
+| Friend  | Keyboard  |        1 |
+| Me      | Keyboard  |        2 |
+ #+END:
+</pre>
+
+
+<p>
+<b>Important</b>: If Qty keyword is present, then any empty field will
+be considered as <span class="underline">zero</span>. This way, multiple column quantity are
+made quite easily:
+</p>
+
+<pre class="example">
+|   | For     | Material  | Personal | Gift |
+| ! | Section | Component |      Qty | Qty2 |
+|---+---------+-----------+----------+------|
+|   | Me      | Keyboard  |        1 | 1    |
+|   | Friend  | Keyboard  |        1 |      |
+</pre>
+
+
+<pre class="example">
+ #+BEGIN: bom :no-tag t
+| Section | Component | Quantity |
+|---------+-----------+----------|
+| Friend  | Keyboard  |        1 |
+| Me      | Keyboard  |        2 |
+ #+END:  
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org57b7858" class="outline-3">
+<h3 id="org57b7858">Tag</h3>
+<div class="outline-text-3" id="text-org57b7858">
+<p>
+   When a BOM starts to get big, we often need a quick reminder of
+why we need certain component. Another use is also to identify the
+component. As the Qty keyword, multiple Tag columns can be associated
+with a single component. Here we will simply use the tag as a reminder
+of what we want to look for in the store.
+</p>
+
+<pre class="example">
+|   | For     | Material  | Personal | Gift | Need               |
+| ! | Section | Component |      Qty | Qty2 | Tag                |
+|---+---------+-----------+----------+------+--------------------|
+|   | Me      | Keyboard  |        1 | 1    | Matching colors    |
+|   | Friend  | Keyboard  |        1 |      | Dinosaurs pictures |
+</pre>
+
+
+<p>
+To show the tag column in the BOM, we simply remove the no-tag
+parameter.
+</p>
+<pre class="example">
+ #+BEGIN: bom
+| Section | Tag                | Component | Quantity |
+|---------+--------------------+-----------+----------|
+| Friend  | Dinosaurs pictures | Keyboard  |        1 |
+| Me      | Matching colors    | Keyboard  |        2 |
+ #+END:  
+</pre>
+
+
+
+<p>
+If two Tag columns are present for a single Component column, the
+tags will be associated with this component, separated by a comma.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org70e6241" class="outline-2">
+<h2 id="org70e6241">Renaming BOM columns</h2>
+<div class="outline-text-2" id="text-org70e6241">
+<p>
+   It is possible to rename the BOM columns with the following
+parameters:
+</p>
+<ul class="org-ul">
+<li>col-name-component</li>
+<li>col-name-section</li>
+<li>col-name-quantity</li>
+<li>col-name-tag</li>
+<li>col-name-description</li>
+<li>col-name-price</li>
+</ul>
+
+<p>
+This is how our renamed BOM would look like:
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :col-name-section For :col-name-tag Need :col-name-component Stuff :col-name-quantity Qty
+| For    | Need               | Stuff    | Qty |
+|--------+--------------------+----------+-----|
+| Friend | Dinosaurs pictures | Keyboard |   1 |
+| Me     | Matching colors    | Keyboard |   2 |
+ #+END:  
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgbdae33d" class="outline-2">
+<h2 id="orgbdae33d">Multiple component&rsquo;s column</h2>
+<div class="outline-text-2" id="text-orgbdae33d">
+<p>
+   There is two way to add components in a section. Either by adding
+other rows with the same section's name, or by adding other
+columns. Both have their uses and they should come to you quite
+naturally. In our example, we want more stuff.
+</p>
+
+<pre class="example">
+|   | For     | Material  | Personal | Gift | Need               | Stuff     | More stuff | Much more stuff | How many |
+| ! | Section | Component |      Qty | Qty2 | Tag                | Component | Component  | Component       | Qty      |
+|---+---------+-----------+----------+------+--------------------+-----------+------------+-----------------+----------|
+|   | Me      | Keyboard  |        1 | 1    | Matching colors    | Mouse     | Headset    | USB flash drive | 23       |
+|   | Friend  | Keyboard  |        1 |      | Dinosaurs pictures |           |            |                 |          |
+|   | Friend  |           |          |      |                    |           |            | CDs             | 50       |
+|   | Friend  | Mouse     |        1 |      |                    |           |            |                 |          |
+</pre>
+
+
+<p>
+This is beginning to get interesting. Note that even if we can
+name the additional columns &rsquo;Component2&rsquo; or &rsquo;ComponentAAA&rsquo;,
+there&rsquo;s no use to do it if no table-formula uses the column
+names. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8a955b9" class="outline-2">
+<h2 id="org8a955b9">Precise section selection</h2>
+<div class="outline-text-2" id="text-org8a955b9">
+<p>
+Now suppose we want to get OUR to-buy list. Simply specify
+the section&rsquo;s parameter <b>:section Me</b>:
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :section Me
+| Tag             | Component       | Quantity |
+|-----------------+-----------------+----------|
+|                 | Headset         |        1 |
+| Matching colors | Keyboard        |        2 |
+|                 | Mouse           |        1 |
+|                 | USB flash drive |       23 |
+ #+END:  
+</pre>
+
+
+<p>
+Wait, where&rsquo;s the section column?  Well we don&rsquo;t need it anymore,
+as we specified one.
+</p>
+
+<p>
+A &rsquo;+&rsquo; sign will specify we want more than a single section. <b>:section
+Me+Friend</b> will select both section, and add the quantity and tags
+for each component. 
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :section Me+Friend
+| Tag                                 | Component       | Quantity |
+|-------------------------------------+-----------------+----------|
+|                                     | CDs             |       50 |
+|                                     | Headset         |        1 |
+| Dinosaurs pictures, Matching colors | Keyboard        |        3 |
+|                                     | Mouse           |        2 |
+|                                     | USB flash drive |       23 |
+ #+END:
+</pre>
+
+
+<p>
+<b>Do not</b> put a whitespace between the section name and the &rsquo;+&rsquo; sign.
+Speaking of whitespace, if you need one in a section name, simply
+put it in a string: 
+</p>
+<pre class="example">
+#+BEGIN: bom :section "Section with whitespace"
+</pre>
+
+
+<p>
+We can also return every section that matches at least what we
+provide. To activate this, use <b>:part-match t</b>. With this, if we
+write &ldquo;fr&rdquo;, the Friend section is returned. If we had another
+section named &ldquo;Frosting&rdquo;, than Friend and Frosting would have been
+merged and we would have a total for both section.
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :section fr :part-match t
+| Tag                | Component | Quantity |
+|--------------------+-----------+----------|
+|                    | CDs       |       50 |
+| Dinosaurs pictures | Keyboard  |        1 |
+|                    | Mouse     |        1 |
+ #+END:
+</pre>
+
+
+<p>
+It is also possible to specify that we don&rsquo;t want any section
+containing &ldquo;fr&rdquo;. For this, use the parameter <b>:remove t</b>.
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :section fr :part-match t :remove t
+| Tag             | Component       | Quantity |
+|-----------------+-----------------+----------|
+|                 | Headset         |        1 |
+| Matching colors | Keyboard        |        2 |
+|                 | Mouse           |        1 |
+|                 | USB flash drive |       23 |
+ #+END:
+</pre>
+
+
+<p>
+In this case, getting all sections not containing &ldquo;fr&rdquo; is the
+equivalent of choosing the section &ldquo;Me&rdquo;.
+</p>
+
+<p>
+If you simply want the components from the current heading, use the
+parameter <b>:local-only t</b>. This will return components with the
+current heading as their section, which is the default of every
+component if no section is provided. If a section has been provided to
+a component (and is not exactly equal to the heading), the component
+will not be returned.
+</p>
+
+<p>
+Here, we don&rsquo;t have any component under this heading:
+</p>
+<pre class="example">
+ #+BEGIN: bom :local-only t
+| Tag | Component | Quantity |
+|-----+-----------+----------|
+ #+END:
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgabab4a7" class="outline-2">
+<h2 id="orgabab4a7">BOM total</h2>
+<div class="outline-text-2" id="text-orgabab4a7">
+<p>
+This is all really interesting, but when we&rsquo;re in a shop, we want
+to know how many of each item we have to buy, we need a <b>total</b>.
+For this, simply add the <b>:total t</b> parameter. We will also remove
+the tags once again by using <b>:no-tag t</b>.
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :total t :no-tag t
+| Component       | Quantity |
+|-----------------+----------|
+| CDs             |       50 |
+| Headset         |        1 |
+| Keyboard        |        3 |
+| Mouse           |        2 |
+| USB flash drive |       23 |
+ #+END:
+</pre>
+
+
+<p>
+This is the equivalent of merging every sections together.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd1c5a6d" class="outline-2">
+<h2 id="orgd1c5a6d">Adding a component without a table</h2>
+<div class="outline-text-2" id="text-orgd1c5a6d">
+<p>
+There is another option you might need. If you ever want to
+add a component without a table, use the #+BOM commentary. As any
+other org-mode commentary, this one won&rsquo;t appear when exported to
+another document (pdf, html, docbook..). It will, however, enable
+you to add a single component in the bill-of-materials. Here is an
+example:
+</p>
+<pre class="example">
+#+BOM: Keyboard :section Need :tag "Matching colors"
+</pre>
+
+
+<p>
+As with the table components, you can simply give a component name if
+you desire. If no section is given, it will be inherited as an
+ordinary component in a table: a section property or the current
+heading.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge9fe3ce" class="outline-2">
+<h2 id="orge9fe3ce">Adding details</h2>
+<div class="outline-text-2" id="text-orge9fe3ce">
+<p>
+There is two way to add details to a BOM. The first one is to setq
+`org-bom-details&rsquo; with a plist containing, depending on your
+needs, :description, :datasheet-pdf and :price. You must, however, at
+least have the component name in the :name property. Here is an
+example on how to set this variable:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-bom-details <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:name</span> <span style="color: #e2c770;">"Keyboard"</span> <span style="color: #fd971f;">:description</span>
+                          <span style="color: #e2c770;">"Something"</span> <span style="color: #fd971f;">:price</span> <span style="color: #e2c770;">"40"</span><span style="color: #b6e63e;">)</span> 
+                          <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:name</span> <span style="color: #e2c770;">"CDs"</span> <span style="color: #fd971f;">:description</span> <span style="color: #e2c770;">"Not</span>
+<span style="color: #e2c770;">                          DVDs"</span> <span style="color: #fd971f;">:datasheet-pdf</span> <span style="color: #e2c770;">"CD.pdf"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<p>
+Please note that the price is a <b>string</b>.
+</p>
+
+<p>
+The other method, valid for the current buffer only, is to give one
+or more bom-details table. It is recognized when a table is named as
+such:
+</p>
+<pre class="example">
+#+TBLNAME: bom-details
+</pre>
+
+
+<p>
+Once again, the column names are used. Contrary to the normal BOM
+keywords however, these are case-sensitive and must be written
+exactly as their property name. For example, the column of the
+property &rsquo;:name&rsquo; must be &rsquo;name&rsquo;.
+</p>
+<pre class="example">
+ #+TBLNAME: bom-details
+| ! | name     | description  | price |
+|---+----------+--------------+-------|
+|   | Keyboard | Used to type |    40 |
+|   | CDs      |              |       |
+</pre>
+
+
+<p>
+Any bom-details table will temporarily overshadow the
+`org-bom-details&rsquo; variable, but won&rsquo;t erase or modify it. This means
+you can safely use a bom-details table if you need to change some
+local buffer description, while using `org-bom-details&rsquo; in multiple
+buffer.
+</p>
+
+<p>
+Look at the CDs description. When a field is empty, it is <b>not</b> used
+and BOM falls back to the property in the `org-bom-details&rsquo;
+variable.
+</p>
+</div>
+
+<div id="outline-container-org95f88c6" class="outline-3">
+<h3 id="org95f88c6">Description</h3>
+<div class="outline-text-3" id="text-org95f88c6">
+<p>
+You can add a description column in a BOM by adding the
+<b>:description t</b> parameter. 
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :total t :no-tag t :description t
+| Component       | Quantity | Description  |
+|-----------------+----------+--------------|
+| CDs             |       50 | Not DVDs     |
+| Headset         |        1 | N/A          |
+| Keyboard        |        3 | Used to type |
+| Mouse           |        2 | N/A          |
+| USB flash drive |       23 | N/A          |
+ #+END:
+</pre>
+
+
+<p>
+See how the CDs&rsquo; description wasn&rsquo;t the empty field from the
+bom-details table.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc424d01" class="outline-3">
+<h3 id="orgc424d01">Price</h3>
+<div class="outline-text-3" id="text-orgc424d01">
+<p>
+You can add a price column in a BOM by adding the <b>:price t</b>
+parameter.
+</p>
+
+<pre class="example">
+ #+BEGIN: bom :total t :no-tag t :description t :price t
+| Component       | Quantity | Price | Description  |
+|-----------------+----------+-------+--------------|
+| CDs             |       50 |       | Not DVDs     |
+| Headset         |        1 |       | N/A          |
+| Keyboard        |        3 |   120 | Used to type |
+| Mouse           |        2 |       | N/A          |
+| USB flash drive |       23 |       | N/A          |
+|-----------------+----------+-------+--------------|
+| TOTAL:          |          |   120 |              |
+    #+TBLFM: @&gt;$3=vsum(@I..@&gt;&gt;)
+ #+END:
+</pre>
+
+<p>
+The price is automatically multiplied by the quantity of each
+component. In addition, a total row is added at the table&rsquo;s bottom
+with a vertical sum formula.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org03d993f" class="outline-3">
+<h3 id="org03d993f">Datasheet</h3>
+<div class="outline-text-3" id="text-org03d993f">
+<p>
+This is a special property and must be used only if you intend to
+export in a pdf document. See <a href="#org51eb1bd">LaTeX mode and bom-datasheet</a> for more details.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc14819" class="outline-2">
+<h2 id="orgfc14819">List of BOM parameters</h2>
+<div class="outline-text-2" id="text-orgfc14819">
+<p>
+Here is a list of all the parameters usable in a BOM dynamic block,
+as seen throughout this tutorial:
+</p>
+
+<dl class="org-dl">
+<dt>no-tag</dt><dd>Remove the tags column</dd>
+<dt>section</dt><dd>Select this section (or more if there&rsquo;s a + sign)</dd>
+<dt>part-match</dt><dd>Select every section with at least the string
+provided for the section parameter</dd>
+<dt>remove</dt><dd>Select every sections except the one(s) provided</dd>
+<dt>descripton</dt><dd>Add the description column</dd>
+<dt>price</dt><dd>Add the price column and a total row at the bottom of the
+table</dd>
+<dt>col-name-<b>*</b></dt><dd>Rename the associated column</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org8510dd6" class="outline-2">
+<h2 id="org8510dd6">Advanced and elisp functions</h2>
+<div class="outline-text-2" id="text-org8510dd6">
+</div>
+<div id="outline-container-org32bb25d" class="outline-3">
+<h3 id="org32bb25d">Speed up updates</h3>
+<div class="outline-text-3" id="text-org32bb25d">
+<p>
+Each BOM dynamic block scans the entire buffer individually. While
+it is necessary that each block be able to update itself, it
+becomes a waste when the command `org-update-all-dblocks&rsquo; is
+used. (The components usually aren&rsquo;t changing from a dblock evaluation to
+another.)
+</p>
+
+<p>
+In order to speed up updates, there&rsquo;s a variable that can be used
+to stop each BOM dblock from doing a buffer-wide scan. To disable the
+scans, set `org-bom-update-enable&rsquo; to nil.
+</p>
+
+<p>
+The author uses a function similar to this one to speed up updates:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">reg-update-project</span> <span style="color: #fd971f;">(</span><span style="color: #66d9ef;">&amp;optional</span> latex-mode<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Update every table and dynamic block in the buffer. If latex-mode</span>
+<span style="color: #7f7f80;">is non-nil, various latex commands will be inserted."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-table-iterate-buffer-tables</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span>org-bom-total<span style="color: #fd971f;">)</span><span style="color: #696969;">; </span><span style="color: #696969;">manually update the BOM database</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>org-bom-update-enable nil<span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span>org-bom-latex-mode latex-mode<span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span>org-bom-details <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">copy-tree</span> org-bom-details<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #696969;">;</span><span style="color: #696969;">so we don't overwrite</span>
+    <span style="color: #b6e63e;">(</span>org-bom-check-for-details-table<span style="color: #b6e63e;">)</span><span style="color: #696969;">; </span><span style="color: #696969;">manually update `</span><span style="color: #fd971f;">org-bom-details</span><span style="color: #696969;">'</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-update-all-dblocks</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"Project updated"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org51eb1bd" class="outline-3">
+<h3 id="org51eb1bd">LaTeX mode and bom-datasheet</h3>
+<div class="outline-text-3" id="text-org51eb1bd">
+<p>
+This mode isn&rsquo;t fully integrated to org-mode and should be seen as a
+hack. It is however useful to the author, which is why it is
+explained here.
+</p>
+
+<p>
+Set the `org-bom-latex-mode&rsquo; variable to non-nil in order to
+activate the latex-mode. If set, all BOM dynamic block will insert
+some latex commands.
+</p>
+
+<p>
+These commands targets:
+</p>
+<dl class="org-dl">
+<dt>Tags</dt><dd>When there is more tags than `org-bom-latex-max-tags&rsquo; per
+component, the remaining tags are put in a pdf comment.</dd>
+<dt>Component name</dt><dd>If a datasheet exists for the component, its
+name will become a link to its datasheet.</dd>
+</dl>
+
+
+<p>
+If you ever activate the LaTeX mode, use the bom-datasheet dynamic
+block at the end of your document. The optional parameter
+<b>:description t</b> will add a summary of all the components used in
+this buffer with their description, just before the datasheets.
+</p>
+
+<pre class="example">
+#+BEGIN: bom-datasheet
+
+#+LaTeX: \includepdf[pages=-,landscape=true,addtotoc={1, subsection, 1, CDs,CD.pdf}]{\DATASHEETPATH/CD.pdf}
+
+#+END:
+</pre>
+
+
+<p>
+As you may have noticed, there&rsquo;s a LaTeX variable in this command:
+      \DATASHEETPATH. In order to work, you must set this variable
+      using:
+</p>
+
+<p>
+:	#+LATEX<sub>HEADER</sub>: \newcommand{\DATASHEETPATH}{Name-of-the-folder/}&rsquo;
+</p>
+
+<p>
+Name-of-the-folder is the folder where the datasheets&rsquo; files
+    are located. 
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Christian Fortin</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

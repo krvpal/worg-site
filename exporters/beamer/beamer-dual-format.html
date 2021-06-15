@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Using Beamer export to produce slideshows and article-style handouts from the same org source</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="James Harkins" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Using Beamer export to produce slideshows and article-style handouts from the same org source</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org58398cf">Project overview</a></li>
+<li><a href="#org621daaf">Requirements</a></li>
+<li><a href="#org5f3e872">Implementation</a>
+<ul>
+<li><a href="#orgb5c6c8a">One source: File structure</a>
+<ul>
+<li><a href="#org416ab89">Explanatory prose</a></li>
+<li><a href="#orge53d602">Problem: Position of <code>\maketitle</code> command</a></li>
+<li><a href="#org0b0f6b3">Problem: Relative links to images</a></li>
+</ul>
+</li>
+<li><a href="#org83ced52">Glossaries</a>
+<ul>
+<li><a href="#org2b94d52">Problem: Redundant glossary export in the full article</a></li>
+<li><a href="#org9632836">Output format</a></li>
+</ul>
+</li>
+<li><a href="#orgd95aa47">Extraction of captioned source code blocks</a></li>
+<li><a href="#org660d940">Partitioning the article export</a></li>
+</ul>
+</li>
+<li><a href="#orgaefe06b">Weaknesses</a>
+<ul>
+<li><a href="#org347b62c">Reliance on LaTeX-specific markup</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org58398cf" class="outline-2">
+<h2 id="org58398cf">Project overview</h2>
+<div class="outline-text-2" id="text-org58398cf">
+<p>
+The project is training material for a one-week intensive workshop in audio 
+synthesis and live-performance control in the SuperCollider programming 
+language. The workshop was commissioned by CHEARS, the China 
+ElectroAcoustic Resource Survey, and will be given first in Shenyang, PRC.
+</p>
+
+<p>
+I wanted to have thorough presentation slides available, for some kinds of 
+explanation that are difficult otherwise, and also give a PDF book to 
+workshop attendees for their future reference. During the writing process, 
+the book became more important, as a way to provide copyright-free 
+tutorials for translation into Chinese. The book eventually grew to 237 
+pages (with, admittedly, more white space per page than a standard prose 
+layout), rendered from 10849 lines of LaTeX code, all of which were 
+generated directly by the org Beamer exporter with no manual edits to any 
+of the <code>tex</code> files.
+</p>
+
+<p>
+Achieving that required some ingenuity in both org mode and LaTeX. This 
+worg page documents the project&rsquo;s design and implementation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org621daaf" class="outline-2">
+<h2 id="org621daaf">Requirements</h2>
+<div class="outline-text-2" id="text-org621daaf">
+<ul class="org-ul">
+<li>One org source to produce slideshows and printed material.
+<ul class="org-ul">
+<li>Beamer export for both formats.
+<ul class="org-ul">
+<li>Normal <i>beamer</i> document class for slides.</li>
+<li>Document class <i>article</i> for the book, with
+<code>\usepackage{beamerarticle}</code> in the preamble.</li>
+</ul></li>
+<li>Header files to determine PDF layout.</li>
+<li>Additional explanatory text that will be omitted from slideshows.
+<ul class="org-ul">
+<li>Use the beamer class option <i>ignorenonframetext</i> for slides.</li>
+<li>Put notes under frame-level headings, with the beamer tag
+<code>B_ignoreheading</code>.</li>
+</ul></li>
+</ul></li>
+
+<li>Indexed glossaries of terms, classes and methods, without writing
+cumbersome LaTeX syntax for the glossaries package.
+<ul class="org-ul">
+<li>Keep glossary definitions in org tables.</li>
+<li>Convert to LaTeX syntax using emacs-lisp source blocks.</li>
+<li>Convert only once in the book combining all chapters, but once per slideshow.</li>
+</ul></li>
+
+<li>Extract captioned source blocks into plain-text files for SuperCollider.
+<ul class="org-ul">
+<li><code>org-element-map</code> did all the hard work.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5f3e872" class="outline-2">
+<h2 id="org5f3e872">Implementation</h2>
+<div class="outline-text-2" id="text-org5f3e872">
+</div>
+<div id="outline-container-orgb5c6c8a" class="outline-3">
+<h3 id="orgb5c6c8a">One source: File structure</h3>
+<div class="outline-text-3" id="text-orgb5c6c8a">
+<p>
+The LaTeX preamble controls the output format; so, to have different output 
+from the same org source, the preamble must be separate from the content. 
+Here, we have two headers:
+</p>
+
+<ul class="org-ul">
+<li><code>slidehead.org</code>, which specifies the document class <i>beamer</i> with
+the <i>presentation</i> option.</li>
+<li><code>printhead2.org</code>, which specifies the <i>article</i> class and adds the
+<i>beamerarticle</i> package so that the article class can interpret
+beamer formatting commands.</li>
+</ul>
+
+<p>
+Other formatting differences are implemented here. For instance, inline 
+code fragments are colored green in the slides, but remain black in the 
+article.
+</p>
+
+<p>
+Header files contain nothing specific to any chapter, and content files are 
+strictly content, no formatting definitions. Neither of these are exported 
+directly. The export files provide the title and author fields, and include 
+(<code>#+INCLUDE:</code>) the appropriate header and content files. They also include 
+the glossary file; details to follow.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>Primary export options for slideshow format.</label><pre class="src src-org" id="org006c903"><span style="color: #7f7f80;">  #+startup: beamer</span>
+<span style="color: #7f7f80;">  #+LaTeX_CLASS: beamer</span>
+<span style="color: #7f7f80;">  #+LaTeX_CLASS_OPTIONS: [ignorenonframetext,presentation]</span>
+<span style="color: #7f7f80;">  #+BEAMER_THEME: default</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>Primary export options for article format.</label><pre class="src src-org" id="org3011c55"><span style="color: #7f7f80;">  #+startup: beamer</span>
+<span style="color: #7f7f80;">  #+LaTeX_CLASS: article</span>
+<span style="color: #7f7f80;">  #+LaTeX_CLASS_OPTIONS: [a4paper,twoside,11pt]</span>
+<span style="color: #7f7f80;">  #+BEAMER_THEME: default</span>
+<span style="color: #7f7f80;">  #+LATEX_HEADER: \usepackage{beamerarticle}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>Beginning of one of the contents files.</label><pre class="src src-org" id="org6bc67f1"><span style="color: #7f7f80;">  #+startup: beamer</span>
+  
+  * Workshop introduction
+  ** Workshop introduction
+  <span style="font-weight: bold;">*</span> Workshop goals
+  <span style="font-weight: bold;">**</span> Teach synthesis techniques by experimentation
+       <span style="color: #e2c770;">-</span> SC lets us take apart synthesizer components, and put them back together.
+       <span style="color: #e2c770;">-</span> SC's <span style="font-style: italic;">Just-In-Time library</span> makes it easy to re-patch components interactively.
+  <span style="font-weight: bold;">**</span> Teach techniques for live control and performance
+       <span style="color: #e2c770;">-</span> Control by graphic interfaces and external devices.
+       <span style="color: #e2c770;">-</span> End goal: A group composition, to perform together.
+  <span style="font-weight: bold;">**</span> <span style="font-weight: bold;">Have fun programming!</span>
+       <span style="color: #e2c770;">-</span> Emphasis on <span style="font-style: italic;">play</span> over <span style="font-style: italic;">correctness</span>.
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>The slideshow document that is actually exported.</label><pre class="src src-org" id="orgd062351"><span style="color: #7f7f80;">  #+startup: beamer</span>
+  
+<span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">SuperCollider Week, Day 1 \\ Introductory SC, Synthesis and Sequencing</span>
+<span style="color: #555556;">  #+DATE:</span> <span style="color: #fd971f;">\today</span>
+<span style="color: #555556;">  #+AUTHOR:</span> <span style="color: #fd971f;">H. James Harkins</span>
+  
+<span style="color: #7f7f80;">  #+INCLUDE: "../slidehead.org"</span>
+<span style="color: #7f7f80;">  #+include: "../glossary.org"</span>
+  
+<span style="color: #7f7f80;">  #+include: "./01-contents.org" :minlevel 1</span>
+</pre>
+</div>
+
+<p>
+I settled on a project layout like this:
+</p>
+
+<ul class="org-ul">
+<li><code>shows/</code> directory
+<ul class="org-ul">
+<li><code>slidehead.org</code>: LaTeX preamble for Beamer&rsquo;s presentation style</li>
+<li><code>printhead2.org</code>: Preamble for the article document class, with the beamerarticle package</li>
+<li><code>glossaries.org</code>: Tables of glossary definitions, and emacs-lisp source blocks for conversion</li>
+<li><code>01-intro/</code> directory
+<ul class="org-ul">
+<li><code>01-contents.org</code>: Slide contents, no header info at all</li>
+<li><code>01-slideshow.org</code>: Defines this chapter&rsquo;s header (title,
+author, etc.), includes <code>slidehead.org</code>, <code>glossaries.org</code> and
+<code>01-contents.org</code></li>
+<li><code>img/</code> directory (png and PDF files for Part I)</li>
+</ul></li>
+<li><code>02-synth/</code> directory, structured like <code>01</code>
+Similar directories for chapters 3&#x2013;6</li>
+<li><code>full-article/</code> directory
+<ul class="org-ul">
+<li><code>full-article.org</code>: Defines title etc., includes
+<code>printhead2.org</code>, <code>glossaries.org</code>, <i>all</i> content files and
+additional sections at the end for glossaries</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>
+To render the slides for day 1, I visit <code>01-slideshow.org</code> in Emacs
+and export to Beamer. The print- or tablet-ready book comes from
+<code>full-article.org</code>. This should also be exported by the Beamer
+backend, even though the document class is <i>article</i>. This makes
+sense, however; the org source uses Beamer-specific markup which the
+normal LaTeX backend will not understand. It&rsquo;s LaTeX itself that
+&ldquo;converts&rdquo; the format to article through inclusion of the
+<i>beamerarticle</i> package.
+</p>
+</div>
+
+<div id="outline-container-org416ab89" class="outline-4">
+<h4 id="org416ab89">Explanatory prose</h4>
+<div class="outline-text-4" id="text-org416ab89">
+<p>
+Slides minimize the amount of text on one screen, by using shorter, simpler 
+sentences in outline layouts. Some issues call for a narrative discussion 
+in prose. Prose should <i>not</i> be shown in a slide presentation!
+</p>
+
+<p>
+Beamer can omit text from a presentation using the document class option 
+<i>ignorenonframetext</i>. Text that appears outside of a <i>frame</i> environment 
+will be suppressed. The trick is to get org to export text outside of a 
+frame, without affecting sectioning.
+</p>
+
+<p>
+Org creates a frame when it encounters a headline at the level defined by 
+the <code>H:</code> export option, and it closes the frame at the next headline at 
+this level or higher. This project uses <code>H:3</code>, so normally, the contents 
+under every third-level headline will be enclosed in begin/end frame tags.
+</p>
+
+<p>
+If the headline has the Beamer-specific tag <code>:B_ignoreheading:</code>, then the 
+heading <i>and</i> the begin/end frame commands are suppressed, but all the 
+content appears.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 5: </span>Org source, including a paragraph that should appear outside of a frame.</label><pre class="src src-org" id="org060d262"><span style="color: #7f7f80;">  #+OPTIONS: H:3 texht:t</span>
+<span style="color: #7f7f80;">  #+LaTeX_CLASS: beamer</span>
+<span style="color: #7f7f80;">  #+LaTeX_CLASS_OPTIONS: [ignorenonframetext,presentation]</span>
+  
+  * Section head
+  ** Subsection head
+  <span style="font-weight: bold;">*</span> Frame title
+  <span style="font-weight: bold;">**</span> Block header
+       Text.
+       <span style="color: #e2c770;">-</span> Bullet point.
+  <span style="font-weight: bold;">*</span> More explanation coming                                 :B_ignoreheading:
+      <span style="color: #cd3278;">:PROPERTIES:</span>
+      <span style="color: #7f7f80;">:BEAMER_env:</span> <span style="color: #7f7f80;">ignoreheading</span>
+      <span style="color: #cd3278;">:END:</span>
+      Here, we explain points from the previous frame in more
+      detail. This text will always appear in the exported LaTeX, but
+      the <span style="font-style: italic;">ignorenonframetext</span> class option will prevent it from being
+      rendered in the presentation.
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 6: </span>The LaTeX export result. Note the absence of begin/end frame commands around the free-standing paragraph.</label><pre class="src src-latex" id="org13f7283"><span style="color: #696969;">% </span><span style="color: #696969;">Created 2014-05-01 Thu 16:05</span>
+<span style="color: #eb4509;">\documentclass</span>[<span style="color: #fd971f;">ignorenonframetext,presentation</span>]{<span style="color: #b6e63e;">beamer</span>}
+<span style="color: #eb4509;">\begin</span>{<span style="color: #b6e63e;">document</span>}
+
+<span style="color: #eb4509;">\section</span>{<span style="color: #9c91e4;">Section head</span>}
+<span style="color: #eb4509;">\label</span>{<span style="color: #fd971f;">sec-1</span>}
+<span style="color: #eb4509;">\subsection</span>{<span style="color: #67addf;">Subsection head</span>}
+<span style="color: #eb4509;">\label</span>{<span style="color: #fd971f;">sec-1-1</span>}
+<span style="color: #eb4509;">\begin</span>{<span style="color: #b6e63e;">frame</span>}[label=sec-1-1-1]{Frame title}
+<span style="color: #eb4509;">\begin</span>{<span style="color: #b6e63e;">block</span>}{Block header}
+Text.
+<span style="color: #eb4509;">\begin</span>{<span style="color: #b6e63e;">itemize</span>}
+<span style="color: #eb4509;">\item</span> Bullet point.
+<span style="color: #eb4509;">\end</span>{<span style="color: #b6e63e;">itemize</span>}
+<span style="color: #eb4509;">\end</span>{<span style="color: #b6e63e;">block</span>}
+<span style="color: #eb4509;">\end</span>{<span style="color: #b6e63e;">frame</span>}
+
+Here, we explain points from the previous frame in more
+detail. This text will always appear in the exported <span style="color: #eb4509;">\LaTeX</span>{}, but
+the <span style="color: #eb4509;">\emph</span>{<span style="font-style: italic;">ignorenonframetext</span>} class option will prevent it from being
+rendered in the presentation.
+<span style="color: #eb4509;">\end</span>{<span style="color: #b6e63e;">document</span>}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge53d602" class="outline-4">
+<h4 id="orge53d602">Problem: Position of <code>\maketitle</code> command</h4>
+<div class="outline-text-4" id="text-orge53d602">
+<p>
+Because of <i>ignorenonframetext</i>, the LaTeX <code>\maketitle</code> command must appear 
+in a frame for the slideshows. But, it should <i>not</i> be in a frame for the 
+article. Further, we can&rsquo;t distinguish between presentation and article 
+based on the org export backend, because both are exported by the Beamer 
+backend.
+</p>
+
+<p>
+In my environment, I used a hack that assumes Beamer has been added to
+<code>org-latex-classes</code> under the exact string &ldquo;beamer.&rdquo; This is not
+ideal, because a user might have added a custom class under a
+different name. Nicolas Goaziou proposed an alternate approach using
+regular expressions, but I didn&rsquo;t implement it in my environment.
+</p>
+
+<p>
+This code snippet should replace the expression following the comment
+<code>;; 10. Title command</code> in the function <code>org-beamer-template</code>, defined
+in ox-beamer.el.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 7: </span>Hack to put the maketitle command in a frame for the beamer class only.</label><pre class="src src-emacs-lisp" id="org7446620">       <span style="color: #696969;">;; </span><span style="color: #696969;">10. Title command.</span>
+       <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>titlecmd <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-element-normalize-string</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">cond</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #e2c770;">""</span> title<span style="color: #eb4509;">)</span> nil<span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> <span style="color: #fd971f;">org-latex-title-command</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> nil<span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(?:</span><span style="color: #e2c770;">[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">%]</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">|</span><span style="color: #e2c770;">^</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">%s"</span>
+                             <span style="color: #fd971f;">org-latex-title-command</span><span style="color: #eb4509;">)</span>
+               <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #fd971f;">org-latex-title-command</span> title<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span>t <span style="color: #fd971f;">org-latex-title-command</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+         <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> info <span style="color: #fd971f;">:latex-class</span><span style="color: #eb4509;">)</span> <span style="color: #e2c770;">"beamer"</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\begin{frame}%s\\end{frame}"</span> titlecmd<span style="color: #b6e63e;">)</span>
+           titlecmd<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0b0f6b3" class="outline-4">
+<h4 id="org0b0f6b3">Problem: Relative links to images</h4>
+<div class="outline-text-4" id="text-org0b0f6b3">
+<p>
+Image files are stored in <code>img/</code> directories under the directory for each 
+part. The images must also be accessible from <code>full-article/</code>, so simple 
+links of the form <code>./img/filename</code> will not work. Instead, this form of 
+link handles both export locations: <code>../01-intro/img/filename</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org83ced52" class="outline-3">
+<h3 id="org83ced52">Glossaries</h3>
+<div class="outline-text-3" id="text-org83ced52">
+<p>
+The LaTeX <i>glossaries</i> package handled all my requirements: multiple 
+glossaries for different categories of terms and automatic indexing of 
+references to terms in the text. The syntax of the \newglossaryentry 
+command is more verbose than I wanted to manage by hand. Org tables are a 
+useful alternative.
+</p>
+
+<p>
+I divided glossary entries into four categories: terms and concepts, unit 
+generators, other classes, and methods. I used two table structures:
+</p>
+
+<ul class="org-ul">
+<li>For UGens: Category (not used), name, description, and list of inputs.</li>
+<li>Others: Term, plural form, description.</li>
+</ul>
+
+<p>
+The two structures called for two lisp functions; they are essentially the 
+same except for the strings generated and the handling of table rows. The 
+non-UGen function includes arguments for the table and identifiers to embed 
+in the LaTeX syntax, to be supplied in the <code>#+CALL</code> lines.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 8: </span>Part of a glossary table.</label><pre class="src src-org" id="org978a6ac"><span style="color: #7f7f80;">  #+name: gloss</span>
+  <span style="color: #9c91e4;">| Term  | Plural  | Description                                                                                              |</span>
+  <span style="color: #9c91e4;">|-------+---------+----------------------------------------------------------------------------------------------------------|</span>
+  <span style="color: #9c91e4;">| ADSR  |         | An Attack-Decay-Sustain-Release envelope                                                                 |</span>
+  <span style="color: #9c91e4;">| proxy | proxies | A placeholder that allows you to define connections between modules independent of each module's content |</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 9: </span>Function to convert a normal (non-UGen) glossary table into LaTeX markup.</label><pre class="src src-org" id="org21bc747"><span style="color: #7f7f80;">  #+name: makegloss</span>
+<span style="color: #696969;">  #+begin_src emacs-lisp :var tbl=gloss glosstype='nil :exports none :results value latex</span>
+<span style="background-color: #000000;">    </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">str </span><span style="color: #e2c770; background-color: #000000;">""</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">          </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">gltype </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">if</span><span style="background-color: #000000;"> glosstype </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">format</span><span style="background-color: #000000;"> </span><span style="color: #e2c770; background-color: #000000;">"type=%s,"</span><span style="background-color: #000000;"> glosstype</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="background-color: #000000;"> </span><span style="color: #e2c770; background-color: #000000;">""</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">      </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">pop</span><span style="background-color: #000000;"> tbl</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">      </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">pop</span><span style="background-color: #000000;"> tbl</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">      </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">while</span><span style="background-color: #000000;"> tbl</span>
+<span style="background-color: #000000;">        </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">(</span><span style="background-color: #000000;">item </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">pop</span><span style="background-color: #000000;"> tbl</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">          </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">setq</span><span style="background-color: #000000;"> str</span>
+<span style="background-color: #000000;">                </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">concat</span><span style="background-color: #000000;"> str</span>
+<span style="background-color: #000000;">                        </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">format</span><span style="background-color: #000000;"> </span><span style="color: #e2c770; background-color: #000000;">"\\newglossaryentry{%s}{%sname={%s},%sdescription={%s}}\n"</span>
+<span style="background-color: #000000;">                                </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">car</span><span style="background-color: #000000;"> item</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">                                gltype</span>
+<span style="background-color: #000000;">                                </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">pop</span><span style="background-color: #000000;"> item</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">                                </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">plural </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">pop</span><span style="background-color: #000000;"> item</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">                                  </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">if</span><span style="background-color: #000000;"> </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">string=</span><span style="background-color: #000000;"> plural </span><span style="color: #e2c770; background-color: #000000;">""</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">                                      </span><span style="color: #e2c770; background-color: #000000;">""</span>
+<span style="background-color: #000000;">                                    </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">format</span><span style="background-color: #000000;"> </span><span style="color: #e2c770; background-color: #000000;">"plural={%s},"</span><span style="background-color: #000000;"> plural</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">                                </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">car</span><span style="background-color: #000000;"> item</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">      str</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="color: #696969;">  #+end_src</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2b94d52" class="outline-4">
+<h4 id="org2b94d52">Problem: Redundant glossary export in the full article</h4>
+<div class="outline-text-4" id="text-org2b94d52">
+<p>
+The two output styles raise some conflicting requirements:
+</p>
+
+<ul class="org-ul">
+<li><b>Presentation style:</b> Because of the <i>ignorenonframetext</i> class
+option, the <code>\newglossaryentry</code> commands must appear within a
+frame. They cannot go into <code>slidehead.org</code>. Each separate contents
+file must include its own calls to the glossary functions.</li>
+
+<li><b>Article style:</b> The contents files are included in the same export
+file &#x2013; which would produce redundant copies of the glossary
+entries.</li>
+</ul>
+
+<p>
+This calls for <i>conditional execution</i> of the Babel calls. A
+not-quite-obvious feature of Babel properties is that they may be
+Emacs-lisp expressions. That leads to a solution: Use a code block at
+the beginning of the <code>0*-slideshow.org</code> and <code>full-article.org</code> files
+to set a flag, <code>hjh-exporting-slides</code>.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 10: </span>Setting the slideshow flag for slideshows.</label><pre class="src src-org" id="orgd8ade81"><span style="color: #7f7f80;">  #+name: set-slide-flag</span>
+<span style="color: #696969;">  #+begin_src emacs-lisp :exports results :results value latex</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">setq</span><span style="background-color: #000000;"> hjh-exporting-slides </span><span style="color: #9c91e4; background-color: #000000;">'</span><span style="color: #66d9ef; background-color: #000000;">t</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  </span><span style="color: #e2c770; background-color: #000000;">""</span>
+<span style="color: #696969;">  #+end_src</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 11: </span>Setting the slideshow flag for the article.</label><pre class="src src-org" id="orgef3b1f7"><span style="color: #7f7f80;">  #+name: set-slide-flag</span>
+<span style="color: #696969;">  #+begin_src emacs-lisp :exports results :results value latex</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">setq</span><span style="background-color: #000000;"> hjh-exporting-slides nil</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  </span><span style="color: #e2c770; background-color: #000000;">""</span>
+<span style="color: #696969;">  #+end_src</span>
+</pre>
+</div>
+
+<p>
+Then, the <code>#+CALL:</code> lines can use an <code>(if...)</code> expression to decide
+whether the <code>:exports</code> property should be &ldquo;results&rdquo; or &ldquo;none.&rdquo; If this
+result is &ldquo;none,&rdquo; then Babel skips that call. So, each glossary
+section evaluates only once per export, no matter how many contents
+files are included.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 12: </span>Calling the glossary function in a slideshow.</label><pre class="src src-org" id="org08f7223"><span style="color: #7f7f80;">  #+call: makegloss :exports (if hjh-exporting-slides "results" "none") :results value latex</span>
+<span style="color: #7f7f80;">  #+results: makegloss</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 13: </span>Calling the glossary function in the article.</label><pre class="src src-org" id="org99242da"><span style="color: #7f7f80;">  #+name: makegloss_art</span>
+<span style="color: #7f7f80;">  #+call: makegloss :exports (if hjh-exporting-slides "none" "results") :results value latex</span>
+<span style="color: #7f7f80;">  #+results: makegloss_art</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9632836" class="outline-4">
+<h4 id="org9632836">Output format</h4>
+<div class="outline-text-4" id="text-org9632836">
+<p>
+By default, org treats CALL results as example blocks. In LaTeX
+export, example blocks are wrapped in a <i>verbatim</i> environment. These
+functions return LaTeX syntax, to embed into the LaTeX document as
+is. Adding &ldquo;value latex&rdquo; to the <code>:results</code> property takes care of
+that.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd95aa47" class="outline-3">
+<h3 id="orgd95aa47">Extraction of captioned source code blocks</h3>
+<div class="outline-text-3" id="text-orgd95aa47">
+<p>
+I also wanted to provide SuperCollider code files containing the
+numbered examples from the text. That means iterating over the source
+code blocks, and collecting the code from every block that has a
+caption. (Code blocks without a caption do not receive a listing
+number.)
+</p>
+
+<p>
+The Swiss-army-knife function <code>org-element-map</code> handles the iteration
+in a way that is absurdly simple to use: first, use
+<code>org-element-parse-buffer</code> to get an object structure for the org
+buffer&rsquo;s contents, and then call <code>org-element-map</code> on the parsed tree,
+filtering on <code>'src-block</code>.
+</p>
+
+<p>
+Each element identified this way is rather complex. Extensive tests
+with Emacs step debugging helped me find several processing steps:
+</p>
+
+<ol class="org-ol">
+<li>The interesting bit of the source-block element is the second item
+in the list: <code>(car (cdr element))</code>.</li>
+
+<li><code>plist-get</code> finds the relevant strings in this second item. But
+this function returns not only the string, but several other
+properties. The string we need is at the head of the list, but this
+may be buried within several nested lists. So I wrote a function,
+<code>hjh-get-string-from-nested-thing</code>, that keeps stripping off &ldquo;car&rdquo;
+from the object, until it finds a string.</li>
+
+<li>This string itself also includes formatting properties, so I had to
+use <code>substring-no-properties</code> on these items.</li>
+</ol>
+
+<p>
+To generate the aggregate code file, then, I simply do <code>M-x
+hjh-src-blocks-to-buffer</code>, type in the starting listing number for
+this chapter, and in a few seconds, I get a buffer containing
+SuperCollider code separated by comments holding the captions, e.g.:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-{SuperCollider}">/**************
+ Listing 6. A very simple synth.
+ **************/
+
+a = { SinOsc.ar(440, 0, 0.1).dup }.play;
+
+// To make it stop:
+a.release;
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 14: </span>Emacs-lisp functions to find captioned source blocks within a buffer.</label><pre class="src src-emacs-lisp" id="org60578da"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">hjh-get-string-from-nested-thing</span> <span style="color: #fd971f;">(</span>thing<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Peel off 'car's from a nested list until the car is a string."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">while</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> thing <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> thing<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> thing <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> thing<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  thing
+<span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">hjh-src-blocks-to-string</span> <span style="color: #fd971f;">(</span>counter get-some<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Iterate src blocks from org-element and add them to a string."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span> <span style="color: #e2c770;">"nStarting listing number: \nP"</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">not</span> counter<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> counter <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>tree <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-element-parse-buffer</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span>get-all <span style="color: #fd971f;">(</span><span style="color: #fd971f;">not</span> get-some<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-element-map</span> tree <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">src-block</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span>element<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> element <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cdr</span> element<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>caption <span style="color: #fd971f;">(</span>hjh-get-string-from-nested-thing <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> element <span style="color: #fd971f;">:caption</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span>source <span style="color: #fd971f;">(</span>hjh-get-string-from-nested-thing <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> element <span style="color: #fd971f;">:value</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">when</span> caption
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> get-all 
+          <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>parms
+           <span style="color: #b6e63e;">(</span>hjh-get-string-from-nested-thing <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> element <span style="color: #fd971f;">:parameters</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">and</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> parms<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">string-match-p</span> <span style="color: #e2c770;">"extract"</span> parms<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> string <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> string <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"/**************</span>
+<span style="color: #e2c770;"> Listing %d. %s</span>
+<span style="color: #e2c770;"> **************/</span>
+
+<span style="color: #e2c770;">%s\n\n"</span>
+            counter
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">substring-no-properties</span> caption<span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">substring-no-properties</span> source<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #696969;">; </span><span style="color: #696969;">always increment if there was a caption</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> counter <span style="color: #fd971f;">(</span><span style="color: #fd971f;">1+</span> counter<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    string<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">hjh-src-blocks-to-buffer</span> <span style="color: #fd971f;">(</span>counter get-some<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Put all the captioned source blocks from a buffer into another buffer."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span> <span style="color: #e2c770;">"nStarting listing number: \nP"</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>contents <span style="color: #fd971f;">(</span>hjh-src-blocks-to-string counter get-some<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span>bufpath <span style="color: #fd971f;">(</span><span style="color: #fd971f;">buffer-file-name</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span>newname <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-name-sans-extension</span> bufpath<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">".scd"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span>bufname <span style="color: #fd971f;">(</span><span style="color: #fd971f;">file-name-nondirectory</span> newname<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span>newbuf <span style="color: #fd971f;">(</span><span style="color: #fd971f;">get-buffer-create</span> bufname<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> newbuf
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">erase-buffer</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span> contents<span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">set-visited-file-name</span> newname<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">switch-to-buffer-other-window</span> newbuf<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org660d940" class="outline-3">
+<h3 id="org660d940">Partitioning the article export</h3>
+<div class="outline-text-3" id="text-org660d940">
+<p>
+Rather than create a document class to turn top-level headings into <code>\part</code> 
+commands, I embedded the LaTeX code for it directly into the full-article 
+template. The trick is closing the environments for the previous sections. 
+This requires a top-level heading, which should not start a new section. I 
+found that <code>:B_ignoreheading:</code> did not work for this, but an <a href="http://stackoverflow.com/questions/10295177/is-there-an-equivalent-of-org-modes-b-ignoreheading-for-non-beamer-documents">export filter</a>
+by Suvayu Ali did exactly what I needed.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 15: </span>Part of the full-article export document, with embedded LaTeX \part syntax.</label><pre class="src src-org" id="org5b0f34b"><span style="color: #7f7f80;">  #+startup: beamer</span>
+  
+<span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">Workshop: Synthesis and Performance in SuperCollider</span>
+<span style="color: #555556;">  #+DATE:</span> <span style="color: #fd971f;">\today</span>
+<span style="color: #555556;">  #+AUTHOR:</span> <span style="color: #fd971f;">H. James Harkins</span>
+  
+<span style="color: #7f7f80;">  #+INCLUDE: "../printhead2.org"</span>
+<span style="color: #7f7f80;">  #+include: "../glossary.org"</span>
+  * Part 1                                                      :ignoreheading:
+<span style="color: #7f7f80;">  #+latex: \clearpage\part{Introductory SC, Synthesis and Sequencing}</span>
+<span style="color: #7f7f80;">  #+include: "../01-intro/01-contents.org" :minlevel 1</span>
+  
+  * Part 2                                                      :ignoreheading:
+<span style="color: #7f7f80;">  #+latex: \clearpage\part{Sequencing with Patterns; Synthesis Techniques}</span>
+<span style="color: #7f7f80;">  #+include: "../02-synth/02-contents.org" :minlevel 1</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgaefe06b" class="outline-2">
+<h2 id="orgaefe06b">Weaknesses</h2>
+<div class="outline-text-2" id="text-orgaefe06b">
+</div>
+<div id="outline-container-org347b62c" class="outline-3">
+<h3 id="org347b62c">Reliance on LaTeX-specific markup</h3>
+<div class="outline-text-3" id="text-org347b62c">
+<p>
+One significant problem, which this project did not attempt to solve,
+is to reconcile the LaTeX&rsquo;s <i>semantic markup</i> with org&rsquo;s ideal of
+backend-independent markup. In LaTeX, it&rsquo;s common to define different
+markup commands for different types of text. This project, for
+instance, uses <code>\cd{}</code> for in-line code snippets and <code>\ci{}</code> for code
+keywords and identifiers. Both render in the monospace font, in the
+same color; by marking them up differently, I can easily change the
+formatting of one or the other by changing the command&rsquo;s
+definition. (In fact, there is a slight difference: <code>\ci</code> identifiers
+are put into an <code>\mbox</code>, to suppress hyphenation.)
+</p>
+
+<p>
+Org&rsquo;s formatting markup is visual: asterisks for bold, slashes for
+italics and so on.
+</p>
+
+<p>
+I think <a href="https://orgmode.org/manual/Macro-replacement.html#Macro-replacement">export macros</a> could support semantic markup that could export
+to LaTeX or HTML equally well, but I didn&rsquo;t investigate that in this
+project. Here, I just embedded LaTeX commands directly into the org
+files: free standing for simple uses, and using export snippets<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> for
+more intricate cases (such as code examples including curly braces,
+which LaTeX export treats specially).
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Export snippets look like this:
+<code>@@backendname:text...@@</code>. They will export only to that backend. You
+can write several of them in a row for different backends:
+<code>@@latex:\emph{italic}@@@@html:&lt;i&gt;italic&lt;/i&gt;@@</code> and each export style
+receives the right snippet.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: James Harkins</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

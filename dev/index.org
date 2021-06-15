@@ -1,0 +1,66 @@
+# Created 2021-06-15 Tue 18:22
+#+OPTIONS: H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Org-mode for developers
+#+AUTHOR: Worg people
+#+startup: align fold nodlcheck hidestars oddeven intestate
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c)
+#+language: en
+#+priorities: A C B
+#+category: worg
+#+html_link_up: ../index.html
+#+html_link_home: https://orgmode.org/worg/
+
+* Org-mode for developers
+
+This page gather links to reference documentation and (forthcoming)
+tutorials on how to extend Org.
+
+* Git workflow
+
+Org development uses a two-branches git workflow.
+
+- master :: This branch contains the latest development for Org.
+     Temporary feature branches (either local or remote) should
+     branch out from =master=.  New features should be introduced
+     into org on master.  This branch is merged to the =maint=
+     branch when a major release is made.
+
+- maint :: This branch is the "production" branch for Org.  It
+     contains stable releases and bug fixes against them.  Bugs
+     present in a release should always be fixed on =maint=,
+     which is then merged back into =master= so that the two
+     branches keep the same bugfixes.  Minor releases are made
+     so that not too many bug fixes are pending on maint.  The
+     Org version on this branch is regularly sync'ed with the
+     Emacs repository.
+
+** Git repositories
+
+The git repository for Org is on =orgmode.org=:
+
+- https://code.orgmode.org/bzg/org-mode
+
+If you are a developer, you can clone it like this:
+
+: ~$ git clone git@code.orgmode.org:bzg/org-mode.git
+
+
+To clone a read-only version of the repo:
+
+: ~$ git clone https://code.orgmode.org/bzg/org-mode.git
+
+* Reference documentation
+
+- [[file:org-syntax.org][Syntax reference (draft)]]
+
+- [[file:org-element-api.org][Org Element API]] for the Org parser (=org-element.el=).
+
+- [[file:org-export-reference.org][Reference documentation]] for the new export engine (=ox.el=) written
+  by Nicolas Goaziou.
+
+- [[file:../doc.org][Org-mode's doc ]]for all hooks, commands and options.
+
+* Tips
+
+- [[file:org-build-system.org][Org Build System]] (aka Makefile)

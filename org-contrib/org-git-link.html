@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-git-link.el &#x2013; link to specific git revisions</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-git-link.el &#x2013; link to specific git revisions</h1>
+<p>
+org-git-link allows linking to specific (git) versions of a file.
+</p>
+
+<div id="outline-container-org3a38523" class="outline-2">
+<h2 id="org3a38523">Use case</h2>
+<div class="outline-text-2" id="text-org3a38523">
+<p>
+Often one wants to link to a specific version of a reference
+document which may change in time. Thorsten Wagner described an
+important use case in his mailing list entry
+(<a href="https://orgmode.org/list/200907241232.52729.torsten.wagner@googlemail.com">https://orgmode.org/list/200907241232.52729.torsten.wagner@googlemail.com</a>), namely
+linking to results in a lab book. Quote:
+</p>
+
+<blockquote>
+<p>
+[&#x2026;] Please think about the following situation: I have
+something like &ldquo;&#x2026; In the [graph] of the last results, a huge
+peak is observable due to measurement problems for the
+following set-up parameters &#x2026;.&rdquo; in my org-file and then
+several month later in a stupid act I overwrite this file by
+some very similar but different results, e.g. because I was not
+longer aware of the link and thought there is no need to keep
+this old graph with the ugly peak and replace it by something
+&ldquo;better&rdquo;. Now the link still depicts to a graph (lets say
+without or smaller peak) and back in org-mode I might reread my
+entries check what I did several months ago&#x2026; and I will be
+very confused since the graph and the written text have some
+quirks (refer to a peak where no peak is depict in the graph
+and refers to wrong measurement parameters) my boss ask me what
+sort of mess I did, which I can not explain. He claims its the
+fault of all this &ldquo;linux-hacker-
+emacs-org-mode-work-only-on-text-files&rdquo;-stuff blaims me to dead
+and force me switching back to use Outlook, MS Office and MS
+Windows for the rest of my life&#x2026;.. wooohhh that would be a
+sad story !!!!
+</p>
+</blockquote>
+
+<p>
+What a sad story indeed. Collaborative editing is another case
+where linking of (e.g.) todo items to specific versions or to
+files in different branches comes in handy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2a22204" class="outline-2">
+<h2 id="org2a22204">Specifying revisions</h2>
+<div class="outline-text-2" id="text-org2a22204">
+<p>
+<code>org-git-link.el</code> defines two new link types. The <code>git</code> link
+type is meant to be used in the typical scenario and mimics the
+<code>file</code> link syntax as closely as possible. The <code>gitbare</code> link
+type exists mostly for debugging reasons, but also allows e.g.
+linking to files in a bare git repository for the experts. I
+will first show an example usage for both kinds of links before
+the syntax is defined more formally.
+</p>
+</div>
+
+<div id="outline-container-orgb406ad8" class="outline-3">
+<h3 id="orgb406ad8">Example</h3>
+<div class="outline-text-3" id="text-orgb406ad8">
+<p>
+In the lab book use case described above assume that the org
+file in located in <code>/home/user/repo/planning/labbook.org</code> and
+the measurement data is visualized in
+<code>/home/user/repo/data/result.png</code>. The data is so exciting that
+the relevant commit has been tagged <code>nobelprize</code>. Then the
+links in a lab book entry could read any of the following:
+</p>
+<pre class="example">
+   - [[git:../data/result.png::master@{3.10.2009}]]
+   - [[git:/home/user/repo/data/results.png::nobelprize]]
+   - [[gitbare:../.git::nobelprize:data/results.png]]
+</pre>
+
+<p>
+For usage in collaborative editing, typical entries might be:
+</p>
+<pre class="example">
+   * TODO Merge [[git:paper.tex::theirstuff][Their version]] with [[git:paper.tex::ourstuff][Our version]]
+   * [[git:answer.txt::firstround][Answer]] to  [[git:report.txt::firstround][Referee report]] of our paper
+   * [[gitbare:/path/to/centralrepos.git::simulation.cpp][Simulation program]]
+</pre>
+
+<p>
+In all these examples, the linked files do not even have to exist
+in the working repository, i.e. the links continue to work even
+after the files have been deleted.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge38a6cd" class="outline-3">
+<h3 id="orge38a6cd">Formal specification</h3>
+<div class="outline-text-3" id="text-orge38a6cd">
+</div>
+<div id="outline-container-org86c7759" class="outline-4">
+<h4 id="org86c7759">User friendy form</h4>
+<div class="outline-text-4" id="text-org86c7759">
+<pre class="example">
+    [[git:/path/to/file::searchstring]]
+</pre>
+<p>
+This form is the familiar from normal org file links
+including search options . However, its use is
+restricted to files in a working directory and does not
+handle bare repositories on purpose (see the bare form for
+that).
+</p>
+
+<p>
+The search string references a commit (a tree-ish in Git
+terminology). The two most useful types of search strings are
+</p>
+
+<ul class="org-ul">
+<li>A symbolic ref name, usually a branch or tag name (e.g.
+master or nobelprize).</li>
+<li>A ref followed by the suffix @ with a date specification
+enclosed in a brace pair (e.g. {yesterday}, {1 month 2
+weeks 3 days 1 hour 1 second ago} or {1979-02-26 18:30:00})
+to specify the value of the ref at a prior point in time</li>
+</ul>
+
+<p>
+For other ways to specify commits see the git documentation
+referenced in the <a href="#org7c3eb89">bare git section</a>.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgd86eb54"></a>Technical note<br />
+<div class="outline-text-5" id="text-orgd86eb54">
+<p>
+From the (not necessarily existing) file path first the
+corresponding git directory is extracted. This is done in the
+following way: Starting with the directory of the linken
+file, it is checked whether
+</p>
+
+<ul class="org-ul">
+<li>the directory exists and</li>
+<li>whether a .git subdirectory exists.</li>
+</ul>
+
+<p>
+If not, the procedure is iterated with the parent directory.
+The link path (which can be given as a local link) is thus
+separated into an absolute path GIT_DIR to the git directory
+(without .git) and a relative path RELPATH to the file. Git
+is now called as
+</p>
+<pre class="example">
+git --no-pager --git-dir=GIT_DIR/.git show SEARCHSTRING:RELPATH
+</pre>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org7c3eb89" class="outline-4">
+<h4 id="org7c3eb89">Bare git form</h4>
+<div class="outline-text-4" id="text-org7c3eb89">
+<pre class="example">
+    [[gitbare:GIT_DIR::OBJECT]]
+</pre>
+<p>
+This is the more bare metal version, which gives the user most
+control. It directly translates to the git command
+</p>
+<pre class="example">
+git --no-pager --git-dir=GIT_DIR show OBJECT
+</pre>
+
+<p>
+Using this version one can also view files from a bare git
+repository. For detailed information on how to specify an
+object, see the man page of <code>git-rev-parse</code> (section
+SPECIFYING REVISIONS). A specific blob (file) can be
+specified by a suffix clolon (:) followed by a path.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5a8004e" class="outline-3">
+<h3 id="org5a8004e">Following a git link</h3>
+<div class="outline-text-3" id="text-org5a8004e">
+<p>
+Following any of the git links creates a direcory named
+<code>org-git-link-SHA</code> under <code>temporary-file-directory</code> (if it
+does not exist), where SHA is the hash of the linked file
+(blob). The file contents is saved within this directory under
+the name used in the link. This ensures that each file is only
+checked out once, even when they are referenced by different
+search strings (e.g. once by branch name and once by tag). The
+file is supsequently opened using <code>org-open-file</code>, which does
+the right thing for non-text files as well.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6f720f0" class="outline-3">
+<h3 id="org6f720f0">Creating a git link</h3>
+<div class="outline-text-3" id="text-org6f720f0">
+<p>
+As an org mode is a simple text file, a git link can of course
+be inserted directly as a string. For your convenience two functions creating links
+automatically have been defined:
+</p>
+
+<dl class="org-dl">
+<dt>org-git-store-link</dt><dd>This function is automatically added
+to <code>org-store-link-functions</code>. When <code>org-store-link</code>
+(usually bound to <code>C-c l</code>) is called in a buffer whose
+file is in a git repository, it creates a git link to the
+file version corresponding to the current branchname and
+date. The link is then added to <code>org-stored-links</code>, from
+where it can be inserted with <code>org-insert-link(-global)</code>,
+usually bound to <code>C-c C-l</code>.</dd>
+
+<dt>org-git-insert-link-interactively</dt><dd>This function
+interactively asks for a file name, a search string, and
+a description. The corresponding link is then inserted at
+point. Currently the only advantage over writing the link
+directly is file completion. Completion of the search
+string with the help of current tags and branch names
+might be implemented at a later stage, if demand exists.</dd>
+</dl>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

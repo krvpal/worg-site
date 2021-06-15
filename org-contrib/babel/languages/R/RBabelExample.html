@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org &amp; R via Babel Example</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Russell Adams" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org &amp; R via Babel Example</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9ed74f8">Overview</a></li>
+<li><a href="#org2080067">Alphabits</a></li>
+<li><a href="#org916d265">Thanks!</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9ed74f8" class="outline-2">
+<h2 id="org9ed74f8">Overview</h2>
+<div class="outline-text-2" id="text-org9ed74f8">
+<p>
+The following is a quick example of a document created in org-mode
+which uses org-babel to allow inline R code to produce graphs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2080067" class="outline-2">
+<h2 id="org2080067">Alphabits</h2>
+<div class="outline-text-2" id="text-org2080067">
+<p>
+I like cereal, especially when it spells.
+</p>
+
+<p>
+Graph courtesy of
+<a href="http://addictedtor.free.fr/graphiques/sources/source_78.R">http://addictedtor.free.fr/graphiques/sources/source_78.R</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">
+ # Data from org
+ doublePlot = function (base, plotFunc,
+                       pngopts = c( width = 1024, height = 500 ),
+                       pdfopts = c( width = 10, height = 7.5, paper = 'usr')
+                       ) {
+
+  # basename from org-babel
+  myPng = paste(base,"png",sep=".")
+  myPdf = paste(base,"pdf",sep=".")
+
+  png(myPng, pngopts )
+
+  plotFunc()
+
+  dev.off()
+
+  pdf(myPdf, pdfopts)
+
+  plotFunc()
+
+  dev.off()
+
+}
+
+  
+  doublePlot(base=basename, plotFunc = function() {
+    x &lt;- pmin(3, pmax(-3, rnorm(50)))
+y &lt;- pmin(3, pmax(-3, rnorm(50)))
+xhist &lt;- hist(x, breaks=seq(-3,3,0.5), plot=FALSE)
+yhist &lt;- hist(y, breaks=seq(-3,3,0.5), plot=FALSE)
+top &lt;- max(c(xhist$counts, yhist$counts))
+xrange &lt;- c(-3,3)
+yrange &lt;- c(-3,3)
+nf &lt;- layout(matrix(c(2,0,1,3),2,2,byrow=TRUE), c(3,1), c(1,3), TRUE)
+#layout.show(nf)
+
+par(mar=c(3,3,1,1))
+plot(x, y, xlim=xrange, ylim=yrange, xlab="", ylab="")
+par(mar=c(0,3,1,1))
+barplot(xhist$counts, axes=FALSE, ylim=c(0, top), space=0)
+par(mar=c(3,0,1,1))
+barplot(yhist$counts, axes=FALSE, xlim=c(0, top), space=0, horiz=TRUE)
+
+
+  })
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="../../../../images/babel/r-example.png" alt="r-example.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org916d265" class="outline-2">
+<h2 id="org916d265">Thanks!</h2>
+<div class="outline-text-2" id="text-org916d265">
+<p>
+Org-mode rocks.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2010-07-27 Tue</p>
+<p class="author">Author: Russell Adams</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-column-view-tutorial.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Emacs Org's Column View 
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Bastien Guerry
+</span><span class="org-document-info-keyword">#+EMAIL:</span>     <span class="org-document-info">bzg@altern.org
+</span><span class="org-meta-line">#+SEQ_TODO:  TODO DONE</span>
+<span class="org-meta-line">#+LANGUAGE:  en</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span>
+
+A short introduction to Org's column view by <span class="org-link"><a href="mailto:bzg AT gnu.fr">Bastien Guerry</a></span>.
+
+<span class="italic">Oct, 15th 2007</span>
+
+Please check the <span class="org-link"><a href="file:org-column-screencast.org">screencast</a></span> demonstrating some of the possibilities I'm
+discussing here. 
+
+Also note that the column view feature is not available for Org &lt; 5.01,
+Hence this feature is not in Emacs 22.1 (which comes with Org 4.67c.)
+Since Org is actively developed, it's always a good idea to upgrade to
+the <span class="kc-org-link-url"><a href="http://www.legito.net/#sec-2">latest version</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction: the default column view
+</span>
+First press <span class="org-verbatim">C-c C-x C-c</span> to show the default column view.  It turns
+each outline item into a table row displaying some of its properties.
+
+<span class="org-link"><a href="file:../images/thumbs/org-col-default-view.png">file:../images/thumbs/org-col-default-view.png</a></span>
+
+You can switch the column view <span class="italic">off</span> and return to the normal view by
+pressing `q' while the cursor is on the highlighted entry -- but you
+can turn the column view <span class="italic">on</span> from any location in the buffer.
+
+The first headline is now a row of <span class="italic">browsable columns</span> displaying
+properties. The first highlighted line of the buffer briefly tells you
+what property is displayed in each columns.  In this screenshot it
+reads:
+
+<span class="org-code">: ITEM for the headline title
+:   T for the TODO keyword
+:   P for the priority cookie
+:   T for the tags
+</span>
+The default column only shows the item, the TODO state, the priority of
+the item and its tags, we will see later how to add other properties of
+your own.
+
+This default setup is driven by the variable
+<span class="org-verbatim">org-columns-default-format</span>, which global value is:
+
+<span class="org-code">: #+COLUMNS: %25ITEM %TODO %3PRIORITY %TAGS
+</span>
+<span class="org-table">| Element    | Description                                     |</span>
+<span class="org-table">|------------+-------------------------------------------------|</span>
+<span class="org-table">| %25ITEM    | display the item in a 25-characters-width field |</span>
+<span class="org-table">| %TODO      | display the TODO state of the item              |</span>
+<span class="org-table">| %3PRIORITY | display the priority in a 3-chars-width field   |</span>
+<span class="org-table">| %TAGS      | display the tags of the entry                   |</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Slight customization of the default column view
+</span>
+Okay, so now we'd like to customize the column display.  
+
+For example, we'd like to change the <span class="italic">width</span> of the "priority" field and
+the "tags" field in the column:
+
+<span class="org-code">: #+COLUMNS: %25ITEM %5TODO %1PRIORITY %10TAGS
+</span>
+<span class="org-link"><a href="file:../images/thumbs/org-col-default-customized-view1.png">file:../images/thumbs/org-col-default-customized-view1.png</a></span>
+
+
+The TODO field (<span class="org-verbatim">%5TODO</span>) is now 5 characters wide, whereas the priority
+and the tags fields are 1 and 10.
+
+Now we'd like to change the <span class="italic">title</span> of the columns.  For example -- and
+since we are such <span class="bold">hardworkers</span> -- each so-called item is in fact... a
+"task" :
+
+<span class="org-code">: #+COLUMNS: %25ITEM(Task) %5TODO(To-do) %1PRIORITY %10TAGS
+</span>
+<span class="org-link"><a href="file:../images/thumbs/org-col-default-customized-view2.png">file:../images/thumbs/org-col-default-customized-view2.png</a></span>
+
+We also add a "To-do" label for displaying the TODO state for this
+entry.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Displaying other properties
+</span>
+What if you want to display <span class="bold">other properties</span> in the column view? For
+example, we'd like to display the <span class="org-verbatim">SCHEDULED</span> property. Then we need to
+redefine the global #+COLUMNS option like this:
+
+<span class="org-code">: #+COLUMNS: %30ITEM %10SCHEDULED %TODO %3PRIORITY %TAGS
+</span>
+Refresh your Org buffer to take this change into account, then <span class="org-verbatim">C-c C-x
+C-c</span> again on the entry.  The column now shows the <span class="org-verbatim">SCHEDULED</span> property.
+
+<span class="org-link"><a href="file:../images/thumbs/org-col-default-customized-view3.png">file:../images/thumbs/org-col-default-customized-view3.png</a></span>
+
+<span class="org-code">: ** Exemple of outline item with a SCHEDULED property
+:    SCHEDULED: </span><span class="org-code"><span class="org-date">&lt;2007-10-14 dim&gt;</span></span><span class="org-code">
+</span>
+What is the list of available properties?  Here it is:
+
+<span class="org-code">: ITEM         The content of the headline.
+: TODO         The TODO keyword of the entry.
+: TAGS         The tags defined directly in the headline.
+: ALLTAGS      All tags, including inherited ones.
+: PRIORITY     The priority of the entry, a string with a single letter.
+: DEADLINE     The deadline time string, without the angular brackets.
+: SCHEDULED    The scheduling time stamp, without the angular brackets.
+</span>
+These are all <span class="bold">special properties</span>, but of course you can define your
+own properties.
+
+Before going to the rather complex stuff you can do with your own
+properties, we'd like to know how to use different column views for
+different subtrees.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Defining a column format for a subtree
+</span>
+To define a colum view for a specific item, just add the special
+property <span class="org-verbatim">:COLUMNS:</span> to it:
+
+<span class="org-code">: ** Top node for columns view
+:    :PROPERTIES:
+:    :COLUMNS:  %25ITEM %TAGS %PRIORITY %TODO
+:    :END:
+</span>
+This view will be used for the entry and its entire subtree -- unless
+some of its children has its own column view.
+
+See for example this:
+
+<span class="org-code">: ** Top node for columns view
+:    :PROPERTIES:
+:    :COLUMNS: %25ITEM %TAGS %PRIORITY %TODO
+:    :END:
+: *** TODO Example 1
+: *** TODO Example 2
+: *** DONE Example 3
+</span>
+<span class="org-link"><a href="file:../images/thumbs/org-col-default-customized-view4.png">file:../images/thumbs/org-col-default-customized-view4.png</a></span>
+
+Good.
+
+But what if you suddenly prefer <span class="org-verbatim">%TAGS</span> to be at the right of <span class="org-verbatim">%TODO</span>?
+Put the cursor in the <span class="org-verbatim">%TAGS</span> field and press <span class="org-verbatim">M-&lt;right&gt;</span>, it will move
+the field to the right.
+
+What if you want to make a field larger?  No problem.  Just go to that
+field and press `&gt;' to widen the field (or `&lt;' to narrow it.)
+
+If you want to interactively define the column element of a property, go
+the its field and press `s'.
+
+So now that we know how to customize the column view for each entry,
+it's time to play with user-defined properties.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Adding summary-types for some properties
+</span>
+Let's define a new entry with its own column view and a few properties:
+
+<span class="org-code">: ** My project 
+:    :PROPERTIES:
+:    :COLUMNS:  %20ITEM %9Approved(Approved?){X} %Owner %11Status %10Time_Spent{:}
+:    :END:
+</span>
+<span class="org-link"><a href="file:../images/thumbs/org-col-default-customized-view5.png">file:../images/thumbs/org-col-default-customized-view5.png</a></span>
+
+Let's comment this a bit.
+
+We have a <span class="org-verbatim">:COLUMNS:</span> property, defining the column view. It says:
+
+<span class="org-table">| Element                  | Description                                     |</span>
+<span class="org-table">|--------------------------+-------------------------------------------------|</span>
+<span class="org-table">| %20ITEM                  | display the item (20 characters for this field) |</span>
+<span class="org-table">| %9Approved(Approved?){X} | display the "Approved" property                 |</span>
+<span class="org-table">| %Owner                   | display the "Owner" property                    |</span>
+<span class="org-table">| %11Status                | display the "Status" property                   |</span>
+<span class="org-table">| %10Time_Spent{:}         | display the "Time_spent" property               |</span>
+
+What are <span class="org-verbatim">{X}</span> and <span class="org-verbatim">{:}</span>?  
+
+It defines <span class="bold">summary-types</span>.
+
+<span class="org-verbatim">{X}</span> means: display <span class="org-verbatim">[X]</span> if all entries have a <span class="org-verbatim">[X]</span> value for their
+"Approved" property (<span class="org-verbatim">[-]</span> or <span class="org-verbatim">[ ]</span> otherwise).
+
+<span class="org-verbatim">{:}</span> means: display a summary of the time spend, by adding all the time
+values found in the property "Time_Spent".
+
+Once you get the <span class="org-verbatim">:COLUMN:</span> property defined, you can interactively add
+any property with <span class="org-verbatim">C-c C-x p</span>.  It will prompt you for the name of the
+property, and offer default possible values depending on the <span class="org-verbatim">_ALL</span>
+friend of the property (if any) or on the values found in the buffer.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Defining all the possible values for a property
+</span>
+Defining summary-types implies that you need to have a limited set of
+possible values for certain properties.
+
+For example, the "Approved" value discussed above should take only two
+values: <span class="org-verbatim">[ ]</span> and <span class="org-verbatim">[X]</span>.
+
+Same for the "Status" property: you might want to define only a few
+status like "In progress" "Not started yet" "Finished".
+
+You can restrict the allowed values for any property using the <span class="org-verbatim">_ALL</span>
+suffix like this:
+
+<span class="org-code">: ** My project 
+:    :PROPERTIES:
+:    :COLUMNS:  %20ITEM %9Approved(Approved?){X} %Owner %11Status %10Time_Spent{:}
+:    :Owner_ALL:    Tammy Mark Karl Lisa Don
+:    :Status_ALL:   "In progress" "Not started yet" "Finished" ""
+:    :Approved_ALL: "[ ]" "[X]"
+:    :END:
+</span>
+<span class="org-code">: | Owner_ALL    | only accept Tammy Mark Karl Lisa Don                   |
+: | Status_ALL   | only accept "In progress" "Not started yet" "Finished" |
+: | Approved_ALL | only accept "[ ]" "[X]"                                |
+</span>
+Note: <span class="org-verbatim">*_ALL</span> properties are meta-properties, defining rules on how to
+use the properties themselves.
+
+When you're in a field of the column, you can define all the possible
+values for the associated property by pressing `a': it will prompt the
+current set of allowed values and you will be able to edit it.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Complete example with three items in the subtree
+</span>
+Here is a example on how the column view affect the display of an entry
+and its subtree.  Take it and test it.
+
+<span class="org-code">: ** My project 
+:    :PROPERTIES:
+:    :COLUMNS:  %20ITEM %9Approved(Approved?){X} %Owner %11Status %10Time_Spent{:}
+:    :Owner_ALL:    Tammy Mark Karl Lisa Don
+:    :Status_ALL:   "In progress" "Not started yet" "Finished" ""
+:    :Approved_ALL: "[ ]" "[X]"
+:    :END:
+: 
+: *** Item 1
+:     :PROPERTIES:
+:     :Owner:    Tammy
+:     :Time_spent:   1:45
+:     :Status:   Finished
+:     :END:
+: 
+: *** Item 2
+:     :PROPERTIES:
+:     :Owner:    Tammy
+:     :Status:   In progress
+:     :Time_spent:   0:15
+:     :END:
+: 
+: *** Item 3
+:     :PROPERTIES:
+:     :Owner:    Lisa
+:     :Status:   Not started yet
+:     :Approved: [X]
+:     :END:
+</span> 
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Editing properties from the column view
+</span>
+So far, so good.  But one great thing about the column view is that it
+lets you access and edit any property very quickly.
+
+See this:
+
+<span class="org-code">: ** My project 
+:    :PROPERTIES:
+:    :COLUMNS:  %20ITEM %10Approved(Approved?){X} %Owner %11Status %10Time_Spent{:}
+:    :Owner_ALL:    Tammy Mark Karl Lisa Don
+:    :Status_ALL:   "In progress" "Not started yet" "Finished" ""
+:    :Approved_ALL: "[ ]" "[X]"
+:    :END:
+</span>
+Use <span class="org-verbatim">v</span> to display the field value in the minibuffer.
+
+Use <span class="org-verbatim">e</span> to interactively select/edit the value.
+
+Use <span class="org-verbatim">S-left/right</span> to cycle through the allowed values in a field.
+
+Use <span class="org-verbatim">a</span> to edit the allowed values for this property.
+
+Nice, isn't it?
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Conclusion: more to come
+</span>
+Okay, that's all for today. But let me drop two last hints to let you
+explore column views further:
+
+<span class="org-list-dt">1.</span> You can use the column view and cycle through visibility.
+<span class="org-list-dt">2.</span> The column view also works in agenda buffers.
+
+I guess this is already suggestive enough...
+
+Enjoy!
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/">https://orgmode.org/</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/org.html#Column-View">https://orgmode.org/org.html#Column-View</a></span>
+
+
+</pre>
+  </body>
+</html>

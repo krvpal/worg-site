@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The New Org-mode Exporter Framework</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="John Henderson" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../ox-overview.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">The New Org-mode Exporter Framework</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgda2d5b9">Introduction</a></li>
+<li><a href="#org7764391">List of Org-mode exporters</a></li>
+<li><a href="#orgcc016d6">General Documentation</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgda2d5b9" class="outline-2">
+<h2 id="orgda2d5b9">Introduction</h2>
+<div class="outline-text-2" id="text-orgda2d5b9">
+<p>
+As of release 8.0, Org-mode has transitioned to a new export framework, authored
+primarily (<i>entirely?</i>) by Nicolas Goaziou&#x2026;
+</p>
+
+<pre class="example">
+
+Perhaps this could be filled in with some of the technical reasons and advantages
+of the new exporter by Nicolas or someone else familiar with with it's inner workings?
+
+</pre>
+
+<p>
+For instructions on how to upgrade from the previous Org-mode exporter, see
+<a href="../org-8.0.html">the upgrade guide</a>.
+</p>
+
+<p>
+Nicolas&rsquo; official announcement of the exporter may be viewed at the <a href="https://orgmode.org/list/876229nrxf.fsf@gmail.com">Org-mode mailing list
+post</a>. This document presents an overview of features, as well as a list of currently
+supported exporter backends. <a href="https://orgmode.org/manual/Exporting.html#Exporting">Exporting</a> and <a href="https://orgmode.org/manual/Publishing.html#Publishing">publishing</a> are also documented in the <a href="https://orgmode.org/manual/">Org-mode
+manual</a>. See <a href="ox-docstrings.html">ox-docstrings</a> and <a href="org-element-docstrings.html">org-element-docstrings</a> for the extracted
+docstrings from these two core libraries of the new Org-mode exporter, i.e.
+for detailled technical information about the exporter framework.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7764391" class="outline-2">
+<h2 id="org7764391">List of Org-mode exporters</h2>
+<div class="outline-text-2" id="text-org7764391">
+<p>
+Please find below a list of current Org-mode exporters, the location of the backend elisp
+file (relative to downloaded Org-mode installation directory, <code>org</code>) and links Worg and
+Org-mode manual documentation.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Name</b></th>
+<th scope="col" class="org-left"><b>Exporter location</b></th>
+<th scope="col" class="org-left"><b>Worg Tutorial</b></th>
+<th scope="col" class="org-left"><b>Org-mode Manual</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">ASCII</td>
+<td class="org-left"><code>./lisp/ox-ascii.el</code></td>
+<td class="org-left">ox-ascii</td>
+<td class="org-left"><a href="https://orgmode.org/manual/ASCII_002fLatin_002d1_002fUTF_002d8-export.html#ASCII_002fLatin_002d1_002fUTF_002d8-export">ASCII/Latin-1/UTF-8 export</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://bitbucket.org/rivanvx/beamer/wiki/Home">Beamer</a></td>
+<td class="org-left"><code>./lisp/ox-beamer.el</code></td>
+<td class="org-left"><a href="beamer/ox-beamer.html">ox-beamer</a></td>
+<td class="org-left"><a href="https://orgmode.org/manual/Beamer-export.html#Beamer-export">Beamer class export</a></td>
+</tr>
+
+<tr>
+<td class="org-left">HTML</td>
+<td class="org-left"><code>./lisp/ox-html.el</code></td>
+<td class="org-left">ox-html</td>
+<td class="org-left"><a href="https://orgmode.org/manual/HTML-export.html#HTML-export">HTML export</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a></td>
+<td class="org-left"><code>./lisp/ox-icalandar.el</code></td>
+<td class="org-left">ox-icalendar</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://www.latex-project.org/">LaTeX</a></td>
+<td class="org-left"><code>./lisp/ox-latex.el</code></td>
+<td class="org-left">ox-latex</td>
+<td class="org-left"><a href="https://orgmode.org/manual/LaTeX-export.html#LaTeX-export">LaTeX export</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://manpages.bsd.lv/history.html">Man</a></td>
+<td class="org-left"><code>./lisp/ox-man.el</code></td>
+<td class="org-left">ox-man</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://daringfireball.net/projects/markdown/">Markdown</a></td>
+<td class="org-left"><code>./lisp/ox-md.el</code></td>
+<td class="org-left">ox-md</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://opendocumentformat.org/">ODT</a></td>
+<td class="org-left"><code>./lisp/ox-odt.el</code></td>
+<td class="org-left">ox-odt</td>
+<td class="org-left"><a href="https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export">OpenDocument Text export</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://orgmode.org/manual/Publishing.html">Publishing</a></td>
+<td class="org-left"><code>./lisp/ox-publish.el</code></td>
+<td class="org-left">ox-publish</td>
+<td class="org-left"><a href="https://orgmode.org/manual/Publishing.html#Publishing">Publishing</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://www.gnu.org/software/texinfo/">Texinfo</a></td>
+<td class="org-left"><code>./lisp/ox-texinfo.el</code></td>
+<td class="org-left">ox-texinfo</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="http://www.atlassian.com/software/confluence/overview/team-collaboration-software">Confluence</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-confluence.el</code></td>
+<td class="org-left">ox-confluence</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://imakewebthings.com/deck.js/">Deck.js</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-deck.el</code></td>
+<td class="org-left">ox-deck</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">Freemind</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-freemind.el</code></td>
+<td class="org-left">ox-freemind</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://www.gnu.org/software/groff/">Groff</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-groff.el</code></td>
+<td class="org-left">ox-groff</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://www.ctan.org/pkg/koma-script">Koma Scrlttr2</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-koma-letter.el</code></td>
+<td class="org-left">ox-koma-letter</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://www.rssboard.org/rss-specification">RSS</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-rss.el</code></td>
+<td class="org-left">ox-rss</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://meyerweb.com/eric/tools/s5/">S5</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-s5.el</code></td>
+<td class="org-left">ox-s5</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://www.taskjuggler.org/">Taskjuggler</a></td>
+<td class="org-left"><code>./contrib/lisp/ox-taskjuggler.el</code></td>
+<td class="org-left"><a href="taskjuggler/ox-taskjuggler.html">ox-taskjuggler</a></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="http://www.docbook.org/">DocBook</a></td>
+<td class="org-left">(1)</td>
+<td class="org-left">-</td>
+<td class="org-left">-</td>
+</tr>
+</tbody>
+</table>
+
+<ul class="org-ul">
+<li>(1) DocBook export, available in previous Org-mode versions, has not currently been ported
+to the new exporter, however the new <code>ox-texinfo</code> backend can generate DocBook
+format. Once <code>file.texi</code> is created via <code>ox-texinfo</code>, simply execute:</li>
+</ul>
+
+<pre class="example">
+makeinfo --docbook file.texi
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgcc016d6" class="outline-2">
+<h2 id="orgcc016d6">General Documentation</h2>
+<div class="outline-text-2" id="text-orgcc016d6">
+<p>
+<i>This page is in progress. Please be patient as it is updated.</i>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: John Henderson</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

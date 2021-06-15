@@ -1,0 +1,1097 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>lang-compat.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .custom {
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Babel: Language Compatability
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:3 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">ianxm at jhu dot edu
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+HTML_LINK_UP:  index.html</span>
+<span class="org-meta-line">#+HTML_HEAD_EXTRA:      &lt;style type="text/css"&gt;table, th, td { border: 1px solid; }&lt;/style&gt;</span>
+<span class="org-meta-line">#+HTML_HEAD_EXTRA:      &lt;style type="text/css"&gt;table { border-collapse: collapse; }&lt;/style&gt;</span>
+<span class="org-meta-line">#+HTML_HEAD_EXTRA:      &lt;style type="text/css"&gt;td { padding: 8px; }&lt;/style&gt;</span>
+<span class="org-meta-line">#+HTML_HEAD_EXTRA:      &lt;style type="text/css"&gt;th { background-color: </span><span class="org-meta-line"><span class="org-tag">#eee;</span></span><span class="org-meta-line"> }&lt;/style&gt;</span>
+<span class="org-meta-line">#+PROPERTY: header-args:python :python python3</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Overview
+</span>
+This page looks at how consistent various languages are in babel.  The
+goal is to document inconsistencies so they can be resolved or at
+least better understood.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support for Common Headers
+</span><span class="org-table">| language | :results value | :results output | default :results | :prologue / :epilogue |</span>
+<span class="org-table">|----------+----------------+-----------------+------------------+-----------------------|</span>
+<span class="org-table">| C        | no             | yes             | output           | yes                   |</span>
+<span class="org-table">| java     | yes            | yes             | output           | no                    |</span>
+<span class="org-table">| python   | yes            | yes             | value            | yes                   |</span>
+<span class="org-table">| elisp    | yes            | yes             | value            | yes                   |</span>
+<span class="org-table">| shell    | yes            | yes             | output           | yes                   |</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Default Behaviors
+</span><span class="org-table">| language | write source files to |</span>
+<span class="org-table">|----------+-----------------------|</span>
+<span class="org-table">| C        | tempdir               |</span>
+<span class="org-table">| java     | :dir else tempdir     |</span>
+<span class="org-table">| python   | tempdir               |</span>
+<span class="org-table">| elisp    | no tempfiles          |</span>
+<span class="org-table">| shell    | no tempfiles          |</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Variables
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Summary
+</span><span class="org-table">| language | int      | double   | string   | singleton list | int list        | double list    | string list | int table | double table | string table |</span>
+<span class="org-table">|----------+----------+----------+----------+----------------+-----------------+----------------+-------------+-----------+--------------+--------------|</span>
+<span class="org-table">| C        | error    | error    | error    | error          | 2d string list  | 2d string list | 2d list     | expected  | expected     | expected     |</span>
+<span class="org-table">| java     | error    | error    | error    | error          | 2d string list  | 2d string list | 2d list     | expected  | expected     | expected     |</span>
+<span class="org-table">| python   | </span><span class="org-link"><a href="int-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="double-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="string-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="single-variant1">variant1</a></span><span class="org-table">       | 2d string list  | 2d string list | 2d list     | expected  | expected     | expected     |</span>
+<span class="org-table">| elisp    | </span><span class="org-link"><a href="int-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="double-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="string-item-variant1">variant1</a></span><span class="org-table"> | error          | 2d string list  | 2d string list | 2d list     | expected  | expected     | expected     |</span>
+<span class="org-table">| shell    | </span><span class="org-link"><a href="int-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="double-item-variant1">variant1</a></span><span class="org-table"> | </span><span class="org-link"><a href="string-item-variant1">variant1</a></span><span class="org-table"> | expected       | list of strings | n/a            | expected    | n/a       | n/a          | n/a          |</span>
+
+For tables, values are passed to code blocks in two dimensional arrays
+or lists with item types (ints, doubles, or strings) that match the
+data.  Lists are passed as two dimensional arrays as if they are
+tables with one column of data, and all values are passed as strings.
+Only <span class="org-verbatim">shell</span> passes a list as a single dimentional array.
+
+More details on how this can cause confusion in <span class="org-link"><a href="*Round Trip Between Source Blocks">Round Trip</a></span>.
+
+Shell doesn't support doubles or multidimensional arrays, so those
+cases don't apply.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Callouts
+</span><span class="org-list-dt">1.</span> should ints and doubles be passed as strings?
+<span class="org-list-dt">2.</span> should lists be passed as 2d lists tables?
+<span class="org-list-dt">3.</span> should <span class="org-verbatim">:results output</span> require <span class="org-verbatim">raw</span> to produce an org list?
+<span class="org-list-dt">4.</span> should items include the trailing endline?
+<span class="org-list-dt">5.</span> why aren't singleton lists passed as lists?
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Single Item
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> int
+</span>The following examples use this data:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: int-item-data
+10
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each example just outputs the given number surrounded in single
+quotes.  This is the expected response:
+
+<span class="org-meta-line">#+name: int-item-expected</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: '10'
+</span><span class="org-block-end-line">#+end_example
+</span>
+Some languages return this instead:
+
+<span class="org-meta-line">#+name: int-item-variant1</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: '10
+: '
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var item=int-item-data
+printf("'%s'", item);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This does not compile because the variable value includes the trailing
+endline and C doesn't allow multiline string literals.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results output :var item=int-item-data
+System.out.println(String.format("'%s'", item));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This does not compile because the variable value includes the trailing
+endline and java doesn't allow multiline string literals.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results output :var item=int-item-data
+print("'{}'".format(item))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results output :var item=int-item-data
+(princ (format "'%s'" item))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :results output :var item=int-item-data
+echo "'$item'"
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> double
+</span>The following examples use this data:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: double-item-data
+10.1
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each example just outputs the given number surrounded in single
+quotes.  This is the expected response:
+
+<span class="org-meta-line">#+name: double-item-expected</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: '10.1'
+</span><span class="org-block-end-line">#+end_example
+</span>
+Some languages return this instead:
+
+<span class="org-meta-line">#+name: double-item-variant1</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: '10.1
+: '
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var item=double-item-data
+printf("'%s'", item);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This does not compile because the variable value includes the trailing
+endline and C doesn't allow multiline string literals.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results output :var item=double-item-data
+System.out.println(String.format("'%s'", item));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This does not compile because the variable value includes the trailing
+endline and java doesn't allow multiline string literals.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results output :var item=double-item-data
+print("'{}'".format(item))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results output :var item=double-item-data
+(princ (format "'%s'" item))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :results output :var item=double-item-data
+echo "'$item'"
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> string
+</span>The following examples use this data:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: string-item-data
+ten
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each example just outputs the given number surrounded in single
+quotes.  This is the expected response:
+
+<span class="org-meta-line">#+name: string-item-expected</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: 'ten'
+</span><span class="org-block-end-line">#+end_example
+</span>
+Some languages return this instead:
+
+<span class="org-meta-line">#+name: string-item-variant1</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: 'ten
+: '
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var item=string-item-data
+printf("'%s'", item);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This does not compile because the variable value includes the trailing
+endline and C doesn't allow multiline string literals.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results output :var item=string-item-data
+System.out.println(String.format("'%s'", item));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This does not compile because the variable value includes the trailing
+endline and java doesn't allow multiline string literals.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results output :var item=string-item-data
+print("'{}'".format(item))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results output :var item=string-item-data
+(princ (format "'%s'" item))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :results output :var item=string-item-data
+echo "'$item'"
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> List
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> List of ints
+</span>The following examples use this data:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: int-list-data
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 1
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 2
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 3
+</span><span class="org-block-end-line">#+end_example
+</span>
+All examples compute the sum of the numbers in the list.
+Output should look like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: 6
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var items=int-list-data
+int sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    sum += atoi(items[ii][0]);
+}
+printf("%d", sum);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value :var items=int-list-data
+import java.util.stream.Collectors;
+return items.stream()
+    .collect(Collectors.summingInt(x -&gt; Integer.parseInt(x.get(0))));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :var items=int-list-data
+return sum([int(x[0]) for x in items])
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :var items=int-list-data
+(apply '+ (mapcar (lambda (x) (string-to-number (car x)))
+                  items))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :var items=int-list-data
+sum=0
+for item in $items; do
+    sum=$(($sum + $item))
+done
+echo $sum
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> List of doubles
+</span>The following examples use this data
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: double-list-data
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 1.1
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 2.2
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 3.3
+</span><span class="org-block-end-line">#+end_example
+</span>
+All examples compute the sum of the numbers in the list.
+Output should look like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: 6.6
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :var items=double-list-data :includes &lt;stdlib.h&gt;
+double sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    sum += atof(items[ii][0]);
+}
+printf("%lf", sum);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value :var items=double-list-data
+import java.util.stream.Collectors;
+return items.stream()
+    .collect(Collectors.summingDouble(x -&gt; Double.parseDouble(x.get(0))));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :var items=double-list-data
+return sum([float(x[0]) for x in items])
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :var items=double-list-data
+(apply '+ (mapcar (lambda (x) (string-to-number (car x)))
+                  items))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span>
+Shell doesn't support doubles.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> List of strings
+</span>The following examples use this data:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: string-list-data
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> a
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> b
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> c
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each example conncatenates the input into a space delimited list.
+Output looks like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: a b c
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var items=string-list-data :include &lt;string.h&gt;
+char ret[8];
+memset(ret, 0, 8);
+for (int ii=0; ii&lt;items_rows; ii++) {
+    strcat(ret, " ");
+    strcat(ret, items[ii][0]);
+}
+printf("%s", ret);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value :var items=string-list-data
+import java.util.stream.Collectors;
+return items.stream()
+    .map(x -&gt; x.get(0))
+    .collect(Collectors.joining(" "));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :var items=string-list-data
+return " ".join([x[0] for x in items])
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :var items=string-list-data
+(mapconcat </span><span class="custom"><span class="org-tag">#'car</span></span><span class="custom"> items " ")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :var items=string-list-data
+ret=""
+for item in $items; do
+    ret="$ret $item"
+done
+echo $ret
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Singleton List
+</span>There is inconsistent behavior between lists of one vs many items.
+See <span class="org-link"><a href="*Trimming a List to One Item">Trimming a List to One Item</a></span> for details.
+
+The following examples use this data:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: single-list-data
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> one
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each source block just iterates over the input list, printing each
+value.  Expected output is:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: one
+</span><span class="org-block-end-line">#+end_example
+</span>
+Some languages give this result:
+
+<span class="org-meta-line">#+name: single-variant1</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: o
+: n
+: e
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var items=single-list-data[,0] :include &lt;string.h&gt;
+for (int ii=0; ii&lt;items_cols; ii++) {
+    printf("%s\n", items[ii]);
+}
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This doesn't compile since <span class="org-verbatim">items</span> is passed as a <span class="org-verbatim">char*</span> instead of
+<span class="org-verbatim">char*[]</span>.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :var items=single-list-data[,0]
+for (String item : items)
+   System.out.println(item);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This doesn't compile since <span class="org-verbatim">items</span> is passed as a <span class="org-verbatim">String</span> instead of
+<span class="org-verbatim">String[]</span>.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results output :var items=single-list-data[,0]
+for item in items:
+    print(item)
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results output :var items=single-list-data[,0]
+(dolist (item items)
+  (princ (format "%s\n" item)))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This fails with a type error because <span class="org-verbatim">items</span> is passed as a string
+instead of a list.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :var items=single-list-data[,0]
+for item in $items; do
+    echo $item
+done
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Table of ints
+</span>The following source blocks operate on this table:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: int-table-data
+| 1 | 2 |
+| 3 | 4 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each source block sums the values found in the table.  The output show
+look like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: 10
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :var items=int-table-data
+int sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    for (int jj=0; jj&lt;items_cols; jj++) {
+        sum += items[ii][jj];
+    }
+ }
+printf("%d", sum);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value :var items=int-table-data
+int sum = 0;
+for (List&lt;Integer&gt; row : items) {
+    for (Integer col : row) {
+        sum += col;
+    }
+}
+return sum;
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :var items=int-table-data
+sum = 0
+for row in items:
+    for col in row:
+        sum += col
+return sum
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :var items=int-table-data
+(apply '+ (mapcar (lambda (x) (apply '+ x)) items))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span>The table becomes an associated list instead of a 2d array.  Bash
+doesn't support multidimensional arrays.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Table of doubles
+</span>The following source blocks operate on this table:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: double-table-data
+| 1.1 | 2.3 |
+| 3.1 | 4.3 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+Each source block sums the values found in the table.  The output show
+look like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: 10.8
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :var items=double-table-data
+double sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    for (int jj=0; jj&lt;items_cols; jj++) {
+        sum += items[ii][jj];
+    }
+ }
+printf("%lf", sum);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value :var items=double-table-data
+double sum = 0;
+for (List&lt;Double&gt; row : items) {
+    for (Double col : row) {
+        sum += col;
+    }
+}
+return sum;
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :var items=double-table-data
+sum = 0
+for row in items:
+    for col in row:
+        sum += col
+return sum
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :var items=double-table-data
+(apply '+ (mapcar (lambda (x) (apply '+ x)) items))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span>The table becomes an associated list instead of a 2d array.  Bash
+doesn't support multidimensional arrays.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Table of strings
+</span>The following source blocks operate on this table:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: string-table-data
+| a | b |
+| c | d |
+</span><span class="org-block-end-line">#+end_example
+</span>
+concatenates the strings found in the table. The output show
+look like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: a b c d
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output :var items=string-table-data :includes &lt;string.h&gt;
+char ret[8];
+memset(ret, 0, 8);
+for (int ii=0; ii&lt;items_rows; ii++) {
+    for (int jj=0; jj&lt;items_cols; jj++) {
+        strcat(ret, " ");
+        strcat(ret, items[ii][jj]);
+    }
+ }
+printf("%s", ret);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value :var items=string-table-data
+import java.util.stream.Collectors;
+return items.stream()
+    .map(x -&gt; String.join(" ", x))
+    .collect(Collectors.joining(" "));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :var items=string-table-data
+return " ".join([" ".join(x) for x in items])
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :var items=string-table-data
+(mapconcat (lambda (x) (mapconcat </span><span class="custom"><span class="org-tag">#'identity</span></span><span class="custom"> x " "))
+           items " ")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span>The table becomes an associated list instead of a 2d array.  Bash
+doesn't support multidimensional arrays.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Results
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Summary
+</span><span class="org-table">| language | return list | output list       | return table | output table |</span>
+<span class="org-table">|----------+-------------+-------------------+--------------+--------------|</span>
+<span class="org-table">| C        | no support  | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table"> (w/ raw) | no support   | </span><span class="org-link"><a href="table-expected">expected</a></span><span class="org-table">     |</span>
+<span class="org-table">| java     | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table">    | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table"> (w/ raw) | </span><span class="org-link"><a href="table-expected">expected</a></span><span class="org-table">     | </span><span class="org-link"><a href="table-variant1">variant1</a></span><span class="org-table">     |</span>
+<span class="org-table">| python   | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table">    | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table"> (w/ raw) | </span><span class="org-link"><a href="table-expected">expected</a></span><span class="org-table">     | </span><span class="org-link"><a href="table-variant1">variant1</a></span><span class="org-table">     |</span>
+<span class="org-table">| elisp    | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table">    | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table"> (w/ raw) | </span><span class="org-link"><a href="table-expected">expected</a></span><span class="org-table">     | </span><span class="org-link"><a href="table-variant1">variant1</a></span><span class="org-table">     |</span>
+<span class="org-table">| shell    | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table">    | </span><span class="org-link"><a href="list-expected">expected</a></span><span class="org-table"> (w/ raw) | </span><span class="org-link"><a href="table-expected">expected</a></span><span class="org-table">     | </span><span class="org-link"><a href="table-expected">expected</a></span><span class="org-table">     |</span>
+
+There is consistent behavior across languages for <span class="org-verbatim">:results value</span> but
+there are some inconsistencies with <span class="org-verbatim">:results output</span>.
+
+My expectation is that writing rows of comma separated values should
+result in a table, but in some cases the <span class="org-verbatim">:results raw</span> is required
+for this to work and in other cases that is not enough.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Callouts
+</span><span class="org-list-dt">1.</span> Can C support <span class="org-verbatim">:results value</span>?
+<span class="org-list-dt">2.</span> should <span class="org-verbatim">:results output</span> require <span class="org-verbatim">raw</span> and write vertical bars to
+   produce an org table?
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> List
+</span>
+When we return a list from a source code block, we want it to look
+like an org list.
+
+<span class="org-meta-line">#+name: list-expected</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> one
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> two
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> :results value
+</span>
+The following examples use <span class="org-verbatim">:results value list</span>.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span>C has no support for <span class="org-verbatim">:results value</span>.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value list
+  String[] ret = {"one", "two"};
+  return ret;
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :python python3 :results value list
+return ("one", "two")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results value list
+'("one" "two")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> :results output
+</span>
+The following examples use <span class="org-verbatim">:results output raw list</span>.  These have to
+use <span class="org-verbatim">raw</span> in order to work.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output raw list
+printf("one\n");
+printf("two\n");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results output raw list
+System.out.println("one");
+System.out.println("two");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :python python3 :results output raw list
+print("one")
+print("two")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results output raw list
+  (princ "one\n")
+  (princ "two")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :results output raw list
+echo "one"
+echo "two"
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table
+</span>
+When we return a table from a source code block, we want it to look
+like an org table.
+
+<span class="org-meta-line">#+name: table-expected</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+| one   | two  |
+| three | four |
+</span><span class="org-block-end-line">#+end_example
+</span>
+Some languages return this instead.
+
+<span class="org-meta-line">#+name: table-variant1</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: one, two
+: three, four
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> :results value
+</span>
+The following examples use <span class="org-verbatim">:results value table</span>.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span>C has no support for <span class="org-verbatim">:results value</span>.
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results value table
+  String [][] ret = {{"one","two"}, {"three", "four"}};
+  return ret;
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :python python3 :results value table
+return (("one", "two"), ("three", "four"))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results value table
+'(("one" "two") ("three" "four"))
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> :results output
+</span>
+The following examples use <span class="org-verbatim">:results output table</span>.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> C
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src C :results output table
+printf("one, two\n");
+printf("three, four\n");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> java
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results output table
+System.out.println("one, two");
+System.out.println("three, four");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+that fails but this "raw table" output works:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src java :results output raw table
+System.out.println("|one| two");
+System.out.println("|three| four");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> python
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :python python3 :results output table
+  print("one, two")
+  print("three, four")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+doesn't work but raw table works
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> elisp
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src elisp :results output table
+  (princ "one, two\n")
+  (princ "three, four")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+doesn't work but raw table works
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> shell
+</span><span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src sh :results output table
+echo "one, two\nthree, four"
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Round Trip Between Source Blocks
+</span>If a source block (<span class="org-verbatim">ret-list-source</span>) returns a single dimensional
+array or list, it becomes an org list (<span class="org-verbatim">ret-list-result</span>).
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: ret-list-source
+#+begin_src python :results list
+return [1,2,3]
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: ret-list-result
+#+RESULTS: ret-list-source
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 1
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 2
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 3
+</span><span class="org-block-end-line">#+end_example
+</span>
+Then if another source block (<span class="org-verbatim">read-list-result</span>) accepts that list
+from the org buffer, it becomes a two dimensional table with one
+column.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: read-list-result
+#+begin_src python :var a=ret-list-result :results list
+return a
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS: read-list-result
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> ("1")
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> ("2")
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> ("3")
+</span><span class="org-block-end-line">#+end_example
+</span>
+But if a source block accepts the output directly from the
+<span class="org-verbatim">ret-list-source</span>, the input will be a single dimensional array.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: read-list-direct
+#+begin_src python :var a=ret-list-source :results list
+return a
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS: read-list-direct
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 1
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 2
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 3
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Trimming a List to One Item
+</span>If a list contains more than one item, as in <span class="org-verbatim">two-list-data</span>, source
+blocks can access its items as a single dimensional list by indexing.
+Given the following data and source block:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: two-list-data
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> one
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> two
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results output :var items=one-list-data[,0]
+for item in items:
+    print (item)
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+The result, as expected, is:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: one
+: two
+</span><span class="org-block-end-line">#+end_example
+</span>
+But if the list only contains one item, as in <span class="org-verbatim">one-list-data</span>, it is
+no longer passed to the source block as a list.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+name: one-list-data
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> one
+</span><span class="org-block-end-line">#+end_example
+</span>
+Execution of the same source block as used above, but pointing at
+<span class="org-verbatim">one-list-data</span>, results in:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS:
+: o
+: n
+: e
+</span><span class="org-block-end-line">#+end_example
+</span>
+This can cause a problem if you trim your data to a single item in
+order to test a source block.  Suddenly the source block is accepting
+a different data type.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Other Resources
+</span>
+<span class="org-list-dt">-</span> <span class="error"><a href="file:~/code/elisp/worg/org-contrib/babel/header-args.org">worg header args page</a></span>
+  <span class="org-list-dt">-</span> links to <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Specific-header-arguments.html">Specific-header-arguments</a></span> which is gone
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Using-Header-Arguments.html#Using-Header-Arguments">header args in the manual</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Extracting-Source-Code.html#Header-arguments">more header args in the manual</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://org-babel.readthedocs.io/en/latest/header-args/">orgmode headers described at readthedocs</a></span>
+</pre>
+  </body>
+</html>

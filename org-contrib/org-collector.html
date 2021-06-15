@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-collector.el &#x2014; collect properties into tables</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric Schulte" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-collector.el &#x2014; collect properties into tables</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga209dd9">General</a></li>
+<li><a href="#orgca79a4d">How to use it</a>
+<ul>
+<li><a href="#orgea79ff0">Quick Examples</a>
+<ul>
+<li><a href="#orgf6473b9">Simple Example</a></li>
+<li><a href="#orgad2b29b">More Complex Example</a></li>
+</ul>
+</li>
+<li><a href="#orga7217f7">Loading it (No surprises here)</a></li>
+</ul>
+</li>
+<li><a href="#org6365951">Credits</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga209dd9" class="outline-2">
+<h2 id="orga209dd9">General</h2>
+<div class="outline-text-2" id="text-orga209dd9">
+<p>
+<code>org-collector</code> collects headline properties into tables with optional
+pre-processing.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgca79a4d" class="outline-2">
+<h2 id="orgca79a4d">How to use it</h2>
+<div class="outline-text-2" id="text-orgca79a4d">
+</div>
+<div id="outline-container-orgea79ff0" class="outline-3">
+<h3 id="orgea79ff0">Quick Examples</h3>
+<div class="outline-text-3" id="text-orgea79ff0">
+<p>
+As a quick demonstration of use of <code>org-collector</code> first <a href="#orga7217f7">load it</a> as
+described below.  Then download this <a href="https://orgmode.org/worg/sources/org-contrib/org-collector-example.org">example file</a>, which contains the
+following headlines/properties.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-collector/dec-spending.png" alt="dec-spending.png" />
+</p>
+</div>
+
+<p>
+This property information can then be collected into tables.
+</p>
+</div>
+
+<div id="outline-container-orgf6473b9" class="outline-4">
+<h4 id="orgf6473b9">Simple Example</h4>
+<div class="outline-text-4" id="text-orgf6473b9">
+<p>
+Lets look at the following org-collector block.
+</p>
+
+<pre class="example">
+#+BEGIN: propview :id "december" :conds ((string= SPENDTYPE "food")) :cols (ITEM AMOUNT)
+#+END:
+</pre>
+
+
+<p>
+To evaluate this block press <code>\C-c\C-c</code> with your cursor on the
+<code>#+BEGIN</code> line of the block.  Evaluation will result in the following
+</p>
+
+<pre class="example">
+#+BEGIN: propview :id "december" :conds ((string= SPENDTYPE "food")) :cols (ITEM AMOUNT)
+| "ITEM"                           | "amount" |
+|----------------------------------+----------|
+| "Grocery Store [2008-12-01 Mon]" |    56.77 |
+| "Restaurant [2008-12-08 Mon]"    |    30.67 |
+|----------------------------------+----------|
+|                                  |          |
+#+END:
+</pre>
+
+
+<p>
+Lets look at the arguments one by one.
+</p>
+
+<dl class="org-dl">
+<dt>:id &ldquo;december&rdquo;</dt><dd>The <code>:id</code> argument has the effect of limiting the search to headers
+under the header with the id of &ldquo;december&rdquo;.</dd>
+<dt>:conds ((string= SPENDTYPE &ldquo;food&rdquo;))</dt><dd>The <code>:conds</code> argument accepts a list of e-lisp expressions.  Only
+headlines which match all of these expressions will be displayed in
+the table.  The names of properties of a headline, in upper cases,
+can be used as variables in the expressions.  This particular
+expression only returns true when the <code>SPENDTYPE</code> property of a
+headline is equal to &ldquo;food&rdquo;.</dd>
+<dt>:cols (ITEM AMOUNT)</dt><dd>The <code>:cols</code> property controls what each row of the table should look
+like.  In this case we are showing <code>ITEM</code> which shows the actual
+text of the headline as well as <code>AMOUNT</code> which show the value of the
+<code>AMOUNT</code> property of each headline.</dd>
+</dl>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgad2b29b" class="outline-4">
+<h4 id="orgad2b29b">More Complex Example</h4>
+<div class="outline-text-4" id="text-orgad2b29b">
+<p>
+This example demonstrates a couple of new headline arguments for
+<code>org-collector</code>.
+</p>
+
+<pre class="example">
+#+BEGIN: propview :cols (ITEM (+ 400 AMOUNT)) :scope tree :match "example"
+| "ITEM"                                                                          | "(+ 400 AMOUNT)" |
+|---------------------------------------------------------------------------------+------------------|
+| "December Spending                                                   :example:" |                0 |
+| "Week One"                                                                      |                0 |
+| "Grocery Store [2008-12-01 Mon]"                                                |           456.77 |
+| "Athletic club [2008-12-02 Tue]"                                                |            475.0 |
+| "Week Two "                                                                     |                0 |
+| "Restaurant [2008-12-08 Mon]"                                                   |           430.67 |
+|---------------------------------------------------------------------------------+------------------|
+|                                                                                 |                  |
+#+END:
+</pre>
+
+
+<dl class="org-dl">
+<dt>:cols (ITEM (+ 400 AMOUNT))</dt><dd>Notice that the <code>:cols</code> list in this example contains an elisp
+expression for one of the column values.  It is possible to run
+arbitrary elisp over the header properties the results of which will
+be used when building the resulting table.</dd>
+<dt>:scope &ldquo;tree&rdquo; :match &ldquo;example&rdquo;</dt><dd>The <code>:scope tree</code> and <code>:match</code> header arguments limits the included
+headlines to those which have a tag matching &ldquo;example&rdquo; or their
+descendents.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga7217f7" class="outline-3">
+<h3 id="orga7217f7">Loading it (No surprises here)</h3>
+<div class="outline-text-3" id="text-orga7217f7">
+<p>
+The easiest way is by
+</p>
+
+<pre class="example">
+M-x customize-variables RET org-modules
+</pre>
+
+
+<p>
+Check the line for collector.  This will cause it to be loaded every
+time you start org-mode.
+</p>
+
+<p>
+You&rsquo;ll still have to load it manually the first time.
+</p>
+
+<p>
+Of course, you can also just try it out by loading it manually.
+</p>
+
+<p>
+If you prefer to manually customize your emacs then make sure that the
+path to org&rsquo;s contrib directory is in your load-path and add the
+following to your <code>.emacs</code>.
+</p>
+
+<pre class="example">
+(require 'org-collector)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6365951" class="outline-2">
+<h2 id="org6365951">Credits</h2>
+<div class="outline-text-2" id="text-org6365951">
+<p>
+<code>org-collector</code> was developed by Eric Schulte with much-appreciated help
+from Carsten Dominik.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Eric Schulte</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

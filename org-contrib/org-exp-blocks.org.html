@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-exp-blocks.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .negation-char {
+        /* font-lock-negation-char-face */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .regexp-grouping-backslash {
+        /* font-lock-regexp-grouping-backslash */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .regexp-grouping-construct {
+        /* font-lock-regexp-grouping-construct */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-exp-blocks.el --- pre-process blocks when exporting org files
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:nil toc:2</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General 
+</span>
+<span class="org-verbatim">org-exp-blocks</span> can be used to pre-process blocks when exporting org
+files.  An extensible framework for block exportation is provided, as
+well as block exporters for <span class="kc-org-link-url"><a href="http://ditaa.sourceforge.net/">ditaa</a></span>, <span class="kc-org-link-url"><a href="http://www.graphviz.org/">dot</a></span>, comments.
+
+Note: the ability to evaluate <span class="kc-org-link-url"><a href="http://www.r-project.org/">R</a></span> blocks with org-exp-blocks has been
+removed. Please use <span class="org-link"><a href="file:babel/index.org">org-babel</a></span> for this purpose.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to use it
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Quick Examples
+</span>
+To use <span class="org-verbatim">org-exp-blocks</span> first <span class="org-link"><a href="Loading it (No surprises here)">load it</a></span> as described below.  Then try
+one of the following.
+
+<span class="org-superstar-leading">****</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> ditaa
+</span>
+<span class="kc-org-link-url"><a href="http://ditaa.sourceforge.net/">ditaa</a></span> is a tool for converting ASCII images into actual images.  I
+believe ditaa is distributed with newer versions of org-mode.  To make
+sure that you have ditaa installed check the value of
+`org-ditaa-jar-path', it should point to a <span class="org-verbatim">ditaa.jar</span> file.  Once
+ditaa is installed and the `org-ditaa-jar-path' variable is set
+appropriately copy the following block in an org-mode file
+
+<span class="org-code">: #+begin_ditaa blue.png -r -S
+: +---------+
+: | cBLU    |
+: |         |
+: |    +----+
+: |    |cPNK|
+: |    |    |
+: +----+----+
+: #+end_ditaa
+</span>
+Then export that file to HTML or LaTeX.  You should see an image like
+the following appear in the exported file.
+
+<span class="org-link"><a href="file:../images/org-exp-blocks/blue.png">file:../images/org-exp-blocks/blue.png</a></span>
+
+
+<span class="org-superstar-leading">****</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> dot
+</span>
+dot is a language for representing structural information as diagrams
+of abstract graphs and networks.  It is part of <span class="kc-org-link-url"><a href="http://www.graphviz.org/">Graphviz</a></span>.  To try out
+<span class="org-verbatim">org-exp-blocks</span> dot export install the <span class="org-verbatim">dot</span> shell command on your
+system, copy the following into an org-mode file
+
+<span class="org-code">: #+begin_dot dot.png -Tpng
+: digraph data_relationships {
+:   "org-mode"
+:   "org-exp-blocks"
+:   "dot"
+:   "ditaa"
+:   "HTML" [shape=Mrecord, label="{HTML|publish on the web\l}"]
+:   "LaTeX" [shape=Mrecord, label="{LaTeX|publish in PDF\l}"]
+:   "org-mode" -&gt; "org-exp-blocks"
+:   "dot" -&gt; "org-mode"
+:   "ditaa" -&gt; "org-mode"
+:   "org-exp-blocks" -&gt; "HTML"
+:   "org-exp-blocks" -&gt; LaTeX
+: }
+: #+end_dot
+</span>
+Then export that file to HTML or LaTeX.  You should see an image like
+the following appear in the exported file.
+
+<span class="org-link"><a href="file:../images/org-exp-blocks/dot.png">file:../images/org-exp-blocks/dot.png</a></span>
+
+
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Loading it (No surprises here)
+</span>The easiest way is by 
+
+<span class="whitespace-tab">        </span>M-x customize-apropos org-modules
+
+Check the line for exp-blocks.  This will cause it to be loaded every
+time you start org-mode.
+
+You'll still have to load it manually the first time.
+
+Of course, you can also just try it out by loading it manually.
+
+If you prefer to manually customize your emacs then make sure that the
+path to org's contrib directory is in your load-path and add the
+following to your <span class="org-verbatim">.emacs</span>.
+
+<span class="org-code">: (require 'org-exp-blocks)
+</span>
+
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Adding new source-code types
+</span><span class="org-verbatim">org-exp-blocks</span> is extensible.  If you would like to add a new block
+type code to <span class="org-verbatim">org-exp-blocks</span> you may do so by defining an export
+function for that block which will be called by
+`org-export-blocks-preprocess'.  Then add the block name, and the name
+of the function to the `org-export-blocks' variable.
+
+If you add a new block type, and get it working please share your
+changes with the mailing list or post them <span class="org-link"><a href="additional-block-types">here</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Credits
+</span>
+<span class="org-verbatim">org-exp-blocks</span> was developed by Eric Schulte with much-appreciated
+help from Carsten Dominik.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Additional Block Types
+</span><span class="org-tag">#</span><span class="org-target"><span class="org-tag">&lt;&lt;additional-block-types&gt;&gt;</span></span>
+
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Asymptote
+</span>
+Asymptote is a "powerful descriptive vector graphics language for
+technical drawing".  For more information see
+<span class="kc-org-link-url"><a href="http://asymptote.sourceforge.net/">http://asymptote.sourceforge.net/</a></span>.
+
+<span class="org-superstar-leading">***</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Installation
+</span>
+The following can be used to add asymptote support to
+<span class="org-verbatim">org-exp-blocks</span>.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-export-blocks
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">asy org-export-blocks-format-asy</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> org-export-blocks</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-export-blocks-format-asy</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">body </span><span class="org-block"><span class="type">&amp;rest</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Pass block BODY to the asy utility creating an image.
+Specify the path at which the image should be saved as the first
+element of headers, any additional elements of headers will be
+passed to the asy utility as command line arguments. The default
+output format is pdf, but you can specify any format supported by
+Imagemagick convert program with '-f outformat'."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"asy-formatting..."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">out-file </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> headers </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">".+\\.</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">.+</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"> out-file</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">match-string</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> out-file</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="string">"pdf"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">args </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapconcat</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">identity</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">data-file </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">make-temp-file</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org-asy"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> body </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"^</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">[</span></span><span class="org-block"><span class="string"><span class="negation-char">^</span></span></span><span class="org-block"><span class="string">:</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">:[</span></span><span class="org-block"><span class="string"><span class="negation-char">^</span></span></span><span class="org-block"><span class="string"> ]</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"> body</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                   body
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapconcat</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">x</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">substring</span></span><span class="org-block"> x </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">&gt;</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">length</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-split-string</span></span><span class="org-block"> body </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">cond</span></span><span class="org-block"> 
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> htmlp latexp</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-file</span></span><span class="org-block"> data-file </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> body</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"asy -globalwrite -f "</span></span><span class="org-block"> format </span><span class="org-block"><span class="string">" -o "</span></span><span class="org-block"> out-file </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> args </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> data-file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">shell-command</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"asy -globalwrite -f "</span></span><span class="org-block"> format </span><span class="org-block"><span class="string">" -o "</span></span><span class="org-block"> out-file </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> args </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> data-file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n<a href="file:%s">[[file:%s]]</a>\n"</span></span><span class="org-block"> out-file</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block">
+         </span><span class="org-block"><span class="string">"\n#+BEGIN_EXAMPLE\n"</span></span><span class="org-block">
+         body </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n$"</span></span><span class="org-block"> body</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="string">"#+END_EXAMPLE\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Example
+</span>Here is a simple asymptote block :
+
+<span class="org-code">: #+begin_asy out.png
+: import graph;
+: 
+: size(0,4cm);
+: 
+: real f(real t) {return 1+cos(t);}
+: 
+: path g=polargraph(f,0,2pi,operator ..)--cycle;
+: filldraw(g,pink);
+: 
+: xaxis("$x$",above=true);
+: yaxis("$y$",above=true);
+: 
+: dot("$(a,0)$",(1,0),N);
+: dot("$(2a,0)$",(2,0),N+E);
+: #+end_asy
+</span>
+The output should be <span class="org-link"><a href="file:../images/org-exp-blocks/cardioid.png">file:../images/org-exp-blocks/cardioid.png</a></span>
+
+<span class="org-superstar-leading">***</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Credit
+</span>Thanks to Nicolas Goaziou for adding support for asymptote.
+
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Dot with EPS
+</span>While dot is capable of generating pdf images directly the results are
+more pleasing when <span class="org-verbatim">dot</span> is used to generate an eps file and
+<span class="org-verbatim">epstopdf</span> is used to generate the actual pdf.
+
+The following block type takes the name of a file, and generates both
+and EPS and a PDF file at that base name.
+
+<span class="org-superstar-leading">***</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Installation
+</span>The following can be used to add <span class="org-verbatim">dot-and-eps</span> block support to
+<span class="org-verbatim">org-exp-blocks</span>.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-export-blocks-format-dot-and-eps</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">body </span><span class="org-block"><span class="type">&amp;rest</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Pass block BODY to the dot graphing utility creating an eps
+file which is then processed by eps to create a pdf.  Specify the
+path at which the final pdf image should be created as the first
+element of headers, any additional elements of headers will be
+passed to the dot utility as command line arguments.
+
+#+begin_dot_and_eps duh
+digraph test {
+a -&gt; { b c d e };
+e -&gt; { f g h i };
+};
+#+end_dot"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"dot-and-eps-formatting..."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">out-file </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> headers </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">args </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapconcat</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">identity</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> headers</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">data-file </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">make-temp-file</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org-dot"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">cond</span></span><span class="org-block">
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> htmlp latexp docbookp</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-file</span></span><span class="org-block"> data-file </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> body</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">shell-command</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"dot -Teps "</span></span><span class="org-block"> data-file </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> args </span><span class="org-block"><span class="string">" -o "</span></span><span class="org-block"> out-file </span><span class="org-block"><span class="string">".eps"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">shell-command</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"epstopdf "</span></span><span class="org-block"> out-file </span><span class="org-block"><span class="string">".eps"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n<a href="file:%s.pdf">[[file:%s.pdf]]</a>\n"</span></span><span class="org-block"> out-file</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">t </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="string">"\n#+BEGIN_EXAMPLE\n"</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> body </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n$"</span></span><span class="org-block"> body</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="string">"#+END_EXAMPLE\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-export-blocks-add-block </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">dot-and-eps org-export-blocks-format-dot-and-eps nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Example
+</span>Here is an example <span class="org-verbatim">dot-and-eps</span> block
+
+<span class="org-code">: #+begin_dot-and-eps out-w-eps
+: digraph test {
+: a -&gt; { b c d e };
+: e -&gt; { f g h i };
+: };
+: #+end_dot-and-eps
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Credit
+</span>Thanks to Russell Adams for noticing this need, and supplying the
+command lines.
+
+</pre>
+  </body>
+</html>

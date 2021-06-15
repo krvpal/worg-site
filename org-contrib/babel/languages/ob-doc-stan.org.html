@@ -1,0 +1,448 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-stan.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Stan Source Code Blocks in Org Mode
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Kyle Meyer
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">kyle[at]kyleam[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://mc-stan.org/">http://mc-stan.org/</a>"</span></span><span class="org-block">&gt;Stan&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://mc-stan.org/">http://mc-stan.org/</a>"</span></span><span class="org-block">&gt;
+      &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://mc-stan.org/images/stan_logo.png&quot;/">http://mc-stan.org/images/stan_logo.png"</a></span></span><span class="org-block"><a href="http://mc-stan.org/images/stan_logo.png&quot;/">/</a>&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+&lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[11/12]</span></span><span class="org-level-1"> </span><span class="whitespace-tab">                                   </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>
+<span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language web
+</span>    site
+<span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Other">Other</a></span> differences from supported languages
+<span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+Stan is a language used to write models for Bayesian inference.  After
+specifying the model, a number of interfaces are available to run it.
+All of these interfaces have Babel support, making it easy to feed
+them the result of the Stan block.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>
+ob-stan.el is currently available in the developmental version of Org.
+(Version 8.3.1 is the last Org release at the time of writing.)
+
+In addition the following components must be installed:
+
+<span class="org-list-dt">-</span> At least one Stan interface
+
+  Each Stan interface has specific installation instructions available
+  from Stan's <span class="kc-org-link-url"><a href="http://mc-stan.org/interfaces/">interfaces page</a></span>.
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/stan-dev/stan-mode">Stan mode</a></span>, which provides Emacs support for Stan and is available on
+  <span class="kc-org-link-url"><a href="http://melpa.org/#/stan-mode">MELPA</a></span>
+
+Activate evaluation of Stan source code blocks by adding <span class="org-code">stan</span> to
+<span class="org-code">org-babel-load-languages</span>.  (The snippet below will usually contain
+items for several other languages, including the interface that you
+plan to use to drive Stan.)
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+     </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+     </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">stan . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for Stan Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>   <span class="org-list-dt">-</span> <span class="org-list-dt">file ::</span> An output file must be specified to evaluate Stan code
+<span class="whitespace-tab">        </span>for use as input to other interfaces.  If
+<span class="whitespace-tab">        </span><span class="org-code">org-babel-stan-cmdstan-directory</span> is non-nil and the file
+<span class="whitespace-tab">        </span>name does not have a ".stan" extension, write the contents to
+<span class="whitespace-tab">        </span>an intermediate file and compile the model to the named file
+<span class="whitespace-tab">        </span>(for use from the command line).  Otherwise, dump the block
+<span class="whitespace-tab">        </span>content to the specified file name (to be used as input to all
+<span class="whitespace-tab">        </span>other interfaces).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>
+Stan does not support sessions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span>
+Stan source code blocks return a link to a file, which can be used as
+a variable in other blocks to supply the file name to a Stan sampling
+call.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>
+Stan blocks allow you to edit the model in Stan mode while keeping the
+Stan code in the Org file rather than in a separate file.  The details
+of how to sample with the model will depend on the interface, but the
+main idea is the same for all interfaces except for CmdStan.  Most
+Stan interfaces accept the model either as a string (in the language
+of the interface) or a file name of a ".stan" file that contains the
+model.  For CmdStan, on the other hand, a ".stan" file is compiled
+into an executable that can be run from the command line.  In this
+case, the Stan block is dumped to an intermediate file that is
+compiled to the model program using the Makefile provided by CmdStan.
+
+The first example below demonstrates how to use a Stan block in the R
+interface to Stan, and the second example uses the same model with the
+CmdStan interface.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sampling with RStan interface
+</span>
+The Stan block below specifies a simple model that when executed will
+be written to <span class="org-code">:file</span>, which can be used to refer to it downstream.
+
+<span class="org-code">: #+name: model-stan
+: #+begin_src stan :file model.stan
+:   data {
+:     int&lt;lower=1&gt; N;
+:     vector[N] x;
+:   }
+:
+:   parameters {
+:     real mu;
+:     real&lt;lower=0&gt; sigma;
+:   }
+:
+:   model {
+:     x ~ normal(mu, sigma);
+:   }
+: #+end_src
+:
+: #+RESULTS: model-stan
+: <a href="file:model.stan">file:model.stan</a>
+</span>
+Generate some data that will be used as input to the model.
+
+<span class="org-code">: #+begin_src R :session *R* :result silent
+:   set.seed(33)
+:
+:   N &lt;- 50
+:   x &lt;- rnorm(N, 20, 3)
+: #+end_src
+</span>
+Load RStan, and provide the model file name and data as arguments to
+the sampling function call.
+
+<span class="org-code">: #+begin_src R :session *R* :var model=model-stan :results output
+:   library(rstan)
+:
+:   fit &lt;- stan(file=model, data=list(N=N, x=x), chains=1)
+: #+end_src
+:
+: #+RESULTS:
+: #+begin_example
+: COMPILING THE C++ CODE FOR MODEL 'model' NOW.
+:
+: SAMPLING FOR MODEL 'model' NOW (CHAIN 1).
+:
+: Chain 1, Iteration:    1 / 2000 [  0%]  (Warmup)
+: Chain 1, Iteration:  200 / 2000 [ 10%]  (Warmup)
+: Chain 1, Iteration:  400 / 2000 [ 20%]  (Warmup)
+: Chain 1, Iteration:  600 / 2000 [ 30%]  (Warmup)
+: Chain 1, Iteration:  800 / 2000 [ 40%]  (Warmup)
+: Chain 1, Iteration: 1000 / 2000 [ 50%]  (Warmup)
+: Chain 1, Iteration: 1001 / 2000 [ 50%]  (Sampling)
+: Chain 1, Iteration: 1200 / 2000 [ 60%]  (Sampling)
+: Chain 1, Iteration: 1400 / 2000 [ 70%]  (Sampling)
+: Chain 1, Iteration: 1600 / 2000 [ 80%]  (Sampling)
+: Chain 1, Iteration: 1800 / 2000 [ 90%]  (Sampling)
+: Chain 1, Iteration: 2000 / 2000 </span><span class="org-code"><span class="org-checkbox-statistics-done">[100%]</span></span><span class="org-code">  (Sampling)
+: #  Elapsed Time: 0.007173 seconds (Warm-up)
+: #                0.005748 seconds (Sampling)
+: #                0.012921 seconds (Total)
+: #+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sampling with CmdStan interface
+</span>
+To use the CmdStan interface, set <span class="org-code">org-babel-stan-cmdstan-directory</span>
+to the top-level directory of the CmdStan source code.
+
+<span class="org-code">: #+begin_src elisp :results silent
+:   (setq org-babel-stan-cmdstan-directory "/path/to/cmdstan/source/")
+: #+end_src
+</span>
+Modify the Stan block from above, removing the ".stan" extension from
+the file name.  Executing the block now compiles the Stan code the
+specified file.  (If the extension is not removed, the block will be
+executed as in the above example.)
+
+<span class="org-code">: #+name: model
+: #+begin_src stan :file model
+:   data {
+:     int&lt;lower=1&gt; N;
+:     vector[N] x;
+:   }
+:
+:   parameters {
+:     real mu;
+:     real&lt;lower=0&gt; sigma;
+:   }
+:
+:   model {
+:     x ~ normal(mu, sigma);
+:   }
+: #+end_src
+:
+: #+RESULTS: model
+: <a href="file:model">file:model</a>
+</span>
+Before running the model, dump the data generated in the last section
+to a file that can be passed as a command line argument.
+
+<span class="org-code">: #+begin_src R :session *R* :results silent
+:   stan_rdump(c('N', 'x'), 'normal.data.R')
+: #+end_src
+</span>
+Finally, call the compiled program from a shell block.
+
+<span class="org-code">: #+begin_src sh :results output verbatim
+:   ./model sample data file=normal.data.R
+: #+end_src
+:
+: #+RESULTS:
+: #+begin_example
+:  method = sample (Default)
+:    sample
+:      num_samples = 1000 (Default)
+:      num_warmup = 1000 (Default)
+:      save_warmup = 0 (Default)
+:      thin = 1 (Default)
+:      adapt
+:        engaged = 1 (Default)
+:        gamma = 0.050000000000000003 (Default)
+:        delta = 0.80000000000000004 (Default)
+:        kappa = 0.75 (Default)
+:        t0 = 10 (Default)
+:        init_buffer = 75 (Default)
+:        term_buffer = 50 (Default)
+:        window = 25 (Default)
+:      algorithm = hmc (Default)
+:        hmc
+: </span><span class="whitespace-tab">      </span><span class="org-code"> engine = nuts (Default)
+: </span><span class="whitespace-tab">      </span><span class="org-code">   nuts
+: </span><span class="whitespace-tab">      </span><span class="org-code">     max_depth = 10 (Default)
+: </span><span class="whitespace-tab">      </span><span class="org-code"> metric = diag_e (Default)
+: </span><span class="whitespace-tab">      </span><span class="org-code"> stepsize = 1 (Default)
+: </span><span class="whitespace-tab">      </span><span class="org-code"> stepsize_jitter = 0 (Default)
+:  id = 0 (Default)
+:  data
+:    file = normal.data.R
+:  init = 2 (Default)
+:  random
+:    seed = 2115254906
+:  output
+:    file = output.csv (Default)
+:    diagnostic_file =  (Default)
+:    refresh = 100 (Default)
+:
+:
+: Gradient evaluation took 4e-06 seconds
+: 1000 transitions using 10 leapfrog steps per transition would take 0.04 seconds.
+: Adjust your expectations accordingly!
+:
+:
+: Iteration:    1 / 2000 [  0%]  (Warmup)
+: Iteration:  100 / 2000 [  5%]  (Warmup)
+: Iteration:  200 / 2000 [ 10%]  (Warmup)
+: Iteration:  300 / 2000 [ 15%]  (Warmup)
+: Iteration:  400 / 2000 [ 20%]  (Warmup)
+: Iteration:  500 / 2000 [ 25%]  (Warmup)
+: Iteration:  600 / 2000 [ 30%]  (Warmup)
+: Iteration:  700 / 2000 [ 35%]  (Warmup)
+: Iteration:  800 / 2000 [ 40%]  (Warmup)
+: Iteration:  900 / 2000 [ 45%]  (Warmup)
+: Iteration: 1000 / 2000 [ 50%]  (Warmup)
+: Iteration: 1001 / 2000 [ 50%]  (Sampling)
+: Iteration: 1100 / 2000 [ 55%]  (Sampling)
+: Iteration: 1200 / 2000 [ 60%]  (Sampling)
+: Iteration: 1300 / 2000 [ 65%]  (Sampling)
+: Iteration: 1400 / 2000 [ 70%]  (Sampling)
+: Iteration: 1500 / 2000 [ 75%]  (Sampling)
+: Iteration: 1600 / 2000 [ 80%]  (Sampling)
+: Iteration: 1700 / 2000 [ 85%]  (Sampling)
+: Iteration: 1800 / 2000 [ 90%]  (Sampling)
+: Iteration: 1900 / 2000 [ 95%]  (Sampling)
+: Iteration: 2000 / 2000 </span><span class="org-code"><span class="org-checkbox-statistics-done">[100%]</span></span><span class="org-code">  (Sampling)
+:
+: #  Elapsed Time: 0.012414 seconds (Warm-up)
+: #                0.025817 seconds (Sampling)
+: #                0.038231 seconds (Total)
+:
+: #+end_example
+</span></pre>
+  </body>
+</html>

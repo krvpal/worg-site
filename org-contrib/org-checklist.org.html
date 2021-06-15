@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-checklist.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>   <span class="org-document-title">org-checklist.el --- org functions for checklist handling
+</span><span class="org-meta-line">#+OPTIONS: ^:{} author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General
+</span>
+  <span class="org-verbatim">org-checklist</span> provides two actions which can be triggered when a task is
+  marked done. These are:
+
+  <span class="org-list-dt">1)</span> Clearing the state of all checkboxes in the task.
+
+  <span class="org-list-dt">2)</span> Creating, and optionally printing, a file containing a copy of the task
+     with all items in the checked state removed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to use it
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Quick example
+</span>
+   Load <span class="org-verbatim">org-checklist</span> as described in the <span class="org-link"><a href="* Loading it">next section</a></span>. You will then need to
+   create a recurring task.
+
+<span class="org-code">: * Morning routine
+:   SCHEDULED: </span><span class="org-code"><span class="org-date">&lt;2009-02-19 Thu 08:00 +1d&gt;</span></span><span class="org-code">
+:   - [ ] Shower
+:   - [ ] Brush teeth
+:   - [ ] Get dressed
+:   - [ ] Eat breakfast
+:   - [ ] Check email
+</span>
+   Then add the property <span class="org-verbatim">RESET_CHECK_BOXES</span> with a value of <span class="org-verbatim">t</span>. When the item
+   is marked done,
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Loading it
+</span>
+   <span class="org-verbatim">org-checklist</span> requires <span class="org-verbatim">a2ps</span>.
+
+   Ensure the org contrib directory is in <span class="org-verbatim">load-path</span> and add <span class="org-verbatim">(require
+   'org-checklist)</span> to your <span class="org-verbatim">.emacs</span>.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Configurable options
+</span>
+   <span class="org-verbatim">org-checklist</span> has four main configurable options:
+
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-checklist-time-format</span></span><span class="org-list-dt"> ::</span> the format of the timestamp added to the
+     export file. See <span class="org-verbatim">format-time-string</span> for valid % escapes.
+
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-checklist-export-function</span></span><span class="org-list-dt"> ::</span> org export function to use to create the
+     printable version of the export file. Any of the org export functions will
+     work. The default is <span class="org-verbatim">org-export-as-ascii</span>.
+
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-checklist-export-params</span></span><span class="org-list-dt"> ::</span> parameters for the export function. See
+     the docs for the exporter you are using for useful values.
+
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-checklist-a2ps-params</span></span><span class="org-list-dt"> ::</span> parameters for a2ps-print. If you choose to
+     print the exported file, these parameters will be used in place of a2ps-switches.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Credits
+</span>
+  <span class="org-verbatim">org-checklist</span> was written by James TD Smith
+</pre>
+  </body>
+</html>

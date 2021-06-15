@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Encrypting org Files.</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Ian Barton" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Encrypting org Files.</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org45fd8a9">General Information About Encrypting Files with Emacs.</a></li>
+<li><a href="#org2b65520">Encrypting the Whole File Using EasyPG.</a></li>
+<li><a href="#orgd049f26">Symmetric or Public Key Encryption.</a></li>
+<li><a href="#org618adff">Encrypting Specific Entries in an org File with org-crypt.</a>
+<ul>
+<li><a href="#orgb0f222e">Emacs Backup Files - a Warning.</a></li>
+</ul>
+</li>
+<li><a href="#orga024cf9">Using gnupg-agent to Cache Your Passwords.</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org45fd8a9" class="outline-2">
+<h2 id="org45fd8a9">General Information About Encrypting Files with Emacs.</h2>
+<div class="outline-text-2" id="text-org45fd8a9">
+<p>
+Emacs uses EasyPG as an interface to gnupg. If you have a recent
+version of Emacs (at least 23) EasyPG is part of Emacs. However,
+several package managers include a version of EasyPG for use with
+earlier versions of Emacs. If your version of Emacs comes with EasyPG,
+don&rsquo;t install the EasyPG package, as this will lead to conflicts.
+</p>
+
+<p>
+To set up Emacs for transparent encryption and decryption you need to
+add the following to your .emacs:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">epa-file</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">epa-file-enable</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b65520" class="outline-2">
+<h2 id="org2b65520">Encrypting the Whole File Using EasyPG.</h2>
+<div class="outline-text-2" id="text-org2b65520">
+<p>
+If you want to encrypt the whole file using gnupg, but still have the
+decrypted file recognized as an org file, you should make:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">  # -*- mode:org; epa-file-encrypt-to: ("me@mydomain.com") -*-</span>
+</pre>
+</div>
+
+<p>
+the first line in the file. Where <code>me@mydomain.com</code> is the email
+address associated with your default gnupg key. Note that gpg
+encrypted files should be saved with the default extension of <code>.gpg</code>.
+</p>
+
+<p>
+When you open the file you will be prompted for your password and
+Emacs will display the decrypted contents in org-mode. When you save
+the file it would automatically be encrypted.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd049f26" class="outline-2">
+<h2 id="orgd049f26">Symmetric or Public Key Encryption.</h2>
+<div class="outline-text-2" id="text-orgd049f26">
+<p>
+If you use symmetric encryption all that is required to
+encrypt/decrypt your file is the pass phrase. Using Public Key
+Encryption, you require both your private key and your pass phrase.
+</p>
+
+<p>
+EasyPG can use both methods of encryption. If you want to use
+symmetric encryption omitting the &ldquo;epa-file-encrypt-to: &rdquo; from your
+<code>.gpg</code> file or setting it to <code>nil</code> should do the trick. If this doesn&rsquo;t
+work, you may try setting the variable:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> epa-file-select-keys nil<span style="color: #eb4509;">)</span> 
+</pre>
+</div>
+
+<p>
+Conversely, if you want to use Public Key Encryption make sure that
+you specify &ldquo;epa-file-encrypt-to: &rdquo; at the beginning of your file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org618adff" class="outline-2">
+<h2 id="org618adff">Encrypting Specific Entries in an org File with org-crypt.</h2>
+<div class="outline-text-2" id="text-org618adff">
+<p>
+If you just want to encrypt the text of an entry, but not the
+headline, or properties you can use org-crypt. In order to use
+org-crypt you need to add something like the following to your .emacs:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-crypt</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-crypt-use-before-save-magic</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-tags-exclude-from-inheritance</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">quote</span> <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"crypt"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">GPG key to use for encryption</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">Either the Key ID or set to nil to use symmetric encryption.</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-crypt-key</span> nil<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Now any text below a headline that has a <code>:crypt:</code> tag will be
+automatically be encrypted when the file is saved. If you want to use
+a different tag just customize the <code>org-crypt-tag-matcher</code> setting.
+</p>
+
+<p>
+Preventing tag inheritance stops you having encrypted text inside
+encrypted text.
+</p>
+
+<p>
+To decrypt the text just call <code>M-x org-decrypt-entry</code> and the
+encrypted text where the point is will be replaced with the plain
+text. If you use this feature a lot, you will probably want to bind
+<code>M-x org-decrypt-entry</code> to a key.
+</p>
+
+<p>
+Entries with a <code>:crypt:</code> tag will be automatically be encrypted when you
+save the file.
+</p>
+</div>
+
+<div id="outline-container-orgb0f222e" class="outline-3">
+<h3 id="orgb0f222e">Emacs Backup Files - a Warning.</h3>
+<div class="outline-text-3" id="text-orgb0f222e">
+<p>
+With org-crypt, if you have autosave turned on and decrypt the
+entries, the autosave file will contain the entries in plain text. For
+this reason your should disable autosave for encrypted files.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga024cf9" class="outline-2">
+<h2 id="orga024cf9">Using gnupg-agent to Cache Your Passwords.</h2>
+<div class="outline-text-2" id="text-orga024cf9">
+<p>
+If you need to decrypt files frequently, you will probably get fed up
+of typing in your password each time you open an encrypted file. You
+can use gpg-agent to cache your passwords, so you only need to type
+your password once. Obviously this has security implications and it&rsquo;s
+up to you to decide whether you want your passwords cached.
+</p>
+
+<p>
+On Debian based systems your can install gpg-agent using your
+package manager:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">  <span style="color: #66d9ef;">sudo</span> apt-get install gpg-agent
+</pre>
+</div>
+
+<p>
+You can configure gnupg-agent by editing <code>~/.gnupg/gpg-agent.conf</code>. As a
+minimum you will probably want to set:
+</p>
+
+<ul class="org-ul">
+<li><code>default-cache-ttl</code> the time the cahse entry is valid in seconds. The
+default is 600.</li>
+<li><code>max-cache-ttl</code> the maximum time a cache entry is valid in
+seconds. After this time the cache entry will be expired even if it
+has been accessed recently.</li>
+</ul>
+
+
+<p>
+To ensure that gnupg uses gnupg-agent you should edit
+<code>~/.gnupg/gpg.conf</code> and make sure that the use-agent line is
+un-commented.
+</p>
+
+<p>
+If you are using a console based system you need to:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">  <span style="color: #fd971f;">eval</span> $<span style="color: #eb4509;">(</span><span style="color: #9c91e4; font-weight: bold;">gpg-agent</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+in your shell&rsquo;s startup script.
+</p>
+
+<p>
+If you are using a window manager you will probably want to install
+one of the pin entry programs, such as pinentry-gtk2 or pinentry-qt,
+so that X can prompt you for your pass phrase.
+</p>
+
+
+<p>
+Now when you try to open a <code>.gpg</code> file, or decrypt some text encrypted
+with org-crypt, you will be prompted for your pass phrase, but your
+password will be cached so re-opening the file, or decrypting another
+region will not prompt you for your password again.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ian Barton</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

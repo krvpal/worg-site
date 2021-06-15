@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-choose.el &#x2013; decision management for org-mode</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-choose.el &#x2013; decision management for org-mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb690705">General</a></li>
+<li><a href="#org1885df7">How to use it</a>
+<ul>
+<li><a href="#org175706b">Overview of use</a></li>
+<li><a href="#org1b7b090">Loading it (No surprises here)</a></li>
+<li><a href="#org24dea8e">Setting up a keyword set</a>
+<ul>
+<li><a href="#org150dd10">The markings</a></li>
+<li><a href="#orgd18970e">Examples of marks</a></li>
+<li><a href="#org9d34283">Examples of mark specs</a></li>
+</ul>
+</li>
+<li><a href="#orgcec2324">Operating on items</a></li>
+</ul>
+</li>
+<li><a href="#orge9c0012">About consistent state</a>
+<ul>
+<li><a href="#org309aa5a">An example</a></li>
+</ul>
+</li>
+<li><a href="#org91b4b24">Credits</a></li>
+</ul>
+</div>
+</div>
+<p>
+Org-choose supports decision management.
+</p>
+
+<div id="outline-container-orgb690705" class="outline-2">
+<h2 id="orgb690705">General</h2>
+<div class="outline-text-2" id="text-orgb690705">
+<p>
+org-choose operates on a group of sibling items in org-mode.  It
+treats them as potential choices in some decision.
+</p>
+
+<p>
+The items have marks such as &ldquo;CHOSEN&rdquo;, &ldquo;MAYBE&rdquo;, or &ldquo;REJECTED&rdquo;.  You
+can configure the set of marks.  The marks behave similarly to TODO
+marks.  org-choose keeps the marks in a consistent overall state.
+</p>
+
+<p>
+A sibling item that has no mark is assumed to not represent an
+alternative; so is an item with a mark from another keyword set.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org1885df7" class="outline-2">
+<h2 id="org1885df7">How to use it</h2>
+<div class="outline-text-2" id="text-org1885df7">
+</div>
+<div id="outline-container-org175706b" class="outline-3">
+<h3 id="org175706b">Overview of use</h3>
+<div class="outline-text-3" id="text-org175706b">
+<p>
+org-choose contains no user commands.  You use it by:
+</p>
+
+<ul class="org-ul">
+<li>Loading it</li>
+
+<li>Setting up at least one set of TODO keywords with the
+interpretation &ldquo;choose&rdquo;.</li>
+
+<li>Operating on single items with the TODO commands.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1b7b090" class="outline-3">
+<h3 id="org1b7b090">Loading it (No surprises here)</h3>
+<div class="outline-text-3" id="text-org1b7b090">
+<p>
+The easiest way is by 
+</p>
+
+<p>
+M-x customize-apropos org-modules
+</p>
+
+<p>
+Check the line for org-choose.  This will cause it to be loaded every
+time you start org-mode.
+</p>
+
+<p>
+You&rsquo;ll still have to load it manually the first time.
+</p>
+
+<p>
+Of course, you can also just try it out by loading it manually.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org24dea8e" class="outline-3">
+<h3 id="org24dea8e">Setting up a keyword set</h3>
+<div class="outline-text-3" id="text-org24dea8e">
+<p>
+To use org-choose, you need to set up at least one set of TODO
+keywords with the interpretation &ldquo;choose&rdquo;.  There are two basic ways.
+Both are essentially the same as for other TODO marks.
+</p>
+
+<ul class="org-ul">
+<li>By using the file directive #+CHOOSE_TODO:</li>
+
+<li>By M-x customize-apropos org-todo-keywords</li>
+</ul>
+</div>
+
+<div id="outline-container-org150dd10" class="outline-4">
+<h4 id="org150dd10">The markings</h4>
+<div class="outline-text-4" id="text-org150dd10">
+<p>
+The format of marks is essentially that of ordinary TODO marks.  The
+marks can have parenthesized arguments that indicate key bindings and
+similar shortcuts.
+</p>
+
+<p>
+In addition, they can optionally have a second argument.  The
+arguments are separated by a comma.  The second argument can have one
+of 3 values:
+</p>
+
+<dl class="org-dl">
+<dt>0</dt><dd>The mark with this argument is the default mark.  New items
+will have that mark, if they are from this TODO keyword set.</dd>
+
+<dt>-</dt><dd>This mark with this argument is at the bottom of the &ldquo;NOT
+CHOSEN&rdquo; range (See <a href="#orge9c0012">About consistent state</a>).  It should be
+lower than the default mark (0). If this is omitted,
+org-choose will not try to keep marks in consistent state.</dd>
+
+<dt>+</dt><dd>This mark with this argument is at the top of the &ldquo;CHOSEN&rdquo;
+range.  It should be higher than the default mark (0). If this
+is omitted, org-choose will use the highest mark instead.</dd>
+</dl>
+
+<p>
+No value should be given twice.
+</p>
+
+<p>
+This works even if there is no first argument; just give an empty
+string as the first argument.
+</p>
+</div>
+
+<div id="outline-container-orgd18970e" class="outline-4">
+<h4 id="orgd18970e">Examples of marks</h4>
+<div class="outline-text-4" id="text-orgd18970e">
+<dl class="org-dl">
+<dt>REJECTED</dt><dd>Makes a mark whose text is &ldquo;REJECTED&rdquo;.</dd>
+<dt>MAYBE(,0)</dt><dd>Makes a mark whose text is &ldquo;MAYBE&rdquo;.  It is the default
+mark.</dd>
+<dt>CHOSEN(c,+)</dt><dd>Makes a mark whose text is &ldquo;CHOSEN&rdquo;.  It is the top
+of the high range.  The key &ldquo;c&rdquo; will select it,
+exactly as the usual TODO hotkey behavior.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9d34283" class="outline-4">
+<h4 id="org9d34283">Examples of mark specs</h4>
+<div class="outline-text-4" id="text-org9d34283">
+<ul class="org-ul">
+<li>#+CHOOSE_TODO: NO(,-) MAYBE(,0) YES</li>
+<li>#+CHOOSE_TODO: REJECTED(r) NOT_CHOSEN(n,-) MAYBE(,0) LEANING_TOWARDS(l) CHOSEN(c,+)</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcec2324" class="outline-3">
+<h3 id="orgcec2324">Operating on items</h3>
+<div class="outline-text-3" id="text-orgcec2324">
+<p>
+You can operate on single items with the usual TODO commands.
+</p>
+
+<ul class="org-ul">
+<li>Use C-S-right to change the keyword set.  Use this to change to
+the &ldquo;choose&rdquo; keyword set that you just defined.</li>
+
+<li><p>
+Use S-right to advance the TODO mark to the next setting.  
+</p>
+
+<p>
+For &ldquo;choose&rdquo;, that means you like this alternative more than
+before.  Other alternatives will be automatically demoted to
+keep your settings consistent.
+</p></li>
+
+<li><p>
+Use S-left to demote TODO to the previous setting.  
+</p>
+
+<p>
+For &ldquo;choose&rdquo;, that means you don&rsquo;t like this alternative as much
+as before.  Other alternatives will be automatically promoted,
+if this item was all that was keeping them down.
+</p></li>
+
+<li>All the other TODO commands are available and behave essentially
+the normal way.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orge9c0012" class="outline-2">
+<h2 id="orge9c0012">About consistent state</h2>
+<div class="outline-text-2" id="text-orge9c0012">
+<p>
+org-choose tries to keep each group of items in a consistent state.
+</p>
+
+<p>
+It knows about 2 ranges of marks that relate to each other in mirror
+image fashion.  We can call them the &ldquo;CHOSEN&rdquo; range and the &ldquo;NOT
+CHOSEN&rdquo; range.
+</p>
+
+<p>
+If some item is marked in the &ldquo;CHOSEN&rdquo; range, other items can&rsquo;t be
+marked higher than the mirror-corresponding entry in the &ldquo;NOT CHOSEN&rdquo;
+range.
+</p>
+</div>
+
+<div id="outline-container-org309aa5a" class="outline-3">
+<h3 id="org309aa5a">An example</h3>
+<div class="outline-text-3" id="text-org309aa5a">
+<p>
+For this example, assume we&rsquo;re using the marks from the second example
+spec,
+</p>
+
+<p>
+&ldquo;REJECTED(r) NOT_CHOSEN(n,-) MAYBE(,0) LEANING_TOWARDS(l)
+CHOSEN(c,+)&rdquo;
+</p>
+
+<p>
+Then org-choose enforces the following constraints:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">If any</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">then the other</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">item is:</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">items can&rsquo;t be</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">higher than:</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">CHOSEN</td>
+<td class="org-left">1</td>
+<td class="org-left">NOT CHOSEN</td>
+<td class="org-left">4</td>
+</tr>
+
+<tr>
+<td class="org-left">FAVORED</td>
+<td class="org-left">2</td>
+<td class="org-left">MAYBE</td>
+<td class="org-left">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org91b4b24" class="outline-2">
+<h2 id="org91b4b24">Credits</h2>
+<div class="outline-text-2" id="text-org91b4b24">
+<p>
+org-choose was written by Tom Breton, with much-appreciated advice
+from Carsten Dominik.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

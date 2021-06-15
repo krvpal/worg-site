@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>An Org-mode Demo</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric Schulte" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">An Org-mode Demo</h1>
+<div class="LaTeX">
+<p>
+\hypersetup{
+  linkcolor=blue,
+  pdfborder={0 0 0 0}
+}
+\lstset{basicstyle=\ttfamily\bfseries\small}
+</p>
+
+</div>
+
+<div class="org-center">
+<p>
+Adapted from <i><a href="http://www.stat.umn.edu/~charlie/Sweave/foo.Rnw">An Sweave Demo</a></i> by Charles J. Geyer.
+</p>
+</div>
+
+<p>
+This is a demo for using Org-babel to produce LaTeX documents with
+embedded R code.  To get started fire up Emacs and create a text file
+with the <code>.org</code> suffix.  You should see Org-mode become your major
+mode &#x2013; denoted by <code>Org</code> in your status bar.
+</p>
+
+<p>
+Press <code>C-c C-e</code> while viewing this Org-mode buffer and you will see a
+menu appear with options for export to a variety target formats &#x2013;
+herein we&rsquo;ll only consider export to LaTeX.
+</p>
+
+<p>
+So now we have a more complicated file chain
+$$
+</p>
+\begin{CD}
+   \texttt{foo.org}
+   @>\texttt{Org-mode}>>
+   \texttt{foo.tex}
+   @>\texttt{latex}>>
+   \texttt{foo.dvi}
+   @>\texttt{xdvi}>>
+   \text{view of document}
+\end{CD}
+<p>
+$$
+and what have we accomplished other than making it twice as annoying
+to the WYSIWYG crowds (having to use both <code>Org-mode</code> and <code>latex</code> to get
+anything that looks like the document)?
+</p>
+
+<p>
+Well, we can now include <code>R</code> in our document.  Here&rsquo;s a simple example
+</p>
+<div class="org-src-container">
+<pre class="src src-R">  2 + 2
+</pre>
+</div>
+<p>
+What I actually typed in <code>foo.org</code> was
+</p>
+<pre class="example">
+#+begin_src R :exports both
+  2 + 2
+#+end_src
+</pre>
+
+
+<p>
+This is a &ldquo;code block&rdquo; to be processed by Org-babel.  When Org-babel
+hits such a thing, it processes it, runs R to get the results, and
+stuffs the output in the LaTeX file it is creating.  The LaTeX between
+code chunks is copied verbatim (except for in-line src code, about
+which see below).  Hence to create a <i>active</i> document you just write
+plain old text interspersed with &ldquo;code blocks&rdquo; which are plain old R.
+</p>
+
+<p>
+Plots get a little more complicated.  First we make something to plot
+(simulated regression data).
+</p>
+<div class="org-src-container">
+<pre class="src src-R" id="orgf01c5f3">  n &lt;- 50
+  x &lt;- seq(1, n)
+  a.true &lt;- 3
+  b.true &lt;- 1.5
+  y.true &lt;- a.true + b.true * x
+  s.true &lt;- 17.3
+  y &lt;- y.true + s.true * rnorm(n)
+  out1 &lt;- lm(y ~ x)
+  summary(out1)
+</pre>
+</div>
+<p>
+(for once we won&rsquo;t show the code chunk itself, look at <code>foo.org</code> if
+you want to see what the actual code chunk was).
+</p>
+
+<p>
+Figure \ref{fig:one} (p. \pageref{fig:one}) is produced by the following code
+</p>
+<div class="org-src-container">
+<pre class="src src-R" id="org27c56ae">  plot(x, y)
+  abline(out1)
+</pre>
+</div>
+<p>
+Note that <code>x</code>, <code>y</code>, and <code>out1</code> are remembered from the preceding code
+chunk.  We don&rsquo;t have to regenerate them.  All code chunks are part of
+one R &ldquo;session&rdquo;.
+</p>
+<div class="org-src-container">
+<pre class="src src-R" id="orgf42ba64">  &lt;&lt;fig1plot&gt;&gt;
+</pre>
+</div>
+
+<p>
+<a href="fig1.pdf">fig1.pdf</a>
+</p>
+
+<p>
+Now this was a little tricky.  We did this with two code chunks,
+one visible and one invisible.  First we did
+</p>
+<pre class="example">
+#+name: fig1plot
+#+begin_src R :exports code :file fig1plot.pdf
+  plot(x, y)
+  abline(out1)
+#+end_src
+</pre>
+
+<p>
+where the <code>:exports code</code> indicates that only the return value (not
+code) should be exported and the <code>#+name: fig1plot</code> gives the code
+block a name (to be used later).  And &ldquo;later&rdquo; is almost immediate.
+Next we did
+</p>
+<pre class="example">
+#+name: fig1
+#+begin_src R :exports results :noweb yes :file fig1.pdf
+  &lt;&lt;fig1plot&gt;&gt;
+#+end_src
+</pre>
+
+
+<p>
+In this code block the <code>:file fig1.pdf</code> header argument indicates that
+the block generates a figure.  Org-babel automagically makes a PDF
+file for the figure, and Org-mode handles the export to LaTeX.  The
+<code>&lt;&lt;fig1plot&gt;&gt;</code> is an example of &ldquo;code block reuse&rdquo;.  It means that we
+reuse the code of the code chunk named <code>fig1plot</code>.  The <code>:exports
+results</code> in the code block means just what it says (we&rsquo;ve already seen
+the code&#x2014;it was produced by the preceding chunk&#x2014;and we don&rsquo;t want
+to see it again, we only want to see the results).  It is important
+that we observe the DRY/SPOT rule (<i>don&rsquo;t repeat yourself</i> or <i>single
+point of truth</i>) and only have one bit of code for generating the
+plot.  What the reader sees is guaranteed to be the code that made the
+plot.  If we had used cut-and-paste, just repeating the code, the
+duplicated code might get out of sync after edits.  The rest of this
+should be recognizable to anyone who has ever done a LaTeX figure.
+</p>
+
+<p>
+So making a figure is a bit more complicated in some ways, but much simpler
+than others.  Note the following virtues
+</p>
+<ul class="org-ul">
+<li>The figure is guaranteed to be the one described by the text (at
+least by the R in the text).</li>
+<li>No messing around with sizing or rotations.  It just works!</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org7dbc7d1">  out3 &lt;- lm(y ~ x + I(x^2) + I(x^3))
+  plot(x, y)
+  curve(predict(out3, newdata=data.frame(x=x)), add = TRUE)
+</pre>
+</div>
+
+<p>
+Note that if you don&rsquo;t care to show the R code to make the figure, it
+is simpler still.  Figure \ref{fig:two} shows another plot.  What I
+actually typed in <code>foo.org</code> was
+</p>
+<pre class="example">
+#+name: fig2
+#+begin_src R :exports results :file fig2.pdf
+  out3 &lt;- lm(y ~ x + I(x^2) + I(x^3))
+  plot(x, y)
+  curve(predict(out3, newdata=data.frame(x=x)), add = TRUE)
+#+end_src
+</pre>
+
+
+<p>
+<a href="fig2.pdf">fig2.pdf</a>
+</p>
+
+<p>
+Now we just excluded the code for the plot from the figure (with
+<code>:exports results</code> so it doesn&rsquo;t show).
+</p>
+
+<p>
+Also note that every time we re-export Figures \ref{fig:one}
+and \ref{fig:two} change, the latter conspicuously (because the
+simulated data are random).  Everything just works.  This should tell
+you the main virtue of Org-babel.  It&rsquo;s always correct.  There is
+never a problem with stale cut-and-paste.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">  options(scipen=10)
+</pre>
+</div>
+
+<pre class="example">
+0
+</pre>
+
+<p>
+Simple numbers can be plugged into the text with the <code>src_R</code> command,
+for example, the quadratic and cubic regression coefficients in the
+preceding regression were &beta;_2 = <code class="src src-R">round(out3$coef[3], 4)</code> and &beta;_3
+= <code class="src src-R">round(out3$coef[4], 4)</code>.  Just magic!  What I actually typed
+in <code>foo.org</code> was
+</p>
+<pre class="example">
+were \beta_2 = src_R{round(out3$coef[3], 4)}
+and \beta_3 = src_R{round(out3$coef[4], 4)}
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-R">  options(scipen=0)
+</pre>
+</div>
+
+<p>
+The <code>xtable</code> command is used to make tables.  (The following is the
+Org-babel output of another code block that we don&rsquo;t explicitly show.
+Look at <code>foo.org</code> for details.)
+</p>
+<div class="org-src-container">
+<pre class="src src-R">  out2 &lt;- lm(y ~ x + I(x^2))
+  foo &lt;- anova(out1, out2, out3)
+  foo
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-R">  class(foo)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-R">  dim(foo)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-R" id="orge82c13c">  foo &lt;- as.matrix(foo)
+  foo
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-R">  library(xtable)
+  xtable(foo, caption = "ANOVA Table", label = "tab:one",
+      digits = c(0, 0, 2, 0, 2, 3, 3))
+</pre>
+</div>
+
+<p>
+So now we are ready to turn the matrix <code>foo</code> into Table \ref{tab:one}
+using the R chunk
+</p>
+<pre class="example">
+#+begin_src R :results output latex :exports results
+  library(xtable)
+  xtable(foo, caption = "ANOVA Table", label = "tab:one",
+      digits = c(0, 0, 2, 0, 2, 3, 3))
+#+end_src
+</pre>
+
+
+<p>
+(note the difference between arguments to the <code>xtable</code> function and to
+the <code>xtable</code> method of the <code>print</code> function)
+</p>
+
+<p>
+To summarize, Org-babel is terrific, so important that soon we&rsquo;ll not
+be able to get along without it.  Its virtues are
+</p>
+<ul class="org-ul">
+<li>The numbers and graphics you report are actually what they
+are claimed to be.</li>
+<li>Your analysis is reproducible.  Even years later, when you&rsquo;ve
+completely forgotten what you did, the whole write-up, every single
+number or pixel in a plot is reproducible.</li>
+<li>Your analysis actually works&#x2014;at least in this particular instance.
+The code you show actually executes without error.</li>
+<li>Toward the end of your work, with the write-up almost done you
+discover an error.  Months of rework to do?  No!  Just fix the error
+and re-export.  One single problem like this and you will have all
+the time invested in Org-babel repaid.</li>
+<li>This methodology provides discipline.  There&rsquo;s nothing that will make
+you clean up your code like the prospect of actually revealing it to
+the world.</li>
+</ul>
+
+<p>
+Whether we&rsquo;re talking about homework, a consulting report, a textbook,
+or a research paper.  If they involve computing and statistics, this
+is the way to do it.
+</p>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Eric Schulte</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

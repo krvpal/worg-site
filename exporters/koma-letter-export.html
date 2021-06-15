@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Creating letters with KOMA-Script <code>scrlttr2</code> and Org-mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Viktor Rosenfeld and Rasmus Pank Roulund" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Creating letters with KOMA-Script <code>scrlttr2</code> and Org-mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6df7c8a">Quick start guide</a>
+<ul>
+<li><a href="#org8733be3">Requirements</a></li>
+<li><a href="#orgbe090f4">Minimal configuration of the KOMA-Script letter exporter</a></li>
+<li><a href="#orgecc5209">A simple letter example</a></li>
+<li><a href="#org792d05c">Learning more about KOMA-Script Letter</a></li>
+</ul>
+</li>
+<li><a href="#org3344292">Configuration guide</a>
+<ul>
+<li><a href="#orgaef1534">Setting letter metadata and letter options</a>
+<ul>
+<li><a href="#org72a8a42">Multiple LaTeX Classes</a></li>
+<li><a href="#org85d9b7e">Setting letter metadata in Org option lines</a></li>
+<li><a href="#orgda9a386">Setting letter metadata in Emacs variables</a></li>
+<li><a href="#org7b3b7a5">Setting letter metadata in LCO files</a></li>
+</ul>
+</li>
+<li><a href="#settings">List of KOMA-Script letter metadata settings</a>
+<ul>
+<li><a href="#metadata">List of <code>ox-koma-letter</code> letter metadata</a></li>
+<li><a href="#options">List of <code>ox-koma-letter</code> options</a></li>
+<li><a href="#special-headings">List of <code>ox-koma-letter</code> special headings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This tutorial describes the necessary steps to produce beautiful
+letters using the Org-mode LaTeX exporter and the KOMA-Script
+<code>scrlttr2</code> letter class.
+</p>
+
+<div id="outline-container-org6df7c8a" class="outline-2">
+<h2 id="org6df7c8a">Quick start guide</h2>
+<div class="outline-text-2" id="text-org6df7c8a">
+</div>
+<div id="outline-container-org8733be3" class="outline-3">
+<h3 id="org8733be3">Requirements</h3>
+<div class="outline-text-3" id="text-org8733be3">
+<p>
+The code in this tutorial depends on the following:
+</p>
+
+<ul class="org-ul">
+<li>org-mode version 8.0 or greater (part of Emacs 24.4);</li>
+<li>a LaTeX installation including <a href="http://www.ctan.org/pkg/koma-script">KOMA-Script</a>, e.g., <a href="http://www.tug.org/texlive/">TeX Live</a>.</li>
+</ul>
+
+<p>
+<b>Note</b>: The information in this tutorial depends on functionality that
+has not yet been released and it not part of Emacs. You can either <a href="https://orgmode.org/worg/org-faq.html#keeping-current-with-Org-mode-development">use
+the latest development version from the Org-mode git repository</a> or
+<a href="https://code.orgmode.org/bzg/org-mode/raw/master/contrib/lisp/ox-koma-letter.el">download a current version of the KOMA-Script letter exporter</a> and
+install it in your <code>load-path</code>, e.g. <code>contrib/lisp</code> in the Org-tree or
+<code>~/.emacs.d/lisp</code>. It is also strongly recommended to read the
+comments at the beginning of <a href="https://code.orgmode.org/bzg/org-mode/raw/master/contrib/lisp/ox-koma-letter.el">the file</a> for information or changes that
+have not yet been documented here.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbe090f4" class="outline-3">
+<h3 id="orgbe090f4">Minimal configuration of the KOMA-Script letter exporter</h3>
+<div class="outline-text-3" id="text-orgbe090f4">
+<p>
+To use the KOMA-Script letter exporter, you have to add it to Emacs&rsquo;s
+load path, activate it, and optionally configure a LaTeX class for the
+LaTeX exporter (the KOMA-Script letter exporter uses the LaTeX
+exporter internally).
+</p>
+
+<ol class="org-ol">
+<li><p>
+Add the path containing <code>ox-koma-letter.el</code> to the Emacs
+<code>load-path</code>. For example, if you use the version contained in the
+directory <code>contrib/lisp</code> of Org-mode, add the following to your
+Emacs configuration:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">load-path</span> <span style="color: #e2c770;">"/path/to/org-mode/contrib/lisp"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+Activate the KOMA-Script letter exporter by adding the following to
+your Emacs configuration:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eval-after-load</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ox</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #eb4509;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-koma-letter</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+<a id="orgc5c2f13"></a> The KOMA-Script exporter comes with
+minimal latex class <code>default-koma-letter</code> that is enabled by
+default.  You may add your own customized class, <code>my-letter</code>, as
+follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eval-after-load</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ox-koma-letter</span>
+       <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #eb4509;">progn</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+                       <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span><span style="color: #e2c770;">"my-letter"</span>
+                         <span style="color: #e2c770;">"\\documentclass</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{scrlttr2</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}</span>
+<span style="color: #e2c770;">          \\usepackage[english]{babel}</span>
+<span style="color: #e2c770;">          \\setkomavar{frombank}{(1234)\\,567\\,890}</span>
+<span style="color: #e2c770;">          </span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">[DEFAULT-PACKAGES]</span>
+<span style="color: #e2c770;">          </span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">[PACKAGES]</span>
+<span style="color: #e2c770;">          </span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">[EXTRA]"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+          <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> org-koma-letter-default-class <span style="color: #e2c770;">"my-letter"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+A more complicated example is presented in the commentary section
+of <a href="https://code.orgmode.org/bzg/org-mode/raw/master/contrib/lisp/ox-koma-letter.el"><code>ox-koma-script.el</code></a>.
+</p>
+
+<p>
+Note that you may have to add the LaTeX Babel package to you
+preamble, e.g., as
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eval-after-load</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ox-latex</span>
+       <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>add-to-list <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-packages-alist</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"AUTO"</span> <span style="color: #e2c770;">"babel"</span> t<span style="color: #b6e63e;">)</span> t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+For more information about this step, refer to the documentation of
+the variables <a href="https://orgmode.org/worg/doc.html#org-latex-classes">org-latex-classes</a>, <a href="https://orgmode.org/worg/doc.html#org-latex-default-packages-alist">org-latex-default-packages-alist</a>,
+and <a href="https://orgmode.org/worg/doc.html#org-latex-packages-alist">org-latex-packages-alist</a>.
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgecc5209" class="outline-3">
+<h3 id="orgecc5209">A simple letter example</h3>
+<div class="outline-text-3" id="text-orgecc5209">
+<p>
+Printed below is a minimal Org file that can be exported as a
+KOMA-Script letter. In this file, press <code>C-c C-e</code> to bring up the
+exporter dispatcher and then press <code>k o</code> to export the Org file to a
+PDF file. For your convenience, you can <a href="https://code.orgmode.org/bzg/worg/raw/master/exporters/koma-letter-new-example.org">download the KOMA letter
+example</a> and you can also <a href="https://code.orgmode.org/bzg/worg/raw/master/exporters/koma-letter-new-example.pdf">download the example PDF letter</a>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Preamble                             </span><span style="color: #e2c770; font-weight: bold;">:noexport:</span>
+
+<span style="color: #555556;">#+TITLE:</span>  <span style="color: #fd971f; font-weight: bold;">Mis-shapen chaos of well-seeming forms!</span>
+<span style="color: #555556;">#+DATE:</span> <span style="color: #fd971f;">1580</span>
+<span style="color: #555556;">#+AUTHOR:</span> <span style="color: #fd971f;">Romeo</span>
+
+<span style="color: #696969;"># This file is released by its authors and contributors under the GNU</span>
+<span style="color: #696969;"># Free Documentation license v1.3 or later, code examples are released</span>
+<span style="color: #696969;"># under the GNU General Public License v3 or later.</span>
+
+<span style="color: #7f7f80;">#+SUBJECT: Or: org-mode and KOMA-Script letters</span>
+<span style="color: #7f7f80;">#+PLACE: Verona, Italy</span>
+
+<span style="color: #7f7f80;">#+LCO: DINmtext</span>
+<span style="color: #696969;"># NOTE: Check the KOMA-Script manual to find a LCO that fits the</span>
+<span style="color: #696969;">#       envelope standards of your country.</span>
+
+<span style="color: #696969;"># NOTE: Change the order of the backletter, use smart quotes and</span>
+<span style="color: #696969;">#       include backaddress</span>
+<span style="color: #7f7f80;">#+OPTIONS: after-closing-order:(my_after_signature ps cc encl)</span>
+<span style="color: #7f7f80;">#+options: ':t backaddress:t subject:centered</span>
+
+<span style="color: #696969;"># Remove the first header</span>
+<span style="color: #7f7f80;">#+LATEX_HEADER: \setkomavar{firsthead}{}</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> To-address of the lovely Juliet                    </span><span style="color: #e2c770; font-weight: bold;">:to:</span>
+<span style="color: #696969;"># NOTE: Explicit newlines are not necessary in TO and FROM</span>
+Juliet
+House of Capulet
+Verona
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> From                                     </span><span style="color: #e2c770; font-weight: bold;">:from:</span>
+House of Montague
+Verona
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Location                             </span><span style="color: #e2c770; font-weight: bold;">:location:</span>
+<span style="color: #7f7f80;">#+LATEX_HEADER: \usepackage{tikz}</span>
+<span style="color: #696969;">#+BEGIN_CENTER</span>
+<span style="font-weight: bold;">Montague</span>
+#+BEGIN_EXPORT latex
+\tikz \draw (0,0) --+ (0,-1)
+       arc [radius=1, start angle=-180, end angle=0]
+       --+ (0,1) -- cycle
+       node [below=1.5em,midway] {\bfseries M};
+#+END_EXPORT
+<span style="color: #696969;">#+END_CENTER</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Dear Juliet,</span>
+<span style="color: #696969;"># NOTE: Your letter is the first non-special heading.  The title of</span>
+<span style="color: #696969;"># this heading may used as an opening.</span>
+
+<span style="color: #696969;">#+BEGIN_VERSE</span>
+<span style="background-color: #000000;">Then plainly know my heart's dear love is set</span>
+<span style="background-color: #000000;">On the fair daughter of rich Capulet:</span>
+<span style="background-color: #000000;">As mine on hers, so hers is set on mine;</span>
+<span style="background-color: #000000;">And all combin'd, save what thou must combine</span>
+<span style="background-color: #000000;">By holy marriage: when, and where, and how</span>
+<span style="background-color: #000000;">We met, we woo'd, and made exchange of vow,</span>
+<span style="background-color: #000000;">I'll tell thee as we pass; but this I pray,</span>
+<span style="background-color: #000000;">That thou consent to marry us to-day.</span>
+<span style="color: #696969;">#+END_VERSE</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Yours truly,                              </span><span style="color: #e2c770; font-weight: bold;">:closing:</span>
+Romeo of House Montague
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> some arbitrary LaTeX code              </span><span style="color: #e2c770; font-weight: bold;">:my_after_signature:</span>
+<span style="color: #696969;">#+BEGIN_EXPORT latex</span>
+<span style="color: #696969; background-color: #000000;">% </span><span style="color: #696969; background-color: #000000;">this special heading was added dynamically.</span>
+<span style="color: #696969;">#+END_EXPORT</span>
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> PS                                     </span><span style="color: #e2c770; font-weight: bold;">:ps:</span>
+PS: "PS" is not typeset automatically by KOMA-Script
+
+<span style="color: #66d9ef;">@@latex:\noindent@@</span> PPS: This is a feature!
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> CC                                     </span><span style="color: #e2c770; font-weight: bold;">:cc:</span>
+Paris and Lawrence.
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> ENCL                                     </span><span style="color: #e2c770; font-weight: bold;">:encl:</span>
+See also <span style="color: #d02090; text-decoration: underline;"><a href="https://en.wikisource.org/wiki/The_Tragedy_of_Romeo_and_Juliet">The Tragedy of Romeo and Juliet</a></span>
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> some more arbitrary LaTeX code                   </span><span style="color: #e2c770; font-weight: bold;">:after_letter:</span>
+<span style="color: #696969;">#+BEGIN_EXPORT latex</span>
+<span style="color: #696969; background-color: #000000;">% </span><span style="color: #696969; background-color: #000000;">here we can place random LaTeX code, e.g. including PDFs via the pdfpages package.</span>
+<span style="color: #696969;">#+END_EXPORT</span>
+</pre>
+</div>
+
+<p>
+Since no <code>LaTeX_CLASS</code> has been specified the default class will be
+used.  The first block of lines specify title, subject and date.
+<code>PLACE</code> specify the closing sentence and the place from which the
+letter is send.
+</p>
+
+<p>
+The address of the receiver is specified in the <a href="#special-headings">special heading</a>  with
+the <code>:to:</code> tag.  Note that the headline text is arbitrary and ignored.
+</p>
+
+<p>
+The main letter is the first non-special heading<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.  Notice that
+the text of this headline also serves as the opening of the letter.
+The closing of the letter is set via the closing special heading.
+Note that closing statement is the headline title and the signature is
+the content.
+</p>
+
+<p>
+Finally, the &rsquo;backmatter&rsquo; printed after the signature are defined in
+the tree special heading with the tags <code>ps</code>, <code>cc</code> and <code>encl</code>.  With
+the <code>OPTION</code> <code>after-closing-order</code> we can reorder the ordering of the
+&rsquo;backmatter&rsquo;.  The content of the <code>after_letter</code> heading is inserted
+after <code>\end{letter}</code>.  This is useful executing arbitrary latex
+commands.  For instance, we may want to include PDFs via the
+<a href="http://www.ctan.org/pkg/pdfpages"><code>pdfpages</code></a> package.
+</p>
+
+<p>
+<code>ox-koma-letter.el</code> also supports an alternative syntax that relies
+less on headings as illustrated by the example in this <a href="https://orgmode.org/worg/sources/exporters/koma-letter-example.org">Org-file</a> and
+the corresponding <a href="https://orgmode.org/worg/images/ox-koma-letter/koma-letter-example.pdf">pdf</a>.
+</p>
+
+<p>
+When composing new letters it may be useful to start with template
+by typing <code>C-c C-e #</code> and choosing <code>koma-letter</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org792d05c" class="outline-3">
+<h3 id="org792d05c">Learning more about KOMA-Script Letter</h3>
+<div class="outline-text-3" id="text-org792d05c">
+<p>
+<code>org-koma-letter.el</code> exports a LaTeX document utilizing the <code>scrlttr2</code>
+class of KOMA-Script.  The document class is described in great
+details in chapter 4 of the <a href="http://mirrors.ctan.org/macros/latex/contrib/koma-script/doc/scrguien.pdf">KOMA-Script manual</a>.  If you have TeXLive
+you can open the manual with the command <code>texdoc KOMA-Script</code> and with
+MiKTeX one might call <code>mthelp KOMA-Script</code>.
+</p>
+
+<p>
+Elements such as the address-field is automatically typeset using
+user-provided <i>metadata</i>, or <i>variables</i>, such as address, sender name
+etc.  A full list of variables are available in table 4.1 and an
+illustration of placement of variables is shown in figure 4.9, both
+the in KOMA-Script manual.  A subset of these are supported directly
+by <code>ox-koma-letter.el</code>.
+</p>
+
+<p>
+Placement of elements is typically defined by a LCO file.  If, for
+instance, the <code>DIN</code> LCO file is loaded, letters are typeset to fit
+German DIN envelopes.  See table 4.18 in the KOMA-Script manual for
+default classes.
+</p>
+
+<p>
+You can customize the look of your letter by writing your own LCO
+files and including them with the <code>#+LCO:</code> keyword.  See <a href="#org7b3b7a5">Setting letter metadata in LCO files</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3344292" class="outline-2">
+<h2 id="org3344292">Configuration guide</h2>
+<div class="outline-text-2" id="text-org3344292">
+<p>
+In addition to the actual content a typical letter also contains
+additional information, such as the sender&rsquo;s and recipient&rsquo;s
+addresses, a date, and so on. From now on we refer to this additional
+data as <i>letter metadata</i>.
+</p>
+
+<p>
+A special group of letter metadata controls the appearance of the
+letter, such as the presence of foldmarks or a back address. These are
+called <i>letter options</i>.
+</p>
+</div>
+
+<div id="outline-container-orgaef1534" class="outline-3">
+<h3 id="orgaef1534">Setting letter metadata and letter options</h3>
+<div class="outline-text-3" id="text-orgaef1534">
+<p>
+Letter metadata can be configured in one of four ways, listed below
+from the most specific to the most general:
+</p>
+
+<ol class="org-ol">
+<li>using Org option lines, as show in the <a href="#orgecc5209">simple letter example</a> above,</li>
+<li>by using separate Org LaTeX classes,</li>
+<li>by setting Emacs variables, or</li>
+<li>in a KOMA-Script Letter Class Option file (LCO file).</li>
+</ol>
+
+<p>
+We cover these in turn.
+</p>
+</div>
+
+<div id="outline-container-org72a8a42" class="outline-4">
+<h4 id="org72a8a42">Multiple LaTeX Classes</h4>
+<div class="outline-text-4" id="text-org72a8a42">
+<p>
+It is possible to define multiple LaTeX classes for different
+types of letters using the method used <a href="#orgc5c2f13">above</a>.  For example one could
+add a special Org LaTeX class, say <code>foo-copr</code>, for sending letters to
+the stakeholders of Foo Corp, that loads the Foo Logo, specifies the
+footer and so forth.  The class is then loaded by inserting
+<code>#+LATEX_CLASS: foo-corp</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org85d9b7e" class="outline-4">
+<h4 id="org85d9b7e">Setting letter metadata in Org option lines</h4>
+<div class="outline-text-4" id="text-org85d9b7e">
+<p>
+A simple way to set letter metadata on-the-fly is by using Org option
+lines as used in the <a href="#orgecc5209">simple letter example</a> above where we used both
+special headings and keywords.
+</p>
+
+<p>
+Some letter options are set using an <code>#+OPTIONS:</code> line in the same
+manner as other <a href="https://orgmode.org/manual/Export-settings.html">Org mode export options</a>.
+</p>
+
+<p>
+A <a href="#metadata">list of KOMA letter metadata settings</a> is provided below.
+</p>
+
+<p>
+Metadata set in the file takes the highest priority. Thus, you can set
+default letter metadata using Emacs variables or in an LCO file (see
+below).  Then, you can tweak your letter options in the file itself.
+</p>
+
+<p>
+If you write a letter as a subtree of an Org heading, you must use Org
+properties inside a <code>:PROPERTIES:</code> drawer and prefix every option
+property with the string <code>EXPORT_</code>. See the <a href="https://orgmode.org/manual/Export-settings.html">chapter Export options in
+the Org manual</a> for details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgda9a386" class="outline-4">
+<h4 id="orgda9a386">Setting letter metadata in Emacs variables</h4>
+<div class="outline-text-4" id="text-orgda9a386">
+<p>
+Letter metadata can also be set using Emacs variables, e.g., in your
+init-file. For example, the Emacs Lisp snippet below sets the letter&rsquo;s
+closing line and the location.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-koma-letter-closing <span style="color: #e2c770;">"See you soon,"</span>
+        org-koma-letter-from-address <span style="color: #e2c770;">"Verona"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+A <a href="#settings">list of KOMA letter metadata settings</a> is provided below.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7b3b7a5" class="outline-4">
+<h4 id="org7b3b7a5">Setting letter metadata in LCO files</h4>
+<div class="outline-text-4" id="text-org7b3b7a5">
+<p>
+A third way, letter metadata can be set in so-called letter class
+option files (LCO files).  LCO files are regular TeX files which are
+included in the TeX source of the letter. Consequently, one has access
+to the entirety of KOMA-Script options in LCO files and can also
+include other LaTeX code.  For more information about LCO files, see
+the <a href="http://www.ctan.org/pkg/koma-script">KOMA-Script documentation</a>.
+</p>
+
+<p>
+LCO files are set by the <code>#+LCO: LCO1 LCO2</code> option line or the Emacs
+variable <code>org-koma-letter-class-option-file</code>.  KOMA-Script comes with
+a variety of pre-made LCO files, such as <code>DIN</code> for German letters,
+<code>NF</code> for French letters, or <code>UScommercial9</code> for US-American letters.
+</p>
+
+<p>
+Letter metadata set in LCO files overwrites <a href="#orgda9a386">letter metadata set in
+Emacs variables</a> but not <a href="#org85d9b7e">letter metadata set in the Org file</a>.
+</p>
+
+<p>
+LCO files are convenient as modules that can be loaded to access
+particular setups across letters.  Examples include the sender&rsquo;s
+address, the first footer and header, banking information, or the
+inclusion of a scanned signature.  A particularly useful LaTeX command
+is <code>\ifkomavarempty{KOMAVAR}{TRUE}{FALSE}</code> that can be used to
+condition the printed output depending on whether <code>KOMAVAR</code> is set or
+not.  See the example under <code>\setkomavar{frombank}</code> in the KOMA-Script
+manual (currently page 183).
+</p>
+
+<p>
+The following LCO file, called <code>DefaultAddress.lco</code>, sets the default
+address. It can loaded using the Org option line <code>#+LCO: DefaultAddress</code>
+(without the <code>.lco</code> extension).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #696969;">% </span><span style="color: #696969;">Default letter configuration file</span>
+<span style="color: #d3d3d3;">\ProvidesFile</span>{DefaultAddress.lco}
+
+<span style="color: #696969;">% </span><span style="color: #696969;">Default address</span>
+<span style="color: #d3d3d3;">\setkomavar</span>{fromname}{Jane Doe}
+<span style="color: #d3d3d3;">\setkomavar</span>{fromaddress}{Some Street 1<span style="color: #e2c770;">\\</span>12345 Some City}
+<span style="color: #d3d3d3;">\setkomavar</span>{fromemail}{jane.doe@email.com}
+<span style="color: #d3d3d3;">\setkomavar</span>{fromphone}{(555) 526-3363}
+<span style="color: #d3d3d3;">\setkomavar</span>{signature}{<span style="color: #d3d3d3;">\usekomavar</span>{fromname}}
+</pre>
+</div>
+
+<p>
+The following LCO file, called <code>Banking.lco</code>, configures a footer with
+banking information. To load it together with the default address
+defined above one can use the Org option line <code>#+LCO: DefaultAddress
+Banking</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex">  <span style="color: #696969;">% Banking information configuration file</span>
+  <span style="color: #d3d3d3;">\ProvidesFile</span>{Banking.lco}
+
+  <span style="color: #696969;">% Banking information in the footer</span>
+  <span style="color: #d3d3d3;">\setkomavar</span>{frombank}{Jane Doe<span style="color: #e2c770;">\\</span>Account number: 12\,345\,678<span style="color: #e2c770;">\\</span>Somebank<span style="color: #e2c770;">\\</span>Bank code number: 876\,543\,21}
+  <span style="color: #d3d3d3;">\setkomavar</span>{firstfoot}{<span style="color: #696969;">%</span>
+    <span style="color: #66d9ef;">\footnotesize</span>
+    <span style="color: #d3d3d3;">\parbox</span>[b]{<span style="color: #d3d3d3;">\linewidth</span>}{<span style="color: #eb4509;">\centering</span><span style="color: #d3d3d3;">\usekomavar</span>{frombank}}}
+</pre>
+</div>
+
+<p>
+Custom LCO files must be placed in a directory where LaTeX will find
+them. On GNU/Linux, this defaults to <code>~/texmf/tex/latex</code>. On OS X, use
+<code>~/Library/texmf/tex/latex</code>.  In TeX Live, these paths can be
+configured using the following command:
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">tlmgr conf texmf TEXMFHOME ~/some/path
+</pre>
+</div>
+
+<p>
+You can test whether <code>foo.lco</code> is recognized by TeX Live by running
+the command <code>kpsewhich foo.lco</code>. After adding a file to the TeX Live
+path you may have to run <code>mktexlsr</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-settings" class="outline-3">
+<h3 id="settings">List of KOMA-Script letter metadata settings</h3>
+<div class="outline-text-3" id="text-settings">
+<p>
+This section tries to list all Org option lines, Emacs variables, and
+the corresponding <code>ox-koma-letter</code> variables or options that control
+the behavior of the KOMA-Script letter exporter.
+</p>
+
+<p>
+To get a complete list of variables please use the Customize
+interface, e.g. by typing
+</p>
+<pre class="example">
+M-x custromize-group org-export-koma-letter
+</pre>
+</div>
+
+
+<div id="outline-container-metadata" class="outline-4">
+<h4 id="metadata">List of <code>ox-koma-letter</code> letter metadata</h4>
+<div class="outline-text-4" id="text-metadata">
+<p>
+The following letter metadata can be set by respective Org option
+lines. In general, they correspond to a LaTeX command such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #d3d3d3;">\setkomavar</span>{&lt;KOMA variable&gt;}{&lt;value&gt;}
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Option line</th>
+<th scope="col" class="org-left">Emacs variable</th>
+<th scope="col" class="org-left">KOMA-Script variable</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>#+LCO:</code></td>
+<td class="org-left"><code>org-koma-letter-class-option-file</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The default LCO file.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+FROM_LOGO</code></td>
+<td class="org-left"><code>org-koma-letter-from-logo</code></td>
+<td class="org-left"><code>fromlogo</code></td>
+<td class="org-left">The sender&rsquo;s logo.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+TITLE:</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>title</code></td>
+<td class="org-left">The  title of the letter.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+SUBJECT:</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>subject</code></td>
+<td class="org-left">The subject of the letter</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+DATE:</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>date</code></td>
+<td class="org-left">The time-stamp of the letter.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+LOCATION:</code></td>
+<td class="org-left"><code>org-koma-letter-location</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The space opposite the to address</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+PLACE:</code></td>
+<td class="org-left"><code>org-koma-letter-place</code></td>
+<td class="org-left"><code>place</code></td>
+<td class="org-left">The place of the letter.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+AUTHOR:</code></td>
+<td class="org-left"><code>org-koma-letter-sender</code></td>
+<td class="org-left"><code>fromname</code></td>
+<td class="org-left">The sender&rsquo;s name.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+FROM_ADDRESS:</code></td>
+<td class="org-left"><code>org-koma-letter-from-address</code></td>
+<td class="org-left"><code>fromaddress</code></td>
+<td class="org-left">The sender&rsquo;s address.<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+PHONE_NUMBER:</code></td>
+<td class="org-left"><code>org-koma-letter-phone</code></td>
+<td class="org-left"><code>fromphone</code></td>
+<td class="org-left">The sender&rsquo;s phone number.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+URL</code></td>
+<td class="org-left"><code>org-koma-letter-url</code></td>
+<td class="org-left"><code>fromurl</code></td>
+<td class="org-left">The sender&rsquo;s URL, e. g., the URL of her homepage</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+EMAIL:</code></td>
+<td class="org-left"><code>org-koma-letter-email</code></td>
+<td class="org-left"><code>fromemail</code></td>
+<td class="org-left">The sender&rsquo;s email.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+TO_ADDRESS:</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The recipient&rsquo;s address.<sup><a id="fnr.2.100" class="footref" href="#fn.2">2</a></sup></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+OPENING:</code></td>
+<td class="org-left"><code>org-koma-letter-opening</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The opening line of the letter.<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+CLOSING:</code></td>
+<td class="org-left"><code>org-koma-letter-closing</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The closing line of the letter.<sup><a id="fnr.3.100" class="footref" href="#fn.3">3</a></sup></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+SIGNATURE:</code></td>
+<td class="org-left"><code>org-koma-letter-signature</code></td>
+<td class="org-left"><code>signature</code></td>
+<td class="org-left">The sender&rsquo;s signature.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>#+LATEX_CLASS:</code></td>
+<td class="org-left"><code>org-koma-letter-default-class</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Corresponds to <code>org-latex-default-class</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-options" class="outline-4">
+<h4 id="options">List of <code>ox-koma-letter</code> options</h4>
+<div class="outline-text-4" id="text-options">
+<p>
+The following letter options can be set in an <code>#+OPTIONS:</code> line. In
+general, they correspond to a LaTeX command such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #d3d3d3;">\KOMAoption</span>{&lt;KOMA option&gt;}{&lt;value&gt;}
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Option</th>
+<th scope="col" class="org-left">Emacs variable</th>
+<th scope="col" class="org-left">KOMA-Script option</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>after-closing-order</code></td>
+<td class="org-left"><code>org-koma-letter-special-tags-after-closing</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Order or special headlines such as <code>ps</code>, <code>cc</code>, and <code>encl</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>after-letter-order</code></td>
+<td class="org-left"><code>org-koma-letter-special-tags-after-letter</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Order or special headlines such as <code>after_letter</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>backaddress</code></td>
+<td class="org-left"><code>org-koma-letter-use-backaddress</code></td>
+<td class="org-left"><code>backaddress</code></td>
+<td class="org-left">Print the sender&rsquo;s address in a  line above the recipient&rsquo;s address.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>phone</code></td>
+<td class="org-left"><code>org-koma-letter-use-phone</code></td>
+<td class="org-left"><code>fromphone</code></td>
+<td class="org-left">Print the sender&rsquo;s phone.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>url</code></td>
+<td class="org-left"><code>org-koma-letter-use-url</code></td>
+<td class="org-left"><code>fromurl</code></td>
+<td class="org-left">Print the sender&rsquo;s URL</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>email</code></td>
+<td class="org-left"><code>org-koma-letter-use-email</code></td>
+<td class="org-left"><code>fromemail</code></td>
+<td class="org-left">Print the sender&rsquo;s email.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>foldmarks</code></td>
+<td class="org-left"><code>org-koma-letter-use-foldmarks</code></td>
+<td class="org-left"><code>foldmarks</code></td>
+<td class="org-left">If and how foldmarks are printed.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>subject</code></td>
+<td class="org-left"><code>org-koma-letter-subject-format</code></td>
+<td class="org-left"><code>subject</code></td>
+<td class="org-left">If and how to print the letter&rsquo;s subject line.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>place</code></td>
+<td class="org-left"><code>org-koma-letter-use-place</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Print the letter&rsquo;s place stamp.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>from-logo</code></td>
+<td class="org-left"><code>org-koma-letter-use-from-logo</code></td>
+<td class="org-left"><code>fromlogo</code></td>
+<td class="org-left">Insert the sender&rsquo;s logo.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-special-headings" class="outline-4">
+<h4 id="special-headings">List of <code>ox-koma-letter</code> special headings</h4>
+<div class="outline-text-4" id="text-special-headings">
+<p>
+Special headings may be used to input metadata in <code>ox-koma-letter</code>
+documents.  A special heading is simply a heading with a recognized
+tag.  Their usages were illustrated in the <a href="#orgecc5209">example</a> above.  Special
+headings tags are defined in the variables
+<code>org-koma-letter-special-tags-in-letter</code>,
+<code>org-koma-letter-special-tags-after-closing</code>, and
+<code>org-koma-letter-special-tags-after-letter</code>.  Note that these can also
+be dynamically set via the options <code>after-closing-order</code> and
+<code>after-letter-order</code>.
+Currently the following special headings are recognized.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Tag</th>
+<th scope="col" class="org-left">KOMA-Script</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>to</code></td>
+<td class="org-left"><code>\begin{letter}{to}</code></td>
+<td class="org-left">To-address. Alternative to <code>#+TO_ADDRESS:</code>.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>from</code></td>
+<td class="org-left"><code>fromaddress</code></td>
+<td class="org-left">From-address.  Alternative to <code>+FROM_ADDRESS:</code>.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>closing</code></td>
+<td class="org-left"><code>closing</code> and <code>signature</code></td>
+<td class="org-left">headings title and signature.  Alternative to <code>#+CLOSING:</code> and <code>#+SIGNATURE:</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>after_closing</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Content is inserted after <code>\closing{.}</code>.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>ps</code></td>
+<td class="org-left"><code>\ps{}</code></td>
+<td class="org-left">Wrap content in a <code>ps</code>-macro.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>cc</code></td>
+<td class="org-left"><code>\cc{}</code></td>
+<td class="org-left">Wrap content in a <code>cc</code>-macro.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>encl</code></td>
+<td class="org-left"><code>\encl{}</code></td>
+<td class="org-left">Wrap content in a <code>encl</code> macro.</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>after_letter</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Content is inserted after <code>\end{letter}</code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+A special headings in <code>ox-koma-letter</code> is a heading with a
+recognized tag.  These headings are treated specially.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+The options lines <code>#+FROM_ADDRESS:</code>, <code>#+TO_ADDRESS:</code>, can be
+used multiple times and may also be specified using headlines cf. the <a href="#orgecc5209">example</a> above.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+The options lines <code>#+OPENING:</code> and <code>#+CLOSING:</code> cannot be set
+in an LCO file.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Viktor Rosenfeld and Rasmus Pank Roulund</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

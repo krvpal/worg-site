@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dot Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Dot Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org04f9097">Introduction</a></li>
+<li><a href="#org7b57ce9">Requirements and Setup</a></li>
+<li><a href="#org5f950b1">Org Mode Features for <code>Dot</code> Source Code Blocks</a>
+<ul>
+<li><a href="#org5aaac41">Header Arguments</a></li>
+<li><a href="#orgb7d6b57">Sessions</a></li>
+<li><a href="#org3010386">Result Types</a></li>
+<li><a href="#org006f241">Other</a></li>
+</ul>
+</li>
+<li><a href="#org76574c3">Examples of Use</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://www.graphviz.org/">Dot</a>
+</p>
+<p>
+<a href="http://language-site/">
+<img src="http://www.graphviz.org/app.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-org04f9097" class="outline-2">
+<h2 id="org04f9097">Introduction</h2>
+<div class="outline-text-2" id="text-org04f9097">
+<p>
+<code>Dot</code> is one of six layout programs in the <code>Graphviz</code> open source
+graph visualization software, created at AT&amp;T. The <code>Graphviz</code> layout
+programs take simple text graph descriptions and make useful diagrams
+in a variety of formats. <code>Dot</code> source code blocks call the <code>dot</code>
+layout program by default, but can be configured to call any of the
+other five <code>Graphviz</code> layout programs.
+</p>
+
+<p>
+Graph visualization has applications in many technical domains, where
+it is often used to explore large data sets. A typical use in <code>Org
+mode</code> chains the <code>dot</code> source code block to a source code block in
+another language that is responsible for converting a data table into
+source code for one of the <code>Graphviz</code> layout languages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7b57ce9" class="outline-2">
+<h2 id="org7b57ce9">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org7b57ce9">
+<p>
+<code>Graphviz</code> is distributed on an open source basis under <a href="http://www.eclipse.org/legal/eplfaq.php">The Eclipse
+Public License</a>.  <a href="http://www.graphviz.org/Download..php">Executable packages</a> from AT&amp;T are available for
+Linux, Solaris, Windows, and Mac.
+</p>
+
+<p>
+You can configure Org mode to execute <code>dot</code> source code blocks by
+adding a line to <code>org-babel-load-languages</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+     <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+     <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>dot . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">this line activates dot</span>
+</pre>
+</div>
+
+<p>
+Optionally, <a href="http://users.skynet.be/ppareit/projects/graphviz-dot-mode/graphviz-dot-mode.html">graphviz-dot-mode</a> offers font locking, indentation, and
+preview of graphs. The variable <code>org-src-lang-modes</code> can be customized
+to contain an entry that associates <code>dot</code> files with
+<code>graphviz-dot-mode</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f950b1" class="outline-2">
+<h2 id="org5f950b1">Org Mode Features for <code>Dot</code> Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org5f950b1">
+</div>
+<div id="outline-container-org5aaac41" class="outline-3">
+<h3 id="org5aaac41">Header Arguments</h3>
+<div class="outline-text-3" id="text-org5aaac41">
+<p>
+<code>Dot</code> source code blocks produce graphics files. The default value for
+the <code>:results</code> header argument is &ldquo;file&rdquo; and for the <code>:exports</code> header
+argument it is &ldquo;results&rdquo;.
+</p>
+
+<p>
+There are two <code>dot</code> specific header arguments that can be used to
+               tailor the command line.  They are:
+</p>
+<dl class="org-dl">
+<dt><code>:cmd</code></dt><dd>this header argument can be used to change the layout
+program from the default &ldquo;dot&rdquo;.  <a href="http://www.graphviz.org/Home.php">Sensible values</a>
+are &ldquo;neato&rdquo;, &ldquo;fdp&rdquo;, &ldquo;sfdp&rdquo;, &ldquo;twopi&rdquo;, and &ldquo;circo&rdquo;.</dd>
+<dt><code>:cmdline</code></dt><dd>the default sets the <code>dot</code> flag <code>-T</code> to the
+extension of the output file in order to indicate
+the output format. <code>Graphviz</code> recognizes three
+dozen <a href="http://www.graphviz.org/content/output-formats">output formats</a>. <a href="http://www.graphviz.org/content/command-line-invocation">Other flags</a> that can be set
+with <code>:cmdline</code> control default graph, node, and
+edge attributes, among other functionality.</dd>
+</dl>
+
+<p>
+The <code>:file</code> header argument is required for <code>dot</code> source code blocks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb7d6b57" class="outline-3">
+<h3 id="orgb7d6b57">Sessions</h3>
+<div class="outline-text-3" id="text-orgb7d6b57">
+<p>
+<code>Dot</code> does not support sessions.
+</p>
+</div>
+</div>
+<div id="outline-container-org3010386" class="outline-3">
+<h3 id="org3010386">Result Types</h3>
+<div class="outline-text-3" id="text-org3010386">
+<p>
+<code>Dot</code> source code blocks produce graphic files, so the default value
+&ldquo;file&rdquo; is the only sensible type of result.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org006f241" class="outline-3">
+<h3 id="org006f241">Other</h3>
+<div class="outline-text-3" id="text-org006f241">
+<p>
+<code>Dot</code> source code blocks currently do not evaluate variables.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org76574c3" class="outline-2">
+<h2 id="org76574c3">Examples of Use</h2>
+<div class="outline-text-2" id="text-org76574c3">
+<p>
+A typical use of a <code>dot</code> source code block is to produce a graph
+visualization of a data set.  In this example, the following input
+table 
+</p>
+
+<table id="org1d03a0e" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-left">Hello</td>
+</tr>
+
+<tr>
+<td class="org-left">b</td>
+<td class="org-left">World!</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+is passed to a source code block that is responsible for producing
+valid <code>dot</code> code 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org219a957">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #9c91e4;">#'</span><span style="color: #fd971f;">(</span>lambda <span style="color: #b6e63e;">(</span>x<span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">princ</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%s [label =\"%s\", shape = \"box\"];\n"</span>
+                             <span style="color: #fd971f;">(</span><span style="color: #fd971f;">first</span> x<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">second</span> x<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">table</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">princ</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%s -- %s;\n"</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">first</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">first</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">first</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">second</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+#+name: make-dot
+#+BEGIN_SRC emacs-lisp :var table=dot-eg-table :results output :exports none
+  (mapcar #'(lambda (x)
+              (princ (format "%s [label =\"%s\", shape = \"box\"];\n"
+                             (first x) (second x)))) table)
+              (princ (format "%s -- %s;\n" (first (first table)) (first (second table))))
+#+END_SRC
+</pre>
+
+<p>
+and this is chained to a <code>dot</code> source code block 
+</p>
+
+<pre class="example">
+#+BEGIN_SRC dot :file images/test-dot.png :var input=make-dot :exports results
+graph {
+ $input
+}
+#+END_SRC
+</pre>
+
+<p>
+that wraps the input in a <code>graph{}</code> command to produce the following
+graphic output
+</p>
+
+<div class="org-src-container">
+<pre class="src src-dot">graph {
+ $input
+}
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="images/test-dot.png" alt="test-dot.png" />
+</p>
+</div>
+
+<p>
+An example of chaining source code blocks to produce a <code>dot</code> graph is
+provided by Schulte et al. in <a href="http://www.jstatsoft.org/v46/i03">A Multi-Language Computing Environment
+for Literate Programming and Reproducible Research</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

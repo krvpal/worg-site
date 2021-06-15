@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-sql.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">SQL Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd@tsdye.com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="https://en.wikipedia.org/wiki/SQL">https://en.wikipedia.org/wiki/SQL</a>"</span></span><span class="org-block">&gt;SQL&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[10/12]</span></span><span class="org-level-1">                                       </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Result%20Types">Result Types</a></span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Other">Other</a></span> differences from supported languages
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>Structured Query Language, or SQL, is an ANSI and ISO standard
+programming language for managing data held in a relational database
+management system (RDBMS). SQL implementations vary in their adherence
+to the standard and how they attempt to extend the language, so that
+it is often not possible to port code across implementations without
+modification. Consequently, Org mode supports several SQL
+implementations.
+
+An alternative is sqlite.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>In order to evaluate an SQL source code block you must have a properly
+installed RDBMS. Org mode supports the following implementations:
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">dbi ::</span> the DBI shell command-line tool, <span class="kc-org-link-url"><a href="http://search.cpan.org/~tlowery/DBI-Shell-11.93/dbish.PL">dbish</a></span>, used by Perl programmers;
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">monetdb ::</span> a <span class="kc-org-link-url"><a href="http://www.monetdb.org/">column storage technology</a></span> designed to work with very
+               large databases uses an executable named <span class="org-verbatim">mclient</span>;
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">msosql ::</span> the <span class="kc-org-link-url"><a href="http://technet.microsoft.com/en-us/library/aa214012(v%3Dsql.80).aspx">Microsoft osql Utility</a></span> that uses ODBC to connect to
+              an RDBMS server;
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">mysql ::</span> <span class="kc-org-link-url"><a href="http://www.mysql.com/">MySQL</a></span> advertises itself as the world's most popular open
+             source database--the executable expected by Org mode is <span class="org-verbatim">mysql</span>;
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">postgresql ::</span>  <span class="kc-org-link-url"><a href="http://www.enterprisedb.com/products-services-training/products/postgresql-overview&amp;ls%3DSEM?gclid%3DCMqe0bP7groCFQeCQgodTSwAcQ">PostgreSQL</a></span> advertises itself as the world's most
+                   advanced open source database--the executable
+                   expected by Org mode is <span class="org-verbatim">psql</span>.
+
+Emacs has shipped with<span class="kc-org-link-url"><a href="http://www.emacswiki.org/emacs/SqlMode"> SQL mode</a></span> since version 21.4.
+
+You'll need to activate SQL source code blocks in <span class="org-verbatim">.emacs</span>.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sql . t)))
+;; add additional languages with '((language . t)))
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for SQL Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>
+The <span class="org-verbatim">:colnames</span> header argument defaults to "yes".
+
+There are several SQL-specific header arguments:
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:engine ::</span> one of "dbi", "monetdb", "msosql", "mysql", "postgresql";
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:cmdline ::</span> extra command line arguments for the RDBMS executable;
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:dbhost ::</span> the host name;
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:dbuser ::</span> the user name;
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:dbpassword ::</span> the user's password;
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:database ::</span> the database name;
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>There is currently no support for sessions.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Use SQL Source Code Blocks to Prepare Query Strings
+</span>
+Support for SQL is also available in several languages. Typically in
+these languages, an SQL query is represented by a string. One use of
+SQL source code blocks is for editing SQL queries for use in those
+languages. The advantage is that editing can be done with SQL mode,
+instead of as a generic string in the mode of the parent language.
+
+The source code block, <span class="org-verbatim">quote-blks</span>, was posted to the Org mode
+mailing list by Charles Berry. The <span class="org-verbatim">blk</span> argument takes a string of
+comma separated source code block names, and the optional <span class="org-verbatim">sep</span>
+argument is a separator used in the output when there is more than one
+source code block.
+
+
+<span class="org-meta-line">#+name: quote-blks</span>
+<span class="org-meta-line">#+header: :exports none</span>
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp :var blk="abc" :var sep="\"\n\""
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">replace-regexp-in-string</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\"\""</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapconcat</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-babel-goto-named-src-block</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">cadr</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-get-src-block-info</span></span><span class="org-block">  t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">split-string</span></span><span class="org-block"> blk </span><span class="org-block"><span class="string">","</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        sep</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+       t t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">
+#+name: quote-blks
+#+BEGIN_SRC emacs-lisp :var blk="abc" :var sep="\"\n\""
+    (save-excursion
+      (replace-regexp-in-string "\"\"" ""
+       (mapconcat
+        (lambda (x)
+          (org-babel-goto-named-src-block x)
+          (format "%S" (cadr  (org-babel-get-src-block-info  t))))
+        (split-string blk "," t)
+        sep)
+       t t))
+#+END_SRC
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+The query is written in a named SQL source code block:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">
+#+name: my-query
+#+begin_src sql
+  SELECT * FROM mytable
+  WHERE id &gt; 500
+#+end_src
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-meta-line">#+name: my-query</span>
+<span class="org-meta-line">#+header: :exports none</span>
+<span class="org-block-begin-line">#+begin_src sql
+</span><span class="org-block">  </span><span class="org-block"><span class="keyword">SELECT</span></span><span class="org-block"> * </span><span class="org-block"><span class="keyword">FROM</span></span><span class="org-block"> mytable
+  </span><span class="org-block"><span class="keyword">WHERE</span></span><span class="org-block"> id &gt; </span><span class="org-block"><span class="highlight-numbers-number">500</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Then, the query can be used in a source code block for a language,
+such as R, with SQL support.  The following code block, with its noweb
+reference to <span class="org-verbatim">quote-blkes</span> and the SQL source code block name
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">
+#+begin_src R :colnames yes :noweb yes
+  library(RMySQL)
+  con &lt;- dbConnect(MySQL(), user="user", password="pwd", dbname="dbname", host="host")
+  q &lt;-
+  &lt;&lt;quote-blks("my-query")&gt;&gt;
+  c &lt;- dbGetQuery(con, q)
+  dbDisconnect(con)
+  c
+#+end_src
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+expands to this:
+
+<span class="org-meta-line">#+header: :exports code</span>
+<span class="org-block-begin-line">#+begin_src R :colnames yes :noweb yes
+</span>  library(RMySQL)
+  con &lt;- dbConnect(MySQL(), user="user", password="pwd", dbname="dbname", host="host")
+  q &lt;-
+  <span class="org-target">&lt;&lt;quote-blks("my-query")&gt;&gt;</span>
+  c &lt;- dbGetQuery(con, q)
+  dbDisconnect(con)
+  c
+<span class="org-block-end-line">#+end_src
+</span>
+Note that the noweb reference must be on its own line.
+
+Alternatively, the query could be set up to run on its own:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">
+#+name: my-query
+#+header: :engine mysql
+#+header: :dbhost host
+#+header: :dbuser user
+#+header: :dbpassword pwd
+#+header: :database dbname
+#+begin_src sql
+  SELECT * FROM mytable
+  WHERE id &gt; 500
+#+end_src
+
+</span><span class="org-block-end-line">#+end_example
+</span></pre>
+  </body>
+</html>

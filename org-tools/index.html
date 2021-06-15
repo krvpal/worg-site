@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org Mode tools!</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org Mode tools!</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgaeb9667">Org-mode parsers</a></li>
+<li><a href="#orgd517fb7">Org-mode exporters</a></li>
+<li><a href="#org8ba5ec1">Specific purpose tools</a>
+<ul>
+<li><a href="#org616220f">pandoc</a></li>
+<li><a href="#org7bc782a">orgutils R package</a></li>
+<li><a href="#org3218b6b">ascii R package</a></li>
+<li><a href="#org180dcac">org-webring - generate webrings for Org-based sites / blogs</a></li>
+<li><a href="#org29fbffc">org-pandoc-import : leverage Pandoc to convert selected file types to org</a></li>
+<li><a href="#orgd86e4ca">el2org - convert an emacs-lisp file to an org file</a></li>
+<li><a href="#orge9c542e">El Gantt - A Gantt chart/calendar for Orgmode</a></li>
+<li><a href="#orga6ca289">org-web.org -  - org mode on the web</a></li>
+<li><a href="#org4338b5b">organice - organice organizes Org files nicely!</a></li>
+<li><a href="#orga12c70f">orgmode for Drupal</a></li>
+<li><a href="#orgd8c7921">nakkaya: a static site generator parsing Org&rsquo;s files (and MarkDown)</a></li>
+<li><a href="#orgbc9e5e2">orgitdown - use Org keybindings in HTML text areas</a></li>
+<li><a href="#org6486d79">Exporter for the Octopress blogging engine</a></li>
+<li><a href="#org984121e">Export OmniFocus to Org-mode files</a></li>
+<li><a href="#org73b8782">Convert from Planner to Org</a></li>
+<li><a href="#org7b3a858">Export vCard to org-mode entries</a></li>
+<li><a href="#orgc25f8c0">ews-orgmode - Exchange calendar to orgmode</a></li>
+<li><a href="#org3fe0fbf">michel-orgmode - script for pushing to / pulling from Google-Tasks lists</a></li>
+<li><a href="#orge8f831c">Using GData API to import events in an Org file</a></li>
+<li><a href="#org973da8c">Migrating from Tomboy to Org</a></li>
+<li><a href="#orgd22b1e6">orgutil - TCL script to manipulate org files</a></li>
+<li><a href="#orgcd43f44">org2remind - perl script to convert org appointments to remind</a></li>
+<li><a href="#org105cacc">ical2org.awk - convert ics files to Org</a></li>
+<li><a href="#org9ef901c">ical2org.rb - convert ics files to Org</a></li>
+<li><a href="#orga13e001">org-manage - locate and manage your org files</a></li>
+<li><a href="#org656948c">vimwiki2org - convert vimwiki files to Org</a></li>
+<li><a href="#org17ea19f">Org Blog Wiki tools</a></li>
+<li><a href="#fix-links">orgFixLinks.py: a Python command-line utility for repairing broken links to local files</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This page lists external tools useful for handling Org files.
+</p>
+
+<div id="outline-container-orgaeb9667" class="outline-2">
+<h2 id="orgaeb9667">Org-mode parsers</h2>
+<div class="outline-text-2" id="text-orgaeb9667">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Language</th>
+<th scope="col" class="org-left">Author</th>
+<th scope="col" class="org-left">Annoncement/info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><a href="https://github.com/200ok-ch/org-parser">org-parser</a></td>
+<td class="org-left">JavaScript/Java/Clojure/BNF</td>
+<td class="org-left">200ok</td>
+<td class="org-left"><a href="https://200ok.ch/project/org-parser.html">homepage</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/mashdot/orgile">Orgile</a></td>
+<td class="org-left">PHP</td>
+<td class="org-left"><a href="https://github.com/mashdot">mashdot</a></td>
+<td class="org-left"><a href="http://toshine.org/etc/orgile-emacs-org-mode-file-html-parser-php-publishing-tool/">this blog entry</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://bitbucket.org/joebo/pico-org/src">pico-org</a></td>
+<td class="org-left">PicoLisp</td>
+<td class="org-left">Joe Bogner</td>
+<td class="org-left"><a href="http://thread.gmane.org/gmane.lisp.picolisp.general/3679">Message</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://common-lisp.net/project/cl-org-mode/">cl-org-mode</a></td>
+<td class="org-left">Common Lisp</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://members.optusnet.com.au/~charles57/GTD/orgnode.html">orgnode.py</a></td>
+<td class="org-left">Python</td>
+<td class="org-left">Charles Cave</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://gioorgi.com/org-mode-parser/">org-mode-parser</a></td>
+<td class="org-left">nodejs</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/bjonnh/PyOrgMode">PyOrgMode</a></td>
+<td class="org-left">Python</td>
+<td class="org-left">Jonathan Bisson</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://redmine.chadok.info/projects/neo">neo</a></td>
+<td class="org-left">?</td>
+<td class="org-left">Olivier Schwander</td>
+<td class="org-left"><a href="http://lists.gnu.org/archive/html/emacs-orgmode/2011-04/msg00598.html">Announcement</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="http://search.cpan.org/dist/Org-Parser">Org::Parser</a></td>
+<td class="org-left">Perl</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/bdewey/org-ruby">org-ruby</a></td>
+<td class="org-left">Ruby</td>
+<td class="org-left">Brian Dewey</td>
+<td class="org-left"><a href="https://orgmode.org/worg/org-tutorials/org-ruby.html">org-ruby tutorial</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/mooz/org-js">org-js</a></td>
+<td class="org-left">JavaScript</td>
+<td class="org-left">Masafumi Oyamada</td>
+<td class="org-left"><a href="http://mooz.github.com/org-js/editor/">working example</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com//xiaoxinghu/orgajs">orga</a></td>
+<td class="org-left">?</td>
+<td class="org-left">Xiaoxing Hu</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/mclements/ascii">ascii</a></td>
+<td class="org-left">R</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="https://cran.r-project.org/web/packages/ascii/">ascii on CRAN</a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/orgapp/orgajs">orgajs</a></td>
+<td class="org-left">JavaScript</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/org-rs/org-rs">org-rs</a></td>
+<td class="org-left">Rust</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/orgapp/swift-org">swift-org</a></td>
+<td class="org-left">Swift</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/seylerius/organum">organum</a></td>
+<td class="org-left">Clojure</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/eigenhombre/clj-org">clj-org</a></td>
+<td class="org-left">Clojure</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/ixmatus/orgmode-parse">orgmode-parse</a></td>
+<td class="org-left">?</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://hackage.haskell.org/package/org-mode">org-mode</a></td>
+<td class="org-left">Haskell</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://github.com/PoiScript/orgize">orgize</a></td>
+<td class="org-left">Rust</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgd517fb7" class="outline-2">
+<h2 id="orgd517fb7">Org-mode exporters</h2>
+<div class="outline-text-2" id="text-orgd517fb7">
+<ul class="org-ul">
+<li><a href="https://github.com/zzamboni/ox-leanpub">https://github.com/zzamboni/ox-leanpub</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8ba5ec1" class="outline-2">
+<h2 id="org8ba5ec1">Specific purpose tools</h2>
+<div class="outline-text-2" id="text-org8ba5ec1">
+</div>
+<div id="outline-container-org616220f" class="outline-3">
+<h3 id="org616220f"><a href="https://pandoc.org">pandoc</a></h3>
+<div class="outline-text-3" id="text-org616220f">
+<p>
+Pandoc is the Swiss-army knife to convert files from one markup format
+into another, it can convert documents from many source format,
+including Org, to many other.
+</p>
+</div>
+</div>
+<div id="outline-container-org7bc782a" class="outline-3">
+<h3 id="org7bc782a">orgutils R package</h3>
+<div class="outline-text-3" id="text-org7bc782a">
+<ul class="org-ul">
+<li>Author: Enrico Schumann</li>
+<li>Homepage: <a href="https://cran.r-project.org/web/packages/orgutils/">https://cran.r-project.org/web/packages/orgutils/</a></li>
+</ul>
+
+<blockquote>
+<p>
+Helper functions for Org files (<a href="http://orgmode.org/">http://orgmode.org/</a>): a generic function &rsquo;toOrg&rsquo; for transforming R objects into Org markup (most useful for data frames; there are also methods for Dates/POSIXt) and a function to read Org tables into data frames.
+</p>
+</blockquote>
+
+<ul class="org-ul">
+<li>Description and examples</li>
+</ul>
+<p>
+Convert data.frames into org tables.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">library(orgutils)
+toOrg(head(mtcars))
+</pre>
+</div>
+
+<pre class="example">
+| row.names         |  mpg | cyl | disp |  hp | drat |    wt |  qsec | vs | am | gear | carb |
+|-------------------+------+-----+------+-----+------+-------+-------+----+----+------+------|
+| Mazda RX4         |   21 |   6 |  160 | 110 |  3.9 |  2.62 | 16.46 |  0 |  1 |    4 |    4 |
+| Mazda RX4 Wag     |   21 |   6 |  160 | 110 |  3.9 | 2.875 | 17.02 |  0 |  1 |    4 |    4 |
+| Datsun 710        | 22.8 |   4 |  108 |  93 | 3.85 |  2.32 | 18.61 |  1 |  1 |    4 |    1 |
+| Hornet 4 Drive    | 21.4 |   6 |  258 | 110 | 3.08 | 3.215 | 19.44 |  1 |  0 |    3 |    1 |
+| Hornet Sportabout | 18.7 |   8 |  360 | 175 | 3.15 |  3.44 | 17.02 |  0 |  0 |    3 |    2 |
+| Valiant           | 18.1 |   6 |  225 | 105 | 2.76 |  3.46 | 20.22 |  1 |  0 |    3 |    1 |
+</pre>
+</div>
+</div>
+<div id="outline-container-org3218b6b" class="outline-3">
+<h3 id="org3218b6b">ascii R package</h3>
+<div class="outline-text-3" id="text-org3218b6b">
+<ul class="org-ul">
+<li>Authors: David Hajage [aut], Mark Clements [cre, ctb], Seth Falcon [ctb], Terry Therneau [ctb], Matti Pastell [ctb], Friedrich Leisch [ctb]</li>
+<li>Homepage: <a href="https://cran.r-project.org/web/packages/ascii/">https://cran.r-project.org/web/packages/ascii/</a>, <a href="https://github.com/mclements/ascii">https://github.com/mclements/ascii</a></li>
+</ul>
+
+<blockquote>
+<p>
+Coerce R object to &rsquo;asciidoc&rsquo;, &rsquo;txt2tags&rsquo;, &rsquo;restructuredText&rsquo;, &rsquo;org&rsquo;, &rsquo;textile&rsquo; or &rsquo;pandoc&rsquo; syntax. Package comes with a set of drivers for &rsquo;Sweave&rsquo;.
+</p>
+</blockquote>
+<ul class="org-ul">
+<li>Description and examples</li>
+</ul>
+<p>
+Convert several R objects like tables, data.frame matrices into org tables
+</p>
+<div class="org-src-container">
+<pre class="src src-R">library(ascii)
+print(ascii(head(mtcars)),type='org')
+</pre>
+</div>
+
+<pre class="example">
+|                   | mpg   | cyl  | disp   | hp     | drat | wt   | qsec  | vs   | am   | gear | carb |
+|-------------------+-------+------+--------+--------+------+------+-------+------+------+------+------|
+| Mazda RX4         | 21.00 | 6.00 | 160.00 | 110.00 | 3.90 | 2.62 | 16.46 | 0.00 | 1.00 | 4.00 | 4.00 |
+| Mazda RX4 Wag     | 21.00 | 6.00 | 160.00 | 110.00 | 3.90 | 2.88 | 17.02 | 0.00 | 1.00 | 4.00 | 4.00 |
+| Datsun 710        | 22.80 | 4.00 | 108.00 | 93.00  | 3.85 | 2.32 | 18.61 | 1.00 | 1.00 | 4.00 | 1.00 |
+| Hornet 4 Drive    | 21.40 | 6.00 | 258.00 | 110.00 | 3.08 | 3.21 | 19.44 | 1.00 | 0.00 | 3.00 | 1.00 |
+| Hornet Sportabout | 18.70 | 8.00 | 360.00 | 175.00 | 3.15 | 3.44 | 17.02 | 0.00 | 0.00 | 3.00 | 2.00 |
+| Valiant           | 18.10 | 6.00 | 225.00 | 105.00 | 2.76 | 3.46 | 20.22 | 1.00 | 0.00 | 3.00 | 1.00 |
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-R">print(ascii(table(mtcars$am,mtcars$gear)),type='org')
+</pre>
+</div>
+
+<pre class="example">
+|   | 3     | 4    | 5    |
+|---+-------+------+------|
+| 0 | 15.00 | 4.00 | 0.00 |
+| 1 | 0.00  | 8.00 | 5.00 |
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-R">print(ascii(as.matrix(head(mtcars))),type='org')
+</pre>
+</div>
+
+<pre class="example">
+| 21.00 | 6.00 | 160.00 | 110.00 | 3.90 | 2.62 | 16.46 | 0.00 | 1.00 | 4.00 | 4.00 |
+| 21.00 | 6.00 | 160.00 | 110.00 | 3.90 | 2.88 | 17.02 | 0.00 | 1.00 | 4.00 | 4.00 |
+| 22.80 | 4.00 | 108.00 | 93.00  | 3.85 | 2.32 | 18.61 | 1.00 | 1.00 | 4.00 | 1.00 |
+| 21.40 | 6.00 | 258.00 | 110.00 | 3.08 | 3.21 | 19.44 | 1.00 | 0.00 | 3.00 | 1.00 |
+| 18.70 | 8.00 | 360.00 | 175.00 | 3.15 | 3.44 | 17.02 | 0.00 | 0.00 | 3.00 | 2.00 |
+| 18.10 | 6.00 | 225.00 | 105.00 | 2.76 | 3.46 | 20.22 | 1.00 | 0.00 | 3.00 | 1.00 |
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org180dcac" class="outline-3">
+<h3 id="org180dcac">org-webring - generate webrings for Org-based sites / blogs</h3>
+<div class="outline-text-3" id="text-org180dcac">
+<ul class="org-ul">
+<li>Read <a href="https://brettgilio.com/posts/2020-08-20-announcing-org-webring.html">the announcement</a> and <a href="https://orgmode.org/list/875z9c4ltr.fsf@gnu.org/">the message sent to the Org-mode list</a></li>
+<li>Browse <a href="https://sr.ht/~brettgilio/org-webring">the project page and source code</a></li>
+<li>Participate in <a href="https://sr.ht/~brettgilio/org-webring/lists">the mailing list</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org29fbffc" class="outline-3">
+<h3 id="org29fbffc"><a href="https://github.com/tecosaur/org-pandoc-import">org-pandoc-import</a> : leverage Pandoc to convert selected file types to org</h3>
+</div>
+<div id="outline-container-orgd86e4ca" class="outline-3">
+<h3 id="orgd86e4ca"><a href="https://github.com/tumashu/el2org">el2org</a> - convert an emacs-lisp file to an org file</h3>
+</div>
+<div id="outline-container-orge9c542e" class="outline-3">
+<h3 id="orge9c542e"><a href="https://github.com/legalnonsense/elgantt/">El Gantt</a> - A Gantt chart/calendar for Orgmode</h3>
+</div>
+<div id="outline-container-orga6ca289" class="outline-3">
+<h3 id="orga6ca289"><a href="https://org-web.org/">org-web.org</a> -  - org mode on the web</h3>
+<div class="outline-text-3" id="text-orga6ca289">
+<p>
+See <a href="https://github.com/DanielDe/org-web">https://github.com/DanielDe/org-web</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4338b5b" class="outline-3">
+<h3 id="org4338b5b">organice - organice organizes Org files nicely!</h3>
+<div class="outline-text-3" id="text-org4338b5b">
+<p>
+<a href="https://github.com/200ok-ch/organice">organice</a> is an implementation of Org mode without the dependency of
+Emacs. It is built for mobile and desktop browsers and syncs with
+Dropbox, Google Drive and WebDAV.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga12c70f" class="outline-3">
+<h3 id="orga12c70f">orgmode for Drupal</h3>
+<div class="outline-text-3" id="text-orga12c70f">
+<p>
+<a href="https://www.drupal.org/project/orgmode">Orgmode for drupal</a> import org files into drupal nodes. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd8c7921" class="outline-3">
+<h3 id="orgd8c7921">nakkaya: a static site generator parsing Org&rsquo;s files (and MarkDown)</h3>
+<div class="outline-text-3" id="text-orgd8c7921">
+<p>
+Static is a simple static site generator written in Clojure.  For a
+sample site build using static see <a href="http://nakkaya.com">http://nakkaya.com</a>
+</p>
+
+<p>
+You can grab the latest version of nakkaya from <a href="https://github.com/nakkaya/static">its github repository</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbc9e5e2" class="outline-3">
+<h3 id="orgbc9e5e2">orgitdown - use Org keybindings in HTML text areas</h3>
+<div class="outline-text-3" id="text-orgbc9e5e2">
+<p>
+<a href="https://github.com/gnowgi/orgitdown">orgitdown</a> is based on <a href="http://markitup.jaysalvat.com/home/">markitup</a> and allows to use Org keybindings in
+text areas through some javascript magic.  The text inserted is using
+Org&rsquo;s syntax, and can be further processed with Emacs in batch mode on
+the server.
+</p>
+
+<p>
+Check <a href="http://mid.gmane.org/CADSSMeg5BDkZMBWEhXF2K7kssrEsX6SkZE%2BOjvXFpHY5aTcgmQ@mail.gmail.com">Nagarjuna G announcement on the mailing list</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6486d79" class="outline-3">
+<h3 id="org6486d79">Exporter for the Octopress blogging engine</h3>
+<div class="outline-text-3" id="text-org6486d79">
+<blockquote>
+<p>
+Octopress is a framework designed by Brandon Mathis for Jekyll, the blog
+aware static site generator powering Github Pages. To start blogging with
+Jekyll, you have to write your own HTML templates, CSS, Javascripts and set
+up your configuration. But with Octopress All of that is already taken care
+of. Simply clone or fork Octopress, install dependencies and the theme, and
+you’re set.
+</p>
+</blockquote>
+
+<p>
+You can clone Octopress from <a href="https://github.com/imathis/octopress">the github repository</a>.
+</p>
+
+<p>
+<a href="https://github.com/craftkiller/orgmode-octopress">orgmode-octopress</a> is an exporter for Emacs Org-Mode to Octopress by
+craftkiller.  For setup instructions, check <a href="http://blog.paphus.com/blog/2012/08/01/introducing-octopress-blogging-for-org-mode/">this blog entry</a>.  Note that
+orgmode-octopress will not work with the new export engine in Org 8.0.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org984121e" class="outline-3">
+<h3 id="org984121e">Export OmniFocus to Org-mode files</h3>
+<div class="outline-text-3" id="text-org984121e">
+<p>
+Jay McCarthy wrote <a href="https://github.com/jeapostrophe/exp/blob/master/of2org.rkt">this</a>, using <a href="http://racket-lang.org/">Racket</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org73b8782" class="outline-3">
+<h3 id="org73b8782">Convert from Planner to Org</h3>
+<div class="outline-text-3" id="text-org73b8782">
+<p>
+See this message from <a href="http://mid.gmane.org/8ay5hehupe.fsf@faepop01.tu-graz.ac.at">Andreas Hirczy</a>:
+</p>
+
+<p>
+I have written yet another converter from planner to org:
+<a href="http://itp.tugraz.at/~ahi/Computer/SW/muse2org.html">http://itp.tugraz.at/~ahi/Computer/SW/muse2org.html</a>
+<a href="http://itp.tugraz.at/~ahi/Computer/SW/muse2org">http://itp.tugraz.at/~ahi/Computer/SW/muse2org</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7b3a858" class="outline-3">
+<h3 id="org7b3a858">Export vCard to org-mode entries</h3>
+<div class="outline-text-3" id="text-org7b3a858">
+<p>
+<a href="http://mid.gmane.org/50B28EA7.6020900@gmx.de">Simon Thum</a> shared some <a href="https://gist.github.com/4145201">Ruby code</a> to export vCards to Org-mode entries.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc25f8c0" class="outline-3">
+<h3 id="orgc25f8c0">ews-orgmode - Exchange calendar to orgmode</h3>
+<div class="outline-text-3" id="text-orgc25f8c0">
+<p>
+<a href="https://github.com/kautsig/ews-orgmode">https://github.com/kautsig/ews-orgmode</a>
+</p>
+
+<p>
+See <a href="http://mid.gmane.org/50B78A90.3040609@kautsig.org">this message</a> from Chris Raschl:
+</p>
+
+<pre class="example">
+I recently wrote a python script to fetch my calendar from the corporate
+exchange server into an orgmode file to view it in my agenda.
+It uses the exchange webservices (ews).
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3fe0fbf" class="outline-3">
+<h3 id="org3fe0fbf">michel-orgmode - script for pushing to / pulling from Google-Tasks lists</h3>
+<div class="outline-text-3" id="text-org3fe0fbf">
+<ul class="org-ul">
+<li>Authors: Mark Edgington, Christophe-Marie Duquesne</li>
+<li>Homepage: <a href="https://bitbucket.org/edgimar/michel-orgmode">https://bitbucket.org/edgimar/michel-orgmode</a></li>
+</ul>
+
+<p>
+Michel-orgmode is a python script which serves as a bridge between an
+org-mode textfile and a Google-tasks task list.  It can pull the contents
+of a Google-tasks list into an org-mode file, or push an org-mode file&rsquo;s
+contents to a Google-tasks list.  It supports bidirectional sync.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge8f831c" class="outline-3">
+<h3 id="orge8f831c">Using GData API to import events in an Org file</h3>
+<div class="outline-text-3" id="text-orge8f831c">
+<p>
+Mon, 11 Jul 2011, Felix Geller wrote:
+</p>
+
+<pre class="example">
+I wrote a Python [[https://bitbucket.org/fgeller/gcal2org/src/8fa7d2b83ab3/gcal2org.py][script]] that uses the GData API to download events for your
+Google Calendar and prints them to a given org-file. It is a very tiny
+script, but perhaps it is of use to other people as well.
+
+Small disclaimer: I've tested this on Mac OS X only, using Python 2.7.2.
+</pre>
+
+
+<p>
+The script can be found here: <a href="https://bitbucket.org/fgeller/gcal2org/src/8fa7d2b83ab3/gcal2org.py">gcal2org.py</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org973da8c" class="outline-3">
+<h3 id="org973da8c">Migrating from Tomboy to Org</h3>
+<div class="outline-text-3" id="text-org973da8c">
+<p>
+In <a href="https://orgmode.org/list/4E36EF1D.7000307@stalphonsos.com">this email</a>, Attila shared a script to move notes from Tomboy to
+Org-mode &#x2013; see his message:
+</p>
+
+<pre class="example">
+I'm moving my note-taking from GNote (C++ rewrite of Tomboy Notes) to
+org-mode.  As I have a lot of notes all over the place, I wrote a script to
+convert from the XML format used by the Tomboy-style tools to org-mode.
+</pre>
+
+
+<p>
+You can find the script here: <a href="https://github.com/StAlphonsos/scriptologie">https://github.com/StAlphonsos/scriptologie</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd22b1e6" class="outline-3">
+<h3 id="orgd22b1e6">orgutil - TCL script to manipulate org files</h3>
+<div class="outline-text-3" id="text-orgd22b1e6">
+<ul class="org-ul">
+<li>Author: Patrick Brennan</li>
+<li>Homepage: <a href="http://sourceforge.net/projects/orgutil/">http://sourceforge.net/projects/orgutil/</a></li>
+</ul>
+
+<pre class="example">
+Script for converting files into and out of Org-mode, and for performing
+various analyses and conversions. The primary use case for this utility is
+to convert between Org-mode outline text and AbstractSpoon's ToDoList.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgcd43f44" class="outline-3">
+<h3 id="orgcd43f44">org2remind - perl script to convert org appointments to remind</h3>
+<div class="outline-text-3" id="text-orgcd43f44">
+<ul class="org-ul">
+<li>Author: Matt Lundin</li>
+<li>Code: <a href="../code/perl/org2remind.pl">org2remind</a></li>
+</ul>
+
+<p>
+Remind is a command line calendar application for Unix/Linux that
+can, among other things, spit out formatted plain text calendars and
+agendas.
+</p>
+
+<p>
+<a href="http://www.roaringpenguin.com/products/remind">http://www.roaringpenguin.com/products/remind</a>
+</p>
+
+<pre class="example">
+To convert org-mode appointments to remind data, simply call the
+script on one or more org files:
+
+perl org2remind.pl ~/org/*.org
+
+(Optionally, add the script to your path and make it executable.)
+
+The results of this script can saved in a file...
+
+perl org2remind.pl ~/org/*.org &gt;&gt; org.rem 
+
+...or piped directly into a remind command...
+
+perl org2remind.pl ~/org/*.org | remind -
+
+For a nice calendar of the current month, use the following: 
+
+perl org2remind.pl ~/org/*.org | remind -c -
+
+This script is similar to org2rem.el (in the contrib directory of the
+org-mode repository), except that, instead of saving files from within
+org-mode, it allows for easier and faster access to org/remind data
+from the command line.
+
+Currently, the script supports appointments (i.e., active timestamps)
+and the org-diary-class sexp.
+</pre>
+</div>
+</div>
+<div id="outline-container-org105cacc" class="outline-3">
+<h3 id="org105cacc">ical2org.awk - convert ics files to Org</h3>
+<div class="outline-text-3" id="text-org105cacc">
+<ul class="org-ul">
+<li>Author: Eric S Fraga</li>
+<li>Code: <a href="https://github.com/msherry/ical2org/blob/master/ical2org.awk">ical2org.awk</a></li>
+</ul>
+
+<p>
+See <a href="../org-tutorials/org-google-sync.html">the org-google-sync tutorial</a> for explanations on how to use this
+script.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9ef901c" class="outline-3">
+<h3 id="org9ef901c">ical2org.rb - convert ics files to Org</h3>
+<div class="outline-text-3" id="text-org9ef901c">
+<ul class="org-ul">
+<li>Author: Simon Thum</li>
+<li>Code: <a href="https://github.com/simonthum/ical2org">ical2org</a></li>
+<li>handles events and TODOs</li>
+<li>all sorts of repeating events</li>
+<li>and timezones!</li>
+<li>one-way only though
+<ul class="org-ul">
+<li>except if you have a REST-capable ical server, see README</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga13e001" class="outline-3">
+<h3 id="orga13e001">org-manage - locate and manage your org files</h3>
+<div class="outline-text-3" id="text-orga13e001">
+<ul class="org-ul">
+<li>Author: Daniel German</li>
+<li>Code:   <a href="http://github.com/dmgerman/org-manage">org-manage</a> (based on <a href="https://github.com/yoshinari-nomura/org-octopress">org-octopress</a>)</li>
+<li>Lists all org files in a given directory and its subdirectories,
+providing a table of org files, including their title and category.</li>
+</ul>
+
+<blockquote>
+<p>
+This is a module to help managing a large collection of org files. It
+is based on org-octopress by Yoshinari Nomura.
+</p>
+
+<p>
+org-manage scans a given directory (recursively) looking for org
+files. For each, an entry is created. The title is extracted from the
+attribute #+TITLE: in the org file. The category is extracted from the
+first #+CATEGORY in the file (I suggest you add a default category to
+each file.
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org656948c" class="outline-3">
+<h3 id="org656948c">vimwiki2org - convert vimwiki files to Org</h3>
+<div class="outline-text-3" id="text-org656948c">
+<ul class="org-ul">
+<li>Author: Xu FaSheng</li>
+<li>Homepage: <a href="https://github.com/fasheng/vimwiki2org">https://github.com/fasheng/vimwiki2org</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org17ea19f" class="outline-3">
+<h3 id="org17ea19f">Org Blog Wiki tools</h3>
+<div class="outline-text-3" id="text-org17ea19f">
+<p>
+See the page <a href="../org-blog-wiki.html">Org Blogs and Wikis</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-fix-links" class="outline-3">
+<h3 id="fix-links">orgFixLinks.py: a Python command-line utility for repairing broken links to local files</h3>
+<div class="outline-text-3" id="text-fix-links">
+<ul class="org-ul">
+<li>Author: GitHub user cashTangoTangoCash</li>
+<li>website: <a href="https://github.com/cashTangoTangoCash/orgFixLinks">https://github.com/cashTangoTangoCash/orgFixLinks</a></li>
+<li>repairs broken links in org files</li>
+<li>currently Linux-only, but probably straighforward to port to Win/Mac?</li>
+</ul>
+
+<blockquote>
+<p>
+ A stand-alone Python script designed to interactively repair broken
+links to local files in one, many, or all of your org files.  OK, it&rsquo;s
+an amateur command line script that likely needs more refinement, and
+it chooses to do things that not everyone desires, but you can fork it
+on GitHub, and adapt it to your own purposes.  If you are frustrated
+by broken links to the degree that you are ready to debug a lengthy
+Python script, why not play with it.  The GitHub wiki
+<a href="https://github.com/cashTangoTangoCash/orgFixLinks/wiki">https://github.com/cashTangoTangoCash/orgFixLinks/wiki</a> provides a
+degree of documentation.
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

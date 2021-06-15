@@ -1,0 +1,572 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ox-overview.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .custom-1 {
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-quote {
+        /* org-quote */
+        color: #cfc0c5;
+        background-color: #212224;
+        font-style: italic;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">The New Org-mode Exporter Framework
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">John Henderson
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">jw.hendy[at]gmail[dot]com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+STYLE:      &lt;style type="text/css"&gt;#outline-container-introduction{ clear:both; }&lt;/style&gt;</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    ../ox-overview.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+As of release 8.0, Org-mode has transitioned to a new export framework, authored
+primarily (<span class="italic">entirely?</span>) by Nicolas Goaziou...
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+Perhaps this could be filled in with some of the technical reasons and advantages
+of the new exporter by Nicolas or someone else familiar with with it's inner workings?
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+For instructions on how to upgrade from the previous Org-mode exporter, see
+<span class="org-link"><a href="file:../org-8.0.org">the upgrade guide</a></span>.
+
+Nicolas' official announcement of the exporter may be viewed at the <span class="kc-org-link-url"><a href="https://orgmode.org/list/876229nrxf.fsf@gmail.com">Org-mode mailing list
+post</a></span>. This document presents an overview of features, as well as a list of currently
+supported exporter backends. <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Exporting.html#Exporting">Exporting</a></span> and <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Publishing.html#Publishing">publishing</a></span> are also documented in the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/">Org-mode
+manual</a></span>. See <span class="org-link"><a href="file:ox-docstrings.org">ox-docstrings</a></span> and <span class="org-link"><a href="file:org-element-docstrings.org">org-element-docstrings</a></span> for the extracted
+docstrings from these two core libraries of the new Org-mode exporter, i.e.
+for detailled technical information about the exporter framework.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> List of Org-mode exporters
+</span>
+Please find below a list of current Org-mode exporters, the location of the backend elisp
+file (relative to downloaded Org-mode installation directory, <span class="org-verbatim">org</span>) and links Worg and
+Org-mode manual documentation.
+
+<span class="org-table">| </span><span class="org-table"><span class="bold">Name</span></span><span class="org-table">          | </span><span class="org-table"><span class="bold">Exporter location</span></span><span class="org-table">                | </span><span class="org-table"><span class="bold">Worg Tutorial</span></span><span class="org-table">  | </span><span class="org-table"><span class="bold">Org-mode Manual</span></span><span class="org-table">            |</span>
+<span class="org-table">|---------------+----------------------------------+----------------+----------------------------|</span>
+<span class="org-table">| ASCII         | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-ascii.el</span></span><span class="org-formula">               </span><span class="org-table">| ox-ascii       | </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/ASCII_002fLatin_002d1_002fUTF_002d8-export.html#ASCII_002fLatin_002d1_002fUTF_002d8-export">ASCII/Latin-1/UTF-8 export</a></span><span class="org-table"> |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="https://bitbucket.org/rivanvx/beamer/wiki/Home">Beamer</a></span><span class="org-table">        | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-beamer.el</span></span><span class="org-formula">              </span><span class="org-table">| </span><span class="org-link"><a href="file:beamer/ox-beamer.org">ox-beamer</a></span><span class="org-table">      | </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/Beamer-export.html#Beamer-export">Beamer class export</a></span><span class="org-table">        |</span>
+<span class="org-table">| HTML          | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-html.el</span></span><span class="org-formula">                </span><span class="org-table">| ox-html        | </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/HTML-export.html#HTML-export">HTML export</a></span><span class="org-table">                |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a></span><span class="org-table">     | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-icalandar.el</span></span><span class="org-formula">           </span><span class="org-table">| ox-icalendar   |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.latex-project.org/">LaTeX</a></span><span class="org-table">         | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-latex.el</span></span><span class="org-formula">               </span><span class="org-table">| ox-latex       | </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/LaTeX-export.html#LaTeX-export">LaTeX export</a></span><span class="org-table">               |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://manpages.bsd.lv/history.html">Man</a></span><span class="org-table">           | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-man.el</span></span><span class="org-formula">                 </span><span class="org-table">| ox-man         |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://daringfireball.net/projects/markdown/">Markdown</a></span><span class="org-table">      | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-md.el</span></span><span class="org-formula">                  </span><span class="org-table">| ox-md          |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://opendocumentformat.org/">ODT</a></span><span class="org-table">           | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-odt.el</span></span><span class="org-formula">                 </span><span class="org-table">| ox-odt         | </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/OpenDocument-Text-export.html#OpenDocument-Text-export">OpenDocument Text export</a></span><span class="org-table">   |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/Publishing.html">Publishing</a></span><span class="org-table">    | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-publish.el</span></span><span class="org-formula">             </span><span class="org-table">| ox-publish     | </span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/Publishing.html#Publishing">Publishing</a></span><span class="org-table">                 |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.gnu.org/software/texinfo/">Texinfo</a></span><span class="org-table">       | </span><span class="org-formula"><span class="org-verbatim">./lisp/ox-texinfo.el</span></span><span class="org-formula">             </span><span class="org-table">| ox-texinfo     |                            |</span>
+<span class="org-table">|---------------+----------------------------------+----------------+----------------------------|</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.atlassian.com/software/confluence/overview/team-collaboration-software">Confluence</a></span><span class="org-table">    | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-confluence.el</span></span><span class="org-formula">  </span><span class="org-table">| ox-confluence  |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://imakewebthings.com/deck.js/">Deck.js</a></span><span class="org-table">       | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-deck.el</span></span><span class="org-formula">        </span><span class="org-table">| ox-deck        |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://freemind.sourceforge.net/wiki/index.php/Main_Page">Freemind</a></span><span class="org-table">      | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-freemind.el</span></span><span class="org-formula">    </span><span class="org-table">| ox-freemind    |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.gnu.org/software/groff/">Groff</a></span><span class="org-table">         | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-groff.el</span></span><span class="org-formula">       </span><span class="org-table">| ox-groff       |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.ctan.org/pkg/koma-script">Koma Scrlttr2</a></span><span class="org-table"> | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-koma-letter.el</span></span><span class="org-formula"> </span><span class="org-table">| ox-koma-letter |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.rssboard.org/rss-specification">RSS</a></span><span class="org-table">           | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-rss.el</span></span><span class="org-formula">         </span><span class="org-table">| ox-rss         |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://meyerweb.com/eric/tools/s5/">S5</a></span><span class="org-table">            | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-s5.el</span></span><span class="org-formula">          </span><span class="org-table">| ox-s5          |                            |</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.taskjuggler.org/">Taskjuggler</a></span><span class="org-table">   | </span><span class="org-formula"><span class="org-verbatim">./contrib/lisp/ox-taskjuggler.el</span></span><span class="org-formula"> </span><span class="org-table">| </span><span class="org-link"><a href="file:taskjuggler/ox-taskjuggler.org">ox-taskjuggler</a></span><span class="org-table"> |                            |</span>
+<span class="org-table">|---------------+----------------------------------+----------------+----------------------------|</span>
+<span class="org-table">| </span><span class="kc-org-link-url"><a href="http://www.docbook.org/">DocBook</a></span><span class="org-table">       | (1)                              | -              | -                          |</span>
+
+<span class="org-list-dt">-</span> (1) DocBook export, available in previous Org-mode versions, has not currently been ported
+  to the new exporter, however the new <span class="org-verbatim">ox-texinfo</span> backend can generate DocBook
+  format. Once <span class="org-verbatim">file.texi</span> is created via <span class="org-verbatim">ox-texinfo</span>, simply execute:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">makeinfo --docbook file.texi
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General Documentation
+</span>
+<span class="italic">This page is in progress. Please be patient as it is updated.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-level-1"><span class="custom">TODO</span></span><span class="org-level-1"> Add details about general export usage and information</span><span class="whitespace-tab">   </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-level-1"><span class="custom">TODO</span></span><span class="org-level-1"> Migrate Nicolas' mailing list summary here</span><span class="whitespace-tab">               </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>
+Here is the <span class="kc-org-link-url"><a href="https://orgmode.org/list/876229nrxf.fsf@gmail.com">email text</a></span> to allow for easy reference in this document. The contents of his
+email should end up in this document somehow or another, as this should serve as the
+primary source of information in addition to the manual for the exporter in general.
+
+If you migrate some information to this actual document, please delete it so that the quote below serves as a
+body of "todo" text.
+
+<span class="bold">Remember:</span> This is just for general exporter information and usage; backend-specific
+things should be housed in their appropriate repository. If the page doesn't exist, feel
+free to create it. There's a template <span class="org-link"><a href="file:ox-template.org">here</a></span>.
+
+<span class="org-block-begin-line">#+begin_quote
+</span><span class="org-quote">
+Table of Contents
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+1 To Whom Used the Experimental Version
+2 What&#8217;s New
+.. 2.1 New Back-Ends
+.. 2.2 Drawer Handling
+.. 2.3 Special Blocks
+.. 2.4 Improved Asynchronous Export
+.. 2.5 Smart Quotes
+.. 2.6 Cross Referencing
+.. 2.7 Lists of Tables, Lists of Listings
+3 Installation
+4 Configuration
+.. 4.1 Variables
+.. 4.2 Hooks
+.. 4.3 Filters
+.. 4.4 Forking a Back-End
+5 Caveats
+6 Footnotes
+
+
+      Hello,
+
+  I will install the new export framework along with a set of back-ends
+Wednesday evening (UTC).  Here are a few notes to help you make the
+transition.
+
+
+1 To Whom Used the Experimental Version
+&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+
+    The merge implies some renaming for symbols and files. More
+  precisely, &#8220;e-&#8221; is removed from symbols like variable names, functions
+  and back-ends and &#8220;org-e-&#8221; becomes &#8220;ox-&#8221; in files. To sum it up:
+
+       &#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;
+                  Old name                      New name
+       &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+                   e-latex                       latex
+                 org-e-latex                    ox-latex
+        org-export-latex-packages-alist  org-latex-packages-alist
+       &#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;&#9473;
+
+    Be sure to check filters and requires in your configuration files.
+
+
+2 What&#8217;s New
+&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+
+    Even though the internals are completely different, the new exporter
+  mostly behaves like its predecessor.  There are only a few noticeable
+  changes.
+
+
+2.1 New Back-Ends
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    New back-ends come with the new export engine:
+
+  &#8226; Markdown back-end (name: `md')
+  &#8226; Texinfo back-end (name: `texinfo')
+  &#8226; Man back-end (name: `man')
+
+    Most of the other back-ends have been rewritten from scratch, too.
+
+
+2.2 Drawer Handling
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    By default, every drawer but &#8220;properties&#8221; and &#8220;logbook&#8221; has its
+  contents exported.  See `org-export-with-drawers' variable.
+
+
+2.3 Special Blocks
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    The `org-special-blocks.el' library, which has been moved to
+  &#8220;contrib/&#8221;, is obsolete since its features are included in the new
+  export framework.
+
+
+2.4 Improved Asynchronous Export
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    Export can be asynchronous independently on the type of the source
+  or output (temporary buffer or file).  A special interface, called
+  &#8220;The Export Stack&#8221;, is used to view the output.  See
+  `org-export-in-background' variable.
+
+
+2.5 Smart Quotes
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    All back-ends have support for &#8220;smart&#8221; quotes, according to
+  `org-export-default-language' value or the `LANGUAGE' specifications
+  in the buffer.  See `org-export-with-smart-quotes'.
+    As of now, only &#8220;de&#8221;, &#8220;en&#8221;, &#8220;es&#8221; and &#8220;fr&#8221; languages are supported,
+  but it&#8217;s easy to add more.  See `org-export-smart-quotes-alist'.  Do
+  not hesitate to contribute more languages.
+
+
+2.6 Cross Referencing
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    Export has now full support for cross references, through targets
+  and `#+NAME' attributes[1].  Pay attention to the following example.
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; #+CAPTION: A table
+  &#9474; #+NAME: table
+  &#9474; | a | b |
+  &#9474;
+  &#9474; #+CAPTION: Another table
+  &#9474; #+NAME: other-table
+  &#9474; | c | d |
+  &#9474;
+  &#9474; 1. </span><span class="org-quote"><span class="org-target">&lt;&lt;itm&gt;&gt;</span></span><span class="org-quote">item 1
+  &#9474; 2. item 2
+  &#9474;
+  &#9474; Look at item </span><span class="org-quote"><span class="org-link"><a href="itm">it</a><a href="itm">m</a></span></span><span class="org-quote">! It happens after table </span><span class="org-quote"><span class="org-link"><a href="other-table">other-tabl</a><a href="other-table">e</a></span></span><span class="org-quote">.
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    When exported, the last line will be displayed as:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; Look at item 1! It happens after table 2.
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    It doesn&#8217;t depend on the back-end used.  It also references
+  footnotes, headlines, LaTeX environments&#8230;
+
+
+2.7 Lists of Tables, Lists of Listings
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    There is support for lists of tables and lists of listings in some
+  back-ends with the following syntax:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; #+TOC: headlines
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; #+TOC: tables
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; #+TOC: listings
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+
+3 Installation
+&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+
+    There are two ways to install export back-ends.
+
+  </span><span class="org-list-dt"><span class="org-quote">1.</span></span><span class="org-quote"> You may customize `org-export-backends' variable.  It contains
+     the list of back-ends that should always be available.
+
+  </span><span class="org-list-dt"><span class="org-quote">2.</span></span><span class="org-quote"> You can also simply require the back-end libraries
+     (e.g. `(require 'ox-icalendar)' for the iCalendar back-end).
+
+    Note that with method 1, the back-ends will be loaded only when the
+  export framework is used for the first time.
+
+
+4 Configuration
+&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+
+    Previously, the export engine was configured through variables and
+  numerous hooks.  Now, there are variables, only two hooks and
+  filters. One can also easily fork a new export back-end from an
+  existing one.
+
+
+4.1 Variables
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    The easiest way to browse configurable variables should be through
+  customize interface.  Though, the old export framework is still
+  lurking in the Org shipped with Emacs.
+    As a consequence, calling &#8220;customize&#8221; will also load previous export
+  engine.  It can lead to confusion as variables in both frameworks
+  share the same suffix.  You will have to be careful and double check
+  the origin of each variable being considered.
+    Anyway, if you still want to go through this, the following command
+  will get you to the right starting point:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; M-x customize-group RET org-export RET
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    However, I suggest to browse the source files and look after
+  `defcustom' entries.
+
+
+4.2 Hooks
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    Two hooks are run during the first steps of the export process.  The
+  first one, `org-export-before-processing-hook' is called before
+  expanding macros, Babel code and include keywords in the buffer.  The
+  second one, `org-export-before-parsing-hook', as its name suggests,
+  happens just before parsing the buffer.
+    Their main use is for heavy duties, that is duties involving
+  structural modifications of the document.  For example, one may want
+  to remove every headline in the buffer during export.  The following
+  code can achieve this:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; 1  (defun my-headline-removal (backend)
+  &#9474; 2    "Remove all headlines in the current buffer.
+  &#9474; 3  BACKEND is the export back-end being used, as a symbol."
+  &#9474; 4    (org-map-entries
+  &#9474; 5     (lambda () (delete-region (point) (progn (forward-line) (point))))))
+  &#9474; 6  (add-hook 'org-export-before-parsing-hook 'my-headline-removal)
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    Note that functions used in these hooks require a mandatory
+  argument, as shown at line 1.
+
+
+4.3 Filters
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    Filters are lists of functions applied on a specific part of the
+  output from a given back-end.  More explicitly, each time a back-end
+  transforms an Org object or element into another language, all
+  functions within a given filter type are called in turn on the string
+  produced.  The string returned by the last function will be the one
+  used in the final output.
+    There are filters sets for each type of element or object, for plain
+  text, for the parse tree, for the export options and for the final
+  output.  They are all named after the same scheme:
+  `org-export-filter-TYPE-functions', where `type' is the type targeted
+  by the filter.
+    For example, the following snippet allows me to use non-breaking
+  spaces in the Org buffer and get them translated into LaTeX without
+  using the `\nbsp' macro:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; 1  (defun ngz-latex-filter-nobreaks (text backend info)
+  &#9474; 2    "Ensure \" \" are properly handled in LaTeX export."
+  &#9474; 3    (when (org-export-derived-backend-p backend 'latex)
+  &#9474; 4          (replace-regexp-in-string " " "~" text)))
+  &#9474; 5  (add-to-list 'org-export-filter-plain-text-functions
+  &#9474; 6               'ngz-latex-filter-nobreaks)
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    Three arguments must be provided to a fiter (line 1): the code being
+  changed, the back-end used, and some information about the export
+  process.  You can safely ignore the third argument for most purposes.
+  Note (line 3) the use of `org-export-derived-backend-p', which ensures
+  that the filter will only be applied when using `latex' back-end or
+  any other back-end derived from it (i.e. `beamer').
+
+
+4.4 Forking a Back-End
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+    This is obviously the most powerful customization, since you work
+  directly at the parser level.  Indeed, complete export back-ends are
+  built as forks from other once (e.g. Markdown exporter is forked from
+  the HTML one).
+    Forking a back-end means that if an element type is not transcoded
+  by the new back-end, it will be handled by the original one.  Hence
+  you can extend specific parts of a back-end without too much work.
+    As an example, imagine we want the `ascii' back-end to display the
+  language used in a source block, when it is available, but only when
+  some attribute is non-nil, like the following:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; #+ATTR_ASCII: :language t
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    Because the `ascii' back-end is lacking in that area, we are going
+  to create a new back-end, `my-ascii', that will do the job.
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474;  1  (defun my-ascii-src-block (src-block contents info)
+  &#9474;  2    "Transcode a SRC-BLOCK element from Org to ASCII.
+  &#9474;  3  CONTENTS is nil.  INFO is a plist used as a communication
+  &#9474;  4  channel."
+  &#9474;  5    (let ((visiblep
+  &#9474;  6           (org-export-read-attribute :attr_ascii src-block :language)))
+  &#9474;  7      (if (not visiblep)
+  &#9474;  8          (org-export-with-backend 'ascii src-block contents info)
+  &#9474;  9        (let ((utf8p (eq (plist-get info :ascii-charset) 'utf-8)))
+  &#9474; 10          (concat
+  &#9474; 11           (format
+  &#9474; 12            (if utf8p "&#9581;&#9472;&#9472;[ %s ]&#9472;&#9472;\n%s&#9584;&#9472;&#9472;&#9472;&#9472;" ",--[ %s ]--\n%s`----")
+  &#9474; 13            (org-element-property :language src-block)
+  &#9474; 14            (replace-regexp-in-string
+  &#9474; 15             "^" (if utf8p "&#9474; " "| ")
+  &#9474; 16             (org-element-normalize-string
+  &#9474; 17              (org-export-format-code-default src-block info)))))))))
+  &#9474; 18
+  &#9474; 19  (org-export-define-derived-backend my-ascii parent
+  &#9474; 20    :translate-alist ((src-block . my-ascii-src-block)))
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    The `my-ascii-src-block' function looks at the attribute above the
+  element (line 6).  If it isn&#8217;t true, it gives hand to the `ascii'
+  back-end (line 8).  Otherwise, it creates a box around the code,
+  leaving room for the language.  A fork of `ascii' back-end is then
+  created (line 19).  It only changes its behaviour when translating
+  `src-block' type element (line 20).  Now, all it takes to use the new
+  back-end is calling the following on a buffer:
+
+  &#9581;&#9472;&#9472;&#9472;&#9472;
+  &#9474; (org-export-to-buffer 'my-ascii "</span><span class="org-quote"><span class="bold">Org MY-ASCII Export</span></span><span class="org-quote">")
+  &#9584;&#9472;&#9472;&#9472;&#9472;
+
+    It is obviously possible to write an interactive function for this,
+  install it in the export dispatcher menu, and so on.
+
+
+5 Caveats
+&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;
+
+  </span><span class="org-list-dt"><span class="org-quote">1.</span></span><span class="org-quote"> Although the old exporter files have been archived into
+     &#8220;contrib/&#8221; directory, they are not usable anymore.  Org 7.9 will be
+     the last release to provide it.
+
+  </span><span class="org-list-dt"><span class="org-quote">2.</span></span><span class="org-quote"> As a consequence, three export back-ends are not available
+     anymore: Taskjuggler, XOXO and Docbook.  About the latter, there is
+     a new back-end that produces Texinfo files, which can then be
+     converted into Docbook format with:
+
+     &#9581;&#9472;&#9472;&#9472;&#9472;
+     &#9474; makeinfo --docbook file.texi
+     &#9584;&#9472;&#9472;&#9472;&#9472;
+
+  </span><span class="org-list-dt"><span class="org-quote">3.</span></span><span class="org-quote"> Export section from Org manual is now obsolete.  It is being
+     rewritten, but until this task is completed, your best source of
+     information will still be the ML or the source files.
+
+
+
+Footnotes
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+
+[1] Though, it will expect a caption to be properly numbered.
+
+</span><span class="org-block-end-line">#+end_quote
+</span></pre>
+  </body>
+</html>

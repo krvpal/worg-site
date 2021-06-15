@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Merge Tool for Org-Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Andrew Young" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="https://orgmode.org/worg/org-faq.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Merge Tool for Org-Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge427690">Org-merge-driver Prototype</a>
+<ul>
+<li><a href="#orge976841">Example Results 1</a></li>
+<li><a href="#org0c6566c">Example Results 2</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge427690" class="outline-2">
+<h2 id="orge427690">Org-merge-driver Prototype</h2>
+<div class="outline-text-2" id="text-orge427690">
+<p>
+The program takes 2 modified versions of an Orgmode file and the
+original file, and tries to merge the changes into a single file.  Any
+changes from the two files which cannot be merged properly are marked
+as a conflict, with the standard conflict markers.
+</p>
+
+<p>
+The prototype only deals with one type of org-mode element: headings.
+An org-mode file is parsed into a tree of headings.  All text below a
+heading but before the next heading is considered apart of the
+heading&rsquo;s text.  A heading is identified by the text in the title
+(first line), or by an :ID: property if it has one.  
+</p>
+
+<p>
+The program then takes the parsed trees, and matches headings from one
+file to another.  While it does this, it also detects new headings,
+removed headings, and headings moved underneath a new parent.  For the
+prototype, I decided to regard headings as a un-ordered elements, so
+changing of position underneath a parent heading is not detected.
+This has also caused problems of accidentally reordering headings
+under a single parent in the output.  This will be fixed for the final
+program.
+</p>
+</div>
+
+<div id="outline-container-orge976841" class="outline-3">
+<h3 id="orge976841">Example Results 1</h3>
+<div class="outline-text-3" id="text-orge976841">
+<p>
+Here is an example run through with the program:
+</p>
+
+<p>
+Ancestor:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  * original heading
+  ,- here is some text
+</pre>
+</div>
+
+<p>
+File 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  * original heading
+  ,- here is some text
+  ,- add some text in file 1
+  ** New heading in file 1
+  ,- more text
+  <span style="font-weight: bold;">*</span> Sub new heading in file 1
+</pre>
+</div>
+
+<p>
+File2:
+</p>
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">A New Title In File 2</span>
+  * original heading
+  ,- here is some text
+  ** File 2 new sub heading
+  * A new heading in file 2
+  ,- with some text
+</pre>
+</div>
+
+<p>
+Program Stdout:
+</p>
+<pre class="example">
+----------------
+Node Change List:
+----------------
+Remove nodes: file 0
+----------
+Add nodes: file 1
+(:title "New heading in file 1" :level 2 :parent-level 1 :id "" :text "- more text
+")
+(:title "Sub new heading in file 1" :level 3 :parent-level 2 :id "" :text "")
+----------
+Remove nodes: file 0
+----------
+Add nodes: file 2
+(:title "File 2 new sub heading" :level 2 :parent-level 1 :id "" :text "")
+(:title "A new heading in file 2" :level 1 :parent-level 0 :id "" :text "- with some text
+")
+----------------------
+FILE : 0 NO_CHANGE
+(:title "" :level 0 :no-parent :id "" :text "")
+FILE : 2 NEW
+(:title "A new heading in file 2" :level 1 :parent-level 0 :id "" :text "- with some text
+")
+FILE : 0 NO_CHANGE
+(:title "original heading" :level 1 :parent-level 0 :id "" :text "- here is some text
+")
+FILE : 2 NEW
+(:title "File 2 new sub heading" :level 2 :parent-level 1 :id "" :text "")
+FILE : 1 NEW
+(:title "New heading in file 1" :level 2 :parent-level 1 :id "" :text "- more text
+")
+FILE : 1 NEW
+(:title "Sub new heading in file 1" :level 3 :parent-level 2 :id "" :text "")
+</pre>
+
+<p>
+The stdout can be confusing and misleading.  It mostly shows what
+positional changes for the headings it has detected.  It does not,
+however, show changes to the content under a heading.
+</p>
+
+<p>
+Merged Document:
+</p>
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">A New Title In File 2</span>
+  * A new heading in file 2
+  ,- with some text
+  * original heading
+  ,- here is some text
+  ,- add some text in file 1
+  ** File 2 new sub heading
+  ** New heading in file 1
+  ,- more text
+  <span style="font-weight: bold;">*</span> Sub new heading in file 1
+</pre>
+</div>
+
+<p>
+The file merged without any conflicts.  This is because neither file
+updated the same heading.  If File 1 had an additional top line that
+changed it to:
+</p>
+
+<p>
+New file 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  ,- conflicting text in file 1
+  * original heading
+  ,- here is some text
+  ,- add some text in file 1
+  ** New heading in file 1
+  ,- more text
+  <span style="font-weight: bold;">*</span> Sub new heading in file 1
+</pre>
+</div>
+
+<p>
+Then the output has a conflict, and prints:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; yours: t1-1.org
+  ,- conflicting text in file 1
+  ,=======
+<span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">A New Title In File 2</span>
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; theirs: t1-2.org
+  * A new heading in file 2
+  ,- with some text
+  * original heading
+  ,- here is some text
+  ,- add some text in file 1
+  ** File 2 new sub heading
+  ** New heading in file 1
+  ,- more text
+  <span style="font-weight: bold;">*</span> Sub new heading in file 1
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0c6566c" class="outline-3">
+<h3 id="org0c6566c">Example Results 2</h3>
+<div class="outline-text-3" id="text-org0c6566c">
+<p>
+A more complicated example:
+</p>
+
+<p>
+Ancestor:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  * heading 1
+  ** test heading
+  ,:PROPERTIES:
+  ,:ID: 100
+  ,:END:
+  ,- this is just a test
+  * heading 2
+  ** test heading
+  ,- this is a different heading
+  
+</pre>
+</div>
+
+<p>
+File 1:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  * heading 1
+  ** test heading
+  ,- this is a different heading
+  * heading 3
+  ** heading 4
+  <span style="font-weight: bold;">*</span> test heading
+  ,:PROPERTIES:
+  ,:ID: 100
+  ,:END:
+  ,- this is just a test
+</pre>
+</div>
+
+
+<p>
+File 2:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  * heading 1
+  ** test heading
+  ,:PROPERTIES:
+  ,:ID: 100
+  ,:END:
+  ,- updated line in file 2
+  * heading 2
+  ,- new text under heading 2
+  ,- this will conflict since heading 2
+  ,  deleted in file 1
+  ** test heading
+  ,- this is a different heading
+  ,- this line added in file 2
+</pre>
+</div>
+
+<pre class="example">
+----------------
+Node Change List:
+----------------
+Remove nodes: file 0
+(:title "heading 2" :level 1 :parent-level 0 :id "" :text "")
+----------
+Add nodes: file 1
+(:title "heading 3" :level 1 :parent-level 0 :id "" :text "")
+(:title "heading 4" :level 2 :parent-level 1 :id "" :text "")
+----------
+Remove nodes: file 0
+----------
+Add nodes: file 2
+----------------------
+FILE : 0 NO_CHANGE
+(:title "" :level 0 :no-parent :id "" :text "")
+FILE : 2 REMOVE
+(:title "heading 2" :level 1 :parent-level 0 :id "" :text "")
+FILE : 1 NEW
+(:title "heading 3" :level 1 :parent-level 0 :id "" :text "")
+FILE : 1 NEW
+(:title "heading 4" :level 2 :parent-level 1 :id "" :text "")
+FILE : 1 MOVE
+(:title "test heading" :level 3 :parent-level 2 :id "100" :text ":PROPERTIES:
+:ID: 100
+:END:
+- this is just a test
+")
+FILE : 1 NO_CHANGE
+(:title "heading 1" :level 1 :parent-level 0 :id "" :text "")
+FILE : 1 MOVE
+(:title "test heading" :level 2 :parent-level 1 :id "" :text "- this is a different heading
+")
+</pre>
+
+<p>
+Merged Document:
+</p>
+<div class="org-src-container">
+<pre class="src src-org">  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; yours: t1-1.org
+  ,=======
+  * heading 2
+  ,- new text under heading 2
+  ,- this will conflict since heading 2
+  ,  deleted in file 1
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; theirs: t1-2.org
+  * heading 3
+  ** heading 4
+  ** test heading
+  ,:PROPERTIES:
+  ,:ID: 100
+  ,:END:
+  ,- updated line in file 2
+  * heading 1
+  ** test heading
+  ,- this is a different heading
+  ,- this line added in file 2
+</pre>
+</div>
+
+<p>
+In this example, the ID was used to distinguish the headings called
+&rsquo;test heading&rsquo;, and a heading could be moved in one document and
+content updated in another without a conflict.  An identical content
+change in two files would not have resulted in a conflict.  If a identical
+heading is added to each of the documents, then the merged result will
+have two identical headings without conflict.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Andrew Young</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

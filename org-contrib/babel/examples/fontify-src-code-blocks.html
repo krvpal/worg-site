@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en_US" xml:lang="en_US">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pretty fontification of source code blocks</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Sebastien Vauban" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Pretty fontification of source code blocks</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org57e9d0d">Description</a></li>
+<li><a href="#org3d7e22d">Screenshot</a></li>
+<li><a href="#orgafddbcf">Configuration File</a></li>
+<li><a href="#org37cd8b4">Further extensions</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org57e9d0d" class="outline-2">
+<h2 id="org57e9d0d">Description</h2>
+<div class="outline-text-2" id="text-org57e9d0d">
+<p>
+This article is some "theming guide" about customizing the look and feel of an
+Org-Babel buffer inside Emacs. We'll show you how you can improve the
+appearance of source code blocks.
+</p>
+
+<p>
+Note that coloring the background of code blocks with native
+fontification no longer works as of <a href="https://code.orgmode.org/bzg/org-mode/commit/f8b42e8">commit f8b42e8</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3d7e22d" class="outline-2">
+<h2 id="org3d7e22d">Screenshot</h2>
+<div class="outline-text-2" id="text-org3d7e22d">
+<p>
+Screenshot for the <a href="https://github.com/fniessen/color-theme-leuven">Leuven</a> theme (light theme, i.e. with a white background):
+</p>
+
+
+<div class="figure">
+<p><img src="../images/fontified-src-code-blocks.png" alt="fontified-src-code-blocks.png" />
+</p>
+</div>
+
+<p>
+To configure "native fontification" (as in the above screenshot), set the
+following in your <code>.emacs</code> file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #696969;">;; </span><span style="color: #696969;">fontify code in code blocks</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-src-fontify-natively</span> t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgafddbcf" class="outline-2">
+<h2 id="orgafddbcf">Configuration File</h2>
+<div class="outline-text-2" id="text-orgafddbcf">
+<ul class="org-ul">
+<li>To get the above full contributed theme, please visit <a href="../../../org-color-themes.html">Installing Org Color
+themes</a> and copy the file <a href="https://github.com/fniessen/color-theme-leuven/blob/master/color-theme-leuven.el">color-theme-leuven.el</a> in your <code>load-path</code>.</li>
+
+<li>If you want to keep your existing Emacs color theme, and you only want to
+customize the "delimiter lines" of the code blocks, either:
+
+<ul class="org-ul">
+<li><p>
+Add the following lines to your current color theme:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span>org-block-begin-line
+     <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>t <span style="color: #eb4509;">(</span><span style="color: #fd971f;">:underline</span> <span style="color: #e2c770;">"#A7A6AA"</span> <span style="color: #fd971f;">:foreground</span> <span style="color: #e2c770;">"#008ED1"</span> <span style="color: #fd971f;">:background</span> <span style="color: #e2c770;">"#EAEAFF"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+    <span style="color: #eb4509;">(</span>org-block-background
+     <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>t <span style="color: #eb4509;">(</span><span style="color: #fd971f;">:background</span> <span style="color: #e2c770;">"#FFFFEA"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+    <span style="color: #eb4509;">(</span>org-block-end-line
+     <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>t <span style="color: #eb4509;">(</span><span style="color: #fd971f;">:overline</span> <span style="color: #e2c770;">"#A7A6AA"</span> <span style="color: #fd971f;">:foreground</span> <span style="color: #e2c770;">"#008ED1"</span> <span style="color: #fd971f;">:background</span> <span style="color: #e2c770;">"#EAEAFF"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+
+<li><p>
+Define these faces, in your <code>.emacs</code> file, <i>before</i> requiring Org (if you
+don't have your own color theme):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defface</span> <span style="color: #fd971f;">org-block-begin-line</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>t <span style="color: #eb4509;">(</span><span style="color: #fd971f;">:underline</span> <span style="color: #e2c770;">"#A7A6AA"</span> <span style="color: #fd971f;">:foreground</span> <span style="color: #e2c770;">"#008ED1"</span> <span style="color: #fd971f;">:background</span> <span style="color: #e2c770;">"#EAEAFF"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #7f7f80;">"Face used for the line delimiting the begin of source blocks."</span><span style="color: #eb4509;">)</span>
+
+    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defface</span> <span style="color: #fd971f;">org-block-background</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>t <span style="color: #eb4509;">(</span><span style="color: #fd971f;">:background</span> <span style="color: #e2c770;">"#FFFFEA"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #7f7f80;">"Face used for the source block background."</span><span style="color: #eb4509;">)</span>
+
+    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defface</span> <span style="color: #fd971f;">org-block-end-line</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>t <span style="color: #eb4509;">(</span><span style="color: #fd971f;">:overline</span> <span style="color: #e2c770;">"#A7A6AA"</span> <span style="color: #fd971f;">:foreground</span> <span style="color: #e2c770;">"#008ED1"</span> <span style="color: #fd971f;">:background</span> <span style="color: #e2c770;">"#EAEAFF"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #7f7f80;">"Face used for the line delimiting the end of source blocks."</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org37cd8b4" class="outline-2">
+<h2 id="org37cd8b4">Further extensions</h2>
+<div class="outline-text-2" id="text-org37cd8b4">
+<p>
+When we will have some spare time, our intention is to get the reserved
+keywords of Org-Babel (such as <code>:var</code> and <code>:exports</code>) somehow highlighted.
+Stay tuned &#x2013; or give some help!
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2012-01-25</p>
+<p class="author">Author: Sebastien Vauban</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

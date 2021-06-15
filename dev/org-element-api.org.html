@@ -1,0 +1,929 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-element-api.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org Element API
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Nicolas Goaziou
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">mail@nicolasgoaziou.fr
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) NEW(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-verbatim">org-element.el</span> implements a parser according to Org's <span class="org-link"><a href="./org-syntax.org">syntax
+specification</a></span>.
+
+The library contains tools to generate an abstract syntax tree (AST)
+from an Org buffer, to analyze the syntactical object at point.
+<span class="org-link"><a href="#parsing">Parsing functions</a></span> are detailed in the first part of the document,
+along with their relative accessors and setters.
+
+Upon parsing, each token in an Org document gets a type and some
+properties attached to it.  This information can be extracted and
+modified with provided <span class="org-link"><a href="#accessors">accessors</a></span> and <span class="org-link"><a href="#setters">setters</a></span>.  An exhaustive list of
+all types and attributes is given in section <span class="org-link"><a href="#attributes">#attributes</a></span>.
+
+Eventually, the library is packed with a few useful functions,
+described in the <span class="org-link"><a href="#other-tools">last section</a></span> of the document.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Parsing functions
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">parsing</span>
+<span class="org-drawer">:END:</span>
+
+There are two ways to parse a buffer using this library: either
+locally or globally.
+
+<span class="org-link"><a href="#local">Local parsing</a></span> gives information about the structure at point.
+Depending on the level of detail required, <span class="org-code">org-element-at-point</span> and
+<span class="org-code">org-element-context</span> fullfill that role.
+
+<span class="org-link"><a href="#global">Global parsing</a></span> is done with <span class="org-code">org-element-parse-buffer</span>, which returns
+the AST representing the document.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Analyzing the structure at point
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">local</span>
+<span class="org-drawer">:END:</span>
+
+<span class="org-code">org-element-at-point</span> offers a glimpse into the local structure of
+the document.  However, it stops at the element level.  It doesn't,
+for example, analyze the contents of a paragraph.  While this is
+sufficient for many use cases, <span class="org-code">org-element-context</span> allows to go
+deeper, down to the object level.  The following example illustrates
+the difference between the two functions.
+
+<span class="org-meta-line">#+name: context-vs-at-point</span>
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">,*Lorem ipsum dolor* sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Indeed, calling <span class="org-code">org-element-at-point</span> at the beginning of the
+paragraph returns a <span class="org-code">paragraph</span> structure, whereas calling
+<span class="org-code">org-element-context</span> returns a <span class="org-code">bold</span> object.
+
+Unless point is on a headline, both functions indirectly return all
+parents of the value within the current section<span class="org-footnote">[fn:1]</span>, through
+<span class="org-code">:parent</span> property.  For example, when point is at <span class="org-verbatim">(X)</span>
+
+<span class="org-meta-line">#+name: full-hierarchy</span>
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">,* Headline
+
+,#+BEGIN_CENTER
+Paragraph(X)
+,#+END_CENTER
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-code">org-element-at-point</span> returns a <span class="org-code">paragraph</span> element, whose <span class="org-code">:parent</span>
+property contains a <span class="org-code">center-block</span> element, which, in turn, has no
+<span class="org-code">:parent</span> since the next ancestor is the section itself.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Creating a snapshot of the document
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">global</span>
+<span class="org-drawer">:END:</span>
+
+<span class="org-code">org-element-parse-buffer</span> completely parses a (possibly narrowed)
+buffer into an AST.  The virtual root node has type <span class="org-code">org-data</span> and no
+properties attached to it.
+
+Unlike to local parsing functions, data obtained through
+<span class="org-code">org-element-parse-buffer</span> can be altered to your heart's content.
+See <span class="org-link"><a href="#setters">#setters</a></span> for a list of related tools.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Accessors
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">accessors</span>
+<span class="org-drawer">:END:</span>
+
+Type and properties of a given element or object are obtained with,
+respectively, <span class="org-code">org-element-type</span> and <span class="org-code">org-element-property</span>.
+
+<span class="org-code">org-element-contents</span> returns an ordered (by buffer position) list of
+all elements or objects within a given element or object.  Since local
+parsing ignores contents, it only makes sense to use this function on
+a part of an AST.
+
+Eventually, <span class="org-code">org-element-map</span> operates on an AST, a part of it, or any
+list of elements or objects.  It is a versatile function.
+
+For example, it can be used to collect data from an AST.  Hence the
+following snippet returns all paragraphs beginning a section in the
+current document.  Note that equality between elements is tested with
+<span class="org-code">eq</span>.
+
+<span class="org-meta-line">#+name: collect</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-element-map</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-element-parse-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">paragraph</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">paragraph</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">parent </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-element-property</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:parent</span></span><span class="org-block"> paragraph</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">eq</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-element-type</span></span><span class="org-block"> parent</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">section</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">first-child </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-element-contents</span></span><span class="org-block"> parent</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+             </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">eq</span></span><span class="org-block"> first-child paragraph</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Return value.
+</span></span><span class="org-block">           paragraph</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+It can also be used as a predicate.  Thus, the following snippet
+returns a non-<span class="org-code">nil</span> value when the document contains a checked item.
+
+<span class="org-meta-line">#+name: checkedp</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-element-map</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-element-parse-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">item</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">item</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">eq</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-element-property</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:checkbox</span></span><span class="org-block"> item</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">on</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+See <span class="org-code">org-element-map</span>'s docstring for more examples.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Setters
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">setters</span>
+<span class="org-drawer">:END:</span>
+
+<span class="org-code">org-element-put-property</span> modifies any property of a given element or
+object.
+
+Note that, even though structures obtained with local parsers are
+mutable, it is good practice to consider them immutable.  In
+particular, destructively changing properties relative to buffer
+positions is likely to break the caching mechanism running in the
+background.  If, for example, you need to slightly alter an element
+obtained using these functions, first copy it, using
+<span class="org-code">org-element-copy</span>, before modifying it by side effect.  There is no
+such restriction for elements grabbed from a complete AST.
+
+The library also provides tools to manipulate the parse tree.  Thus,
+<span class="org-code">org-element-extract-element</span> removes an element or object from an
+AST, <span class="org-code">org-element-set-element</span> replaces one with another, whereas
+<span class="org-code">org-element-insert-before</span> and <span class="org-code">org-element-adopt-element</span> insert
+elements within the tree, respectively before a precise location or
+after all children.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Types and Attributes
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">attributes</span>
+<span class="org-drawer">:END:</span>
+
+Each greater element, element and object has a variable set of
+properties attached to it.  Among them, four are shared by all types:
+<span class="org-code">:begin</span> and <span class="org-code">:end</span>, which refer to the beginning and ending buffer
+positions of the considered element or object, <span class="org-code">:post-blank</span>, which
+holds the number of blank lines, or white spaces, at its end<span class="org-footnote">[fn:2]</span> and
+<span class="org-code">:parent</span>, which refers to the element or object containing it.
+
+Greater elements containing objects on the one hand, and elements or
+objects containing objects on the other hand also have
+<span class="org-code">:contents-begin</span> and <span class="org-code">:contents-end</span> properties to delimit contents.
+
+In addition to these properties, each element can optionally get some
+more from affiliated keywords, namely: <span class="org-code">:caption</span>, <span class="org-code">:header</span>, <span class="org-code">:name</span>,
+<span class="org-code">:plot</span>, <span class="org-code">:results</span> or <span class="org-code">:attr_NAME</span> where <span class="org-verbatim">NAME</span> stands for the name
+of an export back-end.
+
+Also, <span class="org-code">:post-affiliated</span> property is attached to all elements.  It
+refers to the buffer position after any affiliated keyword, when
+applicable, or to the beginning of the element otherwise.
+
+The following example illustrates the relationship between position
+properties.
+
+<span class="org-meta-line">#+name: position-properties</span>
+<span class="org-block-begin-line">#+BEGIN_SRC org -n -r
+</span><span class="org-block">,#+NAME: dont-do-this-at-home (ref:begin)
+,#+BEGIN_SRC emacs-lisp       (ref:post)
+(/ 1 0)
+,#+END_SRC
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do (ref:end)
+eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+The first element's type is <span class="org-code">src-block</span>.  Its <span class="org-code">:begin</span> property
+(respectively <span class="org-code">:end</span> property) is the buffer position at the beginning
+of line <span class="org-link"><a href="(begin)">(begin)</a></span> (respectively line <span class="org-link"><a href="(end)">(end)</a></span>).  <span class="org-code">:post-affiliated</span> is the
+buffer position at the beginning of line <span class="org-link"><a href="(post)">(post)</a></span>.  Since source blocks
+cannot contain other elements or objects, both <span class="org-code">:contents-begin</span> and
+<span class="org-code">:contents-end</span> are <span class="org-code">nil</span>. <span class="org-code">:post-blank</span> is 1.
+
+Other properties, specific to each element or object type, are listed
+below.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Babel Call
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:call</span></span><span class="org-list-dt"> ::</span> Name of code block being called (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:inside-header</span></span><span class="org-list-dt"> ::</span> Header arguments applied to the named code block
+  (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:arguments</span></span><span class="org-list-dt"> ::</span> Arguments passed to the code block (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:end-header</span></span><span class="org-list-dt"> ::</span> Header arguments applied to the calling instance
+  (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Raw call, as Org syntax (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Bold
+</span>
+Recursive object.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Center Block
+</span>
+Greater element.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Clock
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:duration</span></span><span class="org-list-dt"> ::</span> Clock duration for a closed clock, or <span class="org-code">nil</span> (string or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:status</span></span><span class="org-list-dt"> ::</span> Status of current clock (symbol: <span class="org-code">closed</span> or
+  <span class="org-code">running</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Timestamp associated to clock keyword (timestamp
+  object).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Code
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Contents (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Comment
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Comments, with pound signs (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Comment Block
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Comments, without block's boundaries (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Diary Sexp
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Full Sexp (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Drawer
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:drawer-name</span></span><span class="org-list-dt"> ::</span> Drawer's name (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Dynamic Block
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:arguments</span></span><span class="org-list-dt"> ::</span> Block's parameters (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:block-name</span></span><span class="org-list-dt"> ::</span> Block's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:drawer-name</span></span><span class="org-list-dt"> ::</span> Drawer's name (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Entity
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:ascii</span></span><span class="org-list-dt"> ::</span> Entity's ASCII representation (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:html</span></span><span class="org-list-dt"> ::</span> Entity's HTML representation (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:latex</span></span><span class="org-list-dt"> ::</span> Entity's LaTeX representation (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:latex-math-p</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if entity's LaTeX representation should
+  be in math mode (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:latin1</span></span><span class="org-list-dt"> ::</span> Entity's Latin-1 encoding representation (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:name</span></span><span class="org-list-dt"> ::</span> Entity's name, without backslash nor brackets (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:use-brackets-p</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if entity is written with optional
+  brackets in original buffer (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:utf-8</span></span><span class="org-list-dt"> ::</span> Entity's UTF-8 encoding representation (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Example Block
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:label-fmt</span></span><span class="org-list-dt"> ::</span> Format string used to write labels in current block,
+  if different from <span class="org-code">org-coderef-label-format</span> (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:language</span></span><span class="org-list-dt"> ::</span> Language of the code in the block, if specified
+  (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:number-lines</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if code lines should be numbered.
+  A <span class="org-code">new</span> value starts numbering from 1 wheareas <span class="org-code">continued</span> resume
+  numbering from previous numbered block (symbol: <span class="org-code">new</span>, <span class="org-code">continued</span>
+  or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:options</span></span><span class="org-list-dt"> ::</span> Block's options located on the block's opening line
+  (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:parameters</span></span><span class="org-list-dt"> ::</span> Optional header arguments (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:preserve-indent</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> when indentation within the block
+  mustn't be modified upon export (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:retain-labels</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if labels should be kept visible upon
+  export (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:switches</span></span><span class="org-list-dt"> ::</span> Optional switches for code block export (string or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:use-labels</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if links to labels contained in the block
+  should display the label instead of the line number (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Contents (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export Block
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Related back-end's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Contents (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export Snippet
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:back-end</span></span><span class="org-list-dt"> ::</span> Relative back-end's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Export code (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Fixed Width
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Contents, without colons prefix (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Footnote Definition
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:label</span></span><span class="org-list-dt"> ::</span> Label used for references (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:pre-blank</span></span><span class="org-list-dt"> ::</span> Number of newline characters between the beginning
+  of the footnoote and the beginning of the contents (0, 1 or 2).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Footnote Reference
+</span>
+Recursive object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:label</span></span><span class="org-list-dt"> ::</span> Footnote's label, if any (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Determine whether reference has its definition inline, or
+  not (symbol: <span class="org-code">inline</span>, <span class="org-code">standard</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Headline
+</span>
+Greater element.
+
+In addition to the following list, any property specified in
+a property drawer attached to the headline will be accessible as an
+attribute (with an uppercase name, e.g., <span class="org-code">:CUSTOM_ID</span>).
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:archivedp</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if the headline has an archive tag
+  (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:closed</span></span><span class="org-list-dt"> ::</span> Headline's <span class="org-verbatim">CLOSED</span> reference, if any (timestamp object
+  or <span class="org-code">nil</span>)
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:commentedp</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if the headline has a comment keyword
+  (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:deadline</span></span><span class="org-list-dt"> ::</span> Headline's <span class="org-verbatim">DEADLINE</span> reference, if any (timestamp
+  object or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:footnote-section-p</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if the headline is a footnote
+  section (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:level</span></span><span class="org-list-dt"> ::</span> Reduced level of the headline (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:pre-blank</span></span><span class="org-list-dt"> ::</span> Number of blank lines between the headline and the
+  first non-blank line of its contents (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:priority</span></span><span class="org-list-dt"> ::</span> Headline's priority, as a character (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:quotedp</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if the headline contains a quote keyword
+  (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-value</span></span><span class="org-list-dt"> ::</span> Raw headline's text, without the stars and the
+  tags (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:scheduled</span></span><span class="org-list-dt"> ::</span> Headline's <span class="org-verbatim">SCHEDULED</span> reference, if any (timestamp
+  object or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:tags</span></span><span class="org-list-dt"> ::</span> Headline's tags, if any, without the archive tag. (list
+  of strings).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:title</span></span><span class="org-list-dt"> ::</span> Parsed headline's text, without the stars and the
+  tags (secondary string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:todo-keyword</span></span><span class="org-list-dt"> ::</span> Headline's TODO keyword without quote and comment
+  strings, if any (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:todo-type</span></span><span class="org-list-dt"> ::</span> Type of headline's TODO keyword, if any (symbol:
+  <span class="org-code">done</span>, <span class="org-code">todo</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Horizontal Rule
+</span>
+Element.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inline Babel Call
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:call</span></span><span class="org-list-dt"> ::</span> Name of code block being called (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:inside-header</span></span><span class="org-list-dt"> ::</span> Header arguments applied to the named code
+  block (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:arguments</span></span><span class="org-list-dt"> ::</span> Arguments passed to the code block (string or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:end-header</span></span><span class="org-list-dt"> ::</span> Header arguments applied to the calling instance
+  (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Raw call, as Org syntax (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inline Src Block
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:language</span></span><span class="org-list-dt"> ::</span> Language of the code in the block (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:parameters</span></span><span class="org-list-dt"> ::</span> Optional header arguments (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Source code (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inlinetask
+</span>
+Greater element.
+
+In addition to the following list, any property specified in
+a property drawer attached to the headline will be accessible as an
+attribute (with an uppercase name, e.g. <span class="org-code">:CUSTOM_ID</span>).
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:closed</span></span><span class="org-list-dt"> ::</span> Inlinetask's <span class="org-verbatim">CLOSED</span> reference, if any (timestamp
+  object or <span class="org-code">nil</span>)
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:deadline</span></span><span class="org-list-dt"> ::</span> Inlinetask's <span class="org-verbatim">DEADLINE</span> reference, if any (timestamp
+  object or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:level</span></span><span class="org-list-dt"> ::</span> Reduced level of the inlinetask (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:priority</span></span><span class="org-list-dt"> ::</span> Headline's priority, as a character (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-value</span></span><span class="org-list-dt"> ::</span> Raw inlinetask's text, without the stars and the
+  tags (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:scheduled</span></span><span class="org-list-dt"> ::</span> Inlinetask's <span class="org-verbatim">SCHEDULED</span> reference, if any
+  (timestamp object or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:tags</span></span><span class="org-list-dt"> ::</span> Inlinetask's tags, if any (list of strings).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:title</span></span><span class="org-list-dt"> ::</span> Parsed inlinetask's text, without the stars and the
+  tags (secondary string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:todo-keyword</span></span><span class="org-list-dt"> ::</span> Inlinetask's <span class="org-verbatim">TODO</span> keyword, if any (string or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:todo-type</span></span><span class="org-list-dt"> ::</span> Type of inlinetask's <span class="org-verbatim">TODO</span> keyword, if any (symbol:
+  <span class="org-code">done</span>, <span class="org-code">todo</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Italic
+</span>
+Recursive object.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Item
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:bullet</span></span><span class="org-list-dt"> ::</span> Item's bullet (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:checkbox</span></span><span class="org-list-dt"> ::</span> Item's check-box, if any (symbol: <span class="org-code">on</span>, <span class="org-code">off</span>,
+  <span class="org-code">trans</span>, <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:counter</span></span><span class="org-list-dt"> ::</span> Item's counter, if any.  Literal counters become
+  ordinals (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:pre-blank</span></span><span class="org-list-dt"> ::</span> Number of newline characters between the beginning
+  of the item and the beginning of the contents (0, 1 or 2).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-tag</span></span><span class="org-list-dt"> ::</span> Uninterpreted item's tag, if any (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:tag</span></span><span class="org-list-dt"> ::</span> Parsed item's tag, if any (secondary string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:structure</span></span><span class="org-list-dt"> ::</span> Full list's structure, as returned by
+  <span class="org-code">org-list-struct</span> (alist).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Keyword
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:key</span></span><span class="org-list-dt"> ::</span> Keyword's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Keyword's value (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX Environment
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:begin</span></span><span class="org-list-dt"> ::</span> Buffer position at first affiliated keyword or at the
+  beginning of the first line of environment (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:end</span></span><span class="org-list-dt"> ::</span> Buffer position at the first non-blank line after last
+  line of the environment, or buffer's end (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:post-blank</span></span><span class="org-list-dt"> ::</span> Number of blank lines between last environment's
+  line and next non-blank line or buffer's end
+  (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> LaTeX code (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX Fragment
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> LaTeX code (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Line Break
+</span>
+Object.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Link
+</span>
+Recursive object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:application</span></span><span class="org-list-dt"> ::</span> Name of application requested to open the link in
+  Emacs (string or <span class="org-code">nil</span>). It only applies to "file" type links.
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:format</span></span><span class="org-list-dt"> ::</span> Format for link syntax (symbol: <span class="org-code">plain</span>, <span class="org-code">angle</span>,
+  <span class="org-code">bracket</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:path</span></span><span class="org-list-dt"> ::</span> Identifier for link's destination.  It is usually the
+  link part with type, if specified, removed (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-link</span></span><span class="org-list-dt"> ::</span> Uninterpreted link part (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:search-option</span></span><span class="org-list-dt"> ::</span> Additional information for file location
+  (string or <span class="org-code">nil</span>). It only applies to "file" type links.
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Link's type.  Possible types (string) are:
+
+  <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">coderef</span></span><span class="org-list-dt"> ::</span> Line in some source code,
+  <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">custom-id</span></span><span class="org-list-dt"> ::</span> Specific headline's custom-id,
+  <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">file</span></span><span class="org-list-dt"> ::</span> External file,
+  <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">fuzzy</span></span><span class="org-list-dt"> ::</span> Target, referring to a target object, a named
+    element or a headline in the current parse tree,
+  <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">id</span></span><span class="org-list-dt"> ::</span> Specific headline's id,
+  <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">radio</span></span><span class="org-list-dt"> ::</span> Radio-target.
+
+  It can also be any type defined in <span class="org-code">org-link-types</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Macro
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:args</span></span><span class="org-list-dt"> ::</span> Arguments passed to the macro (list of strings).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:key</span></span><span class="org-list-dt"> ::</span> Macro's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Replacement text (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Node Property
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:key</span></span><span class="org-list-dt"> ::</span> Property's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Property's value (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Paragraph
+</span>
+Element containing objects.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Plain List
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:structure</span></span><span class="org-list-dt"> ::</span> Full list's structure, as returned by
+  <span class="org-code">org-list-struct</span> (alist).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> List's type (symbol: <span class="org-code">descriptive</span>, <span class="org-code">ordered</span>,
+  <span class="org-code">unordered</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Planning
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:closed</span></span><span class="org-list-dt"> ::</span> Timestamp associated to <span class="org-verbatim">CLOSED</span> keyword, if any
+  (timestamp object or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:deadline</span></span><span class="org-list-dt"> ::</span> Timestamp associated to <span class="org-verbatim">DEADLINE</span> keyword, if any
+  (timestamp object or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:scheduled</span></span><span class="org-list-dt"> ::</span> Timestamp associated to <span class="org-verbatim">SCHEDULED</span> keyword, if any
+  (timestamp object or <span class="org-code">nil</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Property Drawer
+</span>
+Greater element.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Quote Block
+</span>
+Greater element.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Radio Target
+</span>
+Recursive object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-value</span></span><span class="org-list-dt"> ::</span> Uninterpreted contents (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Section
+</span>
+Greater element.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Special Block
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Block's name (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-value</span></span><span class="org-list-dt"> ::</span> Raw contents in block (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Src Block
+</span>
+Element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:label-fmt</span></span><span class="org-list-dt"> ::</span> Format string used to write labels in current block,
+  if different from <span class="org-code">org-coderef-label-format</span> (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:language</span></span><span class="org-list-dt"> ::</span> Language of the code in the block, if specified
+  (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:number-lines</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if code lines should be numbered.
+  A <span class="org-code">new</span> value starts numbering from 1 wheareas <span class="org-code">continued</span> resume
+  numbering from previous numbered block (symbol: <span class="org-code">new</span>, <span class="org-code">continued</span>
+  or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:parameters</span></span><span class="org-list-dt"> ::</span> Optional header arguments (string or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:preserve-indent</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> when indentation within the block
+  mustn't be modified upon export (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:retain-labels</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if labels should be kept visible upon
+  export (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:switches</span></span><span class="org-list-dt"> ::</span> Optional switches for code block export (string or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:use-labels</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if links to labels contained in the block
+  should display the label instead of the line number (boolean).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Source code (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Statistics Cookie
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Full cookie (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Strike Through
+</span>
+Recursive object.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Subscript
+</span>
+Recursive object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:use-brackets-p</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if contents are enclosed in curly
+  brackets (t, <span class="org-code">nil</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Superscript
+</span>
+Recursive object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:use-brackets-p</span></span><span class="org-list-dt"> ::</span> Non-<span class="org-code">nil</span> if contents are enclosed in curly
+  brackets (t, <span class="org-code">nil</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table
+</span>
+Greater element.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:tblfm</span></span><span class="org-list-dt"> ::</span> Formulas associated to the table, if any (string or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Table's origin (symbol: <span class="org-code">table.el</span>, <span class="org-code">org</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Raw <span class="org-code">table.el</span> table or <span class="org-code">nil</span> (string or <span class="org-code">nil</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table Cell
+</span>
+Recursive object.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table Row
+</span>
+Element containing objects.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Row's type (symbol: <span class="org-code">standard</span>, <span class="org-code">rule</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Target
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Target's ID (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Timestamp
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:day-end</span></span><span class="org-list-dt"> ::</span> Day part from timestamp end.  If no ending date is
+  defined, it defaults to start day part (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:day-start</span></span><span class="org-list-dt"> ::</span> Day part from timestamp start (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:hour-start</span></span><span class="org-list-dt"> ::</span> Hour part from timestamp end. If no ending date is
+  defined, it defaults to start hour part, if any (integer or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:hour-start</span></span><span class="org-list-dt"> ::</span> Hour part from timestamp start, if specified
+  (integer or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:minute-start</span></span><span class="org-list-dt"> ::</span> Minute part from timestamp end. If no ending date
+  is defined, it defaults to start minute part, if any (integer or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:minute-start</span></span><span class="org-list-dt"> ::</span> Minute part from timestamp start, if specified
+  (integer or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:month-end</span></span><span class="org-list-dt"> ::</span> Month part from timestamp end.  If no ending date is
+  defined, it defaults to start month part (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:month-start</span></span><span class="org-list-dt"> ::</span> Month part from timestamp start (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:raw-value</span></span><span class="org-list-dt"> ::</span> Raw timestamp (string).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:repeater-type</span></span><span class="org-list-dt"> ::</span> Type of repeater, if any (symbol: <span class="org-code">catch-up</span>,
+  <span class="org-code">restart</span>, <span class="org-code">cumulate</span> or <span class="org-code">nil</span>)
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:repeater-unit</span></span><span class="org-list-dt"> ::</span> Unit of shift, if a repeater is defined
+  (symbol: <span class="org-code">year</span>, <span class="org-code">month</span>, <span class="org-code">week</span>, <span class="org-code">day</span>, <span class="org-code">hour</span> or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:repeater-value</span></span><span class="org-list-dt"> ::</span> Value of shift, if a repeater is defined
+  (integer or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:type</span></span><span class="org-list-dt"> ::</span> Type of timestamp (symbol: <span class="org-code">active</span>, <span class="org-code">active-range</span>,
+  <span class="org-code">diary</span>, <span class="org-code">inactive</span>, <span class="org-code">inactive-range</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:warning-type</span></span><span class="org-list-dt"> ::</span> Type of warning, if any (symbol: <span class="org-code">all</span>, <span class="org-code">first</span>
+  or <span class="org-code">nil</span>)
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:warning-unit</span></span><span class="org-list-dt"> ::</span> Unit of delay, if one is defined (symbol: <span class="org-code">year</span>,
+  <span class="org-code">month</span>, <span class="org-code">week</span>, <span class="org-code">day</span>, <span class="org-code">hour</span> or <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:warning-value</span></span><span class="org-list-dt"> ::</span> Value of delay, if one is defined (integer or
+  <span class="org-code">nil</span>).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:year-end</span></span><span class="org-list-dt"> ::</span> Year part from timestamp end.  If no ending date is
+  defined, it defaults to start year part (integer).
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:year-start</span></span><span class="org-list-dt"> ::</span> Year part from timestamp start (integer).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Underline
+</span>
+Recursive object.
+
+No specific property.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Verbatim
+</span>
+Object.
+
+<span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">:value</span></span><span class="org-list-dt"> ::</span> Contents (string).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Verse Block
+</span>
+Element containing objects.
+
+No specific property.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Other Tools
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">other-tools</span>
+<span class="org-drawer">:END:</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Turning an AST into an Org document
+</span>
+<span class="org-code">org-element-interpret-data</span> is the reciprocal operation of
+<span class="org-code">org-element-parse-buffer</span>.  When provided an element, object, or even
+a full parse tree, it generates an equivalent string in Org syntax.
+
+More precisely, output is a normalized document: it preserves
+structure and blank spaces but it removes indentation and capitalize
+keywords.  As a consequence it is equivalent, but not equal, to the
+original document the AST comes from.
+
+When called on an element or object obtained through
+<span class="org-code">org-element-at-point</span> or <span class="org-code">org-element-context</span>, its contents will not
+appear, since this information is not available.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Examining genealogy of an element or object
+</span>
+<span class="org-code">org-element-lineage</span> produces a list of all ancestors of a given
+element or object.  However, when these come from a <span class="org-link"><a href="#local">local parsing
+function</a></span>, lineage is limited to the section containing them.
+
+With optional arguments, it is also possible to check for a particular
+type of ancestor.  See function's docstring for more information.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> Thus, <span class="org-code">org-element-at-point</span> cannot return the parent of
+a headline.  Nevertheless, headlines are context free elements: it is
+efficient to move to parent headline (e.g., with
+<span class="org-code">org-up-heading-safe</span>) before analyzing it.
+
+<span class="org-footnote">[fn:2]</span> As a consequence whitespaces or newlines after an element or
+object still belong to it.  To put it differently, <span class="org-code">:end</span> property of
+an element matches <span class="org-code">:begin</span> property of the following one at the same
+level, if any.
+</pre>
+  </body>
+</html>

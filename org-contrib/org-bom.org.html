@@ -1,0 +1,656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-bom.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">BOM : Bills-of-materials
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Christian Fortin
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">frozenlock AT gmail DOT com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+CATEGORY:   worg-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> BOM introduction
+</span>
+  This add-on collects components across the entire org buffer (even
+  in drawers), making it easy to retrieve and sort data. It uses the
+  column special name as a landmark. We will refer to them as
+  'Keywords'. The keywords are searched using a string-match function,
+  which gives the ability to have multiple column with the same
+  functionality, but also to use the column name as we would usually
+  with org-mode. For example, we can have 'tag' and 'tag2', both are
+  recognized by the BOM add-on and can be used in a spreadsheet-like
+  formula without any confusion. The keywords are also
+  case-insensitive. 'Component' and 'component' will work in the same
+  way.
+
+  The BOM is usually used with a dynamic block. (You can use the
+  different functions in emacs-lisp code, but this is beyond the
+  purpose of this tutorial.) Here is the basic dynamic block:
+
+<span class="org-code">:  #+BEGIN: bom
+:  #+END:
+</span>
+  And here is what we obtain at this point:
+<span class="org-code">:  #+BEGIN: bom
+: | Section | Tag | Component | Quantity |
+: |---------+-----+-----------+----------|
+:  #+END:
+</span>
+  The table is empty, because we have to either:
+  <span class="org-list-dt">1.</span> Add keywords in a table;
+  <span class="org-list-dt">2.</span> Add a line-component.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> BOM keywords
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Component
+</span>
+     This is the most important keyword and act as the trigger. For
+  this example, let's say we write down things we want to buy. In 
+  this case, a new keyboard for our computer.  This is how the
+  table should be:
+  
+<span class="org-code">:  |   | Material  |
+:  | ! | Component |
+:  |---+-----------|
+:  |   | Keyboard  |
+</span>  
+  The '!' character is used in org table to specify column name, such
+  as our keyword, 'component'.
+  And here is what the bill-of-materials for this table is:
+     
+<span class="org-code">:  #+BEGIN:  bom 
+: | Section   | Tag | Component | Quantity |
+: |-----------+-----+-----------+----------|
+: | Component |     | Keyboard  |        1 |
+:  #+END:
+</span>
+  As you can see, the heading (Component) was automatically
+  used as the 'section', which doesn't require attention for
+  now. The quantity is, unsurprisingly, 1. There is nothing in the tag
+  column for now, so let's dismiss it by adding the parameter <span class="bold">:no-tag
+  t</span>. 
+  This will results in the following:
+<span class="org-code">:  #+BEGIN: bom  :no-tag t
+: | Section   | Component | Quantity |
+: |-----------+-----------+----------|
+: | Component | Keyboard  |        1 |
+:  #+END: 
+</span>  
+  Now suppose that our friend too wants a new keyboard.
+
+<span class="org-code">:  |   | For    | Material  |
+:  | ! |        | Component |
+:  |---+--------+-----------|
+:  |   | Me     | Keyboard  |
+:  |   | Friend | Keyboard  |
+</span>     
+<span class="org-code">:   #+BEGIN: bom :no-tag t
+:  | Section   | Component | Quantity |
+:  |-----------+-----------+----------|
+:  | Component | Keyboard  |        2 |
+:   #+END:
+</span>
+  As expected, we get 2 keyboards.
+     
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Section
+</span>   
+     The section is used to separate what would otherwise be an
+  identical component. Suppose we don't want our friend's wishes to be
+  in the same BOM as our, but still have them in the same table.
+
+<span class="org-code">:  |   | For     | Material  |
+:  | ! | Section | Component |
+:  |---+---------+-----------|
+:  |   | Me      | Keyboard  |
+:  |   | Friend  | Keyboard  |
+</span>
+  This will results in the following BOM:
+ 
+<span class="org-code">:  #+BEGIN: bom :no-tag t
+: | Section | Component | Quantity |
+: |---------+-----------+----------|
+: | Friend  | Keyboard  |        1 |
+: | Me      | Keyboard  |        1 |
+:  #+END:
+</span>
+  Please note that when a component is given a section, it isn't
+  associated with the heading anymore. As an alternative, you can set
+  a ':SECTION:' property in the heading, which will be inherited by
+  all the components <span class="bold">without</span> a specified section.
+  Section's priorities are as follow: 
+
+  <span class="org-list-dt">1.</span> Given section with the 'section' keyword;
+  <span class="org-list-dt">2.</span> The SECTION property;
+  <span class="org-list-dt">3.</span> The heading.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Qty
+</span>
+     With this keyword, it is possible to specify a quantity for the
+  associated component. In our always improving scenario, we now want to
+  give a keyboard to another of our friend (as a gift). This is going to
+  be bought at the same time as our keyboard, so they belong together.
+
+<span class="org-code">:  |   | For     | Material  |     |
+:  | ! | Section | Component | Qty |
+:  |---+---------+-----------+-----|
+:  |   | Me      | Keyboard  |   2 |
+:  |   | Friend  | Keyboard  |   1 |
+</span>
+<span class="org-code">:   #+BEGIN: bom :no-tag t
+:  | Section | Component | Quantity |
+:  |---------+-----------+----------|
+:  | Friend  | Keyboard  |        1 |
+:  | Me      | Keyboard  |        2 |
+:   #+END:
+</span>     
+  <span class="bold">Important</span>: If Qty keyword is present, then any empty field will
+  be considered as <span class="bold">zero</span>. This way, multiple column quantity are
+  made quite easily:
+     
+<span class="org-code">:  |   | For     | Material  | Personal | Gift |
+:  | ! | Section | Component |      Qty | Qty2 |
+:  |---+---------+-----------+----------+------|
+:  |   | Me      | Keyboard  |        1 | 1    |
+:  |   | Friend  | Keyboard  |        1 |      |
+</span>
+<span class="org-code">:   #+BEGIN: bom :no-tag t
+:  | Section | Component | Quantity |
+:  |---------+-----------+----------|
+:  | Friend  | Keyboard  |        1 |
+:  | Me      | Keyboard  |        2 |
+:   #+END:  
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tag
+</span>
+     When a BOM starts to get big, we often need a quick reminder of
+  why we need certain component. Another use is also to identify the
+  component. As the Qty keyword, multiple Tag columns can be associated
+  with a single component. Here we will simply use the tag as a reminder
+  of what we want to look for in the store.
+
+<span class="org-code">:  |   | For     | Material  | Personal | Gift | Need               |
+:  | ! | Section | Component |      Qty | Qty2 | Tag                |
+:  |---+---------+-----------+----------+------+--------------------|
+:  |   | Me      | Keyboard  |        1 | 1    | Matching colors    |
+:  |   | Friend  | Keyboard  |        1 |      | Dinosaurs pictures |
+</span>
+  To show the tag column in the BOM, we simply remove the no-tag
+  parameter.
+<span class="org-code">:  #+BEGIN: bom
+: | Section | Tag                | Component | Quantity |
+: |---------+--------------------+-----------+----------|
+: | Friend  | Dinosaurs pictures | Keyboard  |        1 |
+: | Me      | Matching colors    | Keyboard  |        2 |
+:  #+END:  
+</span>  
+
+  If two Tag columns are present for a single Component column, the
+  tags will be associated with this component, separated by a comma.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Renaming BOM columns
+</span>     
+     It is possible to rename the BOM columns with the following
+  parameters:
+  <span class="org-list-dt">-</span> col-name-component
+  <span class="org-list-dt">-</span> col-name-section
+  <span class="org-list-dt">-</span> col-name-quantity
+  <span class="org-list-dt">-</span> col-name-tag
+  <span class="org-list-dt">-</span> col-name-description
+  <span class="org-list-dt">-</span> col-name-price
+
+  This is how our renamed BOM would look like:
+     
+<span class="org-code">:  #+BEGIN: bom :col-name-section For :col-name-tag Need :col-name-component Stuff :col-name-quantity Qty
+: | For    | Need               | Stuff    | Qty |
+: |--------+--------------------+----------+-----|
+: | Friend | Dinosaurs pictures | Keyboard |   1 |
+: | Me     | Matching colors    | Keyboard |   2 |
+:  #+END:  
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Multiple component's column
+</span>
+     There is two way to add components in a section. Either by adding
+  other rows with the same section's name, or by adding other
+  columns. Both have their uses and they should come to you quite
+  naturally. In our example, we want more stuff.
+
+<span class="org-code">:  |   | For     | Material  | Personal | Gift | Need               | Stuff     | More stuff | Much more stuff | How many |
+:  | ! | Section | Component |      Qty | Qty2 | Tag                | Component | Component  | Component       | Qty      |
+:  |---+---------+-----------+----------+------+--------------------+-----------+------------+-----------------+----------|
+:  |   | Me      | Keyboard  |        1 | 1    | Matching colors    | Mouse     | Headset    | USB flash drive | 23       |
+:  |   | Friend  | Keyboard  |        1 |      | Dinosaurs pictures |           |            |                 |          |
+:  |   | Friend  |           |          |      |                    |           |            | CDs             | 50       |
+:  |   | Friend  | Mouse     |        1 |      |                    |           |            |                 |          |
+</span>     
+  This is beginning to get interesting. Note that even if we can
+  name the additional columns 'Component2' or 'ComponentAAA',
+  there's no use to do it if no table-formula uses the column
+  names. 
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Precise section selection
+</span>  Now suppose we want to get OUR to-buy list. Simply specify
+  the section's parameter <span class="bold">:section Me</span>:
+
+<span class="org-code">:   #+BEGIN: bom :section Me
+:  | Tag             | Component       | Quantity |
+:  |-----------------+-----------------+----------|
+:  |                 | Headset         |        1 |
+:  | Matching colors | Keyboard        |        2 |
+:  |                 | Mouse           |        1 |
+:  |                 | USB flash drive |       23 |
+:   #+END:  
+</span>     
+  Wait, where's the section column?  Well we don't need it anymore,
+  as we specified one.
+
+  A '+' sign will specify we want more than a single section. <span class="bold">:section
+  Me+Friend</span> will select both section, and add the quantity and tags
+  for each component. 
+
+<span class="org-code">:  #+BEGIN: bom :section Me+Friend
+: | Tag                                 | Component       | Quantity |
+: |-------------------------------------+-----------------+----------|
+: |                                     | CDs             |       50 |
+: |                                     | Headset         |        1 |
+: | Dinosaurs pictures, Matching colors | Keyboard        |        3 |
+: |                                     | Mouse           |        2 |
+: |                                     | USB flash drive |       23 |
+:  #+END:
+</span>
+  <span class="bold">Do not</span> put a whitespace between the section name and the '+' sign.
+  Speaking of whitespace, if you need one in a section name, simply
+  put it in a string: 
+<span class="org-code">: #+BEGIN: bom :section "Section with whitespace"
+</span>
+  We can also return every section that matches at least what we
+  provide. To activate this, use <span class="bold">:part-match t</span>. With this, if we
+  write "fr", the Friend section is returned. If we had another
+  section named "Frosting", than Friend and Frosting would have been
+  merged and we would have a total for both section.
+
+<span class="org-code">:  #+BEGIN: bom :section fr :part-match t
+: | Tag                | Component | Quantity |
+: |--------------------+-----------+----------|
+: |                    | CDs       |       50 |
+: | Dinosaurs pictures | Keyboard  |        1 |
+: |                    | Mouse     |        1 |
+:  #+END:
+</span>
+  It is also possible to specify that we don't want any section
+  containing "fr". For this, use the parameter <span class="bold">:remove t</span>.
+
+<span class="org-code">:  #+BEGIN: bom :section fr :part-match t :remove t
+: | Tag             | Component       | Quantity |
+: |-----------------+-----------------+----------|
+: |                 | Headset         |        1 |
+: | Matching colors | Keyboard        |        2 |
+: |                 | Mouse           |        1 |
+: |                 | USB flash drive |       23 |
+:  #+END:
+</span>
+  In this case, getting all sections not containing "fr" is the
+  equivalent of choosing the section "Me".
+
+  If you simply want the components from the current heading, use the
+  parameter <span class="bold">:local-only t</span>. This will return components with the
+  current heading as their section, which is the default of every
+  component if no section is provided. If a section has been provided to
+  a component (and is not exactly equal to the heading), the component
+  will not be returned.
+
+  Here, we don't have any component under this heading:
+<span class="org-code">:  #+BEGIN: bom :local-only t
+: | Tag | Component | Quantity |
+: |-----+-----------+----------|
+:  #+END:
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> BOM total
+</span>  This is all really interesting, but when we're in a shop, we want
+  to know how many of each item we have to buy, we need a <span class="bold">total</span>.
+  For this, simply add the <span class="bold">:total t</span> parameter. We will also remove
+  the tags once again by using <span class="bold">:no-tag t</span>.
+
+<span class="org-code">:  #+BEGIN: bom :total t :no-tag t
+: | Component       | Quantity |
+: |-----------------+----------|
+: | CDs             |       50 |
+: | Headset         |        1 |
+: | Keyboard        |        3 |
+: | Mouse           |        2 |
+: | USB flash drive |       23 |
+:  #+END:
+</span>
+  This is the equivalent of merging every sections together.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Adding a component without a table
+</span>
+  There is another option you might need. If you ever want to
+  add a component without a table, use the #+BOM commentary. As any
+  other org-mode commentary, this one won't appear when exported to
+  another document (pdf, html, docbook..). It will, however, enable
+  you to add a single component in the bill-of-materials. Here is an
+  example:
+<span class="org-code">:  #+BOM: Keyboard :section Need :tag "Matching colors"
+</span>
+  As with the table components, you can simply give a component name if
+  you desire. If no section is given, it will be inherited as an
+  ordinary component in a table: a section property or the current
+  heading.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Adding details
+</span>  There is two way to add details to a BOM. The first one is to setq
+  `org-bom-details' with a plist containing, depending on your
+  needs, :description, :datasheet-pdf and :price. You must, however, at
+  least have the component name in the :name property. Here is an
+  example on how to set this variable:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-bom-details </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:name</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Keyboard"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:description</span></span><span class="org-block">
+                          </span><span class="org-block"><span class="string">"Something"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:price</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"40"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:name</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"CDs"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:description</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Not
+                          DVDs"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:datasheet-pdf</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"CD.pdf"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>  Please note that the price is a <span class="bold">string</span>.
+
+  The other method, valid for the current buffer only, is to give one
+  or more bom-details table. It is recognized when a table is named as
+  such:
+<span class="org-code">:  #+TBLNAME: bom-details
+</span>
+  Once again, the column names are used. Contrary to the normal BOM
+  keywords however, these are case-sensitive and must be written
+  exactly as their property name. For example, the column of the
+  property ':name' must be 'name'.
+<span class="org-code">:  #+TBLNAME: bom-details
+: | ! | name     | description  | price |
+: |---+----------+--------------+-------|
+: |   | Keyboard | Used to type |    40 |
+: |   | CDs      |              |       |
+</span>  
+  Any bom-details table will temporarily overshadow the
+  `org-bom-details' variable, but won't erase or modify it. This means
+  you can safely use a bom-details table if you need to change some
+  local buffer description, while using `org-bom-details' in multiple
+  buffer.
+
+  Look at the CDs description. When a field is empty, it is <span class="bold">not</span> used
+  and BOM falls back to the property in the `org-bom-details'
+  variable.
+  
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Description
+</span>   
+   You can add a description column in a BOM by adding the
+   <span class="bold">:description t</span> parameter. 
+
+<span class="org-code">:   #+BEGIN: bom :total t :no-tag t :description t
+:  | Component       | Quantity | Description  |
+:  |-----------------+----------+--------------|
+:  | CDs             |       50 | Not DVDs     |
+:  | Headset         |        1 | N/A          |
+:  | Keyboard        |        3 | Used to type |
+:  | Mouse           |        2 | N/A          |
+:  | USB flash drive |       23 | N/A          |
+:   #+END:
+</span>
+   See how the CDs' description wasn't the empty field from the
+   bom-details table.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Price
+</span>   
+   You can add a price column in a BOM by adding the <span class="bold">:price t</span>
+   parameter.
+
+<span class="org-code">:   #+BEGIN: bom :total t :no-tag t :description t :price t
+:  | Component       | Quantity | Price | Description  |
+:  |-----------------+----------+-------+--------------|
+:  | CDs             |       50 |       | Not DVDs     |
+:  | Headset         |        1 |       | N/A          |
+:  | Keyboard        |        3 |   120 | Used to type |
+:  | Mouse           |        2 |       | N/A          |
+:  | USB flash drive |       23 |       | N/A          |
+:  |-----------------+----------+-------+--------------|
+:  | TOTAL:          |          |   120 |              |
+:      #+TBLFM: </span><span class="org-code"><span class="org-formula">@&gt;$3=vsum(@I</span></span><span class="org-code">..@&gt;&gt;)
+:   #+END:
+</span>   The price is automatically multiplied by the quantity of each
+   component. In addition, a total row is added at the table's bottom
+   with a vertical sum formula.
+   
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Datasheet
+</span>   
+   This is a special property and must be used only if you intend to
+   export in a pdf document. See <span class="org-link"><a href="LaTeX mode and bom-datasheet">LaTeX mode and bom-datasheet</a></span> for more details.
+   
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> List of BOM parameters
+</span>  Here is a list of all the parameters usable in a BOM dynamic block,
+  as seen throughout this tutorial:
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">no-tag ::</span> Remove the tags column
+  <span class="org-list-dt">-</span> <span class="org-list-dt">section ::</span> Select this section (or more if there's a + sign)
+  <span class="org-list-dt">-</span> <span class="org-list-dt">part-match ::</span> Select every section with at least the string
+                  provided for the section parameter
+  <span class="org-list-dt">-</span> <span class="org-list-dt">remove ::</span> Select every sections except the one(s) provided
+  <span class="org-list-dt">-</span> <span class="org-list-dt">descripton ::</span> Add the description column
+  <span class="org-list-dt">-</span> <span class="org-list-dt">price ::</span> Add the price column and a total row at the bottom of the
+             table
+  <span class="org-list-dt">-</span> <span class="org-list-dt">col-name-</span><span class="bold"><span class="org-list-dt">*</span></span><span class="org-list-dt"> ::</span> Rename the associated column
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Advanced and elisp functions
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Speed up updates
+</span>   Each BOM dynamic block scans the entire buffer individually. While
+   it is necessary that each block be able to update itself, it
+   becomes a waste when the command `org-update-all-dblocks' is
+   used. (The components usually aren't changing from a dblock evaluation to
+   another.)
+   
+   In order to speed up updates, there's a variable that can be used
+   to stop each BOM dblock from doing a buffer-wide scan. To disable the
+   scans, set `org-bom-update-enable' to nil.
+
+   The author uses a function similar to this one to speed up updates:
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp :exports code
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">reg-update-project</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> latex-mode</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Update every table and dynamic block in the buffer. If latex-mode
+is non-nil, various latex commands will be inserted."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">interactive</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-table-iterate-buffer-tables</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-bom-total</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">manually update the BOM database
+</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-bom-update-enable nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-bom-latex-mode latex-mode</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-bom-details </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">copy-tree</span></span><span class="org-block"> org-bom-details</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="comment-delimiter">;</span></span><span class="org-block"><span class="comment">so we don't overwrite
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-bom-check-for-details-table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">manually update `</span></span><span class="org-block"><span class="comment"><span class="constant">org-bom-details</span></span></span><span class="org-block"><span class="comment">'
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-update-all-dblocks</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Project updated"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>     
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX mode and bom-datasheet
+</span>  This mode isn't fully integrated to org-mode and should be seen as a
+  hack. It is however useful to the author, which is why it is
+  explained here.
+
+  Set the `org-bom-latex-mode' variable to non-nil in order to
+  activate the latex-mode. If set, all BOM dynamic block will insert
+  some latex commands.
+
+  These commands targets:
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Tags ::</span> When there is more tags than `org-bom-latex-max-tags' per
+            component, the remaining tags are put in a pdf comment.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Component name ::</span> If a datasheet exists for the component, its
+                      name will become a link to its datasheet.
+
+<span class="whitespace-tab">                </span>     
+  If you ever activate the LaTeX mode, use the bom-datasheet dynamic
+  block at the end of your document. The optional parameter
+  <span class="bold">:description t</span> will add a summary of all the components used in
+  this buffer with their description, just before the datasheets.
+
+<span class="org-code">:  #+BEGIN: bom-datasheet
+:  
+:  #+LaTeX: \includepdf[pages=-,landscape=true,addtotoc={1, subsection, 1, CDs,CD.pdf}]{\DATASHEETPATH/CD.pdf}
+:  
+:  #+END:
+</span>
+  As you may have noticed, there's a LaTeX variable in this command:
+        \DATASHEETPATH. In order to work, you must set this variable
+        using:
+
+:<span class="whitespace-tab">       </span>#+LATEX_HEADER: \newcommand{\DATASHEETPATH}{Name-of-the-folder/}'
+
+<span class="whitespace-tab">        </span>Name-of-the-folder is the folder where the datasheets' files
+        are located. 
+</pre>
+  </body>
+</html>

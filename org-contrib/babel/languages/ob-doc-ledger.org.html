@@ -1,0 +1,466 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-ledger.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Using Ledger for Accounting in Org-mode with Babel
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Eric S Fraga
+</span><span class="org-document-info-keyword">#+EMAIL:</span>     <span class="org-document-info">e.fraga@ucl.ac.uk
+</span><span class="org-document-info-keyword">#+DATE:</span>      <span class="org-document-info">2010-08-25 Wed
+</span><span class="org-meta-line">#+DESCRIPTION: </span>
+<span class="org-meta-line">#+KEYWORDS: </span>
+<span class="org-meta-line">#+LANGUAGE:  en</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:t toc:t \n:nil ::t |:t ^:t -:t f:t *:t &lt;:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+OPTIONS:   todo:t pri:nil tags:not-in-toc</span>
+<span class="org-meta-line">#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:<a href="https://orgmode.org/org-info.js">https://orgmode.org/org-info.js</a></span>
+<span class="org-meta-line">#+SELECT_TAGS: export</span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+XSLT:</span>
+
+<span class="org-meta-line">#+STARTUP: oddeven</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+<span class="kc-org-link-url"><a href="https://github.com/ledger/ledger/wiki">Ledger</a></span> is a double entry accounting system which uses simple text
+files for recording all transactions.  As such, it is fundamentally
+compatible with org mode in Emacs.  Using Babel, it is possible
+to record financial transactions conveniently in an org file and
+subsequently generate the financial reports required. 
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Getting Started
+</span>    <span class="org-drawer">:PROPERTIES:</span>
+    <span class="org-special-keyword">:ID:</span>       <span class="org-property-value">a14c087b-c675-4b6f-b7d4-5974a140acb3</span>
+    <span class="org-drawer">:END:</span>
+
+With a recent version of org (7.01+), Ledger support is provided.  To
+use it, enable Ledger support.  Check the <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/index.html">Babel documentation on
+Worg</a></span> for instructions on how to achieve this but I currently do this
+directly as follows:
+
+<span class="org-meta-line">#+name: babel-language-setup</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp 
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+ </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+ </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">R . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">ditaa . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">dot . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">emacs-lisp . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">gnuplot . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">haskell . nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">latex . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">ledger . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">  </span><span class="whitespace-tab">       </span><span class="org-block"><span class="comment-delimiter">;</span></span><span class="org-block"><span class="comment">this is the important one for this tutorial
+</span></span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">ocaml . nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">octave . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">python . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">ruby . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">screen . nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">sh . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">sql . nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">sqlite . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Once Ledger support in Babel has been enabled, we can use proceed to
+include Ledger entries within an org file.  There are three ways (at
+least) in which these can be included:
+
+
+<span class="org-list-dt">1.</span> place all Ledger entries within one source block and execute this
+   block with different arguments to generate the appropriate reports;
+
+<span class="org-list-dt">2.</span> place Ledger entries in more than one source block and use the
+   <span class="italic">noweb</span> literary programming approach, supported by babel, to combine
+   these into one block elsewhere in the file for processing by
+   Ledger; and,
+
+<span class="org-list-dt">3.</span> place Ledger entries in different source blocks and use <span class="italic">tangling</span> to
+   generate a Ledger file which you can subsequently process using
+   Ledger directly.
+
+
+The first two are described in more detail in this short tutorial.
+This tutorial, however, only scratches the surface of what is possible
+in Ledger.  For further information on Ledger, check out <span class="kc-org-link-url"><a href="http://www.ledger-cli.org/">the project
+website</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Embedded Ledger example with single source block
+</span>
+The easiest, albeit possibly less useful, way in which to use Ledger
+within an org file is to use a single source block to record all
+Ledger entries.  The following is an example source block:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: allinone
+,#+begin_src ledger
+2010/01/01 * Starting balance
+  assets:bank:savings  &#163;1300.00
+  income:starting balances
+2010/07/22 * Got paid
+  assets:bank:chequing  &#163;1000.00
+  income:salary
+2010/07/23 Rent
+  expenses:rent  &#163;500.00
+  assets:bank:chequing
+2010/07/24 Food
+  expenses:food  &#163;150.00
+  assets:bank:chequing
+2010/07/31 * Interest on bank savings
+  assets:bank:savings  &#163;3.53
+  income:interest
+2010/07/31 * Transfer savings
+  assets:bank:savings  &#163;250.00
+  assets:bank:chequing
+2010/08/01 got paid again
+  assets:bank:chequing  &#163;1000.00
+  income:salary
+,#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+In this example, we have combined both expenses and income into one
+set of Ledger entries.  We can now generate register and balance
+reports (as well as many other types of reports) using babel to invoke
+Ledger with specific arguments.  The arguments are passed to Ledger
+using the <span class="org-verbatim">:cmdline</span> header argument.  In the code block above, there is
+no such argument so the system takes the default.  For Ledger code
+blocks, the default <span class="org-verbatim">:cmdline</span> argument is <span class="org-verbatim">bal</span> and the result of
+evaluating this code block (<span class="org-verbatim">C-c C-c</span>) would be:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+results: allinone()
+:            &#163;2653.53  assets
+:             &#163;650.00  expenses
+:           &#163;-3303.53  income
+</span><span class="org-block-end-line">#+end_example
+</span>
+If, instead, you wished to generate a register of all the
+transactions, you would change the <span class="org-verbatim">#+begin_src</span> line for the code block
+to include the required command line option:
+
+<span class="org-code">: #+begin_src ledger :cmdline reg
+</span>
+Evaluating the code block again would generate a different report.
+
+Having to change the actual directive on the code block and
+re-evaluate makes it difficult to have more than one view of your
+transactions and financial state.  Eventually, babel will support
+passing arguments to <span class="org-verbatim">#+call</span> evaluations of code blocks but this
+support is missing currently.  Instead, we can use the concepts of
+literary programming, as implemented by the <span class="org-verbatim">noweb</span> features of babel,
+to help us.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Multiple Ledger source blocks with noweb
+</span>
+The <span class="org-verbatim">noweb</span> feature of babel allows us to expand references to other
+code blocks within a code block.  For Ledger, this can be used to
+group transactions according to type, say, and then bring various
+sets of transactions together to generate reports.
+
+Using the same transactions used above, we could consider splitting
+these into <span class="italic">expenses</span> and <span class="italic">income</span>, as follows:
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Income Entries
+</span>
+    The first set of entries relates to income, either monthly pay or
+    interest, all typically going into one of my bank accounts.  Here,
+    I have placed several entries, but we could have had each entry in
+    a separate <span class="org-verbatim">src</span> block.  Note that all code blocks you wish to refer
+    to later must have the <span class="org-verbatim">:noweb yes</span> babel header argument specified.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: income
+#+begin_src ledger :noweb yes
+2010/01/01 * Starting balance
+  assets:bank:savings  &#163;1300.00
+  income:starting balances
+2010/07/22 * Got paid
+  assets:bank:chequing  &#163;1000.00
+  income:salary
+2010/07/31 * Interest on bank savings
+  assets:bank:savings  &#163;3.53
+  income:interest
+2010/07/31 * Transfer savings
+  assets:bank:savings  &#163;250.00
+  assets:bank:chequing
+2010/08/01 got paid again
+  assets:bank:chequing  &#163;1000.00
+  income:salary
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Expenses
+</span>
+    The following entries relate to personal expenses, such as rent
+    and food.  Again, these have all been placed in a single <span class="org-verbatim">src</span> block
+    but could have been done individually.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: expenses
+#+begin_src ledger :noweb yes
+2010/07/23 Rent
+  expenses:rent  &#163;500.00
+  assets:bank:chequing
+2010/07/24 Food
+  expenses:food  &#163;150.00
+  assets:bank:chequing
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Financial Summaries
+</span>
+   Given the ledger entries defined above in the <span class="org-verbatim">income</span> and <span class="org-verbatim">expenses</span>
+   code blocks, we can now refer to these using the <span class="org-verbatim">noweb</span> expansion
+   directives, <span class="org-target"><span class="org-verbatim">&lt;&lt;name&gt;&gt;</span></span>.  We can now define different code blocks to
+   generate specific reports for those transactions.  Below are two
+   examples, one to generate a balance report and one to generate a
+   register report of all transactions.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> An overall balance summary
+</span>
+      The overall balance of your account and expenditure with a breakdown
+      according to category is specified by passing the <span class="org-verbatim">:cmdline bal</span> argument
+      to Ledger.  This code block can now be evaluated (<span class="org-verbatim">C-c C-c</span>) and
+      the results generated by incorporating the transactions referred
+      to by the <span class="org-target"><span class="org-verbatim">&lt;&lt;income&gt;&gt;</span></span> and <span class="org-target"><span class="org-verbatim">&lt;&lt;expenses&gt;&gt;</span></span><span class="org-verbatim">=</span> lines.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: balance
+#+begin_src ledger :cmdline bal :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+#+end_src
+
+,#+results: balance
+:            &#163;2653.53  assets
+:             &#163;650.00  expenses
+:           &#163;-3303.53  income
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+If you want a more detailed breakdown of where your money is and where
+it has been spent, you can specify the <span class="org-verbatim">-s</span> flag (i.e. <span class="org-verbatim">:cmdline -s bal</span>)
+to tell Ledger to include sub-accounts in the report.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+begin_src ledger :cmdline -s bal :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+,#+end_src
+
+,#+results:
+:           &#163;2653.53  assets:bank
+:           &#163;1100.00    chequing
+:           &#163;1553.53    savings
+:            &#163;650.00  expenses
+:            &#163;150.00    food
+:            &#163;500.00    rent
+:          &#163;-3303.53  income
+:             &#163;-3.53    interest
+:          &#163;-2000.00    salary
+:          &#163;-1300.00    starting balances
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Generating a monthly register
+</span>
+      You can also generate a monthly register (the <span class="org-verbatim">reg</span> command) by
+      executing the following <span class="org-verbatim">src</span> block.  This presents a summary of
+      transactions for each monthly period (the <span class="org-verbatim">-M</span> argument) with a
+      running total in the final column (which should be 0 at the end
+      if all the entries are correct).
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: monthlyregister
+,#+begin_src ledger :cmdline -M reg :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+,#+end_src
+
+,#+results: monthlyregister
+:2010/01/01 - 2010/01/31         assets:bank:savings       &#163;1300.00    &#163;1300.00
+:                                in:starting balances     &#163;-1300.00            0
+:2010/07/01 - 2010/07/31         assets:bank:chequing       &#163;100.00     &#163;100.00
+:                                assets:bank:savings        &#163;253.53     &#163;353.53
+:                                expenses:food              &#163;150.00     &#163;503.53
+:                                expenses:rent              &#163;500.00    &#163;1003.53
+:                                income:interest             &#163;-3.53    &#163;1000.00
+:                                income:salary            &#163;-1000.00            0
+:2010/08/01 - 2010/08/01         assets:bank:chequing      &#163;1000.00    &#163;1000.00
+:                                income:salary            &#163;-1000.00            0
+</span><span class="org-block-end-line">#+end_example
+</span>
+We could also generate a monthly report on our <span class="org-verbatim">assets</span> showing how
+these are increasing (or decreasing!).  In this case, the final column
+will be the running total of the <span class="org-verbatim">assets</span> in our ledger.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: monthlyassetsregister
+,#+begin_src ledger :cmdline -M reg assets :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+,#+end_src
+
+,#+results: monthlyassetsregister
+: 2010/01/01 - 2010/01/31         assets:bank:savings       &#163;1300.00    &#163;1300.00
+: 2010/07/01 - 2010/07/31         assets:bank:chequing       &#163;100.00    &#163;1400.00
+:                                 assets:bank:savings        &#163;253.53    &#163;1653.53
+: 2010/08/01 - 2010/08/01         assets:bank:chequing      &#163;1000.00    &#163;2653.53
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Summary
+</span>
+This short tutorial shows how Ledger entries can be embedded in a org
+file and manipulated using <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/index.html">Babel</a></span>.  However, only simple Ledger
+features have been illustrated; please refer to the Ledger
+<span class="kc-org-link-url"><a href="http://www.ledger-cli.org/docs.html">documentation</a></span> for examples of more complex integrations with a ledger.
+</pre>
+  </body>
+</html>

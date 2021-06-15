@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-babel-screen</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Benjamin Andresen" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-babel-screen</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#orgc352fa9">Setup</a></li>
+<li><a href="#Example1">Example 1: Creating a gif out of a video file</a>
+<ul>
+<li><a href="#org544ed57">Set the correct settings</a></li>
+<li><a href="#orgf42a9fe">Create TMPDIR and change directory to it</a></li>
+<li><a href="#orgc1097d6">Copy video to TMPDIR</a></li>
+<li><a href="#org14ef2cf">Skip through the video file to find the spot you want to extract</a></li>
+<li><a href="#orgd6347c9">Extract those frames from the  video</a></li>
+<li><a href="#org7e0ad20">Delete the frames you don&rsquo;t want</a></li>
+<li><a href="#org52be13c">Resize pictures</a></li>
+<li><a href="#orgbb12622">Inspect down-scaled size</a></li>
+<li><a href="#orgb68c087">Generate gif file</a></li>
+<li><a href="#org228cf8e">Look at the resulting gif</a></li>
+</ul>
+</li>
+<li><a href="#Example2">Example 2: Semi-parallel communication via netcat</a>
+<ul>
+<li><a href="#orgd50d673">Listen for message</a></li>
+<li><a href="#org2193947">Send the message</a></li>
+</ul>
+</li>
+<li><a href="#header-arguments">Header Arguments</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+  <p>Org-babel support for interactive terminals</p>
+</div>
+
+<div id="outline-container-introduction" class="outline-2">
+<h2 id="introduction">Introduction</h2>
+<div class="outline-text-2" id="text-introduction">
+<p>
+org-babel-screen is an extension to <a href="../index.html">Org-babel</a> and was inspired by
+<a href="http://angg.twu.net/">Eduardo Ochs</a>&rsquo;s <a href="http://angg.twu.net/eev-article.html">eev</a>.
+</p>
+
+<p>
+org-babel-screen provides the ability to write interactive <a href="https://en.wikipedia.org/wiki/Make_(software)">Makefiles</a>
+that can be called from inside <a href="http://www.gnu.org/software/emacs/">Emacs</a>. Now before you get your hopes
+up: The whole point of Makefiles is that they should run automatic.
+org-babel-screen doesn&rsquo;t do that! I guess the only thing they have
+in common is that they both do certain things. And that they can be
+grouped.
+</p>
+
+<p>
+I admit, the analogy is not great. But to explain why I still think
+it&rsquo;s useful I will go and show a few examples in this document.
+</p>
+
+<p>
+First install org-babel according to the directions given in the
+<a href="../index.html#getting-started">org-babel manual</a>. Then come back here.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc352fa9" class="outline-2">
+<h2 id="orgc352fa9">Setup</h2>
+<div class="outline-text-2" id="text-orgc352fa9">
+<p>
+Now that you&rsquo;ve installed org-babel, add the following after the
+other org-babel related statements.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-screen</span><span style="color: #eb4509;">)</span>    <span style="color: #696969;">;; </span><span style="color: #696969;">requires screen, terminal</span>
+</pre>
+</div>
+
+<p>
+There are two important variables that you might want to review
+before using org-babel-screen:
+<i>org-babel-screen-location</i> and <i>org-babel-default-header-args:screen</i>
+</p>
+
+<p>
+If <a href="http://www.gnu.org/software/screen/">GNU Screen</a> is installed and recognized by your PATH you can
+ignore <i>org-babel-screen-location</i>, otherwise change the value of
+that variable to the absolute path of the screen binary.
+</p>
+
+<p>
+The default headers arguments are a bit more interesting. If you
+don&rsquo;t have <a href="http://invisible-island.net/xterm/">XTerm</a> installed or you don&rsquo;t wish to use it, you need to
+edit the value of <i>org-babel-default-header-args:screen</i>.
+</p>
+
+<p>
+This is the default:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">org-babel-default-header-args:screen</span>
+    <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:results</span> . <span style="color: #e2c770;">"silent"</span><span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:session</span> . <span style="color: #e2c770;">"default"</span><span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:cmd</span> . <span style="color: #e2c770;">"sh"</span><span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:terminal</span> . <span style="color: #e2c770;">"xterm"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #7f7f80;">"Default arguments to use when running screen source blocks."</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The <i>:session</i>, <i>:cmd</i> &amp; <i>:terminal</i> keys are the only thing that
+matter in this mode.
+</p>
+
+<p>
+You can test the default setup by executing <code>M-x org-babel-screen-test RET</code>.
+The minibuffer will echo if the test has succeeded or not. <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
+</p>
+</div>
+</div>
+
+<div id="outline-container-Example1" class="outline-2">
+<h2 id="Example1">Example 1: Creating a gif out of a video file</h2>
+<div class="outline-text-2" id="text-Example1">
+<p>
+Let&rsquo;s get on with the examples though: I&rsquo;m going to use <a href="http://www.mplayerhq.hu">MPlayer</a>, <a href="http://spiegl.de/qiv/">QIV</a>
+&amp; <a href="http://www.imagemagick.org">ImageMagick</a> for this. But you can follow this example without
+them.
+</p>
+</div>
+
+<div id="outline-container-org544ed57" class="outline-3">
+<h3 id="org544ed57">Set the correct settings</h3>
+<div class="outline-text-3" id="text-org544ed57">
+<p>
+I&rsquo;m setting the session name of <i>create-gif</i> so I can have other
+interactive terminals running without interference. Example 2 will
+go further into this.
+</p>
+
+<p>
+The <i>:cmd</i> is zsh, because that&rsquo;s my favorite shell and I know how
+to do globbing with it.
+</p>
+
+<p>
+This example is very verbose, but here it goes:
+</p>
+
+<pre class="example">
+#+begin_src screen :cmd zsh :session create-gif
+  TMPDIR=/tmp/gif
+  VIDEOFILE=~/TMP/DubistTerrorist_de_divx_HD.avi
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf42a9fe" class="outline-3">
+<h3 id="orgf42a9fe">Create TMPDIR and change directory to it</h3>
+<div class="outline-text-3" id="text-orgf42a9fe">
+<p>
+The <i>:session</i> parameter has to be the same as the one used in the
+first step, the <i>:cmd</i> parameter can be ignored though.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  mkdir -p $TMPDIR
+  cd $TMPDIR
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc1097d6" class="outline-3">
+<h3 id="orgc1097d6">Copy video to TMPDIR</h3>
+<div class="outline-text-3" id="text-orgc1097d6">
+<pre class="example">
+#+begin_src screen :session create-gif
+  cp -v $VIDEOFILE .
+  VIDEOFILE=$VIDEOFILE:t
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org14ef2cf" class="outline-3">
+<h3 id="org14ef2cf">Skip through the video file to find the spot you want to extract</h3>
+<div class="outline-text-3" id="text-org14ef2cf">
+<p>
+This is the first interactive step. Find the position in the video
+of the section you want to extract. This information will be used
+in the next step.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  mplayer -ao null -osdlevel 3 $VIDEOFILE
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd6347c9" class="outline-3">
+<h3 id="orgd6347c9">Extract those frames from the  video</h3>
+<div class="outline-text-3" id="text-orgd6347c9">
+<p>
+Change the value of <i>START</i> and optionally <i>SECS</i>.
+For this video I&rsquo;ve chosen 1:10 with a 10 seconds window.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  START=1:00
+  SECS=10
+
+  mplayer -ao null -vo png $VIDEOFILE -ss $START -endpos $SECS
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7e0ad20" class="outline-3">
+<h3 id="org7e0ad20">Delete the frames you don&rsquo;t want</h3>
+<div class="outline-text-3" id="text-org7e0ad20">
+<p>
+This is the second interactive part.
+</p>
+
+<p>
+You delete the frames by pressing &rsquo;d&rsquo; in qiv.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  qiv .
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org52be13c" class="outline-3">
+<h3 id="org52be13c">Resize pictures</h3>
+<div class="outline-text-3" id="text-org52be13c">
+<p>
+256 x the corresponding aspect ratio is a good size.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  SCALE=25%
+
+  mkdir Small/
+  for img (*.png) { convert -scale $SCALE $img Small/$img }
+  file Small/*.png([1])
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgbb12622" class="outline-3">
+<h3 id="orgbb12622">Inspect down-scaled size</h3>
+<div class="outline-text-3" id="text-orgbb12622">
+<p>
+If the size isn&rsquo;t alright, redo the previous step with a different SCALE.
+</p>
+
+<pre class="example">
+#+begin_src screen :session create-gif
+  qiv Small/*.png
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb68c087" class="outline-3">
+<h3 id="orgb68c087">Generate gif file</h3>
+<div class="outline-text-3" id="text-orgb68c087">
+<p>
+The settings here are for an endless looping gif. If the gif plays
+to fast or too slow, you can just change the command line options
+as you normally would.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  convert -delay 10 -loop 0 Small/* animation.gif
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org228cf8e" class="outline-3">
+<h3 id="org228cf8e">Look at the resulting gif</h3>
+<div class="outline-text-3" id="text-org228cf8e">
+<p>
+I use opera for this. If the gif is not satisfactory, repeat the
+above steps as necessary.
+</p>
+<pre class="example">
+#+begin_src screen :session create-gif
+  opera animation.gif
+#+end_src
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Example2" class="outline-2">
+<h2 id="Example2">Example 2: Semi-parallel communication via netcat</h2>
+<div class="outline-text-2" id="text-Example2">
+<p>
+This is a very small example<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>, but expands on the concept of sessions
+well. The objective is to send a message via TCP to someone else.
+(We fake this by doing everything via localhost The principle is the same.)
+</p>
+</div>
+
+<div id="outline-container-orgd50d673" class="outline-3">
+<h3 id="orgd50d673">Listen for message</h3>
+<div class="outline-text-3" id="text-orgd50d673">
+<p>
+Set up <a href="http://netcat.sourceforge.net/">netcat</a> to listen to port 1234.
+</p>
+
+<p>
+Notice the <i>:session</i> parameter. Specifying <code>receiver</code> here and
+<code>sender</code> below allows us to run this example from a single source
+but with two interactive seesions.
+</p>
+<pre class="example">
+#+begin_src screen :session receiver
+  netcat -l -p 1234
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2193947" class="outline-3">
+<h3 id="org2193947">Send the message</h3>
+<div class="outline-text-3" id="text-org2193947">
+<p>
+Use the default shell (<i>:cmd</i> has been omitted.) to generate a
+message and send it to the port that is listening for it.
+</p>
+<pre class="example">
+#+begin_src screen :session sender
+  {
+   echo hi
+   sleep 1
+   echo bye
+   sleep 1
+  } | netcat -c localhost 1234
+#+end_src
+</pre>
+
+
+<p>
+After you&rsquo;ve invoked both examples, you can see how the <code>receiver</code>
+session sees the message send by <code>sender</code>.
+</p>
+
+<p>
+How this might be useful: You could take this example further and
+test an app that communicated via a network interface. You wouldn&rsquo;t
+have a fully automatic setup yet, but the <a href="../index.html#reproducible-research">Reproducible Research</a>
+concept still applies.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-header-arguments" class="outline-2">
+<h2 id="header-arguments">Header Arguments</h2>
+<div class="outline-text-2" id="text-header-arguments">
+<p>
+Here&rsquo;s a general overview of header arguments:
+</p>
+
+<dl class="org-dl">
+<dt>session</dt><dd>session name that is used by screen
+<dl class="org-dl">
+<dt>default value</dt><dd>default</dd>
+</dl></dd>
+
+<dt>cmd</dt><dd>argument must be a shell of some sort
+<dl class="org-dl">
+<dt>default value</dt><dd>sh</dd>
+<dt>examples</dt><dd>sh, zsh, irb, python, sqlite3</dd>
+</dl></dd>
+
+<dt>terminal</dt><dd>must support -T &rsquo;title&rsquo; and -e &rsquo;command&rsquo;
+<dl class="org-dl">
+<dt>default value</dt><dd>xterm</dd>
+<dt>examples</dt><dd>xterm, urxvt, aterm, Eterm</dd>
+</dl></dd>
+
+<dt>results</dt><dd>argument currently ignored
+<dl class="org-dl">
+<dt>default value</dt><dd>silent</dd>
+</dl></dd>
+</dl>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+It does this by generating a random string, writing it via
+org-screen-babel to /tmp/testfile and reading it back via Emacs. If
+the validation fails, the setup is deemed broken.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+The example is taken from Eev as well: <a href="http://angg.twu.net/eev-current/anim/channels.anim.html">channels.anim</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Benjamin Andresen</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

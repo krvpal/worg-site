@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Import items from remember the milk</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Arun Persaud" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Import items from remember the milk</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgba4b5bf">Overview</a></li>
+<li><a href="#orge2357c3">Setup</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgba4b5bf" class="outline-2">
+<h2 id="orgba4b5bf">Overview</h2>
+<div class="outline-text-2" id="text-orgba4b5bf">
+<p>
+This page will show you how to import items from <a href="http://www.rememberthemilk.com">remember the milk</a>(RTM) into org mode (one way sync).
+The script will parse the atom feed from RTM adding more information such as scheduled date, location, tags and priority.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2357c3" class="outline-2">
+<h2 id="orge2357c3">Setup</h2>
+<div class="outline-text-2" id="text-orge2357c3">
+<p>
+The script uses the built-in feed parser from org-mode. Since the feed parser is very unspecific, we add a function that parses each RTM entry
+and scans it for some org-mode relevant information such as the scheduled date, location, tags, etc. You will need to add these scripts to your .emacs file
+and modify them to fit your needs (you need to add your RTM-atom feed url at least).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-feed-parse-RTM-entry</span> <span style="color: #fd971f;">(</span>entry<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Parse the `</span><span style="color: #fd971f;">:item-full-text</span><span style="color: #7f7f80;">' as a sexp and create new properties."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>xml <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">read-from-string</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> entry <span style="color: #fd971f;">:item-full-text</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #696969;">;; </span><span style="color: #696969;">Get first &lt;link href='foo'/&gt;.</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:link</span>
+                           <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-get-attribute</span>
+                            <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">xml-get-children</span> xml <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">link</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                            <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">href</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #696969;">;; </span><span style="color: #696969;">Add &lt;title/&gt; as :title.</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:title</span>
+                           <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-substitute-special</span>
+                            <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">xml-node-children</span>
+                                  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-children</span> xml <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">title</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #696969;">;; </span><span style="color: #696969;">look for some other information that's in the content of the entry</span>
+    <span style="color: #696969;">;; </span><span style="color: #696969;">the structure looks something like:</span>
+    <span style="color: #696969;">;; </span><span style="color: #696969;">&lt;content&gt;&lt;div&gt;   &lt;div item&gt; &lt;span itemname&gt;&lt;/span&gt;&lt;span itemvalue&gt;&lt;/span&gt;&lt;/div&gt;...</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>content <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">xml-get-children</span> xml <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">content</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+           <span style="color: #fd971f;">(</span>main  <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">xml-get-children</span> content <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">div</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+           <span style="color: #fd971f;">(</span>items <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-children</span> main <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">div</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> items
+        <span style="color: #696969;">; </span><span style="color: #696969;">iterate over all items and check for certain classes</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">while</span> items
+          <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> item <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> items<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #696969;">; </span><span style="color: #696969;">get the second span entry</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> valuesub <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cdr</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-node-children</span> item<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-attribute</span> item <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">class</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"rtm_due"</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:due</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-node-children</span> valuesub<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> mydate <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">xml-node-children</span> valuesub<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+         <span style="color: #696969;">;; </span><span style="color: #696969;">Any time will be stripped</span>
+         <span style="color: #696969;">;; </span><span style="color: #696969;">Entries will be only schedued to a date</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> mydate <span style="color: #e2c770;">"never"</span><span style="color: #b6e63e;">)</span>
+                   nil
+       <span style="color: #696969;">;; </span><span style="color: #696969;">entries could be scheduled to a date "Tue 4 Aug 15" </span>
+       <span style="color: #696969;">;; </span><span style="color: #696969;">or to a date/time "Tue 4 Aug 15 at 10:00AM"</span>
+       <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"^</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[a-zA-Z]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[0-9]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[a-zA-Z]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[0-9]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> at </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[0-9:]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">"</span> mydate<span style="color: #eb4509;">)</span>
+           <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> mydate <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"20"</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">4</span> mydate<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">" "</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">3</span> mydate<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">" "</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">2</span> mydate<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">" "</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">5</span> mydate<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">":01"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span><span style="color: #eb4509;">progn</span>
+           <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"^</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[a-zA-Z]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[0-9]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[a-zA-Z]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;"> </span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[0-9]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">$"</span> mydate<span style="color: #fd971f;">)</span>
+           <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> mydate <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"20"</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">4</span> mydate<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">" "</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">3</span> mydate<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">" "</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">2</span> mydate<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">" 00:00:01"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">progn</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> mydate <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">parse-time-string</span> mydate<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> mydate <span style="color: #fd971f;">(</span><span style="color: #fd971f;">apply</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">encode-time</span> mydate<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> mydate <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format-time-string</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">org-time-stamp-formats</span><span style="color: #b6e63e;">)</span> mydate<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #fd971f;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:dueorgformat</span> mydate<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-attribute</span> item <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">class</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"rtm_tags"</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:tags</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-node-children</span> valuesub<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-attribute</span> item <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">class</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"rtm_time_estimate"</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:timeestimate</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-node-children</span> valuesub<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-attribute</span> item <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">class</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"rtm_priority"</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:priority</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-node-children</span> valuesub<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">xml-get-attribute</span> item <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">class</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"rtm_location"</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> entry <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-put</span> entry <span style="color: #fd971f;">:location</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">xml-node-children</span> valuesub<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> items <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cdr</span> items<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+It&rsquo;s also easy to set up special filters for the RTM entries. Here, we for example set up a filter that skips all entries that don&rsquo;t have a due-date set in RTM.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-feed-RTM-filter-non-scheduled</span> <span style="color: #fd971f;">(</span>entry<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"filter out all entries that don't have a due date set"</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> entry <span style="color: #fd971f;">:due</span><span style="color: #eb4509;">)</span> <span style="color: #e2c770;">"never"</span><span style="color: #b6e63e;">)</span>
+      nil
+    entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Next we need to tell org-mode where to find the feed, for this you need to copy the url location for your RTM atom-feed. The code below will
+write the RTM information into a file called &ldquo;~/org/RTM.org&rdquo;. If you want to change the file name, just edit the 4th line (you will also need to edit the file name in the scriptlet below). Furthermore, we define
+here the functions we defined above to filter and parse the RTM entries. We also define a template that will be used in the org-file. Here, we use
+the newly defined items for the due date and location, etc.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-feed-alist
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"Remember The Milk"</span>
+         <span style="color: #e2c770;">"https://www.rememberthemilk.com/atom/&lt;add url for RTM atom feed here&gt;"</span>
+         <span style="color: #e2c770;">"~/org/RTM.org"</span>
+         <span style="color: #e2c770;">"Remember The Milk"</span>
+         <span style="color: #fd971f;">:parse-feed</span> org-feed-parse-atom-feed
+         <span style="color: #fd971f;">:parse-entry</span> org-feed-parse-RTM-entry
+         <span style="color: #fd971f;">:template</span> <span style="color: #e2c770;">"* </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> %title\n SCHEDULED:%dueorgformat\n Due: %due\n Location: %location\n Priority:%priority\n Tags:%tags\n %a\n "</span>
+         <span style="color: #fd971f;">:filter</span> org-feed-RTM-filter-non-scheduled
+         <span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Finally, we need to tell emacs to run this automatically, for example, every hour. For this, we delete the old file and buffer and then recreate it. If you wanted to change the file name
+for the RTM file you need to edit this too.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">myupdate-RTM</span> <span style="color: #fd971f;">()</span>
+  <span style="color: #7f7f80;">"deletes old RTM.org and generates a new one"</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">save-current-buffer</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> nil <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">get-buffer</span> <span style="color: #e2c770;">"RTM.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">progn</span>
+         <span style="color: #fd971f;">(</span><span style="color: #fd971f;">kill-buffer</span> <span style="color: #e2c770;">"RTM.org"</span><span style="color: #fd971f;">)</span>
+         <span style="color: #fd971f;">(</span><span style="color: #fd971f;">delete-file</span> <span style="color: #e2c770;">"~/org/RTM.org"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">set-buffer</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">get-buffer-create</span> <span style="color: #e2c770;">"RTM.org"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">write-file</span> <span style="color: #e2c770;">"~/org/RTM.org"</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-feed-update-all</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">save-buffer</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;;</span><span style="color: #696969;">* rtm feed timer</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">run-at-time</span> <span style="color: #9c91e4; font-weight: bold;">3600</span> <span style="color: #9c91e4; font-weight: bold;">3600</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">myupdate-RTM</span><span style="color: #eb4509;">)</span>
+
+</pre>
+</div>
+
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Arun Persaud</p>
+<p class="date">Created: 2021-06-15 Tue 18:24</p>
+</div>
+</body>
+</html>

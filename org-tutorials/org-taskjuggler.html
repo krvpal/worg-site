@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Creating Gantt charts by Exporting to TaskJuggler</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Christian Egli" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Creating Gantt charts by Exporting to TaskJuggler</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgeb0dbe5">Introduction</a></li>
+<li><a href="#orgf773df4">Plan your project</a></li>
+<li><a href="#org6483765">Estimate the effort</a></li>
+<li><a href="#orgdb6a027">Generate a Gantt chart</a></li>
+<li><a href="#org2124e4f">Assign resources</a></li>
+<li><a href="#org44f5fcc">Define dependencies</a></li>
+<li><a href="#org2d1cc81">Export of other properties</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgeb0dbe5" class="outline-2">
+<h2 id="orgeb0dbe5">Introduction</h2>
+<div class="outline-text-2" id="text-orgeb0dbe5">
+<p>
+<a href="https://orgmode.org/">Org mode</a> is an excellent tool for project planning as Peter Jones has
+shown in his article on <a href="http://www.devalot.com/articles/2008/07/project-planning">project planning</a>. He first breaks the project
+into features and tasks, then estimates the effort and from that
+presents a project plan. In this tutorial we will take this one step
+further, assign resources to the tasks, schedule the tasks and create
+the corresponding gantt chart for this project.
+</p>
+
+<p>
+We will be using <a href="http://www.taskjuggler.org/">TaskJuggler</a> to handle the task scheduling, resource
+leveling and creation of a myriad of charts (such as <a href="https://en.wikipedia.org/wiki/Gantt_chart">Gantt chart</a>) for
+your customer or your <a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">Pointy-haired Boss</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf773df4" class="outline-2">
+<h2 id="orgf773df4">Plan your project</h2>
+<div class="outline-text-2" id="text-orgf773df4">
+<p>
+You start out as you normally would by breaking down the project into
+tasks. Let&rsquo;s take the following example where you have a project to
+create an accounting software:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Accounting Software</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Specification</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Software Development</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Database coupling</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Back-End Functions</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Graphical User Interface</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Software testing</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Alpha Test</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Beta Test</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Manual</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Milestones</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Project start</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Technology Preview</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Beta version</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Ship Product to Customer</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6483765" class="outline-2">
+<h2 id="org6483765">Estimate the effort</h2>
+<div class="outline-text-2" id="text-org6483765">
+<p>
+Now that you&rsquo;ve figured out the tasks it&rsquo;s time to estimate the
+efforts for each task. By using column view this can be done very
+efficiently. It also helps to define the <code>COLUMNS</code> and default values
+for the Effort property as shown in the following screen shot:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/effort-estimation.png" alt="effort-estimation.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Estimating effort using column view</p>
+</div>
+
+<p>
+Your resulting Org mode project file will look somewhat like the
+following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d</span>
+<span style="color: #7f7f80;">#+COLUMNS: %70ITEM(Task) %Effort</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Accounting Software</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Specification</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">20d</span>
+   <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Software Development</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Database coupling</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">20d</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Back-End Functions</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">30d</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Graphical User Interface</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">35d</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Software testing</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Alpha Test</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">5d</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Beta Test</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">20d</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Manual</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">50d</span>
+   <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Milestones</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Project start</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Technology Preview</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Beta version</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Ship Product to Customer</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdb6a027" class="outline-2">
+<h2 id="orgdb6a027">Generate a Gantt chart</h2>
+<div class="outline-text-2" id="text-orgdb6a027">
+<p>
+Before you now export the project to TaskJuggler you need to tell the
+exporter in which tree it can find the tasks. You do this by adding
+the tag <code>taskjuggler_project</code> to the node &ldquo;Accounting Software&rdquo;<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+Do this by moving to the &ldquo;Accounting Software&rdquo; headline and typing the
+following:
+</p>
+
+<pre class="example">
+C-c C-c taskjuggler_project RET
+</pre>
+
+
+<p>
+This allows you to have other nodes for this project such as an
+introduction or general notes.
+</p>
+
+<p>
+To export the project to TaskJuggler you simply type
+</p>
+
+<pre class="example">
+M-x org-export-as-taskjuggler-and-open
+</pre>
+
+
+<p>
+This will open your project in TaskJugglerUI as illustrated below
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/TaskJugglerUI1.png" alt="TaskJugglerUI1.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Gantt chart in TaskJugglerUI</p>
+</div>
+
+<p>
+Since we have not assigned any resources to work on the project the
+exporter assumes that you will be the one working on it and has
+assigned all tasks to you. The tasks have been serialized so that you
+will not have to many things to do at once, i.e. the resources will be
+leveled.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2124e4f" class="outline-2">
+<h2 id="org2124e4f">Assign resources</h2>
+<div class="outline-text-2" id="text-org2124e4f">
+<p>
+The next step is to list all the resources working on the project and
+assign the tasks to them. Create a node for the resources. You can
+group the resources by creating hierarchies. Tag the resource tree
+with the tag <code>taskjuggler_resource</code> so that the exporter knows where to
+look for resource definitions<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Resources                                         </span><span style="color: #e2c770; font-weight: bold;">:taskjuggler_resource:</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Developers</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">dev</span>
+   <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Paul Smith</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">paul</span>
+    <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> S&#233;bastien Bono</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">seb</span>
+    <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Klaus M&#252;ller</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Others</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Peter Murphy</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">doc</span>
+    <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Dim Sung</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">test</span>
+    <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+
+<p>
+As you&rsquo;ll note I also added some <code>resource_id</code> properties to some of
+the resources (or resource groups). I will use these identifiers to
+allocate the resources to the tasks. The exporter will create unique
+ids for the resources automatically<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>, but if you want to use
+short forms it&rsquo;s better to define <code>resource_id</code> properties for your
+resources. This will also allow you to define default values for the
+allocation as follows:
+</p>
+
+<pre class="example">
+#+PROPERTY: allocate_ALL dev doc test
+</pre>
+
+
+<p>
+The easiest way to assign resources is again the column view mode.
+There is no need to allocate a resource to every task, as allocations
+are inherited in TaskJuggler<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>. You&rsquo;ll note in the screen shot
+below that some tasks have more than one resource assigned to them.
+TaskJuggler will calculate the duration of the task based on the
+effort and the resources working on this task.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/assign-resources.png" alt="assign-resources.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>Assign resources</p>
+</div>
+
+<p>
+If we now export the project you&rsquo;ll see that TaskJuggler scheduled
+some tasks in parallel (as there are several resources now which can
+work in parallel). See the screen shot below:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/TaskJugglerUI2.png" alt="TaskJugglerUI2.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>Gantt Chart with multiple resources</p>
+</div>
+
+<p>
+Obviously we need to define dependencies between the tasks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org44f5fcc" class="outline-2">
+<h2 id="org44f5fcc">Define dependencies</h2>
+<div class="outline-text-2" id="text-org44f5fcc">
+<p>
+There are several ways to define dependencies between tasks. When
+coming from an Org mode background you probably want to define them
+using the facilities provided by Org mode, which are either
+</p>
+
+<ul class="org-ul">
+<li>The <code>ORDERED</code> property which allows you to state that the child
+tasks have to be completed in the order they appear (top most
+first).</li>
+
+<li>The <code>BLOCKER</code> property which allows you to state that a task
+depends on either
+<ul class="org-ul">
+<li>a previous sibling (&ldquo;previous-sibling&rdquo;) or</li>
+<li>any other task by stating the <code>task_id</code> property of the
+predecessor</li>
+</ul></li>
+</ul>
+
+<p>
+Again, it is probably easiest to define the dependencies using the
+column view as shown below in the screen shot:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/define-dependencies.png" alt="define-dependencies.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Defining dependencies using column view</p>
+</div>
+
+<p>
+Lastly there is also the <code>depends</code> property which corresponds to the
+TaskJuggler terminology. It can be used the same way as the <code>BLOCKER</code>
+property. This is illustrated below where the &ldquo;Software Development&rdquo;
+for example is blocked by the task &ldquo;Specification&rdquo;, i.e. it has to
+wait until the specification is done. The task &ldquo;Software Development&rdquo;
+is defined as <code>ORDERED</code>, i.e. all the subtasks of it have to be
+completed in sequence. Another example is the milestone &ldquo;Ship Product
+to Customer&rdquo; which is waiting until the Beta test and the Manual are
+done.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d</span>
+<span style="color: #7f7f80;">#+PROPERTY: allocate_ALL dev doc test</span>
+<span style="color: #7f7f80;">#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Accounting Software                                        </span><span style="color: #e2c770; font-weight: bold;">:taskjuggler_project:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Specification</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">20d</span>
+   <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">start</span>
+   <span style="color: #7f7f80;">:allocate:</span> <span style="color: #7f7f80;">dev</span>
+   <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Software Development</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:ORDERED:</span>  <span style="color: #7f7f80;">t</span>
+   <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">previous-sibling</span>
+   <span style="color: #7f7f80;">:priority:</span> <span style="color: #7f7f80;">1000</span>
+   <span style="color: #7f7f80;">:allocate:</span> <span style="color: #7f7f80;">dev</span>
+   <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Database coupling</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">20d</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Back-End Functions</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">30d</span>
+    <span style="color: #7f7f80;">:task_id:</span>  <span style="color: #7f7f80;">back_end</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Graphical User Interface</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">35d</span>
+    <span style="color: #7f7f80;">:allocate:</span> <span style="color: #7f7f80;">paul, seb</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Software testing</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:ORDERED:</span>  <span style="color: #7f7f80;">t</span>
+   <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">previous-sibling</span>
+   <span style="color: #7f7f80;">:allocate:</span> <span style="color: #7f7f80;">test</span>
+   <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Alpha Test</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">5d</span>
+    <span style="color: #7f7f80;">:task_id:</span>  <span style="color: #7f7f80;">alpha</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Beta Test</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">20d</span>
+    <span style="color: #7f7f80;">:task_id:</span>  <span style="color: #7f7f80;">beta</span>
+    <span style="color: #7f7f80;">:allocate:</span> <span style="color: #7f7f80;">test, paul</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Manual</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">50d</span>
+   <span style="color: #7f7f80;">:task_id:</span>  <span style="color: #7f7f80;">manual</span>
+   <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">start</span>
+   <span style="color: #7f7f80;">:allocate:</span> <span style="color: #7f7f80;">doc</span>
+   <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Milestones</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Project start</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:task_id:</span>  <span style="color: #7f7f80;">start</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Technology Preview</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">back_end</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Beta version</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">alpha</span>
+    <span style="color: #cd3278;">:END:</span>
+
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Ship Product to Customer</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:BLOCKER:</span>  <span style="color: #7f7f80;">beta manual</span>
+    <span style="color: #cd3278;">:END:</span>
+
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Resources                                         </span><span style="color: #e2c770; font-weight: bold;">:taskjuggler_resource:</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Developers</span>
+   <span style="color: #cd3278;">:PROPERTIES:</span>
+   <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">dev</span>
+   <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Paul Smith</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">paul</span>
+    <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> S&#233;bastien Bono</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">seb</span>
+    <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Klaus M&#252;ller</span>
+
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Others</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Peter Murphy</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">doc</span>
+    <span style="color: #7f7f80;">:limits:</span>   <span style="color: #7f7f80;">{ dailymax 6.4h }</span>
+    <span style="color: #cd3278;">:END:</span>
+<span style="color: #bebebe; background-color: #010000;">**</span><span style="color: #8ec298; font-weight: bold;">*</span><span style="color: #8ec298; font-weight: bold;"> Dim Sung</span>
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:resource_id:</span> <span style="color: #7f7f80;">test</span>
+    <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+
+<p>
+If you export the example above you&rsquo;ll TaskJuggler will schedule the
+tasks as shown in the screen shot below
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/TaskJugglerUI3.png" alt="TaskJugglerUI3.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Gantt Chart with dependencies</p>
+</div>
+
+<p>
+Also TaskJuggler will give you a overview how busy youre resources
+will be and what they are working on. See below for a screen shot:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/resource-graph.png" alt="resource-graph.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>Resource usage chart</p>
+</div>
+
+<p>
+Finally you can generate <a href="../images/taskjuggler/project-plan.pdf">good-looking project plans</a> in PDF by printing
+from TaskJuggler. This will make any <a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">Pointy-haired Boss</a> happy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2d1cc81" class="outline-2">
+<h2 id="org2d1cc81">Export of other properties</h2>
+<div class="outline-text-2" id="text-org2d1cc81">
+<p>
+Generally the exporter writes a node property that is known to
+TaskJuggler (such as <code>shift</code>, <code>booking</code>, <code>efficiency</code>, <code>journalentry</code>,
+<code>rate</code> for resources or <code>account</code>, <code>start</code>, <code>note</code>, <code>duration</code>, <code>end</code>,
+<code>journalentry</code>, <code>milestone</code>, <code>reference</code>, <code>responsible</code>, <code>scheduling</code>,
+etc for tasks) as is to the TaskJuggler file.
+</p>
+
+<p>
+Other properties such as completeness or priority are derived from
+implicit information in the Org mode file. The TODO state for example
+determines the completeness. A task will be exported with 100%
+complete (<code>complete 100</code>) if it is marked as done. The priority of a
+task will be determined through its priority cookie.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+You can customize this tag
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+Again, of course this tag can be customized
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+by downcasing the headline, replacing non-ascii characters with
+&rsquo;_&rsquo; and picking the first word if it is unique
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+In TaskJuggler the allocations are cumulative, the exporter
+however adds some code so that inherited allocation are ignored when
+explicitly assigning a resource.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Christian Egli</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Makefile Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Makefile Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9dd9976">Introduction</a></li>
+<li><a href="#org268e7dd">Requirements and Setup</a></li>
+<li><a href="#org1fc7a08">Org Mode Features for Makefile Source Code Blocks</a>
+<ul>
+<li><a href="#orged038f9">Header Arguments</a></li>
+<li><a href="#orgaf33e66">Sessions</a></li>
+<li><a href="#org3c78560">Result Types</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a
+href="http://www.gnu.org/software/make/manual/make.html">`make'</a>
+</p>
+</div>
+
+<div id="outline-container-org9dd9976" class="outline-2">
+<h2 id="org9dd9976">Introduction</h2>
+<div class="outline-text-2" id="text-org9dd9976">
+<p>
+The <code>make</code> program is a dependency-tracking build utility that is
+distributed with *nix systems.  There are several <code>make</code> programs,
+but they each generally look for a file named <code>makefile</code> or
+<code>Makefile</code>, which contains rules for building one or more targets.
+<code>ob-makefile.el</code> helps the <code>Org mode</code> user tangle a <code>makefile</code> using
+source code blocks.
+</p>
+
+<p>
+Currently, <code>ob-makefile.el</code> is useful only for tangling a
+<code>makefile</code>.  Hopefully, at some point in the future it will support
+variables. 
+</p>
+</div>
+</div>
+<div id="outline-container-org268e7dd" class="outline-2">
+<h2 id="org268e7dd">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org268e7dd">
+<p>
+The <code>make</code> program is a somewhat unusual *nix utility because the
+<code>TAB</code> character is an important part of the syntax.
+</p>
+
+<p>
+Emacs includes a <a href="http://www.emacswiki.org/emacs/MakefileMode">makefile-mode</a> for editing the <code>makefile</code> code.
+</p>
+
+<p>
+For tangling to work, the variable <code>org-src-preserve-indentation</code> must
+be non-nil, so that tabs aren&rsquo;t lost in the Org mode buffer.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-src-preserve-indentation</span> t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Currently, there is no need to activate makefile with
+<code>org-babel-do-load-languages</code>, but it won&rsquo;t hurt to do so.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>makefile . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1fc7a08" class="outline-2">
+<h2 id="org1fc7a08">Org Mode Features for Makefile Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org1fc7a08">
+</div>
+<div id="outline-container-orged038f9" class="outline-3">
+<h3 id="orged038f9">Header Arguments</h3>
+<div class="outline-text-3" id="text-orged038f9">
+<p>
+There are no language-specific default values or header arguments for <code>makefile</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgaf33e66" class="outline-3">
+<h3 id="orgaf33e66">Sessions</h3>
+<div class="outline-text-3" id="text-orgaf33e66">
+<p>
+<code>makefile</code> doesn&rsquo;t support sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3c78560" class="outline-3">
+<h3 id="org3c78560">Result Types</h3>
+<div class="outline-text-3" id="text-org3c78560">
+<p>
+<code>makefile</code> source code blocks currently don&rsquo;t return results. They
+exist solely for tangling.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

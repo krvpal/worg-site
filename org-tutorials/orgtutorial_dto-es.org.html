@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>orgtutorial_dto-es.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">David O'Toole Org tutorial (Spanish Translation)
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">David Arroyo Men&#233;ndez
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">davidam AT es DOT gnu DOT org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   es</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+Esta p&#225;gina es una traducci&#243;n al espa&#241;ol hecha por <span class="kc-org-link-url"><a href="http://www.davidam.com">David Arroyo Men&#233;ndez</a></span> del <span class="kc-org-link-url"><a href="http://dto.freeshell.org/notebook/OrgTutorial.html">tutorial original</a></span> de
+<span class="kc-org-link-url"><a href="http://dto.freeshell.org/notebook/">David O'Toole</a></span>.
+
+Realizado el d&#237;a: &lt;24-09-2011&gt;
+
+<span class="org-link"><a href="file:../index.org">{Volver al &#237;ndice de Worg}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introducci&#243;n
+</span>
+Org-mode es un gestor de informaci&#243;n personal y una herramienta de
+res&#250;menes para Emacs. Este documento pretende dar al lector una
+primera impresi&#243;n de org-mode y ense&#241;ar el uso b&#225;sico con
+instrucciones paso a paso y mediante pantallazos. No se pretende
+reemplazar el <span class="kc-org-link-url"><a href="https://orgmode.org/org.html">manual</a></span>, ya que solo se cubre un subconjunto de las
+funcionalidades de org-mode.
+
+Este documento tambi&#233;n est&#225; traducido en <span class="org-link"><a href="file:orgtutorial_dto-fr.org">Franc&#233;s</a></span>, <span class="kc-org-link-url"><a href="http://hpcgi1.nifty.com/spen/index.cgi%3FOrgMode%2fOrgTutorial">Japon&#233;s</a></span>, <span class="kc-org-link-url"><a href="http://hokmen.chan.googlepages.com/OrgTutorial.en-cn.html">Chino</a></span>, and
+<span class="kc-org-link-url"><a href="http://jmjeong.com/index.php?display=Emacs/OrgMode&quot;">Coreano</a></span>. Agradecimientos especiales a los traductores
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Obteniendo org-mode
+</span>
+Org-mode es parte de Emacs 22 y 23, as&#237; si tiene una versi&#243;n moderna
+de Emacs, entonces ya lo tiene.
+
+Si no, se puede descargar desde <span class="kc-org-link-url"><a href="https://orgmode.org/">la web de org-mode</a></span>, se descomprime y
+se enlaza el load path de Emacs al directorio lisp de dicha
+distribuci&#243;n de Org-mode:
+
+<span class="org-code">: (add-to-list 'load-path "PATH_TO_WHERE_YOU_UNPACKED_ORGMODE/lisp")
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Activaci&#243;n
+</span>
+A&#241;ade lo siguiente a tu .emacs:
+
+<span class="org-code">: (require 'org)
+: (define-key global-map "\C-cl" 'org-store-link)
+: (define-key global-map "\C-ca" 'org-agenda)
+: (setq org-log-done t)
+</span>
+Esto asegurar&#225; la carga de org y la definici&#243;n de algunas
+combinaciones de teclas. Se mostrar&#225; qu&#233; hacen "org-store-link" y
+"org-agenda" m&#225;s adelante en este mismo documento
+
+Una cosa m&#225;s ---es mejor definir un directorio separado d&#243;nde tus
+ficheros org se almacenar&#225;n. Yo recomiendo usar ~/org.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Lo b&#225;sico
+</span>
+Esta secci&#243;n ilustra el uso b&#225;sico de org-mode mostrando c&#243;mo yo us&#233;
+org-mode para crear este documento.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Creando un nuevo fichero
+</span>
+Si se configur&#243; el fichero de inicializaci&#243;n de Emacs como se suger&#237;a
+arriba, Emacs deber&#237;a entrar en org-mode siempre y cuando se visite o
+cree un fichero con la extensi&#243;n ".org"
+
+Yo cree un nuevo fichero llamado "OrgTutorial.org" y v&#237; el indicador
+"Org" en el modeline, mostrando que hab&#237;a entrado en org-mode.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Lista simple de tareas 
+</span>
+Primero introduje un <span class="bold">headline</span> llamado "Tasks" (<span class="italic">Tareas</span>) para
+almacenar la tareas dentro. Esto no es necesario pero, con frecuencia,
+es conveniente, especialmente si se quiere almacenar tareas separadas
+del cuerpo del documento que se est&#225; escribiendo
+
+Los t&#237;tulos de primer nivel empiezan con una estrella; los de segundo
+nivel con dos estrellas, y as&#237;.
+
+En org-mode, los &#237;tems TODO (<span class="italic">tareas no hechas</span>) son siempre t&#237;tulos. Se
+introdujo un &#237;tem TODO para "Start new org file for tutorial" (<span class="italic">Empezar
+un nuevo fichero org tutorial</span>).   
+
+<span class="org-link"><a href="file:../images/dto/tutorial-1.png">file:../images/dto/tutorial-1.png</a></span>
+
+Esto es un poco tonto, porque ya se ha iniciado un nuevo fichero. As&#237;,
+m&#225;rquese el &#237;tem TODO como &#237;tem DONE (<span class="italic">tarea ya realizada</span>) moviendo el
+cursor a esta esa l&#237;nea y pulsando <span class="bold">C-c C-t</span>, que ejecuta el comando
+<span class="bold">org-todo</span>. 
+
+Aqu&#237; est&#225; el resultado:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-2.png">file:../images/dto/tutorial-2.png</a></span>
+
+N&#243;tese c&#243;mo org-mode usa una marca de tiempo para grabar cuando un
+&#237;tem TODO fu&#233; cerrado.
+
+Perm&#237;tase a&#241;adir algunos &#237;tems TODO m&#225;s. Posicione el cursor en la
+siguiente l&#237;nea y pulse <span class="bold">M-shift-RET</span> para llamar a
+<span class="bold">org-insert-todo-heading</span>. Se puede pulsar varias veces y a&#241;adir
+varios TODOs.
+
+<span class="org-link"><a href="file:../images/dto/tutorial-3.png">file:../images/dto/tutorial-3.png</a></span>
+
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Usando t&#237;tulos para estructurar un documento
+</span>
+Con frecuencia el mejor camino para organizar las ideas es un
+esquema. El siguiente paso es hacer un esquema de los diferentes
+asuntos del tutorial. Haciendo esto, se rompe la intimidatoria p&#225;gina
+en blanco en una serie de peque&#241;os trozos menos
+intimidatorios. Llegando entonces, a ser sencillos de rellenar.
+
+Recuerda que una estrella da comienzo a una cabecera de primer nivel,
+y dos estrellas dan comienzo a una cabecera de segundo nivel. Si se
+necesita un anidamiento m&#225;s profundo, &#161;usa tres o m&#225;s estrellas!
+
+Aqu&#237; est&#225; lo que se ve despu&#233;s de hacer un esquema del documento:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-4.png">file:../images/dto/tutorial-4.png</a></span>
+
+N&#243;tese que se marc&#243; "Outline document" (<span class="italic">Esquematizar el documento</span>)
+como DONE despu&#233;s de finalizar.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Rellenando secciones
+</span>
+F&#225;cilmente se puede a&#241;adir texto un cuerpo de texto debajo de
+cualquier t&#237;tulo.
+
+<span class="org-link"><a href="file:../images/dto/tutorial-5.png">file:../images/dto/tutorial-5.png</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Enlaces a otros lugares
+</span>
+En la secci&#243;n "Obteniendo org-mode" se necesita proveer un enlace al
+sitio web de org-mode. Una sintaxis especial de corchetes es usada al
+enlazar:
+
+<span class="org-code">: <a href="enlace">[[enlace][descripci&#243;n]]</a>
+</span>
+Observa c&#243;mo se escribi&#243; el enlace y descripci&#243;n, dejando abierto el
+&#250;ltimo corchete:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-6.png">file:../images/dto/tutorial-6.png</a></span>
+
+Entonces cuando yo escribo el &#250;ltimo corchete, el enlace "se encoge" y
+simplemente muestra la descripci&#243;n.
+
+<span class="org-link"><a href="file:../images/dto/tutorial-7.png">file:../images/dto/tutorial-7.png</a></span>
+
+Pruebe a mover el cursor hasta el enlace y presione <span class="bold">C-c C-o</span> para
+<span class="bold">org-open-at-point</span> (<span class="italic">Abrir el enlace</span>),
+
+Tambi&#233;n se puede enlazar a ficheros locales. Pruebe visitando otro
+fichero ---por ejemplo, su fichero de inicializaci&#243;n de
+emacs. Entonces pulse <span class="bold">C-c l</span> para llamar a <span class="bold">org-store-link</span>. Se ver&#225;
+un mensaje acerca de que un enlace fu&#233; almacenado para la posici&#243;n
+actual en el fichero que se est&#225; visitando.
+
+Entonces vuelva a su buffer org-mode y pegue el enlace usando <span class="bold">C-c
+C-l</span> para llamar a <span class="bold">org-insert-link</span>. (Puede necesitar presionar las
+teclas de flechas para mover el scroll hasta encontrar el enlace
+grabado.)
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Visi&#243;n de conjunto del documento
+</span>
+En este momento, el documento es largo y no se puede ver entero en una
+sola pantalla. Org-mode hace f&#225;cil tener una visi&#243;n de conjunto del
+documento presionando <span class="bold">shift-TAB</span>.
+
+<span class="org-link"><a href="file:../images/dto/tutorial-9.png">file:../images/dto/tutorial-9.png</a></span>
+
+N&#243;tese que solo se muestran los t&#237;tulos de primer nivel. Se puede
+pulsar <span class="bold">shift-TAB</span> de nuevo para mostrar <span class="bold">todos</span> los t&#237;tulos o
+cabeceras, incluyento &#237;tems TODO:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-10.png">file:../images/dto/tutorial-10.png</a></span>
+
+Pulsa de nuevo para mostrar una vista normal del documento, con los
+cuerpos de cada secci&#243;n:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-11.png">file:../images/dto/tutorial-11.png</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> A&#241;adiendo notas a una tarea
+</span>
+Se puede poner tanto texto como se quiera bajo una cabecera de un &#237;tem
+TODO. De hecho, se puede tener incluso subcabecera bajo un TODO, &#161;y
+TODOs con TODOs!
+
+Siendo capaz de anotar tareas hace f&#225;cil recoger enlaces relacionados
+y pensamientos asociados a una tarea. Siendo capaz de anidar tarear es
+bueno para modelar flujos de trabajo --- con bastante frecuencia, una
+tarea larga is dividida en peque&#241;as subtareas que se pretende marchar
+seg&#250;n se hagan.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Saboreando funcionalidades avanzadas
+</span>
+Antes de finalizar, se ver&#225; brevemente las funcionalidades de org-mode
+relativas a lista global de TODOs, planificaci&#243;n y agenda. &#201;stas son
+usadas para combinar &#237;tems TODO desde diferentes ficheros org
+mostr&#225;ndose de un modo priorizado y cronol&#243;gico. Tambi&#233;n puede usarse
+para ver qu&#233; tareas se completaron y cuando.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Configuraci&#243;n
+</span>
+Primero debe asignarse la variable <span class="bold">org-agenda-files</span> de tal modo que
+org-mode conocer&#225; qu&#233; ficheros buscar para TODOs e &#237;tems planificados
+
+Imag&#237;nese que ya tiene varios ficheros org ---por ejemplo, uno para
+trabajar, uno para casa y uno para clase.
+
+En tal caso, se a&#241;adir&#237;a lo siguiente al fichero de inicializaci&#243;n de
+emacs: 
+
+<span class="org-code">: (setq org-agenda-files (list "~/org/trabajo.org"
+:                              "~/org/clase.org" 
+:                              "~/org/casa.org"))
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> La lista TODO global
+</span>
+Presione <span class="bold">C-c a t</span> para introducir la lista global todo. Org-mode
+escanear&#225; los ficheros en <span class="bold">org-agenda-files</span> y presentar&#225; un listado
+de todas los &#237;tems TODO abiertos:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-16.png">file:../images/dto/tutorial-16.png</a></span>
+
+Se puede mover el cursor alrededor de diferentes &#237;tems todo, y p&#250;lsese
+"t" para marcar un &#237;tem como DONE (<span class="italic">hecho</span>), o pulse <span class="bold">RET</span> para saltar
+al fichero fuente donde el TODO est&#225; localizado.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Planificando tareas y usando la agenda
+</span>
+Imagine que se quiere planificar "Finish document" (<span class="italic">Finalizar
+documento</span>) para hoy. Entonces, se mueve el cursor a la l&#237;nea de
+despu&#233;s del &#237;tem TODO llamado "Finish document" y se pulsa <span class="bold">C-c C-s</span>
+para ejecutar <span class="bold">org-schedule</span>. El calendario aparece, y se puede
+introducir o hacer click en la fecha deseada:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-12.png">file:../images/dto/tutorial-12.png</a></span>
+
+Una vez se selecciona la fecha, org-mode inserta una marca de fecha
+planificada despu&#233;s del &#237;tem TODO:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-13.png">file:../images/dto/tutorial-13.png</a></span>
+
+Ahora se guarda el fichero y se pulsa <span class="bold">C-c a a</span> para <span class="bold">org-agenda</span>. Se
+mostrar&#225; una vista de los &#237;tems planificados para esa semana:
+
+<span class="org-link"><a href="file:../images/dto/tutorial-14.png">file:../images/dto/tutorial-14.png</a></span>
+
+Ahora presione "l" (min&#250;scula L) para activar la vista de log. Esto
+muestra por pantalla todas las tareas finalizadas y sus fechas de
+terminaci&#243;n.
+
+<span class="org-link"><a href="file:../images/dto/tutorial-15.png">file:../images/dto/tutorial-15.png</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Despedida
+</span>
+&#201;ste ha sido solo un breve paseo por org-mode. M&#225;s excitantes
+funcionalidades aguardan en el <span class="kc-org-link-url"><a href="https://orgmode.org/manual/index.html">manual online de org-mode</a></span>.
+</pre>
+  </body>
+</html>

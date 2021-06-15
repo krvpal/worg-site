@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Blorgit: Org-Mode based, git amenable, blogging engine</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric Schulte" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Blorgit: Org-Mode based, git amenable, blogging engine</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org33b30ea">Introduction</a>
+<ul>
+<li><a href="#org1531814">Features</a></li>
+</ul>
+</li>
+<li><a href="#org26be814">Getting Started (installation and use)</a></li>
+<li><a href="#org1651e27">Additional Information</a>
+<ul>
+<li><a href="#org286bb29">Common Tasks</a></li>
+<li><a href="#org4ec264b">Changing Configuration Options</a></li>
+<li><a href="#org7dacc12">Git</a></li>
+<li><a href="#orgc013d4c">Change blogs directory</a></li>
+<li><a href="#org26172d2">Deploying to a Remote Server</a></li>
+<li><a href="#org28fab37">Extending Blorgit</a></li>
+<li><a href="#orge02a236">Deploying on a Mac with Apache/Passenger Pane</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org33b30ea" class="outline-2">
+<h2 id="org33b30ea">Introduction</h2>
+<div class="outline-text-2" id="text-org33b30ea">
+<p>
+Blorgit is a blogging engine which uses <a href="https://orgmode.org">Org-Mode</a> for markup, runs on
+the <a href="http://www.sinatrarb.com/">Sinatra</a> mini web framework, and is amenable to posting and
+maintenance through <a href="http://git-scm.com/">git</a>.  With the addition of a little <a href="http://www.ruby-lang.org/en/">Ruby</a> blorgit
+creates interactive web pages with <a href="https://orgmode.org">Org-Mode</a>.
+</p>
+</div>
+
+<div id="outline-container-org1531814" class="outline-3">
+<h3 id="org1531814">Features</h3>
+<div class="outline-text-3" id="text-org1531814">
+
+<div class="figure">
+<p><img src="images/blorgit/blorgit_features.png" alt="blorgit_features.png" />
+</p>
+</div>
+
+<ol class="org-ol">
+<li><b>In Browser Editing</b> Org-mode files can be edited through the
+browser.  Upon submitting an edit the original org-mode file is
+overwritten and the web-page is re-exported.  Edits can be turned
+on off or with the <code>editable</code> <a href="#org4ec264b">configuration option</a> and can be
+password protected by setting the <code>auth</code> <a href="#org4ec264b">configuration option</a></li>
+<li><b>Export to org-mode and LaTeX formats</b>  The raw <b>Org-mode</b> source,
+and <b>LaTeX</b> exports of all pages can be downloaded.</li>
+<li><b>Search</b> The search bar compares your search terms as a
+<i>perl-style</i> regular expression (in most cases working just like a
+simple term search) against the org-mode source of each page
+returning a ranked list.  <img src="images/blorgit/blorgit_search.png" alt="blorgit_search.png" /></li>
+<li><b>Sidebar with Recent changes and Directory Listing</b> The top <code>N</code>
+recently edited pages, and/or directory listings can optionally
+be presented in a sidebar.  These are controlled through the
+<code>recent</code> and <code>dir_list</code> configuration options.</li>
+<li><b>Themes</b> The <a href="http://github.com/eschulte/blorgit_themes/tree/master">blorgit_themes</a> git repository holds prepackaged
+themes for blorgit.  These can be applied to your installation
+using the supplied rake commands.  For a list of available themes
+run <code>rake themes</code> from the root of your blorgit installation.
+Please share any new themes you might
+create. <img src="images/blorgit/themes.png" alt="themes.png" /></li>
+<li><b>Comments in org-mode files</b> Pages can optionally be opened for
+comments, all comments will be stored in a special <code>* COMMENT
+   Comments</code> outline header appended to the end of the org file.</li>
+<li><b>Git Synchronization</b> By setting the <code>git_commit</code> <a href="#org4ec264b">configuration
+option</a> to <code>true</code> blorgit can be made to automatically commit and
+push to a git repository after every comment or edit of an org-mode
+file.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org26be814" class="outline-2">
+<h2 id="org26be814">Getting Started (installation and use)</h2>
+<div class="outline-text-2" id="text-org26be814">
+<ol class="org-ol">
+<li><p>
+<b>Install Ruby</b>
+</p>
+
+<p>
+If you don&rsquo;t already have ruby installed on your system then you
+will need to install <a href="http://www.ruby-lang.org/en/">Ruby</a> and <a href="http://rubygems.org/">Ruby Gems</a> (Ruby&rsquo;s package managment
+system).*  Be sure to install Ruby 1.8 (should be default option)
+<b>not</b> Ruby 1.9.
+</p></li>
+
+<li><p>
+<b>Install the Required Gems</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">sudo</span> gem install rake sinatra haml sass activesupport
+</pre>
+</div></li>
+
+<li><p>
+<b>Install blorgit</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">git</span> clone git://github.com/eschulte/blorgit.git
+</pre>
+</div>
+
+<p>
+Update the submodules of blorgit to provide file based persistence
+(<a href="http://github.com/eschulte/active_file/tree/master">active_file</a>), org-mode interaction (<a href="http://github.com/eschulte/acts_as_org/tree/master">acts_as_org</a>), and themes
+(<a href="http://github.com/eschulte/blorgit_themes/tree/master">blorgit_themes</a>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">cd</span> blorgit
+   <span style="color: #66d9ef;">git</span> submodule init
+   <span style="color: #66d9ef;">git</span> submodule update
+</pre>
+</div></li>
+
+<li><p>
+<b>Create Blogs Directory</b>
+</p>
+
+<p>
+Create a blogs directory (in <code>~/blogs/</code>) with the default
+configuration (To change the location of the blogs directory edit
+<code>blorgit.yml</code> in this directory).  Apply the default minimal theme
+(for a list of available themes run <code>rake themes</code>). The Emacs Server
+must have been started at least once as described under point 5.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   rake new
+   rake themes:default
+</pre>
+</div></li>
+
+<li><b>Start Servers</b>
+<ul class="org-ul">
+<li><p>
+<b>Emacs Server</b>
+</p>
+
+<p>
+Starting your emacs server allows Emacs to act as a server which
+can then export org-mode file to html.  To do this we simply need
+to load the <code>org-interaction.el</code> file in <code>acts_as_org</code>.  You can
+do this by executing the following in emacs
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   M-x load-file /path/to/blorgit/backend/acts_as_org/elisp/org-interaction.el
+</pre>
+</div>
+
+<p>
+or with the following shell command
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   emacs -l backend/acts_as_org/elisp/org-interaction.el
+</pre>
+</div></li>
+
+<li><p>
+<b>Web Server</b>
+</p>
+
+<p>
+Start your sinatra web server with the following command
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   ruby blorgit.rb
+</pre>
+</div></li>
+</ul></li>
+
+<li><p>
+<b>View in Browser</b>
+</p>
+
+<p>
+<a href="http://localhost:4567">http://localhost:4567</a>
+</p></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org1651e27" class="outline-2">
+<h2 id="org1651e27">Additional Information</h2>
+<div class="outline-text-2" id="text-org1651e27">
+</div>
+<div id="outline-container-org286bb29" class="outline-3">
+<h3 id="org286bb29">Common Tasks</h3>
+<div class="outline-text-3" id="text-org286bb29">
+<p>
+Ruby has its own make tool called <a href="http://rake.rubyforge.org/">Rake</a>.  For a list of the blorgit
+rake commands run <code>rake -T</code> from the root of your blorgit
+installation.  At the time of writing the available rake tasks are&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">$ rake -T
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">in</span> /Users/eschulte/src/blorgit)
+rake exported:delete  <span style="color: #696969;"># </span><span style="color: #696969;">delete all temporary exported files</span>
+rake exported:list    <span style="color: #696969;"># </span><span style="color: #696969;">list all temporary exported files</span>
+rake index            <span style="color: #696969;"># </span><span style="color: #696969;">drop a minimal index page into /Users/eschulte/Site...</span>
+rake info             <span style="color: #696969;"># </span><span style="color: #696969;">return configuration information about the current ...</span>
+rake new              <span style="color: #696969;"># </span><span style="color: #696969;">create a new blorgit instance</span>
+rake themes           <span style="color: #696969;"># </span><span style="color: #696969;">list the available themes</span>
+rake themes:default   <span style="color: #696969;"># </span><span style="color: #696969;">a default theme, should serve as a good starting point</span>
+rake themes:food      <span style="color: #696969;"># </span><span style="color: #696969;">a food theme for my recipes</span>
+rake themes:org       <span style="color: #696969;"># </span><span style="color: #696969;">an org-mode theme featuring the folding unicorn</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4ec264b" class="outline-3">
+<h3 id="org4ec264b">Changing Configuration Options</h3>
+<div class="outline-text-3" id="text-org4ec264b">
+<p>
+The configuration is controlled through a <a href="http://www.yaml.org">YAML</a> file located at
+<code>blorgit.yml</code> in the base of your blorgit installation.  Configuration
+variables can be used to control the <b>title</b>, <b>index page</b>,
+<b>stylesheet</b>, the number of <b>recent entries</b> and <b>directory_listings</b>
+shown in the sidebar, automatic synchronization with a <b>git</b>
+repository, <b>commentability</b>, <b>editability</b> and optional <b>password
+protection</b> for posting edits, .  The default configuration is&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh" id="org90fe98b">--- 
+title: Blorgit
+index: index
+style: stylesheet.css
+recent: <span style="color: #9c91e4; font-weight: bold;">5</span>
+dir_list: false
+git_commit: false
+commentable: true
+editable: false
+auth: 
+- admin
+- password
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd5b33b2" class="outline-4">
+<h4 id="orgd5b33b2">Directory Local Configuration</h4>
+<div class="outline-text-4" id="text-orgd5b33b2">
+<p>
+It is possible to specify configuration options for each individual
+directories of your blorgit site.  To do so write the configuration
+options you wish to specify to a file named <code>.blorgit.yml</code>.  These
+options will be used when displaying files in the same directory as
+the <code>.blorgit.yml</code> file.  This file follows the same format shown <a href="#org4ec264b">above</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7dacc12" class="outline-3">
+<h3 id="org7dacc12">Git</h3>
+<div class="outline-text-3" id="text-org7dacc12">
+<p>
+If you&rsquo;re wondering where git comes in, initialize your new blogs
+directory as a git repo, and post all future blogs, moderate comments
+and commentability of blogs, and manage configuration through git.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #66d9ef;">cd</span> ./blogs
+<span style="color: #66d9ef;">git</span> init
+<span style="color: #66d9ef;">echo</span> <span style="color: #e2c770;">".exported_*"</span> &gt; .gitignore <span style="color: #696969;"># </span><span style="color: #696969;">ignore export files created automatically by blorgit</span>
+<span style="color: #66d9ef;">git</span> add .
+<span style="color: #66d9ef;">git</span> commit -a -m <span style="color: #e2c770;">"initial commit"</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc013d4c" class="outline-3">
+<h3 id="orgc013d4c">Change blogs directory</h3>
+<div class="outline-text-3" id="text-orgc013d4c">
+<p>
+To change the location of the blogs directory see the <code>blorgit.yml</code>
+global configuration file in the base of your blorgit directory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org26172d2" class="outline-3">
+<h3 id="org26172d2">Deploying to a Remote Server</h3>
+<div class="outline-text-3" id="text-org26172d2">
+</div>
+<ul class="org-ul">
+<li><a id="org3ed21a7"></a>Thin web server<br />
+<div class="outline-text-5" id="text-org3ed21a7">
+<p>
+To run using the <code>run.ru</code> rackup file use a command like the following
+(requires the <code>thin</code> gem <code>sudo gem install -v=1.0.0 thin</code>)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">./run.ru -sthin -p4567
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org8a096d6"></a>Deploying behind a url prefix<br />
+<div class="outline-text-5" id="text-org8a096d6">
+<p>
+If you don&rsquo;t want blorgit to sit at the top level of your webserver,
+but would rather is exist behind a url prefix set the <code>url_prefix</code>
+variable in the run.ru file.
+</p>
+</div>
+</li>
+
+<li><a id="orgdfb9416"></a>Remote Emacs Server<br />
+<div class="outline-text-5" id="text-orgdfb9416">
+<p>
+Blorgit requires a running Emacs to handle the actual export of
+org-mode pages to html (through the <code>emacsclient</code> command).  This
+requires that an instance of Emacs be left running on the remote
+server, which I be problematic.  I use <a href="http://www.gnu.org/software/screen/">gnu-screen</a> to start and detach
+from this Emacs instance as follows&#x2026;
+</p>
+
+<ol class="org-ol">
+<li>ssh into your remote server</li>
+<li><p>
+start your screen session with the <code>screen</code> command
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   screen
+</pre>
+</div></li>
+<li><p>
+cd to your blorgit directory
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">cd</span> ~/src/blorgit
+</pre>
+</div></li>
+<li><p>
+start emacs loading the <code>org-interaction.el</code> file
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   emacs -l backend/acts_as_org/elisp/org-interaction.el
+</pre>
+</div></li>
+<li>optionally run your webserver through screen as well by 
+<ol class="org-ol">
+<li>switching to a new screen window with <code>\C-a c</code></li>
+<li><p>
+start your webserver
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">      ./run.ru -sthin
+</pre>
+</div></li>
+</ol></li>
+<li>disconnect form screen leaving emacs and the webserver running with
+<code>\C-a d</code></li>
+<li>logoff from the server</li>
+<li><p>
+at any later date you can log back into the server and reattach to
+the original screen session with
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   screen -r
+</pre>
+</div></li>
+</ol>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org28fab37" class="outline-3">
+<h3 id="org28fab37">Extending Blorgit</h3>
+<div class="outline-text-3" id="text-org28fab37">
+<p>
+Simplicity and a small hackable code base were key goals in the
+construction of blorgit.  The <code>blorgit.rb</code> file in the base of the
+application contains all of the logic and html.  Any extensions should
+be possible through modification of this single file.  For information
+on the structure of this file, or on the framework on which it is run
+see <a href="http://www.sinatrarb.com/">Sinatra</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orge02a236" class="outline-3">
+<h3 id="orge02a236">Deploying on a Mac with Apache/Passenger Pane</h3>
+<div class="outline-text-3" id="text-orge02a236">
+<p>
+A handy tool for hosting local sites on Mac OSX is the
+<a href="http://www.fngtps.com/2008/06/putting-the-pane-back-into-deployment">Apache/Passenger Pane</a>.  This allows the setup and running of local
+ruby web applications through a System Preferences Pane, and can be
+used with blorgit.
+</p>
+
+<ol class="org-ol">
+<li>First follow the installation instructions from <a href="http://www.fngtps.com/2008/06/putting-the-pane-back-into-deployment">putting-the-pane-back-into-deployment</a>.</li>
+<li><p>
+clone blorgit to your <code>~/Sites</code> directory
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">cd</span> ~/Sites
+   <span style="color: #66d9ef;">git</span> clone git://github.com/eschulte/blorgit.git
+   <span style="color: #66d9ef;">cd</span> blorgit
+   <span style="color: #66d9ef;">git</span> submodule init
+   <span style="color: #66d9ef;">git</span> submodule update
+</pre>
+</div></li>
+<li><p>
+Create a public and tmp directory, and copy <code>run.ru</code> to <code>config.ru</code>
+to trick <a href="http://www.modrails.com/">Passenger</a> into thinking blorgit is a <a href="http://rubyonrails.org/">rails</a> application.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">mkdir</span> public
+   <span style="color: #66d9ef;">mkdir</span> tmp
+   <span style="color: #66d9ef;">cp</span> run.ru config.ru
+</pre>
+</div></li>
+<li><p>
+rename the blorgit directory to the name of your local site (in my
+case &ldquo;foods&rdquo;)
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">cd</span> ~/Sites
+   <span style="color: #66d9ef;">mv</span> blorgit foods
+</pre>
+</div></li>
+<li>Configure blorgit as you would normally  (see <a href="#org26be814">Getting Started (installation and use)</a>)</li>
+<li><p>
+Add your new blorgit site to Passenger Pane.
+</p>
+
+
+<div class="figure">
+<p><img src="images/blorgit/Passenger.png" alt="Passenger.png" />
+</p>
+</div></li>
+<li><p>
+Restart Apache
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #66d9ef;">sudo</span> apachectl restart
+</pre>
+</div></li>
+<li><p>
+Point your browser at the url displayed in the Passenger Pane.
+</p>
+
+
+<div class="figure">
+<p><img src="images/blorgit/foods.png" alt="foods.png" />
+</p>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Eric Schulte</p>
+<p class="date">Created: 2021-06-15 Tue 18:22</p>
+</div>
+</body>
+</html>

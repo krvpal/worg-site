@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tracking actions through a series of meetings</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Carsten Dominik" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Tracking actions through a series of meetings</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3ad2622">Introduction</a></li>
+<li><a href="#org6ce3f03">Requirements</a></li>
+<li><a href="#org43b2ecc">Setup</a></li>
+<li><a href="#org0aa9d88">How to identify tasks</a></li>
+<li><a href="#orgf2b196f">The work flow</a>
+<ul>
+<li><a href="#orgab13aea">Before a meeting</a></li>
+<li><a href="#orge08ee1a">During the meeting</a></li>
+<li><a href="#orgb632f89">After the meeting</a>
+<ul>
+<li><a href="#orgb59d87b">Copying the actions from the meeting notes to the action list</a></li>
+<li><a href="#orgd35cd2d">Sending out the notes</a></li>
+<li><a href="#orgae05b66">Deactivate tasks in the meeting notes</a></li>
+</ul>
+</li>
+<li><a href="#org423e7fa">Between meetings</a></li>
+</ul>
+</li>
+<li><a href="#org87d6db3">Conclusion</a></li>
+<li><a href="#org47ba1c6">Custom code</a></li>
+<li><a href="#orgf77fcbb">Other ideas and remarks about this workflow</a>
+<ul>
+<li><a href="#org9f60d4b">Exporting to LaTeX (by Eric S Fraga)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3ad2622" class="outline-2">
+<h2 id="org3ad2622">Introduction</h2>
+<div class="outline-text-2" id="text-org3ad2622">
+<p>
+Org-mode can be used very well for taking notes and for capturing
+action items during the meeting.  This keeps the tasks inside the
+notes and works really well for planning out projects.
+</p>
+
+<p>
+When documenting a series of meetings with Org-mode, a different work
+flow is required.  Such a meeting series usually has a set of tasks
+which are continuously being defined during the meetings, and which
+need to be tracked from meeting to meeting until completion.  So
+usually the meeting notes contains the current list of tasks.  Done
+tasks disappear from the meeting notes, but still need to be available
+to the person who is running the series of meeting.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ce3f03" class="outline-2">
+<h2 id="org6ce3f03">Requirements</h2>
+<div class="outline-text-2" id="text-org6ce3f03">
+<p>
+To use the work flow described here, you will need the bleeding edge
+git version of 2011-03-30 or any release that was created after this
+date.  Basic task tracking has been possible with Org, of course, since
+day one, but exporting without DONE tasks is a only recent addition.
+</p>
+
+<p>
+Also, this tutorial assumes that you are using the helper functions
+shown in section <a href="#org47ba1c6">Custom code</a>.  This is not strictly necessary - you
+could do the corresponding steps by hand - but if you are using this
+work flow more often, you may appreciate these tools.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org43b2ecc" class="outline-2">
+<h2 id="org43b2ecc">Setup</h2>
+<div class="outline-text-2" id="text-org43b2ecc">
+<p>
+Use a special Org file to document the meetings and to track the
+actions.  In the file,  I have the following setup.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+TODO: TODO(t) | CANCELED(c) DONE(d)</span>
+<span style="color: #7f7f80;">  #+OPTIONS: tasks:todo</span>
+</pre>
+</div>
+
+<p>
+Of course you can define the TODO keywords any way you like.  The
+<code>#+OPTIONS</code> line arranges for DONE tasks to be excluded from export,
+so that when you send around the list of actions to the participants,
+these completed tasks will not clutter the list.  If you want to keep DONE tasks
+in the list, either always or occasionally, modify this line to say
+<code>#+OPTIONS: tasks:t</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0aa9d88" class="outline-2">
+<h2 id="org0aa9d88">How to identify tasks</h2>
+<div class="outline-text-2" id="text-org0aa9d88">
+<p>
+It is useful to identify a task in a unique way, so that you can get
+back to it easily in the next meeting.  The method I am choosing here
+is to simply number the tasks sequentially, in the sequence they come
+up.  The <a href="#org47ba1c6">custom code</a> below defines a command to create tasks in this
+way, to ensure that the sequential number is indeed not already taken.
+To bind this command to a key, use (for example)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">define-key</span> <span style="color: #fd971f;">org-mode-map</span> <span style="color: #e2c770;">"\C-cn"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-mactions-new-numbered-action</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The command <code>org-mactions-new-numbered-action</code> uses the specification
+in <code>org-mactions-numbered-action-format</code> to insert a task like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">   ** TODO Action <span style="color: #e2c770;">#2:</span>                                 :#2:
+</pre>
+</div>
+
+<p>
+You can also call the command with a prefix argument in order to
+insert an inline-task.
+</p>
+
+<p>
+With the default setup, the action starts with &ldquo;Action #2&rdquo;, and it is
+tagged by &ldquo;#2&rdquo; to that I can tag other stuff relating to this action
+and search for it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf2b196f" class="outline-2">
+<h2 id="orgf2b196f">The work flow</h2>
+<div class="outline-text-2" id="text-orgf2b196f">
+</div>
+<div id="outline-container-orgab13aea" class="outline-3">
+<h3 id="orgab13aea">Before a meeting</h3>
+<div class="outline-text-3" id="text-orgab13aea">
+<p>
+For each meeting I start a new top-level section in the document for
+the notes.  In the notes I create new actions and leave them there for
+the time being.
+</p>
+
+<p>
+I also have a top-level section &ldquo;ACTIONS&rdquo; in the file.  This section
+contains all the actions from previous meetings, each action
+identified by its unique number.  I have this section right after the
+meeting notes sections, so that I can easily export the latest meeting
+notes together with the action list, simply by narrowing the buffer to
+the two sequential trees.  Here is an example what this might look
+like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Notes from <span style="color: #a020f0;">&lt;2011-03-16 Wed&gt;</span>                                       :ARCHIVE:
+  * Notes from <span style="color: #a020f0;">&lt;2011-03-23 Wed&gt;</span>                                       :ARCHIVE:
+  * Notes from <span style="color: #a020f0;">&lt;2011-03-30 Wed&gt;</span>
+  ** Present at meeting
+  ,   - [X] Peter
+  ,   - [X] Sarah
+  ,   - [X] Sam
+  ** Agenda
+  ,   - Comments and corrections to last meting notes
+  ,   - Reports from the sub teams
+  ,   - Discussion
+  ,   - Final round
+  ** Notes
+  ,   ...
+  , 
+  * ACTIONS
+  ,  This is the general list of Actions
+  ** DONE Action <span style="color: #e2c770;">#1</span> Inventory of equipment                           :#1:Sarah:
+  ** DONE Action <span style="color: #e2c770;">#2</span> Definition of main goals                         :#2:Peter:
+  ** TODO Action <span style="color: #e2c770;">#4</span> Talk to companies                                  :#4:Sam:
+  
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge08ee1a" class="outline-3">
+<h3 id="orge08ee1a">During the meeting</h3>
+<div class="outline-text-3" id="text-orge08ee1a">
+<p>
+During the meeting, take notes and create new actions.  You could add
+these new actions immediately to the global list, or you could define
+the actions inside the notes for now.  Below I will show how to copy
+or move the actions to the general list.
+</p>
+
+<p>
+When I create actions, I also tag them with the names of people who
+are responsible, so that it later becomes easy to track progress and
+to send reminders.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb632f89" class="outline-3">
+<h3 id="orgb632f89">After the meeting</h3>
+<div class="outline-text-3" id="text-orgb632f89">
+<p>
+After the meeting, I organize the notes of the current meeting until
+they are ready to be sent out.  I like to keep the newly defined
+actions inside the meeting notes, to highlight them as new.  Once
+satisfied with the notes, the new actions need to be integrated with
+the general list of actions.
+</p>
+</div>
+
+<div id="outline-container-orgb59d87b" class="outline-4">
+<h4 id="orgb59d87b">Copying the actions from the meeting notes to the action list</h4>
+<div class="outline-text-4" id="text-orgb59d87b">
+<p>
+I then <b>copy</b> the new actions from the last meeting to the ACTIONS
+section.  For this task I use the command <code>M-x
+org-mactions-collect-todos-in-subtree</code>.  It will copy all the actions
+in a subtree and put them into the kill ring, so that I can simply
+paste them with <code>C-c C-x C-y</code> into the ACTIONS list.  There I organize
+the actions, change the sequence, create subsections with related
+actions together etc.  Some groups have trivial task lists, then the
+list just stays simple and flat.  For complex consortia I do a lot of
+analysis, structuring, and ordering.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd35cd2d" class="outline-4">
+<h4 id="orgd35cd2d">Sending out the notes</h4>
+<div class="outline-text-4" id="text-orgd35cd2d">
+<p>
+To send the meeting notes and the current list of actions, I narrow
+the buffer to the node with the meeting notes and the node with the
+action list, export to the desired format, and mail it out.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgae05b66" class="outline-4">
+<h4 id="orgae05b66">Deactivate tasks in the meeting notes</h4>
+<div class="outline-text-4" id="text-orgae05b66">
+<p>
+I then deactivate any actions in the meeting notes I just sent around
+by marking the entire new notes tree with an ARCHIVE tag.  Then, TODO
+lists and other Agenda views will get entries only from the ACTIONS
+tree, not from the meeting notes.  Instead of copying, you could also
+<b>move</b> (refile) the actions to the ACTIONS tree, but I like to keep
+them deactivated in the notes, so that I have a copy of the notes
+exactly as sent around, in the file.  The idea is that the meeting
+notes are fixed, and all procedural stuff with the actions will be
+added and tracked in the ACTIONS tree.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org423e7fa" class="outline-3">
+<h3 id="org423e7fa">Between meetings</h3>
+<div class="outline-text-3" id="text-org423e7fa">
+<p>
+Between meetings, I use the ACTIONS tree to generate reminders for
+people in the list, check DONE tasks off etc.  Before the next
+meeting, I create an agenda view to show me which actions have been
+closed during the last period.  I create this view in the following
+way:  With the cursor in the actions tree I do
+</p>
+
+<pre class="example">
+C-c a &lt; &lt; a         ;; Agenda view restricted on subtree
+v L                 ;; turn on logging
+</pre>
+
+
+<p>
+I extract what needs to be reported to the group and add that to the
+invitation mailing for the next meeting.  I also attach an export of
+the current ACTIONS tree to the agenda, for reference during the
+following meeting.  The DONE items will not be on that tree anymore.
+The nice thing is that the members of the meeting always have an
+uncluttered list of actions, while I as the responsible person still
+have all the old tasks and the history of the entire project at my
+finger tips.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org87d6db3" class="outline-2">
+<h2 id="org87d6db3">Conclusion</h2>
+<div class="outline-text-2" id="text-org87d6db3">
+<p>
+This setup has worked really well for me, both for meetings that
+happen locally, and for meetings with international groups who meet
+via telephone/video conferencing.
+</p>
+
+<p>
+In the section below, I welcome contributions by anyone, describing
+additional ideas and modification to the workflow.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org47ba1c6" class="outline-2">
+<h2 id="org47ba1c6">Custom code</h2>
+<div class="outline-text-2" id="text-org47ba1c6">
+<p>
+Here is some custom code to help entering numbered actions, and to
+collect TODO items in a subtree into a flat list.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defcustom</span> <span style="color: #fd971f;">org-mactions-numbered-action-format</span> <span style="color: #e2c770;">"</span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> Action #%d "</span>
+    <span style="color: #7f7f80;">"Default structure of the headling of a new action.</span>
+<span style="color: #7f7f80;">      %d will become the number of the action."</span>
+    <span style="color: #fd971f;">:group</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-edit-structure</span>
+    <span style="color: #fd971f;">:type</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">string</span><span style="color: #eb4509;">)</span>
+  
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defcustom</span> <span style="color: #fd971f;">org-mactions-change-id-on-copy</span> t
+    <span style="color: #7f7f80;">"Non-nil means make new IDs in copied actions.</span>
+<span style="color: #7f7f80;">  If an action copied with the command `</span><span style="color: #fd971f;">org-mactions-collect-todos-in-subtree</span><span style="color: #7f7f80;">'</span>
+<span style="color: #7f7f80;">  contains an ID, that ID will be replaced with a new one."</span>
+    <span style="color: #fd971f;">:group</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-edit-structure</span>
+    <span style="color: #fd971f;">:type</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">string</span><span style="color: #eb4509;">)</span>
+    
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mactions-new-numbered-action</span> <span style="color: #fd971f;">(</span><span style="color: #66d9ef;">&amp;optional</span> inline<span style="color: #fd971f;">)</span>
+    <span style="color: #7f7f80;">"Insert a new numbered action, using `</span><span style="color: #fd971f;">org-mactions-numbered-action-format</span><span style="color: #7f7f80;">'.</span>
+<span style="color: #7f7f80;">      With prefix argument, insert an inline task."</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span> <span style="color: #e2c770;">"P"</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>num <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>re <span style="color: #e2c770;">"\\`#</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[0-9]+</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">\\'"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                  <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">1+</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">apply</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">max</span> <span style="color: #9c91e4; font-weight: bold;">0</span>
+                             <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span>
+                              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>e<span style="color: #eb4509;">)</span>
+                                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-match</span> re <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> e<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                                    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-to-number</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">1</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> e<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                                  <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-get-buffer-tags</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+           <span style="color: #eb4509;">(</span>tag <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"#"</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">number-to-string</span> num<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> inline
+          <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-inlinetask-insert-task</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-insert-heading</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">force</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">eql</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">char-before</span><span style="color: #fd971f;">)</span> ?\ <span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #e2c770;">" "</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> org-mactions-numbered-action-format num<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-toggle-tag</span> tag <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">on</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">=</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-at-bol</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span><span style="color: #eb4509;">save-excursion</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">point-at-eol</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #e2c770;">"\n"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">eql</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">char-before</span><span style="color: #fd971f;">)</span> ?\ <span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #e2c770;">" "</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+    
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mactions-collect-todos-in-subtree</span> <span style="color: #fd971f;">()</span>
+    <span style="color: #7f7f80;">"Collect all </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #7f7f80;"> items in the current subtree into a flat list."</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>buf <span style="color: #fd971f;">(</span><span style="color: #fd971f;">get-buffer-create</span> <span style="color: #e2c770;">"Org </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> Collect"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span>cnt <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #eb4509;">)</span> beg end string s<span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> buf <span style="color: #eb4509;">(</span><span style="color: #fd971f;">erase-buffer</span><span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-mode</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-map-entries</span>
+       <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">()</span>
+         <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> beg <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">point</span><span style="color: #b6e63e;">)</span> end <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-end-of-subtree</span> t t<span style="color: #b6e63e;">)</span> cnt <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">1+</span> cnt<span style="color: #b6e63e;">)</span>
+               string <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">buffer-substring</span> beg end<span style="color: #b6e63e;">)</span>
+               s <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #fd971f;">)</span>
+         <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> org-mactions-change-id-on-copy
+           <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">while</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"^</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[ \t]*:ID:</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">[ \t\n]+</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;"> \t\n]+</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">[ \t]*$"</span>
+                                string s<span style="color: #eb4509;">)</span>
+             <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> s <span style="color: #fd971f;">(</span><span style="color: #fd971f;">match-end</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">)</span>
+                   string <span style="color: #fd971f;">(</span><span style="color: #fd971f;">replace-match</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"\\1 "</span>
+                                                 <span style="color: #eb4509;">(</span><span style="color: #eb4509;">save-match-data</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-id-new</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                                         t nil string<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+         <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-current-buffer</span> buf <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-paste-subtree</span> <span style="color: #9c91e4; font-weight: bold;">1</span> string<span style="color: #b6e63e;">)</span>
+                              <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+       <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"</span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;">={%s}"</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">regexp-opt</span> <span style="color: #fd971f;">org-not-done-keywords</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+       <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">tree</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">=</span> cnt <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"No </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> items in subtree"</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"%d </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> entries copied to kill ring"</span> cnt<span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">prog1</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-current-buffer</span> buf
+                 <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">kill-new</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">buffer-string</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">kill-buffer</span> buf<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf77fcbb" class="outline-2">
+<h2 id="orgf77fcbb">Other ideas and remarks about this workflow</h2>
+<div class="outline-text-2" id="text-orgf77fcbb">
+</div>
+<div id="outline-container-org9f60d4b" class="outline-3">
+<h3 id="org9f60d4b">Exporting to LaTeX (by Eric S Fraga)</h3>
+<div class="outline-text-3" id="text-org9f60d4b">
+<p>
+I use LaTeX to create the minutes I circulate to the people that
+attended a meeting.  I have adopted Carsten&rsquo;s workflow but have
+customised some of the behaviour to better suit the LaTeX export.
+The customisations address primarily the formatting of the
+actions and identifying the person responsible for each action.
+</p>
+
+<ol class="org-ol">
+<li><p>
+I customise the export options to not include TODO keywords or
+tags and to not number the sections, using:
+</p>
+
+<pre class="example">
+#+OPTIONS: tags:nil todo:nil num:nil toc:nil
+</pre>
+
+
+<p>
+The <code>toc</code> option is not strictly necessary but minutes of
+meetings are typically only a few pages so a table of contents
+is seldom required.  However, it <b>can</b> be useful for generating
+a list of actions.
+</p></li>
+
+<li><p>
+The numbering of actions is done by explicitly putting
+the number into the headline.  I do this by customising the
+<code>org-numbered-action-format</code> variable to the string
+</p>
+
+<pre class="example">
+"TODO %d. \\action{?}"
+</pre></li>
+
+<li><p>
+To support this type of headline, I have defined the <code>\action</code> LaTeX macro:
+</p>
+
+<pre class="example">
+#+latex_header: \newcommand{\action}[1]{\marginpar{\fbox{#1}}}
+</pre>
+
+
+<p>
+I will typically put the name or initials of the person
+responsible for taking the action in lieu of the <code>?</code> as the
+argument to the action macro in the headline, such as:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">     , ** TODO 3. \action{ESF} Prepare plan.         :#3:
+</pre>
+</div>
+
+<p>
+The macro, on export, will place the person&rsquo;s name or initials
+in the right margin of the page with a box around it, making
+it very easy to identify who has actions and who does not.
+</p>
+
+<p>
+I do customise the LaTeX export further but those customisations
+are not specific to minute taking.
+</p></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2011-03-30</p>
+<p class="author">Author: Carsten Dominik</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

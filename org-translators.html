@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-mode Import/Export Tools</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-mode Import/Export Tools</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgfbc4538">Org-mode Export Tools</a></li>
+<li><a href="#org3dfa97e">Org-mode Import Tools</a></li>
+<li><a href="#orgfbd0fe4">Bi-directional</a></li>
+</ul>
+</div>
+</div>
+<p>
+This page lists the various conversion tools that have been written to
+export Org-mode data and import external data into the Org-mode system.
+</p>
+
+<div id="outline-container-orgfbc4538" class="outline-2">
+<h2 id="orgfbc4538">Org-mode Export Tools</h2>
+<div class="outline-text-2" id="text-orgfbc4538">
+<ul class="org-ul">
+<li><a href="https://www.drupal.org/node/1977240">From Org-mode to Drupal</a> by <a href="users/davidam.html">David Arroyo Menéndez</a>.</li>
+
+<li>From Org-mode to Freemind by Marco Vezzoli, this is available in
+the contrib directory of the distribution.</li>
+
+<li>From Org-mode to <a href="https://en.wikipedia.org/wiki/ICalendar">ICal</a>endar applications:
+
+<ul class="org-ul">
+<li>there are an export tool already implemented in org mode, is
+<a href="https://orgmode.org/manual/iCalendar-export.html#iCalendar-export">explained at the org manual</a>.</li>
+
+<li>For Google users, read <a href="org-tutorials/org-google-sync.html">this tutorial</a>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3dfa97e" class="outline-2">
+<h2 id="org3dfa97e">Org-mode Import Tools</h2>
+<div class="outline-text-2" id="text-org3dfa97e">
+<ul class="org-ul">
+<li><a href="http://www.olafdietsche.de/palm/palm2orgmode.pl">From Palm TODO database to Orgmode</a>.  This Translator was
+written by <a href="http://www.olafdietsche.de/">Olaf Dietsche</a>.</li>
+
+<li>From <a href="https://orgmode.org/list/20080112175502.0fb06b66@linux.site">Remind to Org</a> by Detlef Steuer.</li>
+
+<li>From <a href="http://bitbucket.org/legoscia/of2org">OmniFocus to Org</a> by Magnus Henoch.</li>
+
+<li><p>
+From <a href="http://www.hogbaysoftware.com/products/taskpaper">TaskPaper</a> to Org by Carsten Dominik.  A quite complete
+translation can be achieved by a compact Perl program:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-perl">      <span style="color: #696969;">#!/usr/bin/perl</span>
+      /^(\t*)-(.*?)((@\w+ *)*)$/;
+      @<span style="color: #fd971f; text-decoration: underline;">u</span>=grep{$<span style="color: #fd971f;">_</span> ne<span style="color: #e2c770;">'@done'</span>}(@<span style="color: #fd971f; text-decoration: underline;">t</span>=split<span style="color: #e2c770;">/ +/</span>,$<span style="color: #9c91e4; font-weight: bold;">3</span>);
+      @<span style="color: #fd971f; text-decoration: underline;">v</span>=@<span style="color: #fd971f; text-decoration: underline;">u</span>?(<span style="color: #e2c770;">''</span>,@<span style="color: #fd971f; text-decoration: underline;">u</span>,<span style="color: #e2c770;">''</span>):();
+      $<span style="color: #fd971f;">t</span>{$<span style="color: #fd971f;">_</span>}++<span style="color: #eb4509;">for</span>@<span style="color: #fd971f; text-decoration: underline;">u</span>;
+      $<span style="color: #fd971f;">_</span>=<span style="color: #e2c770;">"*"</span>x(<span style="color: #9c91e4; font-weight: bold;">2</span>+length$<span style="color: #9c91e4; font-weight: bold;">1</span>).(@<span style="color: #fd971f; text-decoration: underline;">t</span>==@<span style="color: #fd971f; text-decoration: underline;">u</span>?<span style="color: #e2c770;">" </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;">"</span>:<span style="color: #e2c770;">" DONE"</span>).$<span style="color: #9c91e4; font-weight: bold;">2</span>.join(<span style="color: #e2c770;">":"</span>,@<span style="color: #fd971f; text-decoration: underline;">v</span>).<span style="color: #e2c770;">"\n"</span><span style="color: #eb4509;">if</span>$&amp;;
+      s<span style="color: #e2c770;">/^\w.*:\s*$/* $&amp;/</span>;
+      <span style="color: #eb4509;">END</span>{printf <span style="color: #e2c770;">"* Setup\n#+TAGS: %s\n"</span>,join<span style="color: #e2c770;">' '</span>,keys%<span style="color: #fd971f; text-decoration: underline;">t</span>}
+</pre>
+</div>
+
+<p>
+This program is quite unreadable because it resulted from a
+<a href="https://orgmode.org/list/0277B507-1486-4172-B1C6-1B73B84148DD@science.uva.nl">contest for the most compact translator</a> - but it works very well
+anyway.
+</p></li>
+
+<li>From <a href="https://bitbucket.org/josemaria.alkala/odt2org/wiki/Home">ODT to Org</a>, by Jose Maria Alkala.</li>
+
+<li>From ICalendar to Org. There are some tools and documentation related:
+
+<ul class="org-ul">
+<li>There is a mention of some tools at the <a href="org-tools/index.html">org-tools</a> section, .</li>
+
+<li>For Google users, see .</li>
+
+<li>For a command line tool that converts files, URLs (e.g., Google
+Calendar), email attachments, and other sources into org-mode
+events, see <a href="https://github.com/rjhorniii/ical2org">this</a>.  It can integrate with crontab, systemd,
+etc. for automatic updating.  An example of <a href="https://www.djcbsoftware.nl/code/mu/mu4e.html">mu4e</a> integration for
+processing email attachments with ics content is shown.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfbd0fe4" class="outline-2">
+<h2 id="orgfbd0fe4">Bi-directional</h2>
+<div class="outline-text-2" id="text-orgfbd0fe4">
+<dl class="org-dl">
+<dt>Google Calendar</dt><dd>There is a method for synching. Read <a href="org-tutorials/org-google-sync.html">this tutorial</a>.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

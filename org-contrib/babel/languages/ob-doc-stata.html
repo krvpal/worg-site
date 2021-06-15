@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stata Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Ista Zahn" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Stata Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org64651d3">Introduction</a></li>
+<li><a href="#org80206bf">Requirements and Setup</a></li>
+<li><a href="#org9187ed2">Org Mode Features for Stata Source Code Blocks</a>
+<ul>
+<li><a href="#org717765d">Header Arguments</a></li>
+<li><a href="#orge88e406">Sessions</a></li>
+<li><a href="#orgfad8a84">Result Types</a></li>
+</ul>
+</li>
+<li><a href="#orge41c519">Examples of Use</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://stata.com">Stata</a>
+</p>
+</div>
+
+<div id="outline-container-org64651d3" class="outline-2">
+<h2 id="org64651d3">Introduction</h2>
+<div class="outline-text-2" id="text-org64651d3">
+<p>
+Stata is a proprietary statistics program popular in economics and some social sciences. Stata code blocks are partially supported in Org Mode. Basic code evaluation works, but there is no support for graphics or other more advanced org-babel features. 
+</p>
+</div>
+</div>
+<div id="outline-container-org80206bf" class="outline-2">
+<h2 id="org80206bf">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org80206bf">
+<p>
+Stata source code blocks in Org Mode requires a working Stata installation, as well as the <a href="http://ess.r-project.org">ESS</a> emacs package. Before configuring Org Mode to evaluate Stata source code blocks you should make sure that ESS is configured correctly, and that you can evaluate Stata code in ESS.
+</p>
+
+<p>
+To configure your emacs org-mode to use Stata, you&rsquo;ll need to ensure
+that <code>org-babel-load-languages</code> includes an entry for it.
+Typically, <code>org-babel-load-languages</code> will contain many entries.  The
+example below omits other languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>stata . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9187ed2" class="outline-2">
+<h2 id="org9187ed2">Org Mode Features for Stata Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org9187ed2">
+</div>
+<div id="outline-container-org717765d" class="outline-3">
+<h3 id="org717765d">Header Arguments</h3>
+<div class="outline-text-3" id="text-org717765d">
+<p>
+Stata code evaluation currently only works with the header argument <code>:results output</code>; this is the default setting for stata code blocks.
+</p>
+</div>
+</div>
+<div id="outline-container-orge88e406" class="outline-3">
+<h3 id="orge88e406">Sessions</h3>
+<div class="outline-text-3" id="text-orge88e406">
+<p>
+Session mode is supported in stata, including named sessions. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgfad8a84" class="outline-3">
+<h3 id="orgfad8a84">Result Types</h3>
+<div class="outline-text-3" id="text-orgfad8a84">
+<p>
+Only <code>output</code> is supported.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge41c519" class="outline-2">
+<h2 id="orge41c519">Examples of Use</h2>
+<div class="outline-text-2" id="text-orge41c519">
+<ul class="org-ul">
+<li>Hello World!</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-stata">  disp "Hello world"
+</pre>
+</div>
+
+<pre class="example">
+disp "Hello world"
+Hello world
+</pre>
+
+
+<ul class="org-ul">
+<li>Fit a linear model</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-stata">  webuse auto
+  regress mpg price
+</pre>
+</div>
+
+<pre class="example">
+webuse auto
+(1978 Automobile Data)
+regress mpg price
+
+      Source |       SS       df       MS              Number of obs =      74
+-------------+------------------------------           F(  1,    72) =   20.26
+       Model |  536.541807     1  536.541807           Prob &gt; F      =  0.0000
+    Residual |  1906.91765    72  26.4849674           R-squared     =  0.2196
+-------------+------------------------------           Adj R-squared =  0.2087
+       Total |  2443.45946    73  33.4720474           Root MSE      =  5.1464
+
+------------------------------------------------------------------------------
+         mpg |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       price |  -.0009192   .0002042    -4.50   0.000    -.0013263   -.0005121
+       _cons |   26.96417   1.393952    19.34   0.000     24.18538    29.74297
+------------------------------------------------------------------------------
+</pre>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ista Zahn</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

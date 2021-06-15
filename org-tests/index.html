@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Testing Org</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Testing Org</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org70f4840">Why test?</a></li>
+<li><a href="#org6e8e203">Running the current test suite</a>
+<ul>
+<li><a href="#org424e40b">Emacs-22 / Emacs-23</a></li>
+<li><a href="#org1b11f4a">Emacs-24</a></li>
+<li><a href="#org99a14e3">Run tests from the command line</a></li>
+<li><a href="#org15bcf51">Run tests from within Emacs</a></li>
+</ul>
+</li>
+<li><a href="#orge1a8005">Writing tests with minimal Emacs-lisp knowledge</a></li>
+<li><a href="#org608ef73">Preparing to write tests</a></li>
+<li><a href="#orge253a87">Tutorial</a></li>
+<li><a href="#orgfd8f47d">Testing Utilities</a></li>
+<li><a href="#orga75ac82">Aims</a></li>
+<li><a href="#org61cdef1">Ideas for test</a></li>
+<li><a href="#org8bad5ac">What we need to know to actually write tests</a>
+<ul>
+<li><a href="#org27a5337">setup the test environment</a></li>
+<li><a href="#org8d27326">run the command we need to test</a></li>
+<li><a href="#orga8eb14b">How do we specify the correct result???</a>
+<ul>
+<li><a href="#org51f8cc4">ERT Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org70f4840" class="outline-2">
+<h2 id="org70f4840">Why test?</h2>
+<div class="outline-text-2" id="text-org70f4840">
+<p>
+Org-mode has grown into a popular large and feature-rich application,
+on which development often happens at a great pace. Indeed, feature
+requests posted on the <a href="../org-mailing-list.html">Org mailing list</a> are frequently developed and
+published within hours of the request.
+</p>
+
+<p>
+The down-side of such rapid development is that on some occasions, one
+of the many patches, features, or <a href="https://en.wikipedia.org/wiki/Code_refactoring">refactorings</a> being applied to the
+code-base may unintentionally cause unexpected behavior within
+Org-mode. This is known as a <a href="https://en.wikipedia.org/wiki/Software_regression">software regression</a>. The larger and more
+complex Org-mode becomes, the more you may expect to see such software
+regressions.
+</p>
+
+<p>
+One concern with introducing software regressions is that the
+regression may not be immediately obvious to users. Indeed it can be
+hours, days, or even months before an Org-mode user moves to export an
+important schedule, when &ldquo;bang&rdquo; - the regression has reared its ugly
+head.
+</p>
+
+<p>
+The solution to avoiding software regressions? <a href="https://en.wikipedia.org/wiki/Regression_testing">Regression Testing!</a>
+With a regression test suite the developer can run the tests prior to
+committing their change, to ensure their additions do not break the
+regression tests.
+</p>
+
+<p>
+Naturally, a regression test suite is only as good as the number,
+quality, and coverage of regression tests within it, and this is where
+Org-mode users can help.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6e8e203" class="outline-2">
+<h2 id="org6e8e203">Running the current test suite</h2>
+<div class="outline-text-2" id="text-org6e8e203">
+<p>
+So long as you are on an up-to-date release of Org-mode you may run
+the tests on your local setup. To update Org-mode check out the <a href="https://orgmode.org/worg/org-faq.html">org
+FAQ page</a>. Note, the test suite will run on versions of Emacs back to
+version 22.
+</p>
+
+<p>
+A pre-requisite for running the tests is the <a href="http://www.emacswiki.org/emacs/ErtTestLibrary">ERT test library</a>. This
+may be obtained easily as follows.
+</p>
+</div>
+
+<div id="outline-container-org424e40b" class="outline-3">
+<h3 id="org424e40b">Emacs-22 / Emacs-23</h3>
+<div class="outline-text-3" id="text-org424e40b">
+<p>
+In Emacs-22 and Emacs-23 you will need to download the test files
+<span class="underline">ert.el</span> and <span class="underline">ert-x.el</span> to your testing directory. This may be
+accomplished with the following commands entered on the command line.
+</p>
+
+<pre class="example">
+cd /path/to/org-mode/testing
+curl -O https://github.com/mirrors/emacs/raw/master/lisp/emacs-lisp/ert.el
+curl -O https://github.com/mirrors/emacs/raw/master/lisp/emacs-lisp/ert-x.el
+</pre>
+
+
+<p>
+Alternatively you may download the files within your browser.
+</p>
+
+<ul class="org-ul">
+<li>browse to <a href="https://github.com/mirrors/emacs/tree/master/lisp/emacs-lisp">github.com/mirrors/emacs/lisp/emacs-lisp</a></li>
+<li>right click ert.el link and select <span class="underline">download linked file</span> (or
+equivalent) and save to org-mode/testing/ert.el</li>
+<li>right click ert-x.el link and select <span class="underline">download linked file</span> (or
+equivalent) and save to org-mode/testing/ert-x.el</li>
+</ul>
+
+<p>
+That&rsquo;s it - you may now run the tests.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1b11f4a" class="outline-3">
+<h3 id="org1b11f4a">Emacs-24</h3>
+<div class="outline-text-3" id="text-org1b11f4a">
+<p>
+Emacs-24 includes ERT, so nothing to do.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org99a14e3" class="outline-3">
+<h3 id="org99a14e3">Run tests from the command line</h3>
+<div class="outline-text-3" id="text-org99a14e3">
+<p>
+To run the tests from the command line (without loading your personal
+configurations) use the following commands (Note, if you have more
+than one version of Emacs on your system, you may need to include the
+full path to the required Emacs executable).
+</p>
+
+<pre class="example">
+cd /path/to/org-mode/testing
+Emacs -Q -batch -l org-test.el -eval "(setq org-confirm-babel-evaluate nil)" -f org-test-run-batch-tests'
+</pre>
+
+
+<p>
+In recent versions of Emacs and Org-mode a test run can be triggered
+using the <code>make</code> program.
+</p>
+
+<pre class="example">
+cd /path/to/org-mode
+make test
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org15bcf51" class="outline-3">
+<h3 id="org15bcf51">Run tests from within Emacs</h3>
+<div class="outline-text-3" id="text-org15bcf51">
+<p>
+To run the tests from within Emacs itself.
+</p>
+
+<pre class="example">
+M-x load-file RET /path/to/org-mode/testing/org-test.el
+M-x org-test-run-all-tests
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge1a8005" class="outline-2">
+<h2 id="orge1a8005">Writing tests with minimal Emacs-lisp knowledge</h2>
+<div class="outline-text-2" id="text-orge1a8005">
+<p>
+Thanks to the growing number of test-macros that are being made
+available, it is becoming easier to write regression tests with
+minimal lisp knowledge, and you are also likely to greatly improve
+your knowledge of Emacs-lisp as a result. And the more tests you
+write, the more confident you may be that your personal use of the
+many Org-mode features available has not been affected by regression.
+</p>
+
+<p>
+And of course, any help toward improving the Org-mode test-suite is
+highly appreciated.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org608ef73" class="outline-2">
+<h2 id="org608ef73">Preparing to write tests</h2>
+<div class="outline-text-2" id="text-org608ef73">
+<p>
+Coming soon&#x2026;
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge253a87" class="outline-2">
+<h2 id="orge253a87">Tutorial</h2>
+<div class="outline-text-2" id="text-orge253a87">
+<p>
+Coming soon&#x2026;
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfd8f47d" class="outline-2">
+<h2 id="orgfd8f47d">Testing Utilities</h2>
+<div class="outline-text-2" id="text-orgfd8f47d">
+<p>
+Several useful utilities exist to make the practice of writing tests
+even easier. These are available from the Org-mode repository as a
+seperate git sub-module. Assuming you have cloned Org-mode using git,
+you may install these extra utilities with the following git commands.
+</p>
+
+<pre class="example">
+cd /path/to/org-mode
+git submodule init
+git submodule update
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga75ac82" class="outline-2">
+<h2 id="orga75ac82">Aims</h2>
+<div class="outline-text-2" id="text-orga75ac82">
+<ul class="org-ul">
+<li>Help all non-programmers to help:
+<ul class="org-ul">
+<li>Link to tutorials on debugging, emacs debugger&#x2026;</li>
+</ul></li>
+
+<li>Create simple packages with test data, and place them here for download:
+<ul class="org-ul">
+<li>Directory trees with org-files for export-stress-testing.</li>
+<li>One Org-file per bug to prevent regression.</li>
+<li>Name and add corner cases.</li>
+</ul></li>
+
+<li>Create automated tests to programm against.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org61cdef1" class="outline-2">
+<h2 id="org61cdef1">Ideas for test</h2>
+<div class="outline-text-2" id="text-org61cdef1">
+<ul class="org-ul">
+<li>Verify the output of tests with tools like <code>diff</code> (think <i>export</i> here).</li>
+<li><a href="http://www.emacswiki.org/emacs-fr/UnitTesting">http://www.emacswiki.org/emacs-fr/UnitTesting</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8bad5ac" class="outline-2">
+<h2 id="org8bad5ac">What we need to know to actually write tests</h2>
+<div class="outline-text-2" id="text-org8bad5ac">
+<p>
+The tutorial I&rsquo;d need to write a test is one which lays out code I
+could copy and paste to do the following:
+</p>
+</div>
+
+<div id="outline-container-org27a5337" class="outline-3">
+<h3 id="org27a5337">setup the test environment</h3>
+<div class="outline-text-3" id="text-org27a5337">
+<ul class="org-ul">
+<li>create a test directory</li>
+<li>create a sample test.org file</li>
+<li>put the cursor in a particular place</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8d27326" class="outline-3">
+<h3 id="org8d27326">run the command we need to test</h3>
+<div class="outline-text-3" id="text-org8d27326">
+<ul class="org-ul">
+<li>hit the <code>TAB</code> key, or <code>C-c C-c</code> (some folks might need to be reminded how to
+find out exactly what command is actually being run  when you hit a
+keystroke. And some of me might need to be told what  lisp-code to use when
+the keystroke runs different commands at  different places in a file)</li>
+<li>reformat a table</li>
+<li>clock in/out</li>
+<li>create the agenda</li>
+<li>export .html .ics .dvi files</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga8eb14b" class="outline-3">
+<h3 id="orga8eb14b">How do we specify the correct result???</h3>
+<div class="outline-text-3" id="text-orga8eb14b">
+<ul class="org-ul">
+<li>check that the headline folded properly.  What&rsquo;s the lisp code for getting
+the folded string as displayed?</li>
+<li>check that the cursor is where it should be? Especially when the cursor is
+near elipses&#x2026;</li>
+<li>check that the agenda is built properly.  What&rsquo;s the lisp code for getting
+the agenda as a string?</li>
+<li>check that the exported files are correct.  Maybe the right suggestion is to
+run the export on two different files, so the test  can focus on the &rsquo;diff&rsquo;
+between them.  That way different people who  run the same test on different
+hosts can get the same result.</li>
+</ul>
+</div>
+
+
+<div id="outline-container-org51f8cc4" class="outline-4">
+<h4 id="org51f8cc4">ERT Example</h4>
+<div class="outline-text-4" id="text-org51f8cc4">
+<p>
+I implemented a toy test of org&rsquo;s html export facility using ert.el.
+See <a href="../code/elisp/ert-publish-test.el">../code/elisp/ert-publish-test.el</a> for the implementation.  To run the test
+open up org-publish-test.el, and <code>M-x eval-buffer</code>.  This should load
+ert, and run the simple html export test.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:22</p>
+</div>
+</body>
+</html>

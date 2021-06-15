@@ -1,0 +1,795 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ox-groff.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Groff and PDF export
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Luis Anaya
+</span><span class="org-document-info-keyword">#+DATE:</span> <span class="org-document-info">2012-08-10
+</span><span class="org-meta-line">#+OPTIONS: H:2 toc:t num:nil</span>
+<span class="org-meta-line">#+STARTUP: fold</span>
+<span class="org-meta-line">#+CATEGORY: worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+Org mode provides the ability to export files marked with the Groff
+Memorandum Macros (-mm) set. With additional processing it can turn
+these files into PDF files that can be used for general
+distribution. This feature is being provided as an alternative to the LaTeX
+export being that not all Unix installations have TeX available while
+Groff is commonly installed because it is needed for the generation of
+<span class="org-verbatim">man</span> pages.
+
+The Groff export follows the sequence of macro calls needed for the
+Memorandum Type covers.
+
+Some example org files and corresponding exported pdf files from the
+author of the library can be found on <span class="kc-org-link-url"><a href="https://www.box.com/s/578d9a22c890ddcea8bd">this page</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> To use this feature
+</span>Include <span class="org-verbatim">(require 'ox-groff)</span> in your <span class="org-verbatim">.emacs</span> file. This feature
+only works with the new <span class="org-verbatim">ox</span> facility.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Groff MM macro summary
+</span>For the purpose of context, the following list describes some of the
+macros used during export. These are built from data stored by your org
+document and follows the order needed for the generation of cover
+sheets.
+
+In such order:
+<span class="org-list-dt">-</span> <span class="org-list-dt">AF ::</span> Firm. It is populated with the content of the custom
+        variable org-groff-organization. It has a default value of
+        "Org User".
+<span class="org-list-dt">-</span> <span class="org-list-dt">TL ::</span> Title. It uses the content of #+TITLE: during
+        export. Subtitles are supported with the use of a custom
+        option.
+<span class="org-list-dt">-</span> <span class="org-list-dt">AU ::</span> Author Macro. It uses the content of #+AUTHOR: during
+        export.
+<span class="org-list-dt">-</span> <span class="org-list-dt">AT ::</span> Author Title. It uses a custom option to populate the title,
+        otherwise it is not used.
+<span class="org-list-dt">-</span> <span class="org-list-dt">ND ::</span> Date. It will use the content of #+DATE: during export. If
+        the #+DATE: is not written in your org file, it will default
+        to the date at the moment of export.
+<span class="org-list-dt">-</span> <span class="org-list-dt">MT ::</span> Memorandum Type. It defines the structure of the document.
+        Groff supports the use of the different Memorandum Types as well
+        as Cover Pages (COVER/COVEND pairs).
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Groff export commands
+</span><span class="org-list-dt">-</span> <span class="org-list-dt">M-x org-groff-export-to-groff ::</span> Converts buffer to Groff under
+     the assumptions that it was Org mode syntax. For an Org file like
+     <span class="org-verbatim">myfile.org</span> the Groff file will be <span class="org-verbatim">myfile.groff</span>. The file will
+     be overwritten without warning.
+<span class="org-list-dt">-</span> <span class="org-list-dt">M-x org-groff-export-to-pdf ::</span> Converts buffer to a PDF file under
+     the assumptions that it was Org mode syntax. It uses Groff as its
+     typesetter engine.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Header and sectioning structure
+</span>By default, the Groff export uses the <span class="org-verbatim">internal</span> (.MT 0) Memorandum Type
+to generate documents.
+
+You can change this globally by setting a different value for
+<span class="org-verbatim">org-groff-default-class</span> or locally by adding an option
+like <span class="org-verbatim">#+GROFF_CLASS: myclass</span> in your file. The class must be listed in
+<span class="org-verbatim">org-groff-classes</span>. This variables defines the attributes for a
+class, unlike L_aTex, the structure in Groff is defined in the content
+of the document. What this variable defines is the style of the cover
+page, the type of headers and if the export will generate a Table of
+Content or Letter Signature.
+
+The following classes are defined by default:
+
+<span class="org-table">| </span><span class="org-formula">&lt;l10&gt;</span><span class="org-table">      | </span><span class="org-formula">&lt;c15&gt;</span><span class="org-table">           | </span><span class="org-formula">&lt;l40&gt;</span><span class="org-table">                                    | </span><span class="org-formula">&lt;l7&gt;</span><span class="org-table">    | </span><span class="org-formula">&lt;l&gt;</span><span class="org-table">     |</span>
+<span class="org-table">| class      | Memorandum Type | Description                              | type    | closing |</span>
+<span class="org-table">|------------+-----------------+------------------------------------------+---------+---------|</span>
+<span class="org-table">| internal   | MT 0            | Creates a document with a cover page having the Subject, Date, Author and Organization. | memo    | toc     |</span>
+<span class="org-table">| file       | MT 1            | Creates a document with a cover page having the Subject, Date, Author, Organization  and  MEMORANDUM FOR FILE header. | memo    | toc     |</span>
+<span class="org-table">| programmer | MT 2            | Creates a document with a cover page having the Subject, Date, Author, Organization  and PROGRAMMER's NOTES header. | memo    | toc     |</span>
+<span class="org-table">| engineer   | MT 3            | Creates a dcoument with a cover page having the Subject, Date, Author, Organization  and ENGINEER's NOTES header | memo    | toc     |</span>
+<span class="org-table">| external   | MT 4            | Creates a document with a cover page having the Subject, Date, Organization. Unlike the previous types, these will centered at the top | memo    | toc     |</span>
+<span class="org-table">| letter     | MT 5            | Creates a document with a cover page having the Subject, Author and Date. It was traditionally used for letters in the original Bell Labs troff macros. However, Groff uses a different mechanism. This is kept for compatibility purposes | memo    | sign    |</span>
+<span class="org-table">| ms         | COVER ms        | Creates a document with a cover page similar to the one used by the ms macros. | cover   | toc     |</span>
+<span class="org-table">| se_ms      | COVER se_ms     | Creates a document with a cover page similar to the one used by the se macros. | cover   | toc     |</span>
+<span class="org-table">| dummy      | ""              | Creates a document without a cover, but defines all the cover attributes. This is used to generate documents with an Abstract section | memo    | toc     |</span>
+<span class="org-table">| block      | "BL"            | Creates a blocked letter using the Groff letter macros | letter  | sign    |</span>
+<span class="org-table">| semiblock  | "SB"            | Creates a semiblocked letter using the Groff letter macros | letter  | sign    |</span>
+<span class="org-table">| fullblock  | "FB"            | Creates a full block letter using the Groff letter macros | letter  | sign    |</span>
+<span class="org-table">| simplified | "SP"            | Creates a simplified letter using the Groff letter macros | letter  | sign    |</span>
+<span class="org-table">| none       | ""              | Creates a document without any header. Used for customized documents or letters using the Groff's macros. | custom  | nothing |</span>
+
+This variable can be used to defined your own document types in which
+different type of documents be loaded using the .COVER or .so commands.
+
+To define a new class add a new entry to the <span class="org-verbatim">org-groff-class</span>
+list. The element of the list are:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">class name ::</span> Name of the class
+<span class="org-list-dt">-</span> <span class="org-list-dt">document type invocation ::</span> It defines how the document will be
+     invoked. If the document is a memorandum type, the whole .MT
+     command written. If the document is a COVER, only the
+     cover name is needed. If a custom file is being used, then an Groff
+     include statement (.so) with the path of the custom file is used.
+<span class="org-list-dt">-</span> <span class="org-list-dt">document options ::</span> This is a property list containing the document
+     options. These are:
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:type ::</span> Document type. Defines if the header information is created
+            or not. Options are "memo" for full header, "cover" for
+            full header plus COVER/COVENT statement, "custom" for no
+            header[1]
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:heading ::</span> Defines the command to invoke each of the section
+                heading. Options are 'default for the MM defaults and a
+                pointer to a function that will return a format string
+                containing the heading command. The format string takes
+                the <span class="org-verbatim">level</span> and the result of the <span class="org-verbatim">numberp</span> predicate that
+                indicates if the heading is a numbered one or not.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:last-section ::</span> Defines what is the last item to print. Options
+                     are "toc" for table of content and "sign" for
+                     signature.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:paragraph ::</span> Defines the command to invoke each of the paragraph
+                  commands. Options are 'default or a pointer to a
+                  function that will return a format string containing
+                  the paragraph formatting commands before writing the
+                  paragraph.
+
+Example:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">org-groff--colored-heading is a function that will return
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">the invocation of the .HL macro. The .HL macro is a custom groff
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">macro.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-groff--colored-heading</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">level numberedp</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">".HL "</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">number-to-string</span></span><span class="org-block"> level</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" \"%s\"\n%s"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">adds the class definition.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-groff-classes</span></span><span class="org-block">
+       </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"myclass"</span></span><span class="org-block">
+         </span><span class="org-block"><span class="string">".so myclassfile.groff"</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:heading</span></span><span class="org-block"> org-groff--colored-heading </span><span class="org-block"><span class="builtin">:type</span></span><span class="org-block">
+          </span><span class="org-block"><span class="string">"memo"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:last-section</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"toc"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+The <span class="org-verbatim">#+GROFF_CLASS_OPTIONS</span> option is used to add additional information
+that changes the document structure or adds additional information that
+gets exported.  The following options are supported:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">:firm ::</span> overrides the Organization name stored in the
+           <span class="org-verbatim">org-groff-organization</span>. <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:author-title ::</span> Adds the title for the author. If not available, the
+                   .AT macro will not be used. <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:hyphernate ::</span> Enables or disables hyphernation support. <span class="italic">("yes""no")</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:justify-right ::</span> Enables or disables right justification <span class="italic">("yes""no")</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:closing ::</span> Changes the final closing from "Sincerely
+              yours,". The string is used as part of a call to .FC.
+              <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:subtitle1 ::</span> Defines a subtitle that maps to the "Charge Case"
+                line. <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:subtitle2 ::</span> Defines a subtitle that maps to the "File Case"
+                line. These two options might not be relevant for
+                many users, but setting values to these variables can be
+                helpful when custom covers are used.  These two
+                options will be used when the .TL macro is invoked
+                during export. <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:salutation ::</span> Defines a custom salutation. Defaults to "Tho whom it
+                 may concern" <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:confidential ::</span> Toggles the confidential batter. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:subject ::</span> Adds a subject line <span class="italic">(string)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:references ::</span> Addss an "In Reference Line". The value of <span class="org-verbatim">#+TITLE</span> is
+                  used to populate the reference. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:attention ::</span> Adds an "ATTENTION:" line. <span class="italic">(string)</span>
+
+[1] All memorandum and letter types are defined by default. This command is useful
+for new types of covers or when a custom file is being invoked.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Special Tags
+</span>The Groff exporter now features a set of tags that handles special
+contents required for the inclusion of abstracts sections, and parts of
+a business letter. The following special tags are in use by the
+<span class="org-verbatim">ox-groff.el</span> exporter.
+<span class="org-list-dt">-</span> <span class="org-list-dt">FROM ::</span> Defines the originator of a letter.
+<span class="org-list-dt">-</span> <span class="org-list-dt">TO ::</span> Defines the recipient of a letter.
+<span class="org-list-dt">-</span> <span class="org-list-dt">ABSTRACT ::</span> Defines the abstract part of a memo.
+<span class="org-list-dt">-</span> <span class="org-list-dt">NS ::</span> Defines a notational sign at the letter. Notational signs items
+        like "Copy to" or "Carbon Copy" that are placed at the end of
+        the letter to indicate its disposition.
+<span class="org-list-dt">-</span> <span class="org-list-dt">BODY ::</span> Defines the body part of a letter.
+
+Special tags have several rules to follow. These are:
+<span class="org-list-dt">1.</span> it must be the first tag of a list of tags, or a single tag,
+<span class="org-list-dt">2.</span> it should be placed on first level headlines only,
+<span class="org-list-dt">3.</span> items will be placed in their location and not written as part of
+   the document.
+Use of tags is described in detail in the following sections.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tags used for Letter types
+</span>Letter types use the FROM, TO, BODY and NS tags for placing content in
+a document class of letter.  Letter types are the ones defined as:
+block, semiblock, simplified and fullblock.
+
+Illustrated below is how a typical letter looks like:
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">  * FROM :FROM:
+  Joe Smith
+  00 Street
+  City, ST, 00000
+  * TO :TO:
+  Maria Rivera
+  Urbanizacion Palma Lejos
+  Calle 22, Bloque A, Numero 10
+  Ciudad, ES, 00000
+  * BODY :BODY:
+  letter content
+  * Copy to :NS:
+  Jill Brown
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">FROM ::</span> A header with a <span class="italic">:FROM:</span> tag contains the address of the
+          originator. It needs to be
+          written in free form but it should follow the
+          addressing standards of the originator.
+<span class="org-list-dt">-</span> <span class="org-list-dt">TO ::</span> A header with a <span class="italic">:TO:</span> tag contains the address of the
+        recipient. It needs to be written in free form but it should
+<span class="org-list-dt">-</span> <span class="org-list-dt">BODY ::</span> The <span class="italic">:BODY:</span> tag indicates the start of the letter. This is needed to
+          start the content of the letter without writing the header on
+          output.
+<span class="org-list-dt">-</span> <span class="org-list-dt">NS ::</span> /:NS: will write the title of the header as the type of
+        disposition at the end of the letter, after the signature.
+        In the exaple, it will write "Copy to" Jill Brown at
+        the end of the letter.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tags used for Memorandum Types letters
+</span>Letters that are of type "memo" also use the FROM, TO, BODY and NS tags
+for placing content in a document class of letter.
+Memo letter types are the ones defined as: "letter" or a custom cover.
+
+Illustrated below is how a typical letter looks like:
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">  * FROM :FROM:
+  initials
+  location
+  department
+  extension
+  room
+  additional
+  * TO :TO:
+  Maria Rivera
+  Urbanizacion Palma Lejos
+  Calle 22, Bloque A, Numero 10
+  Ciudad, ES, 00000
+  * BODY :BODY:
+  letter content
+  * Copy to :NS:
+  Jill Brown
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">FROM ::</span> A header with a <span class="italic">:FROM:</span> tag contains the address of the
+          originator. It needs to be
+          written in the same order as the AU macro call. This order is
+          <span class="org-list-dt">1.</span> Initials: Author initials
+          <span class="org-list-dt">2.</span> Author location: Building Name
+          <span class="org-list-dt">3.</span> Author department code
+          <span class="org-list-dt">4.</span> Author extension
+          <span class="org-list-dt">5.</span> Author room
+          <span class="org-list-dt">6.</span> Additional items, like email or street address.
+<span class="org-list-dt">-</span> <span class="org-list-dt">TO ::</span> A header with a <span class="italic">:TO:</span> tag contains the address of the
+        recipient. It needs to be written in free form but it should
+<span class="org-list-dt">-</span> <span class="org-list-dt">BODY ::</span> The <span class="italic">:BODY:</span> tag indicates the start of the letter. This is needed to
+          start the content of the letter without writing the header on
+          output.
+<span class="org-list-dt">-</span> <span class="org-list-dt">NS ::</span> The <span class="italic">:NS:</span> tag will write the title of the header as the type of
+        disposition at the end of the letter, after the signature.
+        In the exaple, it will write "Copy to" Jill Brown at
+        the end of the letter.
+
+The placement of items depends directly on the way the cover has been
+written. Although MT 5 is the "letter" memorandum type, Groff does not
+follow the same convention as Bell Labs' troff. Therefore, the use
+of these document classes is usable only to custom type covers.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tags used for Memorandum Types documents.
+</span>Documents that are of type "memo" use the FROM and ABSTRACT
+for placing content in a document class of memo
+Letter types are the ones defined as: internal, external, file,
+engineering, programmer or a custom cover.
+
+Illustrated below is how a typical memo looks like:
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">  * FROM :FROM:
+  initials
+  location
+  department
+  extension
+  room
+  additional
+ * TO :ABSTRACT:
+  Abstract Body
+ * First Header
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">FROM ::</span> A header with a <span class="italic">:FROM:</span> tag contains the address of the
+          originator. It needs to be
+          written in the same order as the AU macro call. This order is
+          <span class="org-list-dt">1.</span> Author initials
+          <span class="org-list-dt">2.</span> Author location code or Building Name
+          <span class="org-list-dt">3.</span> Author department number
+          <span class="org-list-dt">4.</span> Author extension
+          <span class="org-list-dt">5.</span> Author room
+          <span class="org-list-dt">6.</span> Additional items, like email or street address.
+<span class="org-list-dt">-</span> <span class="org-list-dt">ABSTRACT ::</span> A header with an <span class="italic">:ABSTRACT:</span> tag contains the abstract
+              The abstract will be placed in the Abstract Location,
+              usually at the cover sheet, before the start of the document.
+
+The placement of items depends directly on the way the cover has been
+written and these follows the Bell Labs standards. This may or may not be
+applicable for your case. As an alternative you should use the external
+or letter class, which does not fully use the author information in the
+cover or create your own custom cover.
+
+However, the following alternate ordering used in headers with the FROM tag may
+be more suitable to use than the one prescribed in the manual page. This
+is because it does not follow the Bell Labs nomenclature.
+
+This alternate ordering is:
+<span class="org-list-dt">1.</span> Initials
+<span class="org-list-dt">2.</span> Building Name or Location
+<span class="org-list-dt">3.</span> Room
+<span class="org-list-dt">4.</span> Extension
+<span class="org-list-dt">5.</span> Main telephone switch number
+<span class="org-list-dt">6.</span> Street
+<span class="org-list-dt">7.</span> City, State, Province, Postal code
+<span class="org-list-dt">8.</span> Email address
+
+This ordering places the author information in the following order:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">Name
+BLDG ROOM
+Switch Phone Number xExtension
+Street
+City, State, Province, Postal Code
+Email Address
+</span><span class="org-block-end-line">#+END_EXAMPLE.
+</span>
+Out of all these values, the only one required is the initials. The
+others do not need to be written and they will not be written in the document.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tables in Groff export
+</span>Groff uses the <span class="org-verbatim">tbl</span> preprocessor for table exports but the Groff export
+process also supports the specification of labels, captions and table
+options with the use of the <span class="org-verbatim">#+ATTR_GROFF:</span> line. The following options
+are available to modify table behavior.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">:divider ::</span> Places vertical bars between the different
+              columns. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:placement ::</span> Defines where the table will be placed in the
+                line. There are two possible values: center or
+                left. <span class="italic">(symbol)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:boxtype ::</span> Defines the box type. <span class="italic">(symbol)</span> The following values are supported:
+   <span class="org-list-dt">-</span> <span class="org-list-dt">box ::</span> Creates a border only. Default
+   <span class="org-list-dt">-</span> <span class="org-list-dt">doublebox ::</span> Creates a border with two lines.
+   <span class="org-list-dt">-</span> <span class="org-list-dt">allbox ::</span> Creates a table in which all cells are divided.
+   <span class="org-list-dt">-</span> <span class="org-list-dt">none ::</span> No borders.
+<span class="org-list-dt">-</span> <span class="org-list-dt">:title-line ::</span> Forces the first row to be centered bold. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:diable-caption ::</span> Captions are placed by default. This will disable
+     its creation. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:expand ::</span> Expands the table across the width of the page.
+<span class="org-list-dt">-</span> <span class="org-list-dt">:long-cells ::</span> Encloses all cells in T{ }T to allow the use of multi
+                 line cells. <span class="italic">(boolean)</span>
+The Groff export will honor columns definitions placed on top of a given
+table in Org mode and propagates those definitions as <span class="org-verbatim">tbl</span> commands.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Images in Groff export
+</span>Groff provides very limited support for image export and this limitation
+is reflected in the export. The Groff export uses the <span class="org-verbatim">pic</span> preprocessor
+and the -Tps device for image support. The only types that are supported
+for export  are:[2]
+<span class="org-list-dt">-</span> Encapsulated Postscript (eps)
+<span class="org-list-dt">-</span> Postscript (ps)
+<span class="org-list-dt">-</span> Groff Pic (pic)
+
+Other types need to be converted into either of these for its use in
+Groff.
+
+Images that are linked to without description part in the line like
+<span class="error"><span class="org-verbatim"><a href="file:img.eps">[[file:img.eps]]</a></span></span> or <span class="org-link"><span class="org-verbatim"><a href="img.pic">[[img.pic]]</a></span></span> will be inserted into the PDF output file
+resulting from Groff processing. Org will use a .PSPIC (for eps and ps)
+or PS/PE (for pic) macro to insert the image during export. If you have specified a
+caption or label, it will be included in the export through a call to
+the .FG macro. You can use an <span class="org-verbatim">#+ATTR_GROFF:</span> line to specify other
+options, but these only affect postscript types ones (eps and ps). This
+is because pic images contain its definition in the in the pic file.
+The following options are available:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">:position ::</span> Positions the image in the line. There are three options:
+               left, right and center <span class="italic">(symbol)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:width ::</span> Defines the width of the image in Groff units. For
+            example :width 1.0i or :width 2.0c  <span class="italic">(symbol)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:heigth ::</span> Defines the hight of the image in Groff units. For
+             example :heigth 1.0i or :height 2.0c.  <span class="italic">(symbol)</span>
+
+[2] Although the MPIMG macro is available in the -mwww  set, it
+conflicts with the definition of list items (LI) in the -mm one. At
+the end, these macros convert images to EPS.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes and References
+</span>The Groff export uses the same footnote mechanism to identify footnotes
+and bibliographic references. Adding a <span class="org-verbatim">\[1\]</span> or a <span class="org-verbatim">\[fn:123\]</span> marker with its
+appropriate reference will create a footnote at the end of the page.
+However adding a reference with a <span class="italic">"rl"</span> tag, creates a Reference to the
+end of the page.
+
+For example:
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">This is a refered text\[fn:rl1\].
+\[fn:rl1\] Author, Title (c) 2010.
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+Will place "Author, Title (c) 2010" in the reference list in the Table
+of Contents.
+
+Footnotes markers with the same tag will refer to the same reference in
+the list.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Special Characters
+</span>Special character substitution can be enabled if there is a list
+specified in the <span class="org-verbatim">org-groff-special-char</span> variable. This variable
+consists of a list of cons pairs in which the first value is the item to
+substitute and the second value is the value to be substituted with. By
+default it will substitute (c) for copyright notice, (tm) for trademark
+and (rg) for registered mark.
+
+Character substitution can be disabled by setting this variable to <span class="bold">nil</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Source highlight in Groff export
+</span>There are no packages or processors for syntax highlight in
+Groff. However this feature is available for Groff export with the use
+of GNU's source highlight
+(<span class="kc-org-link-url"><a href="http://www.gnu.org/software/src-highlite/">http://www.gnu.org/software/src-highlite/</a></span>). The steps needed to use
+this feature are as follows:
+
+<span class="org-list-dt">1.</span> Install source highlight according to the instruction in the
+   distribution. Source highlight requires the Boost <span class="kc-org-link-url"><a href="http://www.boost.org">www.boost.org</a></span>
+   libraries installed and available as well. See their respective
+   documentation for details.
+<span class="org-list-dt">2.</span> Make sure that the source highlight binary is available in your
+   PATH.
+<span class="org-list-dt">3.</span> Download the groff language files from
+   <span class="kc-org-link-url"><a href="http://www.github.com/papoanaya/emacs_utils/source-highlight">http://www.github.com/papoanaya/emacs_utils/source-highlight</a></span>. Place
+   them in the source-highlight configuration directory, usually under
+   <span class="org-verbatim">share/source-highlight</span>. Note that the outlang.map will replace the
+   one in the configuration directory. If you have custom outlang.map
+   entries, they have to be merged with the ones from the Groff
+   language files.
+<span class="org-list-dt">4.</span> Set the custom variable <span class="org-verbatim">org-groff-source-highlight</span> to
+   <span class="bold">t</span> in your .emacs file (i. e. <span class="org-verbatim">(setq org-groff-source-highlight t)</span>)
+
+When the #+begin_src line is used with a supported language, the Groff
+export process will submit the block to source-highlight for
+processing.
+
+For example:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">   #+begin_src emacs-lisp
+     (message "Hello World")
+   #+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+The resultant text will have Groff formatted text that corresponds to
+the highlighted code. This code will be surrounded with a Display Static pair
+(DS/DE) and finishes with a call to the EX macro. EX will add an
+<span class="italic">Exhibit</span> caption at the bottom of the highlighted source.
+
+The following languages are supported by default:
+<span class="org-table">| </span><span class="org-formula">&lt;l20&gt;</span><span class="org-table">                | </span><span class="org-formula">&lt;l20&gt;</span><span class="org-table">                |</span>
+<span class="org-table">| begin_src tag        | source highlight language |</span>
+<span class="org-table">|----------------------+----------------------|</span>
+<span class="org-table">| emacs-lisp           | lisp                 |</span>
+<span class="org-table">| lisp                 | lisp                 |</span>
+<span class="org-table">| clojure              | lisp                 |</span>
+<span class="org-table">| scheme               | scheme               |</span>
+<span class="org-table">| c                    | c                    |</span>
+<span class="org-table">| cc                   | cpp                  |</span>
+<span class="org-table">| csharp               | csharp               |</span>
+<span class="org-table">| d                    | d                    |</span>
+<span class="org-table">| fortran              | fortran              |</span>
+<span class="org-table">| cobol                | cobol                |</span>
+<span class="org-table">| pascal               | pascal               |</span>
+<span class="org-table">| ada                  | ada                  |</span>
+<span class="org-table">| asm                  | asm                  |</span>
+<span class="org-table">| perl                 | perl                 |</span>
+<span class="org-table">| cperl                | perl                 |</span>
+<span class="org-table">| python               | python               |</span>
+<span class="org-table">| ruby                 | ruby                 |</span>
+<span class="org-table">| tcl                  | tcl                  |</span>
+<span class="org-table">| lua                  | lua                  |</span>
+<span class="org-table">| javascript           | javascript           |</span>
+<span class="org-table">| tex                  | latex                |</span>
+<span class="org-table">| shell-script         | sh                   |</span>
+<span class="org-table">| awk                  | awk                  |</span>
+<span class="org-table">| diff                 | diff                 |</span>
+<span class="org-table">| m4                   | m4                   |</span>
+<span class="org-table">| ocaml                | caml                 |</span>
+<span class="org-table">| caml                 | caml                 |</span>
+<span class="org-table">| sql                  | sql                  |</span>
+<span class="org-table">| sqlite               | sql                  |</span>
+<span class="org-table">| html                 | html                 |</span>
+<span class="org-table">| css                  | css                  |</span>
+<span class="org-table">| xml                  | xml                  |</span>
+<span class="org-table">| bat                  | bat                  |</span>
+<span class="org-table">| bison                | bison                |</span>
+<span class="org-table">| opa                  | opa                  |</span>
+<span class="org-table">| php                  | php                  |</span>
+<span class="org-table">| postscript           | postscript           |</span>
+<span class="org-table">| prolog               | prolog               |</span>
+<span class="org-table">| properties           | properties           |</span>
+<span class="org-table">| makefile             | makefile             |</span>
+<span class="org-table">| tml                  | tml                  |</span>
+<span class="org-table">| vala                 | vala                 |</span>
+<span class="org-table">| vbscript             | vbscript             |</span>
+<span class="org-table">| xorg                 | xorg                 |</span>
+
+New languages can be added to source highlight and made available for
+export by adding entries to the list stored in the
+<span class="org-verbatim">org-groff-source-highlight-langs</span> variable. The format for each entry
+consists on a symbol and a string. The symbol corresponds to the
+begin_src tag and the string to the corresponding language entry
+available in source highlight. An example  of an entry is:
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">sqlite </span><span class="org-block"><span class="string">"sql"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+If a language is not defined, then the Groff export process will default
+to write the code in Constant Width font.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Embedded Groff
+</span>Groff commands can be exported literally by surrounding the text on a
+pair of #+BEGIN_GROFF/#+END_GROFF lines.  These are a couple of
+commands that can be useful during export to control the output.
+
+<span class="org-block-begin-line">#+begin_src dummy
+</span>#+BEGIN_GROFF
+.SK
+#+END_GROFF
+<span class="org-block-end-line">#+end_src
+</span>
+Page break. Skips to a new page.
+
+<span class="org-block-begin-line">#+begin_src dummy
+</span>#+BEGIN_GROFF
+.DS C
+.EQ
+
+
+.EN
+.DE
+.EC
+#+END_GROFF
+<span class="org-block-end-line">#+end_src
+</span>
+EQN escape. This is used to add equations in your exported document. The
+Groff export uses the <span class="org-verbatim">eqn</span> processor to add them in your output. EQN
+statements must be placed between .EQ and .EN.
+
+<span class="org-block-begin-line">#+begin_src dummy
+</span>#+BEGIN_GROFF
+.AS
+
+.AE
+.MT 0
+#+END_GROFF
+<span class="org-block-end-line">#+end_src
+</span>
+Used with the dummy document class, it can be used to add an abstract block to
+any of the memorandum type. The internal type is presented for
+reference. Absract text must be placed betwen .AS and .AE.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Known Limitations
+</span>The following limitations are known at the time of release. They will be
+looked at and addressed  in subsequent releases if they are technically
+solvable.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">Images ::</span> Image support is limited to PIC, PS and EPS.
+<span class="org-list-dt">-</span> <span class="org-list-dt">Links ::</span> There is no support for document linking or grefer. Most
+           links will be just written. The only exception are for
+           supported image and files with a .groff extension. The
+           former will be embedded in the exported file, the later
+           will be included through the use of a .so command.
+<span class="org-list-dt">-</span> <span class="org-list-dt">Abstracts ::</span> Abstract support is only available through the use of
+               embedded Groff.
+<span class="org-list-dt">-</span> <span class="org-list-dt">Equations ::</span> Equations support is only available through the use of
+               embedded Groff.
+<span class="org-list-dt">-</span> <span class="org-list-dt">Alternate Macro Set ::</span> There are plans to create export for MOM
+     macros. No plans for the MS set unless there is enough
+     interest. The reason is that MOM seems to be the up and coming
+     substitute for MM and its similarities with LaT_eX makes it a
+     very attractive alternative to MM. It also allows the use of the
+     macros available in the WWW set.
+<span class="org-list-dt">-</span> <span class="org-list-dt">Gnuplot ::</span> Gnuplot plots can be included if the following conditions
+             are met:
+    <span class="org-list-dt">1.</span> Output type  must be set to <span class="org-verbatim">gpic</span> (GnuPIC). Using Lat_eX EPS
+       will result in an incomplete graph.
+    <span class="org-list-dt">2.</span> For images generated directly from an Org mode table will have
+       to be included afterwards after its generation.  For example:
+<span class="org-block-begin-line">       #+BEGIN_EXAMPLE
+</span><span class="custom">         #+PLOT: title "X" ... set:"term gpic" "set:output 'table.pic'"
+         | a | b | c |
+         | 1 | 2 | 3 |
+         <a href="file:table.pic">[[file:table.pic]]</a>
+</span><span class="org-block-end-line">       #+END_EXAMPLE
+</span>    <span class="org-list-dt">3.</span> While using Org Babel, gpic output specification needs to be
+       stated. Otherwise, the image will not be included on export.
+<span class="org-block-begin-line">       #+BEGIN_EXAMPLE
+</span><span class="custom">         #+begin_src gnuplot :file salida.pic
+           set term gpic
+           plot sin(x)
+         #+end_src
+</span><span class="org-block-end-line">       #+END_EXAMPLE
+</span><span class="org-list-dt">-</span> <span class="org-list-dt">PlantUML ::</span> Plantuml is supported but the output type must be
+              EPS. This is done by using <span class="italic">.eps</span> as the file suffix.
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">     #+begin_src plantuml :file x.eps
+        [A] --&gt; [B]
+     #+end_src
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span><span class="org-list-dt">-</span> <span class="org-list-dt">Other Babel Graphics ::</span> Other babel graphics should be supported if
+     either PS, EPS or GnuPIC are used as their output format.
+</pre>
+  </body>
+</html>

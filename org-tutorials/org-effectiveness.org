@@ -1,0 +1,134 @@
+# Created 2021-06-15 Tue 18:25
+#+OPTIONS: H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Org Effectiveness Tutorial
+#+AUTHOR: David Arroyo Menéndez
+#+startup: align fold nodlcheck hidestars oddeven lognotestate
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c)
+#+language: en
+#+priorities: A C B
+#+startup: align fold nodlcheck hidestars indent
+#+category: worg-tutorial
+
+[[file:index.org][{Back to Worg's index}]]
+
+* Introduction
+
+In the Personal Software Process, we attend to the tasks in the
+estimated time, but few times we attend to effectiveness,
+understanding by effectiveness, the tasks done comparising the
+proposed tasks.
+
+The formal educative process try evaluate with respect to solve exams,
+that is, quizes or another academic tests and some times training
+exercises, although, few times the student knows if execute your own
+personal objectives: what is the reason because I've started to study
+something if I've learn it or don't. Finally, someone knows if learn
+things because has been able to make. The idea presented in this
+tutorial is a software to everyone can be evaluted to himself in
+function to his own personal objectives. We can say that measure the
+effectiveness is know if we are honest whith ourselves.
+
+* Installation
+
+Currently, org-effectiveness.el is stored in contrib, you can download worg with:
+#+begin_src bash
+$ cd ~
+$ mkdir git
+$ cd git
+$ git clone https://code.orgmode.org/bzg/org-mode.git
+#+end_src
+
+You can find org-effectiveness.el in ~/git/org-mode/contrib/lisp
+
+So, you can add the next line (or similar) in your .emacs
+#+begin_src lisp
+(load "~/git/org-mode/contrib/lisp/org-effectiveness.el")
+#+end_src
+
+If you want use the plot feature, you must install gnuplot, for instance in debian, you can do:
+#+begin_src bash
+$ apt-get install gnuplot
+#+end_src
+
+* Counting outlines
+
+To measure the effectiveness we can count tasks done and tasks
+cancelled, but perhaps you want count the tasks pending or tasks in
+another state, so we've built some functions to it.
+
+With org-effectiveness-count-keyword, we can count an outline in an
+state (keyword) given. For example:
+
+#+begin_src lisp
+M-x org-effectiveness-count-keyword TODO
+#+end_src
+
+Usually, anyone will be using the next states: TODO, CANCELED and DONE
+at least, so we can use
+
+#+begin_src lisp
+M-x org-effectiveness-count-todo
+M-x org-effectiveness-count-done
+M-x org-effectiveness-count-canceled
+#+end_src
+
+* Effectiveness
+
+The calculus that I propose to know if someones is effectiveness is
+very simple is enough dividing the number of tasks DONE with the
+CANCELED. So, we can know the total effectiveness in the current
+buffer with:
+
+#+begin_src lisp
+M-x org-effectiveness
+#+end_src
+
+We can know, the effectiveness in a specific date with
+
+#+begin_src lisp
+M-x org-effectiveness-in-date
+#+end_src
+
+Writing the date in the format YYYY-MM-DD.
+
+
+* Productivity
+
+Make an only task in one month is not very difficult, if you only want
+make one task is ok, you are 100% effectiveness, but the people is
+ambitious, the companies want reach many task, without cancel anything.
+
+We can consider that measure our productivity is only measure the
+tasks done in a period of time (see [[ref1][1]]). For example, in a month:
+
+#+begin_src lisp
+M-x org-effectiveness-dones-in-date
+#+end_src
+
+* Deploying graphs
+
+We can deploy a *gnuplot graph* to know the effectiveness in the current
+buffer by months with:
+
+#+begin_src lisp
+M-x org-effectiveness-plot
+#+end_src
+
+We can deploy an *ascii graph* to know the effectiveness in the current
+buffer by months with:
+
+#+begin_src lisp
+M-x org-effectiveness-plot-ascii
+#+end_src
+
+* References
+
+1. <<ref1>> Barry W. Boehm, TRW (1987) Improving Software Productivity
+
+
+* License
+
+This document is under a [[http://creativecommons.org/licenses/by/3.0/deed][Creative Commons Attribution Unported 3.0]]
+
+[[http://creativecommons.org/licenses/by/3.0/deed][file:http://i.creativecommons.org/l/by/3.0/80x15.png]]

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-mac-iCal.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-mac-iCal.el -- import Mac OS X iCal.app events into Emacs diary
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's contibutions index}</a></span>
+
+If you find iCal.app the most convenient way to manage your diary, but
+would still like to view your appointments in org agenda, then this
+module may help.
+
+<span class="bold">N.B.</span> org-mac-iCal.el has only been tested on OS X 10.5. Apple's
+handling of ics files changed between 10.4 and 10.5 to allow Spotlight
+to index events. Unfortunately, the author no longer has access to
+10.4 and 10.4 support is based entirely on his memory. The author
+would welcome reports of success or failure of org-mac-iCal.el with OS
+X 10.4 or earlier.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Installation
+</span>  <span class="org-list-dt">-</span> To load org-mac-iCal.el by default:
+
+    <span class="org-code">: (add-to-list 'org-modules 'org-mac-iCal)
+</span>
+    Note that <span class="org-verbatim">org-modules</span> must be set before org-mode is loaded.
+
+  <span class="org-list-dt">-</span> To view Emacs diary entries in the org agenda, ensure that 
+
+    <span class="org-code">: (setq org-agenda-include-diary t)
+</span>
+    is set.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Usage
+</span>  <span class="org-verbatim">(org-mac-iCal)</span> will import all <span class="italic">checked</span> iCal.app calendars into
+  your Emacs diary when called either interactively or as part of
+  another function.
+
+  <span class="bold">Warning: (org-mac-iCal) is destructive and will overwrite the
+  current contents of your Emacs diary.</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Customizable variables
+</span>   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-mac-iCal-range</span></span><span class="org-list-dt"> ::</span>
+
+     Sets the number of months (default: 2) of events imported from
+     iCal.app calendars.
+
+     Because all-day and multi-day events are imported into the Emacs
+     diary as sexps, a large number of these can cause the Emacs
+     calendar view to slow down unacceptably. <span class="org-verbatim">org-mac-iCal-range</span>
+     sets how many months of events to import, <span class="italic">centred around the
+     current day</span>. Thus the default value of 2 imports events from one
+     month in the past to one month in the future.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Examples of usage
+</span>   The following code creates a custom command in the agenda
+   dispatcher to import iCal.app events and then display the agenda:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"I"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Import diary from iCal"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-mode-hook</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">()</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-mac-iCal</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+   A common problem with all-day and multi-day events in org agenda
+   view is that they become separated from timed events and are placed
+   below all <span class="org-verbatim">TODO</span> items. Likewise, additional fields such as
+   <span class="org-verbatim">Location:</span> are orphaned from their parent events. The following
+   hook will ensure that all events are correctly placed in the
+   agenda:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-agenda-cleanup-fancy-diary-hook</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">()</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"^[a-z]"</span></span><span class="org-block"> nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">match-beginning</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"0:00-24:00 "</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"^ [a-z]"</span></span><span class="org-block"> nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">match-beginning</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+</span><span class="whitespace-tab">                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">re-search-backward</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"^[0-9]+:[0-9]+-[0-9]+:[0-9]+ "</span></span><span class="org-block"> nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">match-string</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="whitespace-tab">        </span>     
+</pre>
+  </body>
+</html>

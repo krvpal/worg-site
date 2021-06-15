@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-export-generic.el &#x2013; export org files to anything!</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wes Hardaker" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-export-generic.el &#x2013; export org files to anything!</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5e807f4">Overview</a></li>
+<li><a href="#orge4f2285">Using It</a></li>
+<li><a href="#org5f6c300">Property List Definitions</a>
+<ul>
+<li><a href="#org179a8ba">Property List Value Types</a></li>
+<li><a href="#orgb6bc6d9">The Full List of Value Types:</a>
+<ul>
+<li><a href="#org15dd3d7">Configuration Tags:</a></li>
+<li><a href="#org5ad50f2">Data Output Tags:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgac572b6">Example Definitions</a>
+<ul>
+<li><a href="#org7310c16">Generic HTML Exporter</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5e807f4" class="outline-2">
+<h2 id="org5e807f4">Overview</h2>
+<div class="outline-text-2" id="text-org5e807f4">
+<p>
+org-export-generic is basically a simple translation system that
+knows how to parse most of an org buffer and then add
+various formatting prefixes before and after each section type.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge4f2285" class="outline-2">
+<h2 id="orge4f2285">Using It</h2>
+<div class="outline-text-2" id="text-orge4f2285">
+<p>
+org-export-generic does its work by examining a property list stored
+in <code>org-generic-alist</code>.  The pre-defined list currently includes a
+simple text exporter, a simple html exporter, a wikipedia exporter,
+an exporter to IETF internet-draft format, and a &ldquo;demo&rdquo; exporter which
+shows off all of the potential variables you can set.
+</p>
+
+<p>
+You can also dynamically add property lists of your own using the
+org-set-generic-type function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span>org-set-generic-type
+    <span style="color: #e2c770;">"really-basic-text"</span> 
+    <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">:file-suffix</span>     <span style="color: #e2c770;">".txt"</span>
+      <span style="color: #fd971f;">:key-binding</span>     ?R
+      <span style="color: #fd971f;">:title-format</span> <span style="color: #e2c770;">"=== %s ===\n"</span>
+      <span style="color: #fd971f;">:body-header-section-numbers</span> t
+      <span style="color: #fd971f;">:body-header-section-number-format</span> <span style="color: #e2c770;">"%s) "</span>
+      <span style="color: #fd971f;">:body-section-header-prefix</span>  <span style="color: #e2c770;">"\n"</span>
+      <span style="color: #fd971f;">:body-section-header-suffix</span> <span style="color: #e2c770;">"\n"</span>
+      <span style="color: #fd971f;">:body-line-format</span> <span style="color: #e2c770;">"  %s\n"</span>
+      <span style="color: #fd971f;">:body-line-wrap</span>   <span style="color: #9c91e4; font-weight: bold;">75</span>
+      <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+<b>Note:</b> Upper case key-bindings are reserved for your use.  Lower case
+key bindings may conflict with future export-generic publications.
+</p>
+
+<p>
+Then run org-export (ctrl-c ctrl-e) and select generic or run
+org-export-generic.  You&rsquo;ll then be prompted with a list of export types
+to choose from, which will include your new type assigned to the key &ldquo;R&rdquo;.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f6c300" class="outline-2">
+<h2 id="org5f6c300">Property List Definitions</h2>
+<div class="outline-text-2" id="text-org5f6c300">
+<p>
+The property list items that can be used to format the output are
+defined in the table below.
+</p>
+
+<p>
+Generally speaking, many parts are
+often divided into sections such that every parsed org <i>thing</i>
+frequently has 3 output specifiers too it.  E.G., <i>thing</i> might have
+<i>thing-prefix</i>, <i>thing-suffix and /thing-format</i>.  The first is a prefix
+placed before the output contents, the second is a suffix and 
+<i>thing-format</i> is a format string where a %s is expected to be in
+it.  There is a bit of redundancy with this triple combination but
+it provides flexibility (and in a few places, it&rsquo;s actually needed
+because the format string may be called multiple times and the
+prefix and suffix only once).
+</p>
+</div>
+
+<div id="outline-container-org179a8ba" class="outline-3">
+<h3 id="org179a8ba">Property List Value Types</h3>
+<div class="outline-text-3" id="text-org179a8ba">
+<p>
+Many of the property list values can be one of a different types.
+In particular, all of the <i>prefix</i> and <i>suffix</i> tags can be one of
+the following types:
+</p>
+
+<ul class="org-ul">
+<li>A string (e.g., &ldquo;&lt;foo&gt;&rdquo;)</li>
+<li>A character, which gets repeated by the length of he line to be
+converted.  This is most useful for headers where you wish to
+place a line underneath the header text.  EG:</li>
+</ul>
+
+<pre class="example">
+:header-prefix             ?=
+</pre>
+
+
+<p>
+Will produce:
+</p>
+
+<pre class="example">
+Property List Value Types
+=========================
+</pre>
+
+
+<p>
+For this section.
+</p>
+
+<ul class="org-ul">
+<li>A list of the above two types.  The list elements will be taken
+based on the order of the header indent amount (ie, the number
+of asterisks).  The list can be a mix of types too:</li>
+</ul>
+
+<pre class="example">
+:header-prefix             (?= ?- "&lt;h3&gt;" "&lt;h4&gt;")
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb6bc6d9" class="outline-3">
+<h3 id="orgb6bc6d9">The Full List of Value Types:</h3>
+<div class="outline-text-3" id="text-orgb6bc6d9">
+</div>
+<div id="outline-container-org15dd3d7" class="outline-4">
+<h4 id="org15dd3d7">Configuration Tags:</h4>
+<div class="outline-text-4" id="text-org15dd3d7">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">TAG</th>
+<th scope="col" class="org-left">EXAMPLE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">:file-suffix</td>
+<td class="org-left">&ldquo;.txt&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:key-binding</td>
+<td class="org-left">?d</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org5ad50f2" class="outline-4">
+<h4 id="org5ad50f2">Data Output Tags:</h4>
+<div class="outline-text-4" id="text-org5ad50f2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">TAG</th>
+<th scope="col" class="org-left">EXAMPLE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">:header-prefix</td>
+<td class="org-left">&ldquo;&lt;header&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:header-suffix</td>
+<td class="org-left">&ldquo;&lt;/header&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:author-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:tags-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:drawers-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:title-prefix</td>
+<td class="org-left">?=</td>
+</tr>
+
+<tr>
+<td class="org-left">:title-format</td>
+<td class="org-left">&ldquo;&lt;h1&gt;%s&lt;/h1&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:title-suffix</td>
+<td class="org-left">?=</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:date-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:date-prefix</td>
+<td class="org-left">&ldquo;&lt;date&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:date-format</td>
+<td class="org-left">&ldquo;&lt;br /&gt;&lt;b&gt;Date:&lt;/b&gt; &lt;i&gt;%s&lt;/i&gt;&lt;br /&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:date-suffix</td>
+<td class="org-left">&ldquo;&lt;/date&gt;\n\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-header-prefix</td>
+<td class="org-left">&ldquo;&lt;tocname&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-header-format</td>
+<td class="org-left">&ldquo;<span class="underline"><span class="underline">%s</span></span>\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-header-suffix</td>
+<td class="org-left">&ldquo;&lt;/tocname&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-prefix</td>
+<td class="org-left">&ldquo;&lt;toc&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-suffix</td>
+<td class="org-left">&ldquo;&lt;/toc&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-section-numbers</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-section-number-format</td>
+<td class="org-left">&ldquo;\#(%s) &rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-format</td>
+<td class="org-left">&ldquo;&#x2013;%s&#x2013;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-format-with-todo</td>
+<td class="org-left">&ldquo;!!%s!!\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-indent-char</td>
+<td class="org-left">?\</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-indent-depth</td>
+<td class="org-left">4</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-tags-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-tags-prefix</td>
+<td class="org-left">&ldquo;   &lt;tags&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-tags-format</td>
+<td class="org-left">&ldquo;<b>%s</b>&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-tags-suffix</td>
+<td class="org-left">&ldquo;&lt;/tags&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:toc-tags-none-string</td>
+<td class="org-left">&ldquo;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-header-section-numbers</td>
+<td class="org-left">3    ; t = all, nil = none</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-section-header-prefix</td>
+<td class="org-left">(&ldquo;&lt;h1&gt;&rdquo; &ldquo;&lt;h2&gt;&rdquo; &ldquo;&lt;h3&gt;&rdquo; &ldquo;&lt;h4&gt;&rdquo; &ldquo;&lt;h5&gt;&rdquo; &ldquo;&lt;h6&gt;&rdquo;)</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-section-header-format</td>
+<td class="org-left">&ldquo;%s&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-section-header-suffix</td>
+<td class="org-left">(&ldquo;&lt;/h1&gt;\n&rdquo; &ldquo;&lt;/h2&gt;\n&rdquo; &ldquo;&lt;/h3&gt;\n&rdquo; &ldquo;&lt;/h4&gt;\n&rdquo; &ldquo;&lt;/h5&gt;\n&rdquo; &ldquo;&lt;/h6&gt;\n&rdquo;)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:timestamps-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:priorities-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:todo-keywords-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-tags-export</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-tags-prefix</td>
+<td class="org-left">&ldquo;  &lt;tags&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-tags-suffix</td>
+<td class="org-left">&ldquo;&lt;/tags&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-section-prefix</td>
+<td class="org-left">&ldquo;&lt;secprefix&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-section-suffix</td>
+<td class="org-left">&ldquo;&lt;/secsuffix&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-line-export-preformated</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-line-fixed-prefix</td>
+<td class="org-left">&ldquo;&lt;pre&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-line-fixed-suffix</td>
+<td class="org-left">&ldquo;\n&lt;/pre&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-line-fixed-format</td>
+<td class="org-left">&ldquo;%s\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-prefix</td>
+<td class="org-left">&ldquo;&lt;list&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-suffix</td>
+<td class="org-left">&ldquo;&lt;/list&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-format</td>
+<td class="org-left">&ldquo;&lt;li&gt;%s&lt;/li&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-number-list-prefix</td>
+<td class="org-left">&ldquo;&lt;ol&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-number-list-suffix</td>
+<td class="org-left">&ldquo;&lt;/ol&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-number-list-format</td>
+<td class="org-left">&ldquo;&lt;li&gt;%s&lt;/li&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-number-list-leave-number</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-checkbox-todo</td>
+<td class="org-left">&ldquo;&lt;checkbox type=\&rdquo;todo\&ldquo;&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-checkbox-todo-end</td>
+<td class="org-left">&ldquo;&lt;/checkbox (todo)&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-checkbox-done</td>
+<td class="org-left">&ldquo;&lt;checkbox type=\&rdquo;done\&ldquo;&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-checkbox-done-end</td>
+<td class="org-left">&ldquo;&lt;/checkbox (done)&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-checkbox-half</td>
+<td class="org-left">&ldquo;&lt;checkbox type=\&rdquo;half\&ldquo;&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-list-checkbox-half-end</td>
+<td class="org-left">&ldquo;&lt;/checkbox (half)&gt;&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-line-format</td>
+<td class="org-left">&ldquo;%s&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-line-wrap</td>
+<td class="org-left">60  ; wrap at 60 chars</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-text-prefix</td>
+<td class="org-left">&ldquo;&lt;p&gt;\n&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">:body-text-suffix</td>
+<td class="org-left">&ldquo;&lt;/p&gt;\n&rdquo;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgac572b6" class="outline-2">
+<h2 id="orgac572b6">Example Definitions</h2>
+<div class="outline-text-2" id="text-orgac572b6">
+</div>
+<div id="outline-container-org7310c16" class="outline-3">
+<h3 id="org7310c16">Generic HTML Exporter</h3>
+<div class="outline-text-3" id="text-org7310c16">
+<p>
+Here&rsquo;s a starting template for making a very basic HTML export.
+It&rsquo;s not nearly as sophisticated and complete as org-mode&rsquo;s
+default HTML exporter, but it serves as a good example for how to
+accomplish a basic export structure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span>org-set-generic-type
+    <span style="color: #e2c770;">"really-basic-html"</span> 
+     <span style="color: #fd971f;">:file-suffix</span>     <span style="color: #e2c770;">".html"</span>
+
+     <span style="color: #696969;">;; </span><span style="color: #696969;">simple html output</span>
+     <span style="color: #fd971f;">:file-suffix</span>             <span style="color: #e2c770;">".html"</span>
+     <span style="color: #fd971f;">:key-binding</span>                   ?h
+
+     <span style="color: #fd971f;">:header-prefix</span>             <span style="color: #e2c770;">"&lt;body&gt;"</span>
+
+     <span style="color: #fd971f;">:title-format</span>              <span style="color: #e2c770;">"&lt;h1&gt;%s&lt;/h1&gt;\n\n"</span>
+
+     <span style="color: #fd971f;">:date-export</span>             t
+     <span style="color: #fd971f;">:date-format</span>               <span style="color: #e2c770;">"&lt;br /&gt;&lt;b&gt;Date:&lt;/b&gt; &lt;i&gt;%s&lt;/i&gt;&lt;br /&gt;\n\n"</span>
+
+     <span style="color: #fd971f;">:toc-export</span>                nil
+
+     <span style="color: #fd971f;">:body-header-section-numbers</span> <span style="color: #9c91e4; font-weight: bold;">3</span>
+
+     <span style="color: #fd971f;">:body-section-header-prefix</span>  <span style="color: #fd971f;">(</span><span style="color: #e2c770;">"&lt;h1&gt;"</span> <span style="color: #e2c770;">"&lt;h2&gt;"</span> <span style="color: #e2c770;">"&lt;h3&gt;"</span>
+           <span style="color: #e2c770;">"&lt;h4&gt;"</span> <span style="color: #e2c770;">"&lt;h5&gt;"</span> <span style="color: #e2c770;">"&lt;h6&gt;"</span><span style="color: #fd971f;">)</span>
+     <span style="color: #fd971f;">:body-section-header-format</span>  <span style="color: #e2c770;">"%s"</span>
+     <span style="color: #fd971f;">:body-section-header-suffix</span>  <span style="color: #fd971f;">(</span><span style="color: #e2c770;">"&lt;/h1&gt;\n"</span> <span style="color: #e2c770;">"&lt;/h2&gt;\n"</span> <span style="color: #e2c770;">"&lt;/h3&gt;\n"</span>
+           <span style="color: #e2c770;">"&lt;/h4&gt;\n"</span> <span style="color: #e2c770;">"&lt;/h5&gt;\n"</span> <span style="color: #e2c770;">"&lt;/h6&gt;\n"</span><span style="color: #fd971f;">)</span>
+
+     <span style="color: #fd971f;">:body-section-prefix</span>         <span style="color: #e2c770;">"&lt;secprefix&gt;\n"</span>
+     <span style="color: #fd971f;">:body-section-suffix</span>         <span style="color: #e2c770;">"&lt;/secsuffix&gt;\n"</span>
+<span style="color: #696969;">;</span><span style="color: #696969;">  :body-section-prefix         ("&lt;sec1&gt;\n" "&lt;sec2&gt;\n" "&lt;sec3&gt;\n")</span>
+<span style="color: #696969;">;</span><span style="color: #696969;">  :body-section-suffix         ("&lt;/sec1&gt;\n" "&lt;/sec2&gt;\n" "&lt;/sec3&gt;\n")</span>
+
+     <span style="color: #fd971f;">:body-line-export-preformated</span> t
+     <span style="color: #fd971f;">:body-line-format</span>             <span style="color: #e2c770;">"%s\n"</span>
+
+     <span style="color: #fd971f;">:body-text-prefix</span> <span style="color: #e2c770;">"&lt;p&gt;\n"</span>
+     <span style="color: #fd971f;">:body-text-suffix</span> <span style="color: #e2c770;">"&lt;/p&gt;\n"</span>
+
+     <span style="color: #fd971f;">:body-bullet-list-prefix</span>      <span style="color: #fd971f;">(</span>?* ?+ ?-<span style="color: #fd971f;">)</span>
+<span style="color: #696969;">;</span><span style="color: #696969;">  :body-bullet-list-suffix      (?* ?+ ?-)</span>
+     <span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Wes Hardaker</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

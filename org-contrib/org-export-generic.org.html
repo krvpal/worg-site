@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-export-generic.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-export-generic.el -- export org files to anything!
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Wes Hardaker
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} </span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Overview
+</span>
+org-export-generic is basically a simple translation system that
+knows how to parse most of an org buffer and then add
+various formatting prefixes before and after each section type.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using It
+</span>
+org-export-generic does its work by examining a property list stored
+in <span class="org-verbatim">org-generic-alist</span>.  The pre-defined list currently includes a
+simple text exporter, a simple html exporter, a wikipedia exporter,
+an exporter to IETF internet-draft format, and a "demo" exporter which
+shows off all of the potential variables you can set.
+
+You can also dynamically add property lists of your own using the
+org-set-generic-type function:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-set-generic-type
+    </span><span class="org-block"><span class="string">"really-basic-text"</span></span><span class="org-block"> 
+    </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="builtin">:file-suffix</span></span><span class="org-block">     </span><span class="org-block"><span class="string">".txt"</span></span><span class="org-block">
+      </span><span class="org-block"><span class="builtin">:key-binding</span></span><span class="org-block">     ?R
+      </span><span class="org-block"><span class="builtin">:title-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"=== %s ===\n"</span></span><span class="org-block">
+      </span><span class="org-block"><span class="builtin">:body-header-section-numbers</span></span><span class="org-block"> t
+      </span><span class="org-block"><span class="builtin">:body-header-section-number-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s) "</span></span><span class="org-block">
+      </span><span class="org-block"><span class="builtin">:body-section-header-prefix</span></span><span class="org-block">  </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block">
+      </span><span class="org-block"><span class="builtin">:body-section-header-suffix</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block">
+      </span><span class="org-block"><span class="builtin">:body-line-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"  %s\n"</span></span><span class="org-block">
+      </span><span class="org-block"><span class="builtin">:body-line-wrap</span></span><span class="org-block">   </span><span class="org-block"><span class="highlight-numbers-number">75</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="bold">Note:</span> Upper case key-bindings are reserved for your use.  Lower case
+key bindings may conflict with future export-generic publications.
+
+Then run org-export (ctrl-c ctrl-e) and select generic or run
+org-export-generic.  You'll then be prompted with a list of export types
+to choose from, which will include your new type assigned to the key "R".
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Property List Definitions
+</span>
+  The property list items that can be used to format the output are
+  defined in the table below.
+
+  Generally speaking, many parts are
+  often divided into sections such that every parsed org <span class="italic">thing</span>
+  frequently has 3 output specifiers too it.  E.G., <span class="italic">thing</span> might have
+  <span class="italic">thing-prefix</span>, <span class="italic">thing-suffix and </span><span class="italic"><span class="italic">thing-format</span></span>.  The first is a prefix
+  placed before the output contents, the second is a suffix and 
+  <span class="italic">thing-format</span> is a format string where a %s is expected to be in
+  it.  There is a bit of redundancy with this triple combination but
+  it provides flexibility (and in a few places, it's actually needed
+  because the format string may be called multiple times and the
+  prefix and suffix only once).
+
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Property List Value Types
+</span>
+    Many of the property list values can be one of a different types.
+    In particular, all of the <span class="italic">prefix</span> and <span class="italic">suffix</span> tags can be one of
+    the following types:
+
+    <span class="org-list-dt">-</span> A string (e.g., "&lt;foo&gt;")
+    <span class="org-list-dt">-</span> A character, which gets repeated by the length of he line to be
+      converted.  This is most useful for headers where you wish to
+      place a line underneath the header text.  EG:
+
+<span class="org-code">:     :header-prefix             ?=
+</span>
+      Will produce:
+
+<span class="org-code">:     Property List Value Types
+:     =========================
+</span>     
+      For this section.
+
+    <span class="org-list-dt">-</span> A list of the above two types.  The list elements will be taken
+      based on the order of the header indent amount (ie, the number
+      of asterisks).  The list can be a mix of types too:
+    
+<span class="org-code">:     :header-prefix             (?= ?- "&lt;h3&gt;" "&lt;h4&gt;")
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> The Full List of Value Types:
+</span>
+<span class="org-superstar-leading">****</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Configuration Tags:
+</span>
+      <span class="org-table">|--------------+---------|</span>
+      <span class="org-table">| TAG          | EXAMPLE |</span>
+      <span class="org-table">|--------------+---------|</span>
+      <span class="org-table">| :file-suffix | ".txt"  |</span>
+      <span class="org-table">| :key-binding | ?d      |</span>
+      <span class="org-table">|--------------+---------|</span>
+
+<span class="org-superstar-leading">****</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Data Output Tags:
+</span>
+      <span class="org-table">|--------------------------------+---------------------------------------------------------------|</span>
+      <span class="org-table">| TAG                            | EXAMPLE                                                       |</span>
+      <span class="org-table">|--------------------------------+---------------------------------------------------------------|</span>
+      <span class="org-table">| :header-prefix                 | "&lt;header&gt;\n"                                                  |</span>
+      <span class="org-table">| :header-suffix                 | "&lt;/header&gt;\n"                                                 |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :author-export                 | t                                                             |</span>
+      <span class="org-table">| :tags-export                   | t                                                             |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :drawers-export                | t                                                             |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :title-prefix                  | ?=                                                            |</span>
+      <span class="org-table">| :title-format                  | "&lt;h1&gt;%s&lt;/h1&gt;\n"                                               |</span>
+      <span class="org-table">| :title-suffix                  | ?=                                                            |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :date-export                   | t                                                             |</span>
+      <span class="org-table">| :date-prefix                   | "&lt;date&gt;"                                                      |</span>
+      <span class="org-table">| :date-format                   | "&lt;br /&gt;&lt;b&gt;Date:&lt;/b&gt; &lt;i&gt;%s&lt;/i&gt;&lt;br /&gt;"                          |</span>
+      <span class="org-table">| :date-suffix                   | "&lt;/date&gt;\n\n"                                                 |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :toc-export                    | t                                                             |</span>
+      <span class="org-table">| :toc-header-prefix             | "&lt;tocname&gt;\n"                                                 |</span>
+      <span class="org-table">| :toc-header-format             | "</span><span class="org-table"><span class="bold">_%s_</span></span><span class="org-table">\n"                                                    |</span>
+      <span class="org-table">| :toc-header-suffix             | "&lt;/tocname&gt;\n"                                                |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :toc-prefix                    | "&lt;toc&gt;\n"                                                     |</span>
+      <span class="org-table">| :toc-suffix                    | "&lt;/toc&gt;\n"                                                    |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :toc-section-numbers           | t                                                             |</span>
+      <span class="org-table">| :toc-section-number-format     | "\#(%s) "                                                     |</span>
+      <span class="org-table">| :toc-format                    | "--%s--"                                                      |</span>
+      <span class="org-table">| :toc-format-with-todo          | "!!%s!!\n"                                                    |</span>
+      <span class="org-table">| :toc-indent-char               | ?\                                                            |</span>
+      <span class="org-table">| :toc-indent-depth              | 4                                                             |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :toc-tags-export               | t                                                             |</span>
+      <span class="org-table">| :toc-tags-prefix               | "   &lt;tags&gt;"                                                   |</span>
+      <span class="org-table">| :toc-tags-format               | "</span><span class="org-table"><span class="bold">%s</span></span><span class="org-table">"                                                        |</span>
+      <span class="org-table">| :toc-tags-suffix               | "&lt;/tags&gt;\n"                                                   |</span>
+      <span class="org-table">| :toc-tags-none-string          | "\n"                                                          |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-header-section-numbers   | 3    ; t = all, nil = none                                    |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-section-header-prefix    | ("&lt;h1&gt;" "&lt;h2&gt;" "&lt;h3&gt;" "&lt;h4&gt;" "&lt;h5&gt;" "&lt;h6&gt;")                   |</span>
+      <span class="org-table">| :body-section-header-format    | "%s"                                                          |</span>
+      <span class="org-table">| :body-section-header-suffix    | ("&lt;/h1&gt;\n" "&lt;/h2&gt;\n" "&lt;/h3&gt;\n" "&lt;/h4&gt;\n" "&lt;/h5&gt;\n" "&lt;/h6&gt;\n") |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :timestamps-export             | t                                                             |</span>
+      <span class="org-table">| :priorities-export             | t                                                             |</span>
+      <span class="org-table">| :todo-keywords-export          | t                                                             |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-tags-export              | t                                                             |</span>
+      <span class="org-table">| :body-tags-prefix              | "  &lt;tags&gt;"                                                    |</span>
+      <span class="org-table">| :body-tags-suffix              | "&lt;/tags&gt;\n"                                                   |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-section-prefix           | "&lt;secprefix&gt;\n"                                               |</span>
+      <span class="org-table">| :body-section-suffix           | "&lt;/secsuffix&gt;\n"                                              |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-line-export-preformated  | t                                                             |</span>
+      <span class="org-table">| :body-line-fixed-prefix        | "&lt;pre&gt;\n"                                                     |</span>
+      <span class="org-table">| :body-line-fixed-suffix        | "\n&lt;/pre&gt;\n"                                                  |</span>
+      <span class="org-table">| :body-line-fixed-format        | "%s\n"                                                        |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-list-prefix              | "&lt;list&gt;\n"                                                    |</span>
+      <span class="org-table">| :body-list-suffix              | "&lt;/list&gt;\n"                                                   |</span>
+      <span class="org-table">| :body-list-format              | "&lt;li&gt;%s&lt;/li&gt;\n"                                               |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-number-list-prefix       | "&lt;ol&gt;\n"                                                      |</span>
+      <span class="org-table">| :body-number-list-suffix       | "&lt;/ol&gt;\n"                                                     |</span>
+      <span class="org-table">| :body-number-list-format       | "&lt;li&gt;%s&lt;/li&gt;\n"                                               |</span>
+      <span class="org-table">| :body-number-list-leave-number | t                                                             |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-list-checkbox-todo       | "&lt;checkbox type=\"todo\"&gt;"                                    |</span>
+      <span class="org-table">| :body-list-checkbox-todo-end   | "&lt;/checkbox (todo)&gt;"                                          |</span>
+      <span class="org-table">| :body-list-checkbox-done       | "&lt;checkbox type=\"done\"&gt;"                                    |</span>
+      <span class="org-table">| :body-list-checkbox-done-end   | "&lt;/checkbox (done)&gt;"                                          |</span>
+      <span class="org-table">| :body-list-checkbox-half       | "&lt;checkbox type=\"half\"&gt;"                                    |</span>
+      <span class="org-table">| :body-list-checkbox-half-end   | "&lt;/checkbox (half)&gt;"                                          |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-line-format              | "%s"                                                          |</span>
+      <span class="org-table">| :body-line-wrap                | 60  ; wrap at 60 chars                                        |</span>
+      <span class="org-table">|                                |                                                               |</span>
+      <span class="org-table">| :body-text-prefix              | "&lt;p&gt;\n"                                                       |</span>
+      <span class="org-table">| :body-text-suffix              | "&lt;/p&gt;\n"                                                      |</span>
+      <span class="org-table">|--------------------------------+---------------------------------------------------------------|</span>
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Example Definitions
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Generic HTML Exporter
+</span>
+    Here's a starting template for making a very basic HTML export.
+    It's not nearly as sophisticated and complete as org-mode's
+    default HTML exporter, but it serves as a good example for how to
+    accomplish a basic export structure:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-set-generic-type
+    </span><span class="org-block"><span class="string">"really-basic-html"</span></span><span class="org-block"> 
+     </span><span class="org-block"><span class="builtin">:file-suffix</span></span><span class="org-block">     </span><span class="org-block"><span class="string">".html"</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">simple html output
+</span></span><span class="org-block">     </span><span class="org-block"><span class="builtin">:file-suffix</span></span><span class="org-block">        </span><span class="whitespace-tab">       </span><span class="org-block">    </span><span class="org-block"><span class="string">".html"</span></span><span class="org-block">
+     </span><span class="org-block"><span class="builtin">:key-binding</span></span><span class="org-block">                   ?h
+
+     </span><span class="org-block"><span class="builtin">:header-prefix</span></span><span class="org-block">             </span><span class="org-block"><span class="string">"&lt;body&gt;"</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:title-format</span></span><span class="org-block">              </span><span class="org-block"><span class="string">"&lt;h1&gt;%s&lt;/h1&gt;\n\n"</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:date-export</span></span><span class="org-block">        </span><span class="whitespace-tab">       </span><span class="org-block">    t
+     </span><span class="org-block"><span class="builtin">:date-format</span></span><span class="org-block">               </span><span class="org-block"><span class="string">"&lt;br /&gt;&lt;b&gt;Date:&lt;/b&gt; &lt;i&gt;%s&lt;/i&gt;&lt;br /&gt;\n\n"</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:toc-export</span></span><span class="org-block">                nil
+
+     </span><span class="org-block"><span class="builtin">:body-header-section-numbers</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:body-section-header-prefix</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"&lt;h1&gt;"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;h2&gt;"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;h3&gt;"</span></span><span class="org-block">
+</span><span class="whitespace-tab">                                </span><span class="org-block">   </span><span class="org-block"><span class="string">"&lt;h4&gt;"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;h5&gt;"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;h6&gt;"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+     </span><span class="org-block"><span class="builtin">:body-section-header-format</span></span><span class="org-block">  </span><span class="org-block"><span class="string">"%s"</span></span><span class="org-block">
+     </span><span class="org-block"><span class="builtin">:body-section-header-suffix</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"&lt;/h1&gt;\n"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/h2&gt;\n"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/h3&gt;\n"</span></span><span class="org-block">
+</span><span class="whitespace-tab">                                </span><span class="org-block">   </span><span class="org-block"><span class="string">"&lt;/h4&gt;\n"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/h5&gt;\n"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/h6&gt;\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:body-section-prefix</span></span><span class="org-block">         </span><span class="org-block"><span class="string">"&lt;secprefix&gt;\n"</span></span><span class="org-block">
+     </span><span class="org-block"><span class="builtin">:body-section-suffix</span></span><span class="org-block">         </span><span class="org-block"><span class="string">"&lt;/secsuffix&gt;\n"</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;</span></span><span class="whitespace-tab">       </span><span class="org-block"><span class="comment"> :body-section-prefix         ("&lt;sec1&gt;\n" "&lt;sec2&gt;\n" "&lt;sec3&gt;\n")
+</span></span><span class="org-block"><span class="comment-delimiter">;</span></span><span class="whitespace-tab">       </span><span class="org-block"><span class="comment"> :body-section-suffix         ("&lt;/sec1&gt;\n" "&lt;/sec2&gt;\n" "&lt;/sec3&gt;\n")
+</span></span><span class="org-block">
+     </span><span class="org-block"><span class="builtin">:body-line-export-preformated</span></span><span class="org-block"> t
+     </span><span class="org-block"><span class="builtin">:body-line-format</span></span><span class="org-block">             </span><span class="org-block"><span class="string">"%s\n"</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:body-text-prefix</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;p&gt;\n"</span></span><span class="org-block">
+     </span><span class="org-block"><span class="builtin">:body-text-suffix</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/p&gt;\n"</span></span><span class="org-block">
+
+     </span><span class="org-block"><span class="builtin">:body-bullet-list-prefix</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">?* ?+ ?-</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;</span></span><span class="whitespace-tab">       </span><span class="org-block"><span class="comment"> :body-bullet-list-suffix      (?* ?+ ?-)
+</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span></pre>
+  </body>
+</html>

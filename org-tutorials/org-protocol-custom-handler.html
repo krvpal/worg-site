@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Defining custom handlers for use with org-protocol</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Sebastian Rose" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Defining custom handlers for use with org-protocol</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4e3b6a3">Defining custom handlers</a></li>
+<li><a href="#org4f9fc02">Killing the client</a></li>
+<li><a href="#org932a56b">Return values</a></li>
+<li><a href="#org7d6bc00">Using more than one value</a></li>
+<li><a href="#org4c39bcd">Using more than one value <i>the greedy way</i></a>
+<ul>
+<li><a href="#org3efb4e0">The list of filenames</a></li>
+<li><a href="#org4a79301">Flatten the list of arguments</a></li>
+</ul>
+</li>
+<li><a href="#org59c1b85">General remarks</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s tutorial index}</a>
+</p>
+
+<p>
+org-protocol intercepts calls from emacsclient to trigger custom actions without
+external dependencies. Please refer to <a href="../org-contrib/org-protocol.html">this file</a> for the basic setup required.
+</p>
+
+<p>
+You might want to watch the <a href="http://www.youtube.com/watch?v=h7Z2PiAcgh8">screencast</a> on youTube.
+</p>
+
+
+<div id="outline-container-org4e3b6a3" class="outline-2">
+<h2 id="org4e3b6a3">Defining custom handlers</h2>
+<div class="outline-text-2" id="text-org4e3b6a3">
+<p>
+<code>org-protocol</code> scans the list of filenames passed to the emacs-server for
+&ldquo;<code>org-protocol:/sub-protocol:/</code>&rdquo; and triggers actions associated with
+<code>sub-protocol</code> through the custom variable <code>org-protocol-protocol-alist</code>.
+</p>
+
+<p>
+To defun a custom org-protocol handler basically means to define two basic
+elements:
+</p>
+
+<ol class="org-ol">
+<li>a sub-protocol that triggers the action</li>
+<li>a function that consumes the data (i.e. the part of an URL that follows
+&ldquo;<code>org-protocol://sub-protocol://</code>&rdquo;)</li>
+</ol>
+
+<p>
+To install the custom handler&rsquo;s protocol, we add an entry to
+<code>org-protocol-protocol-alist</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-protocol-protocol-alist</span>
+             <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"Hello World"</span>
+               <span style="color: #fd971f;">:protocol</span> <span style="color: #e2c770;">"hello-world"</span>
+               <span style="color: #fd971f;">:function</span> my-hello-world<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The <code>:protocol</code> property is the sub-protocol, that triggers the action. Note,
+that names of protocols (or URL schemes) are only allowed to consist of a
+restricted set of characters. See <a href="http://www.ietf.org/rfc/rfc1738.txt">rfc1738</a>, section 2.1.
+</p>
+
+<p>
+The <code>:function</code> is an arbitrary function that takes exactly one argument: the
+string that follows our protocol, found in a filename passed to emacs through
+emacsclient. All the three standard handlers split and decode that string
+using a helper function in <code>org-protocol.el</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"> org-protocol-split-data <span style="color: #eb4509;">(</span>data <span style="color: #66d9ef;">&amp;optional</span> unhexify separator<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+You may use different separators for your custom handlers and pass them to
+<code>org-protocol-split-data</code>.
+</p>
+
+
+
+<p>
+Here is a simple definition:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">hello-world</span> <span style="color: #fd971f;">(</span>data<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Say hello to the world."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> data<span style="color: #fd971f;">)</span>
+nil<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Now the URL <code>org-protocol://hello-world://encoded-data</code> will call our function
+with the string &ldquo;<code>encoded-data</code>&rdquo;. Hence an
+</p>
+
+<pre class="example">
+emacsclient org-protocol://hello-world://encoded-data
+</pre>
+
+
+<p>
+will put &ldquo;<code>encoded-data</code>&rdquo; into the minibuffer.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4f9fc02" class="outline-2">
+<h2 id="org4f9fc02">Killing the client</h2>
+<div class="outline-text-2" id="text-org4f9fc02">
+<p>
+If your handler uses interactive functions that could be canceled by the user
+by typing &rsquo;<code>C-g</code>&rsquo;, consider to supply the &rsquo;<code>:kill-client</code>&rsquo; property when you
+define the protocol.
+</p>
+
+<p>
+This is what we did for the capture handler:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defconst</span> <span style="color: #fd971f;">org-protocol-protocol-alist-default</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"org-capture"</span> <span style="color: #fd971f;">:protocol</span> <span style="color: #e2c770;">"capture"</span>
+         <span style="color: #fd971f;">:function</span> org-protocol-capture
+         <span style="color: #fd971f;">:kill-client</span> t<span style="color: #b6e63e;">)</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">...</span>
+        <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Otherwise, if the user has an interactive property defined in her capture
+template, discarding it through &rsquo;<code>C-g</code>&rsquo; would lead to emacsclient waiting for
+ever, thus to the appropriate questions when exiting emacs.
+</p>
+
+<p>
+All filenames passing from emacsclient to the emacs will be ignored if you
+set <code>:kill-client</code> to a non-nil value.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org932a56b" class="outline-2">
+<h2 id="org932a56b">Return values</h2>
+<div class="outline-text-2" id="text-org932a56b">
+<p>
+Note, that our <code>hello-world</code> handler explicitly returns <code>nil</code>. This tells
+<code>org-protocol</code> to remove the filename from the list of files passed to the
+emacs-server. If more than one filename was supplied, all those filenames are
+searched for protocols. Only filenames without protocols are passed to the
+emacs-server as usual.
+</p>
+
+<p>
+Another possible return value is a string. If the string is a valid filename,
+and if that file can be read, <code>org-protocol</code> replaces the original filename with
+the one returned from the handler.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org7d6bc00" class="outline-2">
+<h2 id="org7d6bc00">Using more than one value</h2>
+<div class="outline-text-2" id="text-org7d6bc00">
+<p>
+Passing one argument to our custom handler is nice, but sometimes more
+parameters are needed. We would have to encode the the data and split it into
+parts using a separator.
+</p>
+
+<p>
+This is where <code>org-protocol-split-data</code> comes into play. It takes a string as
+its first argument, an optional parameter to tell if the string should be
+considered URL-encoded UTF-8 text and finally an optional separator. By
+default, no URL-encoding is assumed and &rsquo;<code>/</code>&rsquo; is used as the separator.
+</p>
+
+<p>
+The return value is a list of strings. If a non-nil value is supplied as the
+second argument, each elements of the returned list will be URL-decoded using
+<code>org-protocol-unhex-string</code>. If the second argument is a function, that function
+is used to decode each element of the list. The function should take a string
+as its only parameter, and return the decoded value <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+</p>
+
+<p>
+This is a rewrite of our handler:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">hello-world</span> <span style="color: #fd971f;">(</span>data<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Say hello to the world."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>parts <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-protocol-split-data</span> data nil <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">::my-separator::</span><span style="color: #9c91e4;">'</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>one <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> parts<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>two <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cadr</span> parts<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>three <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">caddr</span> parts<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #696969;">;; </span><span style="color: #696969;">... do something with one, two and three</span>
+    <span style="color: #fd971f;">)</span>
+  nil<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4c39bcd" class="outline-2">
+<h2 id="org4c39bcd">Using more than one value <i>the greedy way</i></h2>
+<div class="outline-text-2" id="text-org4c39bcd">
+<p>
+Finally, it is possible to define a <i>greedy</i> handler. Basically it will discard
+<span class="underline">all</span> the filenames from the servers list of files that follow the filename that
+triggered the handler.
+</p>
+
+<p>
+A handler is greedy, if you add the <code>:greedy</code> property to
+<code>org-protocol-protocol-alist</code>, regardless of its return value:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-protocol-protocol-alist</span>
+             <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"Greedy"</span>
+               <span style="color: #fd971f;">:protocol</span> <span style="color: #e2c770;">"greedy"</span>
+               <span style="color: #fd971f;">:function</span> my-greedy-handler
+               <span style="color: #fd971f;">:greedy</span> t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The one argument to greedy handlers is the rest of the list of filenames, the
+one that triggered the handler included. But read on, please.
+</p>
+</div>
+
+
+<div id="outline-container-org3efb4e0" class="outline-3">
+<h3 id="org3efb4e0">The list of filenames</h3>
+<div class="outline-text-3" id="text-org3efb4e0">
+<p>
+Here I have to admit, that I was lying all the time. emacsclient does not
+pass a list of filenames to the emacs-server. It&rsquo;s a list of lists. And the
+list is the list of emacsclient&rsquo;s arguments reversed.
+</p>
+
+<p>
+As an example, the following commandline:
+</p>
+
+<pre class="example">
+emacsclient org-protocol:/greedy:/one two three +15:42
+</pre>
+
+
+<p>
+is passed as
+</p>
+
+<pre class="example">
+((/dir/three (15 . 42)) (/dir/two) (/dir/org-protocol:/greedy:/one))
+</pre>
+
+
+<p>
+to the emacs-server, where <code>org-protocol</code> grabs it and reverses it to make it
+look like this:
+</p>
+
+<pre class="example">
+((/dir/org-protocol:/greedy:/one) (/dir/two) (/dir/three  (15 . 42)))
+</pre>
+
+
+<p>
+This is now, what our greedy handler will receive as its only parameter.
+</p>
+
+<p>
+The &ldquo;<code>/dir/</code>&rdquo; prefix is added by emacsclient. It&rsquo;s the absolute path to its
+working directory.
+</p>
+
+<p>
+You may set <code>org-protocol-reverse-list-of-files</code> to <code>nil</code> to inhibit the
+reversion. But that leads to unexpected results. In this example, the only
+filename left would be the one that triggered the actions. That seems not
+very greedy, and reversing the arguments on the commandline seems
+unnatural. Note though, that the sequence is not changed for the server.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org4a79301" class="outline-3">
+<h3 id="org4a79301">Flatten the list of arguments</h3>
+<div class="outline-text-3" id="text-org4a79301">
+<p>
+<code>org-protocol.el</code> provides a function to flatten the list of arguments for
+greedy handlers:
+</p>
+
+<pre class="example">
+org-protocol-flatten-greedy (param-list &amp;optional strip-path replacement)
+</pre>
+
+
+<p>
+This function takes the list of lists your greedy handler gets as its only
+parameter, and turns it into a flat list. Also, all prefixes and protocols
+are stripped from the element that triggered your handler.
+</p>
+
+<p>
+This is, what the first parameter might look like:
+</p>
+
+<pre class="example">
+(("/dir/org-protocol:/greedy:/one") ("/dir/two") ("/dir/three" (15 . 42)))
+</pre>
+
+
+<p>
+If only the first parameter is supplied, <code>org-protocol-flatten-greedy</code> will
+return this list:
+</p>
+
+<pre class="example">
+("/dir/one" "/dir/two" "/dir/three" 15 42)
+</pre>
+
+
+<p>
+If you supply a non-nil value as the second parameter for the function:
+</p>
+
+<pre class="example">
+("one" "two" "three" 15 42)
+</pre>
+
+
+<p>
+And, last not least, if you supply a replacement &ldquo;<code>REPL-</code>&rdquo; (must be a string):
+</p>
+
+<pre class="example">
+("REPL-one" "REPL-two" "REPL-three" 15 42)
+</pre>
+
+
+<p>
+Note, that this works exactly this way regardless of your setting of
+&ldquo;<code>org-protocol-reverse-list-of-files</code>&rdquo;. The sequence of the returned list will
+always reflect the sequence of arguments on the command line.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org59c1b85" class="outline-2">
+<h2 id="org59c1b85">General remarks</h2>
+<div class="outline-text-2" id="text-org59c1b85">
+<p>
+emacsclient compresses double and tripple slashes to one. That&rsquo;s why it
+doesn&rsquo;t really matter how many slashes succeed the scheme part of the URL,
+also known as <i>protocol</i>.
+</p>
+
+<p>
+This behavior is the main reasons, why the slash was chosen as the
+default separator for data fields. Keeping the slashes is insecure, since some
+of the data fields could contain double or triple slashes themselves.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+The function feature was added with the Org-mode 6.26 release (commit
+6a9acfa9a3ec4ad889951d02c9809f55ac7491fb).
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Sebastian Rose</p>
+<p class="date">Created: 2021-06-15 Tue 18:24</p>
+</div>
+</body>
+</html>

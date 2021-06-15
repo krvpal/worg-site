@@ -1,0 +1,839 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>changes.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+STARTUP: align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">ORG-INFO.JS: Changes
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Sebastian Rose
+</span><span class="org-document-info-keyword">#+EMAIL:</span><span class="org-document-info">
+</span><span class="org-meta-line">#+LANGUAGE: en</span>
+<span class="org-meta-line">#+INFOJS_OPT: path:org-info.js</span>
+<span class="org-meta-line">#+INFOJS_OPT: toc:nil localtoc:t view:info mouse:underline</span>
+<span class="org-meta-line">#+INFOJS_OPT: up:<a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+INFOJS_OPT: home:<a href="https://orgmode.org">https://orgmode.org</a> buttons:nil</span>
+
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2010-11-24 Benny Simonsen Part 1
+</span>
+  * classNames for T.O.C links to highlight the current page in the TOC.
+
+  * Add hooks.
+    Currently, names of OrgNode's and OrgHtmlManger's members are different in
+    plain and compressed versions of the script (see "sed.txt").  Should we
+    change that for some of them?
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2010-09-01 --- t.TITLE
+</span>
+  * Make sure the correct heading is used as the <span class="org-verbatim">org-html-manager.TITLE</span> property.
+
+  * Thanks to tgbit on <span class="kc-org-link-url"><a href="http://github.com/tgbit">http://github.com/tgbit</a></span> for the hint.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2010-04-24 --- Valid CSS2 IDs
+</span>
+  * Changed <span class="org-verbatim">org_html_manager::SID_REGEX</span> to match valid CSS-IDs. Dots are not
+    valid in IDs as of CSS 2 (see <span class="kc-org-link-url"><a href="http://www.w3.org/TR/CSS2/grammar.html">http://www.w3.org/TR/CSS2/grammar.html</a></span>). The
+    regexp still supports the `old' style IDs we used to be backward
+    compatible.
+
+  * <span class="org-verbatim">SECNUM_REGEX</span> was not in use. Removed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2010-02-14 --- Title and </span><span class="org-level-1"><span class="org-tag">#sec-1</span></span><span class="org-level-1"> in plain view, TOC anywhere
+</span>
+  * Some corrections of indentation and obsolet comments.
+
+  * Show the title in plain view mode, if showing the first section.
+
+  * Make the initial scan work, even if the table of contents is somewhere else,
+    but on top of the page. Honor the <span class="org-verbatim">[TABLE-OF-CONTENTS]</span> setting in Org-mode
+    files this way.
+
+  * Fix for different behaviour of Opera-10 when requesting a page with `#sec-1'
+    jump target (any jump target for a tall section actually). Pressing the
+    reload button caused Opera-10 to scroll the view to the sections heading in
+    info view mode.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2010-01-11
+</span>
+  * Chao Lu was right. The current behaviour of VIEW=content is not what the
+    documentation promises. This is now fixed, finally.
+
+    To open a section in `...html?VIEW=content' or `...html?VIEW=overview', one
+    has to explicitly request a section like this:
+
+     `<span class="kc-org-link-url"><a href="https://orgmode.org/worg/code/org-info-js/index.html?VIEW=content#sec-1">https://orgmode.org/worg/code/org-info-js/index.html?VIEW=content#sec-1</a></span>'
+
+  * Tags where not removed from local TOCs (sections with subsections).  Fix
+    Regexp and use the right one.
+
+  * When loading a page with the `?VIEW=...' query parameters, navigating
+    changed the view mode to one hard coded in the &lt;head&gt; section of the
+    document, in case it were different. This is now fixed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2010-02-11
+</span>
+  * Inhibit reloading the page on startup.
+    Fixes startup with `?VIEW=overview#sec-1'.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-07-06
+</span>
+  * Existing access-keys now use the same keys as the shortcuts do.
+  * When FIXED_TOC, re-focus the last link in the TOC when pressing `i'.
+  * Allow TAB to traverse the TOC.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-07-04
+</span>
+  * Jumping TOC. Seems fixed now (hopefully).
+  * Added `W' for printing. For printing, the whole document has to be in plain
+    view mode and expanded. Browsers print what's visible on screen only.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-06-28
+</span>
+  Show the version number below the shortcut table.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-06-27
+</span>
+  Bugfix for links nested in lists.
+  Thanks to Xin Shi for finding this and sending a testfile.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-06-25
+</span>
+  * Fix for start section.
+    I a section was removed and the *.org file was published again, we saw an
+    empty page when browsing to that old location (e.g. <span class="org-verbatim">xy.html#sec-11</span>). Now the
+    first section is shown instead.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-06-22
+</span>
+  * <span class="bold">NOTE: now GPL 3</span>
+
+  * FIX: go to previous sibling, even if it's the first one.
+
+  * Removed some more unused stuff and fixed typos (<span class="org-verbatim">this.INPUT_FIELD</span>, <span class="org-verbatim">DEBUG</span>...).
+
+  * All names of regular expressions end in <span class="org-verbatim">_REGEX</span>.
+
+  * FIX: Altering the history lead to jumping of the page.
+
+  * Uppercase names everywehre. I want this to distinguish class fields from
+    functions and temporary variables. Stay YUI compressor friendly when we
+    shorten the names. Needed for the rest of the todays changes.
+
+  * Replaced <span class="org-verbatim">this.</span> by a local variable where possible. Decreased org-info.js
+    size by 1.8 Kb.
+
+  * Add a Makefile target for realy small org-info.js. This is not exactly
+    perfect, but decreases the resulting file by about 10 Kb.
+
+  * Added <span class="org-verbatim">hacking.org</span> to explain what happens here a bit.
+
+  * Reworked the Docs. Oha, I wonder how noone complained about that...
+
+  * FIX html tags in local toc.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-06-17
+</span>
+  <span class="org-list-dt">+</span> Manipulate the histories current location.
+    So if one clicks a link to an external file, the browser's `back' button
+    will bring the user back to the last section visited in the file.
+
+  <span class="org-list-dt">+</span> If one faces the internal histories end using `b' and `B', he may now go
+    back/forward in the browsers history by repeatedly pressing `b' and `B'
+    respectively.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-04-22
+</span>
+  <span class="org-list-dt">+</span> Choose the human-readable IDs for links by regexp again.
+  <span class="org-list-dt">+</span> Fix the `g' command.
+  <span class="org-list-dt">+</span> Fix: still support old section IDs.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-04-21 - Org-mode 6.26
+</span>
+  <span class="org-list-dt">+</span> New way to detect the IDs for sections. The script does not search for '#sec-'
+    anymore. Instead, the new human readable IDs are used as well.
+
+    To not break the old human readable IDs in anchors inside of headlines, those
+    are still prefered.
+
+  <span class="org-list-dt">+</span> org-info.js is now minified without obfuscation. This decreases the filesize
+    by about 40%.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-03-04 Mi
+</span>
+  <span class="org-list-dt">+</span> Fixed title. Title was not displayed in info-view-mode.
+  <span class="org-list-dt">+</span> Title above is now optiona. Append <span class="org-verbatim">\_title-above</span> to your view option, to
+    always leave the title alone:
+    <span class="org-verbatim">view:info\_title-above</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-03-03 Di
+</span>
+  Org-mode v. 6.23, commit a68eb4b1e64cbe6e495fdd2c1eaf8ae597bf8602, introduced
+  a new &lt;div&gt; element around all the body's contents. You'll need at least the
+  changes from today (org-info.js v. 0.1.0.1) from now on.
+
+  org-info.js  v. 0.1.0.1 is backward compatible with elder versions of
+  Org-modes export.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-02-01 So
+</span>
+  <span class="org-list-dt">+</span> Reuse the `ltoc' option for positioning the local toc. No local TOC stays
+    the default. If a local TOC is shown, it's below the first text in a section
+    by default. To display the local TOC above a sections text use
+
+    <span class="org-code">: org_html_manager.set("LOCAL_TOC", "above");
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2009-01-31 Sa
+</span>
+  <span class="org-list-dt">+</span> Fixed footnotes and back again.
+  <span class="org-list-dt">+</span> You may now define, if the local TOC appears above or below the text of a
+    section that preceeds the first subsection. Simply use something like this
+    in the head of your HTML-files:
+
+    <span class="org-code">: org_html_manager.set("LTOC_BEFORE_TEXT", "0");
+</span>
+    If not set, the local TOC is placed directly beneeth the section's
+    headline. The default is to place the local TOC beneeth the text.
+
+  <span class="org-list-dt">+</span> FIX: Avoid footnote-ref IDs in links to named sections.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-12-15 Mo
+</span>
+  <span class="org-list-dt">+</span> FIX: if non existent `#target', show the first section.
+  <span class="org-list-dt">+</span> FIX: finaly make named anchors work.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-12-14 So
+</span>
+  Look for the id attribute for anchors to make named anchors work in XHTML.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-12-10 Mi
+</span>
+  <span class="org-list-dt">+</span> Default for links created by the Script (`l' and `L') now use the first
+    named target for section if any. I.e. use <span class="org-verbatim">some.html#named</span> instead of
+    <span class="org-verbatim">some.html#sec-3.1.2</span> where ever possible. This was a suggestion of Carsten
+    Dominik.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-12-09 Di
+</span>
+  <span class="org-list-dt">+</span> FIXED: named internal links in local TOC.
+  <span class="org-list-dt">+</span> FIXED: internal links were not working.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-11-11 Di
+</span>
+  <span class="org-list-dt">+</span> Footnotes working. It's a bit durty but works.
+    Org-mode 6.12a required.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-09-06 Sa
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Toggle list items automatically</span></span><span class="org-list-dt"> ::</span>
+    No need to create several sections with redundant content. Now the script
+    handles exactly one plain list per section (the first one found)
+    specially. The list items are displayed one by one.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Documentation</span></span><span class="org-list-dt"> ::</span>
+    Fixed some errors there and added a seperate section for presentation.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-08-27 Mi
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Slides</span></span><span class="org-list-dt"> ::</span>
+    Move back and forth by double click and click.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-08-25 Mo
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Footnotes now working</span></span><span class="org-list-dt"> ::</span>
+    Now <span class="org-verbatim">convertLinks()</span> converts footnote links too.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-08-24 So
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Wrap text before first headline in &lt;p&gt;</span></span><span class="org-list-dt"> ::</span>
+    If you use org-info.js, the text before first headline is now wrapped into
+    a <span class="org-verbatim">p</span> element:
+    :&lt;p id="text-before-first-headline"&gt; text &lt;/p&gt;
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Tag index</span></span><span class="org-list-dt"> ::</span>
+    <span class="org-verbatim">C</span> now shows an index based on tags. This was an <span class="kc-org-link-url"><a href="http://lists.gnu.org/archive/html/emacs-orgmode/2008-07/msg00434.html">idea of Rick Moynihan</a></span>.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Fixed appearance of 'HELP' link et al</span></span><span class="org-list-dt"> ::</span>
+    I.e. added href attribute instead of onclick.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-08-03 So
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Next and previous sibling</span></span><span class="org-list-dt"> ::</span>
+    Shortcuts: '<span class="org-verbatim">N</span>' and '<span class="org-verbatim">P</span>'.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-07-27 So
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Close the minibuffer, when reading ::</span>
+    do this, when a link ('next'...) is clicked.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Close help screen on ANY key press ::</span>
+    ...not only if a printable key was pressed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-07-25 Fr
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Broken links for 'l' and 'L' ::</span>
+    Thank's again to Carsten for reporting.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Startup help is now optional ::</span>
+    We have a little 'HELP' link now to click on.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-07-23 Mi
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Any key to proceed ::</span>
+    Now it's realy any key that shuts down the minibuffer.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">More hardcoded styles ::</span>
+    ...to avoid a border around the input field in the minibuffer and too much
+    padding in the minibuffers <span class="org-verbatim">&lt;td&gt;</span> elements.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Divide the script in sections ::</span>
+    The script is now roughly devided in sections by form-feeds. Thus we can
+    move section wise using the common emacs commands for this purpos ('<span class="org-verbatim">M-x
+    ]</span>' and  '<span class="org-verbatim">M-x ]</span>'). This was done to ease editing of the script.
+
+    The sections are:
+      <span class="org-list-dt">1.</span> The comment block on top of the file.
+      <span class="org-list-dt">2.</span> Everything around <span class="org-verbatim">OrgNodes</span>.
+      <span class="org-list-dt">3.</span> <span class="org-verbatim">org_html_manager</span> constructor and setup.
+      <span class="org-list-dt">4.</span> <span class="org-verbatim">org_html_manager</span> folding and view related stuff.
+      <span class="org-list-dt">5.</span> <span class="org-verbatim">org_html_manager</span> history related methods.
+      <span class="org-list-dt">6.</span> <span class="org-verbatim">org_html_manager</span> minibuffer handling.
+      <span class="org-list-dt">7.</span> <span class="org-verbatim">org_html_manager</span> user input.
+      <span class="org-list-dt">8.</span> <span class="org-verbatim">org_html_manager</span> search functonality.
+      <span class="org-list-dt">9.</span> <span class="org-verbatim">org_html_manager</span> misc.
+      <span class="org-list-dt">10.</span> Global functions.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-07-09 Mi
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Missing shortcuts in help ::</span>
+    '<span class="org-verbatim">F</span>' and '<span class="org-verbatim">B</span>'.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Use two lines to be more verbose ::</span>
+    Since the new read-mode, there are many occasions when you have to press RET
+    to close the minibuffer. Thus we should always have a parenthesis saying
+    '<span class="italic">press X to close</span>'.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Implement the 'standard minibuffer' ::</span>
+    A little bit more visible, two lines, a narrow gray border.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Scroll to the very top for sec. 0 in plain view mode ::</span>
+    Scrolling the NODE.div into view seemed unnatural.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Standard height for minibuffer ::</span>
+    This was done to hide and show the minibuffer quite correct.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Reduce flicker after reading ::</span>
+    <span class="org-verbatim">hideConsole()</span> is only called, if the result of the last read command does
+    not lead to an error. <span class="org-verbatim">showConsole()</span> looks, wether the the minibuffer is
+    hidden.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-06-26 Do
+</span>
+  <span class="org-list-dt">+</span> Stop searching empty strings.
+  <span class="org-list-dt">+</span> Use the local stylesheet again.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Show a startup message ::</span>
+    One out of many ideas from Carsten. This one is cutomizable. Use
+    <span class="org-verbatim">org_html_manager.set("STARTUP_MESSAGE", "0");</span> to inhibit.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-06-24 Di
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">'</span><span class="org-verbatim"><span class="org-list-dt">L</span></span><span class="org-list-dt">' and '</span><span class="org-verbatim"><span class="org-list-dt">l</span></span><span class="org-list-dt">' use the new read mode ::</span>
+    This means we may use <span class="org-verbatim">CTRL-c</span> to copy the link. Close the minibuffer
+    using <span class="org-verbatim">RET</span>.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">'</span><span class="org-verbatim"><span class="org-list-dt">L</span></span><span class="org-list-dt">' and '</span><span class="org-verbatim"><span class="org-list-dt">l</span></span><span class="org-list-dt">' choose link type ::</span>
+    If the search string is not empty, the visitor is prompted to choose
+    between a link to the current section or an 'occur' link.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Error in docs ::</span>
+    :Carsten Dominik schrieb:
+    :&gt; One more:
+    :&gt;
+    :&gt; index.html still says that "l" shows the list of shortcuts.  This is no
+    :&gt; longer the case.
+    :&gt;
+    :&gt; - Carsten
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Absolute path to stylesheet ::</span>
+    Avoid missing stylesheet. Now this file links to the absolute URL.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">RET hides minibuffer ::</span>
+    ...in every case now.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">'s RET' does the same as 'S' ::</span>
+    One of the many good ideas of Carsten. \\
+    Implementation: if the search string has not changed, '<span class="org-verbatim">s</span>' and '<span class="org-verbatim">r</span>' move on
+    to the next/previous section. Else the current section is searched first.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Clear the search highlight ::</span>
+    If a new search/occur is started, the search highlight is cleared. It may
+    still be cleared by pressing '<span class="org-verbatim">c</span>' (clear).
+  <span class="org-list-dt">+</span> <span class="org-list-dt">CSS styles renamed ::</span>
+    All the style classes and IDs in use are renamed, to avoid clashing with
+    styles in other packages in Worg.git/code/*. All the styles are now
+    prefixed by <span class="org-verbatim">org-info-js_</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-06-23 Mo
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Position of minibuffer ::</span>
+    Typo. Fixed.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Remove nested search highlight ::</span>
+    If searching for <span class="italic">org</span> and after that for <span class="italic">rg</span>, the highlight was not
+    removed when pressing '<span class="org-verbatim">c</span>' (clear search highlight). Fixed.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Build regexp from user input ::</span>
+    To be able to search for e.g. '&gt;' and '&lt;' these characters are replaced with
+    '<span class="org-verbatim">&amp;gt;</span>' and '<span class="org-verbatim">&amp;lt;</span>' respectively. It's now possible to search for the
+    following characters:
+    :&lt; &gt; \ = ? * +
+    This is still a compromise since syntax highlighting is done using html
+    tags. Thus searching for '<span class="org-verbatim">&lt;script</span>' will not work for passages wehre the
+    angle bracket has a different color than the word '<span class="org-verbatim">script</span>'.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Occur mode ::</span>
+    Press '<span class="org-verbatim">o</span>' to get prompted for a string to search. The document switches
+    to plain view mode and opens all sections containing the search
+    string. Matches will be highlighted. Neither connected to the navigation
+    history nor any special navigation so far. But you may walk through all
+    the occurences using '<span class="org-verbatim">S</span>' and '<span class="org-verbatim">R</span>'.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">URL suffix for occur ::</span>
+    See section Section "Linking to Files using the Script" for an example.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Shortcut table ::</span>
+    Thanks to Carsten Dominik for the great org radio table trick and the new
+    shortcut table.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-06-22 So
+</span>
+  This update introduced some changes concerning keyboard shortcuts.
+
+  <span class="bold">This one is not tested in IE yet!</span>
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Search ::</span>
+    You may use '<span class="org-verbatim">s</span>' to search forward and '<span class="org-verbatim">r</span>' to search
+    backwards. These two prompt for input. To repeat the last search, use
+    '<span class="org-verbatim">S</span>' and '<span class="org-verbatim">R</span>' to search forward and backwards respectively.
+    Use '<span class="org-verbatim">c</span>' to remove all the match highlights.
+
+    Absolutely Beta...
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">goto-section ::</span>
+    Since '<span class="org-verbatim">s</span>' was the candidate for searching, it could no longer be used
+    for the <span class="italic">goto section</span> command. This is now remapped to '<span class="org-verbatim">g</span>' (goto).
+  <span class="org-list-dt">+</span> <span class="org-list-dt">No more popups ::</span>
+    The minibuffer can be switched to read mode. Thus it may be used to read
+    input. No need for popup windows (<span class="org-verbatim">window.prompt()</span>) anymore.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-06-17 Di
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">New Variable org-export-section-number-format ::</span>
+    Adjusted the script to detect the IDs correctly for use with the new
+    OrgMode version 6.05 (the section number format can now be adjusted in
+    OrgMode via <span class="org-verbatim">org-export-section-number-format</span>). This Change is backward
+    compatible.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Display HTML links ::</span>
+    '<span class="org-verbatim">l</span>' now displays a HTML link to the current section whereas '<span class="org-verbatim">L</span>' now
+    shows the OrgMode link. Thanks to Carsten for this idea.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-23 Fr
+</span>
+  <span class="org-list-dt">+</span> <span class="bold">T.O.C. fixed accidentally</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Jump to link in sidebar ::</span>
+
+    If <span class="org-verbatim">FIXED\_TOC</span> is set, '<span class="org-verbatim">i</span>' focusses the first link in the T.O.C. <span class="org-verbatim">TAB</span>
+    may be used to traverse the links.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-18 So
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Docs where wrong ::</span>
+    Still some outdated stuff here.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Allow overwrites ::</span>
+    Changed the code to explicitly allow a certain URL overwrite. Otherwise
+    visitors could overwrite any variable internally used by the
+    <span class="org-verbatim">org_html_manger</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-18 So
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">URL Parsing ::</span>
+    Now the user may call the script and pass options to overwrite the authors
+    settings using this syntax:
+    <span class="org-code">: <a href="http://localhost/index.html?TOC=0&amp;VIEW=showall&amp;MOUSE_HINT=rgb">http://localhost/index.html?TOC=0&amp;VIEW=showall&amp;MOUSE_HINT=rgb</a>(255,133,0)
+</span>    Some links for testing are provided in section "Linking to Files using the Script"
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Focus the T.O.C. ::</span>
+    '<span class="org-verbatim">i</span>' tries to focus the T.O.C. if <span class="org-verbatim">FIXED_TOC</span> is <span class="org-verbatim">"1". This is still
+    very primitive. Just the first step. '</span><span class="org-verbatim"><span class="org-verbatim">i</span></span>' simply focusses the first
+    anchor in the T.O.C. Tabindexes empower the user to run through the links
+    in the table of contents using the TAB key.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">FIX: Show Start Section ::</span>
+    The start section (index.html#sec-X.Y) was not shown in plain view
+    mode. Now this section is always shown regardless of initial folding state
+    and view mode.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">FIX: Hitting '</span><span class="org-verbatim"><span class="org-list-dt">u</span></span><span class="org-list-dt">' several times ::</span>
+    Hitting '<span class="org-verbatim">u</span>' multiple times made the script focus the root node so that
+    '<span class="org-verbatim">n</span>' went to the first section. Fixed.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">IE and onclick ::</span>
+    Trying a different technique to make IE handle the clicks on
+    headlines. Can't test this now in IE but don't want to forget the trick :)
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1">  2008-05-16 Fr
+</span>
+   <span class="org-list-dt">+</span> <span class="org-list-dt">Org Links ::</span>
+     '<span class="org-verbatim">l</span>' prints an Org link in the minibuffer for copying to an org
+     file. Currently it's only possible to copy the link using the mouse. A
+     change of this is on my TODO list.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-12 Mo
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">New key to go to the first section</span></span><span class="org-list-dt"> ::</span>
+    Since '<span class="org-verbatim">i</span>' now shows the T.O.C. there was a shortcut missing to go to the
+    first section (which might as well be the T.O.C. if <span class="org-verbatim">#+INFOJS_OPT:
+    toc:t</span>). This key is now '<span class="org-verbatim">t</span>' or '<span class="org-verbatim">&lt;</span>'. For toggling the view mode, '<span class="org-verbatim">m</span>' is used
+    from now on.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">New key for last section</span></span><span class="org-list-dt"> ::</span>
+    '<span class="org-verbatim">E</span>' or '<span class="org-verbatim">&gt;</span>' move to the last section.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">&amp;iquest;</span></span><span class="org-list-dt"> ::</span>
+    To show the help screen one may use the '<span class="org-verbatim">&#191;</span>' key. The help-screen got
+    upated using '<span class="org-verbatim">&amp;iquest;</span>' now to avoid distorted displaying of this
+    character.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">org-info-info-navigation</span></span><span class="org-list-dt"> ::</span>
+    Style class for the navigation bar in info view mode.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Documentation</span></span><span class="org-list-dt"> ::</span>
+    Documentation reworked. Should be fairly uptodate now.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-12 Mo
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Removal of Minibuffer</span></span><span class="org-list-dt"> ::</span>
+    The minibuffer was not removed when unsing the mouse to navigate. Fixed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-09 Fr
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">First Section</span></span><span class="org-list-dt"> ::</span>
+    '<span class="org-verbatim">n</span>' now unfolds the current section if folded when in plain view
+    mode. Thus the first section will be shown after startup in folded view.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Startup in info view mode</span></span><span class="org-list-dt"> ::</span>
+    This one was broken. Fixed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-04 So
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">OrgHtmlManager class</span></span><span class="org-list-dt"> ::</span>
+    No more OrgHtmlManager class anymore. Script uses the
+    :var org_html_manager = { property: value, <span class="italic">* ... *</span> };
+    syntax now. This was done to avoid inheritance and instantiation of more
+    than one OrgHtmlManager.
+
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Help display</span></span><span class="org-list-dt"> ::</span>
+    The displaying of Keyboard shortcuts now behaves like the (hidden)
+    TOC. I.e. keyboard shortcuts are displayed when pressing '<span class="org-verbatim">?</span>' and any
+    hidden again when pressing any key. The old view mode is restored when
+    hiding the help display.
+
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Fixed: external links</span></span><span class="org-list-dt"> ::</span>
+    External links now work again.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-05-02 Fr
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Minibuffer Handling</span></span><span class="org-list-dt"> ::</span>
+    If the document is neither in info view mode nor displayed with a fixed
+    TOC, the minibuffer will be shown right above the current headline. This
+    is not the final fix for this, but a work around for the wrong IE
+    behaviout concerning <span class="italic">position:fixed</span>.
+
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Keyboard Input on keypress</span></span><span class="org-list-dt"> ::</span>
+    The script now takes the <span class="org-verbatim">onkeypress</span> function to read user input. This is
+    more compatible then <span class="org-verbatim">onkeydown</span> or <span class="org-verbatim">onkeyup</span>. Thus the keys work now in
+    IE too (and the '?' key in Firefox). Holding the '<span class="org-verbatim">n</span>' key down for a
+    while can be used for fast searching.
+
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Scrolling in IE</span></span><span class="org-list-dt"> ::</span>
+    ...is fixed. But it is not possible to scroll in IE if <span class="org-verbatim">FIXED_TOC</span> is on.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-04-17 Do
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">RUNS DROPPED</span></span><span class="org-list-dt"> ::</span>
+    The option '<span class="org-verbatim">RUNS</span>' is dropped now. The <span class="org-verbatim">org_html_manager</span> now tries to
+    scan the document until it's entirely loaded. There is an internal limit
+    now set to some hundred runs which will makes a max. ~2 minute scan
+    phase.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-04-15 Di
+</span>
+  These two changes where ideas of Carsten Dominik.
+
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Local TOC</span></span><span class="org-list-dt"> ::</span>
+    ...shows now subsections only.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Cut the TOC</span></span><span class="org-list-dt"> ::</span>
+    Now the table of contents may be cutted to a certain depth. Navigation is
+    not affected. The name of the new <span class="org-verbatim">set()</span> option is '<span class="org-verbatim">TOC\_DEPTH</span>'.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-04-13 So
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Overall history</span></span><span class="org-list-dt"> ::</span>
+    History now records all commands that change the current section.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Hide TOC but show when 'i' is pressed</span></span><span class="org-list-dt"> ::</span>
+    The TOC is now always shown, when '<span class="org-verbatim">i</span>' is pressed, even if hidden from
+    the document. The fun is, that each following navigation command triggers
+    a history-back event. This way the hidden TOC does not show up when moving
+    in the history thereafter. Hence now it's possible to read section 5.1,
+    take a short look in the TOC and the next '<span class="org-verbatim">n</span>', '<span class="org-verbatim">p</span>' or '<span class="org-verbatim">b</span>' command
+    takes you back to the section last visited (5.1 in this case).
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-04-09 Mi
+</span>
+  <span class="org-list-dt">-</span> <span class="bold"><span class="org-list-dt">Minibuffer fixed for IE</span></span><span class="org-list-dt"> ::</span>
+    It now appears and hides again. Thanks to Tobias Prinz for the trick with
+    negative margins.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-04-06 So
+</span>
+  <span class="org-list-dt">+</span> <span class="bold">Adjusted to new Setup</span>
+    Carsten Dominik added the new possibility to configure the script using
+    typical org syntax. Users may even use customize to set up the script
+    now. Names of options passed to the <span class="org-verbatim">set()</span> functions are now adjusted to
+    the ones we discussed. Internal variable names where changed to reflect
+    this change.
+
+    * TODO search my mails to figure out the correct date!!!
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> 2008-03-31 Mo
+</span>
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Fixed subindexes</span></span><span class="org-list-dt"> ::</span>
+    ...when using <span class="org-verbatim">HIDE\_TOC</span>. First section had no subindex in this case.
+  <span class="org-list-dt">+</span> <span class="bold"><span class="org-list-dt">Added key q</span></span><span class="org-list-dt"> ::</span>
+    ...to close the window.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-30 So &gt;&gt;
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Internal links working ::</span>
+    Internal links are now converted to work with this script. The user has
+    to go back using the `=s=' key since the history is not
+    updated. Could Browsers understand this? Or is there a possibility to
+    catch the `/back/' button event?
+  <span class="org-list-dt">+</span> <span class="org-list-dt">org-file.html#sec-x.y.z ::</span>
+    is now working too. That is, <span class="kc-org-link-url"><a href="http://path/to/org-file.html#sec-x.y.z">http://path/to/org-file.html#sec-x.y.z</a></span> makes
+    the script displaying that section in the configured view mode.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Folding now on by default. ::</span>
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Scrolling ::</span>
+    '<span class="org-verbatim">v</span>' and '<span class="org-verbatim">V</span>' now scroll the window by the visible height of the
+    document window. A little bit less though for better orientation.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Deleted setup section using export options template ::</span>
+    This one was not working. I'm not shure it ever was... but I think so. I
+    should look up this one in the documentation again.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Plain view mode is default ::</span>
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">FIXED Bugs ::</span>
+    <span class="org-list-dt">-</span> The view mode was dependend on the folding feature.
+    <span class="org-list-dt">-</span> When folding was of an error was shown when trying to fold.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-23 So&gt;&gt;
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Clicking a headline makes it the current section ::</span>
+    and thus the candidate for displaying in next info view and the point
+    from where 'next' and 'previous' work.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-22 Sa &gt;&gt;
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">TOC, title and global folding ::</span>
+    The title was doubled in some cases. This should be fixed now. The TOC
+    is now a node as all the other sections to.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Keyboard ::</span>
+    Some more work on this. There seems to be some locale related problem
+    concerning the keyboard input of a `?&#180; (help) in Firefox. Added a
+    workaround for this one, but probably only working here.
+
+  <span class="org-list-dt">+</span> <span class="bold">Documentation updated.</span>
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Stylesheet ::</span>
+    now with indentation. This demonstrates the folding somewhat better.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Hide T.O.C. ::</span>
+    The table of contents can now be hidden completely due to the new option
+    <span class="org-verbatim">HIDE_TOC</span>. Hence the documents have to be exported with T.O.C., but may
+    be displayed without it.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-21 Fr &gt;&gt;
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Commands reworked ::</span>
+    The '<span class="italic">minibuffer</span>' is now invisible by default. Commands can be entered
+    into the <span class="org-verbatim">document</span> itself. Still, the chars entered are appended to the
+    minibuffers contents, to keep the possibility to enter more complex
+    commands in the future. The minibuffer is still needed for commands to
+    work in firefox.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Section numbers are now read through </span><span class="org-verbatim"><span class="org-list-dt">window.prompt()</span></span><span class="org-list-dt"> ::</span>
+    This was done to simplify the command interface code. Now the commands
+    entered are just one char in length.
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Global folding now working ::</span>
+    There was not much to do left for this one to do.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-13 Do &gt;&gt;
+</span>
+  <span class="bold">Added new config options:</span>
+
+  <span class="org-list-dt">+</span> <span class="org-list-dt">LINK\_UP ::</span>
+    May be set, to link to an other file, preferably the main index page. This
+    link will be displayed as
+    :&lt;a href="LINK_UP"&gt;HOME&lt;/a&gt;
+    Command: '<span class="org-verbatim">h</span>' - home
+  <span class="org-list-dt">+</span> <span class="org-list-dt">LINK\_TO\_MAIN ::</span>
+    May be set, to link to an other file, preferably the main index page. This
+    link will be displayed as
+    :&lt;a href="LINK_TO_MAIN"&gt;Up&lt;/a&gt;
+    Command: '<span class="org-verbatim">H</span>' - HOME
+
+    This way we can link files into a tree, if all subdirectories in the
+    project follow the same conventions. Like containing some
+    <span class="org-verbatim">subdir/index.org</span> and a homepage somwhere else.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-12 Mi &gt;&gt;
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Folding. ::</span>
+    First attempt to get the global folding working. Hmm.
+  <span class="org-list-dt">+</span> <span class="org-list-dt">New Commands ::</span>
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">?</span>' - show the little help screen.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">n</span>' - go to next section.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">p</span>' - go to previous section.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">i</span>' - go to Index.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">f</span>' - fold current section when in plain view mode.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">g</span>' - fold globally when in plain view mode.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">u</span>' - up to parent section.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">t</span>' - toggle view mode.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">v</span>' - scroll down.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">V</span>' - scroll up.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> &lt;&lt; 2008-03-11 Di &gt;&gt;
+</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Radical code cleanup. ::</span>
+    Removed unused variables and functions. More secure, less
+    errorprone. This cood be even better.
+  <span class="org-list-dt">+</span> <span class="bold">Org mode like toggling of headlines now basically works.</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Commands can be input through a little 'minibuffer' on top of the screen. ::</span>
+    This needs some special style settings for IE (position fixed). I will
+    append a minimal stylesheet for this purpos the next days in this
+    documentation for copy and paste.
+    This is partially working. Implemented Commands are:
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">help</span>' - show a little help screen. This done with <span class="org-verbatim">alert()</span> and
+      thus a TODO.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">t</span>' - toggle view mode.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">k</span>' - kill the <span class="italic">minibuffer</span>.
+    <span class="org-list-dt">-</span> '<span class="org-verbatim">N</span>' - where <span class="org-verbatim">N</span> is a section number: goto section <span class="org-verbatim">N</span>. This could be
+      working in both modes very easy, but currently also only in info view
+      mode implemented.
+  <span class="org-list-dt">+</span> <span class="bold">Code relies now on next generation XHTML-Export format.</span>
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Some kind of rudimentary debugging system. ::</span>
+    May be turned on bei seting config options:
+    :org_html_manager.set("WINDOW_BORDER", "true");
+    :org_html_manager.set("DEBUG", org_html_manager.DEBUG_FATAL);
+  <span class="org-list-dt">+</span> <span class="org-list-dt">Better way of configuration for the enduser. Fault tolerant. No undefined ::</span>
+    variables when scanning starts. The users my use the <span class="org-verbatim">set(key, value)</span>
+    function of the <span class="org-verbatim">OrgHtmlManger</span> class like this:
+    :org_html_manager.set ( "LOCAL_TOC",        0);
+    :org_html_manager.set ( "VIEW_BUTTONS", "true");
+    :org_html_manager.set ( "FOLDING",            "true");
+    :org_html_manager.set ( "MOUSE_HINT",         "underline");
+    :org_html_manager.set ( "CONSOLE",            "true");
+    :org_html_manager.setup ();
+  <span class="org-list-dt">+</span> <span class="org-list-dt">New configuration accepts these options ::</span>
+    <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">SUB\_INDEXES</span></span><span class="org-list-dt"> ::</span>
+      Create subindexes for sections containing sections.
+    <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">INFO\_SWITCH\_ALWAYS</span></span><span class="org-list-dt"> ::</span>
+      Show the small '<span class="italic">toggle view</span>' link next to every Headline to toggle
+      the view easily without scrolling back to top of the page in plain
+      view mode.
+    <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">FOLDING</span></span><span class="org-list-dt"> ::</span>
+      This is for the new folding. Turn it on. This will be the default when
+      the moving and toggling has an acceptable form.
+    <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">MOUSE\_HINT</span></span><span class="org-list-dt"> ::</span>
+      I love this one. Accepts the keyword '<span class="org-verbatim">underline</span>' or any other
+      value. But if not '<span class="org-verbatim">underline</span>', it should be a valid value to set the
+      <span class="org-verbatim">background-color</span> in CSS. So preferebly something like
+      '<span class="org-verbatim">#eeeeee</span>'. In plain view mode with toggle feature turned on the
+      headline with mouse in it will be either hightlighted, if you pass a
+      color, or underlined.
+    <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">CONSOLE</span></span><span class="org-list-dt"> ::</span>
+      Display the <span class="italic">minibuffer</span> on top of the screen. Turn this one on. It's
+      fun and you can kill it simply by pressing '<span class="org-verbatim">k</span>'.
+    <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">VIEW</span></span><span class="org-list-dt"> ::</span>
+      Set the initial view mode. Set to <span class="org-verbatim">org\_html\_manager.PLAIN\_VIEW</span> or
+      <span class="org-verbatim">org\_html\_manager.INFO\_VIEW</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-special-keyword">COMMENT</span><span class="org-level-1"> html style specifications
+</span>
+<span class="comment"># Local Variables&#58;</span>
+<span class="comment"># org-export-html-style: "&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"stylesheet.css\" /&gt;"</span>
+<span class="comment"># End:</span>
+</pre>
+  </body>
+</html>

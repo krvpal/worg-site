@@ -1,0 +1,1561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org Glossary: An Explanation of Basic Org-Mode Concepts</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org Glossary: An Explanation of Basic Org-Mode Concepts</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org16ded3b">The Glossary</a></li>
+<li><a href="#agenda">Agenda</a></li>
+<li><a href="#agenda-files">Agenda files</a></li>
+<li><a href="#archiving">Archiving</a></li>
+<li><a href="#Attachment">Attachment</a></li>
+<li><a href="#category">Category</a></li>
+<li><a href="#org3a36ec6">DEADLINE</a></li>
+<li><a href="#docstring">Docstring</a></li>
+<li><a href="#drawer">Drawers</a></li>
+<li><a href="#entry">Entry</a></li>
+<li><a href="#headline">Headline</a></li>
+<li><a href="#inheritance">Inheritance</a></li>
+<li><a href="#property">Property</a></li>
+<li><a href="#tag">Tag</a></li>
+<li><a href="#tree">Tree (subtree)</a></li>
+<li><a href="#todo-keywords">Todo Keywords</a></li>
+<li><a href="#org1c4fb10"><span class="todo TODO">TODO</span> Awaiting definitions</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org16ded3b" class="outline-2">
+<h2 id="org16ded3b">The Glossary</h2>
+<div class="outline-text-2" id="text-org16ded3b">
+<p>
+The org-manual does a great job of explaining the myriad features of
+org-mode. But for new users, the sheer number of options and features
+can be overwhelming.
+</p>
+
+<blockquote>
+<p>
+
+</p>
+
+<p>
+What exactly are properties? How should I use them? Do I need to know
+how they work in order to use org mode?
+</p>
+
+<p>
+What are categories? How do they differ from tags?
+</p>
+</blockquote>
+
+<p>
+If you find yourself asking such questions, this document is for you.
+In the table of contents, you will find an alphabetical list of basic
+concepts/features in org-mode. Click on any of them to jump to a brief
+definition, a more detailed explanation of the feature, and a
+description of possible uses. And feel free to add your own
+definitions by <a href="worg-about.html">editing Worg</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-agenda" class="outline-2">
+<h2 id="agenda">Agenda</h2>
+<div class="outline-text-2" id="text-agenda">
+</div>
+
+<div id="outline-container-org438dfdf" class="outline-3">
+<h3 id="org438dfdf">Definition</h3>
+<div class="outline-text-3" id="text-org438dfdf">
+<p>
+The agenda allows you to create filtered views of the items in your
+<a href="#agenda-files">agenda files</a>. These include &ldquo;day-planner&rdquo; views of your schedule,
+lists of your todos, and the results of queries (for tags, words,
+regular expressions, etc.). You might think of the agenda as a
+combination of a task manager and a very powerful search interface.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd4fb804" class="outline-3">
+<h3 id="orgd4fb804">Details</h3>
+<div class="outline-text-3" id="text-orgd4fb804">
+<p>
+Provided you have followed the manual&rsquo;s instructions on setting up
+org-mode and have designated some <a href="#agenda-files">agenda files</a>, simply type <code>C-c C-a</code>
+(or <code>M-x org-agenda</code>) to gain access to the various views available.
+</p>
+
+<p>
+Here are brief explanations of the options:
+</p>
+
+<dl class="org-dl">
+<dt>a (Agenda)</dt><dd>Presents a view of today&rsquo;s (or, optionally, this
+week&rsquo;s) scheduled items, appointments, and upcoming deadlines.</dd>
+
+<dt>t (Todo entries)</dt><dd>Presents a list of all active <a href="#todo-keywords">todo
+keywords</a> in your agenda files.</dd>
+
+<dt>m (Match)</dt><dd>Allows you to search your agenda files for headlines
+with particular metadata (tags, properties, or TOD0s).
+
+<ul class="org-ul">
+<li>The simplest way to query your files is to enter the name of a
+tag, e.g., &ldquo;@computer&rdquo;.</li>
+
+<li>To construct more advanced queries, please <a href="https://orgmode.org/manual/Matching-tags-and-properties.html">consult the manual</a>.</li>
+</ul></dd>
+
+<dt>L (Timeline for current buffer)</dt><dd>Shows a chronological view of
+all items with dates in the file you are currently visiting.</dd>
+
+<dt>s (Search)</dt><dd>Allows you to search entries in your agenda files for
+particular words or regular expressions.</dd>
+
+<dt>/ (multi-occur)</dt><dd>Shows all lines in your agenda files matching a
+regular expression.</dd>
+
+<dt>&lt;</dt><dd>Restricts the agenda view to the file you are currently
+visiting.</dd>
+
+<dt>&lt;&lt;</dt><dd>Restricts the agenda view to the subtree you are currently
+visiting.</dd>
+</dl>
+
+<p>
+Within the agenda view, each item is linked to its location in your
+files, so you can jump directly to that location from the agenda (by
+pressing <code>TAB</code> or <code>RET</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd84e1fa" class="outline-3">
+<h3 id="orgd84e1fa">Uses</h3>
+<div class="outline-text-3" id="text-orgd84e1fa">
+<p>
+The uses of the agenda are limitless!
+</p>
+
+<p>
+The agenda frees you from having to worry too much about the
+organization of your org-mode files. If you are new to org-mode,
+simply start by creating todos in your outlines and notes and
+(optionally) adding tags and scheduling information to them. Even if
+your file is cluttered with extraneous notes and ramblings, the agenda
+will find the relevant lines and display them in a clean and readable
+fashion.
+</p>
+
+<ul class="org-ul">
+<li>One use of the agenda is as a day planner system. If you prefer to
+schedule your tasks and to see a daily agenda of TODOs, you&rsquo;ll
+probably be pressing <code>C-c a a</code> a lot.</li>
+
+<li>The agenda can also be used for a powerful GTD system. If you like
+to filter your &ldquo;next actions&rdquo; by context, then you&rsquo;ll probably
+make frequent use of <code>C-c a t</code> to see a list of all your active
+TODOs and to filter them by tag/context.</li>
+
+<li>While the agenda is a powerful task management tool, it is also a
+fantastic research tool. If you keep a file full of reading notes,
+for instance, you can use the agenda to locate entries containing
+a particular word or labeled by a particular tag.</li>
+</ul>
+
+<p>
+There are many more possibilities of configuring the agenda with
+<a href="https://orgmode.org/worg/org-tutorials/org-custom-agenda-commands.php">custom agenda commands</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-agenda-files" class="outline-2">
+<h2 id="agenda-files">Agenda files</h2>
+<div class="outline-text-2" id="text-agenda-files">
+</div>
+
+<div id="outline-container-org9db1fba" class="outline-3">
+<h3 id="org9db1fba">Definition</h3>
+<div class="outline-text-3" id="text-org9db1fba">
+<p>
+These are the files that are used to generate your <a href="#agenda">agenda</a> views. When
+you call your agenda, the TODOs and scheduling information in your
+agenda files will be displayed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcd4b2a2" class="outline-3">
+<h3 id="orgcd4b2a2">Details</h3>
+<div class="outline-text-3" id="text-orgcd4b2a2">
+<p>
+There are different ways to designate these files:
+</p>
+
+<ol class="org-ol">
+<li>Add a file manually with <code>C-c [</code> (<code>M-x
+     org-agenda-file-to-front</code>).
+
+<ul class="org-ul">
+<li>Remove with <code>C-c ]</code> (<code>M-x org-remove-file</code>).</li>
+</ul></li>
+
+<li>Type <code>M-x customize-variable [RET] org-agenda-files</code> and enter
+the names of your agenda files.
+
+<ul class="org-ul">
+<li>If you enter a directory, all org files in that directory will
+be included in your agenda files.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgaa3b3d0" class="outline-3">
+<h3 id="orgaa3b3d0">Tips: Organizing agenda files</h3>
+<div class="outline-text-3" id="text-orgaa3b3d0">
+<p>
+One of the most common questions for new (and seasoned) users of
+org-mode is how to organize agenda files. Should you put everything in
+one big file organized by project? Should you create a new file for
+each project? Or should you have separate &ldquo;containers&rdquo; for different
+types of data: i.e., one file (or subtree) for appointments, one for
+reference, one for todos, and so on.
+</p>
+
+<p>
+The short answer: it doesn&rsquo;t matter. The agenda will be able to parse
+and organize your TODOs, appointments, and deadlines no matter how
+they are organized in your files.
+</p>
+
+<p>
+If you are using org-mode for the first time, the simplest approach
+may be to use a single file and to enter projects or todos as the
+appear. Then, whenever you review your file, reorganize your todos and
+projects into &ldquo;groupings&rdquo; (i.e., trees) that make sense to you. If a
+tree starts to get too big, then start a new file. Perhaps you&rsquo;ll
+discover that you want to keep your &ldquo;work&rdquo; and &ldquo;personal&rdquo; tasks in
+different files.
+</p>
+
+<p>
+Perhaps the main consideration in organizing your files is to consider
+<a href="#inheritance">inheritance</a> and <a href="#file-restriction">restriction</a>. If you&rsquo;d like a number of items to belong
+to the same category or to have the same tags for easy agenda
+filtering, then they probably belong in the same tree and/or file.
+</p>
+
+<p>
+An example:
+</p>
+
+<ul class="org-ul">
+<li>If you&rsquo;d like all your appointments to belong to the <a href="#category">category</a>
+&ldquo;appts&rdquo;, then it probably doesn&rsquo;t make sense to scatter them as
+first level headings among multiple files. It would make more
+sense to create an appointments file or heading with the category
+&ldquo;appts&rdquo;.</li>
+
+<li>On the other hand, if you&rsquo;d prefer to organize your appointments
+by area of responsibility (e.g., work, personal, health, etc.),
+then it would make perfect sense to place them in separate trees
+and/or files.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-archiving" class="outline-2">
+<h2 id="archiving">Archiving</h2>
+<div class="outline-text-2" id="text-archiving">
+</div>
+
+<div id="outline-container-orgbbe3d22" class="outline-3">
+<h3 id="orgbbe3d22">Definition</h3>
+<div class="outline-text-3" id="text-orgbbe3d22">
+<p>
+Archiving is a way of hiding and/or getting rid of old or unwanted
+items in your org files without deleting them altogether.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a0e4a5" class="outline-3">
+<h3 id="org7a0e4a5">Details</h3>
+<div class="outline-text-3" id="text-org7a0e4a5">
+<p>
+Archiving works on <a href="#tree">subtrees</a> in your org-file by doing the following:
+</p>
+
+<ul class="org-ul">
+<li>Preventing them from opening when you cycle visibility with <code>TAB</code>
+or <code>Shift-TAB</code>. (They will stay closed unless you explictly open
+them with <code>Control-TAB</code>.)</li>
+
+<li>Keeping them out of your <a href="#agenda">agenda</a> views. (They will only be included
+if you type <code>v a</code> or <code>v A</code> in the agenda.)</li>
+</ul>
+
+<p>
+There are three different ways to archiving an item/tree:
+</p>
+
+<dl class="org-dl">
+<dt>C-c C-x a</dt><dd>Mark the subtree as archived (i.e., give it an
+<code>:ARCHIVE:</code> tag) but leave it in its current location.
+
+<ul class="org-ul">
+<li>The headline remains visible in your org file but its contents
+will not open during cycling and it will not be included in
+the agenda.</li>
+</ul></dd>
+
+<dt>C-c C-x A</dt><dd>Move the subtree to a separate archive headline
+within the parent tree and/or file.
+
+<ul class="org-ul">
+<li>This is useful for maintaining a clean org-file, since it
+removes archived headlines from view.</li>
+</ul></dd>
+
+<dt>C-c C-x C-s</dt><dd>Move the subtree to a separate file. The default
+name of the file is <code>[filename].org_archive</code>.
+
+<ul class="org-ul">
+<li>This is useful for getting rid of subtrees altogether. You
+might want to use this when you finish a project.</li>
+
+<li>Since this is a relatively drastic action, org-mode offers an
+alternate version of the command (<code>C-u C-c C-x C-s</code>) that
+checks the subtree to make sure there are no active TODOs
+before archiving it.</li>
+</ul></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org84432f3" class="outline-3">
+<h3 id="org84432f3">Uses</h3>
+<div class="outline-text-3" id="text-org84432f3">
+<p>
+Archiving is very useful for keeping your org files free of clutter.
+But which type of archiving should you use?
+</p>
+
+<p>
+Here are a few ideas:
+</p>
+
+<ul class="org-ul">
+<li>Use <code>C-c C-x a</code> when you&rsquo;d like to archive an entry/subtree but
+want to be reminded of its presence (e.g., to be reminded of a
+completed task) when you view your org file.</li>
+
+<li>Use <code>C-c C-x A</code> when you want to remove an entry/subtree from view but
+want it to remain together with its context (i.e., within the file
+or parent tree). This is often useful for archiving TODO items
+that are part of an incomplete project.</li>
+
+<li>Use <code>C-c C-x C-s</code> when you are sure you no longer require an
+entry/subtree except for reference. This is often useful for
+archiving completed projects.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Attachment" class="outline-2">
+<h2 id="Attachment">Attachment</h2>
+<div class="outline-text-2" id="text-Attachment">
+</div>
+
+<div id="outline-container-org10de89e" class="outline-3">
+<h3 id="org10de89e">Definition</h3>
+<div class="outline-text-3" id="text-org10de89e">
+<p>
+Attachments allow the addition of arbitrary reference material (e.g. binary files, images, audio, etc.)
+to a node in an org file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb34cc1e" class="outline-3">
+<h3 id="orgb34cc1e">Details</h3>
+<div class="outline-text-3" id="text-orgb34cc1e">
+<p>
+Attachments are files located in a directory belonging to an outline
+node.  Org uses directories named by the unique ID of each entry
+and stored the ID as a special property of the node
+These directories are located in the `data&rsquo; directory which lives in
+the same directory where your Org file lives(1).  If you initialize
+this directory with `git init&rsquo;, Org will automatically commit changes
+when it sees them.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org12e0ff0" class="outline-3">
+<h3 id="org12e0ff0">Uses</h3>
+<div class="outline-text-3" id="text-org12e0ff0">
+<p>
+Attachments can be used essentially for the purposes as links, to allow
+access to documents related to a particular node. If there is a large number
+of such links, it may be more convenient to just put them in a directory
+and plant a link to the directory. Attachments provide a more convenient
+way to do this latter task.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-category" class="outline-2">
+<h2 id="category">Category</h2>
+<div class="outline-text-2" id="text-category">
+</div>
+
+<div id="outline-container-orgc3fcc86" class="outline-3">
+<h3 id="orgc3fcc86">Definition</h3>
+<div class="outline-text-3" id="text-orgc3fcc86">
+<p>
+A category is the group an item belongs to.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8571f86" class="outline-3">
+<h3 id="org8571f86">Details</h3>
+<div class="outline-text-3" id="text-org8571f86">
+<p>
+The category of an item is shown in the left hand column of the
+daily/weekly agenda view.
+</p>
+
+<pre class="example">
+Day-agenda (W38):
+Wednesday  16 September 2009
+  badclient:  Scheduled:  TODO Call angry client to calm him down
+  appts:      Dinner at Julio's
+</pre>
+
+
+<p>
+By default an item&rsquo;s category is the name of the file (minus the
+extension) to which it belongs.
+</p>
+
+<p>
+You can specify a different category for a file by placing the
+following line at the top of your org file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+CATEGORY: CompanyABC</span>
+</pre>
+</div>
+
+<p>
+Or, you can set a category as the property of a <a href="#tree">tree</a>. All items in
+that tree will <a href="#inheritance">inherit</a> that category and be labeled with it in the
+agenda.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Birthdays
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+    <span style="color: #7f7f80;">:CATEGORY:</span> <span style="color: #7f7f80;">birthdays</span>
+    <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b9f043" class="outline-3">
+<h3 id="org1b9f043">Uses</h3>
+<div class="outline-text-3" id="text-org1b9f043">
+<p>
+The main purpose of a category is to increase visibility in the
+daily/weekly agenda &#x2014; i.e., to allow you to see which &ldquo;group&rdquo; an
+item belongs to.
+</p>
+
+<p>
+Apart from visibility and compartmentalization, categories do not add
+much additional functionality to an item. It is certainly <b>not</b>
+necessary to set them for every file and/or heading.
+</p>
+
+<p>
+You can search for items by category in the agenda using the following
+key sequence:
+</p>
+
+<pre class="example">
+C-c C-a m CATEGORY="birthdays"
+</pre>
+
+
+<p>
+In general, categories are <b>not</b> an efficient way of searching
+for and/or filtering tasks. It is much faster to use <a href="#tag">tags</a> or filetags
+for this.
+</p>
+
+<p>
+Here&rsquo;s one way to distinguish between categories and tags: an entry
+can belong to only one category but it can have multiple tags.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a36ec6" class="outline-2">
+<h2 id="org3a36ec6">DEADLINE</h2>
+<div class="outline-text-2" id="text-org3a36ec6">
+</div>
+
+<div id="outline-container-org5b931c4" class="outline-3">
+<h3 id="org5b931c4">Definition</h3>
+<div class="outline-text-3" id="text-org5b931c4">
+<p>
+A deadline is a special timestamp for indicating items that should be
+performed by a certain time. Reminders about deadlines appear in your
+agenda a specified number of days before they due.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9370a04" class="outline-3">
+<h3 id="org9370a04">Details</h3>
+<div class="outline-text-3" id="text-org9370a04">
+<p>
+You can add a deadline to a headline/entry by typing C-c C-d. You can
+remove a deadline by typing C-u C-c C-d.
+</p>
+
+<p>
+Here is the syntax for deadlines:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * My big project
+    <span style="color: #7f7f80;">DEADLINE:</span> <span style="color: #a020f0;">&lt;2009-09-20 Sun&gt;</span>
+</pre>
+</div>
+
+<p>
+You will be alerted of this deadline ahead of time when you select the
+daily/weekly agenda (<code>C-c C-a a</code>).
+</p>
+
+<pre class="example">
+index:      In   3 d.:  My big project
+</pre>
+
+
+<p>
+How soon the warning appears in your agenda is controlled by the
+variable <code>org-deadline-warning-days</code>. The default number of days is 14.
+</p>
+
+<p>
+The deadline will remain in your agenda (as an overdue item) until it
+is marked done.
+</p>
+
+<p>
+You can change the a warning period for a particular headline by
+adding something like &ldquo;-3d&rdquo; (3 days) or &ldquo;-2m&rdquo; (two months) to the
+timestamp:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * My big project
+    <span style="color: #7f7f80;">DEADLINE:</span> <span style="color: #a020f0;">&lt;2009-09-20 Sun -2m&gt;</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf203411" class="outline-3">
+<h3 id="orgf203411">Uses</h3>
+<div class="outline-text-3" id="text-orgf203411">
+<p>
+The obvious use of a deadline is to reminder yourself of tasks that
+need to be completed by a certain date.
+</p>
+
+<p>
+Deadlines can also be useful as an &ldquo;advanced notice&rdquo; system &#x2014; e.g.,
+reminding yourself to prepare for an event or project.
+</p>
+
+<p>
+You can add both a deadline and a scheduling timestamp to the same
+entry.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-docstring" class="outline-2">
+<h2 id="docstring">Docstring</h2>
+<div class="outline-text-2" id="text-docstring">
+</div>
+
+<div id="outline-container-org9379f21" class="outline-3">
+<h3 id="org9379f21">Definition</h3>
+<div class="outline-text-3" id="text-org9379f21">
+<p>
+A <a href="https://en.wikipedia.org/wiki/Docstring">docstring</a> is the documentation written as part of a emacs lisp
+variable or a function. It is part of Emacs&rsquo; wonderful interactive
+help system.
+</p>
+
+<p>
+(Note: This definition is not org-mode specific, but is rather a more
+general org-mode/lisp/coding concept. It&rsquo;s included here because
+mailing list posts often reference a &ldquo;docstring,&rdquo; an obscure phrase
+for anyone not familiar with coding lingo.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4d7d25f" class="outline-3">
+<h3 id="org4d7d25f">Details and uses</h3>
+<div class="outline-text-3" id="text-org4d7d25f">
+<p>
+If you are wondering what a particular org-mode key combination,
+function, or variable does, the manual is not your only source of
+information. Carsten has also embedded a wealth of resources into the
+org-mode source code itself. These can be easily viewed using Emacs
+built-in help functions.
+</p>
+
+<p>
+For instance, let&rsquo;s say you want to learn more about creating a clock
+report in org mode. One way to do this is to type <code>C-h k</code> or <code>M-x
+describe-key</code> and then to enter the relevant key combination (<code>C-c
+C-x-C-r</code>). This will provide the following very helpful information:
+</p>
+
+<pre class="example">
+org-clock-report is an interactive compiled Lisp function in
+`org-clock.el'.
+
+It is bound to C-c C-x C-r, &lt;menu-bar&gt; &lt;Org&gt; &lt;Logging work&gt; &lt;Create
+clock table&gt;.
+
+(org-clock-report &amp;optional arg)
+
+Create a table containing a report about clocked time.
+If the cursor is inside an existing clocktable block, then the table
+will be updated.  If not, a new clocktable will be inserted.
+When called with a prefix argument, move to the first clock table in the
+buffer and update it.
+
+[back]
+</pre>
+
+
+<p>
+If you happened to know the name of the function, you could also
+locate the same information using <code>C-h f</code> or <code>M-x describe-function</code>
+and entering <code>org-clock-report</code>. Or you could use <code>C-h a</code> or
+<code>apropos-command</code> to browse all functions that contain the words &ldquo;org
+clock&rdquo;.
+</p>
+
+<p>
+Finally, if you want to learn more about variables, you can read their
+docstrings by browsing the customize interface (<code>M-x customize-group
+[RET] org</code>) or by typing <code>C-h v</code> or <code>M-x describe-variable</code>).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-drawer" class="outline-2">
+<h2 id="drawer">Drawers</h2>
+<div class="outline-text-2" id="text-drawer">
+</div>
+
+<div id="outline-container-orgc4ec46f" class="outline-3">
+<h3 id="orgc4ec46f">Definition</h3>
+<div class="outline-text-3" id="text-orgc4ec46f">
+<p>
+A drawer is a container that can hide information you don&rsquo;t want to
+see during normal viewing and/or cycling of your outline.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org491d84f" class="outline-3">
+<h3 id="org491d84f">Details</h3>
+<div class="outline-text-3" id="text-org491d84f">
+<p>
+A drawer looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Daily sleep log
+    <span style="color: #cd3278;">:LOGBOOK:</span>
+    <span style="color: #e2c770;">-</span> Note taken on <span style="color: #a020f0;">[2009-09-16 Wed 04:02]</span> \\
+      Didn't sleep at all.
+    <span style="color: #e2c770;">-</span> Note taken on <span style="color: #a020f0;">[2009-09-15 Tue 05:25]</span> \\
+      Slept fitfully.
+    <span style="color: #e2c770;">-</span> Note taken on <span style="color: #a020f0;">[2009-09-14 Mon 09:30]</span> \\
+      Slept like a log.
+    <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+
+<p>
+When you cycle the visibility of your outline, the contents of the
+drawer will remain hidden.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Daily sleep log
+      <span style="color: #cd3278;">:LOGBOOK:</span>
+      <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+
+<p>
+The only way to view the contents is to press <code>TAB</code> directly on the
+drawer.
+</p>
+
+<p>
+If you want a new name for a drawer, such as :NOTES:, you must
+customize the variable &ldquo;org-drawers&rdquo;. Simply type =M-x
+customize-variable [RET] org-drawers&ldquo; and add a new label.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge3c538c" class="outline-3">
+<h3 id="orge3c538c">Uses</h3>
+<div class="outline-text-3" id="text-orge3c538c">
+<p>
+By default, org-mode uses drawers to hide a variety of information,
+such as <a href="#property">properties</a> and clocked times.
+</p>
+
+<p>
+But drawers are also quite useful for storing comments that you don&rsquo;t
+want to see all the time. For instance, if you are writing a paper,
+you might add a <code>:NOTE:</code> drawer to the variable <code>org-drawers</code>. Then
+you can deposit any notes to yourself in such drawers. By default, the
+information you put in drawers will not be exported to HTML, LaTeX,
+etc.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-entry" class="outline-2">
+<h2 id="entry">Entry</h2>
+<div class="outline-text-2" id="text-entry">
+</div>
+
+<div id="outline-container-org4a29457" class="outline-3">
+<h3 id="org4a29457">Definition</h3>
+<div class="outline-text-3" id="text-org4a29457">
+<p>
+An entry is the basic unit of data in org-mode. It consists of a
+<a href="#headline">headline</a>, metadata (tags, todo keyword, properties, priority, etc.),
+and whatever other text it contains.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org661446b" class="outline-3">
+<h3 id="org661446b">Details</h3>
+<div class="outline-text-3" id="text-org661446b">
+<p>
+An entry is to be distinguished from a <a href="#tree">tree</a>, which consists of all
+headlines and entries beneath a particular entry within the outline
+structure. Entries nested within other entries form a tree.
+</p>
+
+<p>
+Here is a sample entry with a lot of data:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * TODO <span style="color: #e2c770;">[#B] </span>Headline                                                   :tags:
+     <span style="color: #cd3278;">:PROPERTIES:</span>
+     <span style="color: #7f7f80;">:DESCRIPTION:</span> <span style="color: #7f7f80;">This is a sample property.</span>
+     <span style="color: #7f7f80;">:CATEGORY:</span> <span style="color: #7f7f80;">documentation</span>
+     <span style="color: #7f7f80;">:CUSTOM_ID:</span> <span style="color: #7f7f80;">an-extra-special-headline</span>
+     <span style="color: #cd3278;">:END:</span>
+
+   And here is the text of an entry. You can put an unlimited amount of
+   text in an entry!
+
+   You can also add lists:
+
+    <span style="color: #e2c770;">-</span> First item
+
+    <span style="color: #e2c770;">-</span> Second item
+
+    <span style="color: #e2c770;">-</span> Third item
+
+   And tables:
+
+   <span style="color: #9c91e4;">| Meal      | Food            | Calories |</span>
+   <span style="color: #9c91e4;">|-----------+-----------------+----------|</span>
+   <span style="color: #9c91e4;">| Breakfast | Eggs            |      500 |</span>
+   <span style="color: #9c91e4;">| Lunch     | Escargot        |      800 |</span>
+   <span style="color: #9c91e4;">| Dinner    | Bread and Water |      200 |</span>
+   <span style="color: #9c91e4;">|-----------+-----------------+----------|</span>
+   <span style="color: #9c91e4;">| Total     |                 |     1500 |</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-headline" class="outline-2">
+<h2 id="headline">Headline</h2>
+<div class="outline-text-2" id="text-headline">
+</div>
+
+<div id="outline-container-org00d9c75" class="outline-3">
+<h3 id="org00d9c75">Definition</h3>
+<div class="outline-text-3" id="text-org00d9c75">
+<p>
+A headline is the name for an outline heading in an org file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7085103" class="outline-3">
+<h3 id="org7085103">Details</h3>
+<div class="outline-text-3" id="text-org7085103">
+<p>
+Headlines begin with one or more asterisks.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * A headline
+</pre>
+</div>
+
+<p>
+The &ldquo;level&rdquo; of a headline corresponds to the number of asterisks. The more asterisks,
+the deeper the level in the outline.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  <span style="font-weight: bold;">***</span> A "level 5" outline heading
+</pre>
+</div>
+
+<p>
+As are all outlines, org-files are organized hierarchically. Deeper
+headlines are &ldquo;children&rdquo; of higher-level &ldquo;parent&rdquo; headlines (and can
+&ldquo;inherit&rdquo; their properties). Headlines on the same level are known as
+siblings.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * A parent
+  ** A child
+  <span style="font-weight: bold;">*</span> Sibling one (also a child of "A child")
+  <span style="font-weight: bold;">*</span> Sibling two
+  <span style="font-weight: bold;">*</span> Sibling three
+</pre>
+</div>
+
+<p>
+You can move headlines (and their corresponding <a href="#entry">entries</a>) by using the
+cursor keys in conjunction with the <code>Meta</code> key.
+</p>
+
+<ul class="org-ul">
+<li><code>M-Left</code> and <code>M-Right</code> move the headline horizontally (i.e., change
+its level).
+
+<ul class="org-ul">
+<li>The org documentation often uses the terms &ldquo;promote&rdquo; and &ldquo;demote&rdquo;
+for this action.</li>
+</ul></li>
+
+<li><code>M-Up</code> and <code>M-Down</code> move the headline vertically.</li>
+</ul>
+
+<p>
+You can easily jump to another headline using <code>M-x org-goto</code> (<code>C-c
+C-j</code>).
+</p>
+
+<p>
+You can easily &ldquo;refile&rdquo; a headline in a different location using <code>M-x
+org-refile</code> (<code>C-c C-w</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeed5ffb" class="outline-3">
+<h3 id="orgeed5ffb">Uses</h3>
+<div class="outline-text-3" id="text-orgeed5ffb">
+<p>
+The basic use of headings, of course, is to distinguish separate
+sections within your outline and to organize them hierarchically.
+</p>
+
+<p>
+The other major use of headings is as TODO &ldquo;items&rdquo; that appear in your
+agenda.
+</p>
+
+<p>
+The power of org-mode lies in its treatment of headlines as
+&ldquo;containers&rdquo; of information to which you can attach all sorts of data
+(<a href="#todo-keywords">todo keywords</a>, <a href="#tag">tags</a>, priorities, timestamps, <a href="#property">properties</a>, and an
+unlimited amount of text). This turns org-mode&rsquo;s deceptively simple
+outline structure into a powerful &ldquo;database&rdquo; of information, in which
+units of data can be nested within one another.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-inheritance" class="outline-2">
+<h2 id="inheritance">Inheritance</h2>
+<div class="outline-text-2" id="text-inheritance">
+</div>
+
+<div id="outline-container-org46c9d8b" class="outline-3">
+<h3 id="org46c9d8b">Definition</h3>
+<div class="outline-text-3" id="text-org46c9d8b">
+<p>
+Inheritance is a term used to describe the way in which <a href="#entry">entries</a> in a
+<a href="#tree">tree</a> can share the properties of their &ldquo;parent&rdquo; <a href="#headline">headlines</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd306394" class="outline-3">
+<h3 id="orgd306394">Details</h3>
+<div class="outline-text-3" id="text-orgd306394">
+<p>
+Org-mode takes full advantage of the hierarchical structure of
+outlines by allowing lower level headlines to &ldquo;inherit&rdquo; (or share) the
+properties of their parents.
+</p>
+
+<p>
+The most common form of inheritance in org-mode is &ldquo;<a href="https://orgmode.org/manual/Tag-inheritance.html">tag inheritance</a>&rdquo;.
+This is controlled by the variable org-use-tag-inheritance (true by
+default). When turned on, lower level outline headings share the tags
+of their parents. Thus in the following tree, all the headlines have
+the tag &ldquo;<code>:reading:</code>&rdquo;, even though it is only explicitly set for the
+top level headline:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" id="orgc25731c">  * Summer reading list                                               :reading:
+    <span style="color: #7f7f80;">DEADLINE:</span> <span style="color: #a020f0;">&lt;1965-06-06 Sun&gt;</span>
+
+  ** <span style="font-style: italic;">To Kill a Mockingbird</span>
+
+  ** <span style="font-style: italic;">Catch 22</span>
+
+  ** <span style="font-style: italic;">Herzog</span>
+</pre>
+</div>
+
+<p>
+Some properties, such as <a href="#category">category</a>, are also inherited by default. See
+<a href="https://orgmode.org/manual/Property-inheritance.html">the manual</a> for more details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfcc3917" class="outline-3">
+<h3 id="orgfcc3917">Uses</h3>
+<div class="outline-text-3" id="text-orgfcc3917">
+<p>
+The most common use of tag inheritance is in agenda views and agenda
+filtering. For instance, if you searched for the tag &ldquo;reading&rdquo; in your
+agenda files, all of the headings in the <a href="#orgc25731c">example above</a> would appear.
+</p>
+
+<p>
+As a result it is easy to add a tag and/or category to a whole subtree
+of items simply by adding a single tag to the parent headline.
+</p>
+
+<p>
+Let&rsquo;s say for instance, that you want to designate a whole bunch of
+tasks as belonging to the project &ldquo;topsecret&rdquo;. By adding <code>:topsecret:</code>
+to the top headline of the group, you are in effect labeling all the
+items in the tree as &ldquo;topsecret&rdquo;. An agenda search for the TODOs with
+the tag &ldquo;topsecret&rdquo; (<code>C-c a M [RET] topsecret</code>) would then return any
+active TODOs in the entire tree.
+</p>
+
+<p>
+Another common use of inheritance is to allow a special setting (e.g.,
+logging or archive location) to apply to an entire subtree.
+</p>
+
+<p>
+Finally, inheritance plays an important role in org-mode&rsquo;s column
+view.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-property" class="outline-2">
+<h2 id="property">Property</h2>
+<div class="outline-text-2" id="text-property">
+</div>
+
+<div id="outline-container-orgc13f1d5" class="outline-3">
+<h3 id="orgc13f1d5">Definition</h3>
+<div class="outline-text-3" id="text-orgc13f1d5">
+<p>
+A property is an arbitrary piece of &ldquo;metadata&rdquo; you can attach to an
+entry. A property takes the form of a &ldquo;data pair,&rdquo; which consists of
+a key and its value.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1113876" class="outline-3">
+<h3 id="org1113876">Details</h3>
+<div class="outline-text-3" id="text-org1113876">
+<p>
+Properties are stored in <a href="#drawer">drawers</a> beneath a headline. Here is a sample
+property drawer:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Invoice for fixing the toilet
+     <span style="color: #cd3278;">:PROPERTIES:</span>
+     <span style="color: #7f7f80;">:LOGGING:</span>  <span style="color: #7f7f80;">lognoterepeat</span>
+     <span style="color: #7f7f80;">:BILLED:</span> <span style="color: #7f7f80;">102.13</span>
+     <span style="color: #7f7f80;">:BILLING_DATE:</span> <span style="color: #7f7f80;">2009-09-11</span>
+     <span style="color: #7f7f80;">:CLIENT:</span>   <span style="color: #7f7f80;">ABC Company</span>
+     <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+
+<p>
+Though org-mode reserves a handful of property keys for special uses
+(e.g., LOGGING in the example above), you are otherwise free to add
+whatever property keys and values you&rsquo;d like.
+</p>
+
+<p>
+Though you can type properties by hand, the simplest way to add them
+is to type <code>C-c C-x p</code> or <code>M-x org-set-property</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org069d3fd" class="outline-3">
+<h3 id="org069d3fd">Uses</h3>
+<div class="outline-text-3" id="text-org069d3fd">
+<p>
+For new org users, properties can seem a bit puzzling. What exactly
+are they for? Here are some of their uses:
+</p>
+
+<ol class="org-ol">
+<li>To specify settings for the local org-mode <a href="#tree">tree</a>.
+
+<ul class="org-ul">
+<li>For instance, though you may not normally want to be prompted
+for a note when you mark an item as DONE, you might want to
+make an exception for a particular task or project. To do so,
+you would set the LOGGING property to &ldquo;lognotedone&rdquo; in the
+relevant subtree.</li>
+</ul></li>
+
+<li>To create a small database of information.
+
+<ul class="org-ul">
+<li>The manual offers an nice example of this: <a href="https://orgmode.org/manual/Property-syntax.html#Property-syntax">keeping track
+of a information about a CD collection</a>.</li>
+
+<li>Similarly, you might keep bibliographical information about
+books you&rsquo;ve read in properties.</li>
+</ul></li>
+
+<li>To enter data that can be viewed as a &ldquo;spreadsheet&rdquo; in column view.</li>
+
+<li>To create more specific labels for headlines than generic tags allow.
+
+<ul class="org-ul">
+<li>For instance, if you are keeping track of expenses, you could
+put the type of expense in a tag, but then it would be mixed
+up with your other tags. A solution would be to create a
+special property (e.g., EXPENSE_TYPE) to hold the information.</li>
+</ul></li>
+
+<li>To label a particular tree with a unique ID so that it can be
+referenced easily via hyperlinks.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-tag" class="outline-2">
+<h2 id="tag">Tag</h2>
+<div class="outline-text-2" id="text-tag">
+</div>
+
+<div id="outline-container-org41f05e0" class="outline-3">
+<h3 id="org41f05e0">Definition</h3>
+<div class="outline-text-3" id="text-org41f05e0">
+<p>
+A tag is a label (or piece of &ldquo;metadata&rdquo;) that is attached to a
+headline for easy identification and filtering later. Several tags can
+be attached to the same headline.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf00a140" class="outline-3">
+<h3 id="orgf00a140">Details</h3>
+<div class="outline-text-3" id="text-orgf00a140">
+<p>
+Tags can be added to headlines with the key combination <code>C-c C-q</code> or
+<code>C-c C-c</code>.
+</p>
+
+<p>
+Tags have the following syntax:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * A headline with tags                               :Richard:URGENT:errands:
+</pre>
+</div>
+
+<p>
+You may be familiar with tags from blogs or sites like <a href="http://del.icio.us">del.icio.us</a>.
+Tags are a way of labeling information without having to rely on a
+rigid hierarchical structure. Unlike categories, you can give a
+headline/entry multiple tags. In many ways, org-mode offers the best
+of both worlds: the hierarchical organization of an outline and the
+impromptu labeling of tags.
+</p>
+
+<p>
+The entry above would appear in queries for any of the tags:
+&ldquo;Richard&rdquo;, &ldquo;URGENT&rdquo;, or &ldquo;errands&rdquo;.
+</p>
+
+<p>
+The syntax for searching tags via the <a href="#agenda">agenda</a> is quite simple. For
+instance, you could create a targeted agenda search for all items
+tagged &ldquo;Richard&rdquo; and &ldquo;urgent&rdquo;.
+</p>
+
+<pre class="example">
+C-c a m Richard+URGENT
+</pre>
+
+
+<p>
+Or for items tagged Richard that are not urgent:
+</p>
+
+<pre class="example">
+C-c a m Richard-URGENT
+</pre>
+
+
+<p>
+You can also use sparse view searches to display all tags within a
+particular org-file.
+</p>
+
+<p>
+If you find yourself commonly using certain tags, you can create a
+list of shortcuts for them by typing <code>M-x customize-variable [RET]
+org-tags-alist</code>. You can also set special tags for a particular file.
+See <a href="https://orgmode.org/manual/Setting-tags.html">the manual</a> for more details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf92abbc" class="outline-3">
+<h3 id="orgf92abbc">Uses</h3>
+<div class="outline-text-3" id="text-orgf92abbc">
+<p>
+One common use of tags is as <a href="https://en.wikipedia.org/wiki/Getting_Things_Done#GTD_methodology">GTD contexts</a>. You might, for instance,
+define a list of tags in org-tags-alist that correspond to the various
+contexts in a &ldquo;next action&rdquo; can be completed: @computer, @home,
+@errands, @work, and so on. Then you can quickly filter for these tags
+by pressing &ldquo;<code>/</code>&rdquo; in the agenda. See <a href="https://orgmode.org/manual/Agenda-commands.html#Agenda-commands">the manual</a> for more details.
+</p>
+
+<p>
+Another common use of a tag is to label a group of tasks as belonging
+to a particular project or area of responsibility. For instance, you
+might create a subtree in your file that contains all your house
+repair projects and tag it with &ldquo;:houserepair:&rdquo;. Let&rsquo;s say that when
+Saturday rolls around, you decide to work exclusively on repairs.
+Thanks to <a href="#inheritance">inheritance</a>, you can quickly locate all your tasks that
+inherit the &ldquo;:houserepair:&rdquo; tag.
+</p>
+
+<p>
+Here&rsquo;s what this would look like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Tasks around the house                                        :houserepair:
+
+  ** TODO Fix sink
+
+  ** TODO Mow lawn
+
+  ** TODO Tear up carpet
+</pre>
+</div>
+
+<p>
+Tags are also extremely useful for notetaking and research. You might,
+for instance, create a file of reading notes in which each entry is a
+snippet of information tagged with relevant keywords. The beauty of
+org-mode is that these snippets can be easily rearranged within the
+outline and yet remain easy to find via tags.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org57887a0" class="outline-3">
+<h3 id="org57887a0">Considerations: Tags vs. TODO keywords vs. Properties</h3>
+<div class="outline-text-3" id="text-org57887a0">
+<p>
+One question that often emerges for new users of org mode is how to
+decide when tags, <a href="#todo-keywords">TODO keywords</a>, or <a href="#property">properties</a> are appropriate.
+</p>
+
+<p>
+For instance, should you define your projects by creating a special
+todo keyword for them (<code>PROJECT</code>) or by giving them a &ldquo;<code>:project:</code>&rdquo;
+tag? Similarly, should you create a TODO keyword for items that are
+waiting, or should you add a &ldquo;<code>:waiting:</code>&rdquo; tag?
+</p>
+
+<p>
+Either choice would be fine, of course, but here are a few
+considerations to keep in mind:
+</p>
+
+<ol class="org-ol">
+<li>Do you want quickly to filter for the item in the agenda view? If
+so, a tag is probably your best choice.
+
+<ul class="org-ul">
+<li>Note, you can add a setting to your .emacs that automatically
+adds a tag whenever you assign a particular TODO keyword. Type
+&ldquo;<code>C-c v org-todo-state-tags-triggers</code>&rdquo; for more information.</li>
+</ul></li>
+
+<li>How visible do you want the keyword and/or tag to be? When viewing
+an org-mode file, TODO Keywords are highly visible, tags somewhat
+less so, and properties not at all.</li>
+
+<li>Is the keyword part of your workflow? Do you want to be able to log
+information (such as a timestamp and a note) when you add or remove
+the keyword? If so, then use a TODO keyword.
+
+<ul class="org-ul">
+<li>An example: While a &ldquo;waiting&rdquo; tag might make it easier to filter
+for items in your todo list that are waiting/pending, a <code>WAITING</code>
+todo keyword would allow you to keep track of when an item
+entered the &ldquo;waiting&rdquo; state and when it left it.</li>
+
+<li>Similarly, if you want to keep track of a sequence of actions on
+phone calls you receive, it would be relatively inefficient to
+add and remove tags to designate each stage. It would probably be
+better to set up a TODO sequence, such as ACT -&gt; CALL -&gt; MESSAGE
+-&gt; FOLLOWUP -&gt; etc.</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-tree" class="outline-2">
+<h2 id="tree">Tree (subtree)</h2>
+<div class="outline-text-2" id="text-tree">
+</div>
+
+<div id="outline-container-org825e96e" class="outline-3">
+<h3 id="org825e96e">Definition</h3>
+<div class="outline-text-3" id="text-org825e96e">
+<p>
+A tree is created by the structure of an outline. It consists of a
+heading and all subheadings/entries beneath it within the outline
+hierarchy.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org33e8f0d" class="outline-3">
+<h3 id="org33e8f0d">Details</h3>
+<div class="outline-text-3" id="text-org33e8f0d">
+<p>
+A tree is to be distinguished from an <a href="#entry">entry</a>. Whereas an entry
+indicates only a single headline and its data, a tree consists of
+multiple nested entries. And, of course, subtrees are nested within
+larger trees.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-todo-keywords" class="outline-2">
+<h2 id="todo-keywords">Todo Keywords</h2>
+<div class="outline-text-2" id="text-todo-keywords">
+</div>
+
+<div id="outline-container-org9c72d81" class="outline-3">
+<h3 id="org9c72d81">Definition</h3>
+<div class="outline-text-3" id="text-org9c72d81">
+<p>
+A TODO keyword is a small keyword at the beginning of a headline that
+defines the TODO state of the entry.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org43cc380" class="outline-3">
+<h3 id="org43cc380">Details</h3>
+<div class="outline-text-3" id="text-org43cc380">
+<p>
+The default TODO keywords in org-mode are TODO and DONE. They are
+automatically given nice colors to make them stand out.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * DONE Check cupboard to see if I'm out of bread
+    <span style="color: #7f7f80;">CLOSED:</span> <span style="color: #a020f0;">[2009-09-16 Wed 13:14]</span>
+  * TODO Buy bread at the store
+</pre>
+</div>
+
+<p>
+Org mode distinguishes between two types of keywords, active and
+inactive (corresponding with the default TODO and DONE). By default,
+active TODOs will be shown in <a href="#agenda">agenda views</a>. Inactive todos will not be
+shown.
+</p>
+
+<p>
+You can select a TODO keyword by typing <code>C-c C-t</code> on an item. Or you
+can move sequentially through TODOs by typing <code>Shift-Left</code> or
+<code>Shift-Right</code>.
+</p>
+
+<p>
+While the default keywords TODO and DONE will suffice for many users,
+you can define your own TODO keywords (such as PROJECT, WAITING,
+etc.) by following the instructions in the manual:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://orgmode.org/manual/TODO-items.html">https://orgmode.org/manual/TODO-items.html</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcf6339e" class="outline-3">
+<h3 id="orgcf6339e">Uses</h3>
+<div class="outline-text-3" id="text-orgcf6339e">
+<p>
+Not surprisingly, the most common use of TODO keywords is to indicate
+items in your outline files that require action. Where other task
+management systems often separate notes and todos, org-mode allows you
+to mark items in your notes as TODOs.
+</p>
+
+<p>
+Another common use of TODO keywords is to follow a single item through
+an extended workflow. For instance, you might create a special TODO
+keyword sequence for invoices by placing the following at the top of
+your org file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+SEQ_TODO: INVOICE(i) MAIL(m) WAITING(w) FOLLOWUP(f) | RECEIVED(r)</span>
+</pre>
+</div>
+
+<p>
+Note: The &ldquo;|&rdquo; separates active from inactive todos.
+</p>
+
+<p>
+You can combine such todo sequences with logging in order to keep a
+record of when each event in the sequence happened.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c4fb10" class="outline-2">
+<h2 id="org1c4fb10"><span class="todo TODO">TODO</span> Awaiting definitions</h2>
+<div class="outline-text-2" id="text-org1c4fb10">
+</div>
+<div id="outline-container-org47274b7" class="outline-3">
+<h3 id="org47274b7">Agenda filtering</h3>
+<div class="outline-text-3" id="text-org47274b7">
+</div>
+</div>
+
+<div id="outline-container-org9ad6650" class="outline-3">
+<h3 id="org9ad6650">CLOCK</h3>
+<div class="outline-text-3" id="text-org9ad6650">
+</div>
+</div>
+
+<div id="outline-container-orga7b427a" class="outline-3">
+<h3 id="orga7b427a">Column view</h3>
+<div class="outline-text-3" id="text-orga7b427a">
+</div>
+</div>
+
+<div id="outline-container-org308d1b2" class="outline-3">
+<h3 id="org308d1b2">Cycling</h3>
+<div class="outline-text-3" id="text-org308d1b2">
+</div>
+</div>
+
+<div id="outline-container-orgd232c05" class="outline-3">
+<h3 id="orgd232c05">Effort estimate</h3>
+<div class="outline-text-3" id="text-orgd232c05">
+</div>
+</div>
+
+<div id="outline-container-orgf03d152" class="outline-3">
+<h3 id="orgf03d152">Filetag</h3>
+<div class="outline-text-3" id="text-orgf03d152">
+</div>
+</div>
+
+<div id="outline-container-orgae97e83" class="outline-3">
+<h3 id="orgae97e83">Project</h3>
+<div class="outline-text-3" id="text-orgae97e83">
+</div>
+</div>
+
+<div id="outline-container-org8d19fcf" class="outline-3">
+<h3 id="org8d19fcf">Note</h3>
+<div class="outline-text-3" id="text-org8d19fcf">
+</div>
+</div>
+
+<div id="outline-container-org6a300e9" class="outline-3">
+<h3 id="org6a300e9">List</h3>
+<div class="outline-text-3" id="text-org6a300e9">
+</div>
+</div>
+
+<div id="outline-container-orga246f95" class="outline-3">
+<h3 id="orga246f95">Level</h3>
+<div class="outline-text-3" id="text-orga246f95">
+</div>
+</div>
+
+<div id="outline-container-org031d9f5" class="outline-3">
+<h3 id="org031d9f5">Logging</h3>
+<div class="outline-text-3" id="text-org031d9f5">
+</div>
+</div>
+
+<div id="outline-container-org6b3ffc6" class="outline-3">
+<h3 id="org6b3ffc6">SCHEDULED</h3>
+<div class="outline-text-3" id="text-org6b3ffc6">
+</div>
+</div>
+
+<div id="outline-container-file-restriction" class="outline-3">
+<h3 id="file-restriction">Restriction lock</h3>
+<div class="outline-text-3" id="text-file-restriction">
+</div>
+</div>
+
+<div id="outline-container-orgeebe3ef" class="outline-3">
+<h3 id="orgeebe3ef">Table</h3>
+<div class="outline-text-3" id="text-orgeebe3ef">
+</div>
+</div>
+
+<div id="outline-container-orge82aa80" class="outline-3">
+<h3 id="orge82aa80">Timestamp</h3>
+<div class="outline-text-3" id="text-orge82aa80">
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

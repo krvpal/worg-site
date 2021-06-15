@@ -1,0 +1,1272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Verify an Org-mode environment</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Verify an Org-mode environment</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org00cbf77">Instructions</a></li>
+<li><a href="#org51038a0">Tasks</a>
+<ul>
+<li><a href="#orgd717b68">Org Setup</a>
+<ul>
+<li><a href="#orge3ae663">Org library</a></li>
+<li><a href="#orga391efd">Org version</a></li>
+</ul>
+</li>
+<li><a href="#org7223109">Export LaTeX</a>
+<ul>
+<li><a href="#org7d6ce10">Check <code>org-export-latex-classes</code></a></li>
+</ul>
+</li>
+<li><a href="#org0d86449">Preview LaTeX</a></li>
+<li><a href="#org97d965d">Make pdf files</a></li>
+<li><a href="#orgbb74107">Agenda</a></li>
+<li><a href="#org037cd15">Babel</a>
+<ul>
+<li><a href="#orgcc05633">Org-babel provided</a></li>
+<li><a href="#orged643f9">R language configuration</a></li>
+<li><a href="#orgeee7e00">C language configuration</a></li>
+<li><a href="#org635800b">Clojure language configuration</a></li>
+<li><a href="#org28489e5">Ditaa language configuration</a></li>
+<li><a href="#org46b8313">CSS configuration</a></li>
+<li><a href="#org7d665b6">Gnuplot language configuration</a></li>
+<li><a href="#orge302c8e">LaTeX language configuration</a></li>
+<li><a href="#org35e373f">MATLAB® language configuration</a></li>
+<li><a href="#org8744a2f">Perl language configuration</a></li>
+<li><a href="#org725241d">Python language configuration</a></li>
+<li><a href="#org6c6c928">Ruby language configuration</a></li>
+</ul>
+</li>
+<li><a href="#org5f354a1">HTML export</a></li>
+</ul>
+</li>
+<li><a href="#orgd13eb16">Commands</a>
+<ul>
+<li><a href="#org125bf39">Org stuff</a></li>
+<li><a href="#org94c7ee8">Export LaTeX classes</a></li>
+<li><a href="#org50d91a0">LaTeX engine specified</a></li>
+<li><a href="#org8f999c8">LaTeX engine present</a></li>
+<li><a href="#orgca125da"><code>org-agenda-files</code></a></li>
+<li><a href="#org112876c"><code>check-latex-scale</code></a></li>
+</ul>
+</li>
+<li><a href="#org6ed5c14">Acknowledgments</a></li>
+</ul>
+</div>
+</div>
+<p>
+Check an Org-mode environment.
+</p>
+
+<p>
+<b>warning</b>: executing the table in this buffer will execute elisp and
+ shell commands on your system.  These commands are intended to check
+ aspects of your environment for compatibility with Org-mode, however
+ malicious people could tie arbitrary and/or malicious code blocks to
+ this table.
+</p>
+<ul class="org-ul">
+<li>don&rsquo;t be malicious, only put reasonable code into this buffer</li>
+<li>don&rsquo;t be angry, you&rsquo;ve been warned about the possible risks of
+using this buffer</li>
+</ul>
+
+<p>
+In general Org-moders are very nice and will most likely keep this
+buffer both safe and useful.
+</p>
+
+<div id="outline-container-org00cbf77" class="outline-2">
+<h2 id="org00cbf77">Instructions</h2>
+<div class="outline-text-2" id="text-org00cbf77">
+<ul class="org-ul">
+<li>Download the file <a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/org-check.org">org-check.org</a></li>
+<li>Calculate the table by putting point in the table and pressing <code>C-u C-c *</code></li>
+<li>Check the <code>results</code> column
+<ul class="org-ul">
+<li>if you see all &ldquo;pass&rdquo; results, then your environment passes</li>
+<li>if you see &ldquo;fail&rdquo; or other unexpected results, then follow the
+link in the <code>topic</code> column for an explanation</li>
+</ul></li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">task</th>
+<th scope="col" class="org-left">topic</th>
+<th scope="col" class="org-left">command</th>
+<th scope="col" class="org-left">arg</th>
+<th scope="col" class="org-left">results</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">org-library</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">org-version</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="#orgbb74107">Agenda</a></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-agenda-files</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ltx-cls</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-latex</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-html</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;dvipng&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;dvipng&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#org112876c">latex-scale</a></td>
+<td class="org-left">chk-latex-scale</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-latex</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#orge302c8e">latex</a></td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#orge302c8e">latex-system</a></td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#org50d91a0">latex-engine</a></td>
+<td class="org-left">chk-latex-engine</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#org8f999c8">engine-present</a></td>
+<td class="org-left">chk-engine-cmd</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><a href="#org037cd15">Org-babel</a></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#orgcc05633">Org-babel</a></td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;R&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;R&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;R&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-R</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;C&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;cc&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;cc&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-C</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;clojure&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-clojure</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;ditaa&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-ditaa</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;css&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-css</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;gnuplot&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;gnuplot&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;gnuplot&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-gnuplot</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;latex&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-latex</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="#org35e373f">MATLAB®</a></td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;matlab&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;matlab&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;matlab&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-matlab</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;perl&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;perl&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;perl&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-perl</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;python&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;python&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;python&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-python</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-babel-lang</td>
+<td class="org-left">&ldquo;ruby&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-ext-cmd</td>
+<td class="org-left">&ldquo;ruby&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">chk-sys-cmd</td>
+<td class="org-left">&ldquo;ruby&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pkg-loaded</td>
+<td class="org-left">&rsquo;org-babel-ruby</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org51038a0" class="outline-2">
+<h2 id="org51038a0">Tasks</h2>
+<div class="outline-text-2" id="text-org51038a0">
+</div>
+<div id="outline-container-orgd717b68" class="outline-3">
+<h3 id="orgd717b68">Org Setup</h3>
+<div class="outline-text-3" id="text-orgd717b68">
+<ul class="org-ul">
+<li>It is sometimes the case that updating Org-mode seems to have no
+effect.  This can arise when there are multiple Org-mode
+installations, or if Org-mode was compiled and then not
+recompiled after an update.</li>
+</ul>
+</div>
+<div id="outline-container-orge3ae663" class="outline-4">
+<h4 id="orge3ae663">Org library</h4>
+<div class="outline-text-4" id="text-orge3ae663">
+<ul class="org-ul">
+<li>This is where emacs is finding the Org-mode installation</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga391efd" class="outline-4">
+<h4 id="orga391efd">Org version</h4>
+<div class="outline-text-4" id="text-orga391efd">
+<ul class="org-ul">
+<li>This is the hard-coded version number from org.el.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-org7223109" class="outline-3">
+<h3 id="org7223109">Export LaTeX</h3>
+<div class="outline-text-3" id="text-org7223109">
+<ul class="org-ul">
+<li><a href="https://orgmode.org/worg/org-tutorials/org-latex-export.html">LaTeX Export Tutorial</a></li>
+</ul>
+</div>
+
+<div id="outline-container-org7d6ce10" class="outline-4">
+<h4 id="org7d6ce10">Check <code>org-export-latex-classes</code></h4>
+<div class="outline-text-4" id="text-org7d6ce10">
+<ul class="org-ul">
+<li>Check that the variable <code>org-export-latex-classes</code> has been set: <a href="(progn (describe-variable 'org-export-latex-classes) (other-window 1))">(progn (describe-variable 'org-export-latex-classes) (other-window 1))</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0d86449" class="outline-3">
+<h3 id="org0d86449">Preview LaTeX</h3>
+<div class="outline-text-3" id="text-org0d86449">
+<ul class="org-ul">
+<li>Previewing LaTeX in the Org-mode buffer requires:
+<ul class="org-ul">
+<li>a working LaTeX installation, including the <code>latex</code> executable</li>
+<li>the <a href="http://sourceforge.net/projects/dvipng/">dvipng</a> executable</li>
+<li>paths to these executables on <code>exec-path</code></li>
+</ul></li>
+<li>If either latex-system or dvipng-system fails, then you probably
+need to install software</li>
+<li>If latex-system passes and latex fails, then you need to modify
+the variable <code>exec-path</code>, so the path to the latex executable is
+included</li>
+<li>If dvipng-system passes and dvipng fails, then you need to modify
+the variable <code>exec-path</code>, so the path to the dvipng executable is
+included</li>
+<li>Image size can be scaled using the <code>:scale</code> property of the
+variable <code>org-format-latex-options</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org97d965d" class="outline-3">
+<h3 id="org97d965d">Make pdf files</h3>
+<div class="outline-text-3" id="text-org97d965d">
+<ul class="org-ul">
+<li>Pdf files are created for in-buffer preview and as the
+end-product of <a href="https://orgmode.org/worg/org-tutorials/org-latex-export.html#sec-7">LaTeX export</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbb74107" class="outline-3">
+<h3 id="orgbb74107">Agenda</h3>
+<div class="outline-text-3" id="text-orgbb74107">
+<ul class="org-ul">
+<li>The <a href="https://orgmode.org/manual/Agenda-Views.html#Agenda-Views">agenda</a> is key to using Org-mode effectively</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org037cd15" class="outline-3">
+<h3 id="org037cd15">Babel</h3>
+<div class="outline-text-3" id="text-org037cd15">
+<ul class="org-ul">
+<li><a href="https://orgmode.org/worg/org-contrib/babel/index.php">Org-babel</a> extends the very excellent Org-mode with the ability to
+execute code blocks</li>
+<li><a href="https://orgmode.org/worg/org-contrib/babel/intro.php#getting-started">Org-babel configuration</a> is a 5-step process that requires entries
+in <code>.emacs</code></li>
+</ul>
+</div>
+<div id="outline-container-orgcc05633" class="outline-4">
+<h4 id="orgcc05633">Org-babel provided</h4>
+<div class="outline-text-4" id="text-orgcc05633">
+<ul class="org-ul">
+<li>If this test fails, then Org-babel isn&rsquo;t loaded</li>
+<li>You probably need something like this in <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-init</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li><a href="https://orgmode.org/worg/org-contrib/babel/intro.php#getting-started">Org-babel installation</a> is a 5-step process</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orged643f9" class="outline-4">
+<h4 id="orged643f9">R language configuration</h4>
+<div class="outline-text-4" id="text-orged643f9">
+<ul class="org-ul">
+<li><a href="http://www.r-project.org/">R</a> is a free software environment for statistical computing and graphics</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-R</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the R executable in <code>exec-path</code> : <a href="(progn (describe-variable 'exec-path) (other-window))">(progn (describe-variable 'exec-path) (other-window))</a> and possibly add a line to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/R/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+R is installed on your system</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgeee7e00" class="outline-4">
+<h4 id="orgeee7e00">C language configuration</h4>
+<div class="outline-text-4" id="text-orgeee7e00">
+<ul class="org-ul">
+<li><a href="https://en.wikipedia.org/wiki/C_%28programming_language%29">C</a> is a general-purpose computer programming language</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-C</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the cc executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/cc/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+a C compiler is installed on your system and, if it is, what it
+is called other than <code>cc</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org635800b" class="outline-4">
+<h4 id="org635800b">Clojure language configuration</h4>
+<div class="outline-text-4" id="text-org635800b">
+<ul class="org-ul">
+<li><a href="http://clojure.org/">Clojure</a> is a dynamic programming language that targets the Java Virtual Machine</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-clojure</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org28489e5" class="outline-4">
+<h4 id="org28489e5">Ditaa language configuration</h4>
+<div class="outline-text-4" id="text-org28489e5">
+<ul class="org-ul">
+<li><a href="http://ditaa.sourceforge.net/">Ditaa</a> is a small command-line utility written in Java, that can convert diagrams drawn using ascii art into proper bitmap graphics</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-ditaa</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org46b8313" class="outline-4">
+<h4 id="org46b8313">CSS configuration</h4>
+<div class="outline-text-4" id="text-org46b8313">
+<ul class="org-ul">
+<li><a href="http://www.w3.org/Style/CSS/">Cascading Style Sheets (CSS)</a> is a simple mechanism for adding style to Web documents</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-css</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7d665b6" class="outline-4">
+<h4 id="org7d665b6">Gnuplot language configuration</h4>
+<div class="outline-text-4" id="text-org7d665b6">
+<ul class="org-ul">
+<li><a href="http://www.gnuplot.info/">Gnuplot</a> is a command-line driven graphing utility</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to .emacs</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-gnuplot</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the gnuplot executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to .emacs</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/gnuplot/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+gnuplot is installed on your system</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge302c8e" class="outline-4">
+<h4 id="orge302c8e">LaTeX language configuration</h4>
+<div class="outline-text-4" id="text-orge302c8e">
+<ul class="org-ul">
+<li><a href="http://www.tug.org/">LaTeX</a> is a TeX macro package that provides a document processing system</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to .emacs</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-latex</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the latex executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to .emacs</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/latex/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+latex is installed on your system</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org35e373f" class="outline-4">
+<h4 id="org35e373f">MATLAB® language configuration</h4>
+<div class="outline-text-4" id="text-org35e373f">
+<ul class="org-ul">
+<li>MATLAB® is a high-level language and interactive environment
+that enables you to perform computationally intensive tasks
+faster than with traditional programming languages such as C,
+C++, and Fortran</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to .emacs</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-matlab</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the MATLAB® executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to .emacs</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/matlab/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+MATLAB® is installed on your system</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8744a2f" class="outline-4">
+<h4 id="org8744a2f">Perl language configuration</h4>
+<div class="outline-text-4" id="text-org8744a2f">
+<ul class="org-ul">
+<li><a href="http://www.perl.org/">Perl</a> is a highly capable, feature-rich programming language with
+over 22 years of development</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-perl</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the Perl executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/perl/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+Perl is installed on your system</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org725241d" class="outline-4">
+<h4 id="org725241d">Python language configuration</h4>
+<div class="outline-text-4" id="text-org725241d">
+<ul class="org-ul">
+<li><a href="http://www.python.org/">Python</a> is a programming language that lets you work more quickly
+and integrate your systems more effectively</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-python</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the Python executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/python/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+Python is installed on your system</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6c6c928" class="outline-4">
+<h4 id="org6c6c928">Ruby language configuration</h4>
+<div class="outline-text-4" id="text-org6c6c928">
+<ul class="org-ul">
+<li><a href="http://www.ruby-lang.org/en/">Ruby</a> is a dynamic, open source programming language with a focus
+on simplicity and productivity</li>
+<li>if <code>chk-babel-lang</code> returns <code>fail</code> then you should add this line
+to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-ruby</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-ext-cmd</code> returns <code>fail</code> then you should check if there
+is a path to the Ruby executable in <a href="(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a> and possibly add a
+line to <code>.emacs</code></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/ruby/executable"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>if <code>chk-sys-cmd</code> returns <code>fail</code> then you should check to see if
+Ruby is installed on your system</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5f354a1" class="outline-3">
+<h3 id="org5f354a1">HTML export</h3>
+</div>
+</div>
+<div id="outline-container-orgd13eb16" class="outline-2">
+<h2 id="orgd13eb16">Commands</h2>
+<div class="outline-text-2" id="text-orgd13eb16">
+</div>
+<div id="outline-container-org125bf39" class="outline-3">
+<h3 id="org125bf39">Org stuff</h3>
+<div class="outline-text-3" id="text-org125bf39">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org594c75b">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span>
+        <span style="color: #b6e63e;">(</span>x <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">locate-library</span> <span style="color: #e2c770;">"org"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">null</span> x<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"fail"</span> x<span style="color: #fd971f;">)</span>
+    <span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org74bf2de"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">null</span> <span style="color: #fd971f;">org-version</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">"fail"</span> <span style="color: #fd971f;">org-version</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org94c7ee8" class="outline-3">
+<h3 id="org94c7ee8">Export LaTeX classes</h3>
+<div class="outline-text-3" id="text-org94c7ee8">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org2e8240d">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">null</span> org-export-latex-classes<span style="color: #fd971f;">)</span> <span style="color: #e2c770;">"fail"</span> <span style="color: #e2c770;">"pass"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org50d91a0" class="outline-3">
+<h3 id="org50d91a0">LaTeX engine specified</h3>
+<div class="outline-text-3" id="text-org50d91a0">
+<ul class="org-ul">
+<li>Returns the first argument of the first entry in <code>org-latex-to-pdf-process</code></li>
+<li>This is typically a call to the LaTeX engine</li>
+<li>If <code>fail</code> is returned, then the variable <code>org-latex-to-pdf-process</code>
+needs to be set</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org51edddc">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span>  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">null</span> org-latex-to-pdf-process<span style="color: #fd971f;">)</span> <span style="color: #e2c770;">"fail"</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">substring</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">first</span> org-latex-to-pdf-process<span style="color: #b6e63e;">)</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"\\ "</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">first</span> org-latex-to-pdf-process<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> <span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8f999c8" class="outline-3">
+<h3 id="org8f999c8">LaTeX engine present</h3>
+<div class="outline-text-3" id="text-org8f999c8">
+<ul class="org-ul">
+<li>Checks if the LaTeX engine specified by
+<code>org-latex-to-pdf-process</code> can be found by Org-mode</li>
+<li>Returns <code>fail</code> if  <code>chk-latex-engine</code> returns <code>fail</code></li>
+<li>If <code>fail</code> is returned, then the variable <code>exec-path</code> probably
+needs to have the path to the LaTeX engine</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org3cde88b">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-equal</span> x <span style="color: #e2c770;">"fail"</span><span style="color: #fd971f;">)</span> x <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-check-external-command</span> x <span style="color: #e2c770;">""</span> t<span style="color: #b6e63e;">)</span>
+  <span style="color: #e2c770;">"pass"</span> <span style="color: #e2c770;">"fail"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgca125da" class="outline-3">
+<h3 id="orgca125da"><code>org-agenda-files</code></h3>
+<div class="outline-text-3" id="text-orgca125da">
+<ul class="org-ul">
+<li>The <a href="(progn (describe-variable 'org-agenda-files) (other-window 1))">org-agenda-files</a> variable is required for a number of optional, but useful, Org-mode commands
+<ul class="org-ul">
+<li><a href="(progn (describe-function 'org-agenda) (other-window 1))">org-agenda</a></li>
+<li>org-export-icalendar-combine-agenda-files : <a href="(progn (describe-variable 'org-export-icalendar-combine-agenda-files) (other-window 1))">(progn (describe-variable 'org-export-icalendar-combine-agenda-files) (other-window 1))</a></li>
+<li>others?</li>
+</ul></li>
+<li>It is <a href="https://orgmode.org/manual/Agenda-files.html#Agenda-files">easy to set</a></li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org920aeea">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">null</span> <span style="color: #fd971f;">org-agenda-files</span><span style="color: #fd971f;">)</span>
+      <span style="color: #e2c770;">"consider setting [[* org-agenda-files][org-agenda-files]]"</span>
+    <span style="color: #e2c770;">"pass"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org112876c" class="outline-3">
+<h3 id="org112876c"><code>check-latex-scale</code></h3>
+<div class="outline-text-3" id="text-org112876c">
+<p>
+Report the scale setting for inline images.  Default is 1.0.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org4dd7689">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> <span style="color: #fd971f;">org-format-latex-options</span> <span style="color: #fd971f;">:scale</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6ed5c14" class="outline-2">
+<h2 id="org6ed5c14">Acknowledgments</h2>
+<div class="outline-text-2" id="text-org6ed5c14">
+<p>
+Many thanks to the following people for their generous help:
+</p>
+<ul class="org-ul">
+<li>Eric Schulte for setting up the original table and correcting code</li>
+<li>Sebastian Rose for the pointer to (featurep FEATURE &amp;optional SUBFEATURE)</li>
+<li>Carsten Dominick for <a href="https://orgmode.org/guide/">Org-mode Guide</a> and his many other efforts to
+make Org-mode accessible to Lisp illiterates</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

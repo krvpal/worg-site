@@ -1,0 +1,73 @@
+# Created 2021-06-15 Tue 18:20
+#+OPTIONS: H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Stata Source Code Blocks in Org Mode
+#+AUTHOR: Ista Zahn
+#+startup: align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+language: en
+#+html_link_up: index.html
+#+html_link_home: https://orgmode.org/worg/
+#+exclude_tags: noexport
+
+* Introduction
+Stata is a proprietary statistics program popular in economics and some social sciences. Stata code blocks are partially supported in Org Mode. Basic code evaluation works, but there is no support for graphics or other more advanced org-babel features. 
+* Requirements and Setup
+Stata source code blocks in Org Mode requires a working Stata installation, as well as the [[http://ess.r-project.org][ESS]] emacs package. Before configuring Org Mode to evaluate Stata source code blocks you should make sure that ESS is configured correctly, and that you can evaluate Stata code in ESS.
+
+To configure your emacs org-mode to use Stata, you'll need to ensure
+that =org-babel-load-languages= includes an entry for it.
+Typically, =org-babel-load-languages= will contain many entries.  The
+example below omits other languages.
+
+#+begin_src emacs-lisp :tangle yes
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((stata . t)))
+#+end_src
+
+* Org Mode Features for Stata Source Code Blocks
+** Header Arguments
+Stata code evaluation currently only works with the header argument =:results output=; this is the default setting for stata code blocks.
+** Sessions
+Session mode is supported in stata, including named sessions. 
+** Result Types
+Only =output= is supported.
+
+* Examples of Use
+- Hello World!
+#+begin_src stata :session *Stata* :eval no :exports both
+  disp "Hello world"
+#+end_src
+
+#+results: 
+: disp "Hello world"
+: Hello world
+
+
+- Fit a linear model
+#+begin_src stata :session *Stata* :eval no :exports both
+  webuse auto
+  regress mpg price
+#+end_src
+
+#+results: 
+#+begin_example
+webuse auto
+(1978 Automobile Data)
+regress mpg price
+
+      Source |       SS       df       MS              Number of obs =      74
+-------------+------------------------------           F(  1,    72) =   20.26
+       Model |  536.541807     1  536.541807           Prob > F      =  0.0000
+    Residual |  1906.91765    72  26.4849674           R-squared     =  0.2196
+-------------+------------------------------           Adj R-squared =  0.2087
+       Total |  2443.45946    73  33.4720474           Root MSE      =  5.1464
+
+------------------------------------------------------------------------------
+         mpg |      Coef.   Std. Err.      t    P>|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       price |  -.0009192   .0002042    -4.50   0.000    -.0013263   -.0005121
+       _cons |   26.96417   1.393952    19.34   0.000     24.18538    29.74297
+------------------------------------------------------------------------------
+#+end_example

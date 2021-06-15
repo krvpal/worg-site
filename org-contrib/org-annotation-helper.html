@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-annotation-helper.el: using org-mode as a bookmark manager, a knowledge base, a research tool and more!</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-annotation-helper.el: using org-mode as a bookmark manager, a knowledge base, a research tool and more!</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd5e683f">Overview</a></li>
+<li><a href="#orgd897348">Components</a>
+<ul>
+<li><a href="#org97deceb">New protocols</a></li>
+<li><a href="#org59b16c8">The bookmarklets</a></li>
+<li><a href="#orge5332aa">The handler</a></li>
+</ul>
+</li>
+<li><a href="#org93910c4">Installation</a>
+<ul>
+<li><a href="#orgeb47ed7">Install org-annotation-helper.el</a></li>
+<li><a href="#orgb926e9c">Install the remember script</a>
+<ul>
+<li><a href="#org9479a6e">Save the handler as a script, and make sure it is executable, i.e. remember</a></li>
+<li><a href="#org3704983">Try it:</a></li>
+</ul>
+</li>
+<li><a href="#org6a6aae0">Add two bookmarklets</a></li>
+<li><a href="#orgf67881a">Add the handler for the &ldquo;remember://&rdquo; URI</a>
+<ul>
+<li><a href="#org9a995bf">Firefox</a></li>
+<li><a href="#org2f63ba3">Opera</a></li>
+</ul>
+</li>
+<li><a href="#org8d0c838">Configure a template</a></li>
+<li><a href="#orgd4eef02">Step 5</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+We want to be able to pass a URL, a document title and a selected
+region directly from a web browser to a running instance of Emacs.
+</p>
+
+<div id="outline-container-orgd5e683f" class="outline-2">
+<h2 id="orgd5e683f">Overview</h2>
+<div class="outline-text-2" id="text-orgd5e683f">
+<p>
+You select a region on a web page, click a bookmarklet and a link to
+the web page, page title and selected region is saved in a designated
+Org file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd897348" class="outline-2">
+<h2 id="orgd897348">Components</h2>
+<div class="outline-text-2" id="text-orgd897348">
+</div>
+<div id="outline-container-org97deceb" class="outline-3">
+<h3 id="org97deceb">New protocols</h3>
+<div class="outline-text-3" id="text-org97deceb">
+<p>
+We define a remember:// url handler in the browser and use a shell
+script to handle the protocol.  This script passes the information to
+a running Emacs process (using <code>emacsclient</code> or <code>gnuclient</code>).  We use
+bookmarklets to create the <code>remember://</code> urls dynamicly.
+</p>
+
+<p>
+The protocol types currently recognized are:
+</p>
+
+<dl class="org-dl">
+<dt>remember://</dt><dd>start `remember&rsquo; with the url and title filled in</dd>
+<dt>annotation://</dt><dd>similar to `planner-annotation-as-kill&rsquo; (org?)</dd>
+</dl>
+
+<p>
+The urls used internally will have the following form:
+</p>
+
+<p>
+<code>remember://&lt;the web page url&gt;::remember::&lt;the title&gt;::remember::&lt;selection&gt;</code>
+</p>
+
+<p>
+The title will be url-hex-encoded.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org59b16c8" class="outline-3">
+<h3 id="org59b16c8">The bookmarklets</h3>
+<div class="outline-text-3" id="text-org59b16c8">
+<div class="org-src-container">
+<pre class="src src-javascript">    javascript:location.href=<span style="color: #e2c770;">'remember://'</span> + location.href + <span style="color: #e2c770;">'::remember::'</span> + escape(document.title) + <span style="color: #e2c770;">'::remember::'</span> + escape(window.getSelection())
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-javascript">    javascript:location.href=<span style="color: #e2c770;">'annotation://'</span> + location.href + <span style="color: #e2c770;">'::remember::'</span> + escape(document.title) ;;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge5332aa" class="outline-3">
+<h3 id="orge5332aa">The handler</h3>
+<div class="outline-text-3" id="text-orge5332aa">
+<div class="org-src-container">
+<pre class="src src-shell-script">    <span style="color: #696969;">#</span><span style="color: #696969;">!/bin/sh</span>
+    <span style="color: #696969;"># </span><span style="color: #696969;">org-annotation-helper -- pass a remember-url to emacs</span>
+    <span style="color: #696969;">#</span>
+    <span style="color: #696969;"># </span><span style="color: #696969;">Author: Geert Kloosterman <a href="mailto:g.j.kloosterman%40gmail.com">&lt;g.j.kloosterman@gmail.com&gt;</a></span>
+    <span style="color: #696969;"># </span><span style="color: #696969;">Date: Sat Nov 19 22:33:18 2005</span>
+
+    <span style="color: #eb4509;">if</span> <span style="color: #eb4509;">[</span> -z <span style="color: #e2c770;">"</span><span style="color: #fd971f;">$</span><span style="color: #fd971f;">1</span><span style="color: #e2c770;">"</span> <span style="color: #eb4509;">]</span>; <span style="color: #eb4509;">then</span>
+    <span style="color: #66d9ef;">echo</span> <span style="color: #e2c770;">"</span><span style="color: #fd971f;">$</span><span style="color: #fd971f;">0</span><span style="color: #e2c770;">: Error: no arguments given!"</span> <span style="color: #9c91e4; font-weight: bold;">1</span>&gt;&amp;<span style="color: #9c91e4; font-weight: bold;">2</span>
+    <span style="color: #eb4509;">exit</span> <span style="color: #9c91e4; font-weight: bold;">1</span>
+    <span style="color: #eb4509;">fi</span>
+
+    <span style="color: #696969;"># </span><span style="color: #696969;">To test uncomment following line</span>
+    <span style="color: #696969;">#</span><span style="color: #696969;">echo</span><span style="color: #696969;"> $1 &gt;&gt; /tmp/remember.out</span>
+
+    emacsclient --eval <span style="color: #e2c770;">"(progn (bzg/org-annotation-helper \"</span><span style="color: #fd971f;">$</span><span style="color: #fd971f;">1</span><span style="color: #e2c770;">\" ) nil)"</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org93910c4" class="outline-2">
+<h2 id="org93910c4">Installation</h2>
+<div class="outline-text-2" id="text-org93910c4">
+</div>
+<div id="outline-container-orgeb47ed7" class="outline-3">
+<h3 id="orgeb47ed7">Install org-annotation-helper.el</h3>
+<div class="outline-text-3" id="text-orgeb47ed7">
+<p>
+Install this script and require it in your .emacs (or wherever you
+want to do it).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-annotation-helper</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb926e9c" class="outline-3">
+<h3 id="orgb926e9c">Install the remember script</h3>
+<div class="outline-text-3" id="text-orgb926e9c">
+</div>
+<div id="outline-container-org9479a6e" class="outline-4">
+<h4 id="org9479a6e">Save the handler as a script, and make sure it is executable, i.e. remember</h4>
+</div>
+
+<div id="outline-container-org3704983" class="outline-4">
+<h4 id="org3704983">Try it:</h4>
+<div class="outline-text-4" id="text-org3704983">
+<ol class="org-ol">
+<li>Make sure emacs is running and you have started its server</li>
+</ol>
+<p>
+mode using (server-start) in .emacs or M-x server-start.
+</p>
+
+<ol class="org-ol">
+<li>Run this command from the command line:</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-shell-script">     $ remember <span style="color: #e2c770;">'remember://http%3A//orgmode.org/::remember::Org-Mode%20Homepage::remember::Notes'</span>
+</pre>
+</div>
+
+<ol class="org-ol">
+<li>Emacs should now show a remember window with a URL to remember.org</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6a6aae0" class="outline-3">
+<h3 id="org6a6aae0">Add two bookmarklets</h3>
+<div class="outline-text-3" id="text-org6a6aae0">
+<p>
+For firefox:
+</p>
+
+<ol class="org-ol">
+<li>Right click on the bookmarks area of Firefox.</li>
+<li>Select new bookmark.</li>
+<li>In location fill the javascript code above (the bookmarklet)</li>
+<li>Make sure &ldquo;Load this bookmark in the sidebar is deselected</li>
+</ol>
+
+<p>
+Try it. You should have now a url that starts with &ldquo;remember://&rdquo; and
+your browser will not know what do to with it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf67881a" class="outline-3">
+<h3 id="orgf67881a">Add the handler for the &ldquo;remember://&rdquo; URI</h3>
+<div class="outline-text-3" id="text-orgf67881a">
+</div>
+<div id="outline-container-org9a995bf" class="outline-4">
+<h4 id="org9a995bf">Firefox</h4>
+<div class="outline-text-4" id="text-org9a995bf">
+<p>
+To add a protocol handler (eg: remember://) in Firefox, take the
+following steps:
+</p>
+
+<ol class="org-ol">
+<li>type in &ldquo;about:config&rdquo; in the location bar</li>
+<li>right click, select New &#x2013;&gt; String
+<ul class="org-ul">
+<li>the name should be &ldquo;network.protocol-handler.app.remember&rdquo;</li>
+<li>the value should be the executable, eg. &ldquo;org-annotation-helper&rdquo;.</li>
+</ul></li>
+</ol>
+
+<p>
+At least under Linux this does not need to be the full path to
+the executable.
+</p>
+
+<p>
+See <a href="http://kb.mozillazine.org/Register_protocol">http://kb.mozillazine.org/Register_protocol</a> for more details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2f63ba3" class="outline-4">
+<h4 id="org2f63ba3">Opera</h4>
+<div class="outline-text-4" id="text-org2f63ba3">
+<p>
+In Opera add the protocol in the Preferences-&gt;Advanced-&gt;Programs
+dialog.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8d0c838" class="outline-3">
+<h3 id="org8d0c838">Configure a template</h3>
+<div class="outline-text-3" id="text-org8d0c838">
+<p>
+I personally use the following template for this mode (all as one
+line):
+</p>
+
+<pre class="example">
+    ("Weblink" ?w "* %c\n  :PROPERTIES:\n  :CREATED: %U\n  :END:\n  - link: %:link\n  - Quote:\n\n    %?%:region\n\n  - End Quote\n\n" "bookmarks.org" "WebLinks" )
+</pre>
+
+<dl class="org-dl">
+<dt><code>%c</code></dt><dd>will be replaced with the hyperlink to the page, displaying the title of the page</dd>
+<dt><code>%:link</code></dt><dd>will be replaced with the address of the page</dd>
+<dt><code>%i</code></dt><dd>will be replaced with the selected text from the browser</dd>
+<dt><code>%:region</code></dt><dd>will be replaced by the selected text from the web
+page (special characters will be in hex-code.)</dd>
+<dt><code>%U</code></dt><dd>will be replaced by the current date</dd>
+<dt><code>%?</code></dt><dd>the cursor will be placed here (you may also replace this
+escape with <code>%&amp;</code> to make it completely non-interactive.)</dd>
+</dl>
+
+<p>
+By default the new remember notes are placed in the bookmarks.org
+file under the &ldquo;Web links&rdquo; section, but it can be easily overriden
+with C-u C-c C-c
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd4eef02" class="outline-3">
+<h3 id="orgd4eef02">Step 5</h3>
+<div class="outline-text-3" id="text-orgd4eef02">
+<p>
+Enjoy!
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

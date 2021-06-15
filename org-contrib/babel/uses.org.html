@@ -1,0 +1,377 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>uses.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Source Code Blocks: Uses
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd at tsdye dot com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:1 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:  index.php</span>
+<span class="org-meta-line">#+HTML_LINK_HOME: <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+SELECT_TAGS: export</span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+  This page collects examples of using source code blocks in a variety
+  of contexts.  Contributions of further examples from Org Mode users are
+  very welcome.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using Multiple Languages
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/data-collection-analysis.org">Data Collection and Analysis</a></span><span class="org-level-2">
+</span>   (raw file available at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/data-collection-analysis.org">data-collection-analysis.org</a></span>)
+
+   This example uses Babel to automate a repeated data-collection
+   and analysis task.  A Ruby code block is used to scrape data from
+   the output of a computational experiment.  This data is then written
+   to an Org-mode table.  A block of R code reads from this table and
+   calculates lines of fit.  Finally a block of gnuplot code is used to
+   graph the results of both the raw data and the R analysis.  By
+   performing all of these steps within an Org-mode document working
+   notes, discussion, and TODOs can be naturally interspersed with the
+   code, and the results can easily be published to HTML or PDF for
+   distribution.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Integrations with R
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:how-to-use-Org-Babel-for-R.org">Tutorial Org/Babel/R by Feiming Chen</a></span><span class="org-level-2">                            </span><span class="org-level-2"><span class="org-tag">:noexport:</span></span><span class="org-level-2">
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="kc-org-link-url"><a href="http://www.stats.ox.ac.uk/~davison/software/org-babel/drift.org.html">Teaching Evolution Using R</a></span><span class="org-level-2">
+</span>   This example is a tutorial on simulating evolution in R. It contains
+   examples of diagrams generated with <span class="org-verbatim">ditaa</span>, LaTeX, and graphics
+   generated with R.
+
+   A good way to see how org-babel functions to create the tutorial is to
+   view the <span class="kc-org-link-url"><a href="http://www.stats.ox.ac.uk/~davison/software/org-babel/drift.org.html">htmlized org buffer</a></span>. This also provides an example of how
+   images and latex-generated mathematical notation can be viewed inline
+   in emacs. The HTML export version is <span class="org-link"><a href="file:examples/drift.org">here</a></span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/ascii.org">An Example Using the Ascii Package</a></span><span class="org-level-2">
+</span>   (raw file available at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/ascii.org">ascii.org</a></span>)
+
+   This example shows how to use Org Mode source code blocks with <span class="org-verbatim">R</span>
+   and the <span class="org-verbatim">ascii</span> package.  The <span class="org-verbatim">ascii</span> package is useful for
+   retrieving non-tabular <span class="org-verbatim">R</span> data structures in Org Mode.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/fb7eedbde275f0124f5a2e62ac1fec213f24fbde/org-contrib/babel/examples/foo.org.html">/An Babel Demo/ -- A Comparison to Sweave</a></span><span class="org-level-2">
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">foo</span>
+  <span class="org-drawer">:END:</span>
+
+<span class="kc-org-link-url"><a href="http://www.stat.umn.edu/~charlie/">Charlie Geyer</a></span> created an excellent short demonstration of Sweave entitled
+<span class="italic">An Sweave Demo</span> available at <span class="kc-org-link-url"><a href="http://www.stat.umn.edu/~charlie/Sweave/">his Sweave page</a></span>.  There is now an Babel
+version of this demonstration entitled <span class="italic">An Babel Demo</span> which matches
+Charlie's document word for word (as much as possible) and figure for
+figure with all the examples implemented using Babel instead of Sweave.
+
+Compare the two side-by-side.
+
+<span class="org-table">|        | source                                  | pdf     |</span>
+<span class="org-table">|--------+-----------------------------------------+---------|</span>
+<span class="org-table">| Sweave | </span><span class="kc-org-link-url"><a href="http://www.stat.umn.edu/~charlie/Sweave/foo.Rnw">foo.Rnw</a></span><span class="org-table">                                 | </span><span class="kc-org-link-url"><a href="http://www.stat.umn.edu/~charlie/Sweave/foo.pdf">foo.pdf</a></span><span class="org-table"> |</span>
+<span class="org-table">| Babel  | </span><span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/foo.org">foo.org</a></span><span class="org-table"> (</span><span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/foo.org.html">foo.org.html</a></span><span class="org-table"> as seen in Emacs) | </span><span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/foo.pdf">foo.pdf</a></span><span class="org-table"> |</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/Rpackage.org">R Package Development Headers</a></span><span class="org-level-2">
+</span>This document contains
+ <span class="org-list-dt">-</span> tools useful for writing R extensions called <span class="italic">packages</span>
+ <span class="org-list-dt">-</span> source code to create a simple R package
+
+ <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/src/master/org-contrib/babel/examples/Rpackage.org">Download</a></span> the <span class="org-verbatim">.org</span> version of this document and place it in either
+ an R package source directory or in a clean directory to get started.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tutorial on Emacs+ESS and Org+R by Stephen Eglen
+</span>
+See <span class="kc-org-link-url"><a href="https://orgmode.org/list/11199.1313658922@maps">this message</a></span> from Stephen Eglen:
+
+<span class="org-code">: I gave a 3 hour tutorial on Emacs Speaks Statistics on Monday; this
+: included mostly Emacs and ESS, but also introduced org-mode for R users.
+: If anyone is interested, the slides and material are available at:
+</span>
+<span class="kc-org-link-url"><a href="http://www.damtp.cam.ac.uk/user/sje30/ess11">http://www.damtp.cam.ac.uk/user/sje30/ess11</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Integrations with LaTeX
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/latex-form.org">A LaTeX Form</a></span><span class="org-level-2">
+</span>   (raw file available at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/latex-form.org">latex-form.org</a></span>)
+
+   This example uses Babel as a user interface for a LaTeX form
+   that might be used by the members of an organization.  It uses the
+   literate programming facility of Babel to isolate the user from
+   the sometimes arcane LaTeX constructs needed to create a
+   highly-structured form.  Babel can tangle multiple documents in
+   a single Org-mode file, and this ability is used to create a
+   distribution version of the form separate from one designed for the
+   file cabinet.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/short-report.org">A Standardized Short Report</a></span><span class="org-level-2">
+</span>   (raw file available at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/short-report.org">short-report.org</a></span>)
+
+   This example is similar to the previous one, but here the users are
+   expected to write substantial content.  This type of workflow might
+   be used by a small organization whose employees regularly produce
+   standard documents and where the writing tasks for any one document
+   are divided among the authors.
+
+   The HTML export facility of Org-mode is used to produce a guide to
+   writing the standardized short report.  This HTML file can be used
+   to train new authors.  The Org-mode content also supplies
+   substantial direction to experienced authors as they write.
+   Org-mode keywords and tags are used to keep track of writing
+   assignments and progress.  Babel's literate programming facility
+   makes it possible to present writing tasks to the authors in an order
+   different from which they appear in the report.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="error"><a href="file:examples/article-class.org">A Literate Article Class for Org Mode LaTeX Export</a></span><span class="org-level-2">              </span><span class="org-level-2"><span class="org-tag">:noexport:</span></span><span class="org-level-2">
+</span>
+This project is no longer supported.  It eventually became the <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-latex-export.html">LaTeX
+export tutorial.</a></span>  It is included here as a historical curiosity.
+
+This example is a literate program that tangles an article class for
+Org-mode LaTeX export.  The class supports numerous options that
+control the look and feel of the resulting pdf file.  It provides
+several facilities:
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Default packages ::</span> Options to keep individual LaTeX packages from
+       loading make it somewhat easier to modify which LaTeX packages
+       are loaded during the processing of LaTeX code exported by
+       Org-mode.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Semantic markup ::</span> A facility for semantic markup is implemented,
+       which makes it possible to markup according to arbitrary LaTeX
+       styles, such as the ones distributed by journals and book publishers.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Fonts ::</span> The package also implements several choices of fonts and
+             takes steps to ensure that the fonts don't clash with the
+             symbol font files that Org-mode depends upon to typeset
+             <span class="org-verbatim">org-entities</span>.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Listing themes ::</span> The class provides pre-defined themes for
+                      formatting source code listings, which can be
+                      used as is, or used as a basis for minor modifications.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Compact lists ::</span> A facility to typeset lists with less vertical
+                     space is provided.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Double spacing ::</span> An option is provided to set lines double spaced.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Table of contents ::</span> The table of contents depth can be set
+       independently of section numbering depth.
+  <span class="org-list-dt">-</span> <span class="org-list-dt">Section numbering ::</span> Section numbering depth can specified
+       independently of the table of contents depth.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Financial Applications
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/finances.org">Tracking Finances</a></span><span class="org-level-2">
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:Author:</span> <span class="org-property-value">Jason Dunsmore</span>
+<span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">tracking-finances</span>
+<span class="org-drawer">:END:</span>
+
+An Emacs lisp function in a Babel source block aggregates entries in
+an Org-mode table, which can be useful in tracking finances.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Using Ledger to Track Finances
+</span>
+Instead of writing functions to track finances entered in Org-mode
+tables, Babel makes it possible to use Org-mode and Ledger to track
+finances.  A <span class="org-link"><a href="file:languages/ob-doc-ledger.org">short tutorial</a></span> illustrates how to insert ledger entries
+in an Org-mode file and how to generate financial reports from those
+entries using Babel to call Ledger.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Reproducible Research Examples
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="kc-org-link-url"><a href="https://github.com/tsdye/hawaii-colonization">A Reproducible Research Paper Written in Org Mode</a></span><span class="org-level-2">
+</span>
+This git repository contains Org-mode source and data files for the
+paper "A Model-based Age Estimate for the Polynesian Colonization of
+Hawai`i," which was published in the journal <span class="kc-org-link-url"><a href="http://sydney.edu.au/arts/publications/oceania/arch_oceaniacrnt.htm">Archaeology in
+Oceania</a></span>.
+
+The repo includes a README file with system requirements and
+instructions to make a pdf version of the paper.  Also included is a
+Makefile that automates the process of compiling the paper to pdf.
+
+The pdf file represents the initial submittal to the journal.
+<span class="kc-org-link-url"><a href="http://sydney.edu.au/arts/publications/oceania/arch_oceaniacrnt.htm">Archaeology in Oceania</a></span> requires a Word file at the end of the review
+process.  This was created from the Org-mode LaTeX export with the
+late Eitan Gurari's <span class="kc-org-link-url"><a href="http://www.tug.org/applications/tex4ht/mn.html">tex4ht</a></span> software, followed by numerous tweaks with
+Word (graciously executed by a colleague who knows how to use that
+application).
+
+Archaeologists and other scientists who work with radiocarbon dating
+might be interested in the R code for plotting multiple sets of
+results from the <span class="kc-org-link-url"><a href="http://bcal.shef.ac.uk/top.html">BCal software.</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="kc-org-link-url"><a href="https://github.com/tsdye/LKFS">Another Reproducible Research Paper Written in Org Mode</a></span><span class="org-level-2">
+</span>
+This git repository contains Org-mode source and data files for the
+paper "The Tempo of Change in the Leeward Kohala Field System," which
+was published in the <span class="kc-org-link-url"><a href="http://islandheritage.org/wordpress/?page_id%3D295">Rapa Nui Journal</a></span>.
+
+The repo includes a README file with system requirements and
+instructions to make a pdf version of the paper.  Also included is a
+Makefile that automates the process of compiling the paper to pdf.
+
+Archaeologists might be interested in the code that creates a
+graphical representation of the Harris matrix from an adjacency matrix
+of stratigraphic relations, which is included as an Org-mode table.  A
+Python source block reads the adjacency matrix and outputs GraphViz
+code.  This is used as input to the <span class="org-verbatim">tred</span> utility, which eliminates
+transitive relations.  The output of the <span class="org-verbatim">tred</span> utility is passed to
+<span class="org-verbatim">dot</span>, which prepares Figure 2 in the paper.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="kc-org-link-url"><a href="https://github.com/novoid/orgmode-iKNOW2012">Reproducible Research Demo Paper: from Org to ACM</a></span><span class="org-level-2">  (</span><span class="org-link"><a href="file:../bibtex/Voit_Dye_2012.bib">bibtex</a></span><span class="org-level-2">)
+</span>
+In Summer 2012, Karl Voit and Tom Dye produced a demo paper for the
+<span class="kc-org-link-url"><a href="http://i-know.tugraz.at/">i-KNOW conference</a></span> in Graz, Austria. This demo uses the new LaTeX
+exporter to generate a ready-to-submit ACM paper from raw CSV files
+and an Org-mode file.
+
+This is a proof-of-concept demo which might need some improvement
+here and there because the new LaTeX exporter is still a moving
+target. The basic concept and methods could be re-used for other
+papers that use a similar paper-generating approach.
+
+It is related to <span class="kc-org-link-url"><a href="https://github.com/novoid/orgmode-ACM-template">orgmode-ACM-template</a></span> which is also hosted on
+github. Please fork and send improvements!
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Literate programming examples
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="kc-org-link-url"><a href="https://github.com/thi-ng/geom">thi-ng/geom: Comprehensive geometry toolkit for Clojure/ClojureScript developed in a literate programming style.</a></span><span class="org-level-2">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Source Code Blocks in Org Mode
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/org-check.org">Checking Your Org Mode Configuration</a></span><span class="org-level-2">
+</span>   (raw file available at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/org-check.org">org-check.org</a></span>)
+
+   This example runs some diagnostic checks to see if your system and
+   Org-mode are configured to accomplish various tasks.  It is
+   currently a stub placed here in the hope that the Org-mode community
+   will augment and enhance it.  It was created in response to a thread
+   on the mailing list on how to ease the learning curve for new
+   Org-mode users.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/fontify-src-code-blocks.org">Pretty Fontification of Code Blocks</a></span><span class="org-level-2">
+</span>
+The article about <span class="org-link"><a href="file:examples/fontify-src-code-blocks.org">pretty fontification of code blocks</a></span> shows the user how to
+customize a couple of Emacs faces in order to enhance his Babel experience,
+and get much nicer visual separation between code and text.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-link"><a href="file:examples/lob-table-operations.org">Some generic Operations on Org Mode Tables</a></span><span class="org-level-2">
+</span>
+   (raw file available at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/lob-table-operations.org">lob-table-operations.org</a></span>)
+
+   <span class="org-link"><a href="file:examples/lob-table-operations.org">This</a></span> babel-file contains examples, documentation and
+   implementation of four generic operations on tables:
+   <span class="org-list-dt">-</span> Filtering the rows of a single table: keeping or removing rows
+   <span class="org-list-dt">-</span> Combining two tables into one: merging or intersecting tables
+   You may apply these operations readily to your own tables.
+</pre>
+  </body>
+</html>

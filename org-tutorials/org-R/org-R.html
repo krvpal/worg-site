@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:24 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-R: Computing and data visualisation in Org-mode using R</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Dan Davison" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-R: Computing and data visualisation in Org-mode using R</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org91f96de">Important</a></li>
+<li><a href="#org0373ead">Introduction</a></li>
+<li><a href="#orgcb33825">Setting things up</a></li>
+<li><a href="#org041c319">Using org-R</a></li>
+<li><a href="#org77f9e7c">Computing on org tables: tabulating values</a></li>
+<li><a href="#org88664fa">Table references</a></li>
+<li><a href="#org083a5c4">Plotting data</a>
+<ul>
+<li><a href="#org4fade1e">Available off-the-shelf plotting commands</a></li>
+<li><a href="#org1d5df67">Continuous data example:</a></li>
+<li><a href="#orgdaeac5e">Discrete data example: the configuration variables survey</a>
+<ul>
+<li><a href="#orgf53b102">Something more complicated: clustering org variables, and org users</a></li>
+</ul>
+</li>
+<li><a href="#org96735fb">Indexed data example</a></li>
+</ul>
+</li>
+<li><a href="#org11c23ab">Table of available options</a></li>
+<li><a href="#org0a52cde">Table of available actions</a></li>
+<li><a href="#orgc39e66f">More detailed description of org-R</a></li>
+<li><a href="#orgf30b060">Getting help with R</a></li>
+<li><a href="#org27772a2">Brief advert for R</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org91f96de" class="outline-2">
+<h2 id="org91f96de">Important</h2>
+<div class="outline-text-2" id="text-org91f96de">
+<p>
+Org-R has been replaced by <a href="../../org-contrib/babel/index.html">Org-babel</a> which provides a much improved
+environment for executing code in many languages (including R) in
+Org documents. The off-the-shelf plotting functions of Org-R have
+not yet been transferred to org-babel (i.e. you&rsquo;d have to construct
+the R code yourself). If you have requests for any plotting or other
+analysis features that you would like to see added to Org-babel,
+please send them to the Org mailing list. Fragments of code (in
+whatever language) which allow specific tasks such as data plotting
+to be accomplished in Org-mode will be maintained in the <a href="file:///usr/local/src/Worg/org-contrib/babel/library-of-babel.html">Library of
+Babel</a>.
+</p>
+
+<p>
+Org-R has now been removed from the contrib directory of the org
+distribution, but is still available (but not maintained) <a href="http://www.stats.ox.ac.uk/~davison/software/org-R/org-R.el">here</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0373ead" class="outline-2">
+<h2 id="org0373ead">Introduction</h2>
+<div class="outline-text-2" id="text-org0373ead">
+<p>
+org-R is an org-mode extension that performs numerical computations
+and generates graphics. Numerical output may be stored in the org
+buffer in org tables, and the input can also come from an org
+table. Rather than starting off by documenting everything
+systematically, I&rsquo;ll provide several commented examples. Towards the
+end there are lists of <a href="#org0a52cde">available actions</a> and <a href="#org11c23ab">other options</a>.
+</p>
+
+<p>
+Although, behind the scenes, it uses <a href="http://www.r-project.org">R</a>, you do not need to know
+anything about R. Common operations are provided `off the shelf&rsquo; by
+specifying options on lines starting with #+R:. Having said that,
+org-R also accepts raw R code (#+RR: lines). For those who don&rsquo;t
+yet know R, but think they might be interested, try the showcode:t
+option. It displays the R code corresponding to the action you
+requested, and so provides a good starting point for fine-tuning
+your analysis. But that&rsquo;s getting ahead of things.
+</p>
+
+<p>
+My hope is, of course, that this will be of use to people. So at
+this stage any comments, ideas, feedback, bug reports etc would be
+very welcome. I&rsquo;d be happy to help anyone that&rsquo;s interested in
+using this, via the Org mailing list.
+</p>
+
+<p>
+If you&rsquo;d like to try out these commands yourself, the Org file that
+created this web page is @&lt;a href=&ldquo;org-R.org&rdquo;&gt;here@&lt;/a&gt;.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcb33825" class="outline-2">
+<h2 id="orgcb33825">Setting things up</h2>
+<div class="outline-text-2" id="text-orgcb33825">
+<p>
+The code is currently <a href="http://www.stats.ox.ac.uk/~davison/software/org-R/org-R.el">here</a> Soon it will be in the contrib
+directory. The other things you need are R (Windows / OS X binaries
+available on the <a href="http://www.r-project.org">R website</a> widely available in linux package
+repositories) and the emacs mode <a href="http://ess.r-project.org/">Emacs Speaks Statistics</a> (ESS). ESS
+installation instructions are <a href="http://ess.r-project.org/Manual/readme.html#Installation">here.</a>  Personally, under linux, I have
+something like
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">load-path</span> <span style="color: #e2c770;">"/path/to/ess/lisp"</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ess-site</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org041c319" class="outline-2">
+<h2 id="org041c319">Using org-R</h2>
+<div class="outline-text-2" id="text-org041c319">
+<p>
+org-R uses two different option lines to specify an analysis/plot:
+</p>
+<p>
+ignore that for now. To make the action happen, issue C-c C-c with
+point in the #+R: line (this calls org-R-apply). There are also
+org-R-apply-in-subtree and org-R-apply-in-buffer, which visit each
+org-R block that they find in the current subtree/buffer, calling
+org-R-apply in that block (suggestion from Tom Short). So, first
+example.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org77f9e7c" class="outline-2">
+<h2 id="org77f9e7c">Computing on org tables: tabulating values</h2>
+<div class="outline-text-2" id="text-org77f9e7c">
+<p>
+Here&rsquo;s a command to tabulate the values in the second column. Issue
+M-x org-R-apply in the following #+R line.
+</p>
+
+<pre class="example">
+
+| col1 | col2 |
+|------+------|
+| A    | A    |
+| A    | B    |
+| B    | B    |
+#+R: action:tabulate columns:2
+
+</pre>
+
+<p>
+That results in
+</p>
+
+<pre class="example">
+
+| value | count |
+|-------+-------|
+| A     |     1 |
+| B     |     2 |
+
+</pre>
+
+<p>
+. So the values in column 2 were tabulated as requested. However,
+the original data got overwritten. That leads us to
+</p>
+</div>
+</div>
+
+<div id="outline-container-org88664fa" class="outline-2">
+<h2 id="org88664fa">Table references</h2>
+<div class="outline-text-2" id="text-org88664fa">
+<p>
+We can specify input data for analysis/plotting in 3 different
+ways:
+</p>
+
+<ol class="org-ol">
+<li>by providing a reference to an org table with the intable:
+option. You can optionally specify the org file that the table
+is in with infile:/path/to/file.org</li>
+
+<li>by pointing it to a csv file, locally or via http:, using
+infile:/path/to/file.csv or e.g.
+infile:<a href="http://www.stats.ox.ac.uk/~davison/software/org-R/file.csv">http://www.stats.ox.ac.uk/~davison/software/org-R/file.csv</a></li>
+
+<li>by doing neither, in which case it looks for a table immediately
+above the #+R(R) line(s).</li>
+</ol>
+
+<p>
+Case (3) is what happened above &#x2013; the input data came from a table
+immediately above the #+R line. The default behaviour is to replace
+any such table with the output; this allows us to tweak the option
+line and update the analysis. However, normally we&rsquo;ll want to separate
+the data from the analysis output. So let&rsquo;s keep the data as a named
+table in the org file, and refer to it by name:
+</p>
+
+<pre class="example">
+
+#+TBLNAME:data-set-1
+| col1 | col2 |
+|------+------|
+| A    | A    |
+| A    | B    |
+| B    | B    |
+
+[arbitrary other content of org buffer]
+
+#+R: intable:data-set-1 action:tabulate
+
+</pre>
+
+<p>
+which results in
+</p>
+
+<pre class="example">
+
+|   | A | B |
+|---+---+---|
+| A | 1 | 1 |
+| B | 0 | 1 |
+
+</pre>
+
+<p>
+Note that this time we did a different analysis: I removed the
+columns:2 option, so that tabulate was passed the whole table. As a
+result the output contains counts of joint occurrences of values in
+the two columns: out of the 4 possibilities, the only one we didn&rsquo;t
+observe was &ldquo;B in column 1 and A in column 2&rdquo;. We could have achieved
+the same result with columns:(1 2). (But don&rsquo;t try to tabulate more
+than 2 columns: org does not do multi-dimensional tables).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org083a5c4" class="outline-2">
+<h2 id="org083a5c4">Plotting data</h2>
+<div class="outline-text-2" id="text-org083a5c4">
+</div>
+<div id="outline-container-org4fade1e" class="outline-3">
+<h3 id="org4fade1e">Available off-the-shelf plotting commands</h3>
+<div class="outline-text-3" id="text-org4fade1e">
+<p>
+At the risk of this starting to sound like a dodgy undergraduate
+statistics textbook, the sort of plots that are appropriate depend
+on the sort of data. Let&rsquo;s divide it up as
+</p>
+
+<ul class="org-ul">
+<li>discrete-valued data
+[e.g. data-set-1 above, or the list of org variables customised by users]</li>
+<li>continuous-valued data
+[e.g. the wing lengths of all Eagle Owls in Europe]</li>
+<li>indexed data 
+[e.g. a data set in which each point is a time,
+ together with the size of the org source code base at that time]</li>
+</ul>
+
+<p>
+The available off-the-shelf actions are listed <a href="#org0a52cde">here</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1d5df67" class="outline-3">
+<h3 id="org1d5df67">Continuous data example:</h3>
+<div class="outline-text-3" id="text-org1d5df67">
+<p>
+We&rsquo;re going to need some data. So let&rsquo;s prove that org can also
+speak statistics and use org-R to simulate the data. This
+requires some raw R code, so skip this bit if you&rsquo;re not
+interested.
+</p>
+
+<p>
+The following #+RR line simulates 10 values from a Normal
+distribution with mean -3, and 10 values from a Normal
+distribution with mean 3, and lumps them together. The point is that
+the numbers we get should be concentrated around two different
+values, and we should be able to see that in a histogram and/or
+density plot.
+</p>
+
+<pre class="example">
+
+#+RR: x &lt;- c(rnorm(10, mean=-3, sd=1), rnorm(10, mean=3, sd=1))
+#+R: title:"continuous-data" output-to-buffer:t
+
+</pre>
+
+<p>
+Here&rsquo;s what I got.  Note that the title: option set the name of the
+table with &ldquo;#+TBLNAME&rdquo;; we&rsquo;ll use that to refer to these data.
+</p>
+
+<pre class="example">
+
+#+TBLNAME:continuous-data
+|            values |
+|-------------------|
+| -2.48627002467785 |
+|  -4.0196287273144 |
+| -3.43471960580471 |
+| -5.21985294534255 |
+| -3.84201126431028 |
+| -1.72912705369668 |
+| -2.86703950990613 |
+| -2.82292622464752 |
+| -4.43246430621368 |
+| -1.03188727658288 |
+| 0.882823532068805 |
+|  3.28641606039499 |
+|  3.56029698321959 |
+|  2.91946660223152 |
+|  2.32506089804876 |
+|   3.3606298511366 |
+|  5.19883523425104 |
+|  4.86141359164329 |
+|  2.90073505260204 |
+|  4.21163939487907 |
+</pre>
+
+<p>
+Now to plot the data. Let&rsquo;s have some colour as well, and this time
+the title: option will be used to put a title on the plot (and also to
+name the file link to the graphical output).
+</p>
+
+
+<pre class="example">
+
+[[file:tmp.png][histogram example]]
+#+R: action:hist columns:1 colour:hotpink 
+#+R: intable:continuous-data outfile:"png" title:"histogram example"
+
+</pre>
+
+<div class="figure">
+<p><img src="../../images/org-R/histogram-example.png" alt="histogram-example.png" />
+</p>
+</div>
+
+<p>
+[Note that you can use multiple #+R lines rather than cramming all
+the options on to one line.]
+</p>
+
+<p>
+An alternative would be to produce a density plot. We don&rsquo;t have
+enough data points to justify that here, but we&rsquo;ll do it anyway just
+to show the sort of plots that are produced. This time we&rsquo;ll specify
+the output file for the png image using the output: option. (For the
+histogram we used output:&ldquo;png&rdquo;. That&rsquo;s a special case; it doesn&rsquo;t
+create a file called &ldquo;png&rdquo; but instead uses org-attach to store the
+output in the org-attach dir for this entry. Same thing for the other
+available output image formats: &ldquo;jpg&rdquo;, &ldquo;jpeg&rdquo;, &ldquo;pdf&rdquo;, &ldquo;ps&rdquo;, &ldquo;bmp&rdquo;,
+&ldquo;tiff&rdquo;)
+</p>
+
+<pre class="example">
+
+[[file:density.png][density plot example]]
+#+R: action:density columns:"values" colour:chartreuse4 args:(:lwd 4)
+#+R: intable:continuous-data outfile:"density.png" title:"density plot example"
+
+</pre>
+
+<div class="figure">
+<p><img src="../../images/org-R/density.png" alt="density.png" />
+</p>
+</div>
+
+<p>
+There were a couple of new features there. Firstly, I referred to
+column 1 using its column label, rather than with the
+integer 1. Secondly, note the use of the args: option. It takes the
+form of a lisp property list (&ldquo;p-list&rdquo;), specifying extra arguments to
+pass to the R function (in this case density()). Here we used it to
+set the line thickness (lwd=4).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdaeac5e" class="outline-3">
+<h3 id="orgdaeac5e">Discrete data example: the configuration variables survey</h3>
+<div class="outline-text-3" id="text-orgdaeac5e">
+<p>
+The raw data, as collected by Manish, are in a table called
+org-variables-table, in a file called variable-popcon.org. We use the
+file: option to specify the org file containing the data, and the
+table: option to specify the name of the table within that file. [An
+alternative be to give the entry containing the table a unique id with
+org-id-get-create, refer to it with table:&lt;uid&gt;, and rely on the
+org-id mechanism to find it.].
+</p>
+
+<p>
+Now we tabulate the data. (We&rsquo;re not currently taking the sensible
+step that Manish did of checking whether the variables were given
+values different from their default).
+</p>
+
+<p>
+ Rather than cluttering up this org file with all the count data,
+we&rsquo;ll store them in a separate org file:
+</p>
+
+<pre class="example">
+
+[[file:org-variables-counts.org][org-variables-counts]]
+#+R: action:tabulate columns:2 sort:t
+#+R: infile:"variable-popcon.org" intable:"org-variables-table"
+#+R: outfile:"org-variables-counts.org" title:"org-variables-counts"
+
+</pre>
+<p>
+<a href="org-variables-counts.html">org-variables-counts.html</a>
+</p>
+
+<p>
+We can see the top few rows of the table by using action:head
+</p>
+
+<pre class="example">
+
+| rownames(x) | value                       | count |
+|-------------+-----------------------------+-------|
+|           1 | org-agenda-files            |    22 |
+|           2 | org-agenda-start-on-weekday |    22 |
+|           3 | org-log-done                |    22 |
+|           4 | org-todo-keywords           |    22 |
+|           5 | org-agenda-include-diary    |    19 |
+|           6 | org-hide-leading-stars      |    19 |
+#+R: action:head
+#+R: infile:"org-variables-counts.org" intable:"org-variables-counts" output-to-buffer:t
+
+</pre>
+
+<p>
+Here&rsquo;s a barplot of the counts. It makes it clear that over half the
+org variables are customised by only one or two users.
+</p>
+
+<pre class="example">
+
+[[file:org-variables-barplot.png][org-variables barplot]]
+#+R: action:barplot rownames:t columns:1 width:800 col:darkblue
+#+R: args:(:names.arg "NULL")
+#+R: infile:"org-variables-counts.org" intable:"org-variables-counts"
+#+R: outfile:"org-variables-barplot.png" title:"org-variables barplot"
+
+</pre>
+
+<div class="figure">
+<p><img src="../../images/org-R/org-variables-barplot.png" alt="org-variables-barplot.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf53b102" class="outline-4">
+<h4 id="orgf53b102">Something more complicated: clustering org variables, and org users</h4>
+<div class="outline-text-4" id="text-orgf53b102">
+<p>
+OK, let&rsquo;s make a bit more use of R&rsquo;s capabilities. We can use the
+org-variables data set to define distances between pairs of org
+users (how similar their customisations are), and distances
+between pairs of org variables (the extent to which people who
+customise one of them customise the other). Then we can use those
+distance matrices to cluster org users, and org variables.
+</p>
+
+<p>
+First, let&rsquo;s create a table that&rsquo;s restricted to variables that
+were customised by more than four users. This isn&rsquo;t necessary,
+but there are a lot of org-variables! This is going to require a
+bit of R code to count the variables and then subset the raw data
+accordingly:
+</p>
+
+<pre class="example">
+
+[[file:variable-popcon-restricted.org][org-variables-table]]
+#+R: infile:"variable-popcon.org" intable:"org-variables-table"
+#+R: outfile:"variable-popcon-restricted.org" title:"org-variables-table"
+#+RR: tab &lt;- table(x[,2])
+#+RR: x &lt;- subset(x, Variable %in% names(tab[tab &gt; 4]))
+
+</pre>
+<p>
+<a href="variable-popcon-restricted.html">org-variables-table</a>
+</p>
+
+<p>
+Now let&rsquo;s make a table with a row for each variable, and a column for
+each org user, and fill it with 1s and 0s according to whether user j
+customised variable i. We can do that without writing any R code:
+</p>
+
+<pre class="example">
+
+[[file:org-variables-incidence.org][incidence-matrix]]
+#+R: action:tabulate columns:(1 2) rownames:t
+#+R: infile:"variable-popcon-restricted.org" intable:"org-variables-table"
+#+R: outfile:"org-variables-incidence.org" title:"incidence-matrix"
+
+</pre>
+<p>
+<a href="org-variables-incidence.html">incidence-matrix</a>
+</p>
+
+<p>
+First we&rsquo;ll cluster org users. We use the R function dist to compute a
+distance matrix from the incidence matrix, then hclust to run a
+hierarchical clustering algorithm, and then plot to plot the results
+as a dendrogram:
+</p>
+
+<pre class="example">
+
+[[file:org-users-tree.png][org-users-tree.png]]
+#+RR: par(bg="gray15", fg="turquoise2")
+#+RR: plot(hclust(dist(x, method="binary")), ann=FALSE)
+#+R: infile:"org-variables-incidence.org" intable:"incidence-matrix" rownames:t
+#+R: outfile:"org-users-tree.png" title:"org-users-tree.png"
+
+</pre>
+
+<div class="figure">
+<p><img src="../../images/org-R/org-users-tree.png" alt="org-users-tree.png" />
+</p>
+</div>
+
+<p>
+And to cluster org variables, we use the transpose of that incidence matrix:
+</p>
+
+<pre class="example">
+
+[[file:org-variables-tree.png][org-variables-tree.png]]
+#+RR: par(bg="gray15", fg="turquoise2")
+#+RR: plot(hclust(dist(t(x), method="binary")), ann=FALSE)
+#+R: infile:"org-variables-incidence.org" intable:"incidence-matrix" rownames:t
+#+R: outfile:"org-variables-tree.png" title:"org-variables-tree.png" width:1000
+
+</pre>
+
+<div class="figure">
+<p><img src="../../images/org-R/org-variables-tree.png" alt="org-variables-tree.png" />
+</p>
+</div>
+
+
+<p>
+Please note that my main aim here was to give some examples of using
+org-R, rather than to show how the org variables data should be mined
+for useful information! The org-variables dendrogram does seem to have
+made some sensible clusterings (e.g. the clusters of agenda-related
+commands), but I&rsquo;m going to leave it to others to decide whether this
+exercise really served to do more than illustrate org-R. Does anyone
+recognise any usage affinities between the clustered org users?
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org96735fb" class="outline-3">
+<h3 id="org96735fb">Indexed data example</h3>
+<div class="outline-text-3" id="text-org96735fb">
+<p>
+Let&rsquo;s plot the same data as Eric Schulte used in the <a href="../org-plot.html">org-plot tutorial</a> on worg.
+</p>
+
+<pre class="example">
+
+[[file:/usr/local/src/org-etc/Worg/org-tutorials/org-R/data/45/f39291-3abc-4d5b-96c9-3a32f77877a5/org-R-output-8119M2O.png][An example from the org-plot tutorial, plotted using org-R]]
+#+R: action:lines columns:((1)(2 3))
+#+R: infile:"../org-plot.org"
+#+R: intable:"org-plot-example-1" outfile:"png"
+#+R: title:"An example from the org-plot tutorial, plotted using org-R"
+
+</pre>
+
+<div class="figure">
+<p><img src="../../images/org-R/org-plot-example-1.png" alt="org-plot-example-1.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org11c23ab" class="outline-2">
+<h2 id="org11c23ab">Table of available options</h2>
+<div class="outline-text-2" id="text-org11c23ab">
+<p>
+In addition to the action:&lt;some-action&gt; option (described <a href="#org0a52cde">here</a>, the
+following options are available:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Input options</b></th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">infile:/path/to/file.csv</td>
+<td class="org-left">input data comes from file.csv</td>
+</tr>
+
+<tr>
+<td class="org-left">infile:<a href="http://www.stats.ox.ac.uk/~davison/software/org-R/file.csv">http://www.stats.ox.ac.uk/~davison/software/org-R/file.csv</a></td>
+<td class="org-left">input data comes from file.csv somewhere on the web</td>
+</tr>
+
+<tr>
+<td class="org-left">infile:/path/to/file.org</td>
+<td class="org-left">input data comes from file.org; must also specify table with intable:&lt;name-or-id&gt;</td>
+</tr>
+
+<tr>
+<td class="org-left">intable:table-name</td>
+<td class="org-left">input data is in table named with #+TBLNAME:table-name (in same buffer unless infile:/path/to/file.org is specified)</td>
+</tr>
+
+<tr>
+<td class="org-left">intable:table-id</td>
+<td class="org-left">input data is first table under entry with table-id as unique ID. Doesn&rsquo;t make sense with infile:/path/to/file.org</td>
+</tr>
+
+<tr>
+<td class="org-left">rownames:t</td>
+<td class="org-left">does first column contain row names? (default: nil). If t other column indices are as if first column not present &#x2013;  this may change)</td>
+</tr>
+
+<tr>
+<td class="org-left">colnames:nil</td>
+<td class="org-left">does first row contain column names? (default: t)</td>
+</tr>
+
+<tr>
+<td class="org-left">columns:2 columns:(2)</td>
+<td class="org-left">operate only on column 2</td>
+</tr>
+
+<tr>
+<td class="org-left">columns:&ldquo;wing length&rdquo; columns:(&ldquo;wing length&rdquo;)</td>
+<td class="org-left">operate only on column named &ldquo;wing length&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">columns:((1)(2 3))</td>
+<td class="org-left">(when plotting) plot columns 2 and 3 on y-axis against column 1 on x-axis</td>
+</tr>
+
+<tr>
+<td class="org-left">columns:((&ldquo;age&rdquo;)(&ldquo;wing length&rdquo; &ldquo;fierceness&rdquo;))</td>
+<td class="org-left">(when plotting) plot columns named &ldquo;wing length&rdquo; and &ldquo;fierceness&rdquo; on y-axis against &ldquo;age&rdquo; on x-axis</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Action options</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">action:some-action</td>
+<td class="org-left">off-the-shelf plotting action or computation (see <a href="#org0a52cde">separate list</a>), or any R function that makes sense (e.g. head, summary)</td>
+</tr>
+
+<tr>
+<td class="org-left">lines:t</td>
+<td class="org-left">(when plotting) join points with lines (similar to action:lines)</td>
+</tr>
+
+<tr>
+<td class="org-left">args:(:xlab &ldquo;\&rdquo;the x axis title\&ldquo;&rdquo; :lwd 4)</td>
+<td class="org-left">provide extra arguments as a p-list (note the need to quote strings if they are to appear as strings in R)</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Output options</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">outfile:/path/to/image.png</td>
+<td class="org-left">save image to file and insert link into org buffer (also: .pdf, .ps, .jpg, .jpeg, .bmp, .tiff)</td>
+</tr>
+
+<tr>
+<td class="org-left">outfile:png</td>
+<td class="org-left">save image to file in org-attach directory and insert link</td>
+</tr>
+
+<tr>
+<td class="org-left">outfile:/path/to/file.csv</td>
+<td class="org-left">would make sense but not implemented yet</td>
+</tr>
+
+<tr>
+<td class="org-left">height:1000</td>
+<td class="org-left">set height of graphical output in (pixels for png, jpeg, bmp, tiff; default 480) / (inches for pdf, ps; default 7)</td>
+</tr>
+
+<tr>
+<td class="org-left">width:1000</td>
+<td class="org-left">set width of graphical output in pixels (default 480 for png)</td>
+</tr>
+
+<tr>
+<td class="org-left">title:&ldquo;title of table/plot&rdquo;</td>
+<td class="org-left">title to be used in plot, and as #+TBLNAME of table output, and as name of link to output</td>
+</tr>
+
+<tr>
+<td class="org-left">colour:hotpink col:hotpink color:hotpink</td>
+<td class="org-left">main colour for plot (i.e. `col&rsquo; argument in R, enter colors() at R prompt for list of available colours.)</td>
+</tr>
+
+<tr>
+<td class="org-left">sort:t</td>
+<td class="org-left">with action:tabulate, sort in decreasing count order (default is alphabetical on names)</td>
+</tr>
+
+<tr>
+<td class="org-left">output-to-buffer:t</td>
+<td class="org-left">force numerical output to org buffer (shouldn&rsquo;t be necessary)</td>
+</tr>
+
+<tr>
+<td class="org-left">inline:t</td>
+<td class="org-left">don&rsquo;t name links to output (so that graphics are inline when exported to HTML)</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><b>Misc options</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">showcode:t</td>
+<td class="org-left">Display a buffer containing the R code that was generated to do what was requested.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org0a52cde" class="outline-2">
+<h2 id="org0a52cde">Table of available actions</h2>
+<div class="outline-text-2" id="text-org0a52cde">
+<p>
+To specify an action from the following list, use e.g. action:hist on
+the #+R line.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Actions that generate numerical output</b></th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">tabulate</td>
+<td class="org-left">count occurrences of distinct input values. Input data should be discrete. This is function table in R.</td>
+</tr>
+
+<tr>
+<td class="org-left">summary</td>
+<td class="org-left">summarise data in columns (minimum, 1st quartile, median, mean, 3rd quartile, max)</td>
+</tr>
+
+<tr>
+<td class="org-left">head</td>
+<td class="org-left">show first 6 rows of a larger table</td>
+</tr>
+
+<tr>
+<td class="org-left">transpose</td>
+<td class="org-left">transpose a table</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Actions that generate graphical output</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Discrete data</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">barplot</td>
+<td class="org-left">produces &rsquo;side-by-side&rsquo; bar plots if multiple columns selected</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Indexed data</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">plot</td>
+<td class="org-left">if only 1 column selected, index is automatic: 1,2,&#x2026;</td>
+</tr>
+
+<tr>
+<td class="org-left">lines</td>
+<td class="org-left">same as plot</td>
+</tr>
+
+<tr>
+<td class="org-left">points</td>
+<td class="org-left">same as plot but don&rsquo;t join points with lines</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Continuous data</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">hist</td>
+<td class="org-left">histogram</td>
+</tr>
+
+<tr>
+<td class="org-left">density</td>
+<td class="org-left">like a smoothed histogram (i.e. a curve)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Grid of values</b></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">image</td>
+<td class="org-left">a grid image, with cells coloured according to their numerical values</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Apart from tabulate, the action: names are the same as the names of
+the R functions which implement them. `tabulate&rsquo; is really called
+`table&rsquo; in R.
+</p>
+
+<p>
+  Note that, in addition to the actions listed below, you can also use
+action:R-function, where &ldquo;R-function&rdquo; is the name of any existing R
+function. The function must be able to take a data frame as its first
+argument, and must not <b>require</b> any further arguments (i.e. any
+further arguyments must have suitable default values). Any numerical
+output will be sent to the org buffer (use output-to-buffer:t to force
+this, although if that is necessary then that is a bug).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc39e66f" class="outline-2">
+<h2 id="orgc39e66f">More detailed description of org-R</h2>
+<div class="outline-text-2" id="text-orgc39e66f">
+<p>
+My aim with org-R is to provide a fairly general facility for using
+ R with Org. The #+R lines and #+RR lines together specify an R
+ function, which may take numerical input, and may generate
+ graphical output, or numerical output, or both.
+</p>
+
+<p>
+If any input data have been specified, then the R function receives
+   those data as its first argument. The input data may come from an
+   Org table, or from a csv spreadsheet file. In either case they are
+   tabular (1- or 2-dimensional). The input data are passed to the
+   function as an R data frame (a table-like structure in which
+   different columns may contain different types of data &#x2013; numeric,
+   character, etc). Inside the R function, that data frame is called
+   &rsquo;x&rsquo;. &rsquo;x&rsquo; is also the return value of the R function. Therefore the
+   numerical output of org-R is determined by the modifications to the
+   variable x that are made inside the function (any graphical output
+   is a side effect.)
+</p>
+
+<p>
+It&rsquo;s worth noting that one mode of using org-R would be to write your
+own code in a separate file, and use the source() function on a #+RR
+line to evaluate the code in that file.
+</p>
+
+<p>
+Numerical output of the function should also be tabular, and may be
+   received by the Org buffer as an Org table, or sent to file in Org
+   table or csv format. R deals transparently with multi-dimensional
+   arrays, but Org table and csv format do not.
+</p>
+
+<p>
+Unless an output file has been specified, graphical output will be
+displayed on screen.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf30b060" class="outline-2">
+<h2 id="orgf30b060">Getting help with R</h2>
+<div class="outline-text-2" id="text-orgf30b060">
+<ul class="org-ul">
+<li>Bring up an R prompt with R at a shell prompt, or M-x R in emacs (if you have installed ESS)</li>
+<li>Enter ?function.name for help on function `function.name&rsquo;</li>
+<li>Enter RSiteSearch(&ldquo;words&rdquo;) for online help matching &ldquo;words&rdquo;</li>
+<li>Enter ?par to see the full list of graphical parameters</li>
+<li>Follow the Documentation link on the left hand side of the R
+website for &ldquo;An Introduction to R&rdquo;, and other more technical manuals.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org27772a2" class="outline-2">
+<h2 id="org27772a2">Brief advert for R</h2>
+<div class="outline-text-2" id="text-org27772a2">
+<p>
+Seeing as this has made use of R, I&rsquo;ll briefly say my bit on it for
+those who are unfamiliar.
+</p>
+<ol class="org-ol">
+<li>It&rsquo;s good for simple numerical work, as well as having
+implementations of a a very large range of more sophisticated
+mathematical and statistical procedures.</li>
+<li>It&rsquo;s good for producing graphics quickly, and for fine tuning
+every last detail of the graphics for publication.</li>
+<li>It&rsquo;s a syntactically reasonable, user-friendly, interpreted
+programming language, that is often used interactively (it comes
+with its own shell/command-line environment, and runs within
+emacs using ESS).</li>
+<li>It&rsquo;s a good language for a functional style of programming (in
+fact I&rsquo;d say that&rsquo;s how it should be used), which might well
+appeal to elisp programmers. For example, you want to construct
+an arbitrarily nested data structure, then pass some function
+over the tips, returning a data structure of the same shape as
+the input? No problem (<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/rapply.html">rapply</a>).</li>
+<li>There&rsquo;s a <b>lot</b> of add-on packages for it (CRAN link on left hand
+side of <a href="http://www.r-project.org/">website</a>.).</li>
+<li>How many programming languages will get <a href="http://www.nytimes.com/2009/01/07/technology/business-computing/07program.html">their own article</a> in the
+New York Times this year?</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Dan Davison</p>
+<p class="date">Created: 2021-06-15 Tue 18:24</p>
+</div>
+</body>
+</html>

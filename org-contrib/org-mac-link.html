@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-mac-link.el &#x2013; Grab links from open Mac applications</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-mac-link.el &#x2013; Grab links from open Mac applications</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb154201">Overview</a>
+<ul>
+<li><a href="#org22ae5ec">Supported Applications</a></li>
+</ul>
+</li>
+<li><a href="#orgc23e64c">Installation</a></li>
+<li><a href="#org07584d0">Usage</a></li>
+<li><a href="#org2cd60cc">Customizing</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s contibutions index}</a>
+</p>
+
+<div id="outline-container-orgb154201" class="outline-2">
+<h2 id="orgb154201">Overview</h2>
+<div class="outline-text-2" id="text-orgb154201">
+<p>
+This code will allow you to grab the current link or selection from
+an open mac application and insert it as a hyperlink at point in an
+org-mode document.
+</p>
+</div>
+
+<div id="outline-container-org22ae5ec" class="outline-3">
+<h3 id="org22ae5ec">Supported Applications</h3>
+<div class="outline-text-3" id="text-org22ae5ec">
+<p>
+The following applications are currently supported:
+</p>
+<ul class="org-ul">
+<li>Finder.app</li>
+<li>Mail.app</li>
+<li>Address Book.app</li>
+<li>Safari.app</li>
+<li>Skim.app</li>
+<li>Firefox.app</li>
+<li>Firefox.app with the Vimperator plugin</li>
+<li>Google Chrome.app</li>
+<li>Together.app</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc23e64c" class="outline-2">
+<h2 id="orgc23e64c">Installation</h2>
+<div class="outline-text-2" id="text-orgc23e64c">
+<p>
+Customize the org group by typing <code>M-x customize-group RET org RET</code>, then
+expand the <i>Modules</i> section, and enable <code>mac-link</code>.
+</p>
+
+<p>
+You may also optionally bind a key to activate the link grabber menu, like
+this:
+</p>
+
+<pre class="example">
+(add-hook 'org-mode-hook (lambda () 
+  (define-key org-mode-map (kbd "C-c g") 'org-mac-grab-link)))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org07584d0" class="outline-2">
+<h2 id="org07584d0">Usage</h2>
+<div class="outline-text-2" id="text-org07584d0">
+<p>
+Activate the grabber by typing <code>C-c g</code> (or whatever key you decided to bind,
+as above), or type <code>M-x org-mac-grab-link RET</code>. This will give you a menu in
+the modeline allowing you to select an application. The current selection in
+that application will be inserted at point as a hyperlink in your org-mode
+document.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2cd60cc" class="outline-2">
+<h2 id="org2cd60cc">Customizing</h2>
+<div class="outline-text-2" id="text-org2cd60cc">
+<p>
+You may customize which applications appear in the grab menu by customizing
+the group <i>org-mac-link</i>. Changes take effect immediately. If you are using
+the org-mode version &gt;=8.2, you can also customize whether the
+<code>org-mac-link</code> should highlight the selected text when grabbing the link from
+Skim.app.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

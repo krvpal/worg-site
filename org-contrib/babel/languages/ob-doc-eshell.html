@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-eshell</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="stardiviner" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-eshell</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org52ffa3c">Motivation</a></li>
+<li><a href="#orgc376a6c">Simple execution</a></li>
+<li><a href="#org4806c5a">Support variables assignment</a></li>
+<li><a href="#org4ec21da">Support session</a></li>
+<li><a href="#org5dbb6e6">Source code</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org52ffa3c" class="outline-2">
+<h2 id="org52ffa3c">Motivation</h2>
+<div class="outline-text-2" id="text-org52ffa3c">
+<p>
+Eshell is Emacs built-in powerful shell. Combine Eshell with Org-mode Babel is great!
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc376a6c" class="outline-2">
+<h2 id="orgc376a6c">Simple execution</h2>
+<div class="outline-text-2" id="text-orgc376a6c">
+<div class="org-src-container">
+<pre class="src src-eshell"> *temp*  Tue Jun 15 18:20:53 2021
+
+~/D/p/w/o/babel/languages [master] &#955; (setq hello-world <span style="color: #e2c770;">"hello, world"</span>)
+echo $hello-world
+</pre>
+</div>
+
+<pre class="example">
+hello, world
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org4806c5a" class="outline-2">
+<h2 id="org4806c5a">Support variables assignment</h2>
+<div class="outline-text-2" id="text-org4806c5a">
+<div class="org-src-container">
+<pre class="src src-eshell"> *temp*  Tue Jun 15 18:20:53 2021
+
+~/D/p/w/o/babel/languages [master] &#955; echo <span style="color: #e2c770;">"hello, "</span> $name
+</pre>
+</div>
+
+<pre class="example">
+("hello, " "stardiviner")
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org4ec21da" class="outline-2">
+<h2 id="org4ec21da">Support session</h2>
+<div class="outline-text-2" id="text-org4ec21da">
+<div class="org-src-container">
+<pre class="src src-eshell"> *temp*  Tue Jun 15 18:20:53 2021
+
+~/D/p/w/o/babel/languages [master] &#955; (setq hello-world <span style="color: #e2c770;">"hello, world"</span>)
+(setq hello-stardiviner <span style="color: #e2c770;">"hello, stardiviner"</span>)
+</pre>
+</div>
+
+<pre class="example">
+hello, stardiviner
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-eshell"> *temp*  Tue Jun 15 18:20:53 2021
+
+~/D/p/w/o/babel/languages [master] &#955; echo $hello-world
+</pre>
+</div>
+
+<pre class="example">
+hello, world
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org5dbb6e6" class="outline-2">
+<h2 id="org5dbb6e6">Source code</h2>
+<div class="outline-text-2" id="text-org5dbb6e6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #696969;">;;; </span><span style="color: #696969;">ob-eshell.el --- Babel Functions for Eshell            -*- lexical-binding: t; -*-</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">Copyright (C) 2009-2018 Free Software Foundation, Inc.</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">Author: stardiviner <a href="mailto:numbchild%40gmail.com">&lt;numbchild@gmail.com&gt;</a></span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">Keywords: literate programming, reproducible research</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">Homepage: https://orgmode.org</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">This file is part of GNU Emacs.</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">GNU Emacs is free software: you can redistribute it and/or modify</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">it under the terms of the GNU General Public License as published by</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">the Free Software Foundation, either version 3 of the License, or</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">(at your option) any later version.</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">GNU Emacs is distributed in the hope that it will be useful,</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">GNU General Public License for more details.</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">You should have received a copy of the GNU General Public License</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">along with GNU Emacs.  If not, see <a href="https://www.gnu.org/licenses/">&lt;https://www.gnu.org/licenses/&gt;</a>.</span>
+
+<span style="color: #696969;">;;; </span><span style="color: #696969;">Commentary:</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">Org Babel support for evaluating Eshell source code.</span>
+
+<span style="color: #696969;">;;; </span><span style="color: #696969;">Code:</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ob</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">eshell</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">org-babel-default-header-args:eshell</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">()</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-babel-execute:eshell</span> <span style="color: #fd971f;">(</span>body params<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Execute a block of Eshell code BODY with PARAMS.</span>
+<span style="color: #7f7f80;">This function is called by `</span><span style="color: #fd971f;">org-babel-execute-src-block</span><span style="color: #7f7f80;">'.</span>
+
+<span style="color: #7f7f80;">The BODY can be any code which allowed executed in Eshell.</span>
+<span style="color: #7f7f80;">Eshell allow to execute normal shell command and Elisp code.</span>
+<span style="color: #7f7f80;">More details please reference Eshell Info.</span>
+
+<span style="color: #7f7f80;">The PARAMS are variables assignments."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>session <span style="color: #fd971f;">(</span>org-babel-eshell-initiate-session
+       <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cdr</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">assq</span> <span style="color: #fd971f;">:session</span> params<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span>full-body <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-babel-expand-body:generic</span>
+         body params <span style="color: #b6e63e;">(</span>org-babel-variable-assignments:eshell params<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> session
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">progn</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-current-buffer</span> session
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #eb4509;">(</span>line <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> full-body <span style="color: #e2c770;">"\n"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #fd971f;">eshell-last-output-end</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span> line<span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eshell-send-input</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">get output of last input</span>
+      <span style="color: #696969;">;; </span><span style="color: #e2c770; font-weight: bold;">TODO:</span><span style="color: #696969;"> collect all output instead of last command's output.</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #fd971f;">eshell-last-input-end</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">buffer-substring-no-properties</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">point</span><span style="color: #eb4509;">)</span> <span style="color: #fd971f;">eshell-last-output-start</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+  <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">eshell-command</span> full-body t<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">buffer-string</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-babel-prep-session:eshell</span> <span style="color: #fd971f;">(</span>session params<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Prepare SESSION according to the header arguments specified in PARAMS."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>session <span style="color: #fd971f;">(</span>org-babel-eshell-initiate-session session<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #696969;">;; </span><span style="color: #696969;">Eshell session buffer is read from variable `</span><span style="color: #fd971f;">eshell-buffer-name</span><span style="color: #696969;">'.</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">eshell-buffer-name</span> session<span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span>var-lines <span style="color: #fd971f;">(</span>org-babel-variable-assignments:eshell params<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">call-interactively</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">eshell</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapc</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">eshell-command</span> var-lines<span style="color: #b6e63e;">)</span>
+    session<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">ob-eshell-session-live-p</span> <span style="color: #fd971f;">(</span>session<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Non-nil if Eshell SESSION exists."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">get-buffer</span> session<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-babel-eshell-initiate-session</span> <span style="color: #fd971f;">(</span><span style="color: #66d9ef;">&amp;optional</span> session params<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Initiate a session named SESSION according to PARAMS."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> session <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> session <span style="color: #e2c770;">"none"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">save-window-excursion</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">or</span> <span style="color: #fd971f;">(</span>ob-eshell-session-live-p session<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">progn</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eshell-buffer-name</span> session<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eshell</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">get-buffer</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">current-buffer</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    session<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-babel-variable-assignments:eshell</span> <span style="color: #fd971f;">(</span>params<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Convert ob-eshell :var specified variables into Eshell variables assignments."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span>
+   <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>pair<span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(setq %s %S)"</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> pair<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cdr</span> pair<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-babel--get-vars</span> params<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-babel-load-session:eshell</span> <span style="color: #fd971f;">(</span>session body params<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Load BODY into SESSION with PARAMS."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">save-window-excursion</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>buffer <span style="color: #b6e63e;">(</span>org-babel-prep-session:eshell session params<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">with-current-buffer</span> buffer
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-babel-chomp</span> body<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      buffer<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">provide</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ob-eshell</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;;; </span><span style="color: #696969;">ob-eshell.el ends here</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: stardiviner</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

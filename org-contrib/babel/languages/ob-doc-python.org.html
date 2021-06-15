@@ -1,0 +1,514 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-python.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Python Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Gary Oberbrunner
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">garyo[at]oberbrunner[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://python.org/">http://python.org/</a>"</span></span><span class="org-block">&gt;Python&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://python.org/">http://python.org/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.python.org/images/python-logo.gif&quot;/">http://www.python.org/images/python-logo.gif"</a></span></span><span class="org-block"><a href="http://www.python.org/images/python-logo.gif&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[11/14]</span></span><span class="org-level-1"> </span><span class="whitespace-tab">                                   </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Result%20Types">Result Types</a></span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Other">Other</a></span> differences from supported languages
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add caveats about utf-8 in strings
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Add caveats about utf-8 in tables
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>Python is a high-level, readable, interpreted language which can be
+used for many common computing tasks.  It runs on most modern
+operating systems.  Python source code blocks are fully supported in
+Org Mode with a wide variety of Python-specific header arguments.
+
+Python source code blocks in Org Mode can be used to define functions,
+filter and analyze data, create graphics and figures, and produce
+reproducible research papers.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>Python source code blocks in Org Mode require a working python installation.
+Python is included in Mac OS X and often in Gnu/Linux, and is easily
+available for Windows.  Python installers are located at
+the <span class="kc-org-link-url"><a href="http://www.python.org/download/">Python download site</a></span>.
+
+Org Mode supports graphical output for LaTeX and HTML documents using
+<span class="kc-org-link-url"><a href="http://matplotlib.org/">Matplotlib</a></span>.
+
+To configure your emacs org-mode to use python, you'll need to ensure
+that <span class="org-verbatim">org-babel-load-languages</span> includes an entry for it.
+Typically, <span class="org-verbatim">org-babel-load-languages</span> will contain many entries.  The
+example below omits other languages.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :tangle yes
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">python . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for Python Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Language-Specific Header Arguments
+</span> <span class="org-list-dt">-</span> <span class="org-verbatim">:results {output, value}</span>: Output results come from whatever the
+   python code prints on stdout. Value results are the value of the
+   last expression evaluated in the code block. Value mode is the
+   default (as with other languages).  In value mode you can use the
+   following subtypes:
+   <span class="org-list-dt">-</span> <span class="org-verbatim">raw</span>: value is inserted directly
+   <span class="org-list-dt">-</span> <span class="org-verbatim">pp</span>: value is pretty-printed by python using <span class="org-verbatim">pprint.pformat(%s)</span>, then inserted
+   <span class="org-list-dt">-</span> <span class="org-verbatim">file</span>: value is interpreted as a filename to be interpolated
+     when exporting; commonly used for graphics output.
+ <span class="org-list-dt">-</span> <span class="org-verbatim">:return</span>: Appends a <span class="org-verbatim">return</span> statement to the end of the code
+   block. Only when result-type is value, and not in session mode.
+ <span class="org-list-dt">-</span> <span class="org-verbatim">:python</span>: Name of the command for executing Python code.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Common Header Arguments
+</span> <span class="org-list-dt">-</span> <span class="org-verbatim">:session [name]</span>: default is no session.
+ <span class="org-list-dt">-</span> <span class="org-verbatim">:var data=data-table</span>: Variables can be passed into python from org-mode tables as
+   scalars or lists.  See the org-mode manual for more details.
+ <span class="org-list-dt">-</span> <span class="org-verbatim">:exports {code, results, both, none}</span>: Standard babel option for what to export.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>Session mode is fully supported in python, including named sessions.
+In session mode, each block is run in the same long-running python
+interactive interpreter session.  You can have multiple sessions, all
+independent.
+
+Sessions can be used to define functions, set up variables, and share
+code between source blocks.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Return values
+</span>
+Session and non-session modes handle return values slightly
+differently.  In non-session mode, the python code block will be
+wrapped in a function, so to return a value (in <span class="org-verbatim">:results value</span> mode)
+you have to use a <span class="org-verbatim">return</span> statement.  In session mode, the last
+statement's value will be returned if it is a top-level expression;
+you should <span class="bold">not</span> use a <span class="org-verbatim">return</span> statement.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Non-session mode example
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom"># use return statement
+# Entire source block will get indented and used as the body of main()
+#+begin_src python
+def foo(x):
+  if x&gt;0:
+    return x+1
+
+  else:
+    return x-1
+
+return foo(5)
+#+end_src
+
+#+RESULTS:
+: 6
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Session mode example
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom"># don't use return statement
+#+begin_src python :session
+def foo(x):
+  if x&gt;0:
+    return x+1
+  else:
+    return x-1
+
+foo(1)
+#+end_src
+
+#+RESULTS:
+: 2
+</span><span class="org-block-end-line">#+end_example
+</span>
+A limitation of session-mode return values is that the final statement
+must be a top-level expression, otherwise nothing is returned.
+
+For example, the code block below doesn't return anything, because the
+final expression is an indented if/else block, not a top-level
+expression:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :session :results value
+import random
+if random.randint(0,10) % 2 == 0:
+    "even"
+else:
+    "odd"
+#+end_src
+
+#+RESULTS:
+</span><span class="org-block-end-line">#+end_example
+</span>
+To return the value of an indented block, assign the value to a
+variable, and return that variable as the final top-level expression:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :session :results value
+import random
+if random.randint(0,10) % 2 == 0:
+    ret = "even"
+else:
+    ret = "odd"
+ret
+#+end_src
+
+#+RESULTS:
+: even
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Graphics
+</span>
+To return plots, save the figure to a file, return the filename, and
+set the header argument <span class="org-verbatim">:results file</span>.
+
+For example:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :session :results file
+import matplotlib
+import matplotlib.pyplot as plt
+fig=plt.figure(figsize=(3,2))
+plt.plot([1,3,2])
+fig.tight_layout()
+
+fname = 'images/myfig.pdf'
+plt.savefig(fname)
+fname # return this to org-mode
+#+end_src
+
+#+RESULTS:
+<a href="file:images/myfig.pdf">[[file:images/myfig.pdf]]</a>
+</span><span class="org-block-end-line">#+end_example
+</span>
+You can use noweb to reduce the boilerplate of saving and returning
+the filename; see the <span class="org-link"><a href="*Plotting">example</a></span> below.
+
+If you are using matplotlib for graphics, you may have to set the
+backend explicitly to a PDF or PNG or other file-exporting backend
+when using session mode, for example by calling
+<span class="org-verbatim">matplotlib.use('Agg')</span>. See also <span class="org-link"><a href="*Additional examples">Additional examples</a></span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Noweb
+</span>
+Noweb syntax allows references between code blocks.  One situation
+where this is useful is when you have some boilerplate code you need
+to repeat across many code blocks, and want to hide during export.
+
+Below are examples of how this can be useful for returning matplotlib
+figures and pandas dataframes.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Plotting
+</span>
+Returning a plot from a ob-python block requires saving the figure to
+a file and returning the filename. In the example below, we extract
+this to a separate block that can be referred to by other code
+blocks. The <span class="org-verbatim">:noweb strip-export</span> header argument means to allow noweb
+syntax, but to hide the inserted code during export.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+name: savefig
+,#+begin_src python :var figname="plot.svg" width=5 height=5 :exports none
+  return f"""plt.savefig('{figname}', width={width}, height={height})
+  '{figname}'"""
+,#+end_src
+
+,#+header: :noweb strip-export
+,#+begin_src python :results value file :session :exports both
+  import matplotlib, numpy
+  import matplotlib.pyplot as plt
+  fig=plt.figure(figsize=(4,2))
+  x=numpy.linspace(-15,15)
+  plt.plot(numpy.sin(x)/x)
+  fig.tight_layout()
+  </span><span class="org-block"><span class="org-target">&lt;&lt;savefig(figname="plot.png", width=10, height=5)&gt;&gt;</span></span><span class="org-block">
+,#+end_src
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Pandas dataframes
+</span>
+In the below example, we use the external <span class="kc-org-link-url"><a href="https://pypi.org/project/tabulate/">tabulate</a></span> package to convert
+a pandas Dataframe into org-mode format, but wrap it in a noweb block
+so we can hide the conversion during export.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+name: pd2org
+,#+begin_src python :var df="df" :exports none
+  return f"return tabulate({df}, headers={df}.columns, tablefmt='orgtbl')"
+,#+end_src
+
+,#+header: :prologue from tabulate import tabulate
+,#+header: :noweb strip-export
+,#+begin_src python :results value raw :exports both
+  import pandas as pd
+  df = pd.DataFrame({
+      "a": [1,2,3],
+      "b": [4,5,6]
+  })
+  </span><span class="org-block"><span class="org-target">&lt;&lt;pd2org("df")&gt;&gt;</span></span><span class="org-block">
+,#+end_src
+
+,#+RESULTS:
+</span><span class="org-block"><span class="org-table">|   | a | b |</span></span><span class="org-block">
+</span><span class="org-block"><span class="org-table">|---+---+---|</span></span><span class="org-block">
+</span><span class="org-block"><span class="org-table">| 0 | 1 | 4 |</span></span><span class="org-block">
+</span><span class="org-block"><span class="org-table">| 1 | 2 | 5 |</span></span><span class="org-block">
+</span><span class="org-block"><span class="org-table">| 2 | 3 | 6 |</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Additional examples
+</span>  <span class="org-list-dt">-</span> Hello World!
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results output
+print("Hello, world!")
+#+end_src
+
+#+RESULTS:
+: Hello, world!
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+  <span class="org-list-dt">-</span> Inline calling:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">Two plus two equals src_python{return(2+2)}
+</span><span class="org-block-end-line">#+end_example
+</span>when exported, e.g. to HTML or LaTeX/PDF, becomes:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">Two plus two equals 4
+</span><span class="org-block-end-line">#+end_example
+</span>
+
+  <span class="org-list-dt">-</span> Extracting data from an org-mode table
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+tblname: data_table
+| a | 1 |
+| b | 2 |
+| c | 3 |
+#+begin_src python :var val=1 :var data=data_table
+# Return row specified by val.
+# In non-session mode, use return to return results.
+return(data[val])
+#+end_src
+
+#+RESULTS:
+| b | 2 |
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+  <span class="org-list-dt">-</span> Plotting
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src python :results file
+import matplotlib, numpy
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+fig=plt.figure(figsize=(4,2))
+x=numpy.linspace(-15,15)
+plt.plot(numpy.sin(x)/x)
+fig.tight_layout()
+plt.savefig('images/python-matplot-fig.png')
+return 'images/python-matplot-fig.png' # return filename to org-mode
+#+end_src
+
+#+RESULTS:
+<a href="file:images/python-matplot-fig.png">[[file:images/python-matplot-fig.png]]</a>
+
+</span><span class="org-block-end-line">#+end_example
+</span><span class="org-link"><a href="file:images/python-matplot-fig.png">file:images/python-matplot-fig.png</a></span>
+</pre>
+  </body>
+</html>

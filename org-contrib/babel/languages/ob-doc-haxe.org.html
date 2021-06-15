@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-haxe.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .custom-1 {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Haxe Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Ian Martins
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">ianxm at jhu dot edu
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="https://www.haxe.org">https://www.haxe.org</a>"</span></span><span class="org-block">&gt;Haxe&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="https://www.haxe.org/">https://www.haxe.org/</a>"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="https://haxe.org/img/haxe-logo-horizontal.svg">https://haxe.org/img/haxe-logo-horizontal.svg</a>"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">width</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"200"</span></span><span class="org-block"> /&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-done">[12/12]</span></span><span class="org-level-1">                                       </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Other">Other</a></span></span><span class="org-headline-done"> differences from supported languages
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+Haxe is an open source high-level strictly-typed programming language
+with a fast optimizing cross-compiler.  When a haxe source code block
+is evaluated, the code is written as a haxe class, then either
+interpreted directly by the haxe compiler or compiled to a neko or
+hashlink binary and run.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Add haxe Support to Babel
+</span>
+<span class="org-list-dt">1.</span> Install the haxe compiler and optionally the neko and/or hashlink
+   runtime environments
+<span class="org-list-dt">2.</span> Configure haxe source code blocks for Org mode by adding the
+   appropriate dotted pair to <span class="org-verbatim">org-babel-load-languages</span>
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :exports code
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">haxe . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for Haxe Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>
+Haxe source code blocks accept the following header arguments.  All
+headers arguments are optional.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:dir</span></span><span class="org-list-dt"> ::</span> specify which directory to write source and class files
+  (<span class="org-link"><a href="*Source and Class File Locations">default is the current directory</a></span>)
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:classname</span></span><span class="org-list-dt"> ::</span> fully qualified classname (see <span class="org-link"><a href="*Class and Main Method Definitions">Class and Main
+  Method Definitions</a></span>)
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:imports</span></span><span class="org-list-dt"> ::</span> a list of classes to add as imports (see <span class="org-link"><a href="*Imports">Imports</a></span>)
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:cmdline</span></span><span class="org-list-dt"> ::</span> pass command line arguments to the neko or hashlink
+  runtime.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:target</span></span><span class="org-list-dt"> ::</span> the language for the haxe compiler to target.  The
+  default is <span class="org-verbatim">interp</span> mode.  Can be set to <span class="org-verbatim">neko</span> or <span class="org-verbatim">hashlink</span> to use
+  either of those runtimes.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Simple Example
+</span>
+This is hello world:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output
+  class Main {
+      public static function main() {
+          Sys.print("hello, world");
+      }
+  }
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Class and Main Method Definitions
+</span>
+It is not necessary to include the <span class="org-verbatim">class</span> statement or define a
+<span class="org-verbatim">main</span> method. ob-haxe will wrap a source code block in boilerplate
+class and main method definitions if they are omitted.  If
+<span class="org-verbatim">:classname</span> and the class definition in the source code block are
+both omitted, the class will be named <span class="org-verbatim">Main</span>.
+
+This is exactly equivalent to the above hello world:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output
+  Sys.print("hello, world");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Classname and Package Name
+</span>
+The package and classname of a class can be defined in the source code
+block or by the <span class="org-verbatim">:classname</span> header argument or both.  If they are
+defined in both places, then they must match.
+
+<span class="org-verbatim">:classname</span> can just be a classname, like <span class="org-verbatim">Greeter</span> or it could
+contain the package name, such as <span class="org-verbatim">com.pkg.Greeter</span>.  This example
+names the class <span class="org-verbatim">Greeter</span> and puts it in the <span class="org-verbatim">com.pkg</span> package.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output :classname com.pkg.Greeter
+  Sys.print("hello, world");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Source Files and Tangling
+</span>
+By default, when a source code block is evaluated the source files and
+class files are written directly to babel's temporary directory.  If a
+package was specified, it is removed so that babel doesn't have to
+create subdirectories under its temporary directory.  In the above
+<span class="org-verbatim">com.pkg.Greeter</span> example, the default behavior is to remove the
+<span class="org-verbatim">com.pkg</span> and write <span class="org-verbatim">Greeter.hx</span> to babel's temporary directory.
+
+If the <span class="org-verbatim">:dir</span> header argument is specified, then source files are
+written within package directories under the specified directory and
+package names are preserved.  In the <span class="org-verbatim">com.pkg.Greeter</span> example, if
+the <span class="org-verbatim">:dir</span> header is given, the package is preserved.
+
+Tangling works as expected.  Package is always preserved when
+tangling.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Return values
+</span>
+Babel source code blocks can either return a value (this is called
+functional mode and is the default, and can be specified with
+<span class="org-verbatim">:results output</span>) or output printed by the source code block (this is
+called scripting mode and can be chosen with <span class="org-verbatim">:results value</span>).
+
+We've already seen hello world in scripting mode, but here it is
+again:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output
+  Sys.print("hello, world");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This is what hello world looks like in functional mode:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results value
+  return "hello, world";
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Return a List
+</span>
+This example returns a list using scripting mode.  For the result to
+show up as a list in the org buffer, notice that the <span class="org-verbatim">:results</span> must
+be set to <span class="org-verbatim">raw list</span>.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output raw list
+  Sys.println("1");
+  Sys.println("2");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This is the output:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+RESULTS:
+</span><span class="org-list-dt"><span class="custom-1">-</span></span><span class="custom-1"> 1
+</span><span class="org-list-dt"><span class="custom-1">-</span></span><span class="custom-1"> 2
+</span><span class="org-block-end-line">#+end_example
+</span>
+Returning a list in functional mode is straightforward.  Simply say
+<span class="org-verbatim">:results</span> will return a <span class="org-verbatim">list</span> and then return an <span class="org-verbatim">Array</span> or <span class="org-verbatim">List</span>.
+This example results in identical output to the previous example.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results value list
+  return [1, 2];
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Return a Table
+</span>
+This example returns a table using scripting mode.  Notice that the
+output includes pipe characters to build the table, and the <span class="org-verbatim">:results</span>
+header specifies the type is <span class="org-verbatim">raw</span>.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output raw
+  Sys.println("|1|2|3");
+  Sys.println("|4|5|6");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This is the output:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+RESULTS:
+| 1 | 2 | 3 |
+| 4 | 5 | 6 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+The same output is achieved with the following:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results value table
+    return [[1, 2, 3],
+            [4, 5, 6]];
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Return a Table with Headers
+</span>
+This example returns a table with headers using scripting mode.  The
+hline is created the same way as it is created while editing an org
+table, by inserting a <span class="org-verbatim">|-</span> at the start of a line inside the table.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output raw
+  Sys.println("|col1|col2|col3");
+  Sys.println("|-");
+  Sys.println("|1|2|3");
+  Sys.println("|4|5|6");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This is the output:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+RESULTS:
+| col1 | col2 | col3 |
+|------+------+------|
+|    1 |    2 |    3 |
+|    4 |    5 |    6 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+The same output is achieved with the following.  Note that the hline
+is represented with a <span class="org-verbatim">null</span> in the table, and that we had to change
+to using a <span class="org-verbatim">List&lt;Object&gt;</span> since the header row items are <span class="org-verbatim">String</span> but
+the rest of the data items are <span class="org-verbatim">int</span>.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results value table
+  var a :Array&lt;Dynamic&gt; = [["col1", "col2", "col3"],
+                           null,
+                           [1, 2, 3],
+                           [4, 5, 6]];
+  return a;
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Variables
+</span>
+Haxe source code blocks can take input from the org buffer as
+variables.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Variables
+</span>
+Pass variables with the <span class="org-verbatim">:var</span> header.  Variable types are inferred.
+This example accepts two integers and adds them:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :var a=1 b=2 :results output
+  Sys.print("sum: " + (a+b));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+When passing string variables, be sure to escape the quotes, like this:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :var a="some string" :results output
+  Sys.print(a);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+Haxe source code blocks can accept elisp <span class="org-verbatim">list</span> or <span class="org-verbatim">vector</span>.  In
+either case the variables are typed as <span class="org-verbatim">Array&lt;Dynamic&gt;</span>.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :var a='("one" "two") :results output
+  Sys.print(a[0] + " " + a[1]);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This example accepts a named list taken from the org buffer.  Note
+that lists appear to be a table with one item in each row.  <span class="org-verbatim">a</span> is a
+<span class="org-verbatim">Array&lt;Dynamic&gt;</span> here, where the outside array contains rows and the
+inside array contains columns.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+name: some-list
+</span><span class="org-list-dt"><span class="custom-1">-</span></span><span class="custom-1"> one
+</span><span class="org-list-dt"><span class="custom-1">-</span></span><span class="custom-1"> two
+
+#+begin_src haxe :var a=some-list :results output
+  Sys.print(a[0][0] + " " + a[1][0]);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+Another way to accept an org list is to slice it when it is assigned.
+The <span class="org-verbatim">[,0]</span> in this examples selects the first column of each row.  <span class="org-verbatim">a</span>
+is still an <span class="org-verbatim">Array&lt;Dynamic&gt;</span> but now each item is a single list item.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+name: some-list
+</span><span class="org-list-dt"><span class="custom-1">-</span></span><span class="custom-1"> one
+</span><span class="org-list-dt"><span class="custom-1">-</span></span><span class="custom-1"> two
+
+#+begin_src haxe :var a=some-list[,0] :results output
+  Sys.print(a[0] + " " + a[1]);
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+The following example transposes and doubles the values in a 2x2
+table.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+name: some-table
+| 1 | 2 |
+| 3 | 4 |
+
+#+begin_src haxe :var a=some-table :results output
+  Sys.println((a[0][0]*2) + " " + (a[1][0]*2));
+  Sys.println((a[0][1]*2) + " " + (a[1][1]*2));
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Imports
+</span>
+Imports can be added at the top of source code blocks or added using
+the <span class="org-verbatim">:imports</span> header argument.  Imports are allowed in source code
+blocks that omit the boilerplate class and main method definitions.
+
+<span class="org-verbatim">sys.io.File</span> can be used without explicitly importing it.
+
+This example imports a class using the <span class="org-verbatim">:imports</span> header argument:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output :imports haxe.crypto.Base64 haxe.io.Bytes
+  var encoded = Base64.encode(Bytes.ofString("42"));
+  var decoded = Base64.decode(encoded);
+  Sys.print('encoded=$encoded, decoded=$decoded');
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+This is exactly equivalent, but specifies the import within the source
+code block:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output
+  import haxe.crypto.Base64;
+  import haxe.io.Bytes;
+  var encoded = Base64.encode(Bytes.ofString("42"));
+  var decoded = Base64.decode(encoded);
+  Sys.print('encoded=$encoded, decoded=$decoded');
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Source and Class File Locations
+</span>
+Most babel languages write the source code block to a file in the
+babel temporary directory and compile there.  This is the default
+behavior for ob-haxe.  When writing to the babel temporary
+directory, all source code blocks must be independent.
+
+A benefit of writing to the current directory instead of the babel
+temporary directory is that it allows source code blocks to depend on
+classes defined in other blocks.
+
+In order to override override the default and compile in the current
+directory, set the <span class="org-verbatim">:dir</span> parameter on the source code block.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src haxe :results output :dir "."
+  Sys.print("hello, world");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tramp Support
+</span>
+If the org file containing the haxe source code block is on a remote
+machine and <span class="org-verbatim">:dir</span> is either not set (it defaults to the current
+directory, which would be remote in this case) or is set to a remote
+path, then the source files will be written to the remote machine,
+compiled by the remote haxe compiler and interpreted by the remote
+haxe compiler or run by the remote neko or hashlink runtime.
+
+If the org file is remote but <span class="org-verbatim">:dir</span> is set to a local directory, the
+source file will be written to the local machine and local binaries
+will be used.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Non-executable Classes
+</span>
+If a source code block includes methods but doesn't include a main
+method, a generic main method will be added.  This prevents the source
+code block from erroring when evaluated.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>
+There is no support for sessions.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Current Issues
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="custom">TODO</span></span><span class="org-level-2"> Formatting shouldn't be required to return a table in scripting mode
+</span></pre>
+  </body>
+</html>

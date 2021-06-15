@@ -1,0 +1,1515 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge9fda64">Table operations &#x2014; filter or combine tables</a>
+<ul>
+<li><a href="#orgcaa95be">Documentation</a>
+<ul>
+<li><a href="#orgdd18fc3">Introduction</a></li>
+<li><a href="#org3c41a6b">Example tables</a></li>
+<li><a href="#org4ab08bb">Filtering a table</a></li>
+<li><a href="#org40c29de">Combining tables</a></li>
+</ul>
+</li>
+<li><a href="#org8f79c10">Internals</a>
+<ul>
+<li><a href="#org9617312">Implementation</a></li>
+<li><a href="#orgf1879bd">Development</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge9fda64" class="outline-2">
+<h2 id="orge9fda64">Table operations &#x2014; filter or combine tables</h2>
+<div class="outline-text-2" id="text-orge9fda64">
+<p>
+This section within the library of babel provides table operations.
+See the documentation just below for details and working examples.
+</p>
+
+<p>
+Author  : Marc-Oliver Ihm &lt;ihm@ferntreffer.de&gt;
+Version : 1.0
+</p>
+</div>
+
+<div id="outline-container-orgcaa95be" class="outline-3">
+<h3 id="orgcaa95be">Documentation</h3>
+<div class="outline-text-3" id="text-orgcaa95be">
+</div>
+<div id="outline-container-orgdd18fc3" class="outline-4">
+<h4 id="orgdd18fc3">Introduction</h4>
+<div class="outline-text-4" id="text-orgdd18fc3">
+<p>
+The table operations (currently four) are grouped in two categories:
+</p>
+
+<ul class="org-ul">
+<li>Filtering the rows of a single table: keeping or removing</li>
+<li>Combining two tables into one: merging or intersecting</li>
+</ul>
+
+<p>
+All four operations are demonstrated below.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3c41a6b" class="outline-4">
+<h4 id="org3c41a6b">Example tables</h4>
+<div class="outline-text-4" id="text-org3c41a6b">
+<p>
+To demonstrate we need three tables: upper, lower and keys:
+</p>
+
+<table id="org035461a" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">C</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">J</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B</td>
+</tr>
+</tbody>
+</table>
+
+<table id="org590edc5" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">Letter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">b</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">d</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">e</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">h</td>
+</tr>
+</tbody>
+</table>
+
+<table id="orgc7b65c5" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+The tables upper and lower both have two columns and associate a position in
+the alphabet with the matching letter.  E.g. the row &ldquo;| 1 | A |&rdquo; from table
+upper, just states that the letter &ldquo;A&rdquo; comes at position 1 in the alphabet.
+</p>
+
+<p>
+Nearly the same is true for table lower, only that it contains lower case
+letters.  Some of its letters (e.g. &ldquo;b&rdquo;) have counterparts in table upper
+(&ldquo;B&rdquo;), some (e.g. &ldquo;e&rdquo;) dont.
+</p>
+
+<p>
+The table keys finally, contains keys (i.e. positions within the alphabet),
+that can be used to select rows from either table upper or lower.
+</p>
+
+<p>
+Note, that tables may have column headings or not.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4ab08bb" class="outline-4">
+<h4 id="org4ab08bb">Filtering a table</h4>
+<div class="outline-text-4" id="text-org4ab08bb">
+</div>
+<ul class="org-ul">
+<li><a id="org2716b83"></a>Keeping rows<br />
+<div class="outline-text-5" id="text-org2716b83">
+<p>
+Let&rsquo;s say, we want to select the upper-case letters (i.e. rows from the
+table upper), that are given in table keys (i.e. the first, second and
+fourth letter).
+</p>
+
+<p>
+This can be described as filtering table upper and keeping only those rows,
+that appear in table keys.
+</p>
+
+<p>
+As a babel-call, this reads:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+,which gives exactly those rows from table upper, that are specified in
+keys.
+</p>
+</div>
+</li>
+
+<li><a id="orge64821a"></a>Removing rows<br />
+<div class="outline-text-5" id="text-orge64821a">
+<p>
+Now, if on the contrary you want to filter table upper to remove any rows,
+which are given in table keys:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">t2c2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">C</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">J</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+,which is the expected result.
+</p>
+
+<p>
+Please note, that the call contains the header argument &ldquo;:colnames yes&rdquo;,
+which causes the result table to contain the headings &ldquo;Position&rdquo; and
+&ldquo;t2c2&rdquo;. These headings are taken from the input-tables upper and
+keys. However, as upper does not contain any headings, the heading &ldquo;t2c2&rdquo;
+is generated artificially; it stands for &ldquo;table 2 column 2&rdquo;.
+</p>
+
+<p>
+If you do not want to have column names in the result table, just leave out
+the header argument &ldquo;:colnames yes&rdquo; like in the first example. Note
+however, that &ldquo;:colnames no&rdquo; does not give the expected effect.
+</p>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org40c29de" class="outline-4">
+<h4 id="org40c29de">Combining tables</h4>
+<div class="outline-text-4" id="text-org40c29de">
+<p>
+Now, lets have a look at the tables upper and lower alone and see how to
+combine them.
+</p>
+
+<p>
+Note, that we only look at combining two tables for simplicity, however, all
+operations can be easily scaled up to seven tables.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgf89659e"></a>Merging rows<br />
+<div class="outline-text-5" id="text-orgf89659e">
+<p>
+We have two tables, one with upper case letters and one with lower
+case. What now, if you want to have only one table, which contains both,
+upper and lower case letters ?
+</p>
+
+<p>
+You may want to merge them:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">t1c2</th>
+<th scope="col" class="org-left">Letter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B</td>
+<td class="org-left">b</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">C</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D</td>
+<td class="org-left">d</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">e</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">h</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">J</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+This result combines both upper and lower case letters and lists them by
+their position within the alphabet.
+</p>
+</div>
+</li>
+
+<li><a id="org94e108f"></a>Intersecting rows<br />
+<div class="outline-text-5" id="text-org94e108f">
+<p>
+If you only want the rows, that are complete (i.e. have both upper and
+lower case letters) you may compute the intersection:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B</td>
+<td class="org-left">b</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D</td>
+<td class="org-left">d</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+,which has only those keys and letters, that appear in both tables.
+</p>
+
+<p>
+Note, that we have ommitted the headeragument &ldquo;:colnames yes&rdquo; so that the
+result table has no headings.
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8f79c10" class="outline-3">
+<h3 id="org8f79c10">Internals</h3>
+<div class="outline-text-3" id="text-org8f79c10">
+<p>
+This section is not required if you just want to use table operations as
+described above. Only if you are curious about its implementation or
+development, you might want to have a look.
+</p>
+</div>
+
+<div id="outline-container-org9617312" class="outline-4">
+<h4 id="org9617312">Implementation</h4>
+<div class="outline-text-4" id="text-org9617312">
+<p>
+Here is the actual lisp code, that implements the functionality of table
+operations.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="org8ded83d"></a>table-operations-filter<br />
+<ul class="org-ul">
+<li><a id="org5de3cf2"></a>Directly callable blocks<br />
+<div class="outline-text-6" id="text-org5de3cf2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org607d020">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-filter-defun&gt;&gt;
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>filter-and-table <span style="color: #eb4509;">(</span><span style="color: #fd971f;">list</span> filter table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>lob-table-operations-filter <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">keep</span> filter-and-table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgc2098b2">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-filter-defun&gt;&gt;
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>filter-and-table <span style="color: #eb4509;">(</span><span style="color: #fd971f;">list</span> filter table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>lob-table-operations-filter <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">remove</span> filter-and-table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orga75e6ec"></a>Included defuns<br />
+<div class="outline-text-6" id="text-orga75e6ec">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org009d5b4">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">lob-table-operations-filter</span> <span style="color: #fd971f;">(</span>what filter-and-table<span style="color: #fd971f;">)</span>
+    <span style="color: #7f7f80;">"Internal function for table operations in orgmode library of babel"</span>
+  
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span>keys
+          result-table
+          headings-all-tables
+          filter
+          table<span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">seperate headings from rest of tables</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> headings-all-tables 
+            <span style="color: #eb4509;">(</span>lob-table-operations-helper-get-headings filter-and-table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">extract arguments</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> filter <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> filter-and-table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> table <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> filter-and-table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">remove hlines</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> table <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-del-hlines</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> filter <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-del-hlines</span> filter<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> keys <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">car</span> filter<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">start result with headings (reversed)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> result-table <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span> headings-all-tables nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #eb4509;">(</span>line table<span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">loop over table lines </span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">not</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">member</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> line<span style="color: #b6e63e;">)</span> keys<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> 
+                   <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">equal</span> what <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">keep</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">'keep or 'remove ?</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> result-table <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> line result-table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">nreverse</span> result-table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</li>
+
+<li><a id="org2454bc1"></a>table-operations-combine<br />
+<ul class="org-ul">
+<li><a id="org1117f5a"></a>Directly callable blocks<br />
+<div class="outline-text-6" id="text-org1117f5a">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org7dc0688">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-combine-defun&gt;&gt;
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>tables <span style="color: #eb4509;">(</span><span style="color: #fd971f;">list</span> t1 t2 t3 t4 t5 t6 t7<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>lob-table-operations-combine <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">merge</span> tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org60160dc">  &lt;&lt;lob-table-operations-helper-get-headings-defun&gt;&gt;
+  &lt;&lt;lob-table-operations-combine-defun&gt;&gt;
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>tables <span style="color: #eb4509;">(</span><span style="color: #fd971f;">list</span> t1 t2 t3 t4 t5 t6 t7<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>lob-table-operations-combine <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">intersect</span> tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orge725ebe"></a>Included defuns<br />
+<div class="outline-text-6" id="text-orge725ebe">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgd51eb75">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">lob-table-operations-combine</span> <span style="color: #fd971f;">(</span>what tables<span style="color: #fd971f;">)</span>
+    <span style="color: #7f7f80;">"Internal function for table-operations in orgmode library of babel"</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span>is-all-numbers                 
+          format-specifier
+          rest-of-tables
+          rests-of-tables
+          rest-of-rests-of-tables
+          rest-of-table
+          headings-all-tables
+          widths-of-tables
+          current-key
+          current-key-in-intersection
+          result-table
+          result-line
+          i<span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">remove possible empty trailing tables</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> rest-of-tables tables<span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">while</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> rest-of-tables<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> rest-of-tables <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cdr</span> rest-of-tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">setcdr</span> rest-of-tables nil<span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">seperate headings from rest of tables</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> headings-all-tables <span style="color: #eb4509;">(</span>lob-table-operations-helper-get-headings 
+                                 tables<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> result-table <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span> headings-all-tables nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      
+      <span style="color: #696969;">;; </span><span style="color: #696969;">remove all remaining hlines</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> tables <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-babel-del-hlines</span> tables<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  
+      <span style="color: #696969;">;; </span><span style="color: #696969;">Find out, if all keys in all tables are numbers or if </span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">there are strings among them</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> is-all-numbers
+            <span style="color: #eb4509;">(</span><span style="color: #eb4509;">catch</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">not-a-number</span>
+              <span style="color: #fd971f;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #b6e63e;">(</span>table tables<span style="color: #b6e63e;">)</span> 
+                <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #eb4509;">(</span>line table<span style="color: #eb4509;">)</span> 
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">numberp</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> line<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> 
+                    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">throw</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">not-a-number</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">nil</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+              <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">t</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> format-specifier <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> is-all-numbers <span style="color: #e2c770;">"%g"</span> <span style="color: #e2c770;">"%s"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">Prepare functions to treat table contents in a unified way</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">flet</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>convert <span style="color: #b6e63e;">(</span>x<span style="color: #b6e63e;">)</span> 
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> is-all-numbers
+                          x
+                        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">numberp</span> x<span style="color: #fd971f;">)</span> 
+                            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">number-to-string</span> x<span style="color: #fd971f;">)</span> 
+                          x<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+             <span style="color: #fd971f;">(</span>less-than <span style="color: #b6e63e;">(</span>x y<span style="color: #b6e63e;">)</span> 
+                        <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> is-all-numbers <span style="color: #eb4509;">(</span><span style="color: #fd971f;">&lt;</span> x y<span style="color: #eb4509;">)</span> 
+                          <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string&lt;</span> <span style="color: #fd971f;">(</span>convert x<span style="color: #fd971f;">)</span> 
+                                   <span style="color: #fd971f;">(</span>convert y<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+             <span style="color: #fd971f;">(</span>compare <span style="color: #b6e63e;">(</span>x y<span style="color: #b6e63e;">)</span> 
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> is-all-numbers <span style="color: #eb4509;">(</span><span style="color: #fd971f;">=</span> x y<span style="color: #eb4509;">)</span> 
+                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #fd971f;">(</span>convert x<span style="color: #fd971f;">)</span> 
+                                 <span style="color: #fd971f;">(</span>convert y<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        
+        <span style="color: #696969;">;; </span><span style="color: #696969;">sort tables</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> tables <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>table<span style="color: #eb4509;">)</span> 
+                               <span style="color: #eb4509;">(</span><span style="color: #fd971f;">sort</span> table <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>x y<span style="color: #b6e63e;">)</span> 
+                                             <span style="color: #b6e63e;">(</span>less-than <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> x<span style="color: #eb4509;">)</span> 
+                                                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> y<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> 
+                             tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        
+        <span style="color: #696969;">;; </span><span style="color: #696969;">compute and remember table widths</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> widths-of-tables <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>x<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">length</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> x<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        
+        <span style="color: #696969;">;; </span><span style="color: #696969;">copy initially and shorten below</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> rests-of-tables <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">copy-list</span> tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  
+        <span style="color: #696969;">;; </span><span style="color: #696969;">loop as long as the rest of table still contains lines</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">while</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">progn</span> 
+                 <span style="color: #696969;">;; </span><span style="color: #696969;">find lowest key among all tables, which is the key for the</span>
+                 <span style="color: #696969;">;; </span><span style="color: #696969;">next line of the result</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> current-key nil<span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> current-key-in-intersection <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">t</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">remember for later</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #eb4509;">(</span>rest-of-table rests-of-tables<span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">loop over all tables</span>
+                   <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">and</span> rest-of-table <span style="color: #696969;">; </span><span style="color: #696969;">and compare against all keys</span>
+                              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">null</span> current-key<span style="color: #eb4509;">)</span> 
+                                  <span style="color: #eb4509;">(</span>less-than <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">caar</span> rest-of-table<span style="color: #fd971f;">)</span> 
+                                             current-key<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> current-key <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">caar</span> rest-of-table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                 current-key<span style="color: #fd971f;">)</span>
+          
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">progn</span>
+            
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> result-line <span style="color: #eb4509;">(</span><span style="color: #fd971f;">list</span> current-key<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+            
+            <span style="color: #696969;">;; </span><span style="color: #696969;">go through all tables and collect one line for the result table</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> i <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #b6e63e;">)</span>                      <span style="color: #696969;">; </span><span style="color: #696969;">table-count</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">cannot use dolist like above, because we need to modify the</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">cons-cells</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> rest-of-rests-of-tables rests-of-tables<span style="color: #b6e63e;">)</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">while</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">progn</span>
+                     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> rest-of-table <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> rest-of-rests-of-tables<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">incf</span> i<span style="color: #fd971f;">)</span>
+                     <span style="color: #696969;">;; </span><span style="color: #696969;">if table contains current key </span>
+                     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> rest-of-table
+                              <span style="color: #eb4509;">(</span>compare current-key <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">caar</span> rest-of-table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                         <span style="color: #696969;">;; </span><span style="color: #696969;">then copy rest of line</span>
+                         <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">progn</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">nconc</span> result-line <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cdar</span> rest-of-table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                                <span style="color: #696969;">;; </span><span style="color: #696969;">and shorten rest</span>
+                                <span style="color: #eb4509;">(</span><span style="color: #fd971f;">setcar</span> rest-of-rests-of-tables 
+                                        <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cdar</span> rest-of-rests-of-tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                                <span style="color: #696969;">;; </span><span style="color: #696969;">and check, if current-key appears again</span>
+                                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">and</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">caadr</span> rest-of-table<span style="color: #b6e63e;">)</span>
+                                           <span style="color: #b6e63e;">(</span>compare current-key 
+                                                    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">caadr</span> rest-of-table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                                  <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">error</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"Key '"</span> 
+                                                 format-specifier 
+                                                 <span style="color: #e2c770;">"' appears twice within "</span>
+                                                 <span style="color: #e2c770;">"input table %i"</span><span style="color: #b6e63e;">)</span> 
+                                         <span style="color: #b6e63e;">(</span>convert current-key<span style="color: #b6e63e;">)</span> i<span style="color: #fd971f;">)</span>
+                                  <span style="color: #eb4509;">)</span>
+                                <span style="color: #b6e63e;">)</span>
+                       <span style="color: #696969;">;; </span><span style="color: #696969;">otherwise fill with nil and do not shorte</span>
+                       <span style="color: #696969;">;; </span><span style="color: #696969;">rest of table</span>
+                       <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">progn</span> 
+                         <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> current-key-in-intersection nil<span style="color: #eb4509;">)</span>
+                         <span style="color: #eb4509;">(</span><span style="color: #fd971f;">nconc</span> result-line <span style="color: #fd971f;">(</span><span style="color: #fd971f;">make-list</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">1-</span> 
+                                                        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">elt</span> widths-of-tables 
+                                                             <span style="color: #fd971f;">(</span><span style="color: #fd971f;">1-</span> i<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> 
+                                                       <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                     
+                     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> rest-of-rests-of-tables 
+                           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cdr</span> rest-of-rests-of-tables<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                     rest-of-rests-of-tables<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">condition for loop</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">or</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> what <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">merge</span><span style="color: #fd971f;">)</span> current-key-in-intersection<span style="color: #eb4509;">)</span>
+                <span style="color: #696969;">;; </span><span style="color: #696969;">store away line</span>
+                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> result-table <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span>  
+                                    result-line 
+                                    result-table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">nreverse</span> result-table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</li>
+
+<li><a id="org6b7b400"></a>Common helper functions<br />
+<div class="outline-text-5" id="text-org6b7b400">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org2e11d7d">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">lob-table-operations-helper-get-headings</span> <span style="color: #fd971f;">(</span>tables<span style="color: #fd971f;">)</span>
+    <span style="color: #7f7f80;">"Internal function for table-operations in orgmode library of babel"</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>rest-of-tables tables<span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span>i <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span>
+          headings-all-tables
+          headings-one-table
+          heading-of-key<span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">while</span> rest-of-tables 
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">progn</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> table <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> rest-of-tables<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">eq</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> table<span style="color: #eb4509;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #696969;">;; </span><span style="color: #696969;">second line is a hline, so first is a heading</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">progn</span> 
+                <span style="color: #696969;">; </span><span style="color: #696969;">take headings from first table row</span>
+                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> headings-one-table <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cdar</span> table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> 
+                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">unless</span> heading-of-key <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> heading-of-key <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">caar</span> table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> heading-of-key <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">caar</span> table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                  <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">error</span> <span style="color: #e2c770;">"Name of first column is not the same in all tables"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                <span style="color: #eb4509;">(</span><span style="color: #fd971f;">setcar</span> rest-of-tables 
+                        <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cdar</span> rest-of-tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">and shorten rest</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">table does not contain headings, so make them up</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> headings-one-table 
+                  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> 
+                   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>x<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"t%dc%d"</span> i x<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                   <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">number-sequence</span> <span style="color: #9c91e4; font-weight: bold;">2</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">length</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> headings-all-tables <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">append</span> headings-all-tables 
+                                            headings-one-table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> rest-of-tables <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cdr</span> rest-of-tables<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">incf</span> i<span style="color: #fd971f;">)</span>
+          rest-of-tables<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">condition for while loop</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">unless</span> heading-of-key <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> heading-of-key <span style="color: #e2c770;">"key"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> headings-all-tables <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> heading-of-key headings-all-tables<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      headings-all-tables<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgaea2480"></a>Debugging and testing<br />
+<ul class="org-ul">
+<li><a id="org2aee232"></a>Clean up<br />
+<div class="outline-text-6" id="text-org2aee232">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">save-excursion</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">beginning-of-buffer</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">while</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">re-search-forward</span> <span style="color: #e2c770;">"^#\\+results:.*\n</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">^</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">|.+\n</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">*\n"</span> nil t<span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">replace-match</span> <span style="color: #e2c770;">""</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org37135b3"></a>Byte Compilation<br />
+<div class="outline-text-6" id="text-org37135b3">
+<p>
+(byte-compile &rsquo;lob-table-operations-combine)
+(byte-compile &rsquo;lob-table-operations-filter)
+</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgf1879bd" class="outline-4">
+<h4 id="orgf1879bd">Development</h4>
+<div class="outline-text-4" id="text-orgf1879bd">
+</div>
+<ul class="org-ul">
+<li><a id="orgb0dd8f4"></a>Versions and history<br />
+<div class="outline-text-5" id="text-orgb0dd8f4">
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2012-03-18 Sun] </span></span> Version 1.0: 
+</p>
+<ul class="org-ul">
+<li>Added handling of hlines and table headings</li>
+</ul>
+
+<p>
+<span class="timestamp-wrapper"><span class="timestamp">[2012-01-07 Sat] </span></span> Version 0.01:
+</p>
+<ul class="org-ul">
+<li>Restructured as a single org-file; no special .el-file needed any more</li>
+<li>Combined and restructured documentation and implementation</li>
+</ul>
+</div>
+</li>
+
+<li><a id="orgdc2ea3c"></a>Bugs and Todos<br />
+<div class="outline-text-5" id="text-orgdc2ea3c">
+<ul class="org-ul">
+<li class="on"><code>[X]</code> Brush up documentation</li>
+<li class="on"><code>[X]</code> Stay below 80 columns</li>
+<li class="on"><code>[X]</code> Tests with more than two columns per table</li>
+<li class="on"><code>[X]</code> Tests with more than two tables for merging</li>
+<li class="on"><code>[X]</code> Handle optional table captions</li>
+<li class="on"><code>[X]</code> Handle hlines</li>
+<li class="on"><code>[X]</code> flet within lob-table-operations-combine</li>
+<li class="trans"><code>[-]</code> flet within directly callable blocks; try to avoid global functions
+Not feasible, because that hinders debugging to much</li>
+<li class="on"><code>[X]</code> Use :results silent</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org2bbfd74"></a>Testcases<br />
+<div class="outline-text-5" id="text-org2bbfd74">
+<table id="org0f20f79" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">c1</th>
+<th scope="col" class="org-left">c2</th>
+<th scope="col" class="org-left">c3</th>
+<th scope="col" class="org-left">c4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A1</td>
+<td class="org-left">A2</td>
+<td class="org-left">A3</td>
+<td class="org-left">A4</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">C1</td>
+<td class="org-left">C2</td>
+<td class="org-left">C3</td>
+<td class="org-left">C4</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D1</td>
+<td class="org-left">D2</td>
+<td class="org-left">D3</td>
+<td class="org-left">D4</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">J1</td>
+<td class="org-left">J2</td>
+<td class="org-left">J3</td>
+<td class="org-left">J4</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B1</td>
+<td class="org-left">B2</td>
+<td class="org-left">B3</td>
+<td class="org-left">B4</td>
+</tr>
+</tbody>
+</table>
+
+<table id="orgf4d4128" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">b1</td>
+<td class="org-left">b2</td>
+<td class="org-left">b3</td>
+<td class="org-left">b4</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">d1</td>
+<td class="org-left">d2</td>
+<td class="org-left">d3</td>
+<td class="org-left">d4</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">e1</td>
+<td class="org-left">e2</td>
+<td class="org-left">e3</td>
+<td class="org-left">e4</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">h1</td>
+<td class="org-left">h2</td>
+<td class="org-left">h3</td>
+<td class="org-left">h4</td>
+</tr>
+</tbody>
+</table>
+
+<table id="org4eda0c5" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Bb1</td>
+<td class="org-left">Bb2</td>
+<td class="org-left">Bb3</td>
+<td class="org-left">Bb4</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">Hh1</td>
+<td class="org-left">Hh2</td>
+<td class="org-left">Hh3</td>
+<td class="org-left">Hh4</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">Dd1</td>
+<td class="org-left">Dd2</td>
+<td class="org-left">Dd3</td>
+<td class="org-left">Dd4</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">Jj1</td>
+<td class="org-left">Jj2</td>
+<td class="org-left">Jj3</td>
+<td class="org-left">Jj4</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A1</td>
+<td class="org-left">A2</td>
+<td class="org-left">A3</td>
+<td class="org-left">A4</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D1</td>
+<td class="org-left">D2</td>
+<td class="org-left">D3</td>
+<td class="org-left">D4</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B1</td>
+<td class="org-left">B2</td>
+<td class="org-left">B3</td>
+<td class="org-left">B4</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">t2c2</th>
+<th scope="col" class="org-left">t2c3</th>
+<th scope="col" class="org-left">t2c4</th>
+<th scope="col" class="org-left">t2c5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">e1</td>
+<td class="org-left">e2</td>
+<td class="org-left">e3</td>
+<td class="org-left">e4</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">h1</td>
+<td class="org-left">h2</td>
+<td class="org-left">h3</td>
+<td class="org-left">h4</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">c1</th>
+<th scope="col" class="org-left">c2</th>
+<th scope="col" class="org-left">c3</th>
+<th scope="col" class="org-left">c4</th>
+<th scope="col" class="org-left">t2c2</th>
+<th scope="col" class="org-left">t2c3</th>
+<th scope="col" class="org-left">t2c4</th>
+<th scope="col" class="org-left">t2c5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A1</td>
+<td class="org-left">A2</td>
+<td class="org-left">A3</td>
+<td class="org-left">A4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B1</td>
+<td class="org-left">B2</td>
+<td class="org-left">B3</td>
+<td class="org-left">B4</td>
+<td class="org-left">b1</td>
+<td class="org-left">b2</td>
+<td class="org-left">b3</td>
+<td class="org-left">b4</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">C1</td>
+<td class="org-left">C2</td>
+<td class="org-left">C3</td>
+<td class="org-left">C4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D1</td>
+<td class="org-left">D2</td>
+<td class="org-left">D3</td>
+<td class="org-left">D4</td>
+<td class="org-left">d1</td>
+<td class="org-left">d2</td>
+<td class="org-left">d3</td>
+<td class="org-left">d4</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">e1</td>
+<td class="org-left">e2</td>
+<td class="org-left">e3</td>
+<td class="org-left">e4</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">h1</td>
+<td class="org-left">h2</td>
+<td class="org-left">h3</td>
+<td class="org-left">h4</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">J1</td>
+<td class="org-left">J2</td>
+<td class="org-left">J3</td>
+<td class="org-left">J4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B1</td>
+<td class="org-left">B2</td>
+<td class="org-left">B3</td>
+<td class="org-left">B4</td>
+<td class="org-left">b1</td>
+<td class="org-left">b2</td>
+<td class="org-left">b3</td>
+<td class="org-left">b4</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D1</td>
+<td class="org-left">D2</td>
+<td class="org-left">D3</td>
+<td class="org-left">D4</td>
+<td class="org-left">d1</td>
+<td class="org-left">d2</td>
+<td class="org-left">d3</td>
+<td class="org-left">d4</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Position</th>
+<th scope="col" class="org-left">c1</th>
+<th scope="col" class="org-left">c2</th>
+<th scope="col" class="org-left">c3</th>
+<th scope="col" class="org-left">c4</th>
+<th scope="col" class="org-left">t2c2</th>
+<th scope="col" class="org-left">t2c3</th>
+<th scope="col" class="org-left">t2c4</th>
+<th scope="col" class="org-left">t2c5</th>
+<th scope="col" class="org-left">t3c2</th>
+<th scope="col" class="org-left">t3c3</th>
+<th scope="col" class="org-left">t3c4</th>
+<th scope="col" class="org-left">t3c5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">A1</td>
+<td class="org-left">A2</td>
+<td class="org-left">A3</td>
+<td class="org-left">A4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B1</td>
+<td class="org-left">B2</td>
+<td class="org-left">B3</td>
+<td class="org-left">B4</td>
+<td class="org-left">b1</td>
+<td class="org-left">b2</td>
+<td class="org-left">b3</td>
+<td class="org-left">b4</td>
+<td class="org-left">Bb1</td>
+<td class="org-left">Bb2</td>
+<td class="org-left">Bb3</td>
+<td class="org-left">Bb4</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">C1</td>
+<td class="org-left">C2</td>
+<td class="org-left">C3</td>
+<td class="org-left">C4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D1</td>
+<td class="org-left">D2</td>
+<td class="org-left">D3</td>
+<td class="org-left">D4</td>
+<td class="org-left">d1</td>
+<td class="org-left">d2</td>
+<td class="org-left">d3</td>
+<td class="org-left">d4</td>
+<td class="org-left">Dd1</td>
+<td class="org-left">Dd2</td>
+<td class="org-left">Dd3</td>
+<td class="org-left">Dd4</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">e1</td>
+<td class="org-left">e2</td>
+<td class="org-left">e3</td>
+<td class="org-left">e4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">h1</td>
+<td class="org-left">h2</td>
+<td class="org-left">h3</td>
+<td class="org-left">h4</td>
+<td class="org-left">Hh1</td>
+<td class="org-left">Hh2</td>
+<td class="org-left">Hh3</td>
+<td class="org-left">Hh4</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">J1</td>
+<td class="org-left">J2</td>
+<td class="org-left">J3</td>
+<td class="org-left">J4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Jj1</td>
+<td class="org-left">Jj2</td>
+<td class="org-left">Jj3</td>
+<td class="org-left">Jj4</td>
+</tr>
+</tbody>
+</table>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">B1</td>
+<td class="org-left">B2</td>
+<td class="org-left">B3</td>
+<td class="org-left">B4</td>
+<td class="org-left">b1</td>
+<td class="org-left">b2</td>
+<td class="org-left">b3</td>
+<td class="org-left">b4</td>
+<td class="org-left">Bb1</td>
+<td class="org-left">Bb2</td>
+<td class="org-left">Bb3</td>
+<td class="org-left">Bb4</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">D1</td>
+<td class="org-left">D2</td>
+<td class="org-left">D3</td>
+<td class="org-left">D4</td>
+<td class="org-left">d1</td>
+<td class="org-left">d2</td>
+<td class="org-left">d3</td>
+<td class="org-left">d4</td>
+<td class="org-left">Dd1</td>
+<td class="org-left">Dd2</td>
+<td class="org-left">Dd3</td>
+<td class="org-left">Dd4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+
+<li><a id="orge38d201"></a>Keeping the margins<br />
+<div class="outline-text-5" id="text-orge38d201">
+<p>
+(setq-default fill-column 80)
+(column-marker-3 80)
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

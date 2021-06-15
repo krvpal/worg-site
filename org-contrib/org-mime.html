@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-mime.el &#x2014; org html export for text/html MIME emails</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric Schulte" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-mime.el &#x2014; org html export for text/html MIME emails</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5bf0289">General</a></li>
+<li><a href="#orge3a449a">How to use it</a>
+<ul>
+<li><a href="#org7a9708d">Setup</a></li>
+<li><a href="#org10e9542">CSS style customization</a></li>
+</ul>
+</li>
+<li><a href="#org591e8a3">Credits</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5bf0289" class="outline-2">
+<h2 id="org5bf0289">General</h2>
+<div class="outline-text-2" id="text-org5bf0289">
+<p>
+<code>org-mime</code> can be used to send HTML email using Org-mode HTML export.
+</p>
+
+<p>
+This approximates a WYSiWYG HTML mail editor from within Emacs, and
+can be useful for sending tables, fontified source code, and inline
+images in email.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge3a449a" class="outline-2">
+<h2 id="orge3a449a">How to use it</h2>
+<div class="outline-text-2" id="text-orge3a449a">
+</div>
+<div id="outline-container-org7a9708d" class="outline-3">
+<h3 id="org7a9708d">Setup</h3>
+<div class="outline-text-3" id="text-org7a9708d">
+<p>
+If the org-mode <code>contrib/</code> directory is in your load path, then
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-mime</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<p>
+is sufficient to load <code>org-mime</code>.
+</p>
+
+<p>
+Next you need to tell <code>org-mime</code> which Emacs mail agent you use.
+</p>
+<ul class="org-ul">
+<li><p>
+for gnus &#x2013; this is set by default
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-mime-library <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">mml</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+<li><p>
+for Wanderlust (WL)
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-mime-library <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">semi</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+<li><p>
+for VM &#x2013; not yet supported
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-mime-library <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">vm</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+</ul>
+
+<p>
+<code>org-mime</code> exposes two functions
+</p>
+
+<dl class="org-dl">
+<dt>`org-mime-htmlize&rsquo;</dt><dd><p>
+can be called from within a mail composition
+buffer to export either the entire buffer or just the active
+region to html, and embed the results into the buffer as a
+text/html mime section.
+</p>
+<pre class="example">
+org-mime-htmlize is an interactive Lisp function in `org-mime.el'.
+
+(org-mime-htmlize ARG)
+
+Export a portion of an email body composed using `mml-mode' to
+html using `org-mode'.  If called with an active region only
+export that region, otherwise export the entire body.
+</pre>
+
+<p>
+<b>warning</b>: There has been some concern voiced over the potential
+complexity of email resulting from calling this function on an
+active region resulting in multiple <code>multipart/alternative</code>
+sections in the same email.  Please see <a href="https://orgmode.org/list/87pr2iwefu.wl%dmaus@ictsoc.de">this email thread</a> for a
+discussion of the potential pitfalls of this approach.  Speaking
+from personal experience this has not been a problem for the
+author.
+</p></dd>
+
+<dt>`org-mime-org-buffer-htmlize&rsquo;</dt><dd><p>
+can be called from within an
+Org-mode buffer to export either the whole buffer or the narrowed
+subtree or active region to HTML, and open a new email buffer
+including the resulting HTML content as an embedded mime section.
+</p>
+<pre class="example">
+org-mime-org-buffer-htmlize is an interactive Lisp function in
+`org-mime.el'.
+
+(org-mime-org-buffer-htmlize)
+
+Export the current org-mode buffer to HTML using
+`org-export-as-html' and package the results into an email
+handling with appropriate MIME encoding.
+</pre></dd>
+</dl>
+
+
+<p>
+The following key bindings are suggested, which bind the <code>C-c M-o</code> key
+sequence to the appropriate <code>org-mime</code> function in both email and
+Org-mode buffers.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">message-mode-hook</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\C-c\M-o"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-mime-htmlize</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-mode-hook</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\C-c\M-o"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-mime-org-buffer-htmlize</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org10e9542" class="outline-3">
+<h3 id="org10e9542">CSS style customization</h3>
+<div class="outline-text-3" id="text-org10e9542">
+<p>
+Email clients will often strip all global CSS from email messages.  In
+the case of web-based email readers this is essential in order to
+protect the CSS of the containing web site.  To ensure that your CSS
+styles are rendered correctly they must be included in the actual body
+of the elements to which they apply.
+</p>
+
+<p>
+The `org-mime-html-hook&rsquo; allows for the insertion of these important
+CSS elements into the resulting HTML before mime encoding.  The
+following are some possible uses of this hook.
+</p>
+
+<ul class="org-ul">
+<li><p>
+for those who use color themes with Dark backgrounds it is useful to
+set a dark background for all exported code blocks and example
+regions.  This can be accomplished with the following
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-mime-html-hook</span>
+              <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+                <span style="color: #b6e63e;">(</span>org-mime-change-element-style
+                 <span style="color: #e2c770;">"pre"</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"color: %s; background-color: %s; padding: 0.5em;"</span>
+                               <span style="color: #e2c770;">"#E6E1DC"</span> <span style="color: #e2c770;">"#232323"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div></li>
+<li><p>
+the following can be used to nicely offset block quotes in email
+bodies
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-mime-html-hook</span>
+              <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+                <span style="color: #b6e63e;">(</span>org-mime-change-element-style
+                 <span style="color: #e2c770;">"blockquote"</span> <span style="color: #e2c770;">"border-left: 2px solid gray; padding-left: 4px;"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>    
+</pre>
+</div></li>
+</ul>
+
+<p>
+For other customization options see the <code>org-mime</code> customization
+group.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org591e8a3" class="outline-2">
+<h2 id="org591e8a3">Credits</h2>
+<div class="outline-text-2" id="text-org591e8a3">
+<p>
+<code>org-mime</code> was developed by Eric Schulte with much-appreciated help
+and discussion from everyone on the &ldquo;<a href="https://orgmode.org/list/f22f52181003211934s70fe468fk54d126dc811c45d2@mail.gmail.com">using orgmode to send html mail</a>&rdquo;
+thread especially Eric S. Fraga for adding WL support.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Eric Schulte</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

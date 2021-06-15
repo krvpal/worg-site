@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Connecting your Org files with Owncloud</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Giménez, Christian Nelson" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Connecting your Org files with Owncloud</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd0ff2f4"><span class="todo TODO">TODO</span> Fast and simple</a></li>
+<li><a href="#orgda1f200">Downloading from Owncloud</a>
+<ul>
+<li><a href="#orgcc098e2">Downloading</a></li>
+<li><a href="#org36013e0">Translating ICalendar to Org</a></li>
+<li><a href="#org986a686">Integrating everything</a></li>
+<li><a href="#org57b8a25">Cron</a></li>
+</ul>
+</li>
+<li><a href="#org2d34924">Uploading to Owncloud</a>
+<ul>
+<li><a href="#org3fe4e30">Basics Concepts</a></li>
+<li><a href="#org0ac4980">Export using the org-export command</a>
+<ul>
+<li><a href="#orgb11356b">Some Variables First</a></li>
+<li><a href="#org827f1f2">Exporting</a></li>
+<li><a href="#orgc5d44f8">Importing with Kontact</a></li>
+<li><a href="#orgde28fa0">From the Terminal</a></li>
+</ul>
+</li>
+<li><a href="#orga069018">Correcting the ICS file</a></li>
+<li><a href="#orgac92418">Spliting the ICS file</a></li>
+<li><a href="#org11cc542">Renaming ICS files</a></li>
+<li><a href="#orgbf1a66f">Uploading files</a></li>
+<li><a href="#orgbcc793d">Automatic</a></li>
+</ul>
+</li>
+<li><a href="#org09ae44e">Scripts needed</a>
+<ul>
+<li><a href="#org1bf0dbe">sync-download.sh</a></li>
+<li><a href="#orgf85f426">ics2org - modified version</a></li>
+<li><a href="#orge9beb83">correct-ical.awk</a></li>
+<li><a href="#orgfc4918e">split-ics.awk</a></li>
+<li><a href="#org060353c">integration script for downloading</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgd0ff2f4" class="outline-2">
+<h2 id="orgd0ff2f4"><span class="todo TODO">TODO</span> Fast and simple</h2>
+<div class="outline-text-2" id="text-orgd0ff2f4">
+<p>
+This section is for people in a hurry. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgda1f200" class="outline-2">
+<h2 id="orgda1f200">Downloading from Owncloud</h2>
+<div class="outline-text-2" id="text-orgda1f200">
+<p>
+Here I will explain how to download the ICS files and translate it into Org file
+</p>
+</div>
+
+<div id="outline-container-orgcc098e2" class="outline-3">
+<h3 id="orgcc098e2">Downloading</h3>
+<div class="outline-text-3" id="text-orgcc098e2">
+<p>
+Using WGet or Curl at the following URL:
+</p>
+
+<p>
+<a href="https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME">https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME</a>
+</p>
+
+<p>
+Take a look at the <a href="#org1bf0dbe">sync-download script</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org36013e0" class="outline-3">
+<h3 id="org36013e0">Translating ICalendar to Org</h3>
+<div class="outline-text-3" id="text-org36013e0">
+<p>
+Using ics2org AWK script into the directory pointed by the <code>org-directory</code> variable or some other place.
+</p>
+
+<p>
+You may need to tune this (for example, <code>max_age= -1;</code> instead the default value). 
+</p>
+
+<p>
+Take a look at the <a href="#org1bf0dbe">sync-download script</a>.
+</p>
+
+<p>
+There&rsquo;s a that you can use for distinguish between past jobs and futures by translating differents TODO states.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org986a686" class="outline-3">
+<h3 id="org986a686">Integrating everything</h3>
+<div class="outline-text-3" id="text-org986a686">
+<p>
+We must create a simple script for calling the <a href="#org1bf0dbe">sync-download script</a> with all the required information. This will be necessary for adding into the cron process and updating for every 15 or more minutes.
+</p>
+
+<p>
+This script must be edited with your username, password, the location of the sync-download script and the url needed.
+</p>
+
+<p>
+You may like to add more actions like moving or copying the file into your own org directory.
+</p>
+
+<p>
+You can use the as a model.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org57b8a25" class="outline-3">
+<h3 id="org57b8a25">Cron</h3>
+<div class="outline-text-3" id="text-org57b8a25">
+<p>
+Tell cron to execute the every 15 minutes or more: 
+</p>
+
+<pre class="example">
+crontab -e 
+</pre>
+
+
+<p>
+Add the following line:
+</p>
+
+<pre class="example">
+*/15 * * * * $HOME/path-to-script/sync-owncloud.sh
+</pre>
+
+
+<p>
+Save and check with <code>crontab -l</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2d34924" class="outline-2">
+<h2 id="org2d34924">Uploading to Owncloud</h2>
+<div class="outline-text-2" id="text-org2d34924">
+</div>
+<div id="outline-container-org3fe4e30" class="outline-3">
+<h3 id="org3fe4e30">Basics Concepts</h3>
+<div class="outline-text-3" id="text-org3fe4e30">
+<p>
+CalDav stores all the ICalendar files into a directory, there you can change and manipulate everything you need.
+</p>
+
+<p>
+Usually the URL is <a href="https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME">https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0ac4980" class="outline-3">
+<h3 id="org0ac4980">Export using the org-export command</h3>
+<div class="outline-text-3" id="text-org0ac4980">
+</div>
+<div id="outline-container-orgb11356b" class="outline-4">
+<h4 id="orgb11356b">Some Variables First</h4>
+<div class="outline-text-4" id="text-orgb11356b">
+<p>
+<code>org-icalendars</code> needs some variables sets before starting, and you have to test that the exporting goes well.
+</p>
+
+<p>
+This are the variable needed: 
+</p>
+
+<dl class="org-dl">
+<dt><code>org-icalendar-include-todo</code></dt><dd>You must set this to <code>t</code> if you want the TODOs entries exported.</dd>
+<dt><code>org-icalendar-store-UID</code></dt><dd>This is needed for exporting the same VEVENT/VTODO and don&rsquo;t create duplicates entries into the calendars.</dd>
+</dl>
+
+<p>
+You can set this variables using the &ldquo;file-local variables&rdquo; feature (use <code>M-x add-file-local-variable</code> or <code>M-x add-file-local-variable-prop-line</code>) or pasting this at the end of your org file
+</p>
+
+<p>
+#+BEGIN<sub>SRC</sub>: org
+</p>
+
+<p>
+#+END<sub>SRC</sub>
+</p>
+</div>
+</div>
+<div id="outline-container-org827f1f2" class="outline-4">
+<h4 id="org827f1f2">Exporting</h4>
+<div class="outline-text-4" id="text-org827f1f2">
+<p>
+Open your org file and press <code>C-c C-e i</code> for exporting the current file, or use the <code>org-export-icalendar-this-file</code> interactive function.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc5d44f8" class="outline-4">
+<h4 id="orgc5d44f8">Importing with Kontact</h4>
+<div class="outline-text-4" id="text-orgc5d44f8">
+<p>
+Kontact, the KDE personal information manager, can import ICS and combine it with the current calendar. If you have configured the program to sync with owncloud, you can use this for manual importing. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde28fa0" class="outline-4">
+<h4 id="orgde28fa0">From the Terminal</h4>
+<div class="outline-text-4" id="text-orgde28fa0">
+<p>
+Remember that Emacs can execute elisp scripts for terminal with one of these parameters:
+</p>
+
+<ul class="org-ul">
+<li><code>--eval</code> to eval an expresino given by parameter.</li>
+<li><code>--load</code> to load a file.</li>
+<li><code>--script</code> to run a file as an emacs script.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orga069018" class="outline-3">
+<h3 id="orga069018">Correcting the ICS file</h3>
+<div class="outline-text-3" id="text-orga069018">
+<p>
+Owncloud doesn&rsquo;t accept a lot of things:
+</p>
+
+<ul class="org-ul">
+<li>Owncloud don&rsquo;t know what a VTODO is.</li>
+<li>DUE neither, it should be changed into DTEND</li>
+<li>DTSTART is exported by org into the actual date and time, it should be changed to the same of the DUE(DTEND) date. It cannot be ignored or deleted.</li>
+</ul>
+
+<p>
+The <a href="#orge9beb83">correct-ical.awk</a> script can be used for solve all these problems automatically.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgac92418" class="outline-3">
+<h3 id="orgac92418">Spliting the ICS file</h3>
+<div class="outline-text-3" id="text-orgac92418">
+<p>
+Owncloud only accepts ICS files with only one event inside. The script <a href="#orgfc4918e">split-ics.awk</a> can be used for this purpose: it separates each event into a new file.
+</p>
+</div>
+</div>
+<div id="outline-container-org11cc542" class="outline-3">
+<h3 id="org11cc542">Renaming ICS files</h3>
+<div class="outline-text-3" id="text-org11cc542">
+<p>
+Each file has to have its own name, and what is a better choice than the UID of each event?
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbf1a66f" class="outline-3">
+<h3 id="orgbf1a66f">Uploading files</h3>
+<div class="outline-text-3" id="text-orgbf1a66f">
+<p>
+Using <code>cadaver</code> you can upload and download files. You need to upload the ics file into the server by the &ldquo;PUT&rdquo; HTTP request.
+</p>
+
+<p>
+Remember to set the username and password writing it at the .cadaverrc file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbcc793d" class="outline-3">
+<h3 id="orgbcc793d">Automatic</h3>
+<div class="outline-text-3" id="text-orgbcc793d">
+<p>
+Using the sync-pull-owncloud
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org09ae44e" class="outline-2">
+<h2 id="org09ae44e">Scripts needed</h2>
+<div class="outline-text-2" id="text-org09ae44e">
+</div>
+<div id="outline-container-org1bf0dbe" class="outline-3">
+<h3 id="org1bf0dbe">sync-download.sh</h3>
+</div>
+
+<div id="outline-container-orgf85f426" class="outline-3">
+<h3 id="orgf85f426">ics2org - modified version</h3>
+</div>
+
+
+<div id="outline-container-orge9beb83" class="outline-3">
+<h3 id="orge9beb83">correct-ical.awk</h3>
+</div>
+
+<div id="outline-container-orgfc4918e" class="outline-3">
+<h3 id="orgfc4918e">split-ics.awk</h3>
+</div>
+
+<div id="outline-container-org060353c" class="outline-3">
+<h3 id="org060353c">integration script for downloading</h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Giménez, Christian Nelson</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

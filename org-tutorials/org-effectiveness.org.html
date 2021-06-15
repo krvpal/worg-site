@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-effectiveness.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-target {
+        /* org-target */
+        text-decoration: underline;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Org Effectiveness Tutorial
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">David Arroyo Men&#233;ndez
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">davidam@es.gnu.org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars indent</span>
+<span class="org-meta-line">#+CATEGORY:   worg-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+In the Personal Software Process, we attend to the tasks in the
+estimated time, but few times we attend to effectiveness,
+understanding by effectiveness, the tasks done comparising the
+proposed tasks.
+
+The formal educative process try evaluate with respect to solve exams,
+that is, quizes or another academic tests and some times training
+exercises, although, few times the student knows if execute your own
+personal objectives: what is the reason because I've started to study
+something if I've learn it or don't. Finally, someone knows if learn
+things because has been able to make. The idea presented in this
+tutorial is a software to everyone can be evaluted to himself in
+function to his own personal objectives. We can say that measure the
+effectiveness is know if we are honest whith ourselves.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Installation
+</span>
+Currently, org-effectiveness.el is stored in contrib, you can download worg with:
+<span class="org-block-begin-line">#+BEGIN_SRC bash
+</span><span class="org-block">$ </span><span class="org-block"><span class="type">cd</span></span><span class="org-block"> ~
+$ </span><span class="org-block"><span class="type">mkdir</span></span><span class="org-block"> </span><span class="org-block"><span class="type">git</span></span><span class="org-block">
+$ </span><span class="org-block"><span class="type">cd</span></span><span class="org-block"> </span><span class="org-block"><span class="type">git</span></span><span class="org-block">
+$ </span><span class="org-block"><span class="type">git</span></span><span class="org-block"> clone <a href="https://code.orgmode.org/bzg/org-mode.git">https://code.orgmode.org/bzg/org-mode.git</a>
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+You can find org-effectiveness.el in ~/git/org-mode/contrib/lisp
+
+So, you can add the next line (or similar) in your .emacs
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">load </span><span class="org-block"><span class="string">"~/git/org-mode/contrib/lisp/org-effectiveness.el"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+If you want use the plot feature, you must install gnuplot, for instance in debian, you can do:
+<span class="org-block-begin-line">#+BEGIN_SRC bash
+</span><span class="org-block">$ apt-get install gnuplot
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Counting outlines
+</span>
+To measure the effectiveness we can count tasks done and tasks
+cancelled, but perhaps you want count the tasks pending or tasks in
+another state, so we've built some functions to it.
+
+With org-effectiveness-count-keyword, we can count an outline in an
+state (keyword) given. For example:
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness-count-keyword TODO
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Usually, anyone will be using the next states: TODO, CANCELED and DONE
+at least, so we can use
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness-count-todo
+M-x org-effectiveness-count-done
+M-x org-effectiveness-count-canceled
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Effectiveness
+</span>
+The calculus that I propose to know if someones is effectiveness is
+very simple is enough dividing the number of tasks DONE with the
+CANCELED. So, we can know the total effectiveness in the current
+buffer with:
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+We can know, the effectiveness in a specific date with
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness-in-date
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Writing the date in the format YYYY-MM-DD.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Productivity
+</span>
+Make an only task in one month is not very difficult, if you only want
+make one task is ok, you are 100% effectiveness, but the people is
+ambitious, the companies want reach many task, without cancel anything.
+
+We can consider that measure our productivity is only measure the
+tasks done in a period of time (see <span class="org-link"><a href="ref1">1</a></span>). For example, in a month:
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness-dones-in-date
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Deploying graphs
+</span>
+We can deploy a <span class="bold">gnuplot graph</span> to know the effectiveness in the current
+buffer by months with:
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness-plot
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+We can deploy an <span class="bold">ascii graph</span> to know the effectiveness in the current
+buffer by months with:
+
+<span class="org-block-begin-line">#+BEGIN_SRC lisp
+</span><span class="org-block">M-x org-effectiveness-plot-ascii
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> References
+</span>
+<span class="org-list-dt">1.</span> <span class="org-target">&lt;&lt;ref1&gt;&gt;</span> Barry W. Boehm, TRW (1987) Improving Software Productivity
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> License
+</span>
+This document is under a <span class="kc-org-link-url"><a href="http://creativecommons.org/licenses/by/3.0/deed">Creative Commons Attribution Unported 3.0</a></span>
+
+<span class="kc-org-link-url"><a href="http://creativecommons.org/licenses/by/3.0/deed">file:http://i.creativecommons.org/l/by/3.0/80x15.png</a></span>
+</pre>
+  </body>
+</html>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mscgen: Message Sequence Charts</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Juan Pechiar" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Mscgen: Message Sequence Charts</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgccb3411">Introduction</a></li>
+<li><a href="#orge0d031d">Requirements</a></li>
+<li><a href="#org97161b6">Enabling Babel&rsquo;s Mscgen support</a></li>
+<li><a href="#org59df258">Example usage</a></li>
+<li><a href="#orgca57846">Header arguments</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Babel support for
+<a href="http://www.mcternan.me.uk/mscgen/">Mscgen</a>: Message sequence charts
+</p>
+</div>
+
+<div id="outline-container-orgccb3411" class="outline-2">
+<h2 id="orgccb3411">Introduction</h2>
+<div class="outline-text-2" id="text-orgccb3411">
+<p>
+Mscgen is a utility for rendering message sequence charts.
+</p>
+
+<p>
+The charts are defined in text format as specified on the <a href="http://www.mcternan.me.uk/mscgen/">project homepage</a>.
+</p>
+
+<p>
+This Babel module is similar to ob-dot and ob-ditaa in that they
+just render an image from a text-based definition. Therefore many of
+the Babel concepts do not apply (things like sessions, variables,
+vector output).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge0d031d" class="outline-2">
+<h2 id="orge0d031d">Requirements</h2>
+<div class="outline-text-2" id="text-orge0d031d">
+<ul class="org-ul">
+<li>Babel requires that Mscgen be installed on your system</li>
+
+<li>A path to executable must exist in the variable <code>exec-path</code></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/path/to/mscgen"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97161b6" class="outline-2">
+<h2 id="org97161b6">Enabling Babel&rsquo;s Mscgen support</h2>
+<div class="outline-text-2" id="text-org97161b6">
+<p>
+You need to add Mscgen to the <code>org-babel-load-languages</code> variable
+</p>
+
+<p>
+Customize thus:
+</p>
+
+<pre class="example">
+M-x customize-variable RET org-babel-load-languages RET
+</pre>
+
+
+<p>
+Or, add the commented line to <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>R . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>ditaa . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>dot . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>emacs-lisp . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>mscgen . t<span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">this is the entry to activate mscgen</span>
+     <span style="color: #b6e63e;">(</span>latex . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>perl . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>python . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>ruby . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>screen . nil<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>sh . t<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>sql . nil<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span>sqlite . nil<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org59df258" class="outline-2">
+<h2 id="org59df258">Example usage</h2>
+<div class="outline-text-2" id="text-org59df258">
+<p>
+The following is a trivial example of 2 messages between nodes A and B:
+</p>
+
+<pre class="example">
+#+begin_src mscgen :file chart.png
+msc {
+  A,B;
+  A -&gt; B [ label = "send message" ];
+  A &lt;- B [ label = "receive answer" ];
+}
+#+end_src
+</pre>
+
+
+<p>
+Which produces the following result:
+</p>
+
+<img src="../../../images/babel/sequencechart.png" alt="message sequence chart" />
+</div>
+</div>
+
+<div id="outline-container-orgca57846" class="outline-2">
+<h2 id="orgca57846">Header arguments</h2>
+<div class="outline-text-2" id="text-orgca57846">
+<p>
+These header arguments are relevant for Mscgen:
+</p>
+<dl class="org-dl">
+<dt>file</dt><dd>the file argument is needed since the output from Mscgen is always to a file</dd>
+<dt>filetype</dt><dd>optional file type, defaults to PNG</dd>
+</dl>
+
+<p>
+Output file types (as of Mscgen version 2010W30) are:
+</p>
+<ul class="org-ul">
+<li>PNG (Portable Network Graphics) - default</li>
+<li>SVG (Scalable Vector Graphics)</li>
+<li>EPS (encapsulated PostScript)</li>
+<li>ismap (server-side image map)</li>
+</ul>
+
+<p>
+PNG results in a bitmap image, but it is supported in all export formats (i.e. by web browsers and by pdflatex).
+</p>
+
+<p>
+Other formats may result in a link to the actual file.
+</p>
+
+<p>
+In order to get higher resolution on PNG output, include a <code>width</code> or <code>hscale</code> statement.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Juan Pechiar</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

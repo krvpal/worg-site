@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Merge Tool for Org-Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Andrew Young" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="https://orgmode.org/worg/org-faq.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Merge Tool for Org-Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0dd4a55">Project Plan</a>
+<ul>
+<li><a href="#org98c5a74">Introductory Period</a></li>
+<li><a href="#org360f9d5">Org-Mode Data Representation</a></li>
+<li><a href="#orgeb4aca1">Org-Mode File Processor Parser</a></li>
+<li><a href="#org3986673">Create Basic Modification Guesser</a></li>
+<li><a href="#org4c491de">Create Modification Merger</a></li>
+<li><a href="#orgc58f34e">Enhance Modification Guesser</a></li>
+<li><a href="#org2bd9ebe">Further Modification Guesser Enhancements</a></li>
+<li><a href="#org906440c">Further Enhancements</a></li>
+<li><a href="#org8036f47">Project Finish</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0dd4a55" class="outline-2">
+<h2 id="org0dd4a55">Project Plan</h2>
+<div class="outline-text-2" id="text-org0dd4a55">
+<p>
+<i>This is only a preliminary plan, as outlined in the project proposal</i>
+</p>
+</div>
+
+<div id="outline-container-org98c5a74" class="outline-3">
+<h3 id="org98c5a74">Introductory Period</h3>
+<div class="outline-text-3" id="text-org98c5a74">
+<p>
+(April 23 – May 21)
+</p>
+
+<p>
+During this period I will review previous art, and become fully
+familiar with OrgMode files and any addons and plugins which may
+influence my work (Babel, MobileOrg, etc.). This includes research
+into object representation, and command language representation. A
+quick proof of concept be created. The project page, code repository,
+and other framework will be created.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org360f9d5" class="outline-3">
+<h3 id="org360f9d5">Org-Mode Data Representation</h3>
+<div class="outline-text-3" id="text-org360f9d5">
+<p>
+(May 22 - 27)
+</p>
+
+<p>
+The deliverable for this part of the project is to create a
+representation of org-mode files, and a data manipulation language for
+working with them. The completness and thoroughness of this
+deliverable is to be decided according to the determined potential
+usefullness to other users. The data representation may vary greatly
+with the language used. Fundamental to this stage will be the use of
+org-element.el, which is a parser and interface for Org-Mode data.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeb4aca1" class="outline-3">
+<h3 id="orgeb4aca1">Org-Mode File Processor Parser</h3>
+<div class="outline-text-3" id="text-orgeb4aca1">
+<p>
+(May 28 - 31) 
+</p>
+
+<p>
+The deliverable for this stage is a program (algorithm) which will
+turn an Org-Mode file into a set of objects and relationships. The
+parser will create objects using the OrgMode Data Representation
+above.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3986673" class="outline-3">
+<h3 id="org3986673">Create Basic Modification Guesser</h3>
+<div class="outline-text-3" id="text-org3986673">
+<p>
+(June 1 - 15) 
+</p>
+
+<p>
+This stage will create a list of modification actions which a user
+might perform on an OrgMode file. The deliverable will be a
+modification guesser which tries to create a list of
+modifications. The modifications actually detected at this stage will
+be very basic. This step should lay the ground work for defining more
+modification types, and advanced detection methods.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4c491de" class="outline-3">
+<h3 id="org4c491de">Create Modification Merger</h3>
+<div class="outline-text-3" id="text-org4c491de">
+<p>
+(June 16 – June 30) 
+</p>
+
+<p>
+The deliverable for this stage is a program which takes a list of
+object modifications and objects, and combines them together. This
+step will combine all modification actions into a single file. It will
+generate conflicts for unmergable modifications.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc58f34e" class="outline-3">
+<h3 id="orgc58f34e">Enhance Modification Guesser</h3>
+<div class="outline-text-3" id="text-orgc58f34e">
+<p>
+(July 1 – July 16) 
+</p>
+
+<p>
+This is the really complicated stage of the whole project. At this
+stage, the modification guesser will be enhanced to be able to
+recognize a greater amount of modifications. For example, and &rsquo;remove&rsquo;
+and &rsquo;add&rsquo; action of an identical heading may be recognized as a &rsquo;move&rsquo;
+action. The modification merger will have to be modified to properly
+handle new modification types. At this stage, the modification guesser
+will only mark modifications it is sure of.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2bd9ebe" class="outline-3">
+<h3 id="org2bd9ebe">Further Modification Guesser Enhancements</h3>
+<div class="outline-text-3" id="text-org2bd9ebe">
+<p>
+(July 16 – July 29)
+</p>
+
+<p>
+At this stage, the modification guesser will be extended to use fuzzy
+logic to guess at modifications. For example, calculate the
+probability that a tree is just a modified version of another tree,
+and if probable enough, add the modification (if not probable they
+will be considered seperate &rsquo;add&rsquo;s and &rsquo;remove&rsquo;s possibly causing a
+conflict in the final merge).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org906440c" class="outline-3">
+<h3 id="org906440c">Further Enhancements</h3>
+<div class="outline-text-3" id="text-org906440c">
+<p>
+(July 30 – August 5)
+</p>
+
+<p>
+ This stage will include all optional features thought up as the
+project progresses. It could include Emacs mode that generates a
+modification list, so the merger program does not have to guess at the
+modifications, or the automatic use of IDs created by MobileOrg to
+recognize nodes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8036f47" class="outline-3">
+<h3 id="org8036f47">Project Finish</h3>
+<div class="outline-text-3" id="text-org8036f47">
+<p>
+(August 6 - 13)
+</p>
+
+<p>
+This stage will be for final review and testing. It is expected during
+this stage to make an official release. This stage is meant to handle
+all finishing touches needed for a release.
+</p>
+
+<p>
+The project should end seven days before August 20, which is the day
+of “Firm Pencils Down”.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Andrew Young</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

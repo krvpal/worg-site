@@ -1,0 +1,644 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-C.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .custom-1 {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">C, C++, D Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg People, Eric Schulte, Thierry Banel, Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk, tbanelwebmin at free dot fr
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for
+    &lt;</span><span class="org-block"><span class="function-name">br</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.gnu.org/software/gcc/">http://www.gnu.org/software/gcc/</a>"</span></span><span class="org-block">&gt;C, C++&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">br</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://dlang.org/">http://dlang.org/</a>"</span></span><span class="org-block">&gt;D&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.gnu.org/software/gcc/">http://www.gnu.org/software/gcc/</a>"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.gnu.org/software/gcc/img/gccegg-65.png&quot;/">http://www.gnu.org/software/gcc/img/gccegg-65.png"</a></span></span><span class="org-block"><a href="http://www.gnu.org/software/gcc/img/gccegg-65.png&quot;/">/</a>&gt;&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://dlang.org/">http://dlang.org/</a>"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://dlang.org/images/dlogo.png&quot;/">http://dlang.org/images/dlogo.png"</a></span></span><span class="org-block"><a href="http://dlang.org/images/dlogo.png&quot;/">/</a>&gt;&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[10/12]</span></span><span class="org-level-1"> </span><span class="whitespace-tab">                                   </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Result%20Types">Result Types</a></span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Other">Other</a></span> differences from supported languages
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+Babel can evaluate C, C++, and D code.
+
+As opposed to interpreted languages, which can be evaluated directly,
+C, C++, and D code is first compiled to an executable which is then
+run.
+
+If a <span class="org-verbatim">main</span> method is not present in a code block then the entire
+block is wrapped in a trivial <span class="org-verbatim">main</span> function call.
+
+Note: there used to be two separate library files, <span class="org-verbatim">ob-C.el</span> and
+<span class="org-verbatim">ob-D.el</span>. They have been merged in a single <span class="org-verbatim">ob-C.el</span> file which
+handle all three languages.
+
+So, for example, the following simple code block can be evaluated and
+the results of evaluation inserted into the buffer.
+
+<span class="org-code">: #+begin_src C++ :includes &lt;stdio.h&gt;
+:   int a=1;
+:   int b=1;
+:   printf("%d\n", a+b);
+: #+end_src
+:
+: #+results:
+: : 2
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> About C
+</span>C dates back in the 1970.
+It was devised by Kernighan &amp; Ritchie.
+It was used to create the Unix kernel, and many of its utilities.
+Today it is still the base of the Linux &amp; Unix kernel.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> About C++
+</span>C++ was devised by Stroustrup in the 1980.
+The purpose was to enhance C with object programming.
+Among the features introduced by C++, there are:
+  <span class="org-list-dt">-</span> templates and the Standard Template Library,
+  <span class="org-list-dt">-</span> object programming, with class definition and inheritance,
+  <span class="org-list-dt">-</span> functions and operators overloading,
+  <span class="org-list-dt">-</span> exceptions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> About D
+</span><span class="kc-org-link-url"><a href="http://dlang.org/">D</a></span> is a C++-like language made by <span class="kc-org-link-url"><a href="http://dlang.org/">Digital Mars</a></span>.
+It features:
+  <span class="org-list-dt">-</span> C++ syntax
+  <span class="org-list-dt">-</span> Built-in garbage collector
+  <span class="org-list-dt">-</span> Strong type system
+  <span class="org-list-dt">-</span> Meta-programming
+  <span class="org-list-dt">-</span> Seamless assembler support
+  <span class="org-list-dt">-</span> Usable as a scripting language
+  <span class="org-list-dt">-</span> C binary compatibility
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>
+1- You must have the compilers available on your computer.
+   You may use only one of the three languages:
+   there is no requirement to have all three installed.
+   <span class="org-list-dt">-</span> C and C++ often come pre-installed.
+     Popular compilers are the GNU ones, called <span class="org-verbatim">gcc</span> and <span class="org-verbatim">g++</span>.
+     But others are usable as well.
+   <span class="org-list-dt">-</span> For D, look at <span class="kc-org-link-url"><a href="http://dlang.org/">http://dlang.org/</a></span> for downloading and instructions.
+     The compilers are called <span class="org-verbatim">dmd</span> and <span class="org-verbatim">rdmd</span>.
+
+   Eventually, the compilers must be in the <span class="org-verbatim">PATH</span>.
+
+2- Make any or all languages available to Babel.
+   Type:
+   <span class="org-code">: M-x customize-variable org-babel-load-languages
+</span>   and add the C language (capital "C", which gives access to C, C++, D)
+
+3- Default are given for the compilers: <span class="org-verbatim">gcc</span>, <span class="org-verbatim">g++</span>, <span class="org-verbatim">rdmd</span>. They may be
+   customized. Type:
+   <span class="org-code">: M-x customize-group org-babel
+</span>   and look for <span class="org-verbatim">Org Babel C++ Compiler</span> and such.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for C, C++, D Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:var VARIABLE=VALUE</span></span><span class="org-list-dt"> ::</span>
+  A global C, C++, or D variable named VARIABLE will be declared
+  and initialized with VALUE
+
+  Possible types for VARIABLE may be:
+    <span class="org-code">: int,
+</span>    <span class="org-code">: double,
+</span>    <span class="org-code">: string or const char*,
+</span>    <span class="org-code">: type[]    // type = int, double, string, const char*
+</span>    <span class="org-code">: type[][]  // type = int, double, string, const char*
+</span>
+  The later type, <span class="org-verbatim">type[][]</span>, is used for variables storing Org tables
+
+  The <span class="org-verbatim">type[]</span> is used for lists or vectors declared in the header.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:cmdline</span></span><span class="org-list-dt"> ::</span> command line arguments to pass to the executable
+     compiled from the code block.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:flags</span></span><span class="org-list-dt"> ::</span>
+     flags to pass to the compiler.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:main</span></span><span class="org-list-dt"> ::</span> can be set to "no" to inhibit wrapping of the code block
+     in a <span class="org-verbatim">main</span> function call.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:includes</span></span><span class="org-list-dt"> ::</span>
+     (C &amp; C++ only)
+     accepts either a single string name, or a list of
+     names of files to <span class="org-verbatim">#include</span> in the execution of the code block.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:import</span></span><span class="org-list-dt"> ::</span>
+     (D only) An import statement will be declared in the D source
+     before the source code.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:defines</span></span><span class="org-list-dt"> ::</span>
+     (C &amp; C++ only) just like <span class="org-verbatim">:includes</span> but for <span class="org-verbatim">#defines</span> lines at the
+     top of the code.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:namespaces</span></span><span class="org-list-dt"> ::</span>
+     (C++ only)
+     accepts either a single name, or a list of names of namespaces to use.
+     The final format will look like this: <span class="org-verbatim">using namespace name;</span>
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:libs</span></span><span class="org-list-dt"> ::</span>
+     (C &amp; C++ only) useful for linking with a library, may be given
+     <span class="org-verbatim">-L/path/to/lib</span> and <span class="org-verbatim">-llibrary</span> instructions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>   There is no support for sessions
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Hello World in C
+</span>
+Here is Hello World!
+
+<span class="org-meta-line">#+name: c-hello</span>
+<span class="org-block-begin-line">#+begin_src C :exports results
+</span><span class="org-block">  printf </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="string">"Hello World!\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">;
+</span><span class="org-block-end-line">#+end_src
+</span>
+This source code block:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src C
+  printf ("Hello World!\n");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result (type <span class="org-verbatim">C-c C-c</span> in the source block):
+<span class="org-meta-line">#+results: c-hello</span>
+Hello World!
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Hello World in C++
+</span>
+<span class="org-meta-line">#+name: cpp-hello</span>
+<span class="org-block-begin-line">#+begin_src C++ :includes &lt;iostream&gt;
+</span><span class="org-block">  </span><span class="org-block"><span class="constant">std</span></span><span class="org-block">::cout&lt;&lt;</span><span class="org-block"><span class="string">"Hello World!\n"</span></span><span class="org-block">;
+</span><span class="org-block-end-line">#+end_src
+</span>
+This source code block:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src C++ :includes &lt;iostream&gt;
+  std::cout&lt;&lt;"Hello World!\n";
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result (type <span class="org-verbatim">C-c C-c</span> in the source block):
+<span class="org-meta-line">#+results: cpp-hello</span>
+Hello World!
+
+Note that the <span class="org-verbatim">&lt;iostream&gt;</span> used to be automatically <span class="org-tag">#included</span>, but now
+it must be specified through the <span class="org-verbatim">:includes</span> parameter.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Hello World in D
+</span>Here is Hello World!
+
+<span class="org-meta-line">#+name: d-hello</span>
+<span class="org-block-begin-line">#+begin_src D :exports results
+</span>  writefln ("Hello World!");
+<span class="org-block-end-line">#+end_src
+</span>
+This source code block:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src D
+  writefln ("Hello World!");
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result (type <span class="org-verbatim">C-c C-c</span> in the source block):
+<span class="org-meta-line">#+results: d-hello</span>
+Hello World!
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Note that:
+</span><span class="org-list-dt">-</span> if no <span class="org-verbatim">main()</span> is declared, a trivial one is automatically provided,
+<span class="org-list-dt">-</span> there is no directive like:
+  <span class="org-list-dt">+</span> <span class="org-verbatim">#include "stdio.h"</span> (in C)
+  <span class="org-list-dt">+</span> <span class="org-verbatim">import std.stdio;</span> (in D)
+  because those libraries are so common that they are always included.
+<span class="org-list-dt">-</span> C++ needs to explicitely include either <span class="org-verbatim">stdio.h</span> or <span class="org-verbatim">&lt;iostream&gt;</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Scalar variables
+</span>Variables may be declared outside the script.
+They are automatically inserted at the top of the script.
+Three types are supported, based on the look of the value:
+  <span class="org-list-dt">-</span> <span class="org-verbatim">string</span> or <span class="org-verbatim">const char*</span>
+  <span class="org-list-dt">-</span> <span class="org-verbatim">int</span>
+  <span class="org-list-dt">-</span> <span class="org-verbatim">double</span>
+
+Example in C or C++:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+header: :var mystring="Sunday" :var myint=145 :var mydouble=3.14
+#+BEGIN_SRC C
+  printf ("mystring %s\n", mystring);
+  printf ("myint    %d\n", myint);
+  printf ("mydouble %g\n", mydouble);
+#+END_SRC
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result (type <span class="org-verbatim">C-c C-c</span>):
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+RESULTS:
+| mystring | Sunday |
+| myint    |    145 |
+| mydouble |   3.14 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+Example in D:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+header: :var mystring="Sunday" :var myint=145 :var mydouble=3.14
+#+BEGIN_SRC D
+  writefln ("mystring %s", mystring);
+  writefln ("myint    %d", myint);
+  writefln ("mydouble %g", mydouble);
+#+END_SRC
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result (type <span class="org-verbatim">C-c C-c</span>):
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+RESULTS:
+| mystring | Sunday |
+| myint    |    145 |
+| mydouble |   3.14 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+If you want to see the expanded source code, without compiling and running it,
+just type <span class="org-verbatim">C-c C-v v</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Process an Org Mode Table
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> How to handle a table
+</span>We take an Org mode table as input, process it, and output
+a new Org mode table.
+
+This table will be input in the script, and iterated row by row:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+tblname: somedata
+| nb    | sqr | noise |
+|-------+-----+-------|
+| zero  |   0 |  0.23 |
+| one   |   1 |  1.31 |
+| two   |   4 |  4.61 |
+| three |   9 |  9.05 |
+| four  |  16 | 16.55 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+The table is converted to a variable in the script:
+  <span class="org-code">: const char* somedata[5][3] = {...};  // in C &amp; C++
+</span>  <span class="org-code">: string      somedata[5][3] = [...];  // in D
+</span>
+The header, if any, is available to the script as well:
+  <span class="org-code">: const char* somedata_header[3] = { "nb", "sqr", "noise" };  // in C &amp; C++
+</span>  <span class="org-code">: string      somedata_header[3] = [ "nb", "sqr", "noise" ];  // in D
+</span>
+The dimensions of the table are available:
+  <span class="org-code">: int somedata_rows = 5;
+</span>  <span class="org-code">: int somedata_cols = 3;
+</span>
+Additionnally, an accessor function retrives a cell using the column
+name as found in the header:
+  <span class="org-code">: const char* cell = somedata_h(3,"noise"); // "9.05" in C &amp; C++
+</span>  <span class="org-code">: string      cell = somedata_h(3,"noise"); // "9.05" in D
+</span>
+Type <span class="org-verbatim">C-c C-v v</span> to look at the generate code without running it.
+
+Note that table contents are (almost) always strings
+(as opposed to integers or floating point numbers).
+This allows to easily handle heterogeneous tables,
+and tables with missing values.
+To convert a string cell to a numeric value on the fly, use standard convertors:
+  <span class="org-code">: int    cell = atoi(somedata_h(4,"sqr"));        // integer conversion in C &amp; C++
+</span>  <span class="org-code">: double cell = atof(somedata_h(4,"noise"));      //  double conversion in C &amp; C++
+</span>  <span class="org-code">: int    cell = to!int(somedata_h(4,"sqr"));      // integer conversion in D
+</span>  <span class="org-code">: double cell = to!double(somedata_h(4,"noise")); //  double conversion in D
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Example in C &amp; C++
+</span>
+<span class="org-meta-line">#+name: c-table</span>
+<span class="org-meta-line">#+header: :exports results</span>
+<span class="org-block-begin-line">#+begin_src C++ :var somedata=somedata
+</span><span class="org-block">  </span><span class="org-block"><span class="type">int</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">main</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">()</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">{</span></span><span class="org-block">
+    </span><span class="org-block"><span class="keyword">for</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="type">int</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">i</span></span><span class="org-block">=</span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">; i&lt;somedata_rows; i++</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">{</span></span><span class="org-block">
+      printf </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"%2d %7s "</span></span><span class="org-block">, i, somedata_h</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">i,</span><span class="org-block"><span class="string">"nb"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">;
+      </span><span class="org-block"><span class="keyword">for</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="type">int</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">j</span></span><span class="org-block">=</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">; j&lt;somedata_cols; j++</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">{</span></span><span class="org-block">
+        </span><span class="org-block"><span class="keyword">const</span></span><span class="org-block"> </span><span class="org-block"><span class="type">char</span></span><span class="org-block">* </span><span class="org-block"><span class="variable-name">cell</span></span><span class="org-block"> = somedata</span><span class="org-block"><span class="rainbow-delimiters-depth-1">[</span></span><span class="org-block">i</span><span class="org-block"><span class="rainbow-delimiters-depth-1">][</span></span><span class="org-block">j</span><span class="org-block"><span class="rainbow-delimiters-depth-1">]</span></span><span class="org-block">;
+        printf </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="string">"%5s %5g "</span></span><span class="org-block">, cell, </span><span class="org-block"><span class="highlight-numbers-number">1000</span></span><span class="org-block">*atof</span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">cell</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">;
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">}</span></span><span class="org-block">
+      printf</span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">;
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">}</span></span><span class="org-block">
+    </span><span class="org-block"><span class="keyword">return</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">;
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">}</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+This code:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+name: c-table
+#+header: :exports results
+#+begin_src C++ :var somedata=somedata
+  </span><span class="custom-1"><span class="org-tag">#include</span></span><span class="custom-1"> "stdlib.h"
+  </span><span class="custom-1"><span class="org-tag">#include</span></span><span class="custom-1"> "stdio.h"
+  int main()
+  {
+    for (int i=0; i&lt;somedata_rows; i++) {
+      printf ("%2d ", i);
+      for (int j=1; j&lt;somedata_cols; j++) {
+        const char* cell = somedata[i][j];
+        printf ("%5s %5g ", cell, 1000*atof(cell));
+      }
+      printf("\n");
+    }
+    return 0;
+  }
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">,#+RESULTS: c-table
+| 0 | zero  |  0 |     0 |  0.23 |   230 |
+| 1 | one   |  1 |  1000 |  1.31 |  1310 |
+| 2 | two   |  4 |  4000 |  4.61 |  4610 |
+| 3 | three |  9 |  9000 |  9.05 |  9050 |
+| 4 | four  | 16 | 16000 | 16.55 | 16550 |
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Example in D
+</span>
+<span class="org-meta-line">#+name: d-table</span>
+<span class="org-meta-line">#+header: :exports results</span>
+<span class="org-block-begin-line">#+begin_src D :var somedata=somedata
+</span>  void main()
+  {
+    foreach (i, row; somedata) {
+      writef ("%2s %7s ", i, somedata_h(i,"nb"));
+      foreach (j, cell; row)
+        if (j) // skip 1st column
+          writef ("%5s %5s ", cell, 1000*to!double(cell));
+      writeln();
+    }
+  }
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">#+begin_src D :var somedata=somedata
+  void main()
+  {
+    foreach (i, row; somedata) {
+      writef ("%2s %7s ", i, somedata_h(i,"nb"));
+      foreach (j, cell; row)
+        if (j) // skip 1st column
+          writef ("%5s %5s ", cell, 1000*to!double(cell));
+      writeln();
+    }
+  }
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+yields this result:
+
+<span class="org-meta-line">#+results: d-table</span>
+<span class="org-table">| 0 | zero  |  0 |     0 |  0.23 |   230 |</span>
+<span class="org-table">| 1 | one   |  1 |  1000 |  1.31 |  1310 |</span>
+<span class="org-table">| 2 | two   |  4 |  4000 |  4.61 |  4610 |</span>
+<span class="org-table">| 3 | three |  9 |  9000 |  9.05 |  9050 |</span>
+<span class="org-table">| 4 | four  | 16 | 16000 | 16.55 | 16550 |</span>
+
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Pure numeric table
+</span>
+This table is a pure numeric table.
+<span class="org-table">| 3 | 3.3 |</span>
+<span class="org-table">| 4 | 4.1 |</span>
+<span class="org-table">| 5 | 5.9 |</span>
+<span class="org-table">| 6 | 6.5 |</span>
+
+In this special case, it is translated to a numeric table:
+<span class="org-code">: double MyTable[4][2] = { {3,3.3}, {4,4.1}, {5,5.9}, {6,6.5} };
+</span>
+If there is a blank cell among numeric cells,
+then the whole table falls back to the string case,
+where the blank cell is translated to the empty string "".
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="custom">TODO</span></span><span class="org-level-2"> Lists and vectors in the header
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Shortcomings and known bugs
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> C++ vs. cpp
+</span>After the <span class="org-verbatim">#+begin_src</span> block header, both <span class="org-verbatim">C++</span> and <span class="org-verbatim">cpp</span> are
+accepted to specify C++ language.
+However only <span class="org-verbatim">C++</span> works for generated code visualization
+through <span class="org-verbatim">C-c C-v v</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Pure numeric + header  cast error
+</span>A type mismatch between strings and double cause an error
+when attempting to use the cell accessor with column name
+when the table is pure numeric.
+</pre>
+  </body>
+</html>

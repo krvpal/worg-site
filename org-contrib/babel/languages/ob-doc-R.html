@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric Schulte, Dan Davison, Tom Dye, Tyler Smith" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">R Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga52d0ae">Introduction</a></li>
+<li><a href="#org15d5d62">Requirements and Setup</a>
+<ul>
+<li><a href="#org73f4226">Note for Windows Users</a></li>
+</ul>
+</li>
+<li><a href="#org30b93e1">Org Mode Features for R Source Code Blocks</a>
+<ul>
+<li><a href="#orgb056deb">Header Arguments</a></li>
+<li><a href="#orge7cf9af">Sessions</a></li>
+<li><a href="#orga2d6827">Result Types</a></li>
+</ul>
+</li>
+<li><a href="#org85d04b4">Examples of Use</a>
+<ul>
+<li><a href="#orgbdfbda5">Debugging</a></li>
+<li><a href="#orgc51a960">Org Mode Output from R</a></li>
+<li><a href="#org241376f">LaTeX code from R</a></li>
+<li><a href="#org8b94d6a"><code>ess-switch-to-end-of-ESS</code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://www.r-project.org/">R</a>
+</p>
+<p>
+<a href="http://www.r-project.org/">
+<img src="http://www.r-project.org/Rlogo.jpg"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-orga52d0ae" class="outline-2">
+<h2 id="orga52d0ae">Introduction</h2>
+<div class="outline-text-2" id="text-orga52d0ae">
+<p>
+R is a free software environment for statistical computing and
+graphics.  R source code blocks are fully supported in Org Mode with a
+wide variety of R-specific header arguments.
+</p>
+
+<p>
+R source code blocks in Org Mode can be used to create R packages,
+carry out statistical analyses, create graphic displays, and produce
+reproducible research papers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org15d5d62" class="outline-2">
+<h2 id="org15d5d62">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org15d5d62">
+<p>
+R source code blocks in Org Mode require a working R installation.
+Precompiled binary distributions for Gnu/Linux, Mac OS X, and Windows
+are available at the <a href="http://cran.r-project.org">Comprehensive R Archive Network</a>, which also makes
+available the source code for compilation on other platforms.
+</p>
+
+<p>
+The Emacs mode, <a href="http://ess.r-project.org/">Emacs Speaks Statistics (ESS)</a>, is required for
+session-based evaluation.  ESS is designed to support editing of
+scripts and interaction with various statistical analysis programs
+such as R, S-Plus, SAS, Stata, and JAGS. 
+</p>
+
+<p>
+You can install ESS from the <a href="https://melpa.org/">MELPA repository</a>, using Emacs&rsquo; package
+facility. This is usually the easiest way to install it; if you need
+to, instructions for installing from source are found at the <a href="https://ess.r-project.org/index.php?Section=download">ESS
+website</a>.
+</p>
+
+<p>
+To install from Melpa, you need to add it to your
+<code>package-archives</code>. The MELPA maintainers recommend the following
+code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">package</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>no-ssl <span style="color: #eb4509;">(</span><span style="color: #eb4509;">and</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">memq</span> <span style="color: #fd971f;">system-type</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>windows-nt ms-dos<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">not</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">gnutls-available-p</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+       <span style="color: #b6e63e;">(</span>proto <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> no-ssl <span style="color: #e2c770;">"http"</span> <span style="color: #e2c770;">"https"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> no-ssl <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">warn</span> <span style="color: #e2c770;">"\</span>
+<span style="color: #e2c770;">Your version of Emacs does not support SSL connections,</span>
+<span style="color: #e2c770;">which is unsafe because it allows man-in-the-middle attacks.</span>
+<span style="color: #e2c770;">There are two things you can do about this warning:</span>
+<span style="color: #e2c770;">1. Install an Emacs version that does support SSL and be safe.</span>
+<span style="color: #e2c770;">2. Remove this warning from your init file so you won't see it again."</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">package-archives</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"melpa"</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">concat</span> proto <span style="color: #e2c770;">"://melpa.org/packages/"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> t<span style="color: #fd971f;">)</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">and `package-pinned-packages`. Most users will not need or want to do this.</span>
+  <span style="color: #696969;">;;</span><span style="color: #696969;">(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)</span>
+  <span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">package-initialize</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Note that the minimal requirement is just to have the line 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">package-archives</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"melpa"</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> proto <span style="color: #e2c770;">"://melpa.org/packages/"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+at the appropriate place in your configuration (i.e., before you call
+<code>package-initialize</code>).
+</p>
+
+<p>
+You also need to ensure that <code>org-babel-load-languages</code> includes an
+entry for R. Typically, <code>org-babel-load-languages</code> will contain many
+entries. The example below omits other languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>R . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org73f4226" class="outline-3">
+<h3 id="org73f4226">Note for Windows Users</h3>
+<div class="outline-text-3" id="text-org73f4226">
+<p>
+Additional steps may be necessary on Windows. See <a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg57159.html">this Org-mode mailing list
+thread</a> for background information. If when trying to execute R source code from
+Org-mode one encouters the message <code>The system cannot find the path specified</code>, it
+may be necessary to set the variable <code>org-babel-R-command</code> in
+.emacs. Note the addition of <code>--slave --no-save</code> to the custom path, which are
+the R defaults for Babel.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-babel-R-command <span style="color: #e2c770;">"C:/Progra~1/R/R-2.15.0/bin/R --slave --no-save"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Adjust the path appropriately based on your R installation.
+</p>
+
+<p>
+For 64bit Windows users, the R installation process may have installed
+both 32bit and 64bit binaries. The above path points to the 32bit paths; for
+64bit operating systems the analog is:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-babel-R-command <span style="color: #e2c770;">"C:/Progra~1/R/R-2.15.0/bin/x64/R --slave --no-save"</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org30b93e1" class="outline-2">
+<h2 id="org30b93e1">Org Mode Features for R Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org30b93e1">
+</div>
+<div id="outline-container-orgb056deb" class="outline-3">
+<h3 id="orgb056deb">Header Arguments</h3>
+<div class="outline-text-3" id="text-orgb056deb">
+<p>
+There are no R-specific <i>default</i> header arguments.
+</p>
+
+<p>
+If a <code>:file filename.ext</code> header argument is provided to an R source
+block, then the output from the source block will go to the named
+file. What that output is depends on the value of the <code>:results</code>
+header argument.
+</p>
+
+<p>
+If the value is <code>:results file graphics</code> then &ldquo;base&rdquo; graphics output
+is captured to the file specified by the <code>:file</code> argument. A link to
+the file is inserted into the Org Mode buffer. **NB: as of org version
+9.3, the <code>:results</code> argument must include both <code>file</code> and <code>graphics</code>;
+earlier versions only required the <code>graphics</code> argument**. An attempt
+is made to find an R graphics device corresponding to the file
+extension. Currently, the following extensions are recognized: <code>.png</code>,
+<code>.jpg</code>, <code>.jpeg</code>, <code>.tiff</code>, <code>.bmp</code>, <code>.pdf</code>, <code>.ps</code>, <code>.postscript</code>,
+<code>.tex</code>, and <code>.svg</code>. If the extension of the file name passed to
+<code>:file</code> is not recognized, PNG format output is created by default.
+</p>
+
+<p>
+If the source code block uses grid-based R graphics, e.g., the lattice
+and ggplot2 packages, then care must be taken either to print() the
+graphics object, specify <code>:results output</code>, or run the code in a
+<code>:session</code>.  This is because the graphics functions from lattice and
+ggplot2 return objects that must be explicitly printed to see them,
+using the print function.  This happens automatically when run
+interactively, e.g., <code>:session</code>, but when called inside another
+function, it does not.  
+</p>
+
+<p>
+Some years ago, Erik Iverson summarized the different ways of getting
+this working. His summary, updated to reflect a change in Org
+Babel syntax, follows:
+</p>
+
+<pre class="example">
+* does /not/ work; produces a file, but it does 
+* not contain a valid graphics format
+#+begin_src R :file 1.png :results file graphics
+library(lattice)
+xyplot(1:10 ~ 1:10)
+#+end_src
+</pre>
+
+
+<pre class="example">
+* does produce a file, by printing object
+#+begin_src R :file 2.png :results graphics file
+library(lattice)
+print(xyplot(1:10 ~ 1:10))
+#+end_src
+</pre>
+
+
+<pre class="example">
+* does produce a file, by using :results output
+#+begin_src R :file 3.png :results output graphics file
+library(lattice)
+xyplot(1:10 ~ 1:10)
+#+end_src
+</pre>
+
+
+<pre class="example">
+* does produce a file, by evaluating in :session
+#+begin_src R :file 4.png :session :results graphics file
+library(lattice)
+xyplot(1:10 ~ 1:10)
+#+end_src
+</pre>
+</div>
+
+<div id="outline-container-org3786306" class="outline-4">
+<h4 id="org3786306">Graphics Header Arguments</h4>
+<div class="outline-text-4" id="text-org3786306">
+<p>
+There are many R-specific header arguments used to configure R graphics
+devices.  They include:
+</p>
+
+<dl class="org-dl">
+<dt>width</dt><dd>the width of the graphics region, default value is 7
+(inches) or 480 (pixels)</dd>
+<dt>height</dt><dd>the height of the graphics region, default value is 7
+(inches) or 480 (pixels)</dd>
+<dt>units</dt><dd>the units in which width and height are given &#x2013; <code>px</code>,
+<code>in</code>, <code>cm</code>, or <code>mm</code>. Note that the default units are set
+by the file type: <code>in</code> for pdf and ps, <code>px</code> for jpeg,
+bmp, png, tiff</dd>
+<dt>bg</dt><dd>the background color defaults to &ldquo;transparent&rdquo;</dd>
+<dt>fg</dt><dd>the foreground color defaults to &ldquo;black&rdquo;</dd>
+<dt>pointsize</dt><dd>the default point size in the graphics defaults to 12</dd>
+<dt>quality</dt><dd>the quality of a JPEG image as a percentage</dd>
+<dt>compression</dt><dd>the type of compression to be used</dd>
+<dt>res</dt><dd>the nominal resolution in pixels per inch</dd>
+<dt>type</dt><dd>the bitmap type, one of &ldquo;Xlib&rdquo;, &ldquo;quartz&rdquo;, or &ldquo;cairo&rdquo;</dd>
+<dt>antialias</dt><dd>the type of antialiasing to be used when <code>type</code> =
+&ldquo;cairo&rdquo; or <code>type</code> = &ldquo;quartz&rdquo;</dd>
+<dt>family</dt><dd>in normal use, one of &ldquo;AvantGarde&rdquo;, &ldquo;Bookman&rdquo;,
+&ldquo;Courier&rdquo;, &ldquo;Helvetica&rdquo; (default), &ldquo;Helvetica-Narrow&rdquo;,
+&ldquo;NewCenturySchoolbook&rdquo;, &ldquo;Palatino&rdquo;, or &ldquo;Times&rdquo;</dd>
+<dt>title</dt><dd>string to embed as the /Title field in the file defaults
+to &ldquo;R Graphics Output&rdquo;</dd>
+<dt>fonts</dt><dd>an R graphics font family name &#x2013; &ldquo;sans&rdquo;, &ldquo;serif&rdquo;, or &ldquo;mono&rdquo;</dd>
+<dt>version</dt><dd>string describing the PDF version required to view the
+output defaults to &ldquo;1.4&rdquo;</dd>
+<dt>paper</dt><dd>the target paper size &#x2013; &ldquo;special&rdquo; (default), &ldquo;default&rdquo;,
+&ldquo;a4&rdquo;, &ldquo;letter&rdquo;, &ldquo;legal&rdquo;, &ldquo;us&rdquo;, &ldquo;executive&rdquo;, &ldquo;a4r&rdquo;, or
+&ldquo;USr&rdquo;, where the latter two are rotated to landscape orientation</dd>
+<dt>encoding</dt><dd>the name of an encoding file</dd>
+<dt>pagecentre</dt><dd>if paper != &ldquo;special&rdquo; then a logical that defaults
+to true and determines whether the graphic device
+region is centered on the page</dd>
+<dt>colormodel</dt><dd>a character string describing the color model,
+&ldquo;srgb&rdquo; (default), &ldquo;gray&rdquo;, &ldquo;grey&rdquo;, or &ldquo;cmyk&rdquo;.</dd>
+<dt>useDingbats</dt><dd>if TRUE (default) small circles will be rendered
+with the Dingbats font</dd>
+<dt>horizontal</dt><dd>for the postscript device, a logical that defaults
+to true and dtermines the orientation of the printed
+image</dd>
+<dt>R-dev-args</dt><dd>for graphics parameters not directly supported by
+Org Mode (see below)</dd>
+</dl>
+
+<p>
+See the R help page for the graphics devices (e.g., using <code>?png</code>,
+<code>?pdf</code>, <code>?postscript</code> in an R session) for additional information on
+these arguments.
+</p>
+
+<p>
+Arguments to the R graphics device can also be passed as a string in
+R argument syntax, using the header arg <code>:R-dev-args</code>.  This is
+useful for graphics device arguments that don&rsquo;t have an Org Mode
+header argument counterpart.
+</p>
+
+<p>
+The following example source block illustrates use of <code>:R-dev-args</code>
+to pass background and foreground colors.  Note that both of these
+arguments can also be passed directly as header args, using <code>:fg</code> and
+<code>:bg</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+header: :width 8 :height 8 :R-dev-args bg="olivedrab", fg="hotpink"</span>
+<span style="color: #696969;">  #+begin_src R :file z.pdf :results graphics file</span>
+  ,plot(matrix(rnorm(100), ncol=2), type="l")
+<span style="color: #696969;">  #+end_src</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge7cf9af" class="outline-3">
+<h3 id="orge7cf9af">Sessions</h3>
+<div class="outline-text-3" id="text-orge7cf9af">
+<p>
+Sessions are fully supported by R source code blocks. They can be used
+as one way to preserve state accessed by several source codeblocks. Sessions are also useful for debugging, since it is possible
+to view the values of variables created during the session.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga2d6827" class="outline-3">
+<h3 id="orga2d6827">Result Types</h3>
+<div class="outline-text-3" id="text-orga2d6827">
+<p>
+R source code blocks can return text or graphical results.
+</p>
+
+<p>
+The <a href="http://cran.r-project.org/web/packages/ascii/index.html">ascii package</a> coerces R objects to Org Mode, among other markup
+languages.  The <a href="http://cran.r-project.org/web/packages/Hmisc/index.html">Hmisc</a>, <a href="http://cran.r-project.org/web/packages/xtable/index.html">xtable</a> and <a href="http://cran.r-project.org/web/packages/tables/index.html">tables</a> packages contain functions to
+write R objects into LaTeX representations.
+</p>
+
+<p>
+R is capable of creating graphical displays in several formats.  The
+outputs supported by R source code blocks in Org Mode include:
+</p>
+
+<dl class="org-dl">
+<dt>bmp</dt><dd>bitmap image file format commonly used on Microsoft
+Windows and OS/2</dd>
+<dt>jpg, jpeg</dt><dd>Joint Photographics Expert Group method of lossy
+compression for digital photography widely used in a
+number of raster image file formats</dd>
+<dt>tex</dt><dd>output tikz graphics language which can be typeset by
+LaTeX so the fonts for text in the plot match the fonts
+used in the LaTeX document</dd>
+<dt>tiff</dt><dd>a sophisticated raster image format that allows multiple
+pages in a document</dd>
+<dt>png</dt><dd>Portable Network Graphics is a lossless raster image file format</dd>
+<dt>svg</dt><dd>Scalable Vector Graphics is an open standard vector format
+that can be embedded in web pages and readily edited in
+open source software applications such as <a href="http://inkscape.org/">Inkscape</a></dd>
+<dt>pdf</dt><dd>Portable Document Format can faithfully produce anything R
+graphics can output</dd>
+<dt>ps, postscript</dt><dd>PostScript is a predecessor of PDF that does
+not support semitransparent colors or
+hyperlinking</dd>
+</dl>
+
+<p>
+When using R to produce graphical displays, you will typically set
+<code>:results graphics file</code>.  However, if you use the <a href="http://had.co.nz/ggplot/">ggplot implementation of
+the grammar of graphics in R</a>, then you will need to set <code>:results
+output graphics file</code> (see above).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org85d04b4" class="outline-2">
+<h2 id="org85d04b4">Examples of Use</h2>
+<div class="outline-text-2" id="text-org85d04b4">
+</div>
+<div id="outline-container-orgbdfbda5" class="outline-3">
+<h3 id="orgbdfbda5">Debugging</h3>
+<div class="outline-text-3" id="text-orgbdfbda5">
+<p>
+This section contains some tips on how to proceed if your R code is
+not doing what you had hoped.
+</p>
+</div>
+<div id="outline-container-orgb54cf8f" class="outline-4">
+<h4 id="orgb54cf8f">Use <code>:session</code></h4>
+<div class="outline-text-4" id="text-orgb54cf8f">
+<p>
+Evaluate your code using the <code>:session</code> header argument, then
+visit the R buffer (i.e. the buffer containing the &ldquo;inferior ESS&rdquo;
+process). Then you can inspect the objects that have been created,
+and try out some lines of code. Useful R functions for inspecting
+objects include (in R, type a &ldquo;?&rdquo; followed by the name of the
+function, or use <code>C-c C-v</code> to use ESS&rsquo;s help browser, to get help
+with the function)
+</p>
+<ul class="org-ul">
+<li>str</li>
+<li>dim</li>
+<li>summary</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf060122" class="outline-4">
+<h4 id="orgf060122">Use ESS to step through evaluation line-by-line</h4>
+<div class="outline-text-4" id="text-orgf060122">
+<ol class="org-ol">
+<li>Use C-c &rsquo; to visit the edit buffer for your code block</li>
+<li>Use <code>ess-eval-line-and-step</code> to evaluate each line in turn</li>
+</ol>
+
+<p>
+In addition to <code>ess-eval-line-and-step</code>, there are several other ESS
+functions with names beginning <code>ess-eval-*</code>. They evaluate lines and
+regions in different ways; it&rsquo;s worth looking at their descriptions
+(C-h f).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc51a960" class="outline-3">
+<h3 id="orgc51a960">Org Mode Output from R</h3>
+<div class="outline-text-3" id="text-orgc51a960">
+<p>
+David Hajage&rsquo;s <a href="http://cran.r-project.org/web/packages/ascii/index.html">ascii</a> R package creates appropriate plain text
+representations of many R objects. It features an option to specify
+that the plain text representations should be in Org format. This can
+be particularly useful for retrieving non-tabular R data structures in
+Org Mode for export.
+</p>
+
+<p>
+In R:
+</p>
+<pre class="example">
+&gt; library(ascii)
+&gt; options(asciiType = "org")
+&gt; library(Hmisc)
+&gt; ascii(describe(esoph))
+#+CAPTION: esoph
+- 5 Variable
+- 88 Observations
+
+*agegp*
+|  n | missing | unique |
+| 88 |       0 |      6 |
+
+|           | 25-34 | 35-44 | 45-54 | 55-64 | 65-74 | 75+ |
+| Frequency |    15 |    15 |    16 |    16 |    15 |  11 |
+| %         |    17 |    17 |    18 |    18 |    17 |  12 |
+
+*alcgp*
+|  n | missing | unique |
+| 88 |       0 |      4 |
+
+ 0-39g/day (23, 26%), 40-79 (23, 26%), 80-119 (21, 24%), 120+ (21, 24%)
+
+*tobgp*
+|  n | missing | unique |
+| 88 |       0 |      4 |
+
+ 0-9g/day (24, 27%), 10-19 (24, 27%), 20-29 (20, 23%), 30+ (20, 23%)
+
+*ncases*
+|  n | missing | unique |  Mean | .05 | .10 | .25 | .50 | .75 | .90 | .95 |
+| 88 |       0 |     10 | 2.273 | 0.0 | 0.0 | 0.0 | 1.0 | 4.0 | 5.3 | 6.0 |
+
+|           |  0 |  1 |  2 |  3 | 4 | 5 | 6 | 8 | 9 | 17 |
+| Frequency | 29 | 16 | 11 |  9 | 8 | 6 | 5 | 1 | 2 |  1 |
+| %         | 33 | 18 | 12 | 10 | 9 | 7 | 6 | 1 | 2 |  1 |
+
+*ncontrols*
+|  n | missing | unique |  Mean | .05 | .10 | .25 | .50 |  .75 |  .90 |  .95 |
+| 88 |       0 |     30 | 11.08 | 1.0 | 1.0 | 3.0 | 6.0 | 14.0 | 29.1 | 40.0 |
+
+ lowest:  1  2  3  4  5, highest: 40 46 48 49 60
+</pre>
+
+
+<p>
+The Org Mode source code block specifies <code>:results org</code> so the output
+is wrapped in <code>#+BEGIN_ORG</code> &#x2026; <code>#+END_ORG</code>.  This way, arbitrary
+output can be included and easily replaced on subsequent evaluations
+of the source code block.
+</p>
+
+
+<pre class="example">
+#+begin_src R :results output org
+  library(ascii)
+  options(asciiType="org")
+  ascii(summary(table(1:4, 1:4)))
+#+end_src
+
+#+results:
+#+BEGIN_ORG
+- Number of cases in table: 4 
+- Number of factors: 2 
+- Test for independence of all factors:
+  - Chisq = 12, df = 9, p-value = 0.2133
+  - Chi-squared approximation may be incorrect
+#+END_ORG
+</pre>
+
+
+<p>
+The results in this case are exported as a nested list structure:
+</p>
+<div class="ORG">
+<ul class="org-ul">
+<li>Number of cases in table: 4</li>
+<li>Number of factors: 2</li>
+<li>Test for independence of all factors:
+<ul class="org-ul">
+<li>Chisq = 12, df = 9, p-value = 0.2133</li>
+<li>Chi-squared approximation may be incorrect</li>
+</ul></li>
+</ul>
+
+</div>
+
+
+<p>
+The <code>caption</code>, <code>header</code>, and <code>include.colnames</code> options are useful.
+</p>
+
+
+<pre class="example">
+#+BEGIN_SRC R :results output org
+ library(ascii)
+ a &lt;- runif(100)
+ c &lt;- "Quantiles of 100 random numbers"
+ b &lt;- ascii(quantile(a),header=T,include.colnames=T,caption=c)
+ print(b,type="org")
+ rm(a,b,c)
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_ORG
+#+CAPTION: Quantiles of 100 random numbers
+| 0%   | 25%  | 50%  | 75%  | 100% |
+|------+------+------+------+------|
+| 0.03 | 0.28 | 0.52 | 0.74 | 1.00 |
+#+END_ORG
+</pre>
+
+
+<p>
+The output exported to HTML can be quite nice.
+</p>
+
+<div class="ORG">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Quantiles of 100 random numbers</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">0%</th>
+<th scope="col" class="org-right">25%</th>
+<th scope="col" class="org-right">50%</th>
+<th scope="col" class="org-right">75%</th>
+<th scope="col" class="org-right">100%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0.03</td>
+<td class="org-right">0.28</td>
+<td class="org-right">0.52</td>
+<td class="org-right">0.74</td>
+<td class="org-right">1.00</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org241376f" class="outline-3">
+<h3 id="org241376f">LaTeX code from R</h3>
+<div class="outline-text-3" id="text-org241376f">
+<p>
+This example summarises a linear regression fit. Usually the Org Mode
+user should not have to be involved in LaTeX code generation, because
+this is the responsibility of Org Mode&rsquo;s LaTeX export engine. In this
+example, neither the printed representation, nor the value of
+<code>summary(lm(y ~ x))</code> is tabular, and it would therefore require some
+work to get the information in to an Org Mode table. However, the
+<code>xtable</code> package can be used to output a LaTeX table. Using <code>:results
+latex</code> as a header argument to the R source code block ensures that
+this is returned as a LaTeX block in the Org Mode buffer and thus can be
+included correctly in LaTex-based export targets.
+</p>
+
+<pre class="example">
+#+begin_src R :results output latex
+library(xtable)
+x &lt;- rnorm(100)
+y &lt;- x + rnorm(100)
+xtable(summary(lm(y ~ x)))
+#+end_src
+</pre>
+
+
+<pre class="example">
+#+results:
+#+BEGIN_LaTeX
+% latex table generated in R 2.9.2 by xtable 1.5-5 package
+% Wed Dec  9 17:17:53 2009
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ &amp; Estimate &amp; Std. Error &amp; t value &amp; Pr($&gt;$$|$t$|$) \\ 
+  \hline
+(Intercept) &amp; -0.0743 &amp; 0.0969 &amp; -0.77 &amp; 0.4454 \\ 
+  x &amp; 1.0707 &amp; 0.0923 &amp; 11.60 &amp; 0.0000 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
+#+END_LaTeX
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8b94d6a" class="outline-3">
+<h3 id="org8b94d6a"><code>ess-switch-to-end-of-ESS</code></h3>
+<div class="outline-text-3" id="text-org8b94d6a">
+<p>
+When in an Org Mode R code edit buffer with an associated R session,
+<code>M-x ess-switch-to-end-of-ESS</code> will bring the R session buffer into
+view and place point at the prompt. ESS binds this to <code>C-c C-z</code> and
+<code>C-M-r</code> by default.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Eric Schulte, Dan Davison, Tom Dye, Tyler Smith</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

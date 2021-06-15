@@ -1,0 +1,675 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-check.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .custom-1 {
+        /* (:foreground "#07CA00" :weight bold :underline t) */
+        color: #07CA00;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* font-lock-warning-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Verify an Org-mode environment
+</span><span class="org-meta-line">#+OPTIONS: num:nil ^:nil</span>
+<span class="org-meta-line">#+LaTeX_CLASS: normal</span>
+<span class="org-meta-line">#+STARTUP: hideblocks</span>
+<span class="org-meta-line">#+TODO: TODO | DONE</span>
+
+Check an Org-mode environment.
+
+<span class="bold">warning</span>: executing the table in this buffer will execute elisp and
+ shell commands on your system.  These commands are intended to check
+ aspects of your environment for compatibility with Org-mode, however
+ malicious people could tie arbitrary and/or malicious code blocks to
+ this table.
+ <span class="org-list-dt">-</span> don't be malicious, only put reasonable code into this buffer
+ <span class="org-list-dt">-</span> don't be angry, you've been warned about the possible risks of
+   using this buffer
+
+ In general Org-moders are very nice and will most likely keep this
+ buffer both safe and useful.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Instructions
+</span>  <span class="org-list-dt">-</span> Download the file <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg/raw/master/org-contrib/babel/examples/org-check.org">org-check.org</a></span>
+  <span class="org-list-dt">-</span> Calculate the table by putting point in the table and pressing <span class="org-verbatim">C-u C-c *</span>
+  <span class="org-list-dt">-</span> Check the <span class="org-verbatim">results</span> column
+    <span class="org-list-dt">-</span> if you see all "pass" results, then your environment passes
+    <span class="org-list-dt">-</span> if you see "fail" or other unexpected results, then follow the
+      link in the <span class="org-verbatim">topic</span> column for an explanation
+
+<span class="org-table">| task          | topic          | command          | arg                | results |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*Org%20Setup">Org-mode</a></span><span class="org-table">      |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Org%20library">Library</a></span><span class="org-table">        | org-library      |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Org%20version">Version</a></span><span class="org-table">        | org-version      |                    |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*Agenda">Agenda</a></span><span class="org-table">        |                |                  |                    |         |</span>
+<span class="org-table">|               |                | chk-agenda-files |                    |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*Export%20LaTeX">LaTeX Export</a></span><span class="org-table">  |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Check%20=org-export-latex-classes=">LaTeX classes</a></span><span class="org-table"> | chk-ltx-cls      |                    |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-latex         |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*HTML%20export">HTML export</a></span><span class="org-table">   |                |                  |                    |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-html          |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*Preview%20LaTeX">Preview Latex</a></span><span class="org-table"> |                |                  |                    |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "latex"            |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "latex"            |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "dvipng"           |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "dvipng"           |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*=check-latex-scale=">latex-scale</a></span><span class="org-table"> | chk-latex-scale  |                    |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-latex         |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*Make%20pdf%20files">Make Pdfs</a></span><span class="org-table">     |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*LaTeX language configuration">latex</a></span><span class="org-table">          | chk-ext-cmd      | "latex"            |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*LaTeX language configuration">latex-system</a></span><span class="org-table">   | chk-sys-cmd      | "latex"            |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*LaTeX engine specified">latex-engine</a></span><span class="org-table"> | chk-latex-engine |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*LaTeX engine present">engine-present</a></span><span class="org-table"> | chk-engine-cmd   |                    |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-table">| </span><span class="org-link"><a href="*Babel">Org-babel</a></span><span class="org-table">     |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Org-babel provided">Org-babel</a></span><span class="org-table">    | pkg-loaded       | 'org-babel         |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*R%20language%20configuration">R language</a></span><span class="org-table">     | chk-babel-lang   | "R"                |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "R"                |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "R"                |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-R       |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*C%20language%20configuration">C language</a></span><span class="org-table">     | chk-babel-lang   | "C"                |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "cc"               |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "cc"               |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-C       |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Clojure%20language%20configuration">Clojure</a></span><span class="org-table">        | chk-babel-lang   | "clojure"          |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-clojure |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Ditaa%20language%20configuration">Ditaa</a></span><span class="org-table">          | chk-babel-lang   | "ditaa"            |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-ditaa   |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*CSS%20configuration">CSS</a></span><span class="org-table">            | chk-babel-lang   | "css"              |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-css     |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Gnuplot%20language%20configuration">Gnuplot</a></span><span class="org-table">        | chk-babel-lang   | "gnuplot"          |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "gnuplot"          |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "gnuplot"          |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-gnuplot |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*LaTeX%20language%20configuration">LaTeX</a></span><span class="org-table">          | chk-babel-lang   | "latex"            |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "latex"            |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "latex"            |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-latex   |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*MATLAB&#174; language configuration">MATLAB&#174;</a></span><span class="org-table">        | chk-babel-lang   | "matlab"           |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "matlab"           |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "matlab"           |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-matlab  |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Perl%20language%20configuration">Perl</a></span><span class="org-table">           | chk-babel-lang   | "perl"             |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "perl"             |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "perl"             |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-perl    |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Python%20language%20configuration">Python</a></span><span class="org-table">         | chk-babel-lang   | "python"           |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "python"           |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "python"           |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-python  |         |</span>
+<span class="org-table">|               |                |                  |                    |         |</span>
+<span class="org-table">|               | </span><span class="org-link"><a href="*Ruby%20language%20configuration">Ruby</a></span><span class="org-table">           | chk-babel-lang   | "ruby"             |         |</span>
+<span class="org-table">|               |                | chk-ext-cmd      | "ruby"             |         |</span>
+<span class="org-table">|               |                | chk-sys-cmd      | "ruby"             |         |</span>
+<span class="org-table">|               |                | pkg-loaded       | 'org-babel-ruby    |         |</span>
+<span class="org-table">|---------------+----------------+------------------+--------------------+---------|</span>
+<span class="org-meta-line">#+TBLFM:</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tasks
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org Setup
+</span>   <span class="org-list-dt">-</span> It is sometimes the case that updating Org-mode seems to have no
+     effect.  This can arise when there are multiple Org-mode
+     installations, or if Org-mode was compiled and then not
+     recompiled after an update.
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Org library
+</span>    <span class="org-list-dt">-</span> This is where emacs is finding the Org-mode installation
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Org version
+</span>    <span class="org-list-dt">-</span> This is the hard-coded version number from org.el.
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export LaTeX
+</span>
+   <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-latex-export.html">LaTeX Export Tutorial</a></span>
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Check </span><span class="org-level-3"><span class="org-verbatim">org-export-latex-classes</span></span><span class="org-level-3">
+</span>
+    <span class="org-list-dt">-</span> Check that the variable <span class="org-verbatim">org-export-latex-classes</span> has been set: <span class="org-link"><a href="elisp:(progn (describe-variable 'org-export-latex-classes) (other-window 1))">elisp:(progn (describe-variable 'org-export-latex-classes) (other-window 1))</a></span> 
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Preview LaTeX
+</span>   <span class="org-list-dt">-</span> Previewing LaTeX in the Org-mode buffer requires:
+     <span class="org-list-dt">-</span> a working LaTeX installation, including the <span class="org-verbatim">latex</span> executable
+     <span class="org-list-dt">-</span> the <span class="kc-org-link-url"><a href="http://sourceforge.net/projects/dvipng/">dvipng</a></span> executable
+     <span class="org-list-dt">-</span> paths to these executables on <span class="org-verbatim">exec-path</span>
+   <span class="org-list-dt">-</span> If either latex-system or dvipng-system fails, then you probably
+     need to install software
+   <span class="org-list-dt">-</span> If latex-system passes and latex fails, then you need to modify
+     the variable <span class="org-verbatim">exec-path</span>, so the path to the latex executable is
+     included
+   <span class="org-list-dt">-</span> If dvipng-system passes and dvipng fails, then you need to modify
+     the variable <span class="org-verbatim">exec-path</span>, so the path to the dvipng executable is
+     included
+   <span class="org-list-dt">-</span> Image size can be scaled using the <span class="org-verbatim">:scale</span> property of the
+     variable <span class="org-verbatim">org-format-latex-options</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Make pdf files
+</span>   <span class="org-list-dt">-</span> Pdf files are created for in-buffer preview and as the
+     end-product of <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-latex-export.html#sec-7">LaTeX export</a></span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Agenda
+</span>   <span class="org-list-dt">-</span> The <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Agenda-Views.html#Agenda-Views">agenda</a></span> is key to using Org-mode effectively
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Babel
+</span>   <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/index.php">Org-babel</a></span> extends the very excellent Org-mode with the ability to
+     execute code blocks
+   <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/intro.php#getting-started">Org-babel configuration</a></span> is a 5-step process that requires entries
+     in <span class="org-verbatim">.emacs</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Org-babel provided
+</span>    <span class="org-list-dt">-</span> If this test fails, then Org-babel isn't loaded
+    <span class="org-list-dt">-</span> You probably need something like this in <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-init</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/intro.php#getting-started">Org-babel installation</a></span> is a 5-step process
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> R language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.r-project.org/">R</a></span> is a free software environment for statistical computing and graphics
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-R</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the R executable in <span class="org-verbatim">exec-path</span> : <span class="org-link"><a href="elisp:(progn (describe-variable 'exec-path) (other-window))">elisp:(progn (describe-variable 'exec-path) (other-window))</a></span> and possibly add a line to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/R/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      R is installed on your system
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> C language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/C_%28programming_language%29">C</a></span> is a general-purpose computer programming language
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-C</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the cc executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/cc/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      a C compiler is installed on your system and, if it is, what it
+      is called other than <span class="org-verbatim">cc</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Clojure language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://clojure.org/">Clojure</a></span> is a dynamic programming language that targets the Java Virtual Machine
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-clojure</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Ditaa language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://ditaa.sourceforge.net/">Ditaa</a></span> is a small command-line utility written in Java, that can convert diagrams drawn using ascii art into proper bitmap graphics
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-ditaa</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> CSS configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.w3.org/Style/CSS/">Cascading Style Sheets (CSS)</a></span> is a simple mechanism for adding style to Web documents
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-css</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Gnuplot language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.gnuplot.info/">Gnuplot</a></span> is a command-line driven graphing utility
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to .emacs
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-gnuplot</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the gnuplot executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to .emacs
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/gnuplot/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      gnuplot is installed on your system
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> LaTeX language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.tug.org/">LaTeX</a></span> is a TeX macro package that provides a document processing system
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to .emacs
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-latex</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the latex executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to .emacs
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/latex/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      latex is installed on your system
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> MATLAB&#174; language configuration
+</span>    <span class="org-list-dt">-</span> MATLAB&#174; is a high-level language and interactive environment
+      that enables you to perform computationally intensive tasks
+      faster than with traditional programming languages such as C,
+      C++, and Fortran
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to .emacs
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-matlab</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the MATLAB&#174; executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to .emacs
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/matlab/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      MATLAB&#174; is installed on your system
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Perl language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.perl.org/">Perl</a></span> is a highly capable, feature-rich programming language with
+      over 22 years of development
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-perl</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the Perl executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/perl/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      Perl is installed on your system
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Python language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.python.org/">Python</a></span> is a programming language that lets you work more quickly
+      and integrate your systems more effectively
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-python</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the Python executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/python/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      Python is installed on your system
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Ruby language configuration
+</span>    <span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.ruby-lang.org/en/">Ruby</a></span> is a dynamic, open source programming language with a focus
+      on simplicity and productivity
+    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-babel-lang</span> returns <span class="org-verbatim">fail</span> then you should add this line
+      to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-babel-ruby</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-ext-cmd</span> returns <span class="org-verbatim">fail</span> then you should check if there
+      is a path to the Ruby executable in <span class="org-link"><a href="elisp:(progn%20(describe-variable%20'exec-path)%20(other-window%201))">exec-path</a></span> and possibly add a
+      line to <span class="org-verbatim">.emacs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">exec-path</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"/path/to/ruby/executable"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>    <span class="org-list-dt">-</span> if <span class="org-verbatim">chk-sys-cmd</span> returns <span class="org-verbatim">fail</span> then you should check to see if
+      Ruby is installed on your system
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> HTML export
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Commands
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org stuff
+</span><span class="org-meta-line">#+name: org-library</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">locate-library</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: org-version</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-version</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-version</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-special-keyword">COMMENT</span><span class="org-level-2"> Package loaded
+</span>
+FIXME: fix error "variable "pkg-loaded" in block "transpose-elisp" must be
+assigned a default value"
+
+<span class="org-meta-line">#+name: pkg-loaded(x)</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">featurep</span></span><span class="org-block"> </span><span class="org-block"><span class="constant">x</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-special-keyword">COMMENT</span><span class="org-level-2"> Babel languages
+</span>
+FIXME: "variable "chk-babel-lang" in block "transpose-elisp" must be
+assigned a default value"
+
+   <span class="org-list-dt">-</span> Checks if a language can be tangled by Org-babel
+<span class="org-meta-line">#+name: chk-babel-lang(x)</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">z  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-2"><span class="org-tag">(</span></span></span><span class="org-block"><span class="org-tag">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">y</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> y</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">org-babel-tangle-langs </span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-1">)</span></span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">member</span></span><span class="org-block"> x z</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-special-keyword">COMMENT</span><span class="org-level-2"> Check external commands
+</span><span class="org-meta-line">#+name: chk-ext-cmd(x)</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-check-external-command</span></span><span class="org-block"> x </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export LaTeX classes
+</span><span class="org-meta-line">#+name: chk-ltx-cls</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> org-export-latex-classes</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX engine specified
+</span>   <span class="org-list-dt">-</span> Returns the first argument of the first entry in <span class="org-verbatim">org-latex-to-pdf-process</span>
+   <span class="org-list-dt">-</span> This is typically a call to the LaTeX engine
+   <span class="org-list-dt">-</span> If <span class="org-verbatim">fail</span> is returned, then the variable <span class="org-verbatim">org-latex-to-pdf-process</span>
+     needs to be set
+<span class="org-meta-line">#+name: chk-latex-engine</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-latex</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> org-latex-to-pdf-process</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">substring</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> org-latex-to-pdf-process</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\\ "</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> org-latex-to-pdf-process</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX engine present
+</span>   <span class="org-list-dt">-</span> Checks if the LaTeX engine specified by
+     <span class="org-verbatim">org-latex-to-pdf-process</span> can be found by Org-mode
+   <span class="org-list-dt">-</span> Returns <span class="org-verbatim">fail</span> if  <span class="org-verbatim">chk-latex-engine</span> returns <span class="org-verbatim">fail</span>
+   <span class="org-list-dt">-</span> If <span class="org-verbatim">fail</span> is returned, then the variable <span class="org-verbatim">exec-path</span> probably
+     needs to have the path to the LaTeX engine
+<span class="org-meta-line">#+name: chk-engine-cmd</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var x=chk-latex-engine :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-equal</span></span><span class="org-block"> x </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> x </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-check-external-command</span></span><span class="org-block"> x </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="org-verbatim">org-agenda-files</span></span><span class="org-level-2">
+</span>   <span class="org-list-dt">-</span> The <span class="org-link"><a href="elisp:(progn (describe-variable 'org-agenda-files) (other-window 1))">org-agenda-files</a></span> variable is required for a number of optional, but useful, Org-mode commands
+        <span class="org-list-dt">-</span> <span class="org-link"><a href="elisp:(progn (describe-function 'org-agenda) (other-window 1))">org-agenda</a></span>
+        <span class="org-list-dt">-</span> org-export-icalendar-combine-agenda-files : <span class="org-link"><a href="elisp:(progn (describe-variable 'org-export-icalendar-combine-agenda-files) (other-window 1))">elisp:(progn (describe-variable 'org-export-icalendar-combine-agenda-files) (other-window 1))</a></span>
+        <span class="org-list-dt">-</span> others?
+   <span class="org-list-dt">-</span> It is <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Agenda-files.html#Agenda-files">easy to set</a></span>
+<span class="org-meta-line">#+name: chk-agenda-files</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="string">"consider setting <a href="* org-agenda-files">[[* org-agenda-files][org-agenda-files]]</a>"</span></span><span class="org-block">
+    </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-special-keyword">COMMENT</span><span class="org-level-2"> Check System Command
+</span>
+FIXME: "variable "chk-sys-cmd" in block "transpose-elisp" must be assigned
+a default value"
+
+   <span class="org-list-dt">-</span> Check if x is present on the system path
+   <span class="org-list-dt">-</span> If <span class="org-verbatim">fail</span> is returned, ensure that the executable is found on
+     your system, then check that <span class="org-verbatim">$PATH</span> holds a path to the
+     executable
+
+<span class="org-meta-line">#+name: chk-sys-cmd(x)</span>
+<span class="org-block-begin-line">#+begin_src sh :results silent
+</span><span class="org-block">    </span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> which $</span><span class="org-block"><span class="variable-name">x</span></span><span class="org-block"> &gt; /dev/null;
+    </span><span class="org-block"><span class="keyword">then </span></span><span class="org-block"><span class="type">echo</span></span><span class="org-block"> pass;
+    </span><span class="org-block"><span class="keyword">else </span></span><span class="org-block"><span class="type">echo</span></span><span class="org-block"> fail;
+    </span><span class="org-block"><span class="keyword">fi</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="org-verbatim">check-latex-scale</span></span><span class="org-level-2">
+</span>Report the scale setting for inline images.  Default is 1.0.
+
+<span class="org-meta-line">#+name: chk-latex-scale</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">plist-get</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-format-latex-options</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:scale</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Learning Lisp (slowly)                                           </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Check LaTeX packages
+</span><span class="org-meta-line">#+name: chk-kpse</span>
+<span class="org-block-begin-line">#+begin_src sh :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> which kpsewhich &gt; /dev/null;
+  </span><span class="org-block"><span class="keyword">then </span></span><span class="org-block"><span class="type">echo</span></span><span class="org-block"> pass;
+  </span><span class="org-block"><span class="keyword">else </span></span><span class="org-block"><span class="type">echo</span></span><span class="org-block"> fail;
+  </span><span class="org-block"><span class="keyword">fi</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: chk-ltx-pkg</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var x=chk-kpse()
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-equal</span></span><span class="org-block"> x </span><span class="org-block"><span class="string">"pass"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">z </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-splice-latex-header</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-format-latex-header</span></span><span class="org-block">
+                                      org-export-latex-default-packages-alist
+                                      org-export-latex-packages-alist nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">d </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-3"><span class="org-tag">(</span></span></span><span class="org-block"><span class="org-tag">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">m</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> m</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> m</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> m</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                     org-export-latex-default-packages-alist</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">e </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-3"><span class="org-tag">(</span></span></span><span class="org-block"><span class="org-tag">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">f</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">position</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">concatenate</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">string</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{"</span></span><span class="org-block"> f </span><span class="org-block"><span class="string">"}"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> z</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="warning">d</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-1">)</span></span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+     e </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"fail"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results: chk-ltx-pkg</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Acknowledgments
+</span>Many thanks to the following people for their generous help:
+  <span class="org-list-dt">-</span> Eric Schulte for setting up the original table and correcting code
+  <span class="org-list-dt">-</span> Sebastian Rose for the pointer to (featurep FEATURE &amp;optional SUBFEATURE)
+  <span class="org-list-dt">-</span> Carsten Dominick for <span class="kc-org-link-url"><a href="https://orgmode.org/guide/">Org-mode Guide</a></span> and his many other efforts to
+    make Org-mode accessible to Lisp illiterates
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Notes                                                            </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="custom-1">DONE</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="org-headline-done">Provide a link to the org-check.org file in Instructions</span></span><span class="org-level-2">
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="custom-1">DONE</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="org-headline-done">Check, does Windows have something like which?</span></span><span class="org-level-2">
+</span>   <span class="org-list-dt">-</span> which is used in the shell scripts td wrote to check for latex
+     and dvipng commands at the system level
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Source
+</span><span class="org-meta-line">#+name: copy-to-worg</span>
+<span class="org-block-begin-line">#+begin_src sh :exports none :results output
+</span><span class="org-block">  </span><span class="org-block"><span class="type">cd</span></span><span class="org-block"> ~/org/worg/
+  </span><span class="org-block"><span class="type">git</span></span><span class="org-block"> pull
+  </span><span class="org-block"><span class="type">cp</span></span><span class="org-block"> ~/org/org-check/org-check.org  ~/org/worg/org-contrib/babel/examples/org-check.org
+  </span><span class="org-block"><span class="type">git</span></span><span class="org-block"> add org-contrib/babel/examples/org-check.org
+  </span><span class="org-block"><span class="type">git</span></span><span class="org-block"> commit -m </span><span class="org-block"><span class="string">"Additions to org-check.org"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="type">git</span></span><span class="org-block"> push
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results: copy-to-worg</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">Already up-to-date.
+[master 25fb17b] Additions to org-check.org
+ 1 files changed, 95 insertions(+), 66 deletions(-)
+Counting objects: 11, done.
+Delta compression using up to 2 threads.
+Compressing objects:  16% (1/6)
+...
+To git@code.orgmode.<a href="org:bzg/worg.git">org:bzg/worg.git</a>
+   108db30..25fb17b  master -&gt; master
+</span><span class="org-block-end-line">#+end_example
+</span></pre>
+  </body>
+</html>

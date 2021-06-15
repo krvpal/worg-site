@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<p>
+I like to track my expenses in Org tables.  For example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+tblname: daily-expenses</span>
+  ,| Expense | Category |
+  ,|---------+----------|
+  ,|       2 | Food     |
+  ,|       1 | House    |
+  ,|      10 | Clothes  |
+  ,|       3 | Food     |
+  ,|       5 | House    |
+</pre>
+</div>
+
+<p>
+At the of the month, I want to see how much was spent in each
+category.  I wrote the following Babel function to calculate this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+name: group-categories</span>
+<span style="color: #696969;">  #+begin_src emacs-lisp :var table=daily-expenses :colnames nil</span>
+<span style="background-color: #000000;">  ,  </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">defun</span><span style="background-color: #000000;"> </span><span style="color: #b6e63e; background-color: #000000;">category-sums</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="background-color: #000000;">catcol valcol</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,    </span><span style="color: #e2c770; background-color: #000000;">"Sum each of the categories in an Org table.</span>
+<span style="color: #e2c770; background-color: #000000;">  ,  </span>
+<span style="color: #e2c770; background-color: #000000;">  ,  </span><span style="color: #e2c770; background-color: #000000;">\</span><span style="color: #e2c770; background-color: #000000;">(fn CATEGORYCOLUMN VALUECOLUMN)"</span>
+<span style="background-color: #000000;">  ,    </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">gcats</span>
+<span style="background-color: #000000;">  ,          result</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,      </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">dolist</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="background-color: #000000;">row table</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,        </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">cat </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">nth</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">1-</span><span style="background-color: #000000;"> catcol</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="background-color: #000000;"> row</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,          </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">when</span><span style="background-color: #000000;"> </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">not</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">member</span><span style="background-color: #000000;"> cat gcats</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,            </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">push</span><span style="background-color: #000000;"> cat gcats</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,      </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">dolist</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="background-color: #000000;">gcat gcats</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,        </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">sum </span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">0</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,          </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">dolist</span><span style="background-color: #000000;"> </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="background-color: #000000;">row table</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,            </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">let</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">(</span><span style="background-color: #000000;">val </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">nth</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">1-</span><span style="background-color: #000000;"> valcol</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="background-color: #000000;"> row</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,                  </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="background-color: #000000;">cat </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">nth</span><span style="background-color: #000000;"> </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">1-</span><span style="background-color: #000000;"> catcol</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="background-color: #000000;"> row</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,              </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">when</span><span style="background-color: #000000;"> </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">equal</span><span style="background-color: #000000;"> gcat cat</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,                </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">incf</span><span style="background-color: #000000;"> sum val</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="color: #fd971f; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,          </span><span style="color: #fd971f; background-color: #000000;">(</span><span style="color: #eb4509; background-color: #000000;">push</span><span style="background-color: #000000;"> </span><span style="color: #b6e63e; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">list</span><span style="background-color: #000000;"> gcat sum</span><span style="color: #b6e63e; background-color: #000000;">)</span><span style="background-color: #000000;"> result</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span><span style="color: #b6e63e; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,      result</span><span style="color: #fd971f; background-color: #000000;">)</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="background-color: #000000;">  ,  </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="background-color: #000000;">category-sums </span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">2</span><span style="background-color: #000000;"> </span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">1</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span style="color: #696969;">  #+end_src</span>
+</pre>
+</div>
+
+<p>
+Here is an example of the output:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+results: group-categories</span>
+  ,| Category | Expense |
+  ,|----------+---------|
+  ,| Food     |       5 |
+  ,| House    |       6 |
+  ,| Clothes  |      10 |
+</pre>
+</div>
+
+<p>
+Dan Davison provided an alternate way of doing this using an R
+function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">  #+begin_src R :var tab=daily-expenses :colnames yes</span>
+  ,  attach(tab)
+  ,  aggregate(Expense ~ Category, FUN=sum)
+<span style="color: #696969;">  #+end_src</span>
+</pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

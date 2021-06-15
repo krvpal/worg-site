@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Using Org-Mode Table Formatting Functions</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jason Riedy" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Using Org-Mode Table Formatting Functions</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8e21e71">Introduction</a></li>
+<li><a href="#org5283ace">Specifying multiple destinations for a single table</a></li>
+<li><a href="#org1de67d9">Formatting with functions for side effects and display</a></li>
+<li><a href="#orgdeff3e1">Current limitations</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org8e21e71" class="outline-2">
+<h2 id="org8e21e71">Introduction</h2>
+<div class="outline-text-2" id="text-org8e21e71">
+<p>
+In large-scale data analysis, one often associates integers with
+parameter name rather than strings.  The performance and storage
+difference is significant for multi-gigabyte data sets.  But integers
+are not at all convenient or descriptive.  Systems like <a href="http://www.r-project.org">R</a> provide a
+<code>factor</code> data type that translates the stored integers into user-level
+strings.  Emulating that construct in SQL is handy for data transfer
+with <a href="http://www.sqlite.org">SQLite</a> or out-of-core analysis in R using a <a href="http://cran.r-project.org/web/packages/SQLiteDF/index.html">SQL back-end</a>.  That
+leaves the problem of maintaining a registry of integer level codes,
+string names, and documentation.
+</p>
+
+<p>
+<a href="https://orgmode.org">Org-mode</a> provide a fast, light-weight table mechanism that can be sent
+in email, bundled with code, or embedded in documentation.  The tables
+can be transformed and placed elsewhere.  It sounds like a perfect
+registry, generating documentation and code from one data table.
+Similar techniques could be used in a multi-lingual document to store
+many translations in one table and send them to sections in specific
+languages.
+</p>
+
+<p>
+We start with a simple table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-right">Level</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">normx</td>
+<td class="org-right">1</td>
+<td class="org-left">norm(x, &infin;)</td>
+</tr>
+
+<tr>
+<td class="org-left">normb</td>
+<td class="org-right">2</td>
+<td class="org-left">norm(b, &infin;)</td>
+</tr>
+
+<tr>
+<td class="org-left">normA</td>
+<td class="org-right">3</td>
+<td class="org-left">norm(A, &infin;)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+That one source table contains the documentation in the first and third
+column:
+</p>
+
+<p>
+#+BEGIN RECEIVE ORGTBL exdoc
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>normx</code></td>
+<td class="org-left">norm(x, &infin;)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>normb</code></td>
+<td class="org-left">norm(b, &infin;)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>normA</code></td>
+<td class="org-left">norm(A, &infin;)</td>
+</tr>
+</tbody>
+</table>
+<p>
+#+END RECEIVE ORGTBL exdoc
+</p>
+
+<p>
+The first two columns of the source table provide the data we must
+transfer the SQL.  The third column can be used to embed some
+documentation into the table itself after the string is sanitized for
+SQL.  The remaining necessary information, the SQL destination table
+name, can be provided as a parameter to <code>#+ORGTBL: SEND</code>, producing the
+following code chunk:
+</p>
+
+<p>
+#+BEGIN RECEIVE ORGTBL exsql
+</p>
+<div class="org-src-container">
+<pre class="src src-sql"><span style="color: #eb4509;">BEGIN</span> <span style="color: #eb4509;">TRANSACTION</span>;
+<span style="color: #eb4509;">INSERT</span> <span style="color: #eb4509;">INTO</span> extbl( <span style="color: #eb4509;">Name</span>, <span style="color: #eb4509;">Level</span>, Description ) <span style="color: #eb4509;">VALUES</span> ( <span style="color: #e2c770;">'normx'</span> , <span style="color: #9c91e4; font-weight: bold;">1</span> , <span style="color: #e2c770;">'norm(x, infty)'</span> );
+<span style="color: #eb4509;">INSERT</span> <span style="color: #eb4509;">INTO</span> extbl( <span style="color: #eb4509;">Name</span>, <span style="color: #eb4509;">Level</span>, Description ) <span style="color: #eb4509;">VALUES</span> ( <span style="color: #e2c770;">'normb'</span> , <span style="color: #9c91e4; font-weight: bold;">2</span> , <span style="color: #e2c770;">'norm(b, infty)'</span> );
+<span style="color: #eb4509;">INSERT</span> <span style="color: #eb4509;">INTO</span> extbl( <span style="color: #eb4509;">Name</span>, <span style="color: #eb4509;">Level</span>, Description ) <span style="color: #eb4509;">VALUES</span> ( <span style="color: #e2c770;">'normA'</span> , <span style="color: #9c91e4; font-weight: bold;">3</span> , <span style="color: #e2c770;">'norm(A, infty)'</span> );
+<span style="color: #eb4509;">COMMIT</span>;
+</pre>
+</div>
+<p>
+#+END RECEIVE ORGTBL exsql
+</p>
+
+<p>
+We will explain the parameters used to produce both outputs.  The SQL
+insertion statements use functions as formatting parameters, some of
+which are called purely for the side-effect of gathering the header
+fields.  The SQL-generating code is distributed with org-mode in
+<code>contrib/lisp/orgtbl-sqlinsert.el</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5283ace" class="outline-2">
+<h2 id="org5283ace">Specifying multiple destinations for a single table</h2>
+<div class="outline-text-2" id="text-org5283ace">
+<p>
+Sending one table to multiple destinations is straight-forward.  Add one
+<code>SEND</code> directive for each destination.  For example, the first table has
+the following two directives prepended, with parameters described later:
+</p>
+
+<pre class="example">
+#+ORGTBL: SEND exdoc orgtbl-to-orgtbl ...
+#+ORGTBL: SEND exsql orgtbl-to-sqlinsert ...
+</pre>
+
+
+<p>
+The documentation removes the second column and adds fiddly formatting
+parameters with
+</p>
+
+<pre class="example">
+:skipcols (2) :fmt (1 "=%s=") :hfmt (1 "%s")
+</pre>
+
+
+<p>
+The SQL-generating line gathers the destination table name and passes
+integers through unchanged with the parameters
+</p>
+
+<pre class="example">
+:sqlname "extbl" :fmt (2 "%s")
+</pre>
+
+
+<p>
+The SQL table name defaults to the name of the target, <code>exsql</code> in this
+case.  And the default formatting used for other columns is
+<code>orgtbl-sql-strip-and-quote</code>.  That routine only removes potentially
+non-portable constructs; it is not designed to prevent insertion
+attacks.
+</p>
+
+<p>
+We could apply <code>orgtbl-sql-strip-and-quote</code> to the first column of the
+documentation table to ensure the strings match exactly, but it easier
+to use simple, non-mangled strings as names.
+</p>
+
+<p>
+By default, a block of insertions is wrapped in <code>BEGIN TRANSACTION</code> and
+<code>COMMIT</code> statements.  These can be supressed by setting <code>:tstart</code> and
+<code>:tend</code> to <code>nil</code>.  The example used in this document uses a
+&ldquo;double-embedding&rdquo; trick to wrap the statement in an org-mode code
+block:
+</p>
+
+<pre class="example">
+:tstart "#+BEGIN_EXAMPLE\nBEGIN TRANSACTION;"
+:tend "COMMIT;\n#+END_EXAMPLE"
+</pre>
+
+
+<p>
+Similar wrapping can embed the SQL statements into literate programs.
+There is built-in support for <a href="http://www.eecs.harvard.edu/nr/noweb/">Noweb</a> with the <code>:nowebname</code> parameter.
+Setting <code>:nowebname</code> to a string wraps the insertions in a Noweb code
+chunk named with the string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1de67d9" class="outline-2">
+<h2 id="org1de67d9">Formatting with functions for side effects and display</h2>
+<div class="outline-text-2" id="text-org1de67d9">
+<p>
+The <code>orgtbl-to-sqlinsert</code> routine calls <code>orgtbl-to-generic</code> for all the
+generic table parsing.  The parameters provide an example of using
+functions for gathering data as well as formatting.  Emacs Lisp&rsquo;s
+dynamic binding allows manipulating any symbols in the current
+environment, so the formatting functions do not need to pass parameters
+through the outer functions.
+</p>
+
+<p>
+The default <code>:tstart</code> parameter is one example used strictly for
+formatting.  After the <code>:nowebname</code> parameter is decoded and bound to
+<code>nowebname</code>, it can be checked within a thunk to produce the starting
+string:
+</p>
+
+<pre class="example">
+:tstart (lambda () (concat (if nowebname
+                               (format "&lt;&lt;%s&gt;&gt;= \n" nowebname)
+                             "")
+                           "BEGIN TRANSACTION;"))
+</pre>
+
+
+<p>
+The functions need not be pure.  The header formatting gathers the
+first header line into the variable <code>hdrlist</code> with
+</p>
+<pre class="example">
+:hfmt (lambda (f) (progn (if firstheader (push f hdrlist)) ""))
+</pre>
+
+<p>
+Then each line is preceded with a function that uses <code>hdrlist</code> to ensure
+data values are associated with named columns rather than just
+positions.
+</p>
+
+<pre class="example">
+:lstart (lambda () (concat "INSERT INTO "
+                           sqlname "( "
+                           (mapconcat 'identity (reverse hdrlist)
+                                      ", ")
+                           " )" (if breakvals "\n" " ")
+                                    "VALUES ( "))
+</pre>
+
+
+<p>
+Note that <code>orgtbl-to-sqlinsert</code> takes advantage of org-mode&rsquo;s applying
+the formatting to each cell <i>before</i> checking for a line-formatting
+function.  The header line itself and sectioning line are suppressed
+with the settings
+</p>
+
+<pre class="example">
+:hlfmt (lambda (lst) (setq firstheader nil))
+:hline nil
+:remove-nil-lines t
+</pre>
+
+
+<p>
+Similar techniques could be used to generate a table&rsquo;s SQL definition
+from the second header line.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdeff3e1" class="outline-2">
+<h2 id="orgdeff3e1">Current limitations</h2>
+<div class="outline-text-2" id="text-orgdeff3e1">
+<p>
+One current limitation is that all the tables are in the same Emacs
+buffer and hence the same text file.  A literate programming mechanism
+like <a href="http://www.eecs.harvard.edu/nr/noweb/">Noweb</a> can separate the chunks.
+</p>
+
+<p>
+Also, the tables must be sent manually.  Writing a function that scans
+an entire buffer for all <code>SEND</code> and <code>RECEIVE</code> pairs is feasible, as is
+using <a href="http://www.gnu.org/software/emacs/elisp/html_node/Overlays.html">overlays</a> to manage automatic updates.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Jason Riedy</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

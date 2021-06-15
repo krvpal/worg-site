@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>worg-git-ssh-key.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Creating a SSH-key for a new user
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">mdl AT imapmail DOT org
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil </span><span class="org-meta-line"><span class="org-formula">@:t</span></span><span class="org-meta-line"> ::t |:t ^:nil -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+To push commits to the Worg repository at <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/worg">https://code.orgmode.org/bzg/worg</a></span> you
+need to have a SSH key. What's that and how can you create one?
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Public and private keys
+</span>
+<span class="org-meta-line">#+index: Public key</span>
+<span class="org-meta-line">#+index: Private key</span>
+
+A <span class="italic">public key</span> is like a door lock, and a <span class="italic">private key</span> is like the key.
+<span class="org-verbatim">code.orgmode.org</span> is asking you for the <span class="italic">public key</span>, that means, they ask you
+to provide a lock, and they will install your lock in their server.
+Then, with your <span class="italic">private key</span> you will be able to open a connection to
+the server.
+
+Your <span class="italic">private key</span> may be easy to use: just <span class="italic">have it</span>, and you can use
+it to open the lock.
+
+But suppose you lose it; then it's not secure anymore; any person which
+has the key (which is a file) can connect to the server supplanting your
+identity.
+
+Therefore, at the computer we do that the <span class="italic">private key</span> has a <span class="italic">password</span>
+(also called "passphrase"). Then, you do not only need to possess the
+key to open the lock; you also need to know how to use it (that means,
+you must have the <span class="italic">public key</span> <span class="bold">and</span> know the password).
+
+So: <span class="bold">use a passphrase</span> for more security.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Steps to create your private and public keys
+</span>
+<span class="org-meta-line">#+index: ssh-keygen</span>
+
+<span class="org-list-dt">1.</span> Run <span class="org-verbatim">ssh-keygen</span> with no parameters. If you want to change the
+   encryption algorithm used, see <span class="org-link"><a href="RSA or DSA?">the section below</a></span>.
+
+<span class="org-list-dt">2.</span> <span class="italic">Location of the key</span>: just press enter
+
+<span class="org-list-dt">3.</span> <span class="italic">Passphrase of the key</span>: enter your new password; the one you will
+   type each time to be able to connect. You can have no password at
+   all, but it's not recommended; read the description at the
+   introduction to know why.
+
+<span class="org-list-dt">4.</span> Now you have 2 new files:
+
+ <span class="org-list-dt">-</span> <span class="org-verbatim">id_rsa</span>: that's your new private key. Don't share it!
+
+ <span class="org-list-dt">-</span> <span class="org-verbatim">id_rsa.pub</span>: that's your new <span class="italic">public key</span>. You can distribute it.
+
+ <span class="org-list-dt">-</span> You will also see a <span class="italic">fingerprint</span> (like <span class="org-verbatim">31:c0:5a:92:70:5e:91</span>... etc).
+
+<span class="org-list-dt">5.</span> Look at the public key. If you don't like the user name which appears
+   at the end, re-run <span class="org-verbatim">ssh-keygen -C "comment that you want"&#160;</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> RSA or DSA?
+</span>
+<span class="org-meta-line">#+index: RSA</span>
+<span class="org-meta-line">#+index: DSA</span>
+
+You can decide if at the key creation you want to use the algorithm RSA or
+the algorithm DSA.
+
+If you know which one you like, you're lucky; use it!
+
+If not, decide one; both will work.
+
+By default, <span class="org-verbatim">ssh-keygen</span> uses RSA, but you can use <span class="org-verbatim">ssh-keygen -t dsa</span> to
+use DSA.
+
+</pre>
+  </body>
+</html>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel: Uses</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="David Hajage" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../uses.php"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel: Uses</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf49cc0c"><code>ascii</code> Package</a></li>
+<li><a href="#org26ae43f">Babel Using <code>ascii</code></a></li>
+<li><a href="#org96822a1">With <code>Sweave</code></a></li>
+<li><a href="#org5d2780d">Bug</a>
+<ul>
+<li><a href="#org676f162">Cell spanning</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf49cc0c" class="outline-2">
+<h2 id="orgf49cc0c"><code>ascii</code> Package</h2>
+<div class="outline-text-2" id="text-orgf49cc0c">
+<p>
+<a href="http://cran.r-project.org/web/packages/ascii/index.html"><code>ascii</code></a> package (available on <a href="http://cran.r-project.org/">CRAN</a>) creates appropriate plain text
+representations of many <code>R</code> objects, and features an option to specify
+that the plain text representations should be in Org format (as well
+as <a href="http://www.methods.co.nz/asciidoc/">asciidoc</a>, <a href="http://txt2tags.sourceforge.net/">txt2tags</a>, <a href="http://docutils.sourceforge.net/rst.html">restructuredtext</a> and <a href="https://en.wikipedia.org/wiki/Textile_(markup_language)">textile</a>). This can be
+particularly useful for retrieving non-tabular <code>R</code> data structures in
+Org.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org26ae43f" class="outline-2">
+<h2 id="org26ae43f">Babel Using <code>ascii</code></h2>
+<div class="outline-text-2" id="text-org26ae43f">
+<p>
+First, (install), load <code>ascii</code> package and set org as the default
+output:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org61a8cd6">  library(ascii)
+  options(asciiType="org")
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-R">Le chargement a nécessité le package : proto
+</pre>
+</div>
+<p>
+Then, use <code>ascii</code> function:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org5ae1424">  ascii(summary(table(1:4, 1:4)))
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Number of cases in table: 4</li>
+<li>Number of factors: 2</li>
+<li>Test for independence of all factors:
+<ul class="org-ul">
+<li>Chisq = 12, df = 9, p-value = 0.2133</li>
+<li>Chi-squared approximation may be incorrect</li>
+</ul></li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-R" id="org8119454">counts &lt;- c(18, 17, 15, 20, 10, 20, 25, 13, 12)
+outcome &lt;- gl(3, 1, 9)
+treatment &lt;- gl(3, 3)
+d.AD &lt;- data.frame(treatment, outcome, counts)
+glm.D93 &lt;- glm(counts ~ outcome + treatment, family = poisson())
+ascii(glm.D93)
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">Estimate</th>
+<th scope="col" class="org-right">Std. Error</th>
+<th scope="col" class="org-right">z value</th>
+<th scope="col" class="org-right">Pr(&gt; &vert; z &vert; )</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">(Intercept)</td>
+<td class="org-right">3.04</td>
+<td class="org-right">0.17</td>
+<td class="org-right">17.81</td>
+<td class="org-right">0.00</td>
+</tr>
+
+<tr>
+<td class="org-left">outcome2</td>
+<td class="org-right">-0.45</td>
+<td class="org-right">0.20</td>
+<td class="org-right">-2.25</td>
+<td class="org-right">0.02</td>
+</tr>
+
+<tr>
+<td class="org-left">outcome3</td>
+<td class="org-right">-0.29</td>
+<td class="org-right">0.19</td>
+<td class="org-right">-1.52</td>
+<td class="org-right">0.13</td>
+</tr>
+
+<tr>
+<td class="org-left">treatment2</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.20</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
+</tr>
+
+<tr>
+<td class="org-left">treatment3</td>
+<td class="org-right">0.00</td>
+<td class="org-right">0.20</td>
+<td class="org-right">0.00</td>
+<td class="org-right">1.00</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+<pre class="src src-R" id="org2372d39">ascii(anova(glm.D93))
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">Df</th>
+<th scope="col" class="org-right">Deviance</th>
+<th scope="col" class="org-right">Resid. Df</th>
+<th scope="col" class="org-right">Resid. Dev</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">NULL</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">8.00</td>
+<td class="org-right">10.58</td>
+</tr>
+
+<tr>
+<td class="org-left">outcome</td>
+<td class="org-right">2.00</td>
+<td class="org-right">5.45</td>
+<td class="org-right">6.00</td>
+<td class="org-right">5.13</td>
+</tr>
+
+<tr>
+<td class="org-left">treatment</td>
+<td class="org-right">2.00</td>
+<td class="org-right">0.00</td>
+<td class="org-right">4.00</td>
+<td class="org-right">5.13</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+<pre class="src src-R" id="org765de09">  ascii(sessionInfo())
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>R version</dt><dd>R version 2.11.0 (2010-04-22), i486-pc-linux-gnu</dd>
+<dt>locale</dt><dd>LC_CTYPE=fr_FR.utf8, LC_NUMERIC=C, LC_TIME=fr_FR.utf8, LC_COLLATE=fr_FR.utf8, LC_MONETARY=C, LC_MESSAGES=fr_FR.utf8, LC_PAPER=fr_FR.utf8, LC_NAME=C, LC_ADDRESS=C, LC_TELEPHONE=C, LC_MEASUREMENT=fr_FR.utf8, LC_IDENTIFICATION=C</dd>
+<dt>attached base packages</dt><dd>stats, graphics, grDevices, utils, datasets, methods, base</dd>
+<dt>other attached packages</dt><dd>ascii_0.6-3, proto_0.3-8</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-org96822a1" class="outline-2">
+<h2 id="org96822a1">With <code>Sweave</code></h2>
+<div class="outline-text-2" id="text-org96822a1">
+<p>
+<code>ascii</code> package provides a <code>[[http://www.stat.uni-muenchen.de/~leisch/Sweave/][Sweave]]</code> driver for org markup.
+</p>
+
+<p>
+When using <code>Sweave</code>, just replace <code>RweaveLatex</code> driver by <code>RweaveOrg</code>:
+</p>
+
+<pre class="example">
+Sweave("yourfile.Rnw", driver = RweaveOrg)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5d2780d" class="outline-2">
+<h2 id="org5d2780d">Bug</h2>
+<div class="outline-text-2" id="text-org5d2780d">
+</div>
+<div id="outline-container-org676f162" class="outline-3">
+<h3 id="org676f162">Cell spanning</h3>
+<div class="outline-text-3" id="text-org676f162">
+<p>
+I am not an Org Mode guru, but as much I can know, Org Mode doesn&rsquo;t
+support row or column spanning. The <code>l/r/t/bgroup</code> options of
+<code>ascii</code> function are ignored in Org Mode output, and some of <a href="http://eusebe.github.com/ascii/#_row_and_col_headings">these
+examples</a> will not produce the expected results.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: David Hajage</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

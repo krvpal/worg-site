@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-tidy.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Suggestions to keep your org-files tidy
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="comment"># This file is the default header for new Org files in Worg.  Feel free</span>
+<span class="comment"># to tailor it to your needs.</span>
+
+This page collects suggestions and practices to keep your org files
+tidy.  Consider this, when need arises or simply when you feel like
+cleaning up.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Archiving: Moving away nodes, that are no longer used
+</span>
+Filing away content that is no longer needed, is probably the most
+effective way to cleanup and tidy your org files: Have a look at 
+<span class="org-link"><a href="file:org-hacks.org::#archiving">archiving</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Cleaning up Org-Metadata
+</span>
+Tags and properties are examples for Org data, that is not only read
+by users is also processed by org itself. Because of that it is also
+possible for Org to find and remove unused pieces of metadata:
+
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-hacks.org::#remove-redundant-tags">Remove redundant tags</a></span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-hacks.org::#remove-empty-property-drawers">Remove empty property drawers</a></span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-hacks.org::#check-for-misplaced-timestamps">Make sure, that timestamps for scheduled and deadline are placed correctly</a></span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-tidy.org::#clean-up-ids">Clean up IDs from org-id</a></span>
+ 
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> org-id-cleanup: Cleaning up IDs from org-id
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">clean-up-ids</span>
+  <span class="org-drawer">:END:</span>
+<span class="org-meta-line">#+index: id!clean</span>
+You already know org-id which comes as a part of org: It allows to
+add unique IDs to your Org-nodes, which e.g. are used in
+links and allow easy navigation within org.
+
+Now, if a user tends to delete those links without deleting the IDs
+the links refer to, unused IDs (with no link pointing at them) will be
+left over.
+
+In general this is not a problem for org-id and no intervention is
+required. However, if the user produces hundreds or thousands of such
+unreferenced IDs, this might eventually start to slow down org-id,
+especially its function org-id-update-id-locations.
+
+In such a situation <span class="kc-org-link-url"><a href="https://github.com/marcIhm/org-id-cleanup">org-id-cleanup</a></span> may come in handy. It provides an
+interactive assistant, that will guide you through the process of
+finding and eventually deleting such unused IDs. You may think of this
+process as "cleaning up IDs from org-id"; whence the name.
+
+Org-id-cleanup can be tried whithout hesitation: Before each step it
+gives detailed information, so that you may bail out at will. And as a
+safety-net a log of removed IDs is written to disk.
+
+org-id-cleanup is available at <span class="kc-org-link-url"><a href="https://melpa.org/#/org-id-cleanup">melpa</a></span>.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tidy or repair other elements of org
+</span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-hacks.org::#align-tables-in-file">Make sure, that all tables in a file are formatted correctly</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://github.com/alphapapa/unpackaged.el#ensure-blank-lines-between-headings-and-before-contents">Ensure blank lines between headings and before contents</a></span>
+<span class="org-list-dt">-</span> <span class="org-link"><a href="file:org-tools/index.org::#fix-links">This might help to repair broken links</a></span>
+
+</pre>
+  </body>
+</html>

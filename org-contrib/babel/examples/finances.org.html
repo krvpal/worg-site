@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>finances.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+I like to track my expenses in Org tables.  For example:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+tblname: daily-expenses
+  ,| Expense | Category |
+  ,|---------+----------|
+  ,|       2 | Food     |
+  ,|       1 | House    |
+  ,|      10 | Clothes  |
+  ,|       3 | Food     |
+  ,|       5 | House    |
+</span><span class="org-block-end-line">#+end_src
+</span>
+At the of the month, I want to see how much was spent in each
+category.  I wrote the following Babel function to calculate this:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+name: group-categories
+  ,#+begin_src emacs-lisp :var table=daily-expenses :colnames nil
+  ,  (defun category-sums (catcol valcol)
+  ,    "Sum each of the categories in an Org table.
+  ,  
+  ,  \(fn CATEGORYCOLUMN VALUECOLUMN)"
+  ,    (let (gcats
+  ,          result)
+  ,      (dolist (row table)
+  ,        (let ((cat (nth (1- catcol) row)))
+  ,          (when (not (member cat gcats))
+  ,            (push cat gcats))))
+  ,      (dolist (gcat gcats)
+  ,        (let ((sum 0))
+  ,          (dolist (row table)
+  ,            (let ((val (nth (1- valcol) row))
+  ,                  (cat (nth (1- catcol) row)))
+  ,              (when (equal gcat cat)
+  ,                (incf sum val))))
+  ,          (push (list gcat sum) result)))
+  ,      result))
+  ,  (category-sums 2 1)
+  ,#+end_src
+</span><span class="org-block-end-line">#+end_src
+</span>
+Here is an example of the output:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+results: group-categories
+  ,| Category | Expense |
+  ,|----------+---------|
+  ,| Food     |       5 |
+  ,| House    |       6 |
+  ,| Clothes  |      10 |
+</span><span class="org-block-end-line">#+end_src
+</span>
+Dan Davison provided an alternate way of doing this using an R
+function:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+begin_src R :var tab=daily-expenses :colnames yes
+  ,  attach(tab)
+  ,  aggregate(Expense ~ Category, FUN=sum)
+  ,#+end_src
+</span><span class="org-block-end-line">#+end_src
+</span>
+</pre>
+  </body>
+</html>

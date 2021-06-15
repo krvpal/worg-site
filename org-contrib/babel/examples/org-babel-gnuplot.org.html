@@ -1,0 +1,1032 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-babel-gnuplot.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .preprocessor {
+        /* font-lock-preprocessor-face */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-babel-gnuplot
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">John Hendy
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">jw[dot]hendy[at]gmail[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org-babel support for
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.gnuplot.info/">http://www.gnuplot.info/</a>"</span></span><span class="org-block">&gt;Gnuplot&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.gnuplot.info/">http://www.gnuplot.info/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.gnuplot.info/figs/title2.png&quot;/">http://www.gnuplot.info/figs/title2.png"</a></span></span><span class="org-block"><a href="http://www.gnuplot.info/figs/title2.png&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>org-babel-gnuplot allows gnuplot code to be executed directly from
+within embedded code blocks in Org-mode documents. These code blocks
+can plot functions, graph data from tables stored in the documents,
+and can include output as embedded graphics when the document is
+exported.
+
+The following provides instructions and some examples of gnuplot
+usage. Since babel is simply allowing native code to run inside of
+Org-mode, all gnuplot documentation is applicable and valid. <span class="org-footnote">[fn:1]</span>
+
+This file may be downloaded here: <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/examples/org-babel-gnuplot.org">org-babel-gnuplot.org</a></span>. The image
+links are to the images online on Worg, but running the code blocks
+will produce matching images in the same directory as the .org file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>To get gunplut up and running, you need... gnuplot. It should
+be mentioned that one can also use Org-mode's org-plot as an
+alternative to babel. Instructions already exist on Worg for this.<span class="org-footnote">[fn:2]</span> The
+.org file used to create the org-plot Worg entry is linked in the
+Introduction on that page and can be very helpful in getting a feel
+for using gnuplot by using the <span class="org-verbatim">#+PLOT</span> header above a table. This
+page, in contrast, is about using gnuplot in its "native" form.
+
+To do this, babel support for the gnuplot language must be
+enabled. Versions of Org-mode prior to 7.01 required enabling <span class="italic">both</span>
+general babel support as well as specific language support like this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">;; set up babel support
+(require 'org-babel)
+(require 'org-babel-init)
+(require 'org-babel-gnuplot)
+;; add additional languages with (require 'org-babel-language)
+</span><span class="org-block-end-line">#+end_example
+</span>
+As of Org-mode 7.01, babel support is included and there is no need to load it via
+.emacs. All you have to do is enable specific language support with
+the following in .emacs:<span class="org-footnote">[fn:3]</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">;; active Babel languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((gnuplot . t)))
+;; add additional languages with '((language . t)))
+</span><span class="org-block-end-line">#+end_example
+</span>
+From then on, to access the power of gnuplot, the setup is generally
+like this:
+
+<span class="bold">Data Table</span> (if pulling from a table and not a formula)
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+tblname: data-table
+| x | y1 | y2 |
+|---+----+----|
+| 0 |  3 |  6 |
+| 1 |  4 |  7 |
+| 2 |  5 |  8 |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="bold">Gnuplot Source Block</span>
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+begin_src gnuplot :var data=data-table :file output.png
+
+  gnuplot code goes here
+
+#+end_src
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+To run gnuplot and produce a resultant graph (or to produce any result
+from babel code blocks), simply move one's cursor anywhere in the code
+block and press <span class="org-verbatim">C-c C-c</span> (Ctrl+C followed by Ctrl+C) and type "yes"
+in the minibuffer when asked about executing the code. It's that
+simple!
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Babel Header Arguments
+</span>Babel block headers are used to pass various arguments to control the
+results of the executed code. The complete list of header arguments
+is covered in the Org-mode manual; for now, some options frequently used for
+gnuplot are:<span class="org-footnote">[fn:4]</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">:var data=data-table</span>
+  <span class="org-list-dt">-</span> When data is to be plotted from a table, it is helpful to use a
+    heading right above the table in the form <span class="org-verbatim">#+tblname=data-table</span>,
+    where "data-table" is replaced with some short name to identify
+    the table to gnuplot.
+<span class="org-list-dt">-</span> <span class="org-verbatim">:exports {code, results, both, none}</span>
+  <span class="org-list-dt">-</span> When the code is run and the document exported (e.g. to HTML or
+    \LaTeX PDF), what should appear? Just the code block itself? Only
+    the produced output (in this case a plot of some sort)? Both the
+    code and the accompanying results? Or nothing?
+<span class="org-list-dt">-</span> <span class="org-verbatim">:file foo.{png,eps,etc.}</span>
+  <span class="org-list-dt">-</span> This option specifies where the resulting output should be put. If
+    no option is given, a gnuplot window will open with the
+    resultant plot. <span class="bold">NOTE:</span> Certain plot options may <span class="italic">not</span> output
+    properly to gnuplot directly and thus <span class="italic">must</span> have the <span class="org-verbatim">:file
+    filename</span> option in the header. If the error "Code block produced
+    no output" recurs, try outputting to a file instead of
+    directly to gnuplot.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Quick Gnuplot Overview
+</span>As stated earlier, the full gnuplot documentation can and should be
+consulted as the official reference, but it might be helpful to lay
+out some common syntax here as a quick reference. Any of the commands
+typed in <span class="org-verbatim">code</span> font below should be assumed to reside in a babel
+code block (between <span class="org-verbatim">#+begin_src gnuplot</span> and <span class="org-verbatim">#+end_src</span>).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Title and Axis Labels
+</span>Set the title for the whole graph like this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set title "This Title Goes at the Top"
+</span><span class="org-block-end-line">#+end_example
+</span>
+
+Set axis labels like so:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set xlabel "This is the X Axis"
+set ylabel "This is the Y Axis"
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Graph Width/Height Raio
+</span>The size ratio of the graph is controlled like so:
+<span class="org-list-dt">-</span> Wider/shorter: <span class="org-verbatim">set size ratio 0.5</span> (any number less than 1)
+<span class="org-list-dt">-</span> Taller/thinner: <span class="org-verbatim">set size ratio 2</span> (any number greater than 1)
+<span class="org-list-dt">-</span> Square (1:1): <span class="org-verbatim">set size square</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tic Marks
+</span>Tic marks are set with the method "start,increment[,end]." Start is
+the beginning tic value, increment sets how far apart the tics are,
+the the optional end specifies a stopping value. If no end is given,
+the tics will carrry on by the increment value until the max x/y value
+is reached. Here are some examples:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set xtics 0,10,100  %% tics every 10 from 0 -&gt; 100
+set ytics -10,50    %% tics every 50 from -10 onward
+</span><span class="org-block-end-line">#+end_example
+</span>
+Named tics can also be used. Two values are provided, a numerical
+value (where on the given axis the tic should be placed) and a name in
+quotes to indicate what word should be placed at the tic instead of the
+numerical value. This method allows for words instead of numbers to be
+used (which has many uses) as well as for complete control over tic
+mark placement.
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set xtics ("Tic 1" -1, "Tic 2" 10, "Tic 3" 1001)
+</span><span class="org-block-end-line">#+end_example
+</span>
+The gnuplot default is for tics to show up on both sides and the top and
+bottom of the graph. In other words, the tics on the left y-axis and
+bottom x-axis are "mirrored" to the opposing side of the plot
+borders. Stop this (tics only on left/bottom) by using:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set xtics nomirror
+set ytics nomirror
+</span><span class="org-block-end-line">#+end_example
+</span>
+You can rotate tic marks for increased readability by specifying an
+angle at which to rotate their labels. Here is the syntax
+(substitute any angle value for -45):
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set xtics rotate by -45
+set ytics rotate by -45
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Plot
+</span>The heart of gnuplot is the <span class="org-verbatim">plot</span> command. It is broken down into
+several sections:
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Plot what?
+</span>This will either be a function or data. Plotting a function would look
+like this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">f(x) = x**2
+plot f(x)
+</span><span class="org-block-end-line">#+end_example
+</span>
+Plotting data would go like this (remembering that the variable
+"data" was defined to correspond to some table in the Org-mode document):
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">plot data using x:y
+</span><span class="org-block-end-line">#+end_example
+</span>
+The <span class="org-verbatim">x:y</span> identifies the column numbers in the table that should
+be used for the x values and corresponding y values. Using the command
+<span class="org-verbatim">plot data using 1:3</span> would tell gnuplot to go down the rows of the
+table and plot points using x values from the first column and grab
+corresponding y values from the third. "Using" can be abbreviated with
+as simply "u" which helps keep lines shorter (<span class="org-verbatim">plot data u 1:3</span>).
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Plot how?
+</span>To customize the look of plots, many options are available. To pass
+these options to gnuplot looks like this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">plot data u 1:2 with lines
+</span><span class="org-block-end-line">#+end_example
+</span>
+In this case gnuplot will use the linestyle <span class="org-verbatim">lines</span> to plot the
+data. This will create a colored line through the data points. Some
+commonly used options (and their abbreviations) are:
+<span class="org-list-dt">-</span> points (p)
+<span class="org-list-dt">-</span> dots (d)
+<span class="org-list-dt">-</span> lines (l)
+<span class="org-list-dt">-</span> linespoints (lp)
+<span class="org-list-dt">-</span> impulses (i)
+<span class="org-list-dt">-</span> steps
+<span class="org-list-dt">-</span> boxes
+
+One can find all available plot styles in the documentation or
+elsewhere online.<span class="org-footnote">[fn:5]</span> To thicken up lines or points, just add <span class="org-verbatim">lw </span><span class="org-verbatim"><span class="org-tag">#</span></span>
+(stands for "lineweight) after the style (e.g. <span class="org-verbatim">...with lines lw
+3</span>). The default weight is 1 which can look a little light. Use 2 or
+more for thicker, easier to see, lines and points. The word "with" can
+be abbreviated "w" to shorten code lines; <span class="org-verbatim">plot data u 1:3 w l lw 2</span>
+is equivalent to <span class="org-verbatim">plot data using 1:3 with lines lineweight 2</span>.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Call it what?
+</span>Add a title in the graph key like this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">plot data u 1:2 w lines lw 2 title 'Data Set 1'
+</span><span class="org-block-end-line">#+end_example
+</span>
+To omit one (or more) plots from the key, use the <span class="org-verbatim">notitle</span> option:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">plot data u 1:2 w lines notitle, \
+     data u 1:3 w points title 'Data Set 2', \
+     data u 1:4 w lp title 'Data Set 3', \
+     data u 1:5 w bars notitle
+</span><span class="org-block-end-line">#+end_example
+</span>
+
+This is especially helpful when multiple data sets are plotted
+together. Sometimes, however, a key is not desired at all. When only
+one function or data set is plotted and its title is obvious, put this
+in the code block to get rid of the key altogether:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set nokey
+</span><span class="org-block-end-line">#+end_example
+</span>
+Sometimes the key itself in its default position (upper right) is
+distracting from the graph, especially when the <span class="org-verbatim">with points</span> plot
+style is used since the point in the key looks like a point on the
+graph. To set a nice border around the key, do this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">set key box linestyle -1
+</span><span class="org-block-end-line">#+end_example
+</span>
+The linestyle -1 creates a black lined border. The gnuplot manual and other
+locations list all available linestyles (colors, dots, dashes, etc.).<span class="org-footnote">[fn:7]</span>
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Any more?
+</span>If more than one plot is to be made on the same graph, it's done like
+this for fuctions:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">f(x)=x**2
+g(x)=x**3
+h(x)=sqrt(x)
+plot f(x),g(x),h(x)
+</span><span class="org-block-end-line">#+end_example
+</span>
+For data from tables, it's like this:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">plot data u 1:2 w lines, data u 1:3 w points, \
+     data u 1:4 w lp
+</span><span class="org-block-end-line">#+end_example
+</span>
+This plots column 1 (x) against column 2 (y) with lines, 1 against 3
+with points, and 1 against 4 with linespoints. The use of the <span class="org-verbatim">\</span>
+tells gnuplot to keep reading onward to the next line. Typically the end of a line signals the
+end of the command and gnuplot will complain since <span class="org-verbatim">data u 1:4 w lp</span>
+isn't a command all by itself without <span class="org-verbatim">plot</span> preceding it. The <span class="org-verbatim">\</span>
+ensures that the whole command is understood. One can make an
+extremely long line, but <span class="org-verbatim">\</span> helps keep things looking tidy and keeps
+one from scrolling left and right to track the whole line of code.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Basic Plot Examples
+</span>Following some introductory topics, here are some basic examples showing what things look
+like when all of the above is combined.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Function Plot
+</span>A full bable block of code for a few functions might look like this:
+<span class="org-block-begin-line">#+begin_src gnuplot :exports code :file basic-function.png
+</span><span class="org-block">reset
+
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Putting it All Together"</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">"X"</span></span><span class="org-block">
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [-</span><span class="org-block"><span class="highlight-numbers-number">8</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">8</span></span><span class="org-block">]
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xtics -</span><span class="org-block"><span class="highlight-numbers-number">8</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">8</span></span><span class="org-block">
+
+
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">"Y"</span></span><span class="org-block">
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [-</span><span class="org-block"><span class="highlight-numbers-number">20</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">70</span></span><span class="org-block">]
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ytics -</span><span class="org-block"><span class="highlight-numbers-number">20</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">10</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">70</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="variable-name">f(x) =</span></span><span class="org-block"> x**</span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">
+</span><span class="org-block"><span class="variable-name">g(x) =</span></span><span class="org-block"> x**</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">
+</span><span class="org-block"><span class="variable-name">h(x) =</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">10</span></span><span class="org-block">*</span><span class="org-block"><span class="function-name">sqrt</span></span><span class="org-block">(</span><span class="org-block"><span class="function-name">abs</span></span><span class="org-block">(x))
+
+</span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> f(x) w </span><span class="org-block"><span class="function-name">lp</span></span><span class="org-block"> </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">, g(x) w p </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">, h(x) w l </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:basic-function.png">file:basic-function.png</a></span>
+
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-basic-function.png">https://orgmode.org/worg/images/babel/gnuplot-basic-function.png</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Data Table Plot
+</span>
+Plotting data points from a table could look like this:<span class="org-footnote">[fn:2]</span>
+<span class="org-meta-line">#+tblname: basic-plot</span>
+<span class="org-table">|   x |         y1 |         y2 |</span>
+<span class="org-table">|-----+------------+------------|</span>
+<span class="org-table">| 0.1 |      0.425 |      0.375 |</span>
+<span class="org-table">| 0.2 |     0.3125 |     0.3375 |</span>
+<span class="org-table">| 0.3 | 0.24999993 | 0.28333338 |</span>
+<span class="org-table">| 0.4 |      0.275 |    0.28125 |</span>
+<span class="org-table">| 0.5 |       0.26 |       0.27 |</span>
+<span class="org-table">| 0.6 | 0.25833338 | 0.24999993 |</span>
+<span class="org-table">| 0.7 | 0.24642845 | 0.23928553 |</span>
+<span class="org-table">| 0.8 |    0.23125 |     0.2375 |</span>
+<span class="org-table">| 0.9 | 0.23333323 |  0.2333332 |</span>
+<span class="org-table">|   1 |     0.2225 |       0.22 |</span>
+
+<span class="org-block-begin-line">#+begin_src gnuplot :var data=basic-plot :exports code :file basic-plot.png
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Putting it All Together"</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">"X"</span></span><span class="org-block">
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">]
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xtics </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.1</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">
+
+
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">"Y"</span></span><span class="org-block">
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">0.2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">0.5</span></span><span class="org-block">]
+</span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ytics </span><span class="org-block"><span class="highlight-numbers-number">0.2</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.05</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.5</span></span><span class="org-block">
+
+
+</span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data u </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> w p </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">'x vs. y1'</span></span><span class="org-block">, \
+     data u </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> w </span><span class="org-block"><span class="function-name">lp</span></span><span class="org-block"> </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">'x vx. y2'</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:basic-plot.png">file:basic-plot.png</a></span>
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-basic-plot.png">https://orgmode.org/worg/images/babel/gnuplot-basic-plot.png</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Above and Beyond
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Named X-Values/Tics
+</span>Sometimes it's desireable to have text as the x-values/xtics instead of
+numbers.<span class="org-footnote">[fn:8]</span> Gnuplot will plot a column of text entries as the x-values for
+its points by spacing the named values evenly along the axis. Here's
+an example of a running distance log:<span class="org-footnote">[fn:6]</span>
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-named-xtics.png">https://orgmode.org/worg/images/babel/gnuplot-named-xtics.png</a></span>
+
+<span class="org-meta-line">#+tblname: xtics</span>
+<span class="org-table">|-----------+----------|</span>
+<span class="org-table">| Date      | Distance |</span>
+<span class="org-table">|-----------+----------|</span>
+<span class="org-table">| 8/25/2010 |      3.2 |</span>
+<span class="org-table">| 8/29/2010 |      3.0 |</span>
+<span class="org-table">| 9/1/2010  |      2.4 |</span>
+<span class="org-table">| 9/2/2010  |      2.5 |</span>
+<span class="org-table">| 9/5/2010  |      2.3 |</span>
+<span class="org-table">| 9//2010   |      2.0 |</span>
+<span class="org-table">|-----------+----------|</span>
+
+<span class="org-block-begin-line">#+begin_src gnuplot :var data=xtics :exports code :file named-xtics.png
+</span><span class="org-block">  reset
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Running Stats"</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">"Date"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xtics rotate by -</span><span class="org-block"><span class="highlight-numbers-number">45</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">5</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">"Distance (mi)"</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data u </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) w </span><span class="org-block"><span class="function-name">lp</span></span><span class="org-block"> </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:named-xtics.png">file:named-xtics.png</a></span>
+
+The <span class="org-verbatim">2:xticlabels(1)</span> tells gnuplot to use the values in column 1 for
+the xtic names and to plot them against the y-values in column 2.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Unevenly Spaced X-Values/Tics
+</span>While the above example works extremely well when evenly placed tics is
+desired, other circumstances may arise in which
+<span class="italic">unevenly spaced</span> text values may be desired.<span class="org-footnote">[fn:9]</span> Remember from above that
+it <span class="italic">is</span> possible to set text xtics manually with <span class="org-verbatim">set xtics ("name"
+value, "name2" value2,...</span>), but the method here has the advantage of
+being automatic. Here is an example:
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-uneven-named-xtics.png">https://orgmode.org/worg/images/babel/gnuplot-uneven-named-xtics.png</a></span>
+
+To accomplish this, make a table with a column for the <span class="italic">value</span> of the
+xtics (where it should be placed on the axis), another column with the name for
+each xtic (the names to be used), and then add whatever subsequent y
+values should correspond to these x-values. Here is an example:
+
+<span class="org-meta-line">#+tblname: named-xtics</span>
+<span class="org-table">|----------+---------+----------|</span>
+<span class="org-table">| tic name | x-value | Dead (y) |</span>
+<span class="org-table">|----------+---------+----------|</span>
+<span class="org-table">| Civil    |    1861 |     0.62 |</span>
+<span class="org-table">| WWI      |    1914 |      9.8 |</span>
+<span class="org-table">| WWII     |    1939 |       24 |</span>
+<span class="org-table">| Nam      |    1955 |      1.5 |</span>
+<span class="org-table">| Gulf     |    1990 |     0.04 |</span>
+<span class="org-table">|----------+---------+----------|</span>
+
+<span class="org-block-begin-line">#+begin_src gnuplot :var data=named-xtics :exports code :file uneven-named-xtics.png
+</span><span class="org-block">  reset
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">25</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">"Deaths (MM)"</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xtics (</span><span class="org-block"><span class="string">"1850"</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1850</span></span><span class="org-block">, </span><span class="org-block"><span class="string">"2010"</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2010</span></span><span class="org-block">)
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">1850</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">2010</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">"Wars in Time"</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">'War Deaths'</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data </span><span class="org-block"><span class="type">using</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) w p </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:uneven-named-xtics.png">file:uneven-named-xtics.png</a></span>
+
+For multiple data sets, simply include multiple columns for y-values
+to be plotted and plot each data set with the syntax
+<span class="org-verbatim">x:y:xticlabels(col </span><span class="org-verbatim"><span class="org-tag">#)</span></span>. Most likely, the <span class="org-verbatim">col </span><span class="org-verbatim"><span class="org-tag">#</span></span> will be the same for
+all data sets (the column of names for xtics will probably remain the
+same). Here is an example:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">plot data u 2:3:xticlabels(1) title 'Set1',\
+data u 2:4:xticlabels(1) title 'Set2', \
+data u 2:5:xticlabels(1) title 'Set3'
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Multiple X/Y Axes
+</span>It is possible to set different scales for both x and y axes. This can
+be helpful for various reasons:
+<span class="org-list-dt">-</span> Plotting data in two units of measure (e.g. left y axis = degrees F,
+  right = degrees C)
+<span class="org-list-dt">-</span> Plotting one data set against one axis and another against the other
+  in the same graph
+
+Returning to the running log, perhaps both times and distances were to
+be plotted in the same graph:<span class="org-footnote">[fn:18]</span>
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-multi-axes.png">https://orgmode.org/worg/images/babel/gnuplot-multi-axes.png</a></span>
+
+<span class="org-meta-line">#+tblname: multi-axes</span>
+<span class="org-table">|-----------+-------+----------|</span>
+<span class="org-table">| Date      |  Time | Distance |</span>
+<span class="org-table">|-----------+-------+----------|</span>
+<span class="org-table">| 8/25/2010 | 17:14 |      3.2 |</span>
+<span class="org-table">| 8/29/2010 | 14:00 |      2.4 |</span>
+<span class="org-table">| 9/1/2010  | 15:13 |      2.5 |</span>
+<span class="org-table">| 9/2/2010  | 13:45 |      2.3 |</span>
+<span class="org-table">| 9/5/2010  | 13:20 |      2.0 |</span>
+<span class="org-table">| 9//2010   | 16:35 |      2.8 |</span>
+<span class="org-table">|-----------+-------+----------|</span>
+
+<span class="org-block-begin-line">#+begin_src gnuplot :var data=multi-axes :exports code :file multi-axes.png
+</span><span class="org-block">  reset
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Running Stats"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> size ratio square
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> key box </span><span class="org-block"><span class="type">linestyle</span></span><span class="org-block"> -</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">"Date"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xtics nomirror rotate by -</span><span class="org-block"><span class="highlight-numbers-number">45</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">9</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">21</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">"Time (min)--Red"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ytics nomirror
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> y2range [</span><span class="org-block"><span class="highlight-numbers-number">1.5</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3.5</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> y2label </span><span class="org-block"><span class="string">"Distance (mi)--Green"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> y2tics </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.5</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">3.5</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> style data </span><span class="org-block"><span class="function-name">points</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data u </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) axis x1y1 </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">'Time'</span></span><span class="org-block">, \
+       data u </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) axis x1y2 </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">'Distance'</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:multi-axes.png">file:multi-axes.png</a></span>
+
+
+Walking through the new items in the code:
+<span class="org-list-dt">-</span> <span class="org-verbatim">y2range</span>, <span class="org-verbatim">y2label</span>, and <span class="org-verbatim">y2tics</span> set the options for the second
+  y-axis, the one on the right side of the graph
+<span class="org-list-dt">-</span> Setting both <span class="org-verbatim">xtics</span> and <span class="org-verbatim">ytics</span> to <span class="org-verbatim">nomirror</span> keeps tics off of the
+  top of the plot border as well as keeping the left ytics from showing up on
+  the right y-axis since the scales are different (this would be confusing)
+<span class="org-list-dt">-</span> The plot commands have an <span class="org-verbatim">axis x#y#</span> argument
+  <span class="org-list-dt">-</span> The first is plotted against the bottom x-axis (<span class="org-verbatim">x1</span>) and the left
+    y-axis(<span class="org-verbatim">y1</span>) by inserting <span class="org-verbatim">axis x1y1</span>
+  <span class="org-list-dt">-</span> The second is plotted against the bottom x-axis (the x-values are
+    the same for both plots) but the right y-axis with <span class="org-verbatim">axis x1y2</span>
+
+Lastly, in a plot like this where the left and right axis units
+(distance and time) can be related (d/t = speed), it is possible to
+create a "calibrated" plot. Note the ranges specified for the two
+graphs:
+<span class="org-list-dt">-</span> y1min = 9min, y2min = 1.5mi; 1.5mi/9min = 10mph
+<span class="org-list-dt">-</span> y1max = 21min, y2max = 3.5; 3.5mi/21min = 10mph
+
+Since both axes are "calibrated" in this way, examining the two points
+plotted for each date can be visually informative:
+<span class="org-list-dt">-</span> Distance/time on top of each other indicate that the speed was 10mph
+<span class="org-list-dt">-</span> If the distance plot is higher than time, speed &gt; 10mph (e.g. 9/2)
+<span class="org-list-dt">-</span> If the time plot is higher than distance, speed &lt; 10mph (e.g. 9/5)
+
+Simply changing the yranges allows for re-calibrating the plot for a
+different target speed.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Different Scales
+</span>Sometimes, more than one scale is desired on the x-axis to
+call attention one or more areas on a curve. Perhaps most of a curve
+is rather "plain," but some detail exists which would stand out more
+if the scale were altered. This can be accomplished by something
+called <span class="org-verbatim">multiplot</span> which uses multiple graphs overlayed next to
+one another to create the appearance of one graph that uses varying scales
+along the x-axis.<span class="org-footnote">[fn:10]</span> <span class="org-footnote">[fn:11]</span> Here is an example:
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-diff-scales.png">https://orgmode.org/worg/images/babel/gnuplot-diff-scales.png</a></span>
+
+
+Here is some data on the population of the world through time:<span class="org-footnote">[fn:12]</span>
+<span class="org-meta-line">#+tblname: diff-scales</span>
+<span class="org-table">|----------+--------+------|</span>
+<span class="org-table">| tic name |  x-loc |  Pop |</span>
+<span class="org-table">|----------+--------+------|</span>
+<span class="org-table">|   10k BC | -10000 |    1 |</span>
+<span class="org-table">|          |  -9000 |    3 |</span>
+<span class="org-table">|          |  -8000 |    5 |</span>
+<span class="org-table">|          |  -7000 |    7 |</span>
+<span class="org-table">|          |  -6000 |   10 |</span>
+<span class="org-table">|          |  -5000 |   15 |</span>
+<span class="org-table">|          |  -4000 |   20 |</span>
+<span class="org-table">|          |  -3000 |   25 |</span>
+<span class="org-table">|          |  -2000 |   35 |</span>
+<span class="org-table">|          |  -1000 |   50 |</span>
+<span class="org-table">|          |   -500 |  100 |</span>
+<span class="org-table">|     AD 1 |      1 |  200 |</span>
+<span class="org-table">|     1000 |   1000 |  310 |</span>
+<span class="org-table">|     1750 |   1750 |  791 |</span>
+<span class="org-table">|     1800 |   1800 |  978 |</span>
+<span class="org-table">|     1850 |   1850 | 1262 |</span>
+<span class="org-table">|     1900 |   1900 | 1650 |</span>
+<span class="org-table">|     \'50 |   1950 | 2519 |</span>
+<span class="org-table">|          |   1955 | 2756 |</span>
+<span class="org-table">|          |   1960 | 2982 |</span>
+<span class="org-table">|          |   1965 | 3335 |</span>
+<span class="org-table">|          |   1970 | 3692 |</span>
+<span class="org-table">|     \'75 |   1975 | 4068 |</span>
+<span class="org-table">|          |   1980 | 4435 |</span>
+<span class="org-table">|          |   1985 | 4831 |</span>
+<span class="org-table">|          |   1990 | 5263 |</span>
+<span class="org-table">|          |   1995 | 5674 |</span>
+<span class="org-table">|          |   2000 | 6070 |</span>
+<span class="org-table">|     2005 |   2005 | 6454 |</span>
+<span class="org-table">|----------+--------+------|</span>
+
+<span class="org-block-begin-line">#+begin_src gnuplot :var data=diff-scales :exports code :file diff-scales.png
+</span><span class="org-block">  reset
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [ -</span><span class="org-block"><span class="highlight-numbers-number">10000</span></span><span class="org-block"> : </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> ]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [ </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"> : </span><span class="org-block"><span class="highlight-numbers-number">7000</span></span><span class="org-block"> ]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">"Time"</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> multiplot
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> size </span><span class="org-block"><span class="highlight-numbers-number">0.275</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> origin </span><span class="org-block"><span class="highlight-numbers-number">0.0</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> lmargin </span><span class="org-block"><span class="highlight-numbers-number">10</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> rmargin </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">"Population (MM)"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ytics nomirror
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data </span><span class="org-block"><span class="type">using</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) </span><span class="org-block"><span class="type">with</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">lines</span></span><span class="org-block"> </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> origin </span><span class="org-block"><span class="highlight-numbers-number">0.275</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> size </span><span class="org-block"><span class="highlight-numbers-number">0.15</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> format y </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> noytics
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> lmargin </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> rmargin </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> : </span><span class="org-block"><span class="highlight-numbers-number">1750</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data </span><span class="org-block"><span class="type">using</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) </span><span class="org-block"><span class="type">with</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">lines</span></span><span class="org-block"> </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> origin </span><span class="org-block"><span class="highlight-numbers-number">0.425</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">0.0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> size </span><span class="org-block"><span class="highlight-numbers-number">0.575</span></span><span class="org-block">,</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> format y </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> noytics
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> lmargin </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> rmargin </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="highlight-numbers-number">1751</span></span><span class="org-block"> : </span><span class="org-block"><span class="highlight-numbers-number">2005</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data </span><span class="org-block"><span class="type">using</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) </span><span class="org-block"><span class="type">with</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">lines</span></span><span class="org-block"> </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> nomultiplot
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:diff-scales.png">file:diff-scales.png</a></span>
+
+Walking through the code:
+<span class="org-list-dt">-</span> Left Slice
+  <span class="org-list-dt">-</span> An initial <span class="org-verbatim">xrange/yrange</span> are set for the left-most "slice" of the graph
+  <span class="org-list-dt">-</span> An x-axis label is also provided and the multiplot mode is set
+  <span class="org-list-dt">-</span> <span class="org-verbatim">set size</span> tells gnuplot to make the first slice the full height
+    high (1) but only .275 (out of 1) wide. This leaves 72.5% of the
+    graph for the next two slices
+  <span class="org-list-dt">-</span> <span class="org-verbatim">set origin</span> tells gnuplot to start the plot at the bottom left (0,0)
+  <span class="org-list-dt">-</span> <span class="org-verbatim">lmargin</span> is set for 10 (standard) but <span class="org-verbatim">rmargin</span> is set at 0 in
+    order to let the left edge of the middle slice sit
+    against the right edge of the left-most slice with no gap
+  <span class="org-list-dt">-</span> The <span class="org-verbatim">ylabel</span> is set here, and only once. Each slice is
+    treated as a separate graph, and setting it for each slice creates
+    mutliple labels which is unnecessary since they all share the same label/units.
+  <span class="org-list-dt">-</span> Lastly, the data is plotted
+<span class="org-list-dt">-</span> Middle slice
+  <span class="org-list-dt">-</span> New values are given for the <span class="org-verbatim">xrange</span>, the <span class="org-verbatim">ylabel</span> is set to
+    blank, and the plot command is about the same
+  <span class="org-list-dt">-</span> This time both <span class="org-verbatim">lmargin</span> <span class="italic">and</span> <span class="org-verbatim">rmargin</span> are set to 0 to allow for
+    seamless alignment with the left-most and right-most slices of the
+    plot
+  <span class="org-list-dt">-</span> The size is set for 0.15 width since this portion does not need to
+    be very wide
+  <span class="org-list-dt">-</span> Note that the origin is set to start where the previous slice left off
+    (left slice origin + left slice width = 0 + 0.275 = 0.275)
+<span class="org-list-dt">-</span> Right slice
+  <span class="org-list-dt">-</span> New values are given for the <span class="org-verbatim">xrange</span>, the <span class="org-verbatim">ylabel</span> is set to
+    blank, and the plot command is about the same again
+  <span class="org-list-dt">-</span> The <span class="org-verbatim">lmargin</span> is 0 so that the slice aligns with the right edge of
+    the middle slice, but <span class="org-verbatim">rmargin</span> is set for 2 to provide a nice
+    border between the picture  and the right y-axis
+  <span class="org-list-dt">-</span> The origin for the right slice is set for the left slice width +
+    middle slice width = 0.275 + 0.15 = 0.425
+  <span class="org-list-dt">-</span> The size is set to take up the remaining width: 1 - 0.275 - 0.15 = 0.575
+
+The <span class="org-verbatim">set no ytics</span> option removes the tics from the vertical divisions
+separating the slices. Using <span class="org-verbatim">set ytics nomirror</span> on the first
+slice keeps the ytics off of the first division.
+
+The divisions could be turned off altogether if one wanted to. Gnuplot
+accepts setting borders individually in the form of <span class="org-verbatim">set border
+1+2+4+8</span>. Each number stands for one of the borders:
+<span class="org-list-dt">-</span> <span class="org-verbatim">1</span> = bottom
+<span class="org-list-dt">-</span> <span class="org-verbatim">2</span> = left
+<span class="org-list-dt">-</span> <span class="org-verbatim">4</span> = top
+<span class="org-list-dt">-</span> <span class="org-verbatim">8</span> = right
+
+For no vertical divisions in our example, this would be used:
+<span class="org-list-dt">-</span> Left slice: use <span class="org-verbatim">set border 1+2+4</span> (bottom, left, top)
+<span class="org-list-dt">-</span> Middle slice: use <span class="org-verbatim">set border 1+4</span> (bottom, top)
+<span class="org-list-dt">-</span> Right slice: use <span class="org-verbatim">set border 1+4+8</span> (bottom, top, right)
+
+While slightly more visually appealing, this may be potentially
+confusing since no divisions gives the illusion that the x-axis is
+the same scale. If the divisions are there, it helps communicate that
+there is something else going on.
+
+This method can be used for functions instead of data from a table as
+well in order to zoom in on a particular slice of a graph. One of the
+previous footnote above presents such case.<span class="org-footnote">[fn:11]</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Broken X-Axis
+</span>Arrows can be used quite cleverly to "break" axes.<span class="org-footnote">[fn:13]</span> <span class="org-footnote">[fn:14]</span> <span class="org-footnote">[fn:15]</span> The method involves drawing 6 arrows to "break" both the top
+and bottom x-axes: 2 diagonal and 1 white per axis to create the illusion of a break.
+
+While the following is not <span class="italic">really</span> to scale, the example of a
+far distant date with a broken line and then some recent dates shows
+one example where this can be employed to create an esthetically
+pleasing plot. The world population data will be used again with some
+slight modifications.
+
+<span class="org-meta-line">#+attr_html: width="800"</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/images/babel/gnuplot-broken-axis.png">https://orgmode.org/worg/images/babel/gnuplot-broken-axis.png</a></span>
+
+<span class="org-meta-line">#+tblname: broken-axis</span>
+<span class="org-table">|-----------+-------+-----+------|</span>
+<span class="org-table">|  tic name | x-loc | Pre | Post |</span>
+<span class="org-table">|-----------+-------+-----+------|</span>
+<span class="org-table">| 10,000 BC |  1600 |   1 |      |</span>
+<span class="org-table">|           |  1650 |  15 |      |</span>
+<span class="org-table">|      AD 1 |  1700 | 200 |      |</span>
+<span class="org-table">|      1750 |  1750 |     |  791 |</span>
+<span class="org-table">|      1800 |  1800 |     |  978 |</span>
+<span class="org-table">|      1850 |  1850 |     | 1262 |</span>
+<span class="org-table">|      1900 |  1900 |     | 1650 |</span>
+<span class="org-table">|      \'50 |  1950 |     | 2519 |</span>
+<span class="org-table">|           |  1955 |     | 2756 |</span>
+<span class="org-table">|           |  1960 |     | 2982 |</span>
+<span class="org-table">|           |  1965 |     | 3335 |</span>
+<span class="org-table">|           |  1970 |     | 3692 |</span>
+<span class="org-table">|      \'75 |  1975 |     | 4068 |</span>
+<span class="org-table">|           |  1980 |     | 4435 |</span>
+<span class="org-table">|           |  1985 |     | 4831 |</span>
+<span class="org-table">|           |  1990 |     | 5263 |</span>
+<span class="org-table">|           |  1995 |     | 5674 |</span>
+<span class="org-table">|           |  2000 |     | 6070 |</span>
+<span class="org-table">|      2005 |  2005 |     | 6454 |</span>
+<span class="org-table">|-----------+-------+-----+------|</span>
+
+<span class="org-block-begin-line">#+begin_src gnuplot :var data=broken-axis :exports code :file broken-axis.png
+</span><span class="org-block">  reset
+
+  A=1725
+  B=1600
+  C=2010
+  D=0
+  E=6500
+
+  </span><span class="org-block"><span class="variable-name">xoff=</span></span><span class="org-block">.</span><span class="org-block"><span class="highlight-numbers-number">005</span></span><span class="org-block">*(C-B)
+  </span><span class="org-block"><span class="variable-name">yoff=</span></span><span class="org-block">.</span><span class="org-block"><span class="highlight-numbers-number">02</span></span><span class="org-block">*(E-D)
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> arrow </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> from A-xoff, D to A+xoff, D nohead </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> lc rgb </span><span class="org-block"><span class="string">"#ffffff"</span></span><span class="org-block"> front
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> arrow </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> from A-xoff, E to A+xoff, E nohead </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> lc rgb </span><span class="org-block"><span class="string">"#ffffff"</span></span><span class="org-block"> front
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> arrow </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> from A-xoff-xoff, D-yoff to A+xoff-xoff, D+yoff nohead front
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> arrow </span><span class="org-block"><span class="highlight-numbers-number">4</span></span><span class="org-block"> from A-xoff+xoff, D-yoff to A+xoff+xoff, D+yoff nohead front
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> arrow </span><span class="org-block"><span class="highlight-numbers-number">5</span></span><span class="org-block"> from A-xoff-xoff, E-yoff to A+xoff-xoff, E+yoff nohead front
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> arrow </span><span class="org-block"><span class="highlight-numbers-number">6</span></span><span class="org-block"> from A-xoff+xoff, E-yoff to A+xoff+xoff, E+yoff nohead front
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">xrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="string">B:C</span></span><span class="org-block">]
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="preprocessor">yrange</span></span><span class="org-block"> [</span><span class="org-block"><span class="string">D:E</span></span><span class="org-block">]
+
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> xlabel </span><span class="org-block"><span class="string">'Time'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> ylabel </span><span class="org-block"><span class="string">'Population (MM)'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="constant">set</span></span><span class="org-block"> </span><span class="org-block"><span class="type">title</span></span><span class="org-block"> </span><span class="org-block"><span class="string">'World Population'</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="keyword">plot</span></span><span class="org-block"> data u </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) w l </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">, data u </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block">:</span><span class="org-block"><span class="highlight-numbers-number">4</span></span><span class="org-block">:xticlabels(</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">) w l </span><span class="org-block"><span class="type">lw</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> lc </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> </span><span class="org-block"><span class="type">notitle</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results:</span>
+<span class="error"><a href="file:broken-axis.png">file:broken-axis.png</a></span>
+
+Here are some notes on the above:
+<span class="org-list-dt">-</span> A-&gt;E are variables used to set the break location (A), the <span class="org-verbatim">xrange</span>
+  (B,C) and the <span class="org-verbatim">yrange</span> (D,E)
+<span class="org-list-dt">-</span> xoff/yoff have to do with the break. xoff is the gap created in the
+  x-axis and yoff is the height above and below the scale for the
+  diagonal lines. The multipliers (.005 &amp; .02) work for this example but may need
+  tinkering to work elsewhere (if they don't look right).
+<span class="org-list-dt">-</span> The arrows (the <span class="org-verbatim">set arrow...</span> commands) draw the 4 diagonal lines and a white line in between
+  them to create the actual break
+<span class="org-list-dt">-</span> Two sets of y values and two plot commands were used to create the
+  break between AD 1 and 1750. This is not always needed. See the
+  gnuplot-tricks blog for how to do this with a continuous function
+  (e.g. sin x) and an "offset" variable for the same effect.<span class="org-footnote">[fn:14]</span>
+
+In the case above, the x-axis is "cheated" in that it is not only
+broken, but the scale is artificially manipulated. In the data chart,
+there should have been population values at 10,000 BC, 5,000 BC, and 1
+AD. Instead they occur at 1600, 1650 and 1700 AD. The spacing is proportionate, but scaled by 100x
+(50 years apart vs. 5,000). Compared to the plot from 1750-2005, it's
+obviously not the same x-axis scale. If the actual data points were
+used, the later data points would have been significantly "scrunched."
+While not technically correct, it's perhaps more visually appealing, especially where scale is
+not too important. To get the point across, it does the job very well:
+left of break was not much growth, then in a much smaller time scale
+to the right of the break, much population growth occurred. The
+multi-axes/scales in the previous section is more "honest" with
+respect to scale, but perhaps this example is cleaner/better looking.
+
+Obviously there are many functions (like sin (x) from gnuplot-tricks)
+where changing the scale is <span class="italic">not</span> required and thus the plot is both
+visually appealing <span class="italic">and</span> manipulation of scales is not required.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Miscellaneous Tips/Tricks
+</span>Helpful odds and ends are constantly surfacing on the Org-mode mailing
+list. This section will serve as a reservoir for summarizing new
+developments and techniques as they arise.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="org-verbatim">reset</span></span><span class="org-level-2"> in Code Blocks
+</span>Sometimes when executing code blocks, odd results occur. Plots will
+persist in displaying the wrong title, a "remnant" option from a previously
+generated plot will appear, the size ratio will be wrong, etc. This
+typically happens when multiple gnuplot blocks exist in the same
+document. The use of <span class="org-verbatim">reset</span> at the beginning of each gnuplot block
+eliminates these issues by clearing any "residual options" from previously generated output.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Image Quality
+</span>For many graphs, output to .png (with <span class="org-verbatim">:file filename.png</span> in the header) may be
+sufficient. Sometimes, however, the generated image quality is not
+acceptable. The mailing list provided an excellent solution
+for increased gnuplot image quality:<span class="org-footnote">[fn:16]</span>
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+begin_src gnuplot :file file.eps
+  reset
+  set terminal postscript [color] [solid] eps enhanced 20
+  ...
+  ...
+#+end_src
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+Note the output to <span class="italic">file.eps</span>, which corresponds to the <span class="org-verbatim">set
+terminal...</span> command used. This creates a higher resolution .eps image instead of a
+.png. The <span class="org-verbatim">color</span> and <span class="org-verbatim">solid</span> options are optional. Without the
+<span class="org-verbatim">color</span> option, the output will default to monochrome (black and
+white). The <span class="org-verbatim">solid</span> option can be used to keep all linestyles as solid
+lines; without it, gnuplot will cycle through various styles of
+dashes/shapes/etc.
+
+Once the .eps file is generated, ImageMagick can be used to convert
+it to .png:<span class="org-footnote">[fn:17]</span>
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">convert -density 300 file.eps file.png
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> Gnuplot manual downloads: <span class="kc-org-link-url"><a href="http://www.gnuplot.info/documentation.html">http://www.gnuplot.info/documentation.html</a></span>
+
+<span class="org-footnote">[fn:2]</span> Org-plot on Worg: <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-plot.html">https://orgmode.org/worg/org-tutorials/org-plot.html</a></span>
+
+<span class="org-footnote">[fn:3]</span> 7.01 list of user visible changes: <span class="kc-org-link-url"><a href="https://orgmode.org/Changes.html#ob-configuration-changes">https://orgmode.org/Changes.html#ob-configuration-changes</a></span>
+
+<span class="org-footnote">[fn:4]</span> Org-mode manual on babel header args: <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Specific-header-arguments.html#Specific-header-arguments">https://orgmode.org/manual/Specific-header-arguments.html#Specific-header-arguments</a></span>
+
+<span class="org-footnote">[fn:5]</span> Nice plot style summary: <span class="kc-org-link-url"><a href="http://t16web.lanl.gov/Kawano/gnuplot/intro/style-e.html">http://t16web.lanl.gov/Kawano/gnuplot/intro/style-e.html</a></span>
+
+<span class="org-footnote">[fn:6]</span> Pertinent mailing list discussion and convenient data source: <span class="kc-org-link-url"><a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg29840.html">http://www.mail-archive.com/emacs-orgmode@gnu.org/msg29840.html</a></span>
+
+<span class="org-footnote">[fn:7]</span> Nice list of colors and styles: <span class="kc-org-link-url"><a href="http://www2.yukawa.kyoto-u.ac.jp/~ohnishi/Lib/gnuplot.html">http://www2.yukawa.kyoto-u.ac.jp/~ohnishi/Lib/gnuplot.html</a></span>
+
+<span class="org-footnote">[fn:8]</span> <span class="kc-org-link-url"><a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22528.html">http://www.mail-archive.com/emacs-orgmode@gnu.org/msg22528.html</a></span>
+
+<span class="org-footnote">[fn:9]</span> <span class="kc-org-link-url"><a href="http://osdir.com/ml/emacs-orgmode-gnu/2010-08/msg00926.html">http://osdir.com/ml/emacs-orgmode-gnu/2010-08/msg00926.html</a></span>
+
+<span class="org-footnote">[fn:10]</span> <span class="kc-org-link-url"><a href="http://t16web.lanl.gov/Kawano/gnuplot/plot3-e.html">http://t16web.lanl.gov/Kawano/gnuplot/plot3-e.html</a></span>
+
+<span class="org-footnote">[fn:11]</span> <span class="kc-org-link-url"><a href="http://t16web.lanl.gov/Kawano/gnuplot/plot6-e.html">http://t16web.lanl.gov/Kawano/gnuplot/plot6-e.html</a></span>
+
+<span class="org-footnote">[fn:12]</span> Wikipedia: <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/World_population#Population_by_region_2">https://en.wikipedia.org/wiki/World_population#Population_by_region_2</a></span>
+
+<span class="org-footnote">[fn:13]</span> <span class="kc-org-link-url"><a href="http://gnuplot-tricks.blogspot.com/2009/05/gnuplot-tricks-many-say-that-it-is.html">http://gnuplot-tricks.blogspot.com/2009/05/gnuplot-tricks-many-say-that-it-is.html</a></span>
+
+<span class="org-footnote">[fn:14]</span> <span class="kc-org-link-url"><a href="http://gnuplot-tricks.blogspot.com/2009/06/broken-axis-revisited.html">http://gnuplot-tricks.blogspot.com/2009/06/broken-axis-revisited.html</a></span>
+
+<span class="org-footnote">[fn:15]</span> <span class="kc-org-link-url"><a href="http://gnuplot-tricks.blogspot.com/2010/06/broken-axis-once-more.html">http://gnuplot-tricks.blogspot.com/2010/06/broken-axis-once-more.html</a></span>
+
+<span class="org-footnote">[fn:16]</span> <span class="kc-org-link-url"><a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg26014.html">http://www.mail-archive.com/emacs-orgmode@gnu.org/msg26014.html</a></span>
+
+<span class="org-footnote">[fn:17]</span> <span class="kc-org-link-url"><a href="http://www.imagemagick.org/script/index.php">http://www.imagemagick.org/script/index.php</a></span>
+
+<span class="org-footnote">[fn:18]</span> <span class="kc-org-link-url"><a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg29903.html">http://www.mail-archive.com/emacs-orgmode@gnu.org/msg29903.html</a></span>
+</pre>
+  </body>
+</html>

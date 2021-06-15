@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-depend.el &#x2013; TODO dependencies for Org-mode</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-depend.el &#x2013; TODO dependencies for Org-mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3061c2e">General</a></li>
+<li><a href="#org249fc12">What is implemented?</a>
+<ul>
+<li><a href="#org0743cee">Triggering</a></li>
+<li><a href="#orgdc911e8">Blocking</a></li>
+</ul>
+</li>
+<li><a href="#org4ee296a">Example</a></li>
+<li><a href="#org3d9ec1e">Advanced Triggerring Example</a></li>
+<li><a href="#org65e5098">Usage Examples</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3061c2e" class="outline-2">
+<h2 id="org3061c2e">General</h2>
+<div class="outline-text-2" id="text-org3061c2e">
+<p>
+<i>org-depend.el</i> demonstrates a mechanism for creating TODO
+dependencies.  Note that Org-mode does already have <a href="https://orgmode.org/manual/TODO-dependencies.html#TODO-dependencies">built-in local
+dependencies</a> which are simpler and cover most of what one usually
+wants to do.  However, the built-in implementation covers only the
+following two concepts:
+</p>
+
+<ul class="org-ul">
+<li>blocking an entry from changing its state to DONE while it still has
+children that are not done, or checkboxes that are unchecked</li>
+<li>blocking an entry from changing its state to DONE while it still has
+un-done siblings above it, in this way enforcing sequential work on
+the siblings</li>
+</ul>
+
+<p>
+<i>org-depend.el</i> was originally a proof-of-concept implementation of
+TODO dependencies, using two special hooks, <code>org-blocker-hook</code> and
+<code>org-trigger-hook</code>.  It remains in the distribution as an example on
+how more complex dependencies between entries can be implemented.  In
+particular it shows how to implement the following:
+</p>
+
+<ul class="org-ul">
+<li>Dependencies on remote entries identified by ID.  These entries do
+not have to be near-by and may even be located in a different file.</li>
+<li>The possibility to <i>trigger</i> actions in other entries.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org249fc12" class="outline-2">
+<h2 id="org249fc12">What is implemented?</h2>
+<div class="outline-text-2" id="text-org249fc12">
+</div>
+<div id="outline-container-org0743cee" class="outline-3">
+<h3 id="org0743cee">Triggering</h3>
+<div class="outline-text-3" id="text-org0743cee">
+<ol class="org-ol">
+<li>If an entry contains a TRIGGER property that contains the string
+<code>chain-siblings(KEYWORD)</code>, then switching that entry to DONE does
+do the following:
+<ul class="org-ul">
+<li>The sibling following this entry switched to todo-state KEYWORD.</li>
+<li>The sibling also gets a TRIGGER property <code>chain-sibling(KEYWORD)</code>,
+property, to make sure that, when <b>it</b> is DONE, the chain will
+continue.</li>
+</ul></li>
+
+<li>If an entry contains a TRIGGER property that contains the string
+<code>chain-siblings-scheduled</code>, then switching that entry to DONE does
+the following actions, similarly to <code>chain-siblings(KEYWORD)</code>:
+<ul class="org-ul">
+<li>The sibling receives the same scheduled time as the entry
+marked as DONE (or, in the case, in which there is no scheduled
+time, the sibling does not get any either).</li>
+<li>The sibling also gets the same TRIGGER property
+<code>chain-siblings-scheduled</code>, so the chain can continue.</li>
+</ul></li>
+
+<li><p>
+If the TRIGGER property contains the string
+<code>chain-find-next(KEYWORD[,OPTIONS])</code>, then switching that entry
+to DONE do the following:
+</p>
+<ul class="org-ul">
+<li>All siblings are of the entry are collected into a temporary
+list and then filtered and sorted according to <code>OPTIONS</code></li>
+<li>The first sibling on the list is changed into <code>KEYWORD</code> state</li>
+<li>The sibling also gets the same TRIGGER property
+<code>chain-find-next</code>, so the chain can continue.</li>
+</ul>
+
+<p>
+OPTIONS should be a comma separated string without spaces, and can
+contain following options:
+</p>
+
+<ul class="org-ul">
+<li><code>from-top</code> the candidate list is all of the siblings in the
+current subtree</li>
+<li><code>from-bottom</code> candidate list are all siblings from bottom up</li>
+<li><code>from-current</code> candidate list are all siblings from current item
+until end of subtree, then wrapped around from first sibling</li>
+<li><code>no-wrap</code> candidate list are siblings from current one down</li>
+<li><code>todo-only</code> Only consider siblings that have a todo keyword</li>
+<li><code>todo-and-done-only</code> Same as above but also include done items.</li>
+<li><code>priority-up</code>   sort by highest priority</li>
+<li><code>priority-down</code> sort by lowest priority</li>
+<li><code>effort-up</code>     sort by highest effort</li>
+<li><code>effort-down</code>   sort by lowest effort</li>
+</ul>
+
+<p>
+There is also customizable variable <code>org-depend-find-next-options</code>
+that contains default options if none are specified. Its default
+value is <code>from-current,todo-only,priority-up</code>
+</p></li>
+
+<li>If the TRIGGER property contains any other words like
+<code>XYZ(KEYWORD)</code>, these are treated as entry IDs with keywords.
+That means, Org-mode will search for an entry with the ID property
+XYZ and switch that entry to KEYWORD as well.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdc911e8" class="outline-3">
+<h3 id="orgdc911e8">Blocking</h3>
+<div class="outline-text-3" id="text-orgdc911e8">
+<ol class="org-ol">
+<li>If an entry contains a BLOCKER property that contains the word
+<code>previous-sibling</code>, the sibling above the current entry is
+checked when you try to mark it DONE.  If it is still in a TODO
+state, the current state change is blocked.</li>
+
+<li>If the BLOCKER property contains any other words, these are
+treated as entry IDs.  That means, Org-mode will search for an
+entry with the ID property exactly equal to this word.  If any
+of these entries is not yet marked DONE, the current state change
+will be blocked.</li>
+
+<li>Whenever a state change is blocked, an org-mark is pushed, so that
+you can find the offending entry with <code>C-c &amp;</code>.</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4ee296a" class="outline-2">
+<h2 id="org4ee296a">Example</h2>
+<div class="outline-text-2" id="text-org4ee296a">
+<p>
+When trying this example, make sure that the settings for TODO keywords
+have been activated, i.e. include the following line and press C-c C-c
+on the line before working with the example:
+</p>
+
+<pre class="example">
+  #+TYP_TODO: TODO NEXT | DONE
+</pre>
+
+<p>
+OK, here is the example.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * TODO Win a million in Las Vegas
+    <span style="color: #cd3278;">:PROPERTIES:</span>
+      <span style="color: #7f7f80;">:ID:</span> <span style="color: #7f7f80;">I-cannot-do-it-without-money</span>
+    <span style="color: #cd3278;">:END:</span>
+
+    The "third" TODO (see above) cannot become a TODO without this money.
+
+
+  * Do this by doing a chain of TODOs
+  ** NEXT This is the first in this chain
+     <span style="color: #cd3278;">:PROPERTIES:</span>
+       <span style="color: #7f7f80;">:TRIGGER:</span> <span style="color: #7f7f80;">chain-siblings(NEXT)</span>
+     <span style="color: #cd3278;">:END:</span>
+
+  ** This is the second in this chain
+
+  ** This is the third in this chain
+     <span style="color: #cd3278;">:PROPERTIES:</span>
+       <span style="color: #7f7f80;">:BLOCKER:</span> <span style="color: #7f7f80;">I-cannot-do-it-without-money</span>
+     <span style="color: #cd3278;">:END:</span>
+
+  ** This is the forth in this chain
+     <span style="color: #cd3278;">:PROPERTIES:</span>
+       <span style="color: #7f7f80;">:TRIGGER:</span> <span style="color: #7f7f80;">XYZ-is-my-id(TODO)</span>
+     <span style="color: #cd3278;">:END:</span>
+
+     When this is DONE, we will also trigger entry XYZ-is-my-id
+
+  ** This is the fifth in this chain
+
+  * Start writing report
+     <span style="color: #cd3278;">:PROPERTIES:</span>
+       <span style="color: #7f7f80;">:ID:</span> <span style="color: #7f7f80;">XYZ-is-my-id</span>
+     <span style="color: #cd3278;">:END:</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3d9ec1e" class="outline-2">
+<h2 id="org3d9ec1e">Advanced Triggerring Example</h2>
+<div class="outline-text-2" id="text-org3d9ec1e">
+<p>
+In advanced example we will add a hook to automatically insert
+<code>chain-find-next</code> TRIGGER when entry is changed to NEXT and
+automatically remove it otherwise.
+</p>
+
+<p>
+First evaluate the following lisp code:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">mm/org-insert-trigger</span> <span style="color: #fd971f;">()</span>
+  <span style="color: #7f7f80;">"Automatically insert chain-find-next trigger when entry becomes NEXT"</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">cond</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> org-state <span style="color: #e2c770;">"NEXT"</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span><span style="color: #eb4509;">unless</span> org-depend-doing-chain-find-next
+           <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-set-property</span> <span style="color: #e2c770;">"TRIGGER"</span> <span style="color: #e2c770;">"chain-find-next(NEXT,from-current,priority-up,effort-down)"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">member</span> org-state <span style="color: #fd971f;">org-done-keywords</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-delete-property</span> <span style="color: #e2c770;">"TRIGGER"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-after-todo-state-change-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">mm/org-insert-trigger</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Now in the following org file, try changing item TODO state to
+NEXT. You should see properties drawer appear with the TRIGGER
+property inside.
+</p>
+
+<p>
+Try marking the NEXT item DONE. The next item should automatically
+become NEXT.
+</p>
+
+<p>
+Change priority of one of the items to <code>[#A]</code>, then mark the NEXT item
+DONE. The highest priority item will automatically become NEXT.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+TYP_TODO: TODO NEXT | DONE</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Auto-NEXT example</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> </span><span style="color: #f0c613; font-weight: bold; text-decoration: underline;">TODO</span><span style="color: #f0b144; font-weight: bold;"> Make me NEXT, then mark me DONE</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> </span><span style="color: #f0c613; font-weight: bold; text-decoration: underline;">TODO</span><span style="color: #f0b144; font-weight: bold;"> Second item</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> </span><span style="color: #f0c613; font-weight: bold; text-decoration: underline;">TODO</span><span style="color: #f0b144; font-weight: bold;"> Third item</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> Plain item</span>
+<span style="color: #bebebe; background-color: #010000;">*</span><span style="color: #f0b144; font-weight: bold;">*</span><span style="color: #f0b144; font-weight: bold;"> </span><span style="color: #f0c613; font-weight: bold; text-decoration: underline;">TODO</span><span style="color: #f0b144; font-weight: bold;"> Change my priority</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org65e5098" class="outline-2">
+<h2 id="org65e5098">Usage Examples</h2>
+<div class="outline-text-2" id="text-org65e5098">
+<p>
+<a href="http://karl-voit.at/2016/12/18/org-depend/">Here is a blog article</a> that shows the usage of org-depend in
+combination with <a href="https://github.com/joaotavora/yasnippet">yasnipet</a> or <a href="https://github.com/Kungsgeten/yankpad">yankpad</a>.
+</p>
+
+<p>
+An advanced workflow with dependencies is auto-generated from a
+template snippet using the <code>BLOCKER</code> and <code>TRIGGER</code> keywords.
+</p>
+
+<p>
+Some of those things were demonstrated in <a href="http://karl-voit.at/2014/12/03/emacs-chat/">an Emacs Chat by Sacha Chua
+with Karl Voit</a>.
+</p>
+
+<p>
+<a href="http://karl-voit.at/2016/12/18/org-depend/">The blog article</a> further discusses some ideas on how to improve the
+<code>org-depend</code> functionality with an ID picker, a mnemonic ID
+auto-generator, a workflow assistent, advanced <code>TRIGGER</code> commands to
+add scheduled dates, and inheritance of todo-cancelation.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

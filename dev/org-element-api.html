@@ -1,0 +1,1349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org Element API</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Nicolas Goaziou" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org Element API</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#parsing">Parsing functions</a>
+<ul>
+<li><a href="#local">Analyzing the structure at point</a></li>
+<li><a href="#global">Creating a snapshot of the document</a></li>
+</ul>
+</li>
+<li><a href="#accessors">Accessors</a></li>
+<li><a href="#setters">Setters</a></li>
+<li><a href="#attributes">Types and Attributes</a>
+<ul>
+<li><a href="#orge5bd563">Babel Call</a></li>
+<li><a href="#org2b8b2f9">Bold</a></li>
+<li><a href="#org1234550">Center Block</a></li>
+<li><a href="#orge2ac18c">Clock</a></li>
+<li><a href="#orge18c30f">Code</a></li>
+<li><a href="#orge0c70dc">Comment</a></li>
+<li><a href="#org74a8276">Comment Block</a></li>
+<li><a href="#org23d53aa">Diary Sexp</a></li>
+<li><a href="#org2427929">Drawer</a></li>
+<li><a href="#org22aeb45">Dynamic Block</a></li>
+<li><a href="#orge133612">Entity</a></li>
+<li><a href="#org783debb">Example Block</a></li>
+<li><a href="#org892dcfc">Export Block</a></li>
+<li><a href="#org1b37279">Export Snippet</a></li>
+<li><a href="#org20b1c7c">Fixed Width</a></li>
+<li><a href="#org22eb62c">Footnote Definition</a></li>
+<li><a href="#org25d6bfe">Footnote Reference</a></li>
+<li><a href="#orgea61dc5">Headline</a></li>
+<li><a href="#org47ae022">Horizontal Rule</a></li>
+<li><a href="#org16f3cf0">Inline Babel Call</a></li>
+<li><a href="#org49ede56">Inline Src Block</a></li>
+<li><a href="#orgcb472a5">Inlinetask</a></li>
+<li><a href="#org8021d12">Italic</a></li>
+<li><a href="#org2bb8eb0">Item</a></li>
+<li><a href="#org3d54871">Keyword</a></li>
+<li><a href="#orgcceb615">LaTeX Environment</a></li>
+<li><a href="#org745c09b">LaTeX Fragment</a></li>
+<li><a href="#orgfad9f8f">Line Break</a></li>
+<li><a href="#orgd979c4b">Link</a></li>
+<li><a href="#org6e3447f">Macro</a></li>
+<li><a href="#org0994d24">Node Property</a></li>
+<li><a href="#org9b53980">Paragraph</a></li>
+<li><a href="#org553fa19">Plain List</a></li>
+<li><a href="#org37e301e">Planning</a></li>
+<li><a href="#org68e3c8a">Property Drawer</a></li>
+<li><a href="#orgec62db6">Quote Block</a></li>
+<li><a href="#org5aca913">Radio Target</a></li>
+<li><a href="#org05c7a01">Section</a></li>
+<li><a href="#org54d683c">Special Block</a></li>
+<li><a href="#org7528a2b">Src Block</a></li>
+<li><a href="#orgd50c2be">Statistics Cookie</a></li>
+<li><a href="#orgc53378e">Strike Through</a></li>
+<li><a href="#orgac698b8">Subscript</a></li>
+<li><a href="#org1e72ce5">Superscript</a></li>
+<li><a href="#org3fb056f">Table</a></li>
+<li><a href="#orge6db587">Table Cell</a></li>
+<li><a href="#org8b2df88">Table Row</a></li>
+<li><a href="#org1d233f7">Target</a></li>
+<li><a href="#orgdaea347">Timestamp</a></li>
+<li><a href="#orgbef0a45">Underline</a></li>
+<li><a href="#org71316da">Verbatim</a></li>
+<li><a href="#org575fe84">Verse Block</a></li>
+</ul>
+</li>
+<li><a href="#other-tools">Other Tools</a>
+<ul>
+<li><a href="#org64b2e0e">Turning an AST into an Org document</a></li>
+<li><a href="#org47e692f">Examining genealogy of an element or object</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<code>org-element.el</code> implements a parser according to Org&rsquo;s <a href="./org-syntax.html">syntax
+specification</a>.
+</p>
+
+<p>
+The library contains tools to generate an abstract syntax tree (AST)
+from an Org buffer, to analyze the syntactical object at point.
+<a href="#parsing">Parsing functions</a> are detailed in the first part of the document,
+along with their relative accessors and setters.
+</p>
+
+<p>
+Upon parsing, each token in an Org document gets a type and some
+properties attached to it.  This information can be extracted and
+modified with provided <a href="#accessors">accessors</a> and <a href="#setters">setters</a>.  An exhaustive list of
+all types and attributes is given in section <a href="#attributes">Types and Attributes</a>.
+</p>
+
+<p>
+Eventually, the library is packed with a few useful functions,
+described in the <a href="#other-tools">last section</a> of the document.
+</p>
+
+<div id="outline-container-parsing" class="outline-2">
+<h2 id="parsing">Parsing functions</h2>
+<div class="outline-text-2" id="text-parsing">
+<p>
+There are two ways to parse a buffer using this library: either
+locally or globally.
+</p>
+
+<p>
+<a href="#local">Local parsing</a> gives information about the structure at point.
+Depending on the level of detail required, <code>org-element-at-point</code> and
+<code>org-element-context</code> fullfill that role.
+</p>
+
+<p>
+<a href="#global">Global parsing</a> is done with <code>org-element-parse-buffer</code>, which returns
+the AST representing the document.
+</p>
+</div>
+
+<div id="outline-container-local" class="outline-3">
+<h3 id="local">Analyzing the structure at point</h3>
+<div class="outline-text-3" id="text-local">
+<p>
+<code>org-element-at-point</code> offers a glimpse into the local structure of
+the document.  However, it stops at the element level.  It doesn&rsquo;t,
+for example, analyze the contents of a paragraph.  While this is
+sufficient for many use cases, <code>org-element-context</code> allows to go
+deeper, down to the object level.  The following example illustrates
+the difference between the two functions.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" id="orgc7ff0a2"><span style="font-weight: bold;">Lorem ipsum dolor</span> sit amet, consectetur adipisicing elit, sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</pre>
+</div>
+
+<p>
+Indeed, calling <code>org-element-at-point</code> at the beginning of the
+paragraph returns a <code>paragraph</code> structure, whereas calling
+<code>org-element-context</code> returns a <code>bold</code> object.
+</p>
+
+<p>
+Unless point is on a headline, both functions indirectly return all
+parents of the value within the current section<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>, through
+<code>:parent</code> property.  For example, when point is at <code>(X)</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" id="orga5853d6"><span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Headline</span>
+
+<span style="color: #696969;">#+BEGIN_CENTER</span>
+Paragraph(X)
+<span style="color: #696969;">#+END_CENTER</span>
+</pre>
+</div>
+
+<p>
+<code>org-element-at-point</code> returns a <code>paragraph</code> element, whose <code>:parent</code>
+property contains a <code>center-block</code> element, which, in turn, has no
+<code>:parent</code> since the next ancestor is the section itself.
+</p>
+</div>
+</div>
+
+<div id="outline-container-global" class="outline-3">
+<h3 id="global">Creating a snapshot of the document</h3>
+<div class="outline-text-3" id="text-global">
+<p>
+<code>org-element-parse-buffer</code> completely parses a (possibly narrowed)
+buffer into an AST.  The virtual root node has type <code>org-data</code> and no
+properties attached to it.
+</p>
+
+<p>
+Unlike to local parsing functions, data obtained through
+<code>org-element-parse-buffer</code> can be altered to your heart&rsquo;s content.
+See <a href="#setters">Setters</a> for a list of related tools.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-accessors" class="outline-2">
+<h2 id="accessors">Accessors</h2>
+<div class="outline-text-2" id="text-accessors">
+<p>
+Type and properties of a given element or object are obtained with,
+respectively, <code>org-element-type</code> and <code>org-element-property</code>.
+</p>
+
+<p>
+<code>org-element-contents</code> returns an ordered (by buffer position) list of
+all elements or objects within a given element or object.  Since local
+parsing ignores contents, it only makes sense to use this function on
+a part of an AST.
+</p>
+
+<p>
+Eventually, <code>org-element-map</code> operates on an AST, a part of it, or any
+list of elements or objects.  It is a versatile function.
+</p>
+
+<p>
+For example, it can be used to collect data from an AST.  Hence the
+following snippet returns all paragraphs beginning a section in the
+current document.  Note that equality between elements is tested with
+<code>eq</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org34e9684"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-element-map</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-element-parse-buffer</span><span style="color: #fd971f;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">paragraph</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>paragraph<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>parent <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-element-property</span> <span style="color: #fd971f;">:parent</span> paragraph<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">and</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-element-type</span> parent<span style="color: #b6e63e;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">section</span><span style="color: #fd971f;">)</span>
+           <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>first-child <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-element-contents</span> parent<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">eq</span> first-child paragraph<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">Return value.</span>
+           paragraph<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+It can also be used as a predicate.  Thus, the following snippet
+returns a non-<code>nil</code> value when the document contains a checked item.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org7036fd9"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-element-map</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-element-parse-buffer</span><span style="color: #fd971f;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">item</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>item<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">eq</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-element-property</span> <span style="color: #fd971f;">:checkbox</span> item<span style="color: #eb4509;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">on</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  nil t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+See <code>org-element-map</code>&rsquo;s docstring for more examples.
+</p>
+</div>
+</div>
+
+<div id="outline-container-setters" class="outline-2">
+<h2 id="setters">Setters</h2>
+<div class="outline-text-2" id="text-setters">
+<p>
+<code>org-element-put-property</code> modifies any property of a given element or
+object.
+</p>
+
+<p>
+Note that, even though structures obtained with local parsers are
+mutable, it is good practice to consider them immutable.  In
+particular, destructively changing properties relative to buffer
+positions is likely to break the caching mechanism running in the
+background.  If, for example, you need to slightly alter an element
+obtained using these functions, first copy it, using
+<code>org-element-copy</code>, before modifying it by side effect.  There is no
+such restriction for elements grabbed from a complete AST.
+</p>
+
+<p>
+The library also provides tools to manipulate the parse tree.  Thus,
+<code>org-element-extract-element</code> removes an element or object from an
+AST, <code>org-element-set-element</code> replaces one with another, whereas
+<code>org-element-insert-before</code> and <code>org-element-adopt-element</code> insert
+elements within the tree, respectively before a precise location or
+after all children.
+</p>
+</div>
+</div>
+
+<div id="outline-container-attributes" class="outline-2">
+<h2 id="attributes">Types and Attributes</h2>
+<div class="outline-text-2" id="text-attributes">
+<p>
+Each greater element, element and object has a variable set of
+properties attached to it.  Among them, four are shared by all types:
+<code>:begin</code> and <code>:end</code>, which refer to the beginning and ending buffer
+positions of the considered element or object, <code>:post-blank</code>, which
+holds the number of blank lines, or white spaces, at its end<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> and
+<code>:parent</code>, which refers to the element or object containing it.
+</p>
+
+<p>
+Greater elements containing objects on the one hand, and elements or
+objects containing objects on the other hand also have
+<code>:contents-begin</code> and <code>:contents-end</code> properties to delimit contents.
+</p>
+
+<p>
+In addition to these properties, each element can optionally get some
+more from affiliated keywords, namely: <code>:caption</code>, <code>:header</code>, <code>:name</code>,
+<code>:plot</code>, <code>:results</code> or <code>:attr_NAME</code> where <code>NAME</code> stands for the name
+of an export back-end.
+</p>
+
+<p>
+Also, <code>:post-affiliated</code> property is attached to all elements.  It
+refers to the buffer position after any affiliated keyword, when
+applicable, or to the beginning of the element otherwise.
+</p>
+
+<p>
+The following example illustrates the relationship between position
+properties.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" id="orgd11cc27"><span id="coderef-begin" class="coderef-off"><span class="linenr">1: </span><span style="color: #7f7f80;">#+NAME: dont-do-this-at-home</span></span>
+<span id="coderef-post" class="coderef-off"><span class="linenr">2: </span><span style="color: #696969;">#+BEGIN_SRC emacs-lisp</span></span>
+<span class="linenr">3: </span><span style="color: #eb4509; background-color: #000000;">(</span><span style="color: #fd971f; background-color: #000000;">/</span><span style="background-color: #000000;"> </span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">1</span><span style="background-color: #000000;"> </span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">0</span><span style="color: #eb4509; background-color: #000000;">)</span>
+<span class="linenr">4: </span><span style="color: #696969;">#+END_SRC</span>
+<span class="linenr">5: </span>
+<span id="coderef-end" class="coderef-off"><span class="linenr">6: </span>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do</span>
+<span class="linenr">7: </span>eiusmod tempor incididunt ut labore et dolore magna aliqua.
+</pre>
+</div>
+
+<p>
+The first element&rsquo;s type is <code>src-block</code>.  Its <code>:begin</code> property
+(respectively <code>:end</code> property) is the buffer position at the beginning
+of line <a href="#coderef-begin" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-begin');" onmouseout="CodeHighlightOff(this, 'coderef-begin');">1</a> (respectively line <a href="#coderef-end" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-end');" onmouseout="CodeHighlightOff(this, 'coderef-end');">6</a>).  <code>:post-affiliated</code> is the
+buffer position at the beginning of line <a href="#coderef-post" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-post');" onmouseout="CodeHighlightOff(this, 'coderef-post');">2</a>.  Since source blocks
+cannot contain other elements or objects, both <code>:contents-begin</code> and
+<code>:contents-end</code> are <code>nil</code>. <code>:post-blank</code> is 1.
+</p>
+
+<p>
+Other properties, specific to each element or object type, are listed
+below.
+</p>
+</div>
+
+<div id="outline-container-orge5bd563" class="outline-3">
+<h3 id="orge5bd563">Babel Call</h3>
+<div class="outline-text-3" id="text-orge5bd563">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:call</code></dt><dd>Name of code block being called (string).</dd>
+<dt><code>:inside-header</code></dt><dd>Header arguments applied to the named code block
+(string or <code>nil</code>).</dd>
+<dt><code>:arguments</code></dt><dd>Arguments passed to the code block (string or <code>nil</code>).</dd>
+<dt><code>:end-header</code></dt><dd>Header arguments applied to the calling instance
+(string or <code>nil</code>).</dd>
+<dt><code>:value</code></dt><dd>Raw call, as Org syntax (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org2b8b2f9" class="outline-3">
+<h3 id="org2b8b2f9">Bold</h3>
+<div class="outline-text-3" id="text-org2b8b2f9">
+<p>
+Recursive object.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1234550" class="outline-3">
+<h3 id="org1234550">Center Block</h3>
+<div class="outline-text-3" id="text-org1234550">
+<p>
+Greater element.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2ac18c" class="outline-3">
+<h3 id="orge2ac18c">Clock</h3>
+<div class="outline-text-3" id="text-orge2ac18c">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:duration</code></dt><dd>Clock duration for a closed clock, or <code>nil</code> (string or
+<code>nil</code>).</dd>
+<dt><code>:status</code></dt><dd>Status of current clock (symbol: <code>closed</code> or
+<code>running</code>).</dd>
+<dt><code>:value</code></dt><dd>Timestamp associated to clock keyword (timestamp
+object).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orge18c30f" class="outline-3">
+<h3 id="orge18c30f">Code</h3>
+<div class="outline-text-3" id="text-orge18c30f">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Contents (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orge0c70dc" class="outline-3">
+<h3 id="orge0c70dc">Comment</h3>
+<div class="outline-text-3" id="text-orge0c70dc">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Comments, with pound signs (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org74a8276" class="outline-3">
+<h3 id="org74a8276">Comment Block</h3>
+<div class="outline-text-3" id="text-org74a8276">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Comments, without block&rsquo;s boundaries (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org23d53aa" class="outline-3">
+<h3 id="org23d53aa">Diary Sexp</h3>
+<div class="outline-text-3" id="text-org23d53aa">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Full Sexp (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org2427929" class="outline-3">
+<h3 id="org2427929">Drawer</h3>
+<div class="outline-text-3" id="text-org2427929">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:drawer-name</code></dt><dd>Drawer&rsquo;s name (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org22aeb45" class="outline-3">
+<h3 id="org22aeb45">Dynamic Block</h3>
+<div class="outline-text-3" id="text-org22aeb45">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:arguments</code></dt><dd>Block&rsquo;s parameters (string).</dd>
+<dt><code>:block-name</code></dt><dd>Block&rsquo;s name (string).</dd>
+<dt><code>:drawer-name</code></dt><dd>Drawer&rsquo;s name (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orge133612" class="outline-3">
+<h3 id="orge133612">Entity</h3>
+<div class="outline-text-3" id="text-orge133612">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:ascii</code></dt><dd>Entity&rsquo;s ASCII representation (string).</dd>
+<dt><code>:html</code></dt><dd>Entity&rsquo;s HTML representation (string).</dd>
+<dt><code>:latex</code></dt><dd>Entity&rsquo;s LaTeX representation (string).</dd>
+<dt><code>:latex-math-p</code></dt><dd>Non-<code>nil</code> if entity&rsquo;s LaTeX representation should
+be in math mode (boolean).</dd>
+<dt><code>:latin1</code></dt><dd>Entity&rsquo;s Latin-1 encoding representation (string).</dd>
+<dt><code>:name</code></dt><dd>Entity&rsquo;s name, without backslash nor brackets (string).</dd>
+<dt><code>:use-brackets-p</code></dt><dd>Non-<code>nil</code> if entity is written with optional
+brackets in original buffer (boolean).</dd>
+<dt><code>:utf-8</code></dt><dd>Entity&rsquo;s UTF-8 encoding representation (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org783debb" class="outline-3">
+<h3 id="org783debb">Example Block</h3>
+<div class="outline-text-3" id="text-org783debb">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:label-fmt</code></dt><dd>Format string used to write labels in current block,
+if different from <code>org-coderef-label-format</code> (string or <code>nil</code>).</dd>
+<dt><code>:language</code></dt><dd>Language of the code in the block, if specified
+(string or <code>nil</code>).</dd>
+<dt><code>:number-lines</code></dt><dd>Non-<code>nil</code> if code lines should be numbered.
+A <code>new</code> value starts numbering from 1 wheareas <code>continued</code> resume
+numbering from previous numbered block (symbol: <code>new</code>, <code>continued</code>
+or <code>nil</code>).</dd>
+<dt><code>:options</code></dt><dd>Block&rsquo;s options located on the block&rsquo;s opening line
+(string).</dd>
+<dt><code>:parameters</code></dt><dd>Optional header arguments (string or <code>nil</code>).</dd>
+<dt><code>:preserve-indent</code></dt><dd>Non-<code>nil</code> when indentation within the block
+mustn&rsquo;t be modified upon export (boolean).</dd>
+<dt><code>:retain-labels</code></dt><dd>Non-<code>nil</code> if labels should be kept visible upon
+export (boolean).</dd>
+<dt><code>:switches</code></dt><dd>Optional switches for code block export (string or
+<code>nil</code>).</dd>
+<dt><code>:use-labels</code></dt><dd>Non-<code>nil</code> if links to labels contained in the block
+should display the label instead of the line number (boolean).</dd>
+<dt><code>:value</code></dt><dd>Contents (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org892dcfc" class="outline-3">
+<h3 id="org892dcfc">Export Block</h3>
+<div class="outline-text-3" id="text-org892dcfc">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:type</code></dt><dd>Related back-end&rsquo;s name (string).</dd>
+<dt><code>:value</code></dt><dd>Contents (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org1b37279" class="outline-3">
+<h3 id="org1b37279">Export Snippet</h3>
+<div class="outline-text-3" id="text-org1b37279">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:back-end</code></dt><dd>Relative back-end&rsquo;s name (string).</dd>
+<dt><code>:value</code></dt><dd>Export code (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org20b1c7c" class="outline-3">
+<h3 id="org20b1c7c">Fixed Width</h3>
+<div class="outline-text-3" id="text-org20b1c7c">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Contents, without colons prefix (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org22eb62c" class="outline-3">
+<h3 id="org22eb62c">Footnote Definition</h3>
+<div class="outline-text-3" id="text-org22eb62c">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:label</code></dt><dd>Label used for references (string).</dd>
+<dt><code>:pre-blank</code></dt><dd>Number of newline characters between the beginning
+of the footnoote and the beginning of the contents (0, 1 or 2).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org25d6bfe" class="outline-3">
+<h3 id="org25d6bfe">Footnote Reference</h3>
+<div class="outline-text-3" id="text-org25d6bfe">
+<p>
+Recursive object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:label</code></dt><dd>Footnote&rsquo;s label, if any (string or <code>nil</code>).</dd>
+<dt><code>:type</code></dt><dd>Determine whether reference has its definition inline, or
+not (symbol: <code>inline</code>, <code>standard</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgea61dc5" class="outline-3">
+<h3 id="orgea61dc5">Headline</h3>
+<div class="outline-text-3" id="text-orgea61dc5">
+<p>
+Greater element.
+</p>
+
+<p>
+In addition to the following list, any property specified in
+a property drawer attached to the headline will be accessible as an
+attribute (with an uppercase name, e.g., <code>:CUSTOM_ID</code>).
+</p>
+
+<dl class="org-dl">
+<dt><code>:archivedp</code></dt><dd>Non-<code>nil</code> if the headline has an archive tag
+(boolean).</dd>
+<dt><code>:closed</code></dt><dd>Headline&rsquo;s <code>CLOSED</code> reference, if any (timestamp object
+or <code>nil</code>)</dd>
+<dt><code>:commentedp</code></dt><dd>Non-<code>nil</code> if the headline has a comment keyword
+(boolean).</dd>
+<dt><code>:deadline</code></dt><dd>Headline&rsquo;s <code>DEADLINE</code> reference, if any (timestamp
+object or <code>nil</code>).</dd>
+<dt><code>:footnote-section-p</code></dt><dd>Non-<code>nil</code> if the headline is a footnote
+section (boolean).</dd>
+<dt><code>:level</code></dt><dd>Reduced level of the headline (integer).</dd>
+<dt><code>:pre-blank</code></dt><dd>Number of blank lines between the headline and the
+first non-blank line of its contents (integer).</dd>
+<dt><code>:priority</code></dt><dd>Headline&rsquo;s priority, as a character (integer).</dd>
+<dt><code>:quotedp</code></dt><dd>Non-<code>nil</code> if the headline contains a quote keyword
+(boolean).</dd>
+<dt><code>:raw-value</code></dt><dd>Raw headline&rsquo;s text, without the stars and the
+tags (string).</dd>
+<dt><code>:scheduled</code></dt><dd>Headline&rsquo;s <code>SCHEDULED</code> reference, if any (timestamp
+object or <code>nil</code>).</dd>
+<dt><code>:tags</code></dt><dd>Headline&rsquo;s tags, if any, without the archive tag. (list
+of strings).</dd>
+<dt><code>:title</code></dt><dd>Parsed headline&rsquo;s text, without the stars and the
+tags (secondary string).</dd>
+<dt><code>:todo-keyword</code></dt><dd>Headline&rsquo;s TODO keyword without quote and comment
+strings, if any (string or <code>nil</code>).</dd>
+<dt><code>:todo-type</code></dt><dd>Type of headline&rsquo;s TODO keyword, if any (symbol:
+<code>done</code>, <code>todo</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org47ae022" class="outline-3">
+<h3 id="org47ae022">Horizontal Rule</h3>
+<div class="outline-text-3" id="text-org47ae022">
+<p>
+Element.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org16f3cf0" class="outline-3">
+<h3 id="org16f3cf0">Inline Babel Call</h3>
+<div class="outline-text-3" id="text-org16f3cf0">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:call</code></dt><dd>Name of code block being called (string).</dd>
+<dt><code>:inside-header</code></dt><dd>Header arguments applied to the named code
+block (string or <code>nil</code>).</dd>
+<dt><code>:arguments</code></dt><dd>Arguments passed to the code block (string or
+<code>nil</code>).</dd>
+<dt><code>:end-header</code></dt><dd>Header arguments applied to the calling instance
+(string or <code>nil</code>).</dd>
+<dt><code>:value</code></dt><dd>Raw call, as Org syntax (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org49ede56" class="outline-3">
+<h3 id="org49ede56">Inline Src Block</h3>
+<div class="outline-text-3" id="text-org49ede56">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:language</code></dt><dd>Language of the code in the block (string).</dd>
+<dt><code>:parameters</code></dt><dd>Optional header arguments (string or <code>nil</code>).</dd>
+<dt><code>:value</code></dt><dd>Source code (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcb472a5" class="outline-3">
+<h3 id="orgcb472a5">Inlinetask</h3>
+<div class="outline-text-3" id="text-orgcb472a5">
+<p>
+Greater element.
+</p>
+
+<p>
+In addition to the following list, any property specified in
+a property drawer attached to the headline will be accessible as an
+attribute (with an uppercase name, e.g. <code>:CUSTOM_ID</code>).
+</p>
+
+<dl class="org-dl">
+<dt><code>:closed</code></dt><dd>Inlinetask&rsquo;s <code>CLOSED</code> reference, if any (timestamp
+object or <code>nil</code>)</dd>
+<dt><code>:deadline</code></dt><dd>Inlinetask&rsquo;s <code>DEADLINE</code> reference, if any (timestamp
+object or <code>nil</code>).</dd>
+<dt><code>:level</code></dt><dd>Reduced level of the inlinetask (integer).</dd>
+<dt><code>:priority</code></dt><dd>Headline&rsquo;s priority, as a character (integer).</dd>
+<dt><code>:raw-value</code></dt><dd>Raw inlinetask&rsquo;s text, without the stars and the
+tags (string).</dd>
+<dt><code>:scheduled</code></dt><dd>Inlinetask&rsquo;s <code>SCHEDULED</code> reference, if any
+(timestamp object or <code>nil</code>).</dd>
+<dt><code>:tags</code></dt><dd>Inlinetask&rsquo;s tags, if any (list of strings).</dd>
+<dt><code>:title</code></dt><dd>Parsed inlinetask&rsquo;s text, without the stars and the
+tags (secondary string).</dd>
+<dt><code>:todo-keyword</code></dt><dd>Inlinetask&rsquo;s <code>TODO</code> keyword, if any (string or
+<code>nil</code>).</dd>
+<dt><code>:todo-type</code></dt><dd>Type of inlinetask&rsquo;s <code>TODO</code> keyword, if any (symbol:
+<code>done</code>, <code>todo</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org8021d12" class="outline-3">
+<h3 id="org8021d12">Italic</h3>
+<div class="outline-text-3" id="text-org8021d12">
+<p>
+Recursive object.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2bb8eb0" class="outline-3">
+<h3 id="org2bb8eb0">Item</h3>
+<div class="outline-text-3" id="text-org2bb8eb0">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:bullet</code></dt><dd>Item&rsquo;s bullet (string).</dd>
+<dt><code>:checkbox</code></dt><dd>Item&rsquo;s check-box, if any (symbol: <code>on</code>, <code>off</code>,
+<code>trans</code>, <code>nil</code>).</dd>
+<dt><code>:counter</code></dt><dd>Item&rsquo;s counter, if any.  Literal counters become
+ordinals (integer).</dd>
+<dt><code>:pre-blank</code></dt><dd>Number of newline characters between the beginning
+of the item and the beginning of the contents (0, 1 or 2).</dd>
+<dt><code>:raw-tag</code></dt><dd>Uninterpreted item&rsquo;s tag, if any (string or <code>nil</code>).</dd>
+<dt><code>:tag</code></dt><dd>Parsed item&rsquo;s tag, if any (secondary string or <code>nil</code>).</dd>
+<dt><code>:structure</code></dt><dd>Full list&rsquo;s structure, as returned by
+<code>org-list-struct</code> (alist).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org3d54871" class="outline-3">
+<h3 id="org3d54871">Keyword</h3>
+<div class="outline-text-3" id="text-org3d54871">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:key</code></dt><dd>Keyword&rsquo;s name (string).</dd>
+<dt><code>:value</code></dt><dd>Keyword&rsquo;s value (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcceb615" class="outline-3">
+<h3 id="orgcceb615">LaTeX Environment</h3>
+<div class="outline-text-3" id="text-orgcceb615">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:begin</code></dt><dd>Buffer position at first affiliated keyword or at the
+beginning of the first line of environment (integer).</dd>
+<dt><code>:end</code></dt><dd>Buffer position at the first non-blank line after last
+line of the environment, or buffer&rsquo;s end (integer).</dd>
+<dt><code>:post-blank</code></dt><dd>Number of blank lines between last environment&rsquo;s
+line and next non-blank line or buffer&rsquo;s end
+(integer).</dd>
+<dt><code>:value</code></dt><dd>LaTeX code (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org745c09b" class="outline-3">
+<h3 id="org745c09b">LaTeX Fragment</h3>
+<div class="outline-text-3" id="text-org745c09b">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>LaTeX code (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgfad9f8f" class="outline-3">
+<h3 id="orgfad9f8f">Line Break</h3>
+<div class="outline-text-3" id="text-orgfad9f8f">
+<p>
+Object.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd979c4b" class="outline-3">
+<h3 id="orgd979c4b">Link</h3>
+<div class="outline-text-3" id="text-orgd979c4b">
+<p>
+Recursive object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:application</code></dt><dd>Name of application requested to open the link in
+Emacs (string or <code>nil</code>). It only applies to &ldquo;file&rdquo; type links.</dd>
+<dt><code>:format</code></dt><dd>Format for link syntax (symbol: <code>plain</code>, <code>angle</code>,
+<code>bracket</code>).</dd>
+<dt><code>:path</code></dt><dd>Identifier for link&rsquo;s destination.  It is usually the
+link part with type, if specified, removed (string).</dd>
+<dt><code>:raw-link</code></dt><dd>Uninterpreted link part (string).</dd>
+<dt><code>:search-option</code></dt><dd>Additional information for file location
+(string or <code>nil</code>). It only applies to &ldquo;file&rdquo; type links.</dd>
+<dt><code>:type</code></dt><dd><p>
+Link&rsquo;s type.  Possible types (string) are:
+</p>
+
+<dl class="org-dl">
+<dt><code>coderef</code></dt><dd>Line in some source code,</dd>
+<dt><code>custom-id</code></dt><dd>Specific headline&rsquo;s custom-id,</dd>
+<dt><code>file</code></dt><dd>External file,</dd>
+<dt><code>fuzzy</code></dt><dd>Target, referring to a target object, a named
+element or a headline in the current parse tree,</dd>
+<dt><code>id</code></dt><dd>Specific headline&rsquo;s id,</dd>
+<dt><code>radio</code></dt><dd>Radio-target.</dd>
+</dl>
+
+<p>
+It can also be any type defined in <code>org-link-types</code>.
+</p></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org6e3447f" class="outline-3">
+<h3 id="org6e3447f">Macro</h3>
+<div class="outline-text-3" id="text-org6e3447f">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:args</code></dt><dd>Arguments passed to the macro (list of strings).</dd>
+<dt><code>:key</code></dt><dd>Macro&rsquo;s name (string).</dd>
+<dt><code>:value</code></dt><dd>Replacement text (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org0994d24" class="outline-3">
+<h3 id="org0994d24">Node Property</h3>
+<div class="outline-text-3" id="text-org0994d24">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:key</code></dt><dd>Property&rsquo;s name (string).</dd>
+<dt><code>:value</code></dt><dd>Property&rsquo;s value (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org9b53980" class="outline-3">
+<h3 id="org9b53980">Paragraph</h3>
+<div class="outline-text-3" id="text-org9b53980">
+<p>
+Element containing objects.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org553fa19" class="outline-3">
+<h3 id="org553fa19">Plain List</h3>
+<div class="outline-text-3" id="text-org553fa19">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:structure</code></dt><dd>Full list&rsquo;s structure, as returned by
+<code>org-list-struct</code> (alist).</dd>
+<dt><code>:type</code></dt><dd>List&rsquo;s type (symbol: <code>descriptive</code>, <code>ordered</code>,
+<code>unordered</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org37e301e" class="outline-3">
+<h3 id="org37e301e">Planning</h3>
+<div class="outline-text-3" id="text-org37e301e">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:closed</code></dt><dd>Timestamp associated to <code>CLOSED</code> keyword, if any
+(timestamp object or <code>nil</code>).</dd>
+<dt><code>:deadline</code></dt><dd>Timestamp associated to <code>DEADLINE</code> keyword, if any
+(timestamp object or <code>nil</code>).</dd>
+<dt><code>:scheduled</code></dt><dd>Timestamp associated to <code>SCHEDULED</code> keyword, if any
+(timestamp object or <code>nil</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org68e3c8a" class="outline-3">
+<h3 id="org68e3c8a">Property Drawer</h3>
+<div class="outline-text-3" id="text-org68e3c8a">
+<p>
+Greater element.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgec62db6" class="outline-3">
+<h3 id="orgec62db6">Quote Block</h3>
+<div class="outline-text-3" id="text-orgec62db6">
+<p>
+Greater element.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5aca913" class="outline-3">
+<h3 id="org5aca913">Radio Target</h3>
+<div class="outline-text-3" id="text-org5aca913">
+<p>
+Recursive object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:raw-value</code></dt><dd>Uninterpreted contents (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org05c7a01" class="outline-3">
+<h3 id="org05c7a01">Section</h3>
+<div class="outline-text-3" id="text-org05c7a01">
+<p>
+Greater element.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org54d683c" class="outline-3">
+<h3 id="org54d683c">Special Block</h3>
+<div class="outline-text-3" id="text-org54d683c">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:type</code></dt><dd>Block&rsquo;s name (string).</dd>
+<dt><code>:raw-value</code></dt><dd>Raw contents in block (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org7528a2b" class="outline-3">
+<h3 id="org7528a2b">Src Block</h3>
+<div class="outline-text-3" id="text-org7528a2b">
+<p>
+Element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:label-fmt</code></dt><dd>Format string used to write labels in current block,
+if different from <code>org-coderef-label-format</code> (string or <code>nil</code>).</dd>
+<dt><code>:language</code></dt><dd>Language of the code in the block, if specified
+(string or <code>nil</code>).</dd>
+<dt><code>:number-lines</code></dt><dd>Non-<code>nil</code> if code lines should be numbered.
+A <code>new</code> value starts numbering from 1 wheareas <code>continued</code> resume
+numbering from previous numbered block (symbol: <code>new</code>, <code>continued</code>
+or <code>nil</code>).</dd>
+<dt><code>:parameters</code></dt><dd>Optional header arguments (string or <code>nil</code>).</dd>
+<dt><code>:preserve-indent</code></dt><dd>Non-<code>nil</code> when indentation within the block
+mustn&rsquo;t be modified upon export (boolean).</dd>
+<dt><code>:retain-labels</code></dt><dd>Non-<code>nil</code> if labels should be kept visible upon
+export (boolean).</dd>
+<dt><code>:switches</code></dt><dd>Optional switches for code block export (string or
+<code>nil</code>).</dd>
+<dt><code>:use-labels</code></dt><dd>Non-<code>nil</code> if links to labels contained in the block
+should display the label instead of the line number (boolean).</dd>
+<dt><code>:value</code></dt><dd>Source code (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgd50c2be" class="outline-3">
+<h3 id="orgd50c2be">Statistics Cookie</h3>
+<div class="outline-text-3" id="text-orgd50c2be">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Full cookie (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgc53378e" class="outline-3">
+<h3 id="orgc53378e">Strike Through</h3>
+<div class="outline-text-3" id="text-orgc53378e">
+<p>
+Recursive object.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgac698b8" class="outline-3">
+<h3 id="orgac698b8">Subscript</h3>
+<div class="outline-text-3" id="text-orgac698b8">
+<p>
+Recursive object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:use-brackets-p</code></dt><dd>Non-<code>nil</code> if contents are enclosed in curly
+brackets (t, <code>nil</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org1e72ce5" class="outline-3">
+<h3 id="org1e72ce5">Superscript</h3>
+<div class="outline-text-3" id="text-org1e72ce5">
+<p>
+Recursive object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:use-brackets-p</code></dt><dd>Non-<code>nil</code> if contents are enclosed in curly
+brackets (t, <code>nil</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org3fb056f" class="outline-3">
+<h3 id="org3fb056f">Table</h3>
+<div class="outline-text-3" id="text-org3fb056f">
+<p>
+Greater element.
+</p>
+
+<dl class="org-dl">
+<dt><code>:tblfm</code></dt><dd>Formulas associated to the table, if any (string or
+<code>nil</code>).</dd>
+<dt><code>:type</code></dt><dd>Table&rsquo;s origin (symbol: <code>table.el</code>, <code>org</code>).</dd>
+<dt><code>:value</code></dt><dd>Raw <code>table.el</code> table or <code>nil</code> (string or <code>nil</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orge6db587" class="outline-3">
+<h3 id="orge6db587">Table Cell</h3>
+<div class="outline-text-3" id="text-orge6db587">
+<p>
+Recursive object.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8b2df88" class="outline-3">
+<h3 id="org8b2df88">Table Row</h3>
+<div class="outline-text-3" id="text-org8b2df88">
+<p>
+Element containing objects.
+</p>
+
+<dl class="org-dl">
+<dt><code>:type</code></dt><dd>Row&rsquo;s type (symbol: <code>standard</code>, <code>rule</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org1d233f7" class="outline-3">
+<h3 id="org1d233f7">Target</h3>
+<div class="outline-text-3" id="text-org1d233f7">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Target&rsquo;s ID (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgdaea347" class="outline-3">
+<h3 id="orgdaea347">Timestamp</h3>
+<div class="outline-text-3" id="text-orgdaea347">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:day-end</code></dt><dd>Day part from timestamp end.  If no ending date is
+defined, it defaults to start day part (integer).</dd>
+<dt><code>:day-start</code></dt><dd>Day part from timestamp start (integer).</dd>
+<dt><code>:hour-start</code></dt><dd>Hour part from timestamp end. If no ending date is
+defined, it defaults to start hour part, if any (integer or <code>nil</code>).</dd>
+<dt><code>:hour-start</code></dt><dd>Hour part from timestamp start, if specified
+(integer or <code>nil</code>).</dd>
+<dt><code>:minute-start</code></dt><dd>Minute part from timestamp end. If no ending date
+is defined, it defaults to start minute part, if any (integer or
+<code>nil</code>).</dd>
+<dt><code>:minute-start</code></dt><dd>Minute part from timestamp start, if specified
+(integer or <code>nil</code>).</dd>
+<dt><code>:month-end</code></dt><dd>Month part from timestamp end.  If no ending date is
+defined, it defaults to start month part (integer).</dd>
+<dt><code>:month-start</code></dt><dd>Month part from timestamp start (integer).</dd>
+<dt><code>:raw-value</code></dt><dd>Raw timestamp (string).</dd>
+<dt><code>:repeater-type</code></dt><dd>Type of repeater, if any (symbol: <code>catch-up</code>,
+<code>restart</code>, <code>cumulate</code> or <code>nil</code>)</dd>
+<dt><code>:repeater-unit</code></dt><dd>Unit of shift, if a repeater is defined
+(symbol: <code>year</code>, <code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code> or <code>nil</code>).</dd>
+<dt><code>:repeater-value</code></dt><dd>Value of shift, if a repeater is defined
+(integer or <code>nil</code>).</dd>
+<dt><code>:type</code></dt><dd>Type of timestamp (symbol: <code>active</code>, <code>active-range</code>,
+<code>diary</code>, <code>inactive</code>, <code>inactive-range</code>).</dd>
+<dt><code>:warning-type</code></dt><dd>Type of warning, if any (symbol: <code>all</code>, <code>first</code>
+or <code>nil</code>)</dd>
+<dt><code>:warning-unit</code></dt><dd>Unit of delay, if one is defined (symbol: <code>year</code>,
+<code>month</code>, <code>week</code>, <code>day</code>, <code>hour</code> or <code>nil</code>).</dd>
+<dt><code>:warning-value</code></dt><dd>Value of delay, if one is defined (integer or
+<code>nil</code>).</dd>
+<dt><code>:year-end</code></dt><dd>Year part from timestamp end.  If no ending date is
+defined, it defaults to start year part (integer).</dd>
+<dt><code>:year-start</code></dt><dd>Year part from timestamp start (integer).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgbef0a45" class="outline-3">
+<h3 id="orgbef0a45">Underline</h3>
+<div class="outline-text-3" id="text-orgbef0a45">
+<p>
+Recursive object.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org71316da" class="outline-3">
+<h3 id="org71316da">Verbatim</h3>
+<div class="outline-text-3" id="text-org71316da">
+<p>
+Object.
+</p>
+
+<dl class="org-dl">
+<dt><code>:value</code></dt><dd>Contents (string).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org575fe84" class="outline-3">
+<h3 id="org575fe84">Verse Block</h3>
+<div class="outline-text-3" id="text-org575fe84">
+<p>
+Element containing objects.
+</p>
+
+<p>
+No specific property.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-other-tools" class="outline-2">
+<h2 id="other-tools">Other Tools</h2>
+<div class="outline-text-2" id="text-other-tools">
+</div>
+
+<div id="outline-container-org64b2e0e" class="outline-3">
+<h3 id="org64b2e0e">Turning an AST into an Org document</h3>
+<div class="outline-text-3" id="text-org64b2e0e">
+<p>
+<code>org-element-interpret-data</code> is the reciprocal operation of
+<code>org-element-parse-buffer</code>.  When provided an element, object, or even
+a full parse tree, it generates an equivalent string in Org syntax.
+</p>
+
+<p>
+More precisely, output is a normalized document: it preserves
+structure and blank spaces but it removes indentation and capitalize
+keywords.  As a consequence it is equivalent, but not equal, to the
+original document the AST comes from.
+</p>
+
+<p>
+When called on an element or object obtained through
+<code>org-element-at-point</code> or <code>org-element-context</code>, its contents will not
+appear, since this information is not available.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org47e692f" class="outline-3">
+<h3 id="org47e692f">Examining genealogy of an element or object</h3>
+<div class="outline-text-3" id="text-org47e692f">
+<p>
+<code>org-element-lineage</code> produces a list of all ancestors of a given
+element or object.  However, when these come from a <a href="#local">local parsing
+function</a>, lineage is limited to the section containing them.
+</p>
+
+<p>
+With optional arguments, it is also possible to check for a particular
+type of ancestor.  See function&rsquo;s docstring for more information.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Thus, <code>org-element-at-point</code> cannot return the parent of
+a headline.  Nevertheless, headlines are context free elements: it is
+efficient to move to parent headline (e.g., with
+<code>org-up-heading-safe</code>) before analyzing it.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+As a consequence whitespaces or newlines after an element or
+object still belong to it.  To put it differently, <code>:end</code> property of
+an element matches <code>:begin</code> property of the following one at the same
+level, if any.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Nicolas Goaziou</p>
+<p class="date">Created: 2021-06-15 Tue 18:22</p>
+</div>
+</body>
+</html>

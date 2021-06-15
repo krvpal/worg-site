@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Common Lisp Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Common Lisp Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcc2f445">Introduction</a></li>
+<li><a href="#orgeadf6bc">Requirements and Setup</a></li>
+<li><a href="#org9871ed4">Org Mode Features for Common Lisp Source Code Blocks</a>
+<ul>
+<li><a href="#org42a46e2">Header Arguments</a></li>
+<li><a href="#orgeda4050">Sessions</a></li>
+<li><a href="#orgdeb2c2a">Result Types</a></li>
+<li><a href="#org29a4570">Other</a></li>
+</ul>
+</li>
+<li><a href="#org2de9fb4">Examples of Use</a></li>
+<li><a href="#orgd97f9a2">Links to Tutorials and Other Resources</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://common-lisp.net/project/slime/">Common Lisp</a>
+</p>
+<p>
+<a href="http://common-lisp.net/project/slime/">
+<img src="./images/slime-small.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-orgcc2f445" class="outline-2">
+<h2 id="orgcc2f445">Introduction</h2>
+<div class="outline-text-2" id="text-orgcc2f445">
+<p>
+According to <a href="http://en.wikiquote.org/wiki/Lisp_programming_language">John Foderaro</a>, Lisp is a programmable programming language.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgeadf6bc" class="outline-2">
+<h2 id="orgeadf6bc">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orgeadf6bc">
+<p>
+By default Common Lisp source code blocks are evaluated by Babel with
+the Superior Lisp Interaction Mode for Emacs, or <a href="http://common-lisp.net/project/slime/">SLIME</a>.  <a href="http://common-lisp.net/project/slime/">SLIME</a>
+supports many Common Lisp implementations and is compatible with GNU
+Emacs version 21 and later and with XEmacs version 21.
+</p>
+
+<p>
+Optionally, Sylvester the Cat&rsquo;s Common Lisp IDE, or <a href="https://github.com/capitaomorte/sly">SLY</a> can be used
+for evaluation.  Specify SLY by setting <code>org-babel-lisp-eval-fn</code> to
+&ldquo;sly-eval&rdquo;. 
+</p>
+
+<p>
+You&rsquo;ll need a working installation one of the many Common Lisp
+implementations supported by <a href="http://common-lisp.net/project/slime/">SLIME</a> or <a href="https://github.com/capitaomorte/sly">SLY</a>, and <a href="http://common-lisp.net/project/slime/">SLIME</a> or <a href="https://github.com/capitaomorte/sly">SLY</a>. Consult the
+installation instructions for the Common Lisp implementation of your
+choice. <a href="http://common-lisp.net/project/slime/doc/html/Installation.html#Installation">SLIME installation</a> requires just a few lines in <code>.emacs</code>, as
+does <a href="https://github.com/capitaomorte/sly">SLY</a>.
+</p>
+
+<p>
+To configure Common Lisp source code blocks in Org mode, add the
+appropriate dotted pair to <code>org-babel-load-languages</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>lisp . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9871ed4" class="outline-2">
+<h2 id="org9871ed4">Org Mode Features for Common Lisp Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org9871ed4">
+</div>
+<div id="outline-container-org42a46e2" class="outline-3">
+<h3 id="org42a46e2">Header Arguments</h3>
+<div class="outline-text-3" id="text-org42a46e2">
+<p>
+There are no language-specific default values for header arguments
+to Common Lisp source code blocks.
+</p>
+
+<p>
+A single language-specific header argument is defined for Common Lisp
+source code blocks:
+</p>
+
+<dl class="org-dl">
+<dt>:package</dt><dd>a string that names a Common Lisp package within which
+to execute the source code block. The default value is
+<code>:any</code>, which will execute the source code block in the
+current package.</dd>
+</dl>
+</div>
+</div>
+<div id="outline-container-orgeda4050" class="outline-3">
+<h3 id="orgeda4050">Sessions</h3>
+<div class="outline-text-3" id="text-orgeda4050">
+<p>
+By their nature, Common Lisp interpreters always run &ldquo;sessions.&rdquo;
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdeb2c2a" class="outline-3">
+<h3 id="orgdeb2c2a">Result Types</h3>
+<div class="outline-text-3" id="text-orgdeb2c2a">
+<p>
+All result types are supported.
+</p>
+</div>
+</div>
+<div id="outline-container-org29a4570" class="outline-3">
+<h3 id="org29a4570">Other</h3>
+<div class="outline-text-3" id="text-org29a4570">
+<p>
+The SLIME session must be running when the Common Lisp source code
+block is executed.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2de9fb4" class="outline-2">
+<h2 id="org2de9fb4">Examples of Use</h2>
+<div class="outline-text-2" id="text-org2de9fb4">
+<p>
+Start SLIME: <code>M-x slime &lt;RET&gt;</code>.
+</p>
+
+<pre class="example">
+#+name: hello-world
+#+header: :var message="Hello World!"
+#+begin_src lisp
+  (princ message)
+#+end_src
+</pre>
+
+<p>
+Execute the source code block with <code>C-c C-c</code> to yield this result:
+</p>
+<div class="org-src-container">
+<pre class="src src-lisp" id="orge0bdfca"><span style="color: #eb4509;">(</span>princ message<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<pre class="example">
+Hello World!
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgd97f9a2" class="outline-2">
+<h2 id="orgd97f9a2">Links to Tutorials and Other Resources</h2>
+<div class="outline-text-2" id="text-orgd97f9a2">
+<p>
+On-line Lisp books include an <a href="http://www.lisperati.com/casting.html">introductory comic book</a>, a <a href="http://www.gigamonkeys.com/book/">dead-sexy
+introduction and tutorial</a>, and a <a href="http://paulgraham.com/onlisp.html">comprehensive study of advanced Lisp
+techniques</a>.  Highly recommended.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

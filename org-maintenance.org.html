@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-maintenance.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .sh-escaped-newline {
+        /* sh-escaped-newline */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org maintenance
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">bzg at gnu dot org
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc ':t</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+This document describes the tasks the Org-mode maintainers have to do
+and how they are performed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Maintainers and contributors
+</span>
+Carsten Dominik created Org and is still active on the list.
+
+Bastien Guerry is the current maintainer and release manager.
+
+Nicolas Goaziou is helping with anything related to org-element.el and
+the exporters.
+
+Kyle Meyer is backporting patches made against Org in the Emacs
+repository and update the Emacs repo with Org latest release.
+
+Timothy (aka "TEC") and Tim Cross are "contributor stewards", ensuring
+that all contributions get the attention they deserve.
+
+John Corless is helping with confirming reported bugs.
+
+Some <span class="org-verbatim">ob-*.el</span> have a dedicated maintainer (see this <span class="kc-org-link-url"><a href="https://orgmode.org/list/87d015if5g.fsf@gnu.org/">call for help</a></span>.)
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> What's in a release?
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> We don't follow a release schedule
+</span>
+Org development is the work of volunteers only and we cannot promise
+to follow a release schedule.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> We don't use semantic versioning
+</span>
+We use the same numbering convention than semantic versioning, but we
+don't follow the rules of SemVer, as expressed in <span class="kc-org-link-url"><a href="https://semver.org">semver.org</a></span>.
+
+A <span class="italic">major</span> release (e.g. <span class="org-verbatim">10</span>) means: "Hear ye, hear ye!  <span class="bold">All users</span> should
+pay attention and read the release notes before upgrading!".
+
+A <span class="italic">minor</span> release (e.g. <span class="org-verbatim">10.1</span>) means: "Hear ye, hear ye!  <span class="bold">Power users and
+Org contributors</span> shoul pay attention and read the release notes before
+upgrading!  All other users are welcome to read them too."
+
+Note that this de facto convention has been made explicit after <span class="org-verbatim">9.4</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Major, minor and bugfix releases
+</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">Major release ::</span> The release number for a major release look like
+  this: <span class="org-verbatim">10</span>.  Major releases are made whenever Org is in a state where
+  the feature set is consistent and we know that the features that are
+  implemented will be supported in the future.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">Minor release ::</span> The release number for minor releases look like
+  this: <span class="org-verbatim">10.1</span>.  Minor releases are amends to main releases: small new
+  features or bugfixes.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">Bugfix-only releases ::</span> The release number for bugfixes-only
+  releases looks like this: <span class="org-verbatim">10.1.1</span>.  These release contain no new
+  feature at all, big or small, and only fix things that we cannot
+  affort not to fix in a minor release.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Conventions before and after Org 9.5
+</span>
+Note that before <span class="org-verbatim">Org 9.5</span>, versions like <span class="org-verbatim">9.3</span>, <span class="org-verbatim">9.4</span>, etc. were really
+<span class="italic">major</span> ones.  This was confusing for some users, especially those who
+expect Org to follow semantic versioning conventions.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Releasing
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Git workflow
+</span>
+The git repository has two branches:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">master ::</span> For current development.
+<span class="org-list-dt">-</span> <span class="org-list-dt">maint ::</span> For bug fixes against latest major or minor release.
+
+Bug fixes always go on <span class="org-verbatim">maint</span> then are merged on <span class="org-verbatim">master</span>.
+
+New features always go on <span class="org-verbatim">master</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Major release: merging master into maint
+</span>
+All commits in the <span class="org-verbatim">maint</span> branch should always be merged into the
+<span class="org-verbatim">master</span> branch.  Both minor and major releases are done from the <span class="org-verbatim">maint</span>
+branch.  When doing a major release, the <span class="org-verbatim">master</span> branch is merged into
+the <span class="org-verbatim">maint</span> branch.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tagging the release
+</span>
+When doing a major and a minor release, after all necessary merging is
+done, tag the <span class="bold">maint</span> branch for the release with:
+
+  <span class="org-code">: git tag -a release_9.1.7 -m "Adding release tag"
+</span>
+and push tags with
+
+  <span class="org-code">: git push --tags
+</span>
+We also encourage you to sign release tags like this:
+
+  <span class="org-code">: git tag -s release_9.1.7 -m "Adding release tag"
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Uploading the release files from the orgmode.org server
+</span>
+Log on the orgmode.org server as the emacs user and <span class="org-code">cd</span> to <span class="org-code">~/git/org-mode</span>.
+
+From there do
+
+  <span class="org-code">: make release
+</span>  <span class="org-code">: make upload
+</span>
+to create the <span class="org-verbatim">.tar.gz</span> and <span class="org-verbatim">.zip</span> files, the documentation, and to upload
+everything at the right place.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Available Org's builds on the server
+</span>
+There are two cron tasks on the server: one that builds the ELPA
+packages and one that builds <span class="org-verbatim">org-latest.tar.gz</span> and <span class="org-verbatim">org-latest.zip</span>.
+
+ELPA packages are built from the <span class="bold">maint</span> branch.  One ELPA package
+contains Org's core, another one called "org-plus-contrib" contains
+Org and contributed libraries.
+
+<span class="org-verbatim">org-latest*</span> snapshots are built from the <span class="bold">master</span> branch.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Synchronization Org and upstream Emacs
+</span>
+Below it is described how Org is kept in sync with the upstream Emacs.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Backporting changes from upstream Emacs
+</span>
+Sometimes Emacs maintainers make changes to Org files.  The process of
+propagating the changes back to the Org repository is called
+<span class="italic">backporting</span> for historical reasons.
+
+To find changes that need to be backported from the Emacs repository,
+the following <span class="org-verbatim">git</span> command, courtesy of <span class="kc-org-link-url"><a href="http://permalink.gmane.org/gmane.emacs.devel/215861">Kyle Meyer</a></span>, can be used:
+
+<span class="org-block-begin-line">#+begin_src shell
+</span><span class="org-block"><span class="type">git</span></span><span class="org-block"> log $</span><span class="org-block"><span class="variable-name">rev</span></span><span class="org-block">..origin/emacs-25 -- lisp/org doc/misc/org.texi </span><span class="org-block"><span class="sh-escaped-newline">\</span></span><span class="org-block">
+  etc/refcards/orgcard.tex etc/ORG-NEWS etc/org </span><span class="org-block"><span class="sh-escaped-newline">\</span></span><span class="org-block">
+  etc/schema/od-manifest-schema-v1.2-os.rnc </span><span class="org-block"><span class="sh-escaped-newline">\</span></span><span class="org-block">
+  etc/schema/od-schema-v1.2-os.rnc
+</span><span class="org-block-end-line">#+end_src
+</span>
+here, <span class="org-verbatim">$rev</span> is the last commit from the <span class="org-verbatim">emacs-25</span> branch that was
+backported.  The should also be done for the <span class="org-verbatim">master</span> branch.
+
+There is also a <span class="kc-org-link-url"><a href="http://git.savannah.gnu.org/cgit/emacs.git/atom/lisp/org/">feed</a></span> to keep track of new changes in the <span class="org-verbatim">lisp/org</span>
+folder in the Emacs repository.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Updating the Org version in upstream Emacs
+</span>
+New releases of Org should be added to the <span class="kc-org-link-url"><a href="https://git.savannah.gnu.org/cgit/emacs.git">Emacs repository</a></span>.
+
+Typically, Org can be synchronized by copying over files from the
+<span class="org-verbatim">emacs-sync</span> branch of the Org repository to the <span class="org-verbatim">master</span> branch of
+Emacs repository.  The <span class="org-verbatim">emacs-sync</span> branch has a few extra changes
+compared with the <span class="org-verbatim">maint</span> branch.  If the Emacs maintainers are
+planning a new release of Emacs soon, it is possible that another
+branch should be used.
+
+If the new release of Org contains many changes, it may be useful to
+use a separate branch before merging, e.g. <span class="org-verbatim">scratch/org-mode-merge</span>.
+This branch can then be merged with the <span class="org-verbatim">master</span> branch, when
+everything has been tested.
+
+Please see <span class="kc-org-link-url"><a href="http://git.savannah.gnu.org/cgit/emacs.git/tree/CONTRIBUTE">CONTRIBUTE</a></span> in the Emacs repository for guidelines on
+contributing to the Emacs repository.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Where to files go
+</span>
+The following list shows where files in Org repository are copied to
+in the Emacs repository, folder by folder.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> </span><span class="org-level-4"><span class="org-verbatim">org-mode/doc</span></span><span class="org-level-4">
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org.texi</span></span><span class="org-list-dt"> ::</span> Copy to <span class="org-verbatim">emacs/doc/misc</span>.  It may be necessary to replace,
+     <span class="org-code">@include org-version.inc</span> with <span class="org-code">@set VERSION 9.0.9</span> or similar.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">orgcard.tex</span></span><span class="org-list-dt"> ::</span> Copy to <span class="org-verbatim">emacs/etc/refcards</span>.  Make sure that
+     <span class="org-code">\def\orgversionnumber</span> and <span class="org-code">\def\versionyear</span> are up to date.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> </span><span class="org-level-4"><span class="org-verbatim">org-mode/etc</span></span><span class="org-level-4">
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">styles/*</span></span><span class="org-list-dt"> ::</span> Copy to <span class="org-verbatim">emacs/etc/org</span>.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">schema/*.rnc</span></span><span class="org-list-dt"> ::</span> Copy to <span class="org-verbatim">emacs/etc/schema</span>.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">schema/schemas.xml</span></span><span class="org-list-dt"> ::</span> Any new entries in this file should be added
+     to <span class="org-verbatim">emacs/etc/schema/schemas.xml</span>.
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">ORG-NEWS</span></span><span class="org-list-dt"> ::</span> Copy to <span class="org-verbatim">emacs/etc</span>
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> </span><span class="org-level-4"><span class="org-verbatim">org-mode/lisp</span></span><span class="org-level-4">
+</span>
+<span class="org-list-dt">-</span> Copy <span class="org-verbatim">*.el</span> files to <span class="org-verbatim">emacs/lisp/org</span>, except <span class="org-verbatim">org-loaddefs.el</span>!
+
+<span class="org-list-dt">-</span> You should create <span class="org-verbatim">org-version.el</span> in <span class="org-verbatim">emacs/lisp/org</span>.  The file is
+  created when you <span class="org-verbatim">make</span> Org.
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> </span><span class="org-level-4"><span class="custom">TODO</span></span><span class="org-level-4"> </span><span class="org-level-4"><span class="org-verbatim">org-mode/testing</span></span><span class="org-level-4">
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Update  </span><span class="org-level-3"><span class="org-verbatim">emacs/etc/NEWS</span></span><span class="org-level-3">
+</span>
+Whenever a new (major) version of Org is synchronized to the Emacs
+repository, it should be mentioned in the NEWS file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Updating the list of hooks/commands/options on Worg
+</span>
+Load the <span class="org-verbatim">mk/eldo.el</span> file then <span class="org-verbatim">M-x eldo-make-doc RET</span>.
+
+This will produce an org file with the documentation.
+
+Import this file into <span class="org-verbatim">worg/doc.org</span>, leaving the header untouched
+(except for the release number).
+
+Then commit and push the change on the <span class="org-verbatim">worg.git</span> repository.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Copyright assignments
+</span>
+The maintainers needs to keep track of copyright assignments.  Even
+better, find a volunteer to do this.
+
+The assignment form is included in the repository as a file that you
+can send to contributors: <span class="org-verbatim">request-assign-future.txt</span>
+
+The list of all contributors from who we have the papers is kept on
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contribute.html">this Worg page</a></span>, so that committers can check if a patch can go into
+the core.
+
+The assignment process does not always go smoothly, and it has
+happened several times that it gets stuck or forgotten at the FSF.
+The contact at the FSF for this is: <span class="org-verbatim">copyright-clerk AT fsf DOT org</span>
+
+Emails from the paper submitter have been ignored in the past, but an
+email from the maintainers of Org mode has usually fixed such cases
+within a few days.
+</pre>
+  </body>
+</html>

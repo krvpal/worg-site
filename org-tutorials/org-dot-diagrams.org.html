@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-dot-diagrams.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org tutorial on generating simple process diagrams using dot and tables
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Karl Voit
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tools AT Karl MINUS Voit DOT at
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   org-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Worg's index}</a></span> &gt; <span class="org-link"><a href="file:index.org">{Org-tutorials}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+This tutorial summarizes one specific method which defines (process)
+elements within tables in order to generate a simple work flow
+diagram using <span class="kc-org-link-url"><a href="https://code.google.com/p/pydot/">dot</a></span>.
+
+An alternative way of accomplishing the task would be using <span class="kc-org-link-url"><a href="http://plantuml.com/">PlantUML</a></span>
+(a wrapper to <span class="kc-org-link-url"><a href="http://www.graphviz.org/">Graphviz</a></span>) which can be <span class="kc-org-link-url"><a href="http://plantuml.com/emacs">integrated to Emacs</a></span> as well.
+
+We first demonstrate a compact version for one-time usage (tables and
+code snippet). Then, we show how to re-use this method for multiple
+sets of tables in an efficient way.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Defining the Process Elements
+</span>
+We are using tables to define our work-flow. The first table holds
+the node identifiers (internal names), node labels, optional shape
+definitions, and optional fill colors:
+
+<span class="org-code">: #+name: example-node-table
+: | *node*     | *label*        | *shape* | *fillcolor* |
+: |------------+----------------+---------+-------------|
+: | S_start    | start          | ellipse | green       |
+: | S_fill     | fill form      |         |             |
+: | S_send     | send form      |         |             |
+: | S_complete | form complete? | diamond | yellow      |
+: | S_do       | do task        |         | red         |
+: | S_end      | end            | ellipse |             |
+</span>
+The second table contains information about connections between nodes
+(using node identifiers) and optional labels:
+
+<span class="org-code">: #+name: example-graph
+: | from       | to         | label |
+: |------------+------------+-------|
+: | S_start    | S_fill     |       |
+: | S_fill     | S_send     |       |
+: | S_send     | S_complete |       |
+: | S_complete | S_fill     | N     |
+: | S_complete | S_do       | Y     |
+: | S_do       | S_end      |       |
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> ELISP code snippet for generating the diagram using dot
+</span>
+In the next step, we are going to generate the diagram file (in PNG
+format) using <span class="kc-org-link-url"><a href="https://code.google.com/p/pydot/">dot</a></span>. You should make sure that you have a working dot
+installation and probably tried out <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html">a tutorial about using dot within
+Org-mode</a></span>.
+
+The author of this code is <span class="kc-org-link-url"><a href="https://orgmode.org/list/4c174089656ce0b08177f464325c4bf9@mail.rickster.com">Rick Frankel</a></span>. It is written in Emacs LISP
+which directly executes the generated dot script:
+
+<span class="org-code">: #+name: graph-from-tables
+: #+HEADER: :var nodes=example-node-table graph=example-graph
+: #+BEGIN_SRC emacs-lisp :file ~/example-diagram.png :colnames yes :exports results
+:     (org-babel-execute:dot
+:      (concat
+:           "digraph {\n"
+:           "//rankdir=LR;\n" ;; remove comment characters '//' for horizontal layout; add for vertical layout
+:           (mapconcat
+:            (lambda (x)
+:              (format "%s [label=\"%s\" shape=%s style=\"filled\" fillcolor=\"%s\"]"
+:                              (car x)
+:                              (nth 1 x)
+:                              (if (string= "" (nth 2 x)) "box" (nth 2 x))
+:                              (if (string= "" (nth 3 x)) "none" (nth 3 x))
+:                              )) nodes "\n")
+:           "\n"
+:           (mapconcat
+:            (lambda (x)
+:              (format "%s -&gt; %s [taillabel=\"%s\"]"
+:                              (car x) (nth 1 x) (nth 2 x))) graph "\n")
+:           "}\n") params)
+: #+END_SRC
+</span>
+As you can see, the node table and the graph table are being defined
+in the header using the <span class="org-code">:var</span> argument for babel. The resulting PNG
+file name is defined as <span class="org-code">:file</span> argument below.
+
+By executing the babel script (e.g., <span class="org-code">C-c C-c</span>) the PNG file gets
+created.
+
+You can remove the dot-comment (<span class="org-code">//</span>) in front of <span class="org-code">rankdir</span> in order
+to switch to a horizontal layout of the diagram.
+
+<span class="org-link"><a href="file:../images/org-dot/example-diagram.png">file:../images/org-dot/example-diagram.png</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Re-using the code snippet with call-statements
+</span>
+When you are generating multiple diagrams within one single Org-mode
+file, you might want to re-use the ELISP code for all of your
+diagrams. However, you want to use different definition tables and a
+different output file name. The ELISP code is the same for all of
+them.
+
+This can be achieved by using <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Evaluating-code-blocks.html">the </a></span><span class="kc-org-link-url"><span class="org-code"><a href="https://orgmode.org/manual/Evaluating-code-blocks.html">call</a></span></span><span class="kc-org-link-url"><a href="https://orgmode.org/manual/Evaluating-code-blocks.html"> command</a></span>. In this example, we
+are re-using the ELISP code from above with two newly created tables
+of the very important process 42 (please notice also the differences
+in the <span class="org-code">name</span> arguments of the tables):
+
+<span class="org-code">: #+name: process42-node-table
+: | *node*  | *label*             | *shape* | *fillcolor* |
+: |---------+---------------------+---------+-------------|
+: | mystart | start               | ellipse | yellow      |
+: | mywatch | is Bob here?        | diamond |             |
+: | mywait  | wait for 10 minutes |         | red         |
+: | mytalk  | talk to Bob         |         |             |
+: | myend   | end                 | ellipse | green       |
+</span>
+The second table contains information about connections between nodes
+(using node identifiers) and optional labels:
+
+<span class="org-code">: #+name: process42-graph
+: | from    | to      | label |
+: |---------+---------+-------|
+: | mystart | mywatch |       |
+: | mywatch | mywait  | N     |
+: | mywait  | mywatch |       |
+: | mywatch | mytalk  | Y     |
+: | mytalk  | myend   |       |
+</span>
+The <span class="org-code">call</span> statement consists of the name of the code
+(<span class="org-code">graph-from-tables</span>), an insider header argument for the new file
+name, and arguments which defines the input tables. For <span class="kc-org-link-url"><a href="https://orgmode.org/list/5e6cbdf1d1de558009527836766630b7@mail.rickster.com">technical
+reasons</a></span>, we have to add table ranges as well (<span class="org-code">[2:-1]</span>):
+
+<span class="org-code">: #+call: graph-from-tables[:file ~/diagram-process42.png](nodes=process42-node-table[2:-1],graph=process42-graph[2:-1]) :results file
+</span>
+By invoking the call statement (place the cursor on it and use the
+usual <span class="org-code">C-c C-c</span> command to execute), you generate the diagram for our
+process 42:
+
+<span class="org-link"><a href="file:../images/org-dot/diagram-process42.png">file:../images/org-dot/diagram-process42.png</a></span>
+
+That's it.
+
+Pretty handy for generating (simple) process diagrams.
+</pre>
+  </body>
+</html>

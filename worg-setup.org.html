@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>worg-setup.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Worg setup on the <a href="https://orgmode.org">https://orgmode.org</a> server
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">mdl AT imapmail DOT org
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:nil \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How does Worg publish itself as a website?
+</span>
+  The server behind <span class="kc-org-link-url"><a href="https://orgmode.org">https://orgmode.org</a></span> website takes care of publishing
+  Worg into <span class="org-verbatim">HTML</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> How long does it take for a change to be published?
+</span>
+The changes should be available immediately following your <span class="org-verbatim">git push</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> There is a problem.  Can I check the export output?
+</span>
+As soon as you push a commit to the worg git repository on the org
+server, the publishing process is triggered.  You should see the
+output of the publishing process in your terminal.  If there's a
+problem, you should see the error in this output.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Looks like file XXX breaks the export.  What can I do?
+</span>
+<span class="org-list-dt">1.</span> Put this file in the FIXME directory at the root of the Worg
+   repository.  Files in this FIXME directory won't be published.
+
+<span class="org-list-dt">2.</span> Fix the page or contact the author of the page telling him about the
+   problem.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Where are the "raw" .org files kept?
+</span>
+In addition to publishing the html versions of the .org files Worg's
+git repository, the raw source .org files are also put in
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/sources">https://orgmode.org/worg/sources</a></span>. It is nice to make the .org file
+available for those following a tutorial so that the actual .org
+file is viewable in addition to reading through the online html
+version. To do this, simply link to the file in the worg sources directory:
+<span class="org-list-dt">-</span> If the page in the git repository is <span class="org-verbatim">~/worg.git/path/to/file/file.org</span>,
+<span class="org-list-dt">-</span> Link like so: <span class="kc-org-link-url"><span class="org-verbatim"><a href="https://orgmode.org/worg/sources/path/to/file/file.org">https://orgmode.org/worg/sources/path/to/file/file.org</a></span></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Are there any writing conventions?
+</span>
+  Please don't use <span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html#Specifying-File-Variables">file variables</a></span> in your org files.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Can Worg execute code (via Babel)?
+</span>
+  No.  The default automated export does not allow code execution on the
+  server for obvious security reasons.
+
+  If you absolutely need code execution:
+
+  <span class="org-list-dt">-</span> double-check there is no issue when exporting this file locally
+  <span class="org-list-dt">-</span> send <span class="org-link"><a href="mailto:mdl%20AT%20imapmail%20DOT%20org">me</a></span> an email mentioning the file you want to export
+  <span class="org-list-dt">-</span> I will double-check it myself and manually export it if it's okay
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> What software is available on Worg for Babel code execution?
+</span>
+  If babel code execution works on your machine, it doesn't mean it will
+  work on the orgmode.org server.  Here is the list of available
+  software on orgmode.org:
+
+  <span class="org-table">| Software     |                    Version |</span>
+  <span class="org-table">|--------------+----------------------------|</span>
+  <span class="org-table">| GNU Emacs    |                  23.1.90.1 |</span>
+  <span class="org-table">| shell        |                        3.1 |</span>
+  <span class="org-table">| R            |                     2.11.1 |</span>
+  <span class="org-table">| gnuplot-mode |                      O.6.0 |</span>
+  <span class="org-table">| gnuplot      |                        4.4 |</span>
+  <span class="org-table">| latex        | pdfeTeX 3.141592-1.21a-2.2 |</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> What .emacs.el file is used on the server?
+</span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/code/elisp/emacs.el">https://orgmode.org/worg/code/elisp/emacs.el</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> I want it for my own server!
+</span>
+  Here is the detailed recipe:
+
+  <span class="org-list-dt">1.</span> Configure your <span class="org-verbatim">~/.emacs.el</span> to know about your publishing projects
+     (more information on publishing <span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/manual/html_node/org/Publishing.html">here</a></span> and <span class="org-link"><a href="file:org-tutorials/org-publish-html-tutorial.org">here</a></span>).
+
+  <span class="org-list-dt">2.</span> Use <span class="org-verbatim">(setq org-export-htmlize-output-type 'css)</span> in <span class="org-verbatim">~/.emacs.el</span>.
+
+     (Do <span class="org-verbatim">C-h v org-export-htmlize-output-type</span> for more information
+     about this.  Also <span class="org-verbatim">C-h v org-export-htmlize-generate-css</span> might
+     help.)
+
+  <span class="org-list-dt">3.</span> Create <span class="org-verbatim">~/bin/pull-worg.sh</span> containing this script:
+
+<span class="org-block-begin-line">     #+BEGIN_SRC sh-mode
+</span>     <span class="org-tag">#!/bin/bash</span>
+
+     # unless this is already done elsewhere:
+     export PATH=$PATH:/home/you/bin/
+
+     # go to the place where you pull Worg
+     cd /<span class="italic">home/you/git/worg</span>/;
+
+     # pull worg
+     /home/you/bin/git-pull
+<span class="org-block-end-line">     #+END_SRC
+</span>
+  <span class="org-list-dt">4.</span> Create <span class="org-verbatim">~/bin/publish-worg.sh</span> containing this script:
+
+<span class="org-block-begin-line">     #+BEGIN_SRC sh-mode
+</span>     <span class="org-tag">#!/bin/bash</span>
+
+     # Adapt it to point at your emacs executable
+     /<span class="italic">home/you/bin/emacs23 --batch -l ~</span>/.emacs.el -f org-publish-all
+<span class="org-block-end-line">     #+end_src
+</span>
+  <span class="org-list-dt">5.</span> Cron the two scripts to run every hour, not at the same time
+
+<span class="org-block-begin-line">     #+BEGIN_SRC generic-mode
+</span>     0 * * * * /home/you/bin/pull-worg.sh &gt;&gt; /dev/null 2&gt;&amp;1
+     30 * * * * /home/you/bin/publish-worg.sh &gt;&gt; /dev/null 2&gt;&amp;1
+<span class="org-block-end-line">     #+END_SRC
+</span>
+  <span class="org-list-dt">6.</span> Sit and do something else while your Org repository is
+     automagically exported to HTML
+</pre>
+  </body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-e-man-documentation.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+title:</span> <span class="org-document-title">Man Pages and PDF export
+</span>
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+Org mode provides the ability to export files marked with the Groff
+Man Pages (-man) set. With additional processing it can turn these
+files into PDF files that can be used for general distribution.
+
+Groff is used for the generation of <span class="org-verbatim">man</span> pages. But writing those pages
+may be an intimidating task. With this export mode, Org mode
+structured editing and facilities are available to facilitate the
+creation of these pages.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> To use this feature
+</span>
+Include <span class="org-verbatim">(require 'ox-man)</span> in your <span class="org-verbatim">.emacs</span> file.  This feature only
+works with the new <span class="org-verbatim">org-export</span> facility.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Header and sectioning structure
+</span>
+There is only one type of document available to create man pages,
+therefore there are no classes. However the following customizations
+are available:
+
+<span class="org-list-dt">-</span> The <span class="org-verbatim">#+TITLE:</span> line is used to set the name of the command in the Man
+  page's title line.  
+
+<span class="org-list-dt">-</span> The <span class="org-verbatim">#+MAN_CLASS_OPTIONS:</span> line contains one available option:
+
+   <span class="org-list-dt">-</span> <span class="org-list-dt">:section-id ::</span> Defines the section id to be placed in the Man
+     Page.  Defaults to "1". <span class="italic">(string)</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Man export commands
+</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">M-x org-man-export-to-man ::</span> Converts buffer to a man page the
+  assumptions that it was Org mode syntax. For an Org file like
+  <span class="org-verbatim">myfile.org</span> the Groff file will be <span class="org-verbatim">myfile.man</span>. The file will be
+  overwritten without warning.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">M-x org-man-export-to-pdf ::</span> Converts buffer to a PDF file under
+  the assumptions that it was Org mode syntax. It uses Groff as its
+  typesetter engine.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tables in Man export
+</span>
+Groff uses the <span class="org-verbatim">tbl</span> preprocessor for table exports but the Groff export
+process also supports the specification of labels, captions and table
+options with the use of the <span class="org-verbatim">#+ATTR_MAN:</span> line. The following options
+are available to modify table behavior.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">:divider ::</span> Places vertical bars between the different
+  columns. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:placement ::</span> Defines where the table will be placed in the
+  line. There are two possible values: center or left. <span class="italic">(symbol)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:boxtype ::</span> Defines the box type. <span class="italic">(symbol)</span> The following values are
+  supported:
+   <span class="org-list-dt">-</span> <span class="org-list-dt">box ::</span> Creates a border only. Default
+   <span class="org-list-dt">-</span> <span class="org-list-dt">doublebox ::</span> Creates a border with two lines.
+   <span class="org-list-dt">-</span> <span class="org-list-dt">allbox ::</span> Creates a table in which all cells are divided.
+   <span class="org-list-dt">-</span> <span class="org-list-dt">none ::</span> No borders.
+<span class="org-list-dt">-</span> <span class="org-list-dt">:title-line ::</span> Forces the first row to be centered bold. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:diable-caption ::</span> Captions are placed by default. This will disable
+  its creation. <span class="italic">(boolean)</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:expand ::</span> Expands the table across the width of the page. 
+
+The Groff export will honor columns definitions placed on top of a
+given table in Org mode and propagates those definitions as <span class="org-verbatim">tbl</span>
+commands.
+
+Man pages do support the use of tables, however the definition in
+<span class="italic">man.conf</span> needs to invoke <span class="org-verbatim">tbl</span> when the <span class="org-verbatim">man</span> command is executed. This is
+to ensure that tables are rendered correctly.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Source highlight in Man export
+</span>
+Man export supports source highlight. See <span class="italic">Source highlight in Groff
+export</span> for details on how to configure this feature in your system.
+
+One important difference is the name of the variable used to enable
+its use, the name is <span class="org-verbatim">org-e-man-source-highlight</span>. Albeit its name is
+analogous for the one used in the Groff export, the name indicates its
+used to be specific for Man pages.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Embedded Groff commands for Man exports. 
+</span>
+Groff commands can be exported literally by surrounding the text on a
+pair of <span class="org-verbatim">#+BEGIN_MAN/#+END_MAN</span> lines.  These are a couple of commands
+that can be useful during export to control the output.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+BEGIN_MAN
+.bp
+,#+END_MAN
+</span><span class="org-block-end-line">#+end_src
+</span>
+Page break. Skips to a new page. 
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+BEGIN_MAN
+.DS C
+.EQ
+
+
+.EN
+.DE
+.EC
+,#+END_MAN
+</span><span class="org-block-end-line">#+end_src
+</span>
+EQN escape. This is used to add equations in your exported
+document. The Groff export uses the <span class="org-verbatim">eqn</span> processor to add them in your
+output. EQN statements must be placed between .EQ and .EN.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+BEGIN_MAN
+.EX
+
+.EE
+,#+END_MAN
+</span><span class="org-block-end-line">#+end_src
+</span>
+Example start and end. Text must be placed between .EX and .EE. Using
+<span class="org-verbatim">#+BEGIN_EXAMPLE/#+END_EXAMPLE</span> or <span class="org-verbatim">#+begin_src dummy/#+end_src</span> does the
+same with commands that are compatible on all platforms.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Man export limitations
+</span>
+The following items are partially or not supported during Man pages
+exports.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">Images ::</span> Images are not supported.
+<span class="org-list-dt">-</span> <span class="org-list-dt">.EX/.EQ ::</span> These are not used on export. They are implemented using
+  .nf/.fi pairs for compatibility with legacy systems. Use embedded
+  Man Pages commands to use these.
+<span class="org-list-dt">-</span> <span class="org-list-dt">.UR/UE and .MT/ME ::</span> These are not used on export to ensure support
+  with legacy systems. Use embedded Man Pages commands to use these.
+<span class="org-list-dt">-</span> <span class="org-list-dt">.SY/OP/YS ::</span> These are not used on export. Use embedded Man pages
+  commands to use these.
+</pre>
+  </body>
+</html>

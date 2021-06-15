@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-track.el &#x2013; Keep current with Org-mode development: M-x org-track-update</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-track.el &#x2013; Keep current with Org-mode development: M-x org-track-update</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9324b38">Usage</a></li>
+<li><a href="#org0737bc5">org-track-directoy Layout</a></li>
+<li><a href="#orge55f569">Fine-tuning</a></li>
+<li><a href="#orgbf11c98">How it works</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s contibutions index}</a>
+</p>
+
+<p>
+<b>Note that this package might need to be updated to work with the new
+Org repo starting 2018. See <a href="http://lists.gnu.org/r/emacs-orgmode/2017-12/msg00578.html">here</a> for the announcement.</b>
+</p>
+
+<p>
+<code>org-track.el</code> aims to add a simple interface to track Org-mode&rsquo;s git
+repository on <a href="https://code.orgmode.org/bzg/org-mode.git">https://code.orgmode.org/bzg/org-mode.git</a>. For non-git
+users, an <code>org-latest.tar.gz</code> archive is provided and will be downloaded
+from <a href="https://orgmode.org/org-latest.tar.gz">https://orgmode.org/org-latest.tar.gz</a>.
+</p>
+
+<p>
+The idea was born in a thread on the emacs-orgmode mailing list on <a href="https://orgmode.org/list/D5AB1A81-4B00-4B4F-9A1C-A2995AE297FA@nf.mpg.de">a
+request from Stefan Vollmar</a>.
+</p>
+
+<p>
+If you run into trouble, drop us a mail on the <a href="mailto:emacs-orgmode@gnu.org">emacs-orgmode mailing
+list</a>.
+</p>
+
+<div id="outline-container-org9324b38" class="outline-2">
+<h2 id="org9324b38">Usage</h2>
+<div class="outline-text-2" id="text-org9324b38">
+<p>
+You will need an initial version of the Org-mode distribution in
+your load path:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #fd971f;">load-path</span> <span style="color: #e2c770;">"/path/to/org-mode/lisp"</span><span style="color: #eb4509;">)</span>
+    <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #fd971f;">org</span><span style="color: #eb4509;">)</span>
+    <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #fd971f;">org-track</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+You will also need to clone the <code>org-contrib</code> repository from <a href="https://git.sr.ht/~bzg/org-contrib">here</a>,
+and to require <code>org-track</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #fd971f;">load-path</span> <span style="color: #e2c770;">"/path/to/org-contrib/lisp"</span><span style="color: #eb4509;">)</span>
+    <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #fd971f;">org-track</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Adjust at least the variable <code>org-track-directory</code>. You can use
+customize for this:
+</p>
+
+<pre class="example">
+M-x customize-variable RET org-track-directory RET
+</pre>
+
+
+<p>
+From now on, to update and compile the current development version
+of Org-mode is just a matter of typing:
+</p>
+
+<pre class="example">
+M-x org-track-update RET
+</pre>
+
+
+<p>
+This will download the current <code>org-latest.tar.gz</code> and (optionally) compile the sources.
+</p>
+</div>
+</div>
+<div id="outline-container-org0737bc5" class="outline-2">
+<h2 id="org0737bc5">org-track-directoy Layout</h2>
+<div class="outline-text-2" id="text-org0737bc5">
+<p>
+The <code>org-track-directory</code> is the only variable you&rsquo;ll need to
+adjust. This is the directory where your local copy of Org-mode will
+live. I.e., a sub directory &rsquo;org-mode/&rsquo; will be added here. Also the
+file <code>org-latest.tar.gz</code> will be put here (and deleted after updates):
+</p>
+
+<pre class="example">
+org-track-directory
+        |-- org-latest.tar.gz (if you download archives)
+        `-- org-mode
+            |-- ...
+            |-- lisp          (add this dir to your loadpath)
+            |-- contrib
+            |   `-- lisp       (add this dir to your loadpath)
+            `-- ...
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge55f569" class="outline-2">
+<h2 id="orge55f569">Fine-tuning</h2>
+<div class="outline-text-2" id="text-orge55f569">
+<p>
+To see and/or change all the related variables, do:
+</p>
+
+<pre class="example">
+M-x customize-group RET org-track RET
+</pre>
+
+
+<p>
+Here is a list of all variables the script uses:
+</p>
+
+<dl class="org-dl">
+<dt><code>org-track-directory</code></dt><dd>The directory, where the sub-directory
+<code>org-mode/</code> lives. Default: <code>~/.emacs.d/org/lisp</code></dd>
+<dt><code>org-track-compile-sources</code></dt><dd>Compile the sources after
+downloading? Defaults to <code>t</code>.</dd>
+<dt><code>org-track-org-url</code></dt><dd>The package is downloaded from this URL. This
+denotes the folder actually (i.e. the URL without the basename
+<code>org-latest.tar.gz</code>).</dd>
+<dt><code>org-track-org-package</code></dt><dd>The name the package itself. Default:
+<code>org-latest.tar.gz</code>.</dd>
+<dt><code>org-track-remove-package</code></dt><dd>Remove the downloaded package after
+unpacking?  The default is to keep the archive.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgbf11c98" class="outline-2">
+<h2 id="orgbf11c98">How it works</h2>
+<div class="outline-text-2" id="text-orgbf11c98">
+<p>
+The `*.tar.gz&rsquo; version is extracted without external dependencies
+(tar-mode).  To make sure that <code>org-latest.tar.gz</code> is opened in
+tar-mode, the code modifies your `auto-mode-alist&rsquo;:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">auto-mode-alist</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"org-latest\\.tar\\.gz\\'"</span> . tar-mode<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The downloaded package can be removed. See the option
+<code>org-git-remove-package</code>.  Default is not to remove <code>org-latest.tar.gz</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

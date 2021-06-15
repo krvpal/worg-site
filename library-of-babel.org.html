@@ -1,0 +1,799 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>library-of-babel.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* font-lock-warning-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+title:</span>    <span class="org-document-title">The Library of Babel
+</span><span class="org-document-info-keyword">#+author:</span>     <span class="org-document-info">Org-mode People
+</span><span class="org-meta-line">#+STARTUP:  hideblocks</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+The Library of Babel is an extensible collection of ready-made and
+easily-shortcut-callable source-code blocks for handling common tasks.
+Org-babel comes pre-populated with the source-code blocks located in
+this file.  It is possible to add source-code blocks from any org-mode
+file to the library by calling <span class="org-verbatim">(org-babel-lob-ingest
+"path/to/file.org")</span>.
+
+This file is included in worg mainly less for viewing through the web
+interface, and more for contribution through the worg git repository.
+If you have code snippets that you think others may find useful please
+add them to this file and <span class="org-link"><a href="file:worg-about.org::*How to use git for Worg">How to use git for Worg</a></span> to worg.
+
+The raw Org-mode text of this file can be downloaded at
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/library-of-babel.org">library-of-babel.org</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Simple
+</span>
+A collection of simple utility functions:
+
+<span class="org-meta-line">#+name: echo</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var input="echo'd"
+</span><span class="org-block">  input
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> File I/O
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Reading and writing files
+</span>
+Read the contents of the file at <span class="org-verbatim">file</span>.  The <span class="org-verbatim">:results vector</span> and
+<span class="org-verbatim">:results scalar</span> header arguments can be used to read the contents of
+file as either a table or a string.
+
+<span class="org-meta-line">#+name: read</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var file="" :var format=""
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> format </span><span class="org-block"><span class="string">"csv"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-table-import</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-table-to-lisp</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert-file-contents</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">buffer-string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Write <span class="org-verbatim">data</span> to a file at <span class="org-verbatim">file</span>.  If <span class="org-verbatim">data</span> is a list, then write it
+as a table in traditional Org-mode table syntax.
+
+<span class="org-meta-line">#+name: write</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var data="" :var file="" :var ext='()
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">flet</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">echo </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">r</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> r</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> r </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> r</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-file</span></span><span class="org-block"> file
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">case</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> ext </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">intern</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">file-name-extension</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">tsv</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">orgtbl-to-tsv</span></span><span class="org-block"> data </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:fmt</span></span><span class="org-block"> echo</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">csv</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">orgtbl-to-csv</span></span><span class="org-block"> data </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="builtin">:fmt</span></span><span class="org-block"> echo</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">t    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-babel-insert-result</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  nil
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Remote files
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> json
+</span>
+Read local or remote file in <span class="kc-org-link-url"><a href="http://www.json.org/">json</a></span> format into emacs-lisp objects.
+
+<span class="org-meta-line">#+name: json</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var file='() :var url='()
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">json</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">cond</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">file
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">org-babel-with-temp-filebuffer</span></span><span class="org-block"> file
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">json-read</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">url
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">w3m</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">w3m-retrieve url</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">json-read</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Google docs
+</span>
+The following code blocks make use of the <span class="kc-org-link-url"><a href="http://code.google.com/p/googlecl/">googlecl</a></span> Google command line
+tool.  This tool provides functionality for accessing Google services
+from the command line, and the following code blocks use <span class="italic">googlecl</span>
+for reading from and writing to Google docs with Org-mode code blocks.
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Read a document from Google docs
+</span>
+The <span class="org-verbatim">google</span> command seems to be throwing "Moved Temporarily" errors
+when trying to download textual documents, but this is working fine
+for spreadsheets.
+
+<span class="org-meta-line">#+name: gdoc-read</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var title="example" :var format="csv"
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">file </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> title </span><span class="org-block"><span class="string">"."</span></span><span class="org-block"> format</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">cmd </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"google docs get --format %S --title %S"</span></span><span class="org-block"> format title</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> cmd</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">shell-command-to-string</span></span><span class="org-block"> cmd</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">prog1</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> format </span><span class="org-block"><span class="string">"csv"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+               </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-table-import</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">shell-quote-argument</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="highlight-numbers-number">4</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-table-to-lisp</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+             </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+               </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert-file-contents</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">shell-quote-argument</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+               </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">buffer-string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">delete-file</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+For example, a line like the following can be used to read the
+contents of a spreadsheet named <span class="org-verbatim">num-cells</span> into a table.
+<span class="org-code">: #+call: gdoc-read(title="num-cells"")
+</span>
+A line like the following can be used to read the contents of a
+document as a string.
+
+<span class="org-code">: #+call: gdoc-read(title="loremi", :format "txt")
+</span>
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Write a document to a Google docs
+</span>
+Write <span class="org-verbatim">data</span> to a google document named <span class="org-verbatim">title</span>.  If <span class="org-verbatim">data</span> is tabular
+it will be saved to a spreadsheet, otherwise it will be saved as a
+normal document.
+
+<span class="org-meta-line">#+name: gdoc-write</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var title="babel-upload" :var data=fibs(n=10) :results silent
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"csv"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"txt"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">tmp-file </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">make-temp-file</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org-babel-google-doc"</span></span><span class="org-block"> nil </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"."</span></span><span class="org-block"> format</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">cmd </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"google docs upload --title %S %S"</span></span><span class="org-block"> title tmp-file</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-file</span></span><span class="org-block"> tmp-file
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">orgtbl-to-csv</span></span><span class="org-block">
+            data </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:fmt</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> el </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> data </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> cmd</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">prog1</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">shell-command-to-string</span></span><span class="org-block"> cmd</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">delete-file</span></span><span class="org-block"> tmp-file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+example usage
+<span class="org-code">: #+name: fibs
+: #+begin_src emacs-lisp :var n=8
+:   (flet ((fib (m) (if (&lt; m 2) 1 (+ (fib (- m 1)) (fib (- m 2))))))
+:     (mapcar (lambda (el) (list el (fib el))) (number-sequence 0 (- n 1))))
+: #+end_src
+:
+: #+call: gdoc-write(title="fibs", data=fibs(n=10))
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Plotting code
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> R
+</span>
+Plot column 2 (y axis) against column 1 (x axis). Columns 3 and
+beyond, if present, are ignored.
+
+Running this code will create a file <span class="org-verbatim">Rplots.pdf</span> in the current working directory.
+
+<span class="org-meta-line">#+name: R-plot</span>
+<span class="org-block-begin-line">#+begin_src R :var data=R-plot-example-data
+</span>plot(data)
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: R-plot-example-data</span>
+<span class="org-table">| 1 |  2 |</span>
+<span class="org-table">| 2 |  4 |</span>
+<span class="org-table">| 3 |  9 |</span>
+<span class="org-table">| 4 | 16 |</span>
+<span class="org-table">| 5 | 25 |</span>
+
+<span class="org-meta-line">#+call: R-plot(data=R-plot-example-data)</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Gnuplot
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org reference
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Headline references
+</span>
+<span class="org-meta-line">#+name: headline</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var headline=top :var file='()
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> file </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">get-file-buffer</span></span><span class="org-block"> file</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-open-link-from-string</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-make-link-string</span></span><span class="org-block"> headline</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">save-restriction</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-narrow-to-subtree</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">buffer-string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+call: headline(headline="headline references")</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Tables
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX Table Export
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> booktabs
+</span>
+This source block can be used to wrap a table in the latex <span class="org-verbatim">booktabs</span>
+environment. The source block adds a <span class="org-verbatim">toprule</span> and <span class="org-verbatim">bottomrule</span> (so
+don't use <span class="org-verbatim">hline</span> at the top or bottom of the table).  The <span class="org-verbatim">hline</span>
+after the header is replaced with a <span class="org-verbatim">midrule</span>.
+
+Note that this function bypasses the Org-mode LaTeX exporter and calls
+<span class="org-verbatim">orgtbl-to-generic</span> to create the output table.  This means that the
+entries in the table are not translated from Org-mode to LaTeX.
+
+It takes the following arguments -- all but the first two are
+optional.
+
+<span class="org-table">| arg   | description                                |</span>
+<span class="org-table">|-------+--------------------------------------------|</span>
+<span class="org-table">| table | a reference to the table                   |</span>
+<span class="org-table">| align | alignment string                           |</span>
+<span class="org-table">| env   | optional environment, default to "tabular" |</span>
+<span class="org-table">| width | optional width specification string        |</span>
+
+<span class="org-meta-line">#+name: booktabs</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var table='((:head) hline (:body)) :var align='() :var env="tabular" :var width='() :noweb yes :results latex
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">flet</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">to-tab </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">tab</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">orgtbl-to-generic</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">lis</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> lis</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">el</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                              el
+                                            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">lis</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block">
+                              lis</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">tab</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:lend</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" \\\\"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:sep</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" &amp; "</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:hline</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\\hline"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-fill-template</span></span><span class="org-block">
+     </span><span class="org-block"><span class="string">"
+  \\begin{%env}%width%align
+  \\toprule
+  %table
+  \\bottomrule
+  \\end{%env}\n"</span></span><span class="org-block">
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"env"</span></span><span class="org-block">       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> env </span><span class="org-block"><span class="string">"table"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"width"</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> width </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{%s}"</span></span><span class="org-block"> width</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"align"</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> align </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{%s}"</span></span><span class="org-block"> align</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"table"</span></span><span class="org-block">
+            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">only use \midrule if it looks like there are column headers
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">equal</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">hline</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">second</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">to-tab </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="string">"\n\\midrule\n"</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">to-tab </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cddr</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">to-tab table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> longtable
+</span>
+This block can be used to wrap a table in the latex <span class="org-verbatim">longtable</span>
+environment, it takes the following arguments -- all but the first two
+are optional.
+
+<span class="org-table">| arg       | description                                                 |</span>
+<span class="org-table">|-----------+-------------------------------------------------------------|</span>
+<span class="org-table">| table     | a reference to the table                                    |</span>
+<span class="org-table">| align     | optional alignment string                                   |</span>
+<span class="org-table">| width     | optional width specification string                         |</span>
+<span class="org-table">| hline     | the string to use as hline separator, defaults to "\\hline" |</span>
+<span class="org-table">| head      | optional "head" string                                      |</span>
+<span class="org-table">| firsthead | optional "firsthead" string                                 |</span>
+<span class="org-table">| foot      | optional "foot" string                                      |</span>
+<span class="org-table">| lastfoot  | optional "lastfoot" string                                  |</span>
+
+<span class="org-meta-line">#+name: longtable</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var table='((:table)) :var align='() :var width='() :var hline="\\hline" :var firsthead='() :var head='() :var foot='() :var lastfoot='() :noweb yes :results latex
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-fill-template</span></span><span class="org-block">
+   </span><span class="org-block"><span class="string">"
+  \\begin{longtable}%width%align
+  %firsthead
+  %head
+  %foot
+  %lastfoot
+
+  %table
+  \\end{longtable}\n"</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"width"</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> width </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{%s}"</span></span><span class="org-block"> width</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"align"</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> align </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{%s}"</span></span><span class="org-block"> align</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"firsthead"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> firsthead </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> firsthead </span><span class="org-block"><span class="string">"\n\\endfirsthead\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"head"</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> head </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> head </span><span class="org-block"><span class="string">"\n\\endhead\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"foot"</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> foot </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> foot </span><span class="org-block"><span class="string">"\n\\endfoot\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"lastfoot"</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> lastfoot </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> lastfoot </span><span class="org-block"><span class="string">"\n\\endlastfoot\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"table"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">orgtbl-to-generic</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">lis</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                             </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> lis</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                 </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">el</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                               el
+                                             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">lis</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block">
+                               lis</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">table</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:lend</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" \\\\"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:sep</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" &amp; "</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:hline</span></span><span class="org-block"> hline</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> booktabs-notes
+</span>
+This source block builds on <span class="org-link"><a href="booktabs">booktabs</a></span>.  It accepts two additional
+arguments, both of which are optional.
+
+<span class="org-meta-line">#+tblname: arguments</span>
+<span class="org-table">| arg    | description                                          |</span>
+<span class="org-table">|--------+------------------------------------------------------|</span>
+<span class="org-table">| notes  | an org-mode table with footnotes                     |</span>
+<span class="org-table">| lspace | if non-nil, insert </span><span class="org-table"><span class="org-verbatim">addlinespace</span></span><span class="org-table"> after </span><span class="org-table"><span class="org-verbatim">bottomrule</span></span><span class="org-table"> |</span>
+
+An example footnote to the <span class="org-verbatim">arguments</span> table specifies the column
+span. Note the use of LaTeX, rather than Org-mode, markup.
+
+<span class="org-meta-line">#+tblname: arguments-notes</span>
+<span class="org-table">| \multicolumn{2}{l}{This is a footnote to the \emph{arguments} table.} |</span>
+
+<span class="org-meta-line">#+name: booktabs-notes</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var table='((:head) hline (:body)) :var notes='() :var align='() :var env="tabular" :var width='() :var lspace='() :noweb yes :results latex
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">flet</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">to-tab </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">tab</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">orgtbl-to-generic</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">lis</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> lis</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">el</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                              el
+                                            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%S"</span></span><span class="org-block"> el</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">lis</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block">
+                              lis</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">tab</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-2">)</span></span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:lend</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" \\\\"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:sep</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" &amp; "</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:hline</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\\hline"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-fill-template</span></span><span class="org-block">
+     </span><span class="org-block"><span class="string">"
+    \\begin{%env}%width%align
+    \\toprule
+    %table
+    \\bottomrule%spacer
+    %notes
+    \\end{%env}\n"</span></span><span class="org-block">
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"env"</span></span><span class="org-block">       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> env </span><span class="org-block"><span class="string">"table"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"width"</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> width </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{%s}"</span></span><span class="org-block"> width</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"align"</span></span><span class="org-block">     </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> align </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"{%s}"</span></span><span class="org-block"> align</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"spacer"</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> lspace </span><span class="org-block"><span class="string">"\\addlinespace"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"table"</span></span><span class="org-block">
+            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">only use \midrule if it looks like there are column headers
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">equal</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">hline</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">second</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">to-tab </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="string">"\n\\midrule\n"</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">to-tab </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cddr</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">to-tab table</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"notes"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> notes </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">to-tab notes</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Elegant lisp for transposing a matrix
+</span>
+<span class="org-meta-line">#+tblname: transpose-example</span>
+<span class="org-table">| 1 | 2 | 3 |</span>
+<span class="org-table">| 4 | 5 | 6 |</span>
+
+<span class="org-meta-line">#+name: transpose</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var table=transpose-example
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">apply</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">mapcar*</span></span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">list</span></span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+resname:</span>
+<span class="org-table">| 1 | 4 |</span>
+<span class="org-table">| 2 | 5 |</span>
+<span class="org-table">| 3 | 6 |</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Convert every element of a table to a string
+</span>
+<span class="org-meta-line">#+tblname: hetero-table</span>
+<span class="org-table">| 1 | 2 | 3 |</span>
+<span class="org-table">| a | b | c |</span>
+
+<span class="org-meta-line">#+name: all-to-string</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var tbl='()
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">all-to-string</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">all-to-string</span></span></span><span class="org-block"> tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          tbl
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s"</span></span><span class="org-block"> tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">all-to-string tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var tbl=hetero-table
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">row</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">cell</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> cell</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> row</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name:</span>
+<span class="org-table">| nil | nil | nil |</span>
+<span class="org-table">| t   | t   | t   |</span>
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var tbl=all-to-string(hetero-table)
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">row</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">cell</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">stringp</span></span><span class="org-block"> cell</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> row</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> tbl</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name:</span>
+<span class="org-table">| t | t | t |</span>
+<span class="org-table">| t | t | t |</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Misc
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> File-specific Version Control logging
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:AUTHOR:</span> <span class="org-property-value">Luke Crook</span>
+   <span class="org-drawer">:END:</span>
+
+This function will attempt to retrieve the entire commit log for the
+file associated with the current buffer and insert this log into the
+export. The function uses the Emacs VC commands to interface to the
+local version control system, but has only been tested to work with
+Git. 'limit' is currently unsupported.
+
+<span class="org-meta-line">#+name: vc-log</span>
+<span class="org-meta-line">#+headers: :var limit=-1</span>
+<span class="org-meta-line">#+headers: :var buf=(buffer-name (current-buffer))</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Most of this code is copied from vc.el vc-print-log
+</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">vc</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">vc-find-backend-function</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">vc-backend</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">buffer-file-name</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">get-buffer</span></span><span class="org-block"> buf</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">print-log</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">limit </span><span class="org-block"><span class="highlight-numbers-number">-1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">vc-fileset nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">backend nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">files nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">get-buffer</span></span><span class="org-block"> buf</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> vc-fileset </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">vc-deduce-fileset</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="bold"><span class="error">FIXME:</span></span></span><span class="org-block"><span class="comment"> Why t? --Stef
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> backend </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> vc-fileset</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> files </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cadr</span></span><span class="org-block"> vc-fileset</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">status </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">vc-call-backend</span></span><span class="org-block">
+                       backend </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">print-log</span></span><span class="org-block"> files </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">current-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">processp</span></span><span class="org-block"> status</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">   </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">Make sure status is a process
+</span></span><span class="org-block">                     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">=</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">process-exit-status</span></span><span class="org-block"> status</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">which has not terminated
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">eq</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">exit</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">process-status</span></span><span class="org-block"> status</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">sit-for</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">buffer-string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Trivial python code blocks
+</span>
+<span class="org-meta-line">#+name: python-identity</span>
+<span class="org-block-begin-line">#+begin_src python :var a=1
+</span><span class="org-block">a
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: python-add</span>
+<span class="org-block-begin-line">#+begin_src python :var a=1 :var b=2
+</span><span class="org-block">a + b
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Arithmetic
+</span>
+<span class="org-meta-line">#+name: lob-add</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var a=0 :var b=0
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> a b</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: lob-minus</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var a=0 :var b=0
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">-</span></span><span class="org-block"> a b</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: lob-times</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var a=0 :var b=0
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">*</span></span><span class="org-block"> a b</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+name: lob-div</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var a=0 :var b=0
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">/</span></span><span class="org-block"> a b</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> GANTT Charts
+</span>
+The <span class="org-verbatim">elispgantt</span> source block was sent to the mailing list by Eric
+Fraga.  It was modified slightly by Tom Dye.
+
+<span class="org-meta-line">#+name: elispgantt</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp :var table=gantttest
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">dates </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">entries </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">nthcdr</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">milestones </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">nmilestones </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">ntasks </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">projecttime </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">tasks </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">xlength </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Initial: %s\n"</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Entries: %s\n"</span></span><span class="org-block"> entries</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> entries
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">entry </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> entries</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">listp</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">id </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">type </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">label </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">task </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">dependencies </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">4</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">start </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">5</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">duration </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">6</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">end </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">7</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">alignment </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">nth</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">8</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">&gt;</span></span><span class="org-block"> start projecttime</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> projecttime start</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> type </span><span class="org-block"><span class="string">"task"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">end </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> start duration</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">textposition </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> start </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">/</span></span><span class="org-block"> duration </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">flush </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> alignment </span><span class="org-block"><span class="string">"left"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> textposition start</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> flush </span><span class="org-block"><span class="string">"[left]"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> alignment </span><span class="org-block"><span class="string">"right"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> textposition end</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> flush </span><span class="org-block"><span class="string">"[right]"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> tasks
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s  \\gantttask{%s}{%s}{%d}{%d}{%d}{%s}\n"</span></span><span class="org-block">
+                                  tasks label task start end textposition flush</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> ntasks </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> ntasks</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">&gt;</span></span><span class="org-block"> end projecttime</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> projecttime end</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> type </span><span class="org-block"><span class="string">"milestone"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> milestones
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block">
+                             </span><span class="org-block"><span class="string">"%s  \\ganttmilestone{$\\begin{array}{c}\\mbox{%s}\\\\ \\mbox{%s}\\end{array}$}{%d}\n"</span></span><span class="org-block">
+                             milestones label task start</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> nmilestones </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">+</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> nmilestones</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> type </span><span class="org-block"><span class="string">"date"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> dates </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s  \\ganttdateline{%s}{%d}\n"</span></span><span class="org-block">
+                                          dates label start</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Ignoring entry with type %s\n"</span></span><span class="org-block"> type</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Ignoring non-list entry %s\n"</span></span><span class="org-block"> entry</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">end if list entry
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> entries </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> entries</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">end while entries left
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\\pgfdeclarelayer{background}
+  \\pgfdeclarelayer{foreground}
+  \\pgfsetlayers{background,foreground}
+  \\renewcommand{\\ganttprojecttime}{%d}
+  \\renewcommand{\\ganttntasks}{%d}
+  \\noindent
+  \\begin{tikzpicture}[y=-0.75cm,x=0.75\\textwidth]
+    \\begin{pgfonlayer}{background}
+      \\draw[very thin, red!10!white] (0,1+\\ganttntasks) grid [ystep=0.75cm,xstep=1/\\ganttprojecttime] (1,0);
+      \\draw[\\ganttdatelinecolour] (0,0) -- (1,0);
+      \\draw[\\ganttdatelinecolour] (0,1+\\ganttntasks) -- (1,1+\\ganttntasks);
+    \\end{pgfonlayer}
+  %s
+  %s
+  %s
+  \\end{tikzpicture}"</span></span><span class="org-block"> projecttime ntasks tasks milestones dates</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Available languages
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:AUTHOR:</span>   <span class="org-property-value">Bastien</span>
+  <span class="org-drawer">:END:</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> From Org's core
+</span>
+<span class="org-table">| Language   | Identifier | Language       | Identifier |</span>
+<span class="org-table">|------------+------------+----------------+------------|</span>
+<span class="org-table">| Asymptote  | asymptote  | Awk            | awk        |</span>
+<span class="org-table">| Emacs Calc | calc       | C              | C          |</span>
+<span class="org-table">| C++        | C++        | Clojure        | clojure    |</span>
+<span class="org-table">| CSS        | css        | ditaa          | ditaa      |</span>
+<span class="org-table">| Graphviz   | dot        | Emacs Lisp     | emacs-lisp |</span>
+<span class="org-table">| gnuplot    | gnuplot    | Haskell        | haskell    |</span>
+<span class="org-table">| Javascript | js         | LaTeX          | latex      |</span>
+<span class="org-table">| Ledger     | ledger     | Lisp           | lisp       |</span>
+<span class="org-table">| Lilypond   | lilypond   | MATLAB         | matlab     |</span>
+<span class="org-table">| Mscgen     | mscgen     | Objective Caml | ocaml      |</span>
+<span class="org-table">| Octave     | octave     | Org-mode       | org        |</span>
+<span class="org-table">|            |            | Perl           | perl       |</span>
+<span class="org-table">| Plantuml   | plantuml   | Python         | python     |</span>
+<span class="org-table">| R          | R          | Ruby           | ruby       |</span>
+<span class="org-table">| Sass       | sass       | Scheme         | scheme     |</span>
+<span class="org-table">| GNU Screen | screen     | shell          | sh         |</span>
+<span class="org-table">| SQL        | sql        | SQLite         | sqlite     |</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> From Org's contrib/babel/langs
+</span>
+<span class="org-list-dt">-</span> ob-oz.el, by Torsten Anders and Eric Schulte
+<span class="org-list-dt">-</span> ob-fomus.el, by Torsten Anders
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Default result for block execution
+</span>
+When a source code block has no <span class="org-verbatim">:result</span> parameter, the default
+behavior is to use the <span class="italic">functional value</span> of the execution as the
+result.  However, some languages use an option to deviate from
+this default behavior.  Below is a list of such options:
+
+<span class="org-table">| Org Babel file | Default result | Option                                     |</span>
+<span class="org-table">|----------------+----------------+--------------------------------------------|</span>
+<span class="org-table">| ob-shell.el    | output         | org-babel-shell-results-defaults-to-output |</span>
+</pre>
+  </body>
+</html>

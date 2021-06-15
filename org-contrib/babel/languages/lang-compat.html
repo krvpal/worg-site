@@ -1,0 +1,1823 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Babel: Language Compatability</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<style type="text/css">table, th, td { border: 1px solid; }</style>
+<style type="text/css">table { border-collapse: collapse; }</style>
+<style type="text/css">td { padding: 8px; }</style>
+<style type="text/css">th { background-color: #eee; }</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Babel: Language Compatability</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1d041c1">Overview</a></li>
+<li><a href="#org8287f18">Support for Common Headers</a></li>
+<li><a href="#org6ea08cb">Default Behaviors</a></li>
+<li><a href="#org4bc7930">Variables</a>
+<ul>
+<li><a href="#orgf0299b0">Summary</a>
+<ul>
+<li><a href="#orgbda61fd">Callouts</a></li>
+</ul>
+</li>
+<li><a href="#org2f27292">Single Item</a>
+<ul>
+<li><a href="#orge45d744">int</a></li>
+<li><a href="#orgdb38e78">double</a></li>
+<li><a href="#orgfe8382f">string</a></li>
+</ul>
+</li>
+<li><a href="#org280c32d">List</a>
+<ul>
+<li><a href="#org4abf881">List of ints</a></li>
+<li><a href="#orga87b4dd">List of doubles</a></li>
+<li><a href="#org05f6f7d">List of strings</a></li>
+<li><a href="#org06ddce9">Singleton List</a></li>
+</ul>
+</li>
+<li><a href="#orga53e808">Table</a>
+<ul>
+<li><a href="#orga646825">Table of ints</a></li>
+<li><a href="#org2eb1add">Table of doubles</a></li>
+<li><a href="#org3618569">Table of strings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgecf70da">Results</a>
+<ul>
+<li><a href="#orgfd06aba">Summary</a>
+<ul>
+<li><a href="#org046f549">Callouts</a></li>
+</ul>
+</li>
+<li><a href="#org1fe51be">List</a>
+<ul>
+<li><a href="#org43ec11b">:results value</a></li>
+<li><a href="#org3edb227">:results output</a></li>
+</ul>
+</li>
+<li><a href="#org82ad24d">Table</a>
+<ul>
+<li><a href="#org169a1d6">:results value</a></li>
+<li><a href="#org5fa2764">:results output</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org78ec620">Round Trip Between Source Blocks</a></li>
+<li><a href="#org29f88ea">Trimming a List to One Item</a></li>
+<li><a href="#org19ac261">Other Resources</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1d041c1" class="outline-2">
+<h2 id="org1d041c1">Overview</h2>
+<div class="outline-text-2" id="text-org1d041c1">
+<p>
+This page looks at how consistent various languages are in babel.  The
+goal is to document inconsistencies so they can be resolved or at
+least better understood.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8287f18" class="outline-2">
+<h2 id="org8287f18">Support for Common Headers</h2>
+<div class="outline-text-2" id="text-org8287f18">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">language</th>
+<th scope="col" class="org-left">:results value</th>
+<th scope="col" class="org-left">:results output</th>
+<th scope="col" class="org-left">default :results</th>
+<th scope="col" class="org-left">:prologue / :epilogue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">output</td>
+<td class="org-left">yes</td>
+</tr>
+
+<tr>
+<td class="org-left">java</td>
+<td class="org-left">yes</td>
+<td class="org-left">yes</td>
+<td class="org-left">output</td>
+<td class="org-left">no</td>
+</tr>
+
+<tr>
+<td class="org-left">python</td>
+<td class="org-left">yes</td>
+<td class="org-left">yes</td>
+<td class="org-left">value</td>
+<td class="org-left">yes</td>
+</tr>
+
+<tr>
+<td class="org-left">elisp</td>
+<td class="org-left">yes</td>
+<td class="org-left">yes</td>
+<td class="org-left">value</td>
+<td class="org-left">yes</td>
+</tr>
+
+<tr>
+<td class="org-left">shell</td>
+<td class="org-left">yes</td>
+<td class="org-left">yes</td>
+<td class="org-left">output</td>
+<td class="org-left">yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org6ea08cb" class="outline-2">
+<h2 id="org6ea08cb">Default Behaviors</h2>
+<div class="outline-text-2" id="text-org6ea08cb">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">language</th>
+<th scope="col" class="org-left">write source files to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C</td>
+<td class="org-left">tempdir</td>
+</tr>
+
+<tr>
+<td class="org-left">java</td>
+<td class="org-left">:dir else tempdir</td>
+</tr>
+
+<tr>
+<td class="org-left">python</td>
+<td class="org-left">tempdir</td>
+</tr>
+
+<tr>
+<td class="org-left">elisp</td>
+<td class="org-left">no tempfiles</td>
+</tr>
+
+<tr>
+<td class="org-left">shell</td>
+<td class="org-left">no tempfiles</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org4bc7930" class="outline-2">
+<h2 id="org4bc7930">Variables</h2>
+<div class="outline-text-2" id="text-org4bc7930">
+</div>
+<div id="outline-container-orgf0299b0" class="outline-3">
+<h3 id="orgf0299b0">Summary</h3>
+<div class="outline-text-3" id="text-orgf0299b0">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">language</th>
+<th scope="col" class="org-left">int</th>
+<th scope="col" class="org-left">double</th>
+<th scope="col" class="org-left">string</th>
+<th scope="col" class="org-left">singleton list</th>
+<th scope="col" class="org-left">int list</th>
+<th scope="col" class="org-left">double list</th>
+<th scope="col" class="org-left">string list</th>
+<th scope="col" class="org-left">int table</th>
+<th scope="col" class="org-left">double table</th>
+<th scope="col" class="org-left">string table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C</td>
+<td class="org-left">error</td>
+<td class="org-left">error</td>
+<td class="org-left">error</td>
+<td class="org-left">error</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d list</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+</tr>
+
+<tr>
+<td class="org-left">java</td>
+<td class="org-left">error</td>
+<td class="org-left">error</td>
+<td class="org-left">error</td>
+<td class="org-left">error</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d list</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+</tr>
+
+<tr>
+<td class="org-left">python</td>
+<td class="org-left"><a href="#org1954a34">variant1</a></td>
+<td class="org-left"><a href="#orgf48e02e">variant1</a></td>
+<td class="org-left"><a href="#org836ed84">variant1</a></td>
+<td class="org-left"><a href="#orga35112c">variant1</a></td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d list</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+</tr>
+
+<tr>
+<td class="org-left">elisp</td>
+<td class="org-left"><a href="#org1954a34">variant1</a></td>
+<td class="org-left"><a href="#orgf48e02e">variant1</a></td>
+<td class="org-left"><a href="#org836ed84">variant1</a></td>
+<td class="org-left">error</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d string list</td>
+<td class="org-left">2d list</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+<td class="org-left">expected</td>
+</tr>
+
+<tr>
+<td class="org-left">shell</td>
+<td class="org-left"><a href="#org1954a34">variant1</a></td>
+<td class="org-left"><a href="#orgf48e02e">variant1</a></td>
+<td class="org-left"><a href="#org836ed84">variant1</a></td>
+<td class="org-left">expected</td>
+<td class="org-left">list of strings</td>
+<td class="org-left">n/a</td>
+<td class="org-left">expected</td>
+<td class="org-left">n/a</td>
+<td class="org-left">n/a</td>
+<td class="org-left">n/a</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+For tables, values are passed to code blocks in two dimensional arrays
+or lists with item types (ints, doubles, or strings) that match the
+data.  Lists are passed as two dimensional arrays as if they are
+tables with one column of data, and all values are passed as strings.
+Only <code>shell</code> passes a list as a single dimentional array.
+</p>
+
+<p>
+More details on how this can cause confusion in <a href="#org78ec620">Round Trip</a>.
+</p>
+
+<p>
+Shell doesn&rsquo;t support doubles or multidimensional arrays, so those
+cases don&rsquo;t apply.
+</p>
+</div>
+
+<div id="outline-container-orgbda61fd" class="outline-4">
+<h4 id="orgbda61fd">Callouts</h4>
+<div class="outline-text-4" id="text-orgbda61fd">
+<ol class="org-ol">
+<li>should ints and doubles be passed as strings?</li>
+<li>should lists be passed as 2d lists tables?</li>
+<li>should <code>:results output</code> require <code>raw</code> to produce an org list?</li>
+<li>should items include the trailing endline?</li>
+<li>why aren&rsquo;t singleton lists passed as lists?</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2f27292" class="outline-3">
+<h3 id="org2f27292">Single Item</h3>
+<div class="outline-text-3" id="text-org2f27292">
+</div>
+<div id="outline-container-orge45d744" class="outline-4">
+<h4 id="orge45d744">int</h4>
+<div class="outline-text-4" id="text-orge45d744">
+<p>
+The following examples use this data:
+</p>
+
+<pre class="example">
+#+name: int-item-data
+10
+</pre>
+
+<p>
+Each example just outputs the given number surrounded in single
+quotes.  This is the expected response:
+</p>
+
+<pre class="example" id="int-item-expected">
+#+RESULTS:
+: '10'
+</pre>
+
+<p>
+Some languages return this instead:
+</p>
+
+<pre class="example" id="int-item-variant1">
+#+RESULTS:
+: '10
+: '
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="org4c31d4b"></a>C<br />
+<div class="outline-text-5" id="text-org4c31d4b">
+<pre class="example">
+#+begin_src C :results output :var item=int-item-data
+printf("'%s'", item);
+#+end_src
+</pre>
+
+<p>
+This does not compile because the variable value includes the trailing
+endline and C doesn&rsquo;t allow multiline string literals.
+</p>
+</div>
+</li>
+
+<li><a id="orgb29f35f"></a>java<br />
+<div class="outline-text-5" id="text-orgb29f35f">
+<pre class="example">
+#+begin_src java :results output :var item=int-item-data
+System.out.println(String.format("'%s'", item));
+#+end_src
+</pre>
+
+<p>
+This does not compile because the variable value includes the trailing
+endline and java doesn&rsquo;t allow multiline string literals.
+</p>
+</div>
+</li>
+<li><a id="org9c37bd8"></a>python<br />
+<div class="outline-text-5" id="text-org9c37bd8">
+<pre class="example">
+#+begin_src python :results output :var item=int-item-data
+print("'{}'".format(item))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org9e0d1cb"></a>elisp<br />
+<div class="outline-text-5" id="text-org9e0d1cb">
+<pre class="example">
+#+begin_src elisp :results output :var item=int-item-data
+(princ (format "'%s'" item))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org167a7f9"></a>shell<br />
+<div class="outline-text-5" id="text-org167a7f9">
+<pre class="example">
+#+begin_src sh :results output :var item=int-item-data
+echo "'$item'"
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgdb38e78" class="outline-4">
+<h4 id="orgdb38e78">double</h4>
+<div class="outline-text-4" id="text-orgdb38e78">
+<p>
+The following examples use this data:
+</p>
+
+<pre class="example">
+#+name: double-item-data
+10.1
+</pre>
+
+<p>
+Each example just outputs the given number surrounded in single
+quotes.  This is the expected response:
+</p>
+
+<pre class="example" id="double-item-expected">
+#+RESULTS:
+: '10.1'
+</pre>
+
+<p>
+Some languages return this instead:
+</p>
+
+<pre class="example" id="double-item-variant1">
+#+RESULTS:
+: '10.1
+: '
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="org678672d"></a>C<br />
+<div class="outline-text-5" id="text-org678672d">
+<pre class="example">
+#+begin_src C :results output :var item=double-item-data
+printf("'%s'", item);
+#+end_src
+</pre>
+
+<p>
+This does not compile because the variable value includes the trailing
+endline and C doesn&rsquo;t allow multiline string literals.
+</p>
+</div>
+</li>
+
+<li><a id="org7ea3494"></a>java<br />
+<div class="outline-text-5" id="text-org7ea3494">
+<pre class="example">
+#+begin_src java :results output :var item=double-item-data
+System.out.println(String.format("'%s'", item));
+#+end_src
+</pre>
+
+<p>
+This does not compile because the variable value includes the trailing
+endline and java doesn&rsquo;t allow multiline string literals.
+</p>
+</div>
+</li>
+<li><a id="orgaceab8e"></a>python<br />
+<div class="outline-text-5" id="text-orgaceab8e">
+<pre class="example">
+#+begin_src python :results output :var item=double-item-data
+print("'{}'".format(item))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgda18474"></a>elisp<br />
+<div class="outline-text-5" id="text-orgda18474">
+<pre class="example">
+#+begin_src elisp :results output :var item=double-item-data
+(princ (format "'%s'" item))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgf8ce63e"></a>shell<br />
+<div class="outline-text-5" id="text-orgf8ce63e">
+<pre class="example">
+#+begin_src sh :results output :var item=double-item-data
+echo "'$item'"
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orgfe8382f" class="outline-4">
+<h4 id="orgfe8382f">string</h4>
+<div class="outline-text-4" id="text-orgfe8382f">
+<p>
+The following examples use this data:
+</p>
+
+<pre class="example">
+#+name: string-item-data
+ten
+</pre>
+
+<p>
+Each example just outputs the given number surrounded in single
+quotes.  This is the expected response:
+</p>
+
+<pre class="example" id="string-item-expected">
+#+RESULTS:
+: 'ten'
+</pre>
+
+<p>
+Some languages return this instead:
+</p>
+
+<pre class="example" id="string-item-variant1">
+#+RESULTS:
+: 'ten
+: '
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="org4bece19"></a>C<br />
+<div class="outline-text-5" id="text-org4bece19">
+<pre class="example">
+#+begin_src C :results output :var item=string-item-data
+printf("'%s'", item);
+#+end_src
+</pre>
+
+<p>
+This does not compile because the variable value includes the trailing
+endline and C doesn&rsquo;t allow multiline string literals.
+</p>
+</div>
+</li>
+
+<li><a id="org779f0e5"></a>java<br />
+<div class="outline-text-5" id="text-org779f0e5">
+<pre class="example">
+#+begin_src java :results output :var item=string-item-data
+System.out.println(String.format("'%s'", item));
+#+end_src
+</pre>
+
+<p>
+This does not compile because the variable value includes the trailing
+endline and java doesn&rsquo;t allow multiline string literals.
+</p>
+</div>
+</li>
+<li><a id="org0a2cc25"></a>python<br />
+<div class="outline-text-5" id="text-org0a2cc25">
+<pre class="example">
+#+begin_src python :results output :var item=string-item-data
+print("'{}'".format(item))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org80cc568"></a>elisp<br />
+<div class="outline-text-5" id="text-org80cc568">
+<pre class="example">
+#+begin_src elisp :results output :var item=string-item-data
+(princ (format "'%s'" item))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orge234e78"></a>shell<br />
+<div class="outline-text-5" id="text-orge234e78">
+<pre class="example">
+#+begin_src sh :results output :var item=string-item-data
+echo "'$item'"
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org280c32d" class="outline-3">
+<h3 id="org280c32d">List</h3>
+<div class="outline-text-3" id="text-org280c32d">
+</div>
+<div id="outline-container-org4abf881" class="outline-4">
+<h4 id="org4abf881">List of ints</h4>
+<div class="outline-text-4" id="text-org4abf881">
+<p>
+The following examples use this data:
+</p>
+
+<pre class="example">
+#+name: int-list-data
+- 1
+- 2
+- 3
+</pre>
+
+<p>
+All examples compute the sum of the numbers in the list.
+Output should look like:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: 6
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="org6776923"></a>C<br />
+<div class="outline-text-5" id="text-org6776923">
+<pre class="example">
+#+begin_src C :results output :var items=int-list-data
+int sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    sum += atoi(items[ii][0]);
+}
+printf("%d", sum);
+#+end_src
+</pre>
+</div>
+</li>
+
+<li><a id="orgce3b2c5"></a>java<br />
+<div class="outline-text-5" id="text-orgce3b2c5">
+<pre class="example">
+#+begin_src java :results value :var items=int-list-data
+import java.util.stream.Collectors;
+return items.stream()
+    .collect(Collectors.summingInt(x -&gt; Integer.parseInt(x.get(0))));
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orga362638"></a>python<br />
+<div class="outline-text-5" id="text-orga362638">
+<pre class="example">
+#+begin_src python :var items=int-list-data
+return sum([int(x[0]) for x in items])
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgaea7de9"></a>elisp<br />
+<div class="outline-text-5" id="text-orgaea7de9">
+<pre class="example">
+#+begin_src elisp :var items=int-list-data
+(apply '+ (mapcar (lambda (x) (string-to-number (car x)))
+                  items))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org1403d1c"></a>shell<br />
+<div class="outline-text-5" id="text-org1403d1c">
+<pre class="example">
+#+begin_src sh :var items=int-list-data
+sum=0
+for item in $items; do
+    sum=$(($sum + $item))
+done
+echo $sum
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-orga87b4dd" class="outline-4">
+<h4 id="orga87b4dd">List of doubles</h4>
+<div class="outline-text-4" id="text-orga87b4dd">
+<p>
+The following examples use this data
+</p>
+
+<pre class="example">
+#+name: double-list-data
+- 1.1
+- 2.2
+- 3.3
+</pre>
+
+<p>
+All examples compute the sum of the numbers in the list.
+Output should look like:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: 6.6
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="org2fdb7a1"></a>C<br />
+<div class="outline-text-5" id="text-org2fdb7a1">
+<pre class="example">
+#+begin_src C :var items=double-list-data :includes &lt;stdlib.h&gt;
+double sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    sum += atof(items[ii][0]);
+}
+printf("%lf", sum);
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgd9c736b"></a>java<br />
+<div class="outline-text-5" id="text-orgd9c736b">
+<pre class="example">
+#+begin_src java :results value :var items=double-list-data
+import java.util.stream.Collectors;
+return items.stream()
+    .collect(Collectors.summingDouble(x -&gt; Double.parseDouble(x.get(0))));
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgd390240"></a>python<br />
+<div class="outline-text-5" id="text-orgd390240">
+<pre class="example">
+#+begin_src python :var items=double-list-data
+return sum([float(x[0]) for x in items])
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgd2c1667"></a>elisp<br />
+<div class="outline-text-5" id="text-orgd2c1667">
+<pre class="example">
+#+begin_src elisp :var items=double-list-data
+(apply '+ (mapcar (lambda (x) (string-to-number (car x)))
+                  items))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgbb95e55"></a>shell<br />
+<div class="outline-text-5" id="text-orgbb95e55">
+<p>
+Shell doesn&rsquo;t support doubles.
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org05f6f7d" class="outline-4">
+<h4 id="org05f6f7d">List of strings</h4>
+<div class="outline-text-4" id="text-org05f6f7d">
+<p>
+The following examples use this data:
+</p>
+
+<pre class="example">
+#+name: string-list-data
+- a
+- b
+- c
+</pre>
+
+<p>
+Each example conncatenates the input into a space delimited list.
+Output looks like:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: a b c
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgf2a9361"></a>C<br />
+<div class="outline-text-5" id="text-orgf2a9361">
+<pre class="example">
+#+begin_src C :results output :var items=string-list-data :include &lt;string.h&gt;
+char ret[8];
+memset(ret, 0, 8);
+for (int ii=0; ii&lt;items_rows; ii++) {
+    strcat(ret, " ");
+    strcat(ret, items[ii][0]);
+}
+printf("%s", ret);
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgcbc90d1"></a>java<br />
+<div class="outline-text-5" id="text-orgcbc90d1">
+<pre class="example">
+#+begin_src java :results value :var items=string-list-data
+import java.util.stream.Collectors;
+return items.stream()
+    .map(x -&gt; x.get(0))
+    .collect(Collectors.joining(" "));
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org3d5cc0e"></a>python<br />
+<div class="outline-text-5" id="text-org3d5cc0e">
+<pre class="example">
+#+begin_src python :var items=string-list-data
+return " ".join([x[0] for x in items])
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org32ec35a"></a>elisp<br />
+<div class="outline-text-5" id="text-org32ec35a">
+<pre class="example">
+#+begin_src elisp :var items=string-list-data
+(mapconcat #'car items " ")
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org36ca51a"></a>shell<br />
+<div class="outline-text-5" id="text-org36ca51a">
+<pre class="example">
+#+begin_src sh :var items=string-list-data
+ret=""
+for item in $items; do
+    ret="$ret $item"
+done
+echo $ret
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org06ddce9" class="outline-4">
+<h4 id="org06ddce9">Singleton List</h4>
+<div class="outline-text-4" id="text-org06ddce9">
+<p>
+There is inconsistent behavior between lists of one vs many items.
+See <a href="#org29f88ea">Trimming a List to One Item</a> for details.
+</p>
+
+<p>
+The following examples use this data:
+</p>
+
+<pre class="example">
+#+name: single-list-data
+- one
+</pre>
+
+<p>
+Each source block just iterates over the input list, printing each
+value.  Expected output is:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: one
+</pre>
+
+<p>
+Some languages give this result:
+</p>
+
+<pre class="example" id="single-variant1">
+#+RESULTS:
+: o
+: n
+: e
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><a id="org8f58411"></a>C<br />
+<div class="outline-text-5" id="text-org8f58411">
+<pre class="example">
+#+begin_src C :results output :var items=single-list-data[,0] :include &lt;string.h&gt;
+for (int ii=0; ii&lt;items_cols; ii++) {
+    printf("%s\n", items[ii]);
+}
+#+end_src
+</pre>
+
+<p>
+This doesn&rsquo;t compile since <code>items</code> is passed as a <code>char*</code> instead of
+<code>char*[]</code>.
+</p>
+</div>
+</li>
+<li><a id="org85ab816"></a>java<br />
+<div class="outline-text-5" id="text-org85ab816">
+<pre class="example">
+#+begin_src java :var items=single-list-data[,0]
+for (String item : items)
+   System.out.println(item);
+#+end_src
+</pre>
+
+<p>
+This doesn&rsquo;t compile since <code>items</code> is passed as a <code>String</code> instead of
+<code>String[]</code>.
+</p>
+</div>
+</li>
+<li><a id="orgbfd7e34"></a>python<br />
+<div class="outline-text-5" id="text-orgbfd7e34">
+<pre class="example">
+#+begin_src python :results output :var items=single-list-data[,0]
+for item in items:
+    print(item)
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org7748d41"></a>elisp<br />
+<div class="outline-text-5" id="text-org7748d41">
+<pre class="example">
+#+begin_src elisp :results output :var items=single-list-data[,0]
+(dolist (item items)
+  (princ (format "%s\n" item)))
+#+end_src
+</pre>
+
+<p>
+This fails with a type error because <code>items</code> is passed as a string
+instead of a list.
+</p>
+</div>
+</li>
+<li><a id="org77c8ad7"></a>shell<br />
+<div class="outline-text-5" id="text-org77c8ad7">
+<pre class="example">
+#+begin_src sh :var items=single-list-data[,0]
+for item in $items; do
+    echo $item
+done
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga53e808" class="outline-3">
+<h3 id="orga53e808">Table</h3>
+<div class="outline-text-3" id="text-orga53e808">
+</div>
+<div id="outline-container-orga646825" class="outline-4">
+<h4 id="orga646825">Table of ints</h4>
+<div class="outline-text-4" id="text-orga646825">
+<p>
+The following source blocks operate on this table:
+</p>
+
+<pre class="example">
+#+name: int-table-data
+| 1 | 2 |
+| 3 | 4 |
+</pre>
+
+<p>
+Each source block sums the values found in the table.  The output show
+look like:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: 10
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="orgc5a67ae"></a>C<br />
+<div class="outline-text-5" id="text-orgc5a67ae">
+<pre class="example">
+#+begin_src C :var items=int-table-data
+int sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    for (int jj=0; jj&lt;items_cols; jj++) {
+        sum += items[ii][jj];
+    }
+ }
+printf("%d", sum);
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org8eb0aee"></a>java<br />
+<div class="outline-text-5" id="text-org8eb0aee">
+<pre class="example">
+#+begin_src java :results value :var items=int-table-data
+int sum = 0;
+for (List&lt;Integer&gt; row : items) {
+    for (Integer col : row) {
+        sum += col;
+    }
+}
+return sum;
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgcdcd857"></a>python<br />
+<div class="outline-text-5" id="text-orgcdcd857">
+<pre class="example">
+#+begin_src python :var items=int-table-data
+sum = 0
+for row in items:
+    for col in row:
+        sum += col
+return sum
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org446cd27"></a>elisp<br />
+<div class="outline-text-5" id="text-org446cd27">
+<pre class="example">
+#+begin_src elisp :var items=int-table-data
+(apply '+ (mapcar (lambda (x) (apply '+ x)) items))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgcb9d014"></a>shell<br />
+<div class="outline-text-5" id="text-orgcb9d014">
+<p>
+The table becomes an associated list instead of a 2d array.  Bash
+doesn&rsquo;t support multidimensional arrays.
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org2eb1add" class="outline-4">
+<h4 id="org2eb1add">Table of doubles</h4>
+<div class="outline-text-4" id="text-org2eb1add">
+<p>
+The following source blocks operate on this table:
+</p>
+
+<pre class="example">
+#+name: double-table-data
+| 1.1 | 2.3 |
+| 3.1 | 4.3 |
+</pre>
+
+<p>
+Each source block sums the values found in the table.  The output show
+look like:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: 10.8
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="orgef8f99d"></a>C<br />
+<div class="outline-text-5" id="text-orgef8f99d">
+<pre class="example">
+#+begin_src C :var items=double-table-data
+double sum = 0;
+for (int ii=0; ii&lt;items_rows; ii++) {
+    for (int jj=0; jj&lt;items_cols; jj++) {
+        sum += items[ii][jj];
+    }
+ }
+printf("%lf", sum);
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgcdc5048"></a>java<br />
+<div class="outline-text-5" id="text-orgcdc5048">
+<pre class="example">
+#+begin_src java :results value :var items=double-table-data
+double sum = 0;
+for (List&lt;Double&gt; row : items) {
+    for (Double col : row) {
+        sum += col;
+    }
+}
+return sum;
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgc662756"></a>python<br />
+<div class="outline-text-5" id="text-orgc662756">
+<pre class="example">
+#+begin_src python :var items=double-table-data
+sum = 0
+for row in items:
+    for col in row:
+        sum += col
+return sum
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org7337d51"></a>elisp<br />
+<div class="outline-text-5" id="text-org7337d51">
+<pre class="example">
+#+begin_src elisp :var items=double-table-data
+(apply '+ (mapcar (lambda (x) (apply '+ x)) items))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgda85781"></a>shell<br />
+<div class="outline-text-5" id="text-orgda85781">
+<p>
+The table becomes an associated list instead of a 2d array.  Bash
+doesn&rsquo;t support multidimensional arrays.
+</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org3618569" class="outline-4">
+<h4 id="org3618569">Table of strings</h4>
+<div class="outline-text-4" id="text-org3618569">
+<p>
+The following source blocks operate on this table:
+</p>
+
+<pre class="example">
+#+name: string-table-data
+| a | b |
+| c | d |
+</pre>
+
+<p>
+concatenates the strings found in the table. The output show
+look like:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: a b c d
+</pre>
+</div>
+<ul class="org-ul">
+<li><a id="orged80a82"></a>C<br />
+<div class="outline-text-5" id="text-orged80a82">
+<pre class="example">
+#+begin_src C :results output :var items=string-table-data :includes &lt;string.h&gt;
+char ret[8];
+memset(ret, 0, 8);
+for (int ii=0; ii&lt;items_rows; ii++) {
+    for (int jj=0; jj&lt;items_cols; jj++) {
+        strcat(ret, " ");
+        strcat(ret, items[ii][jj]);
+    }
+ }
+printf("%s", ret);
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org3183ac1"></a>java<br />
+<div class="outline-text-5" id="text-org3183ac1">
+<pre class="example">
+#+begin_src java :results value :var items=string-table-data
+import java.util.stream.Collectors;
+return items.stream()
+    .map(x -&gt; String.join(" ", x))
+    .collect(Collectors.joining(" "));
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org7148434"></a>python<br />
+<div class="outline-text-5" id="text-org7148434">
+<pre class="example">
+#+begin_src python :var items=string-table-data
+return " ".join([" ".join(x) for x in items])
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org9d6ca2c"></a>elisp<br />
+<div class="outline-text-5" id="text-org9d6ca2c">
+<pre class="example">
+#+begin_src elisp :var items=string-table-data
+(mapconcat (lambda (x) (mapconcat #'identity x " "))
+           items " ")
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org28e6e75"></a>shell<br />
+<div class="outline-text-5" id="text-org28e6e75">
+<p>
+The table becomes an associated list instead of a 2d array.  Bash
+doesn&rsquo;t support multidimensional arrays.
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgecf70da" class="outline-2">
+<h2 id="orgecf70da">Results</h2>
+<div class="outline-text-2" id="text-orgecf70da">
+</div>
+<div id="outline-container-orgfd06aba" class="outline-3">
+<h3 id="orgfd06aba">Summary</h3>
+<div class="outline-text-3" id="text-orgfd06aba">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">language</th>
+<th scope="col" class="org-left">return list</th>
+<th scope="col" class="org-left">output list</th>
+<th scope="col" class="org-left">return table</th>
+<th scope="col" class="org-left">output table</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">C</td>
+<td class="org-left">no support</td>
+<td class="org-left"><a href="#org8f75749">expected</a> (w/ raw)</td>
+<td class="org-left">no support</td>
+<td class="org-left"><a href="#orgce48b0b">expected</a></td>
+</tr>
+
+<tr>
+<td class="org-left">java</td>
+<td class="org-left"><a href="#org8f75749">expected</a></td>
+<td class="org-left"><a href="#org8f75749">expected</a> (w/ raw)</td>
+<td class="org-left"><a href="#orgce48b0b">expected</a></td>
+<td class="org-left"><a href="#org03d7c3f">variant1</a></td>
+</tr>
+
+<tr>
+<td class="org-left">python</td>
+<td class="org-left"><a href="#org8f75749">expected</a></td>
+<td class="org-left"><a href="#org8f75749">expected</a> (w/ raw)</td>
+<td class="org-left"><a href="#orgce48b0b">expected</a></td>
+<td class="org-left"><a href="#org03d7c3f">variant1</a></td>
+</tr>
+
+<tr>
+<td class="org-left">elisp</td>
+<td class="org-left"><a href="#org8f75749">expected</a></td>
+<td class="org-left"><a href="#org8f75749">expected</a> (w/ raw)</td>
+<td class="org-left"><a href="#orgce48b0b">expected</a></td>
+<td class="org-left"><a href="#org03d7c3f">variant1</a></td>
+</tr>
+
+<tr>
+<td class="org-left">shell</td>
+<td class="org-left"><a href="#org8f75749">expected</a></td>
+<td class="org-left"><a href="#org8f75749">expected</a> (w/ raw)</td>
+<td class="org-left"><a href="#orgce48b0b">expected</a></td>
+<td class="org-left"><a href="#orgce48b0b">expected</a></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+There is consistent behavior across languages for <code>:results value</code> but
+there are some inconsistencies with <code>:results output</code>.
+</p>
+
+<p>
+My expectation is that writing rows of comma separated values should
+result in a table, but in some cases the <code>:results raw</code> is required
+for this to work and in other cases that is not enough.
+</p>
+</div>
+
+<div id="outline-container-org046f549" class="outline-4">
+<h4 id="org046f549">Callouts</h4>
+<div class="outline-text-4" id="text-org046f549">
+<ol class="org-ol">
+<li>Can C support <code>:results value</code>?</li>
+<li>should <code>:results output</code> require <code>raw</code> and write vertical bars to
+produce an org table?</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org1fe51be" class="outline-3">
+<h3 id="org1fe51be">List</h3>
+<div class="outline-text-3" id="text-org1fe51be">
+<p>
+When we return a list from a source code block, we want it to look
+like an org list.
+</p>
+
+<pre class="example" id="list-expected">
+#+RESULTS:
+- one
+- two
+</pre>
+</div>
+
+<div id="outline-container-org43ec11b" class="outline-4">
+<h4 id="org43ec11b">:results value</h4>
+<div class="outline-text-4" id="text-org43ec11b">
+<p>
+The following examples use <code>:results value list</code>.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgce478f1"></a>C<br />
+<div class="outline-text-5" id="text-orgce478f1">
+<p>
+C has no support for <code>:results value</code>.
+</p>
+</div>
+</li>
+<li><a id="org5b9d5cd"></a>java<br />
+<div class="outline-text-5" id="text-org5b9d5cd">
+<pre class="example">
+#+begin_src java :results value list
+  String[] ret = {"one", "two"};
+  return ret;
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org8f1411f"></a>python<br />
+<div class="outline-text-5" id="text-org8f1411f">
+<pre class="example">
+#+begin_src python :python python3 :results value list
+return ("one", "two")
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org8aca895"></a>elisp<br />
+<div class="outline-text-5" id="text-org8aca895">
+<pre class="example">
+#+begin_src elisp :results value list
+'("one" "two")
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org3edb227" class="outline-4">
+<h4 id="org3edb227">:results output</h4>
+<div class="outline-text-4" id="text-org3edb227">
+<p>
+The following examples use <code>:results output raw list</code>.  These have to
+use <code>raw</code> in order to work.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="org22ce966"></a>C<br />
+<div class="outline-text-5" id="text-org22ce966">
+<pre class="example">
+#+begin_src C :results output raw list
+printf("one\n");
+printf("two\n");
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org1606791"></a>java<br />
+<div class="outline-text-5" id="text-org1606791">
+<pre class="example">
+#+begin_src java :results output raw list
+System.out.println("one");
+System.out.println("two");
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org9adb715"></a>python<br />
+<div class="outline-text-5" id="text-org9adb715">
+<pre class="example">
+#+begin_src python :python python3 :results output raw list
+print("one")
+print("two")
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orga19be50"></a>elisp<br />
+<div class="outline-text-5" id="text-orga19be50">
+<pre class="example">
+#+begin_src elisp :results output raw list
+  (princ "one\n")
+  (princ "two")
+#+end_src
+</pre>
+</div>
+</li>
+
+<li><a id="org5d60384"></a>shell<br />
+<div class="outline-text-5" id="text-org5d60384">
+<pre class="example">
+#+begin_src sh :results output raw list
+echo "one"
+echo "two"
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org82ad24d" class="outline-3">
+<h3 id="org82ad24d">Table</h3>
+<div class="outline-text-3" id="text-org82ad24d">
+<p>
+When we return a table from a source code block, we want it to look
+like an org table.
+</p>
+
+<pre class="example" id="table-expected">
+#+RESULTS:
+| one   | two  |
+| three | four |
+</pre>
+
+<p>
+Some languages return this instead.
+</p>
+
+<pre class="example" id="table-variant1">
+#+RESULTS:
+: one, two
+: three, four
+</pre>
+</div>
+
+<div id="outline-container-org169a1d6" class="outline-4">
+<h4 id="org169a1d6">:results value</h4>
+<div class="outline-text-4" id="text-org169a1d6">
+<p>
+The following examples use <code>:results value table</code>.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="org03ff97d"></a>C<br />
+<div class="outline-text-5" id="text-org03ff97d">
+<p>
+C has no support for <code>:results value</code>.
+</p>
+</div>
+</li>
+<li><a id="org5202caa"></a>java<br />
+<div class="outline-text-5" id="text-org5202caa">
+<pre class="example">
+#+begin_src java :results value table
+  String [][] ret = {{"one","two"}, {"three", "four"}};
+  return ret;
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org100b31b"></a>python<br />
+<div class="outline-text-5" id="text-org100b31b">
+<pre class="example">
+#+begin_src python :python python3 :results value table
+return (("one", "two"), ("three", "four"))
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="orgac10d82"></a>elisp<br />
+<div class="outline-text-5" id="text-orgac10d82">
+<pre class="example">
+#+begin_src elisp :results value table
+'(("one" "two") ("three" "four"))
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-org5fa2764" class="outline-4">
+<h4 id="org5fa2764">:results output</h4>
+<div class="outline-text-4" id="text-org5fa2764">
+<p>
+The following examples use <code>:results output table</code>.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="org761c7da"></a>C<br />
+<div class="outline-text-5" id="text-org761c7da">
+<pre class="example">
+#+begin_src C :results output table
+printf("one, two\n");
+printf("three, four\n");
+#+end_src
+</pre>
+</div>
+</li>
+<li><a id="org4acfd5e"></a>java<br />
+<div class="outline-text-5" id="text-org4acfd5e">
+<pre class="example">
+#+begin_src java :results output table
+System.out.println("one, two");
+System.out.println("three, four");
+#+end_src
+</pre>
+
+<p>
+that fails but this &ldquo;raw table&rdquo; output works:
+</p>
+
+<pre class="example">
+#+begin_src java :results output raw table
+System.out.println("|one| two");
+System.out.println("|three| four");
+#+end_src
+</pre>
+</div>
+</li>
+
+<li><a id="org8547969"></a>python<br />
+<div class="outline-text-5" id="text-org8547969">
+<pre class="example">
+#+begin_src python :python python3 :results output table
+  print("one, two")
+  print("three, four")
+#+end_src
+</pre>
+
+<p>
+doesn&rsquo;t work but raw table works
+</p>
+</div>
+</li>
+<li><a id="org40b5c71"></a>elisp<br />
+<div class="outline-text-5" id="text-org40b5c71">
+<pre class="example">
+#+begin_src elisp :results output table
+  (princ "one, two\n")
+  (princ "three, four")
+#+end_src
+</pre>
+
+<p>
+doesn&rsquo;t work but raw table works
+</p>
+</div>
+</li>
+<li><a id="org0a02adb"></a>shell<br />
+<div class="outline-text-5" id="text-org0a02adb">
+<pre class="example">
+#+begin_src sh :results output table
+echo "one, two\nthree, four"
+#+end_src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78ec620" class="outline-2">
+<h2 id="org78ec620">Round Trip Between Source Blocks</h2>
+<div class="outline-text-2" id="text-org78ec620">
+<p>
+If a source block (<code>ret-list-source</code>) returns a single dimensional
+array or list, it becomes an org list (<code>ret-list-result</code>).
+</p>
+
+<pre class="example">
+#+name: ret-list-source
+#+begin_src python :results list
+return [1,2,3]
+#+end_src
+</pre>
+
+<pre class="example">
+#+name: ret-list-result
+#+RESULTS: ret-list-source
+- 1
+- 2
+- 3
+</pre>
+
+<p>
+Then if another source block (<code>read-list-result</code>) accepts that list
+from the org buffer, it becomes a two dimensional table with one
+column.
+</p>
+
+<pre class="example">
+#+name: read-list-result
+#+begin_src python :var a=ret-list-result :results list
+return a
+#+end_src
+</pre>
+
+<pre class="example">
+#+RESULTS: read-list-result
+- ("1")
+- ("2")
+- ("3")
+</pre>
+
+<p>
+But if a source block accepts the output directly from the
+<code>ret-list-source</code>, the input will be a single dimensional array.
+</p>
+
+<pre class="example">
+#+name: read-list-direct
+#+begin_src python :var a=ret-list-source :results list
+return a
+#+end_src
+</pre>
+
+<pre class="example">
+#+RESULTS: read-list-direct
+- 1
+- 2
+- 3
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org29f88ea" class="outline-2">
+<h2 id="org29f88ea">Trimming a List to One Item</h2>
+<div class="outline-text-2" id="text-org29f88ea">
+<p>
+If a list contains more than one item, as in <code>two-list-data</code>, source
+blocks can access its items as a single dimensional list by indexing.
+Given the following data and source block:
+</p>
+
+<pre class="example">
+#+name: two-list-data
+- one
+- two
+</pre>
+
+<pre class="example">
+#+begin_src python :results output :var items=one-list-data[,0]
+for item in items:
+    print (item)
+#+end_src
+</pre>
+
+<p>
+The result, as expected, is:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: one
+: two
+</pre>
+
+<p>
+But if the list only contains one item, as in <code>one-list-data</code>, it is
+no longer passed to the source block as a list.
+</p>
+
+<pre class="example">
+#+name: one-list-data
+- one
+</pre>
+
+<p>
+Execution of the same source block as used above, but pointing at
+<code>one-list-data</code>, results in:
+</p>
+
+<pre class="example">
+#+RESULTS:
+: o
+: n
+: e
+</pre>
+
+<p>
+This can cause a problem if you trim your data to a single item in
+order to test a source block.  Suddenly the source block is accepting
+a different data type.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org19ac261" class="outline-2">
+<h2 id="org19ac261">Other Resources</h2>
+<div class="outline-text-2" id="text-org19ac261">
+<ul class="org-ul">
+<li><a href="file:///home/krupal/code/elisp/worg/org-contrib/babel/header-args.html">worg header args page</a>
+<ul class="org-ul">
+<li>links to <a href="https://orgmode.org/manual/Specific-header-arguments.html">Specific-header-arguments</a> which is gone</li>
+</ul></li>
+<li><a href="https://orgmode.org/manual/Using-Header-Arguments.html#Using-Header-Arguments">header args in the manual</a></li>
+<li><a href="https://orgmode.org/manual/Extracting-Source-Code.html#Header-arguments">more header args in the manual</a></li>
+<li><a href="https://org-babel.readthedocs.io/en/latest/header-args/">orgmode headers described at readthedocs</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

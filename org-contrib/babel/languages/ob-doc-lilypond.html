@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-lilypond</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Martyn Jago" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-lilypond</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6c94354">Introduction</a></li>
+<li><a href="#org225783f">Usage</a></li>
+<li><a href="#org473ec22">basic-mode</a></li>
+<li><a href="#orgb031306">Examples</a>
+<ul>
+<li><a href="#orgb023047">PDF export</a></li>
+<li><a href="#orgc0d974a">HTML export</a></li>
+</ul>
+</li>
+<li><a href="#org25d40d7">Compiling LilyPond Blocks</a></li>
+<li><a href="#org92a56a2">Arrange Mode</a>
+<ul>
+<li><a href="#org8df3551">Modal Cycles</a></li>
+<li><a href="#org2b8881c">Modal Cycles 2</a></li>
+<li><a href="#org7fe8ac3">Modes in the Key of C</a></li>
+</ul>
+</li>
+<li><a href="#org2df674f">Tangling and Compiling LilyPond Blocks</a></li>
+<li><a href="#orgced528a">Setup</a></li>
+<li><a href="#org8d455e8">Requirements</a>
+<ul>
+<li><a href="#orgef4d4a3">Mac OS X</a></li>
+<li><a href="#orgfcfc782">Nix</a></li>
+<li><a href="#orgcf8d0b2">Win32</a></li>
+</ul>
+</li>
+<li><a href="#org624427d">Testing</a></li>
+<li><a href="#org6abcce7">Issues</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Babel support for
+<a href="http://lilypond.org/">LilyPond (Score Engraving and Arrangement)</a>
+</p>
+<p>
+<a href="http://lilypond.org/">
+<img src="../../../images/org-lilypond/mixolydian.png">
+</a>
+</p>
+</div>
+
+<div id="outline-container-org6c94354" class="outline-2">
+<h2 id="org6c94354">Introduction</h2>
+<div class="outline-text-2" id="text-org6c94354">
+<p>
+LilyPond is a music engraving program devoted to producing the
+highest-quality sheet music possible. Org-mode supports lilypond
+source code blocks that can generate music scores with optional
+auditing via Midi.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org225783f" class="outline-2">
+<h2 id="org225783f">Usage</h2>
+<div class="outline-text-2" id="text-org225783f">
+<p>
+There are two modes available with ob-lilypond:
+</p>
+
+<ul class="org-ul">
+<li><b>basic-mode</b> (default)</li>
+<li><b>arrange-mode</b></li>
+</ul>
+
+<p>
+Which one you use depends on what you intend to do (a quick way to
+switch modes is via <code>M-x org-babel-lilypond-toggle-arrange-mode</code>).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org473ec22" class="outline-2">
+<h2 id="org473ec22">basic-mode</h2>
+<div class="outline-text-2" id="text-org473ec22">
+<p>
+<b>basic-mode</b> (the default) allows you to embed LilyPond snippets into
+an Org-mode file, and compile and export them using typical Org-mode
+commands (such as <code>C-c C-e l p</code> for pdf export). This is useful if you
+want to mix blocks of Lilypond-generated score with text, and perhaps
+other images to export to Latex, Docbook, pdf, or HTML. In other
+words, <b>basic-mode</b> could be used as a very flexible replacement to
+<b>lilypond-book</b>.
+</p>
+
+<p>
+<b>Warning!</b> in <b>basic-mode</b> a lilypond source block requires a <code>:file</code>
+ parameter as shown below, as failure to do so will result in an error
+ message.
+</p>
+
+<pre class="example">
+#+begin_src lilypond :file Mixolydian.png
+\relative c' {
+  g a b c d e f g f e d c b a g a b c d e f g f e d c b a g1
+}
+#+end_src
+</pre>
+
+<p>
+The previous block will produce an image file in .png format, which
+would be suitable for exporting to HTML for instance.
+</p>
+
+<p>
+To generate a nice image for embedding into a pdf or Latex document,
+you might consider using the .eps (or .pdf) format as shown in the
+example below.
+</p>
+
+<pre class="example">
+#+begin_src lilypond :file Mixolydian.eps
+\relative c' {
+  g a b c d e f g f e d c b a g a b c d e f g f e d c b a g1
+}
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb031306" class="outline-2">
+<h2 id="orgb031306">Examples</h2>
+<div class="outline-text-2" id="text-orgb031306">
+<p>
+Following are some examples generated in ob-lilypond Basic Mode.
+</p>
+
+<p>
+<b>Note:</b> Some of the source files used in these examples were published
+by Martyn Jago in 2011 and are probably no longer compatible with
+recent versions of Org and LilyPond.
+</p>
+</div>
+
+<div id="outline-container-orgb023047" class="outline-3">
+<h3 id="orgb023047">PDF export</h3>
+<div class="outline-text-3" id="text-orgb023047">
+<ul class="org-ul">
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/basic-mode/pdf-example/pdf-example.pdf?raw=true">Here is an example</a> of a pdf file containing high quality vector
+graphics generated by Org and ob-lilypond.</li>
+<li><a href="https://raw.github.com/mjago/ob-lilypond/master/examples/basic-mode/pdf-example/pdf-example.org">and the Org file</a> that compiled the LilyPond snippets and exported
+the pdf.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc0d974a" class="outline-3">
+<h3 id="orgc0d974a">HTML export</h3>
+<div class="outline-text-3" id="text-orgc0d974a">
+<ul class="org-ul">
+<li><a href="https://github.com/mjago/ob-lilypond/raw/master/examples/basic-mode/html-example/html-example.html">Here is an example</a> of an html page containing images (png) generated
+by Org-mode and ob-lilypond.</li>
+<li><a href="https://raw.github.com/mjago/ob-lilypond/master/examples/basic-mode/html-example/html-example.org">and the Org file</a> that compiled the LilyPond snippets and exported
+the html page.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org25d40d7" class="outline-2">
+<h2 id="org25d40d7">Compiling LilyPond Blocks</h2>
+<div class="outline-text-2" id="text-org25d40d7">
+<p>
+In <b>basic-mode</b> the key sequence <code>C-c C-c</code> within a Lilypond block
+will compile the block. Exporting of all blocks and Org file contents
+is initiated with the sequence <code>C-c C-e</code> (standard Org-mode export
+keys).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org92a56a2" class="outline-2">
+<h2 id="org92a56a2">Arrange Mode</h2>
+<div class="outline-text-2" id="text-org92a56a2">
+<p>
+<b>arrange-mode</b> allows you to develop complete pieces of score, whilst
+organizing sections of the piece using typical Org-mode
+techniques. And because you are in Org-mode, you are free to use
+Literate Programming techniques to do things programatically, like
+storing information in tables etc.
+</p>
+
+<p>
+In addition, there are automated features to automatically audition
+the piece (via MIDI) and or display the resultant pdf output.
+</p>
+
+<p>
+To change the default mode to Arrange Mode, put the following in your
+Emacs init file:
+</p>
+
+<pre class="example">
+(setq org-babel-lilypond-arrange-mode t)
+</pre>
+
+
+<p>
+&#x2026;or to temporarily switch between modes use the following command:
+</p>
+
+<pre class="example">
+M-x org-babel-lilypond-toggle-arrange-mode
+</pre>
+
+
+<p>
+Following are examples generated using ob-lilypond in Arrange Mode.
+</p>
+</div>
+
+<div id="outline-container-org8df3551" class="outline-3">
+<h3 id="org8df3551">Modal Cycles</h3>
+<div class="outline-text-3" id="text-org8df3551">
+<ul class="org-ul">
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/arrange-mode/Modal-Cycle/modal-cycle.pdf?raw=true">Modal Cycles (Utilises org-babel and noweb to generate notes)</a> (pdf)</li>
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/arrange-mode/Modal-Cycle/modal-cycle.midi?raw=true">Generated Midi File</a></li>
+<li><a href="https://raw.github.com/mjago/ob-lilypond/master/examples/arrange-mode/Modal-Cycle/modal-cycle.org">Source Org File</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2b8881c" class="outline-3">
+<h3 id="org2b8881c">Modal Cycles 2</h3>
+<div class="outline-text-3" id="text-org2b8881c">
+<ul class="org-ul">
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/arrange-mode/Modal-Cycle-2/modal-cycle-2.pdf?raw=true">Modal Cycles 2 (Utilises org-babel and noweb to generate notes)</a> (pdf)</li>
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/arrange-mode/Modal-Cycle-2/modal-cycle-2.midi?raw=true">Generated Midi File</a></li>
+<li><a href="https://raw.github.com/mjago/ob-lilypond/master/examples/arrange-mode/Modal-Cycle-2/modal-cycle-2.org">Source Org File</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7fe8ac3" class="outline-3">
+<h3 id="org7fe8ac3">Modes in the Key of C</h3>
+<div class="outline-text-3" id="text-org7fe8ac3">
+<ul class="org-ul">
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/arrange-mode/Modes-in-Key-of-C/modes-in-key-of-c.pdf?raw=true">Modes in the Key of C (another example of polyglot lilypond programming)</a> (pdf)</li>
+<li><a href="https://github.com/mjago/ob-lilypond/blob/master/examples/arrange-mode/Modes-in-Key-of-C/modes-in-key-of-c.midi?raw=true">Generated Midi File</a></li>
+<li><a href="https://raw.github.com/mjago/ob-lilypond/master/examples/arrange-mode/Modes-in-Key-of-C/modes-in-key-of-c.org">Source Org File</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2df674f" class="outline-2">
+<h2 id="org2df674f">Tangling and Compiling LilyPond Blocks</h2>
+<div class="outline-text-2" id="text-org2df674f">
+<p>
+In <b>arrange-mode</b>, the key sequence <code>C-c C-c</code> within a Lilypond block
+initiates <code>org-babel-lilypond-tangle</code> (tangling of all Lilypond blocks
+within the current Org file). Depending on the feature settings,
+ob-lilypond will then either <i>display a pdf</i> of the score, <i>play the
+generated MIDI file</i>, both, or neither.
+</p>
+
+<p>
+The command <code>M-x org-babel-lilypond-tangle</code> can also be called from
+anywhere in the file and could be tied to a function key with
+something like:
+</p>
+
+<pre class="example">
+(global-set-key [f8] 'org-babel-lilypond-tangle)
+</pre>
+
+
+<p>
+Some commands are included in arrange-mode to quickly enable/disable
+certain post-tangle activities, including:
+</p>
+
+<ul class="org-ul">
+<li><code>org-babel-lilypond-toggle-midi-play</code> (toggle whether midi will be
+played following a successful compilation)</li>
+<li><code>org-babel-lilypond-toggle-pdf-display</code> (toggle whether pdf will be
+displayed following a successful compilation)</li>
+</ul>
+
+<p>
+<b>Note:</b> If using <a href="http://timidity.sourceforge.net/">Timidity</a> for MIDI playback, kill the MIDI stream with
+<code>C-g</code> in Emacs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgced528a" class="outline-2">
+<h2 id="orgced528a">Setup</h2>
+<div class="outline-text-2" id="text-orgced528a">
+<p>
+By default, <code>ob-lilypond</code> is included in the latest Org-mode. For
+information on obtaining the latest Org-mode follow this link to the
+<a href="https://orgmode.org/manual/Installation.html">Org-mode Manual</a> and follow the instructions.
+</p>
+
+<p>
+Then, add lilypond to your list of babel languages (in your init
+file):
+</p>
+
+<pre class="example">
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (org . t)
+   (lilypond . t)))
+</pre>
+
+<p>
+Alternatively, you may <b>require</b> the ob-lilypond babel language directly:
+</p>
+
+<pre class="example">
+(require 'ob-lilypond)
+</pre>
+
+
+<p>
+To ensure all is correct consider <b>running the tests</b> (see below).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8d455e8" class="outline-2">
+<h2 id="org8d455e8">Requirements</h2>
+<div class="outline-text-2" id="text-org8d455e8">
+</div>
+<div id="outline-container-orgef4d4a3" class="outline-3">
+<h3 id="orgef4d4a3">Mac OS X</h3>
+<div class="outline-text-3" id="text-orgef4d4a3">
+<ul class="org-ul">
+<li>LilyPond may be <a href="http://lilypond.org/">downloaded here</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfcfc782" class="outline-3">
+<h3 id="orgfcfc782">Nix</h3>
+<div class="outline-text-3" id="text-orgfcfc782">
+<ul class="org-ul">
+<li>LilyPond is <a href="http://lilypond.org/">available here</a> or via the the system-relevant package manager.</li>
+<li>For MIDI, <b>Timidity</b> is <a href="http://timidity.sourceforge.net/">available here</a> or via the system-relevant package manager.</li>
+<li>For pdf, <b>Evince</b> is <a href="https://wiki.gnome.org/Apps/Evince">available here</a> or via package manager.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcf8d0b2" class="outline-3">
+<h3 id="orgcf8d0b2">Win32</h3>
+<div class="outline-text-3" id="text-orgcf8d0b2">
+<ul class="org-ul">
+<li>Currently untested, although it should be made to work with minimal fuss.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org624427d" class="outline-2">
+<h2 id="org624427d">Testing</h2>
+<div class="outline-text-2" id="text-org624427d">
+<p>
+Tests are provided and can be executed by running the following
+commands (for more help and information on testing see <a href="../../../org-tests/index.html">Testing Org</a>):
+</p>
+
+<pre class="example">
+M-x load-file RET  testing/lisp/test-ob-lilypond.el
+M-x ert t
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6abcce7" class="outline-2">
+<h2 id="org6abcce7">Issues</h2>
+<div class="outline-text-2" id="text-org6abcce7">
+<p>
+Any issues should be reported to the <a href="https://orgmode.org">Org-mode Mailing-list</a>
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Martyn Jago</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

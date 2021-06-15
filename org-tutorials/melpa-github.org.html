@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>melpa-github.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">GitHub + MELPA + Worg
+</span><span class="org-meta-line">#+OPTIONS: ^:{} author:Thierry Banel</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+Want to contribute ?
+
+GitHub + MELPA + Worg is one popular way to publish your contribution.
+
+I wrote this tutorial because I went this path and it was not so
+obvious before starting.
+
+(You may also want to look at <span class="org-link"><a href="file:../org-contribute.org">How to Contribute to Org</a></span>
+for a tighter integration of your contribution with Org-mode)
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> So what are those beasts ?
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> MELPA
+</span>This is a repository of Emacs packages contributed by many people.
+To get a taste of it, do that:
+
+<span class="org-list-dt">1.</span> Add those lines to your <span class="org-code">.emacs</span> 
+<span class="org-code">: (require 'package)
+: (add-to-list 'package-archives '("melpa" . "<a href="http://melpa.milkbox.net/packages/">http://melpa.milkbox.net/packages/</a>") t)
+</span>
+<span class="org-list-dt">2.</span> Execute those lines by typing <span class="org-code">C-x C-e</span> at the end of both lines.
+
+<span class="org-list-dt">3.</span> Type
+<span class="org-code">: M-x package-list-packages
+</span>
+After a few seconds you should get a never-ending list of packages,
+right available for you to use. Just click on one and hit the "install" button.
+
+There are several ELPA repositories, MELPA being a
+popular at the time of writing.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> GitHub
+</span>
+It is a code repository, open to all. Browse it here:
+<span class="kc-org-link-url"><a href="https://github.com">https://github.com</a></span>
+
+It is based on <span class="org-code">GIT</span>, wihch is a "version control system".
+There are many version control systems: CVS, SVN, Bazaar, to name a few.
+
+On GitHub, you manage your own GIT repositories.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Worg
+</span>
+It is a collaborative website for everything about Emacs Org-mode.
+GIT is used as its versionning backend.
+You may request commit-rights on it, as explained here:
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/worg-about.html">https://orgmode.org/worg/worg-about.html</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General workflow
+</span>
+<span class="org-list-dt">1.</span> Create your Emacs package,
+<span class="org-list-dt">2.</span> Register to GitHub (it is free),
+<span class="org-list-dt">3.</span> Put your package under version control on GitHub,
+<span class="org-list-dt">4.</span> Make it compliant with ELPA,
+<span class="org-list-dt">5.</span> Submit your package to MELPA through a "pull request",
+<span class="org-list-dt">6.</span> Type <span class="org-code">M-x package-list-packages</span> and try installing your own package,
+<span class="org-list-dt">7.</span> Ask for commit rights on Worg,
+<span class="org-list-dt">8.</span> Document your package on Worg,
+<span class="org-list-dt">9.</span> Announce its availability on the mailing list,
+<span class="org-list-dt">10.</span> Your package starts its life with possible contributions from others.
+
+You may change the ordering of items.
+For instance, putting 9. on position 1. is done quite often,
+and it could save you a few iterations.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Creating your package
+</span>
+Well, you know, you write a bunch of Emacs-lisp files, and possibly
+other kinds of files. I will take my own example: I wrote
+<span class="org-code">orgtbl-ascii-plot.el</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Registering to GitHub
+</span>
+Go to <span class="kc-org-link-url"><a href="https://github.com/">https://github.com/</a></span>,
+choose a user name, a password, and create an account.
+Go for a free, publicly visible account.
+I choosed tbanel, so I was given this url: <span class="kc-org-link-url"><a href="https://github.com/tbanel">https://github.com/tbanel</a></span>
+
+Under a single account, you can create as many GIT repositories as you
+want.
+
+Go ahead, create one using the drop down menu under the "+" sign at the
+upper right side of the screen. Play a little bit. No worries, you can
+delete it.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Put your package under version control
+</span>
+There are many ways to do that.
+My advice is to let GitHub create a skeletton.
+
+<span class="org-list-dt">1.</span> Create a repository
+   (drop down menu under the "+" sign at the upper right side of the screen).
+<span class="org-list-dt">2.</span> Choose the GPL V3 license for your package
+   (or any other license). GitHub creates the license file for you.
+<span class="org-list-dt">3.</span> Clone the repository to your local drive.
+   In my case I did that:
+   <span class="org-code">: git clone <a href="https://github.com/tbanel/orgtblasciiplot.git">https://github.com/tbanel/orgtblasciiplot.git</a>
+</span>   This will create a directory with the name of your repository,
+   ready to accept GIT commands.
+   You will mainly develop in this local directory.
+<span class="org-list-dt">4.</span> Copy the files of your package in this directory.
+   For me it was something like:
+   <span class="org-code">: cp orgtbl-ascii-plot.el orgtblasciiplot/
+</span><span class="org-list-dt">5.</span> Add your files to GIT. I typed:
+   <span class="org-code">: git add orgtbl-ascii-plot.el
+</span>   <span class="org-code">: git commit
+</span><span class="org-list-dt">6.</span> Synchronize your local drive with GitHub servers.
+   <span class="org-code">: git push
+</span>   This will "push" changes in your local drive to GitHub.
+<span class="org-list-dt">7.</span> On the GitHub web interface, click on <span class="org-code">README.md</span> and the <span class="org-code">Edit</span> button.
+   Explain what your package do.
+   Play with the markup facility, use the <span class="org-code">Preview</span> button.
+   When done, commit.
+
+Now you have two repositories, one on your local drive, and one on GitHub.
+You may change either, as you want, maintaining both in sync
+with the commands:
+<span class="org-code">: git push
+: git pull
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Make your package compliant with ELPA
+</span>
+You need to tag your elisp file in a way that ELPA can leverage automatically.
+A simple way to do that is to create an empty <span class="org-code">orgtbl-ascii-plot.el</span> file
+under Emacs (replace with the actual name of your package).
+If <span class="org-code">auto-insert-mode</span> is enabled, a template is inserted.
+
+Then go to the Emacs info page for details:
+<span class="org-link"><a href="info:elisp#Packaging">info:elisp#Packaging</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Submit your package to MELPA through a "pull request"
+</span>
+Submissions to MELPA work this way:
+
+<span class="org-list-dt">1.</span> Fork the MELPA project under GitHub.
+   Login to your GitHub account,
+   go to <span class="kc-org-link-url"><a href="https://github.com/milkypostman/melpa">https://github.com/milkypostman/melpa</a></span>,
+   click on the <span class="org-code">Fork</span> button.
+   This will add a "copy" of the MELPA repository into your account.
+   This copy is yours, you can do whaterver you want with it,
+   it does not interfer with the original one.
+<span class="org-list-dt">2.</span> Clone it to your local drive.
+   <span class="org-code">: git clone <a href="https://github.com/tbanel/melpa">https://github.com/tbanel/melpa</a>
+</span>   (do not forget to change tbanel to your actual GitHub account)
+<span class="org-list-dt">3.</span> Change it as explained in the <span class="org-code">README.md</span>
+   of <span class="kc-org-link-url"><a href="https://github.com/milkypostman/melpa">https://github.com/milkypostman/melpa</a></span>
+   under the "Contributing New Recipes" section.
+   Basically, this involves writting a new file:
+   <span class="org-code">: recipes/orgtbl-ascii-plot
+</span>   (change the name of the file according to the name of your package).
+   Mine looks like this:
+   <span class="org-code">: (orgtbl-ascii-plot :fetcher github :repo "tbanel/orgtblasciiplot")
+</span><span class="org-list-dt">4.</span> Commit:
+   <span class="org-code">: cd melpa
+</span>   <span class="org-code">: git add recipes/orgtbl-ascii-plot
+</span>   <span class="org-code">: git commit
+</span><span class="org-list-dt">5.</span> Check that your package builds and installs properly
+   <span class="org-code">: make recipes/orgtbl-ascii-plot
+</span>   <span class="org-code">: emacs &amp; M-x package-install-file recipes/orgtbl-ascii-plot
+</span>   Be sure to read detailed instruction in
+   <span class="kc-org-link-url"><a href="https://github.com/milkypostman/melpa">https://github.com/milkypostman/melpa</a></span>, section "Testing"
+<span class="org-list-dt">6.</span> Send a "pull request" to the MELPA maintainer team.
+   Eventually they will pull your changes out of your copy of melpa.
+   <span class="org-list-dt">-</span> Go to <span class="kc-org-link-url"><a href="https://github.com/tbanel/melpa">https://github.com/tbanel/melpa</a></span> (change path to <span class="bold">your</span> fork
+     of Melpa),
+   <span class="org-list-dt">-</span> click on "Pull Request"
+   <span class="org-list-dt">-</span> click on "New pull request"
+   <span class="org-list-dt">-</span> fill in the comment section with relevant information. For me this was:
+   <span class="bold">_</span>
+    I would like to submit orgtbl-ascii-plot package to Melpa.
+    &gt; orgtbl-ascii-plot adds plotting capabilities to Org-mode tables,
+      all in Emacs without external dependencies.
+    &gt; full documentation here:
+      <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/orgtbl-ascii-plot.html">https://orgmode.org/worg/org-contrib/orgtbl-ascii-plot.html</a></span>
+    &gt; GitHub home here:
+      <span class="kc-org-link-url"><a href="https://github.com/tbanel/orgtblasciiplot">https://github.com/tbanel/orgtblasciiplot</a></span>
+    &gt; I am the author and maintainer.
+
+    This is my first contribution to Melpa.
+    I may miss something, so please tell me, I will fix it.
+
+    Regards
+   <span class="bold">_</span>
+<span class="org-list-dt">7.</span> Answer queries from the MELPA team.
+   They are very friendly.
+   They do a good job at ensuring that your package is fully compliant
+   with the ELPA process.
+   They may also check additional details, like possible redundancy with
+   another package, or simpler lisp style.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Install your own package !
+</span>
+A few hours after your "pull request" has been accepted, il will show up
+in the list of packages. Under Emacs type:
+<span class="org-code">: M-x package-list-packages
+</span>
+Install your own package. Wooow !
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Register to Worg
+</span>
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg">https://orgmode.org/worg</a></span> is the community web site for documentation.
+
+The site is maintained under... GIT.
+
+The site is authored using... Emacs + Org-mode.
+
+An org-mode page committed to the Worg GIT repository gets translated
+into Html, and is visible a few seconds latter.
+
+Ask for commit-right on Worg.
+Instructions are here: <span class="kc-org-link-url"><a href="https://orgmode.org/worg/worg-about.html">https://orgmode.org/worg/worg-about.html</a></span>
+
+This involves creating an SSH key, and cloning the GIT repository.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Document your package on Worg
+</span>
+Create a file to document your package. I wrote this one:
+<span class="org-code">: worg/org-contrib/orgtbl-ascii-plot.org
+</span>which is translated on the web site here:
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/orgtbl-ascii-plot.html">https://orgmode.org/worg/org-contrib/orgtbl-ascii-plot.html</a></span>
+
+Commit and push it. I did that:
+<span class="org-code">: git add org-contrib/orgtbl-ascii-plot.org
+: git commit
+: git push
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Announce availability of your package
+</span>
+There is a mailing list dedicated to Org-mode. Look here:
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-mailing-list.html">https://orgmode.org/worg/org-mailing-list.html</a></span>
+<span class="kc-org-link-url"><a href="https://lists.gnu.org/mailman/listinfo/emacs-orgmode">https://lists.gnu.org/mailman/listinfo/emacs-orgmode</a></span>
+
+Use it to announce your package. You will receive good feedbacks. It
+is even advisable to announce it <span class="bold">before</span> going all the path down to the
+publication.
+</pre>
+  </body>
+</html>

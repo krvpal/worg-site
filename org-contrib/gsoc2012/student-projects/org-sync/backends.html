@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-sync backends</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Aurélien Aptel" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../../index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-sync backends</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2029cb9">Workflow/Roadmap</a>
+<ul>
+<li><a href="#orge7cb3fb">First import</a></li>
+<li><a href="#org97c84d3">Synchronization</a></li>
+<li><a href="#org28e31fb">Shared properties</a></li>
+</ul>
+</li>
+<li><a href="#org637492e">Bugtrackers</a>
+<ul>
+<li><a href="#orgd01346c">Bugzilla</a></li>
+<li><a href="#orgcd214e8">GitHub</a></li>
+<li><a href="#org1fad348">Redmine</a></li>
+<li><a href="#org8d680ba">Google Code</a></li>
+<li><a href="#orge1ebdd8">Bitbucket</a></li>
+<li><a href="#orgb2cd768">Relevant bug properties</a></li>
+</ul>
+</li>
+<li><a href="#org63c5ff3">TO-DO list manager</a>
+<ul>
+<li><a href="#org3af9f9b">Toodledo</a></li>
+<li><a href="#orgc8bf5d3">Google Task</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+Note: everything here is a work in progress.
+</p>
+
+<div id="outline-container-org2029cb9" class="outline-2">
+<h2 id="org2029cb9">Workflow/Roadmap</h2>
+<div class="outline-text-2" id="text-org2029cb9">
+</div>
+<div id="outline-container-orge7cb3fb" class="outline-3">
+<h3 id="orge7cb3fb">First import</h3>
+<div class="outline-text-3" id="text-orge7cb3fb">
+<ul class="org-ul">
+<li>the user runs <code>os-import</code>, and is prompted for a repo url</li>
+<li>org-sync tries to match it against per-backend pattern in order to
+chose the right one.</li>
+<li>org-sync inserts a new headline named &ldquo;Bugs of <i>repo</i>&rdquo; or prompts
+the user for a name. The headline name is not stored remotely and
+can be changed to anything.</li>
+<li>this headline has a set of well defined PROPERTIES used by every
+backend and (optionally) other for a specific backend.</li>
+<li>This headlines contains sub-headlines, one for each bug.</li>
+<li>Again, each bug headline has a set of PROPERTIES common to every
+backend and some for a specific one.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org97c84d3" class="outline-3">
+<h3 id="org97c84d3">Synchronization</h3>
+<div class="outline-text-3" id="text-org97c84d3">
+<ul class="org-ul">
+<li>the user runs <code>os-sync</code> which syncs each buglist in the buffer.</li>
+<li>if the document doesn&rsquo;t have any buglist, inform the user to call
+<code>os-import</code> (or call it directly).</li>
+<li>org-sync fetches the buglist, and adds any new bugs to the
+right buglist.</li>
+<li>conflicting changes are handled by showing the new and the old entries in a
+distinctive manner. The user deletes the one he doesn&rsquo;t want.</li>
+<li>org-sync sends the resulting merge to the remote bugtracker.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org28e31fb" class="outline-3">
+<h3 id="org28e31fb">Shared properties</h3>
+<div class="outline-text-3" id="text-org28e31fb">
+<p>
+After looking at each web service, I came up with the following set of
+properties.
+</p>
+</div>
+
+<div id="outline-container-org46e12ed" class="outline-4">
+<h4 id="org46e12ed">Buglist</h4>
+<div class="outline-text-4" id="text-org46e12ed">
+<ul class="org-ul">
+<li>title</li>
+<li>source-url</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcab362c" class="outline-4">
+<h4 id="orgcab362c">Bug</h4>
+<div class="outline-text-4" id="text-orgcab362c">
+<ul class="org-ul">
+<li>id</li>
+<li>status</li>
+<li>title</li>
+<li>description</li>
+<li>creation-date</li>
+<li>update-date</li>
+<li>deadline</li>
+<li>priority</li>
+<li>tags</li>
+<li>author</li>
+<li>assignee</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org637492e" class="outline-2">
+<h2 id="org637492e">Bugtrackers</h2>
+<div class="outline-text-2" id="text-org637492e">
+<p>
+Here are useful information about planned backends. I won&rsquo;t list
+detailed information about properties that don&rsquo;t fit in the project.
+</p>
+</div>
+
+<div id="outline-container-orgd01346c" class="outline-3">
+<h3 id="orgd01346c">Bugzilla</h3>
+<div class="outline-text-3" id="text-orgd01346c">
+<p>
+Bugzilla is a full-featured bugtracker written in Perl. There is a
+XML-RPC and a JSON-RPC interface which Org-sync can use.
+</p>
+
+<p>
+Since the JSON-RPC interface was added fairly recently in Bugzilla
+(v3.6 released April 13, 2010), we should focus on the XML one.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://www.bugzilla.org">Bugzilla website</a></li>
+<li><a href="http://www.bugzilla.org/docs/3.2/en/html/api/Bugzilla/WebService.html">XML-RPC API</a></li>
+<li><a href="https://landfill.bugzilla.org/bugzilla-tip-sqlite/page.cgi?id=fields.html">Bug fields in default install</a></li>
+</ul>
+</div>
+
+<div id="outline-container-org82d702c" class="outline-4">
+<h4 id="org82d702c">Relevent bug properties</h4>
+<div class="outline-text-4" id="text-org82d702c">
+<ul class="org-ul">
+<li>id: simple unsigned number</li>
+<li>status: there are multiple status but they all fall in the
+open/closed categories. <a href="https://landfill.bugzilla.org/bugzilla-tip-sqlite/page.cgi?id=fields.html#status">Status definition in default install</a>.
+<ul class="org-ul">
+<li>Open: unconfirmed, confirmed, in_progress, &#x2026;</li>
+<li>Closed: resolved, verified, fixed, invalid, wontfix, duplicate,
+worksforme, &#x2026;</li>
+</ul></li>
+<li>classification &amp; component: bugs are categorised into Classifications,
+Products and Components. classifications is the top-level
+categorisation.</li>
+<li>creation date</li>
+<li>update date</li>
+<li>severity</li>
+<li>priority to fix</li>
+<li>summary: short description, aka title</li>
+<li>description</li>
+<li>milestone: simple string</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd214e8" class="outline-3">
+<h3 id="orgcd214e8">GitHub</h3>
+<div class="outline-text-3" id="text-orgcd214e8">
+<p>
+GitHub hosts open source projects and provides git repositories along
+with other things, notably a wiki and a bugtracker (GitHub Issues).
+</p>
+
+<p>
+GitHub also provides a REST API for their bugtracker. The output format is JSON.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://github.com">GitHub website</a></li>
+<li><a href="http://developer.github.com/v3/issues/">Bugtracker REST API</a></li>
+</ul>
+</div>
+
+<div id="outline-container-orge56a1c2" class="outline-4">
+<h4 id="orge56a1c2">Relevant bug properties</h4>
+<div class="outline-text-4" id="text-orge56a1c2">
+<ul class="org-ul">
+<li>id: simple unsigned number.</li>
+<li>title</li>
+<li>author</li>
+<li>description: can be fetched in various format.</li>
+<li>state: open or closed.</li>
+<li>creation date</li>
+<li>update date</li>
+<li>labels: each bug can be tagged with multiple strings ex: bug,
+wontfix, etc.</li>
+<li>milestone: each bug can be assigned to one milestone.</li>
+<li>assignee: each bug can be assigned to one person.</li>
+</ul>
+
+<p>
+A milestone has:
+</p>
+<ul class="org-ul">
+<li>id</li>
+<li>title</li>
+<li>description</li>
+<li>number of open/closed issues.</li>
+<li>deadline</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1fad348" class="outline-3">
+<h3 id="org1fad348">Redmine</h3>
+<div class="outline-text-3" id="text-org1fad348">
+<p>
+Redmine is a project management web application written in Ruby. It
+has a REST API in both JSON and XML.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://www.redmine.org/projects/redmine">Redmine website</a></li>
+<li><a href="http://www.redmine.org/projects/redmine/wiki/Rest_api">REST API</a></li>
+</ul>
+</div>
+
+<div id="outline-container-org60c1be0" class="outline-4">
+<h4 id="org60c1be0">Relevant bug properties</h4>
+<div class="outline-text-4" id="text-org60c1be0">
+<ul class="org-ul">
+<li>id: simple unsigned number</li>
+<li>status: can be arbitrary string. <a href="http://www.redmine.org/projects/redmine/wiki/RedmineIssueTrackingSetup">Default ones</a>:
+<ul class="org-ul">
+<li>Closed: Closed, Rejected</li>
+<li>Open: everything else</li>
+</ul></li>
+<li>tracker: simple string. Top-level categorisation. ex: bug, feature,
+support, task, &#x2026;</li>
+<li>category: second-level categorisation (can be empty).</li>
+<li>author</li>
+<li>creation date</li>
+<li>update date</li>
+<li>deadline</li>
+<li>priority</li>
+<li>assignee</li>
+<li>title</li>
+<li>description</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8d680ba" class="outline-3">
+<h3 id="org8d680ba">Google Code</h3>
+<div class="outline-text-3" id="text-org8d680ba">
+<p>
+Google has its own open source project hoster. It provides a
+bugtracker. I didn&rsquo;t find any API for it but each the bug list can be
+exported to CSV.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://code.google.com/">Google Code website</a></li>
+<li><a href="http://code.google.com/p/chromium/issues/csv">Sample project CSV export</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge1ebdd8" class="outline-3">
+<h3 id="orge1ebdd8">Bitbucket</h3>
+<div class="outline-text-3" id="text-orge1ebdd8">
+<p>
+Bitbucket provides free public/private git/mercurial repository, along
+with a wiki, issue tracker, etc.
+</p>
+
+<p>
+There&rsquo;s a REST API in JSON.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://bitbucket.org">Bitbucket website</a></li>
+<li><a href="http://confluence.atlassian.com/display/BITBUCKET/Using+the+bitbucket+REST+APIs">REST API</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb2cd768" class="outline-3">
+<h3 id="orgb2cd768">Relevant bug properties</h3>
+<div class="outline-text-3" id="text-orgb2cd768">
+<ul class="org-ul">
+<li>id: simple unsigned number</li>
+<li>status: fixed number of status
+<ul class="org-ul">
+<li>Open: open, new</li>
+<li>Closed: resolved, on hold, duplicate, wontfix, invalid</li>
+</ul></li>
+<li>type: category, fixed string: bug, enhancement, proposal, task</li>
+<li>priority: fixed string: trivial, minor, major, critical, blocker</li>
+<li>component: category, string</li>
+<li>version: category, string</li>
+<li>milestone: category, string</li>
+<li>author</li>
+<li>creation date</li>
+<li>update date</li>
+<li>title</li>
+<li>description</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org63c5ff3" class="outline-2">
+<h2 id="org63c5ff3">TO-DO list manager</h2>
+<div class="outline-text-2" id="text-org63c5ff3">
+</div>
+<div id="outline-container-org3af9f9b" class="outline-3">
+<h3 id="org3af9f9b">Toodledo</h3>
+<div class="outline-text-3" id="text-org3af9f9b">
+<p>
+Toodledo is yet another webservice to organize tasks. It features
+TO-DO list, folders, calendars and more.
+</p>
+
+<p>
+Toodledo has a REST API specifically designed for syncing. The output
+format can be JSON or XML.
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.toodledo.com/index.php">Toodledo website</a></li>
+<li><a href="http://api.toodledo.com/2/tasks/index.php">REST API</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc8bf5d3" class="outline-3">
+<h3 id="orgc8bf5d3">Google Task</h3>
+<div class="outline-text-3" id="text-orgc8bf5d3">
+<p>
+Google also has its own task manager. It&rsquo;s more simple and
+straightforward than Toodledo: TODO-list and dates.
+</p>
+
+<p>
+There&rsquo;s a REST API in JSON.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://mail.google.com/mail/help/tasks/">Google Tasks website</a></li>
+<li><a href="https://developers.google.com/google-apps/tasks/v1/reference/">REST API</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Aurélien Aptel</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>header-args.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Header arguments and result types in Org Babel
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thorsten Jolitz, Eric Schulte
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tj[at]data-driven[dot]de
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil </span><span class="org-meta-line"><span class="org-formula">@:t</span></span><span class="org-meta-line"> ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.php</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXPORT_EXCLUDE_TAGS: noexport</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+For a complete header argument reference see the Org-mode manual's
+page which lists all <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Specific-header-arguments.html">Specific-header-arguments</a></span>.  This page holds
+ancillary notes and tricks which have not made it into the manual.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Generally use </span><span class="org-level-1"><span class="org-verbatim">verbatim</span></span><span class="org-level-1"> when using </span><span class="org-level-1"><span class="org-verbatim">drawer</span></span><span class="org-level-1">, </span><span class="org-level-1"><span class="org-verbatim">raw</span></span><span class="org-level-1"> or </span><span class="org-level-1"><span class="org-verbatim">org</span></span><span class="org-level-1">
+</span>We often want to add <span class="org-verbatim">verbatim</span> (which inhibits interpretation as a
+value, which can often result in a list or table result), when
+inserting results directly into the buffer using <span class="org-verbatim">drawer</span>, <span class="org-verbatim">raw</span> or
+<span class="org-verbatim">org</span> which don't do tabular interpretation.
+
+An example w/o <span class="org-verbatim">verbatim</span>.
+<span class="org-code">: #+begin_src sh :results drawer
+: cat &lt;&lt;EOF
+: | 1 | 2
+: |--
+: | a | b
+: EOF
+: #+end_src
+: 
+: #+RESULTS:
+: :RESULTS:
+: |   |    | 1 |   |   | 2 |
+: |   | -- |   |   |   |   |
+: |   |    | a |   |   | b |
+: :END:
+</span>
+The same block <span class="italic">with</span> the <span class="org-verbatim">verbatim</span> flag.
+<span class="org-code">: #+begin_src sh :results verbatim drawer
+: cat &lt;&lt;EOF
+: | 1 | 2
+: |--
+: | a | b
+: EOF
+: #+end_src
+: 
+: #+RESULTS:
+: :RESULTS:
+: | 1 | 2 |
+: |---+---|
+: | a | b |
+: :END:
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Common combinations of header-args and result types
+</span>   Many combinations of header arguments and result types are
+   supported by Org Babel. Individual languages may even define
+   special header args. Like always in combinatorics, the number
+   of possible combinations increases rapidly when there are several
+   factors with several levels each that can be freely combined.
+
+   The following table shows combinations of header arguments and
+   result types that might be considered reasonable for many
+   programming languages.
+
+    <span class="org-table">| evaluation | collection | type              |</span>
+    <span class="org-table">| (:session) | (:results) | (:results)        |</span>
+    <span class="org-table">|------------+------------+-------------------|</span>
+    <span class="org-table">| external   | value      | table (vector)    |</span>
+    <span class="org-table">|            |            | scalar (verbatim) |</span>
+    <span class="org-table">|            |            | file              |</span>
+    <span class="org-table">|            |            | raw (org)         |</span>
+    <span class="org-table">|            |            | html              |</span>
+    <span class="org-table">|            |            | latex             |</span>
+    <span class="org-table">|            |            | code              |</span>
+    <span class="org-table">|            |            | pp                |</span>
+    <span class="org-table">|            | output     | table (vector)    |</span>
+    <span class="org-table">|            |            | scalar (verbatim) |</span>
+    <span class="org-table">|            |            | file              |</span>
+    <span class="org-table">|            |            | raw (org)         |</span>
+    <span class="org-table">|            |            | html              |</span>
+    <span class="org-table">|            |            | latex             |</span>
+    <span class="org-table">|            |            | code              |</span>
+    <span class="org-table">|            |            | pp                |</span>
+    <span class="org-table">| session    | value      | table (vector)    |</span>
+    <span class="org-table">|            |            | scalar (verbatim) |</span>
+    <span class="org-table">|            |            | file              |</span>
+    <span class="org-table">|            |            | raw (org)         |</span>
+    <span class="org-table">|            |            | html              |</span>
+    <span class="org-table">|            |            | latex             |</span>
+    <span class="org-table">|            |            | code              |</span>
+    <span class="org-table">|            |            | pp                |</span>
+    <span class="org-table">|            | output     | table (vector)    |</span>
+    <span class="org-table">|            |            | scalar (verbatim) |</span>
+    <span class="org-table">|            |            | file              |</span>
+    <span class="org-table">|            |            | raw (org)         |</span>
+    <span class="org-table">|            |            | html              |</span>
+    <span class="org-table">|            |            | latex             |</span>
+    <span class="org-table">|            |            | code              |</span>
+    <span class="org-table">|            |            | pp                |</span>
+
+    More special header arguments and their possible values are
+    summarized in the next table:
+   
+    <span class="org-table">| header-arg |          | values  |          |         |</span>
+    <span class="org-table">|------------+----------+---------+----------+---------|</span>
+    <span class="org-table">| :results   | silent   | replace | append   | prepend |</span>
+    <span class="org-table">| (handling) |          |         |          |         |</span>
+    <span class="org-table">| :exports   | code     | results | both     | none    |</span>
+    <span class="org-table">| :comments  | yes      | (no?)   |          |         |</span>
+    <span class="org-table">| :noweb     | no       | yes     |          |         |</span>
+    <span class="org-table">| :tangle    | yes      | no      | filename |         |</span>
+    <span class="org-table">| :no-expand |          |         |          |         |</span>
+    <span class="org-table">| :file      |          |         |          |         |</span>
+    <span class="org-table">| :dir       |          |         |          |         |</span>
+    <span class="org-table">| :cache     | no       | yes     |          |         |</span>
+    <span class="org-table">| :var       | x=y      |         |          |         |</span>
+    <span class="org-table">| :hlines    | no       | yes     |          |         |</span>
+    <span class="org-table">| :colnames  | nil      | no      | yes      |         |</span>
+    <span class="org-table">| :rownames  | no       | yes     |          |         |</span>
+    <span class="org-table">| :shebang   | "string" |         |          |         |</span>
+    <span class="org-table">| :eval      | never    | query   |          |         |</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Setting language and file specific default header argument values
+</span>This may be useful to e.g., have all Python code blocks in a file use
+the same session.  The following file-local-variable syntax should be
+used, placing the customization at the end of the Org-mode file.
+
+<span class="org-code">: #+Title: Example of default file and language session
+: 
+: The value in this buffer is...
+: #+begin_src emacs-lisp
+:   org-babel-default-header-args:Python
+: #+end_src
+: 
+: #+RESULTS:
+: | (:session . foo) |
+: 
+: # Local Variables&#58;
+: # eval: (setq-local org-babel-default-header-args:Python '((:session . "foo")))
+: # End:
+</span></pre>
+  </body>
+</html>

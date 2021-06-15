@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Asymptote Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Asymptote Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd0c86a5">Introduction</a></li>
+<li><a href="#orgb7d9f69">Requirements and Setup</a></li>
+<li><a href="#org42b086b">Org Mode Features for Asymptote Source Code Blocks</a>
+<ul>
+<li><a href="#orgcf79459">Header Arguments</a></li>
+<li><a href="#org79cf02c">Sessions</a></li>
+<li><a href="#orgbafb80a">Result Types</a></li>
+</ul>
+</li>
+<li><a href="#org013a789">Examples of Use</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://asymptote.sourceforge.net/">Asymptote</a>
+</p>
+<p>
+<a href="http://asymptote.sourceforge.net/">
+<img src="images/asymptote.png" width=200/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-orgd0c86a5" class="outline-2">
+<h2 id="orgd0c86a5">Introduction</h2>
+<div class="outline-text-2" id="text-orgd0c86a5">
+<p>
+Asymptote is a powerful descriptive vector graphics language with a
+coordinate-based framework for technical drawing. Labels and equations
+are typeset with LaTeX.  It is distributed with the GNU Lesser
+General Public License.
+</p>
+
+<p>
+Asymptote can produce graphics in any format supported by <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a>,
+but it excels at producing PostScript files suited for typesetting
+with LaTeX.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb7d9f69" class="outline-2">
+<h2 id="orgb7d9f69">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orgb7d9f69">
+<p>
+Asymptote is distributed as source code at <a href="http://sourceforge.net/projects/asymptote/">SourceForge</a>.  Binary files
+are available for Linux and Windows.  OS X users can install
+Asymptote with <code>brew</code> or MacPorts.
+</p>
+
+<p>
+There is an Emacs mode, <a href="http://asymptote.sourceforge.net/doc/Editing-modes.html">asy-mode</a>, for editing Asymptote files.  The
+file asy-mode.el is distributed with Asymptote.  Instructions for
+enabling asy-mode are <a href="http://asymptote.sourceforge.net/doc/Editing-modes.html">here</a>.
+</p>
+
+<p>
+To configure Asymptote source code blocks in Org mode, add the
+    appropriate dotted pair to <code>org-babel-load-languages</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>asymptote . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org42b086b" class="outline-2">
+<h2 id="org42b086b">Org Mode Features for Asymptote Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org42b086b">
+</div>
+<div id="outline-container-orgcf79459" class="outline-3">
+<h3 id="orgcf79459">Header Arguments</h3>
+<div class="outline-text-3" id="text-orgcf79459">
+<p>
+Asymptote is a language designed to produce graphics files. The
+default <code>:results</code> header argument is &ldquo;file&rdquo;. The default <code>:exports</code>
+header argument is &ldquo;results&rdquo;.
+</p>
+
+<p>
+The <code>:file</code> header argument is required.  The extension of the file
+name passed to <code>:file</code> determines the graphics format produced by the
+Asymptote source code block.  The default output file format is <code>pdf</code>.
+</p>
+
+<p>
+The language-specific header argument, <code>:cmdline</code>, can be used to pass
+options to Asymptote. The full set of options are described in <code>info
+asy</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79cf02c" class="outline-3">
+<h3 id="org79cf02c">Sessions</h3>
+<div class="outline-text-3" id="text-org79cf02c">
+<p>
+Asymptote does not support sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbafb80a" class="outline-3">
+<h3 id="orgbafb80a">Result Types</h3>
+<div class="outline-text-3" id="text-orgbafb80a">
+<p>
+Asymptote produces graphic files.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org013a789" class="outline-2">
+<h2 id="org013a789">Examples of Use</h2>
+<div class="outline-text-2" id="text-org013a789">
+<p>
+The following source code block produced the Asymptote logo used at
+the top of this page.
+</p>
+
+<pre class="example">
+#+begin_src asymptote :file images/asymptote.png 
+import three;
+
+size(560,320,IgnoreAspect);
+size3(140,80,15);
+currentprojection=perspective(-2,20,10,up=Y);
+currentlight=White;
+
+real a=-0.4;
+real b=0.95;
+real y1=-5;
+real y2=-3y1/2;
+path A=(a,0){dir(10)}::{dir(89.5)}(0,y2);
+path B=(0,y1){dir(88.3)}::{dir(20)}(b,0);
+real c=0.5*a;
+pair z=(0,2.5);
+transform t=scale(1,15);
+transform T=inverse(scale(t.yy,t.xx));
+path[] g=shift(0,1.979)*scale(0.01)*t*
+  texpath(Label("{\it symptote}",z,0.25*E+0.169S,fontsize(24pt)));
+pair w=(0,1.7);
+pair u=intersectionpoint(A,w-1--w);
+
+real h=0.25*linewidth();
+real hy=(T*(h,h)).x;
+g.push(t*((a,hy)--(b,hy)..(b+hy,0)..(b,-hy)--(a,-hy)..(a-hy,0)..cycle));
+g.push(T*((h,y1)--(h,y2)..(0,y2+h)..(-h,y2)--(-h,y1)..(0,y1-h)..cycle));
+g.push(shift(0,w.y)*t*((u.x,hy)--(w.x,hy)..(w.x+hy,0)..(w.x,-hy)--(u.x,-hy)..(u.x-hy,0)..cycle));
+real f=0.75;
+g.push(point(A,0)--shift(-f*hy,f*h)*A--point(A,1)--shift(f*hy,-f*h)*reverse(A)--cycle);
+g.push(point(B,0)--shift(f*hy,-f*h)*B--point(B,1)--shift(-f*hy,f*h)*reverse(B)--cycle);
+
+triple H=-0.1Z;
+material m=material(lightgray,shininess=1.0);
+
+for(path p : g)
+  draw(extrude(p,H),m);
+
+surface s=surface(g);
+draw(s,red,nolight);
+draw(shift(H)*s,m);
+#+end_src
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-asymptote">import three;
+
+size(560,320,IgnoreAspect);
+size3(140,80,15);
+currentprojection=perspective(-2,20,10,up=Y);
+currentlight=White;
+
+real a=-0.4;
+real b=0.95;
+real y1=-5;
+real y2=-3y1/2;
+path A=(a,0){dir(10)}::{dir(89.5)}(0,y2);
+path B=(0,y1){dir(88.3)}::{dir(20)}(b,0);
+real c=0.5*a;
+pair z=(0,2.5);
+transform t=scale(1,15);
+transform T=inverse(scale(t.yy,t.xx));
+path[] g=shift(0,1.979)*scale(0.01)*t*
+  texpath(Label("{\it symptote}",z,0.25*E+0.169S,fontsize(24pt)));
+pair w=(0,1.7);
+pair u=intersectionpoint(A,w-1--w);
+
+real h=0.25*linewidth();
+real hy=(T*(h,h)).x;
+g.push(t*((a,hy)--(b,hy)..(b+hy,0)..(b,-hy)--(a,-hy)..(a-hy,0)..cycle));
+g.push(T*((h,y1)--(h,y2)..(0,y2+h)..(-h,y2)--(-h,y1)..(0,y1-h)..cycle));
+g.push(shift(0,w.y)*t*((u.x,hy)--(w.x,hy)..(w.x+hy,0)..(w.x,-hy)--(u.x,-hy)..(u.x-hy,0)..cycle));
+real f=0.75;
+g.push(point(A,0)--shift(-f*hy,f*h)*A--point(A,1)--shift(f*hy,-f*h)*reverse(A)--cycle);
+g.push(point(B,0)--shift(f*hy,-f*h)*B--point(B,1)--shift(-f*hy,f*h)*reverse(B)--cycle);
+
+triple H=-0.1Z;
+material m=material(lightgray,shininess=1.0);
+
+for(path p : g)
+  draw(extrude(p,H),m);
+
+surface s=surface(g);
+draw(s,red,nolight);
+draw(shift(H)*s,m);
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="images/asymptote.png" alt="asymptote.png" />
+</p>
+</div>
+
+<p>
+The following source code block was adapted from code found in
+<a href="http://marris.org/asymptote/">the gallery of Asymptote examples by Gaétan Marris</a>.
+</p>
+
+<pre class="example">
+#+header: :var n=8
+#+begin_src asymptote :file images/asy-tile.png
+import geometry; 
+
+size(7cm,0);
+
+picture pic;
+// on définit une courbe reliant les points (0,1) et (1,0)
+path c=(0,1){dir(-5)}..{dir(-5)}(1,0);
+// à l'aide de trois rotations, on définit 
+// le motif (dans un carré de 2 sur 2) ...
+path motif=buildcycle(c,rotate(90)*c,
+                      rotate(180)*c,rotate(-90)*c);
+filldraw(pic,motif,lightred+white,black);
+// ... et une double boucle pour "paver" 
+// suivant (Ox) et suivant (Oy)
+for(int i=0; i&lt;n; ++i)
+  {
+    for(int j=0; j&lt;n; ++j)
+      {
+        add(shift(2*i,2*j)*pic);
+      }
+  }
+#+end_src
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-asymptote">import geometry; 
+
+size(7cm,0);
+
+picture pic;
+// on définit une courbe reliant les points (0,1) et (1,0)
+path c=(0,1){dir(-5)}..{dir(-5)}(1,0);
+// à l'aide de trois rotations, on définit 
+// le motif (dans un carré de 2 sur 2) ...
+path motif=buildcycle(c,rotate(90)*c,
+                      rotate(180)*c,rotate(-90)*c);
+filldraw(pic,motif,lightred+white,black);
+// ... et une double boucle pour "paver" 
+// suivant (Ox) et suivant (Oy)
+for(int i=0; i&lt;n; ++i)
+  {
+    for(int j=0; j&lt;n; ++j)
+      {
+        add(shift(2*i,2*j)*pic);
+      }
+  }
+</pre>
+</div>
+
+
+<div class="figure">
+<p><img src="images/asy-tile.png" alt="asy-tile.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

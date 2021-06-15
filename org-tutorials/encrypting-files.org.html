@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>encrypting-files.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .sh-quoted-exec {
+        /* sh-quoted-exec */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Encrypting org Files.
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Ian Barton
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">ian at manor-farm dot org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General Information About Encrypting Files with Emacs.
+</span>Emacs uses EasyPG as an interface to gnupg. If you have a recent
+version of Emacs (at least 23) EasyPG is part of Emacs. However,
+several package managers include a version of EasyPG for use with
+earlier versions of Emacs. If your version of Emacs comes with EasyPG,
+don't install the EasyPG package, as this will lead to conflicts.
+
+To set up Emacs for transparent encryption and decryption you need to
+add the following to your .emacs:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">epa-file</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">epa-file-enable</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Encrypting the Whole File Using EasyPG.
+</span>If you want to encrypt the whole file using gnupg, but still have the
+decrypted file recognized as an org file, you should make:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block"><span class="comment">  # -*- mode:org; epa-file-encrypt-to: ("me@mydomain.com") -*-</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+the first line in the file. Where <span class="org-verbatim">me@mydomain.com</span> is the email
+address associated with your default gnupg key. Note that gpg
+encrypted files should be saved with the default extension of <span class="org-verbatim">.gpg</span>.
+
+When you open the file you will be prompted for your password and
+Emacs will display the decrypted contents in org-mode. When you save
+the file it would automatically be encrypted.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Symmetric or Public Key Encryption.
+</span>If you use symmetric encryption all that is required to
+encrypt/decrypt your file is the pass phrase. Using Public Key
+Encryption, you require both your private key and your pass phrase.
+
+EasyPG can use both methods of encryption. If you want to use
+symmetric encryption omitting the "epa-file-encrypt-to: " from your
+<span class="org-verbatim">.gpg</span> file or setting it to <span class="org-code">nil</span> should do the trick. If this doesn't
+work, you may try setting the variable:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> epa-file-select-keys nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> 
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Conversely, if you want to use Public Key Encryption make sure that
+you specify "epa-file-encrypt-to: " at the beginning of your file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Encrypting Specific Entries in an org File with org-crypt.
+</span>If you just want to encrypt the text of an entry, but not the
+headline, or properties you can use org-crypt. In order to use
+org-crypt you need to add something like the following to your .emacs:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-crypt</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-crypt-use-before-save-magic</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-tags-exclude-from-inheritance</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">quote</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"crypt"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">GPG key to use for encryption
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Either the Key ID or set to nil to use symmetric encryption.
+</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-crypt-key</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Now any text below a headline that has a <span class="org-verbatim">:crypt:</span> tag will be
+automatically be encrypted when the file is saved. If you want to use
+a different tag just customize the <span class="org-verbatim">org-crypt-tag-matcher</span> setting.
+
+Preventing tag inheritance stops you having encrypted text inside
+encrypted text.
+
+To decrypt the text just call <span class="org-verbatim">M-x org-decrypt-entry</span> and the
+encrypted text where the point is will be replaced with the plain
+text. If you use this feature a lot, you will probably want to bind
+<span class="org-verbatim">M-x org-decrypt-entry</span> to a key.
+
+Entries with a <span class="org-verbatim">:crypt:</span> tag will be automatically be encrypted when you
+save the file.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Emacs Backup Files - a Warning.
+</span>With org-crypt, if you have autosave turned on and decrypt the
+entries, the autosave file will contain the entries in plain text. For
+this reason your should disable autosave for encrypted files.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using gnupg-agent to Cache Your Passwords.
+</span>If you need to decrypt files frequently, you will probably get fed up
+of typing in your password each time you open an encrypted file. You
+can use gpg-agent to cache your passwords, so you only need to type
+your password once. Obviously this has security implications and it's
+up to you to decide whether you want your passwords cached.
+
+On Debian based systems your can install gpg-agent using your
+package manager:
+
+<span class="org-block-begin-line">#+BEGIN_SRC sh
+</span><span class="org-block">  </span><span class="org-block"><span class="type">sudo</span></span><span class="org-block"> apt-get install gpg-agent
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+You can configure gnupg-agent by editing <span class="org-verbatim">~/.gnupg/gpg-agent.conf</span>. As a
+minimum you will probably want to set:
+
+<span class="org-list-dt">-</span> <span class="org-verbatim">default-cache-ttl</span> the time the cahse entry is valid in seconds. The
+  default is 600.
+<span class="org-list-dt">-</span> <span class="org-verbatim">max-cache-ttl</span> the maximum time a cache entry is valid in
+  seconds. After this time the cache entry will be expired even if it
+  has been accessed recently.
+
+
+To ensure that gnupg uses gnupg-agent you should edit
+<span class="org-verbatim">~/.gnupg/gpg.conf</span> and make sure that the use-agent line is
+un-commented.
+
+If you are using a console based system you need to:
+
+<span class="org-block-begin-line">#+BEGIN_SRC sh
+</span><span class="org-block">  </span><span class="org-block"><span class="builtin">eval</span></span><span class="org-block"> $</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="sh-quoted-exec">gpg-agent</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+in your shell's startup script.
+
+If you are using a window manager you will probably want to install
+one of the pin entry programs, such as pinentry-gtk2 or pinentry-qt,
+so that X can prompt you for your pass phrase.
+
+
+Now when you try to open a <span class="org-verbatim">.gpg</span> file, or decrypt some text encrypted
+with org-crypt, you will be prompted for your pass phrase, but your
+password will be cached so re-opening the file, or decrypting another
+region will not prompt you for your password again.
+
+</pre>
+  </body>
+</html>

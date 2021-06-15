@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Exporting Gantt charts with Taskjuggler v3 (tj3)</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="John Henderson" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Exporting Gantt charts with Taskjuggler v3 (tj3)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf80c9a0">Introduction</a></li>
+<li><a href="#org74eb90f">Installation and Setup</a></li>
+<li><a href="#orgf3db832">Using tj3 with Org mode</a></li>
+<li><a href="#org4665046">Familiarizing yourself with Taskjuggler</a></li>
+<li><a href="#org46040e0">Mapping of Taskjuggler syntax to Org-mode</a></li>
+<li><a href="#orga2c9419">Example</a></li>
+<li><a href="#orga20b9ba">References</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="https://orgmode.org/worg/">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgf80c9a0" class="outline-2">
+<h2 id="orgf80c9a0">Introduction</h2>
+<div class="outline-text-2" id="text-orgf80c9a0">
+<p>
+This article discusses the use of <a href="https://orgmode.org/">Org-mode</a> for project planning using <a href="http://www.taskjuggler.org/">Taskjuggler</a>,
+self-described as follows (from the project website):
+</p>
+
+<blockquote>
+<p>
+TaskJuggler is a modern and powerful, Free and Open Source Software project management
+tool. Its new approach to project planning and tracking is more flexible and superior to
+the commonly used Gantt chart editing tools.
+</p>
+</blockquote>
+
+<p>
+A <a href="https://orgmode.org/worg/org-tutorials/org-taskjuggler.html">tutorial already exists</a> for the use of Org-mode and Taskjuggler v2.4.3, the last release of the
+v2.x.x series. Taskjuggler Version 3 (often referred to as simply &ldquo;tj3&rdquo;), was rebuilt using <a href="http://www.ruby-lang.org/en/">Ruby</a>, and no
+longer features the former <a href="http://qt-project.org/">Qt</a>-based GUI for task/timeline management of a project.
+</p>
+
+<p>
+It should also be mentioned that the project is now <a href="http://www.taskjuggler.org/manual/change_log.html#version_1_0_0">10 years old</a>, and, as a result, is
+<a href="http://taskjuggler.org/tj3/manual/toc.html">fantastically documented</a>.
+</p>
+
+<p>
+The manual used to cover Taskjuggler export to some extent, however
+the defaults assume the use of version 2.x.x. This tutorial will lay
+out the changes required to successfully export with tj3.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org74eb90f" class="outline-2">
+<h2 id="org74eb90f">Installation and Setup</h2>
+<div class="outline-text-2" id="text-org74eb90f">
+<p>
+<b>Preface:</b> If you have not recently (and successfully) used tj3, it is recommended that you
+try compiling the example <code>.tjp</code> file as described below to rule out any issues with the
+tj3 installation itself before moving on integrating tj3 with Org mode.
+</p>
+
+<p>
+Please refer to the <a href="http://taskjuggler.org/tj3/manual/Installation.html#Installation">installation section</a> of the Taskjuggler manual for instructions. For
+the high level overview, you will need to install <code>ruby</code> and possibly <code>ruby-gems</code>. The
+easiest method is probably to install <code>ruby-gems</code> and simply type, from a
+terminal/command-line interface (you may need to run this as the <code>root</code> user or with <code>sudo</code>):
+</p>
+
+<pre class="example">
+
+gem install taskjuggler
+
+</pre>
+
+<p>
+For Linux users, you may have a distro-specific package available if you would rather choose that
+route. For example, the Arch Linux User Repository (<a href="https://aur.archlinux.org/">AUR</a>) has a <a href="https://aur.archlinux.org/packages/taskjuggler3/">Taskjuggler 3 package</a> available.
+</p>
+
+<p>
+Once installed, you should check functionality by typing:
+</p>
+
+<pre class="example">
+
+tj3 --version
+
+</pre>
+
+<p>
+If you just can&rsquo;t wait to see what tj3 can do, try compiling their <a href="http://taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp">sample file</a>:
+</p>
+
+<ul class="org-ul">
+<li>Copy/paste into a file called <code>something.tjp</code>. Alternatively,</li>
+</ul>
+
+<pre class="example">
+
+http://taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp
+
+</pre>
+
+<ul class="org-ul">
+<li>Save the file and then issue:<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup></li>
+</ul>
+
+<pre class="example">
+
+$ cd /path/to/something.tjp
+$ tj3 something.tjp
+
+</pre>
+
+<p>
+Now check out the generated <code>Overview.html</code> in a browser!
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf3db832" class="outline-2">
+<h2 id="orgf3db832">Using tj3 with Org mode</h2>
+<div class="outline-text-2" id="text-orgf3db832">
+<p>
+To activate the Taskjuggler exporter in Org-mode, add this line to <code>~/.emacs</code>:
+</p>
+
+<pre class="example">
+
+(require 'ox-taskjuggler)
+
+</pre>
+
+<p>
+In addition, here are a list of current variables you can customize:
+</p>
+
+<ul class="org-ul">
+<li>org-taskjuggler-default-global-header</li>
+<li>org-taskjuggler-default-global-properties</li>
+<li>org-taskjuggler-default-project-duration</li>
+<li>org-taskjuggler-default-project-version</li>
+<li><code>org-taskjuggler-default-reports</code>: sets a report file to use. This may be written in
+text format (as in, the variable set to the full report text string), or (perhaps
+easier) to a <a href="http://www.taskjuggler.org/tj3/manual/include.properties.html"><code>.tji</code> file containing the report definition</a>.</li>
+<li>org-taskjuggler-extension</li>
+<li>org-taskjuggler-final-hook</li>
+<li>org-taskjuggler-keep-project-as-task</li>
+<li>org-taskjuggler-process-command</li>
+<li>org-taskjuggler-project-tag</li>
+<li>org-taskjuggler-report-tag</li>
+<li>org-taskjuggler-reports-directory</li>
+<li>org-taskjuggler-resource-tag</li>
+<li><code>org-taskjuggler-target-version</code>: should be set to the output of the command <code>tj3
+  --version</code>, e.g. <code>(setq org-taskjuggler-target-version 3.4)</code></li>
+<li>org-taskjuggler-valid-report-attributes</li>
+<li>org-taskjuggler-valid-resource-attributes</li>
+<li>org-taskjuggler-valid-task-attributes</li>
+</ul>
+
+<p>
+After customizing variables (at least if changing them in .emacs vs. the
+<code>customize-variable</code> interface, restart Emacs or issue <code>M-x load-file RET ~/.emacs RET</code>
+and we&rsquo;re ready to create our project managment <code>.org</code> file!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4665046" class="outline-2">
+<h2 id="org4665046">Familiarizing yourself with Taskjuggler</h2>
+<div class="outline-text-2" id="text-org4665046">
+<p>
+Before diving in, it would be helpful to familiarize yourself with Taskjuggler if you
+aren&rsquo;t already.
+</p>
+
+<ul class="org-ul">
+<li>Take a look at their <a href="http://www.taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp">example file</a> to get a sense for what a full Taskjuggler project
+looks like in tj3 syntax. You may not understand it, but skimming the various commands
+will give you an understanding for how the project is setup:
+<ul class="org-ul">
+<li>Basic project information (start date, duration (<code>+4m</code>), date/time syntax, timezone, etc.)</li>
+<li>Accounts (not applicable if you aren&rsquo;t tracking finances)</li>
+<li>Available resources with wage, vacation, working-hours/day information, etc.</li>
+<li>Top level milestones</li>
+<li>Tasks, divided up by major project area</li>
+<li>A report definition</li>
+</ul></li>
+</ul>
+
+<p>
+In addition to the general format of a Taskjuggler file, understanding of the following is
+particularly helpful:
+</p>
+<ul class="org-ul">
+<li>Task time definitions: <a href="http://www.taskjuggler.org/tj3/manual/start.html">start</a>, <a href="http://www.taskjuggler.org/tj3/manual/end.html">end</a>, <a href="http://www.taskjuggler.org/tj3/manual/depends.html">depends</a>, <a href="http://www.taskjuggler.org/tj3/manual/maxstart.html">maxstart</a>, and <a href="http://www.taskjuggler.org/tj3/manual/maxend.html">maxend</a></li>
+<li>Task durations: <a href="http://www.taskjuggler.org/tj3/manual/effort.html">effort</a>, <a href="http://www.taskjuggler.org/tj3/manual/duration.html">duration</a>, <a href="http://www.taskjuggler.org/tj3/manual/length.html">length</a>. For example, duration will use consecutive
+days, length observes definitions of work weeks (so a length of <code>7d</code> with a 5-day work
+week specified translates to <code>9d</code> calendar time. Effort requires at least one resource
+defined and assigned to the task, and will use his/her available work time/day to figure
+out how long the task will take.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org46040e0" class="outline-2">
+<h2 id="org46040e0">Mapping of Taskjuggler syntax to Org-mode</h2>
+<div class="outline-text-2" id="text-org46040e0">
+<p>
+If you are familiar with Taskjuggler, it may be helpful to understand how Taskjuggler
+syntax is mapped to Org-mode. This is done via <a href="https://orgmode.org/manual/Property-syntax.html#Property-syntax">property drawers</a>, a simple key-value pair
+beneath the headline to which the properties apply.
+</p>
+
+<p>
+The bulk of the actual Taskjuggler project consists of tasks, which can be given various
+attributes. You can view the full list of allowed attributes in the
+<a href="http://www.taskjuggler.org/tj3/manual/task.html">task syntax specification</a> in the tj3 manual. Thus, a task in Taskjuggler might look
+something like this:
+</p>
+
+<pre class="example">
+
+task entry_door "Install entry door" {
+  depends buy_door
+  effort 4h
+}
+
+</pre>
+
+<p>
+In this example <code>task</code> defines the following text as a task for Taskjuggler
+compilation. The text <code>entry_door</code> is the task&rsquo;s ID, which must be unique within the
+current subtree. The test within quotes is the &ldquo;plain language&rdquo; name for the task you
+would like to appear in your report.
+</p>
+
+<p>
+This task has two attributes: <code>depends</code> and <code>effort</code>. In this example, installing the
+door, <code>entry_door</code>, depends on another task, <code>buy_door</code>, and the estimated effort required
+is 4 hours.
+</p>
+
+<p>
+In Org-mode, the equivalent task would be created like so:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Install entry door</span>
+  <span style="color: #cd3278;">:PROPERTIES:</span>
+  <span style="color: #7f7f80;">:task_id:</span>  <span style="color: #7f7f80;">entry_door</span>
+  <span style="color: #7f7f80;">:depends:</span>  <span style="color: #7f7f80;">buy_door</span>
+  <span style="color: #7f7f80;">:Effort:</span>   <span style="color: #7f7f80;">4h</span>
+  <span style="color: #cd3278;">:END:</span>
+
+</pre>
+</div>
+
+
+<p>
+Some attributes may be set via two methods. For example, the start of a task can be
+defined by a <code>SCHEDULED</code> tag or a <code>:start:</code> property; the following are equivalent:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Install entry door</span>
+   <span style="color: #7f7f80;">SCHEDULED:</span> <span style="color: #a020f0;">&lt;2013-07-15 Mon&gt;</span>
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Install entry door</span>
+  <span style="color: #cd3278;">:PROPERTIES:</span>
+  <span style="color: #7f7f80;">:start:</span>    <span style="color: #7f7f80;">2013-07-15</span>
+  <span style="color: #cd3278;">:END:</span>
+
+</pre>
+</div>
+
+<p>
+Similarly <code>DEADLINE</code> timestamps and the <code>:end:</code> property function the same way.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga2c9419" class="outline-2">
+<h2 id="orga2c9419">Example</h2>
+<div class="outline-text-2" id="text-orga2c9419">
+<p>
+Let&rsquo;s begin with a simple example project consisting of a home renovation project. To
+start our file, we need a top level headline to tell Org-mode that this headline and
+everything inside it should be considered a taskjuggler project. Thus, we can create a new
+file, <code>home-renovation.org</code> and create a top level headline to contain our tasks:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Home renovation                   </span><span style="color: #e2c770; font-weight: bold;">:taskjuggler_project:</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga20b9ba" class="outline-2">
+<h2 id="orga20b9ba">References</h2>
+<div class="outline-text-2" id="text-orga20b9ba">
+<ul class="org-ul">
+<li><a href="http://www.taskjuggler.org/tj3/manual/toc.html">Taskjuggler (tj3) user manual</a></li>
+
+<li><a href="https://orgmode.org/worg/org-tutorials/org-taskjuggler.html">Taskjuggler (v2) guide on Worg</a> (though some functionality is out of
+date for using tj3, most of the specifications still work, and the
+guide is excellent overall for getting a feel for using Org-mode
+with Taskjuggler.</li>
+</ul>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+You may run into compilation issues due to special characters
+in that file on lines 37 (a copyright symbol), 79, and 83 (two
+accented characters in resource names). If this happens, just replace
+those three characters with something else, or delete them, and the
+file should compile. <a href="https://github.com/taskjuggler/TaskJuggler/issues/105">An issue has been filed</a> inquiring about whether
+or not this is a system setup issue and, if not, suggesting that the
+characters be replaced.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: John Henderson</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

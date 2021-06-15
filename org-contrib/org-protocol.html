@@ -1,0 +1,1111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-protocol.el &#x2013; Intercept calls from emacsclient to trigger custom actions</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+function makeUrl() {
+return encodeURIComponent(location.href)+
+'/'+encodeURIComponent(document.title)+
+'/'+encodeURIComponent(window.getSelection());
+}
+function storeLink() {
+document.location.href='org-protocol://store-link://'+makeUrl();
+}
+function remember() {
+document.location.href='org-protocol://remember://'+makeUrl();
+}
+function capture() {
+document.location.href='org-protocol://capture://'+makeUrl();
+}
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-protocol.el &#x2013; Intercept calls from emacsclient to trigger custom actions</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0e4c301">About org-protocol.el</a></li>
+<li><a href="#org7ff7684">Installation</a></li>
+<li><a href="#org6e03f00">Browser / system setup</a>
+<ul>
+<li><a href="#org147bf9e">Linux setup (Gnome)</a></li>
+<li><a href="#org0d756d8">Linux setup (KDE)</a></li>
+<li><a href="#org7ba2b72">Windows setup</a></li>
+<li><a href="#orgd5f6777">Mac OS X setup</a></li>
+<li><a href="#orge3c7e85">Applications</a>
+<ul>
+<li><a href="#org966dd35">Firefox</a></li>
+<li><a href="#acrobat-reader-setup">Acrobat Reader</a></li>
+<li><a href="#orga9f6d03">Opera</a></li>
+<li><a href="#orgd81a9c4">Safari</a></li>
+</ul>
+</li>
+<li><a href="#orgf347b96">Verify the installation</a></li>
+</ul>
+</li>
+<li><a href="#orgebbd80f">Using org-protocol</a></li>
+<li><a href="#orgb86c3f9">Links and bookmarks: <code>org-protocol-store-link</code></a></li>
+<li><a href="#org7870911">Note taking and citations: <code>org-protocol-capture</code></a>
+<ul>
+<li><a href="#org4880e21">Which capture template is used?</a>
+<ul>
+<li><a href="#orgac4aa9f">An example capture template</a></li>
+</ul>
+</li>
+<li><a href="#org365e2db">Org-protocol-remember</a>
+<ul>
+<li><a href="#org6452519">An example remember template</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgf8887c5">Edit published content: <code>org-protocol-open-source</code></a>
+<ul>
+<li><a href="#orgab5f5de">Handle rewritten URLs</a></li>
+</ul>
+</li>
+<li><a href="#org78edbdb">Other browsers</a>
+<ul>
+<li><a href="#orgb33cf79">Conkeror setup</a></li>
+<li><a href="#uzbl">Uzbl</a></li>
+</ul>
+</li>
+<li><a href="#org054dd1d">Keybindings for Firefox</a></li>
+<li><a href="#org54eaf81">Screencast: small introduction to org-protocol.el</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s contibutions index}</a>
+</p>
+
+<p>
+org-protocol intercepts calls from emacsclient to trigger custom actions without
+external dependencies. Only one protocol has to be configured with your external
+applications or the operating system, to trigger an arbitrary number of custom
+actions. Just register your custom sub-protocol and handler with the variable
+`org-protocol-protocol-alist&rsquo;.
+</p>
+
+<div id="outline-container-org0e4c301" class="outline-2">
+<h2 id="org0e4c301">About org-protocol.el</h2>
+<div class="outline-text-2" id="text-org0e4c301">
+<p>
+<code>org-protocol.el</code> is based on code and ideas from
+<a href="./org-annotation-helper.html">org-annotation-helper.el</a> and <code>org-browser-url.el</code>.
+</p>
+
+<p>
+&ldquo;<code>org-protocol:/sub-protocol:/</code>&rdquo; triggers actions associated with <code>sub-protocol</code>
+through the custom variable <code>org-protocol-protocol-alist</code>.
+</p>
+
+<p>
+It comes with four predefined handlers:
+</p>
+<dl class="org-dl">
+<dt><code>org-protocol-store-link</code></dt><dd>triggered through the sub-protocol &ldquo;<code>store-link</code>&rdquo;. Stores an Org-link and
+pushes the URL to the <code>kill-ring</code>.</dd>
+<dt><code>org-protocol-capture</code></dt><dd>Fill a <code>CAPTURE</code> buffer with information gathered somewhere else. This
+handler is triggered through the &ldquo;<code>capture</code>&rdquo; sub-protocol and uses the
+function <code>org-capture</code>.</dd>
+<dt><code>org-protocol-remember</code></dt><dd>Fills a remember buffer with information gathered somewhere else. This
+handler is triggered through the &ldquo;<code>remember</code>&rdquo; sub-protocol and still
+available for backward compatibility. This handler uses <code>org-remember</code>. Use
+the current <code>org-protocol-capture</code>.</dd>
+
+<dt><code>org-protocol-open-source</code></dt><dd>&ldquo;<code>open-source</code>&rdquo;. Maps URLs to local filenames. Use this to open sources of
+already published contents in emacs for editing.</dd>
+</dl>
+
+<p>
+<code>org-protocol</code> helps creating custom handlers <a href="../org-tutorials/org-protocol-custom-handler.html">(tutorial)</a> and so called
+<code>org-protocol-projects</code>.
+</p>
+
+<p>
+<div class="org-info-box"><img src="/worg/images/icons/info.png" alt="NOTE" /><p>
+@&lt;b&gt;As of Org mode release 7.01 <code>org-protocol-remember</code> is now by <code>org-protocol-capture</code>.@&lt;/b&gt;
+If not stated otherwise, you may simply replace each occurrence of
+<i>capture</i> with <i>remember</i> throughout this document, if you still want to use
+remember templates. Use <code>M-x org-version</code> to find out about the version you&rsquo;re
+using.
+</p><br style="clear:left;height:1px;" /></div><br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7ff7684" class="outline-2">
+<h2 id="org7ff7684">Installation</h2>
+<div class="outline-text-2" id="text-org7ff7684">
+<ul class="org-ul">
+<li><p>
+To load org-protocol.el add the following to your <code>.emacs</code>:
+</p>
+
+<pre class="example">
+(server-start)
+(add-to-list 'load-path "~/path/to/org/protocol/")
+(require 'org-protocol)
+</pre></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6e03f00" class="outline-2">
+<h2 id="org6e03f00">Browser / system setup</h2>
+<div class="outline-text-2" id="text-org6e03f00">
+<ul class="org-ul">
+<li><a href="#org147bf9e">Linux setup (Gnome)</a></li>
+<li><a href="#org0d756d8">Linux setup (KDE)</a></li>
+<li><a href="#org7ba2b72">Windows setup</a></li>
+<li><a href="#orgd5f6777">Mac OS X setup</a></li>
+<li><a href="#orge3c7e85">Applications</a></li>
+<li><a href="#orgf347b96">Verify the installation</a></li>
+</ul>
+</div>
+
+<div id="outline-container-org147bf9e" class="outline-3">
+<h3 id="org147bf9e">Linux setup (Gnome)</h3>
+<div class="outline-text-3" id="text-org147bf9e">
+<p>
+For this to work, you&rsquo;ll need the Gnome-Libraries to be installed.
+</p>
+
+<pre class="example">
+gconftool-2 -s /desktop/gnome/url-handlers/org-protocol/command '/usr/local/bin/emacsclient %s' --type String
+gconftool-2 -s /desktop/gnome/url-handlers/org-protocol/enabled --type Boolean true
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0d756d8" class="outline-3">
+<h3 id="org0d756d8">Linux setup (KDE)</h3>
+<div class="outline-text-3" id="text-org0d756d8">
+<p>
+Add a file <code>org.protocol</code> to <code>~/.kde/share/kde4/services/</code>:
+</p>
+
+<pre class="example">
+    # -*- conf -*-
+    [Protocol]
+    protocol=org-protocol
+    exec=/usr/bin/emacsclient '%u'
+    input=none
+    output=none
+    helper=true
+    listing=
+    reading=false
+    writing=false
+    makedir=false
+    deleting=false
+    Icon=emacs
+    Description=A protocol for org-mode
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7ba2b72" class="outline-3">
+<h3 id="org7ba2b72">Windows setup</h3>
+<div class="outline-text-3" id="text-org7ba2b72">
+<p>
+Windows users may register the &ldquo;<code>org-protocol</code>&rdquo; once for all by adjusting the
+following to their facts, save it as *.reg file and double-click it. This
+worked for me on Windows-XP Professional and the emasc23 from ourcomments.org
+(<a href="http://ourcomments.org/cgi-bin/emacsw32-dl-latest.pl">http://ourcomments.org/cgi-bin/emacsw32-dl-latest.pl</a>). I&rsquo;m no Windows user
+though and enhancements are more than welcome on the org-mode mailinglist. The
+original file is from <a href="http://kb.mozillazine.org/Register_protocol">http://kb.mozillazine.org/Register_protocol</a>.
+</p>
+
+<pre class="example">
+    REGEDIT4
+
+    [HKEY_CLASSES_ROOT\org-protocol]
+    @="URL:Org Protocol"
+    "URL Protocol"=""
+    [HKEY_CLASSES_ROOT\org-protocol\shell]
+    [HKEY_CLASSES_ROOT\org-protocol\shell\open]
+    [HKEY_CLASSES_ROOT\org-protocol\shell\open\command]
+    @="\"C:\\Programme\\Emacs\\emacs\\bin\\emacsclientw.exe\" \"%1\""
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgd5f6777" class="outline-3">
+<h3 id="orgd5f6777">Mac OS X setup</h3>
+<div class="outline-text-3" id="text-orgd5f6777">
+<p>
+Follow the directions for installing EmacsClient.app from <a href="https://github.com/neil-smithline-elisp/EmacsClient.app">https://github.com/neil-smithline-elisp/EmacsClient.app</a>. This should configure the org-protocol for all Mac OS X browsers.
+</p>
+
+<p>
+After installing EmacsClient.app you should then <a href="#orgf347b96">Verify the installation</a>. Once verified, you can begin <a href="#orgebbd80f">Using org-protocol</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge3c7e85" class="outline-3">
+<h3 id="orge3c7e85">Applications</h3>
+<div class="outline-text-3" id="text-orge3c7e85">
+</div>
+<div id="outline-container-org966dd35" class="outline-4">
+<h4 id="org966dd35">Firefox</h4>
+<div class="outline-text-4" id="text-org966dd35">
+<p>
+If you are using Firefox on Mac OS X, see <a href="#orgd5f6777">Mac OS X setup</a>. 
+</p>
+
+
+<p>
+Please refer to <a href="http://kb.mozillazine.org/Register_protocol">http://kb.mozillazine.org/Register_protocol</a> and use
+&ldquo;org-protocol&rdquo; as protocol.
+</p>
+</div>
+</div>
+
+<div id="outline-container-acrobat-reader-setup" class="outline-4">
+<h4 id="acrobat-reader-setup">Acrobat Reader</h4>
+<div class="outline-text-4" id="text-acrobat-reader-setup">
+<p>
+Adapted from <a href="https://orgmode.org/list/loom.20080527T012114-502@post.gmane.org">https://orgmode.org/list/loom.20080527T012114-502@post.gmane.org</a>
+</p>
+
+<p>
+You place a javascript file for each menu entry in
+<code>~/.adobe/Acrobat/&lt;VERSION&gt;/JavaScripts</code> on unix-like systems or
+<code>c:/Program Files/Adobe/Acrobat &lt;VERSION&gt;/Reader/Javascripts/</code> on
+Windows, or wherever your Adobe Reader Installation might look for
+javascript.
+</p>
+
+<p>
+The examples given here will place new menu entries in the &ldquo;Tools&rdquo;
+menu, after restarting Adobe Reader.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orga121c41"></a>org-store-link.js<br />
+<div class="outline-text-5" id="text-orga121c41">
+<pre class="example">
+// from https://orgmode.org/list/loom.20080527T012114-502@post.gmane.org
+app.addMenuItem({cName:"org-store-link", cParent:"Tools",
+   cExec:"app.launchURL('org-protocol://store-link://' + encodeURIComponent(this.URL) + '/' + encodeURIComponent(this.info.Title));"});
+</pre>
+</div>
+</li>
+
+<li><a id="org292ea84"></a>org-capture.js<br />
+<div class="outline-text-5" id="text-org292ea84">
+<pre class="example">
+// from https://orgmode.org/list/loom.20080527T012114-502@post.gmane.org
+app.addMenuItem({cName:"org-capture", cParent:"Tools",
+   cExec:"app.launchURL('org-protocol://capture://' + encodeURIComponent(this.URL) + '/' + encodeURIComponent(this.info.Title) + '/');"});
+</pre>
+
+
+<p>
+And this one, if you still use remember templates:
+</p>
+</div>
+</li>
+
+<li><a id="orgcd75287"></a>org-remember.js<br />
+<div class="outline-text-5" id="text-orgcd75287">
+<pre class="example">
+// from https://orgmode.org/list/loom.20080527T012114-502@post.gmane.org
+app.addMenuItem({cName:"org-remember", cParent:"Tools",
+   cExec:"app.launchURL('org-protocol://remember://' + encodeURIComponent(this.URL) + '/' + encodeURIComponent(this.info.Title) + '/');"});
+</pre>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-orga9f6d03" class="outline-4">
+<h4 id="orga9f6d03">Opera</h4>
+<div class="outline-text-4" id="text-orga9f6d03">
+<p>
+If you are using Opera on Mac OS X, see <a href="#orgd5f6777">Mac OS X setup</a>. 
+</p>
+
+<p>
+Opera setup is described here:
+<a href="http://www.opera.com/support/kb/view/535/">http://www.opera.com/support/kb/view/535/</a>.
+</p>
+
+<p>
+To set up opera for use with org-protocol, follow these steps:
+</p>
+
+<ol class="org-ol">
+<li>Choose &ldquo;<i>Tools</i>&rdquo; -&gt; &ldquo;<i>Prefences</i>&rdquo; from the menu.</li>
+<li>Select the tab &ldquo;<i>Advanced</i>&rdquo;.</li>
+<li>Choose &ldquo;<i>Programs</i>&rdquo; from the list on the left.</li>
+<li>Now click the button &ldquo;<i>Add</i>&rdquo; on the very right.</li>
+<li>In the new dialog window, enter &ldquo;<code>org-protocol</code>&rdquo; as &ldquo;<i>Protocol</i>&rdquo;, choose the</li>
+</ol>
+<p>
+radio button &ldquo;<i>Open with other application</i>&rdquo; and enter the path to
+emacsclient.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd81a9c4" class="outline-4">
+<h4 id="orgd81a9c4">Safari</h4>
+<div class="outline-text-4" id="text-orgd81a9c4">
+<p>
+Safari is only supported on Mac systems, not iOS systems.
+</p>
+
+<p>
+See <a href="#orgd5f6777">Mac OS X setup</a> for directions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf347b96" class="outline-3">
+<h3 id="orgf347b96">Verify the installation</h3>
+<div class="outline-text-3" id="text-orgf347b96">
+<p>
+After your protocol is registered with your browser/OS, these links here
+should work. Click on them and see if emacs reacts:
+</p>
+
+<ul>
+ <li><a href="javascript:storeLink();">Org store-link</a></li>
+ <li><a href="javascript:capture();">Org capture (select some text if you like)</a></li>
+ <li><a href="javascript:remember();">Org remember (select some text please)</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgebbd80f" class="outline-2">
+<h2 id="orgebbd80f">Using org-protocol</h2>
+<div class="outline-text-2" id="text-orgebbd80f">
+<p>
+To actually use org-protocol add a bookmark to Firefox or Opera.
+</p>
+
+<p>
+Here is the URL to use as &ldquo;<i>Location</i>&rdquo; for browser bookmarks. Just remove the
+line breaks and replace &ldquo;<code>sub-protocol</code>&rdquo; with the real sub-protocol to use:
+</p>
+
+<pre class="example">
+javascript:location.href='org-protocol://sub-protocol://'+
+      encodeURIComponent(location.href)+'/'+
+      encodeURIComponent(document.title)+'/'+
+      encodeURIComponent(window.getSelection())
+</pre>
+
+
+<p>
+This URL may be used for all three standard handlers in <code>org-protocol.el</code>. Some
+of the values will be ignored (e.g. <code>store-link:/</code> will use the URL and title
+only).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb86c3f9" class="outline-2">
+<h2 id="orgb86c3f9">Links and bookmarks: <code>org-protocol-store-link</code></h2>
+<div class="outline-text-2" id="text-orgb86c3f9">
+<p>
+<code>org-store-link</code> stores an Org-link insertable through <code>M-x org-insert-link</code> and
+pushes the URL found onto the <code>kill-ring</code> for yanking (<code>C-y</code>). The sub-protocol
+used is &ldquo;<code>store-link</code>&rdquo;:
+</p>
+
+<pre class="example">
+emacsclient org-protocol:/store-link:/URL/TITLE
+</pre>
+
+
+<p>
+will store this Org-link:
+</p>
+
+<pre class="example">
+  [[URL][TITLE]]
+</pre>
+
+<p>
+In addition, <code>URL</code> will be pushed on the <code>kill-ring</code> for yanking (&rsquo;<code>C-y</code>&rsquo;). You will
+have to encode <code>URL</code> and/or <code>TITLE</code> if they contain slashes, and probably quote
+those for the shell.
+</p>
+
+<p>
+To use this feature, add a bookmark with an arbitrary name (e.g.
+&ldquo;<i>Org: store-link</i>&rdquo;) and enter this as &ldquo;<code>Location</code>&rdquo;:
+</p>
+
+<pre class="example">
+javascript:location.href='org-protocol://store-link://'+encodeURIComponent(location.href)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7870911" class="outline-2">
+<h2 id="org7870911">Note taking and citations: <code>org-protocol-capture</code></h2>
+<div class="outline-text-2" id="text-org7870911">
+<p>
+This one is triggered through the sub-protocol &ldquo;<code>capture</code>&rdquo; and consumes up to
+three data fields:
+</p>
+
+<pre class="example">
+emacsclient org-protocol:/capture:/URL/TITLE/BODY
+</pre>
+
+
+<p>
+will pop up an <i><b>Capture</b></i> buffer and fill the template with the data
+submitted.
+</p>
+
+<p>
+To use this feature, add a bookmark with an arbitrary name (e.g.
+&ldquo;<i>Org: capture</i>&rdquo;) and enter this as &ldquo;<code>Location</code>&rdquo;:
+</p>
+
+<pre class="example">
+javascript:location.href='org-protocol://capture://'+
+      encodeURIComponent(location.href)+'/'+
+      encodeURIComponent(document.title)+'/'+
+      encodeURIComponent(window.getSelection())
+</pre>
+
+
+<p>
+The result depends on the template used. See 
+further down.
+</p>
+
+<p>
+Note, that this one, as opposed to the other two standard handlers, does not
+mix with more parameters to emacsclient. All parameters but the
+#&rsquo;<code>org-protocol://org-capture://...</code>&rsquo; one will be discarded.
+</p>
+</div>
+
+<div id="outline-container-org4880e21" class="outline-3">
+<h3 id="org4880e21">Which capture template is used?</h3>
+<div class="outline-text-3" id="text-org4880e21">
+<p>
+You don&rsquo;t need to setup a capture template to use
+<code>org-protocol-capture</code>, since Org-mode provides a default template
+for those cases.  Newer versions provide an interactive interface
+for choosing a template.  You may provide a template to be used by
+customizing the variable <code>org-capture-default-template</code> <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+</p>
+
+<p>
+The problem with this solution would be, that only one template
+can be used with the fuction. Luckily, <code>org-protocol-capture</code>
+understands a slightly extended syntax to choose between several
+templates: If the first field of the data submitted is exactly one
+character in length, this character will be used to select the
+template.
+</p>
+
+<p>
+Here we choose to use the &ldquo;<code>x</code>&rdquo; template:
+</p>
+
+<pre class="example">
+emacsclient org-protocol:/capture:/x/URL/TITLE/BODY
+</pre>
+
+
+<p>
+And, again, as bookmark location:
+</p>
+<pre class="example">
+javascript:location.href='org-protocol://capture://x/'+
+      encodeURIComponent(location.href)+'/'+
+      encodeURIComponent(document.title)+'/'+
+      encodeURIComponent(window.getSelection())
+</pre>
+</div>
+
+<div id="outline-container-orgac4aa9f" class="outline-4">
+<h4 id="orgac4aa9f">An example capture template</h4>
+<div class="outline-text-4" id="text-orgac4aa9f">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-capture-templates</span>
+      <span style="color: #fd971f;">(</span><span style="color: #eb4509;">quote</span>
+       <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #e2c770;">"w"</span>
+         <span style="color: #e2c770;">"Default template"</span>
+         entry
+         <span style="color: #fd971f;">(</span>file+headline <span style="color: #e2c770;">"~/org/capture.org"</span> <span style="color: #e2c770;">"Notes"</span><span style="color: #fd971f;">)</span>
+         <span style="color: #e2c770;">"* %^{Title}\n\n  Source: %u, %c\n\n  %i"</span>
+         <span style="color: #fd971f;">:empty-lines</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">... more templates here ...</span>
+        <span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>&ldquo;<code>w</code>&rdquo;</dt><dd>makes this one the default template used for
+&ldquo;<code>org-protocol://capture://</code>&rdquo; URLs.</dd>
+<dt><code>entry</code></dt><dd>makes it a regular entry with a headline.</dd>
+<dt><code>file+headline</code></dt><dd>files the note in file &ldquo;<code>~/org/capture.org</code>&rdquo; as child of
+the headline &ldquo;<code>Notes</code>&rdquo;</dd>
+<dt>&rsquo;<code>%c</code>&rsquo;</dt><dd>will be replaced by an Org-link pointing to the location of the
+page you have been visiting when clicking on the link. The page
+title will be the link&rsquo;s description.</dd>
+<dt>&rsquo;<code>%i</code>&rsquo;</dt><dd>will be replaced by the selected text in your browser window if
+any.</dd>
+</dl>
+
+<p>
+In addition, you may use the following placeholders in your template:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Placeholders</th>
+<th scope="col" class="org-left">Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>%:link</code></td>
+<td class="org-left">URL of the web-page</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>%:description</code></td>
+<td class="org-left">The title of the web-page</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>%:initial</code></td>
+<td class="org-left">Selected text.</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+You may read more about templates and their special escape characters in the
+<a href="https://orgmode.org/manual/Capture-templates.html#Capture-templates">Org-mode manual</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org365e2db" class="outline-3">
+<h3 id="org365e2db">Org-protocol-remember</h3>
+<div class="outline-text-3" id="text-org365e2db">
+<p>
+The <code>org-protocol-remember</code> handler is now obsolete.  However, the handler is
+still available for backward compatibility.  To use this handler, closely
+follow the setup for the current <code>org-protocol-capture</code> handler, and simply
+replace each occurrence of <i>capture</i> with <i>remember</i>.
+</p>
+
+<p>
+As remember templates look slightly different than capture templates, we
+provide an example here.
+</p>
+</div>
+
+<div id="outline-container-org6452519" class="outline-4">
+<h4 id="org6452519">An example remember template</h4>
+<div class="outline-text-4" id="text-org6452519">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-remember-templates
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>?w <span style="color: #e2c770;">"* %^{Title}\n\n  Source: %u, %c\n\n  %i"</span> nil <span style="color: #e2c770;">"Notes"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>&rsquo;<code>?w</code>&rsquo;</dt><dd>makes this one the default template used for
+&ldquo;<code>org-protocol://remember://</code>&rdquo; URLs.</dd>
+<dt>&rsquo;<code>%c</code>&rsquo;</dt><dd>will be replaced by an Org-link pointing to the location of the
+page you have been visiting when clicking on the link. The page
+title will be the link&rsquo;s description.</dd>
+<dt>&rsquo;<code>%i</code>&rsquo;</dt><dd>will be replaced by the selected text in your browser window if
+any.</dd>
+</dl>
+
+<p>
+In addition, you may use the following placeholders in your template:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Placeholders</th>
+<th scope="col" class="org-left">Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>%:link</code></td>
+<td class="org-left">URL of the web-page</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>%:description</code></td>
+<td class="org-left">The title of the web-page</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>%:initial</code></td>
+<td class="org-left">Selected text.</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+You may read more about templates and their special escape characters in the
+<a href="https://orgmode.org/manual/Capture-templates.html#Capture-templates">Org-mode manual</a>.
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf8887c5" class="outline-2">
+<h2 id="orgf8887c5">Edit published content: <code>org-protocol-open-source</code></h2>
+<div class="outline-text-2" id="text-orgf8887c5">
+<p>
+This one was designed to help with opening sources for editing when browsing
+in the first place. <code>org-protocol-open-source</code> uses the custom variable
+<code>org-protocol-project-alist</code> to map URLs to (local) filenames.
+</p>
+
+<p>
+Let&rsquo;s take <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a> as our example.
+</p>
+
+<p>
+Our intention is to click a bookmark (or link) to open the source of the
+published file we are reading in our favourite editor. The bookmark-URL above
+could be used again. But since <code>org-protocol-open-source</code> regards the first
+field only, this here will do:
+</p>
+
+<pre class="example">
+javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
+</pre>
+
+
+<p>
+To open files publihed on Worg locally, <code>org-protocol-project-alist</code> should look
+like this (you may skip the second project):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-protocol-project-alist</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"Worg"</span>
+         <span style="color: #fd971f;">:base-url</span> <span style="color: #e2c770;">"https://orgmode.org/worg/"</span>
+         <span style="color: #fd971f;">:working-directory</span> <span style="color: #e2c770;">"/home/user/worg/"</span>
+         <span style="color: #fd971f;">:online-suffix</span> <span style="color: #e2c770;">".html"</span>
+         <span style="color: #fd971f;">:working-suffix</span> <span style="color: #e2c770;">".org"</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"My local Org-notes"</span>
+         <span style="color: #fd971f;">:base-url</span> <span style="color: #e2c770;">"http://localhost/org/"</span>
+         <span style="color: #fd971f;">:working-directory</span> <span style="color: #e2c770;">"/home/user/org/"</span>
+         <span style="color: #fd971f;">:online-suffix</span> <span style="color: #e2c770;">".php"</span>
+         <span style="color: #fd971f;">:working-suffix</span> <span style="color: #e2c770;">".org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+If you&rsquo;re now browsing <a href="https://orgmode.org/worg/org-contrib/org-protocol.html">https://orgmode.org/worg/org-contrib/org-protocol.html</a>
+and find a typo or have an idea how to enhance the documentation, simply click
+the bookmark and start editing.
+</p>
+
+<p>
+There are two functions to help you fill <code>org-protocol-project-alist</code> with
+valid contents. One possibility is <code>org-protocol-create</code> that guides you through
+the process. If you&rsquo;re editing an Org-mode file that is part of a publishing
+project in <code>org-publish-project-alist</code>, try
+</p>
+
+<pre class="example">
+M-x org-protocol-create-for-org RET
+</pre>
+</div>
+
+<div id="outline-container-orgab5f5de" class="outline-3">
+<h3 id="orgab5f5de">Handle rewritten URLs</h3>
+<div class="outline-text-3" id="text-orgab5f5de">
+<p>
+In some cases, replacing <code>:base-url</code> with <code>:working-directory</code> and
+<code>:online-suffix</code> with <code>:working-suffix</code> will not yield the desired results.
+</p>
+
+<p>
+Suppose you maintain an online store located at <code>http://example.com/</code>. The
+local sources reside in <code>/home/user/example/</code>. While most of the URLs map
+directly to local file names by stripping URL parameters from the end and
+replacing the <code>:base-url</code> with <code>:working-diretory</code> and <code>:online-suffix</code> with
+<code>:working-suffix</code>, this might not work for rewritten URLs. It&rsquo;s common
+practice to serve all products in such a store through one file and rewrite
+URLs that do not match an existing file on the server.
+</p>
+
+<p>
+That way, a request to <code>http://example.com/print/posters-A4.html</code> might be
+rewritten on the server to something like
+<code>http://example.com/shop/products.php/posters-A4.html.php</code>, where
+<code>/posters-A4-digital.html.php</code> is the so called path info. Note that the
+browser will not notice the rewrite.
+</p>
+
+<p>
+If you now click your <code>org-protocol://open-source://</code> bookmark, the handler
+will probably not find a file named
+<code>/home/user/example/print/posters-A4.html.php</code> and fail.
+</p>
+
+<p>
+Or, even more simple, assume you&rsquo;re browsing <code>http://example.com/</code>. A file
+named <code>/home/user/example/.php</code> is not likely to exist.
+</p>
+
+<p>
+Since Org-mode commit <code>69b46e10aab3b2374ecbc1a963ba56e77102a9a4</code> from 15th
+Nov. 2009, such an entry in <code>org-protocol-project-alist</code> may hold an
+additional property <code>:rewrites</code>. This property is a list of cons cells, each
+of which maps a regular expression to a path relative to the
+<code>:working-directory</code>.
+</p>
+
+<p>
+Now map the URL to the path <code>/home/user/example/products.php</code> by adding the
+<code>:rewrites</code> property like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-protocol-project-alist</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"example.com"</span>
+           <span style="color: #fd971f;">:base-url</span> <span style="color: #e2c770;">"http://example.com/"</span>
+           <span style="color: #fd971f;">:working-directory</span> <span style="color: #e2c770;">"/home/user/example/"</span>
+           <span style="color: #fd971f;">:online-suffix</span> <span style="color: #e2c770;">".php"</span>
+           <span style="color: #fd971f;">:working-suffix</span> <span style="color: #e2c770;">".php"</span>
+           <span style="color: #fd971f;">:rewrites</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"example.com/print/"</span> . <span style="color: #e2c770;">"products.php"</span><span style="color: #fd971f;">)</span>
+                      <span style="color: #fd971f;">(</span><span style="color: #e2c770;">"example.com/$"</span> . <span style="color: #e2c770;">"index.php"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+           <span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Guess what the second <code>:rewrites</code> element does. Since <code>example.com/$</code> is used as
+a regular expression, it maps <code>http://example.com/</code>, <code>https://example.com</code>,
+<code>http://www.example.com/</code> and similar to <code>/home/user/example/index.php</code>.
+</p>
+
+<p>
+The <code>:rewrites</code> are searched as a last resort if and only if no existing file
+name is matched.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org78edbdb" class="outline-2">
+<h2 id="org78edbdb">Other browsers</h2>
+<div class="outline-text-2" id="text-org78edbdb">
+</div>
+<div id="outline-container-orgb33cf79" class="outline-3">
+<h3 id="orgb33cf79">Conkeror setup</h3>
+<div class="outline-text-3" id="text-orgb33cf79">
+<p>
+Setting up org-protocol in <a href="http://conkeror.org/">Conkeror</a> (an emacs inspired Mozilla web
+browser) requires a slightly different method. You may simply add the
+following snippets of code to your .conkerorrc file<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+</p>
+
+<p>
+For org-store-link, add the following to .conkerorrc:
+</p>
+
+<pre class="example">
+function org_store_link (url, title, window) {
+    var cmd_str = 'emacsclient \"org-protocol://store-link://'+url+'/'+title+'\"';
+    if (window != null) {
+	window.minibuffer.message('Issuing ' + cmd_str);
+    }
+    shell_command_blind(cmd_str);
+}
+
+interactive("org-store-link", "Stores [[url][title]] as org link and copies url to emacs kill ring",
+	    function (I) {
+		org_store_link(encodeURIComponent(I.buffer.display_uri_string), encodeURIComponent(I.buffer.document.title), I.window);
+	    });
+</pre>
+
+
+<p>
+For org-capture (or org-remember &#x2014; just exchange <i>capture</i> with <i>remember</i>), use
+the following:
+</p>
+
+<pre class="example">
+function org_capture (url, title, selection, window) {
+    var cmd_str = 'emacsclient \"org-protocol://capture://'+url+'/'+title+'/'+selection+'\"';
+    if (window != null) {
+	window.minibuffer.message('Issuing ' + cmd_str);
+    }
+    shell_command_blind(cmd_str);
+}
+
+interactive("org-capture", "Clip url, title, and selection to capture via org-protocol",
+	    function (I) {
+		org_capture(encodeURIComponent(I.buffer.display_uri_string), encodeURIComponent(I.buffer.document.title), encodeURIComponent(I.buffer.top_frame.getSelection()), I.window);
+	    });
+</pre>
+
+
+<p>
+Now, you should be able to invoke the commands from within conkeror
+with <code>M-x org-store-link</code> and <code>M-x org-capture</code> (or remember).
+</p>
+
+<p>
+Or, if you&rsquo;d like your familiar emacs keybindings, you can add the
+following to your .conkerorrc:
+</p>
+
+<pre class="example">
+define_key(content_buffer_normal_keymap, "C-c r", "org-capture");
+define_key(content_buffer_normal_keymap, "C-c l", "org-store-link");
+</pre>
+</div>
+</div>
+
+<div id="outline-container-uzbl" class="outline-3">
+<h3 id="uzbl">Uzbl</h3>
+<div class="outline-text-3" id="text-uzbl">
+<p>
+Uzbl is a minimalistic webkit browser for Unix/Linux.
+</p>
+
+<ul class="org-ul">
+<li><a href="http://www.uzbl.org/">http://www.uzbl.org/</a></li>
+</ul>
+
+<p>
+You can pass encoded url data from uzbl to org-protocol by adding the
+following lines to <code>.config/uzbl/config</code>.
+</p>
+
+<pre class="example">
+
+    # Org-protocol
+
+    @cbind 	\\r = sh 'emacsclient "org-protocol://capture://\@&lt;encodeURIComponent(window.location.href)&gt;\@/\@&lt;encodeURIComponent(document.title)&gt;\@/\@&lt;document.getSelection()&gt;\@"'
+    @cbind 	\\l = sh 'emacsclient "org-protocol://capture://\@&lt;encodeURIComponent(window.location.href)&gt;\@/\@&lt;encodeURIComponent(document.title)&gt;\@"'
+
+</pre>
+
+<p>
+These bind org-protocol-capture and org-store-line to &ldquo;\r&rdquo; and
+&ldquo;\l&rdquo; respectively.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org054dd1d" class="outline-2">
+<h2 id="org054dd1d">Keybindings for Firefox</h2>
+<div class="outline-text-2" id="text-org054dd1d">
+<p>
+You can add key bindings for the <code>org-protocol</code> commands using the
+keyconfig Firefox extension.
+</p>
+
+<p>
+First, install keyconfig from
+<a href="http://mozilla.dorando.at/keyconfig.xpi">http://mozilla.dorando.at/keyconfig.xpi</a>.
+</p>
+
+<p>
+Open the keyconfig dialog by going to Tools and then Keyconfig.
+</p>
+
+<p>
+Click the &rsquo;Add a new Key&rsquo; button. Enter &ldquo;Org store link&rdquo; as the name.
+Enter the following in the box with <i>* CODE *</i> in it:
+</p>
+
+<pre class="example">
+var orgProtoString = 'org-protocol://store-link://'+
+  encodeURIComponent(gBrowser.currentURI.spec) + '/' +
+  encodeURIComponent(gBrowser.contentWindow.document.title) + '/' +
+  encodeURIComponent(gBrowser.contentWindow.getSelection());
+
+gBrowser.loadURI(orgProtoString);
+</pre>
+
+
+<p>
+Click OK. You will then need to bind a key by clicking in the box
+next to the &rsquo;Apply&rsquo; button and pressing whatever key combination you
+want. Click &rsquo;Apply&rsquo; to store the keybinding.
+</p>
+
+<p>
+Repeat the steps, but call the next key &ldquo;Org capture&rdquo; and use the
+code below:
+</p>
+
+<pre class="example">
+var orgProtoString = 'org-protocol://capture://'+
+  encodeURIComponent(gBrowser.currentURI.spec) + '/' +
+  encodeURIComponent(gBrowser.contentWindow.document.title) + '/' +
+  encodeURIComponent(content.window.getSelection());
+
+gBrowser.loadURI(orgProtoString);
+</pre>
+
+
+<p>
+Click Close, then OK, and then restart Firefox. You should then be
+able to access the org-protocol functions with your chosen keys.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org54eaf81" class="outline-2">
+<h2 id="org54eaf81">Screencast: small introduction to org-protocol.el</h2>
+<div class="outline-text-2" id="text-org54eaf81">
+<object width="640" height="464"><param name="allowfullscreen"
+value="true" /><param name="allowscriptaccess" value="always" /><param
+name="movie"
+value="http://vimeo.com/moogaloop.swf?clip_id=5662410&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=FF7700&amp;fullscreen=1"
+/><embed
+src="http://vimeo.com/moogaloop.swf?clip_id=5662410&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=1&amp;color=FF7700&amp;fullscreen=1"
+type="application/x-shockwave-flash" allowfullscreen="true"
+allowscriptaccess="always" width="640" height="464"></embed></object>
+
+<p>
+This screencast shows off some nice things you can do with Firefox,
+Emacs, Org-mode and org-protocol.el.
+</p>
+
+<p>
+It first shows how to create two bookmarklets, <code>org-capture</code> and
+<code>org-store-link</code>. These bookmarklets enable your Firefox to talk to
+emacsclient via a new protocol (<code>org-protocol://</code>); emacsclient then
+parses the request and tells Emacs to capture or store stuff at the
+relevant places in your Org files.
+</p>
+
+<p>
+At the end of the screencast, we create two ubiquity commands from
+these bookmarklets.  Now in Firefox <code>ALT-SPC org-capture RET</code> creates
+a note in my Org files.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Before commit <code>fc49c1ec96b2c789f573ae1ba936b930a8494402</code>, 3rd
+Sept. 2010, if a template with the key string &ldquo;<code>w</code>&rdquo; was defined, this
+one was chosen by default.  This was done to make bookmarks used for
+<a href="./org-annotation-helper.html">org-annotation-helper</a> work without changing the template.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+Adapted from Tassilo Horn&rsquo;s <a href="http://tsdh.wordpress.com/2008/11/14/calling-org-remember-from-inside-conkeror/">blog post</a>, &ldquo;Calling org-remember
+from inside conkeror,&rdquo; November 14, 2008.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

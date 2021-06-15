@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>manual.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .sh-quoted-exec {
+        /* sh-quoted-exec */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+Title:</span> <span class="org-document-title">Org Merge Driver
+</span>
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+This is Org Merge Driver, a program for merging changes to Org mode
+files.
+
+This project is currently being developed under Google Summer of Code
+2012 for the Gnu organization.
+
+<span class="org-list-dt">-</span> The project page can be found <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/gsoc2012/student-projects/git-merge-tool/index.html">here</a></span>.
+<span class="org-list-dt">-</span> The homepage of Org-mode is <span class="kc-org-link-url"><a href="https://orgmode.org">here</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Obtaining the source code
+</span>
+The source code may be obtained from the GIT repository hosted at
+Orgmode.org.
+
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block"><span class="type">git</span></span><span class="org-block"> clone <a href="https://code.orgmode.org/bzg/org-merge-driver">https://code.orgmode.org/bzg/org-merge-driver</a>
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Compiling
+</span>
+Compiling this program requires that you have autotools installed. To
+compile this program, you should only have to run:
+
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block">autoreconf --install &amp;&amp; ./configure &amp;&amp; </span><span class="org-block"><span class="type">make</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+If this fails because of missing dependencies, please see <span class="org-link"><a href="Dependencies">dependencies</a></span>
+below.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Quick Start
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Using and Installation
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Git users:
+</span>
+<span class="org-list-dt">1.</span> Add to your git configuration located in either
+   ${GIT_DIR}/.git/config (for repository local configuration) or
+   ~/.gitconfig (for global configuration) the following lines:
+
+<span class="org-block-begin-line">   #+begin_src sh
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">[</span></span><span class="org-block">merge </span><span class="org-block"><span class="string">"merge-orgmode"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">]</span></span><span class="org-block">
+     name = Org Mode merge driver
+     driver = /usr/local/bin/org-merge-driver -- %O %A %B %A
+</span><span class="org-block-end-line">   #+end_src
+</span>
+<span class="org-list-dt">2.</span> In every work tree you wish to you the org-merge-driver, make a
+   .gitattributes file or .git/info/attributes if you don't want to have
+   the file committed with the project.  Add the following line to this
+   file:
+
+<span class="org-block-begin-line">   #+begin_example
+</span><span class="custom">   *.org merge=merge-orgmode
+</span><span class="org-block-end-line">   #+end_example
+</span>   
+   (See "man 5 gitattributes" for more info.)
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Bazaar users:
+</span>
+<span class="org-list-dt">1.</span> Install the <span class="kc-org-link-url"><a href="http://doc.bazaar.canonical.com/plugins/en/index.html">extmerge bzr plug-in</a></span>
+
+<span class="org-list-dt">2.</span> Add to your ~/.bazaar/bazaar.conf the line
+
+<span class="org-block-begin-line">   #+begin_src sh
+</span><span class="org-block">   external_merge = org-merge-driver -- %b %T %o %T
+</span><span class="org-block-end-line">   #+end_src
+</span>
+<span class="org-list-dt">3.</span> Then, to merge a conflict in a ChangeLog file, use
+
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block">bzr extmerge --all --verbose
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Mercurial users:
+</span>
+<span class="org-list-dt">1.</span> Add to your $HOME/.hgrc the lines
+
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">[</span></span><span class="org-block">merge-patterns</span><span class="org-block"><span class="rainbow-delimiters-depth-1">]</span></span><span class="org-block">
+,**.org = org-merge-driver
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">[</span></span><span class="org-block">merge-tools</span><span class="org-block"><span class="rainbow-delimiters-depth-1">]</span></span><span class="org-block">
+org-merge-driver.executable = /usr/local/bin/org-merge-driver
+org-merge-driver.args = -- $</span><span class="org-block"><span class="variable-name">base</span></span><span class="org-block"> $</span><span class="org-block"><span class="variable-name">local</span></span><span class="org-block"> $</span><span class="org-block"><span class="variable-name">other</span></span><span class="org-block"> $</span><span class="org-block"><span class="variable-name">local</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+See <span class="kc-org-link-url"><a href="http://www.selenic.com/mercurial/hgrc.5.html">Configuration files for Mercurial</a></span>, section merge-tools for
+reference.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Options
+</span>
+This program currently supports the following options:
+
+<span class="org-table">| Short | Long                | Description                         |</span>
+<span class="org-table">|-------+---------------------+-------------------------------------|</span>
+<span class="org-table">| -m,   | --rmargin=COLUMN    | Set the right margin of headings    |</span>
+<span class="org-table">| -N,   | --notabs            | Use only spaces in the output       |</span>
+<span class="org-table">| -p,   | --priority=PRIORITY | Specify an accepted prority         |</span>
+<span class="org-table">| -t,   | --todo=STATE        | Specify an accepted todo state.     |</span>
+<span class="org-table">| -T,   | --usetabs           | Use tabs in the output, unused.     |</span>
+<span class="org-table">| -W,   | --tabwidth=WIDTH    | The width of tabs in spaces, unused |</span>
+<span class="org-table">| -?,   | --help              | Give this help list                 |</span>
+<span class="org-table">|       | --usage             | Give a short usage message          |</span>
+<span class="org-table">| -V,   | --version           | Print program version               |</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> "TODO" States
+</span>
+If you have defined TODO states, you can describe them with this
+command. The defaults are set to "TODO" and "DONE". Declaring a single
+todo state causes the default set of todo states to be
+discarded. Because of this, you must declare all TODO states used.
+
+At this time, Todo states can only be configured on the command line.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">org-merge-driver -tDONE --todo=TODO
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Priority Cookies
+</span>
+If you have defined more priority states system-wide, you can describe
+them with this command. The defaults are set to 'A', 'B', and 'C'. You
+must declare all priority states used (all defaults are immediately
+overridden). Currently, priority cookies may only be a single ASCII
+character.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">org-merge-driver -pA -pB --priority=C
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Right Margin
+</span>
+Org-merge-driver will attempt to minimize reformatting, but it is
+sometimes necessary for org-merge-driver to realign text on the right
+margin of the text. This can happen after merging lists of heading
+TAGS.
+
+You can set the preferred right margin value (in spaces) with the
+<span class="org-verbatim">--rmargin=</span> command. If the margin is not large enough to fit a line of
+text, it will extend past the margin. The default margin value is 77
+spaces.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">org-merge-driver -m77
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Specify Input and Out Files
+</span>
+To perform a merge, org-merge-driver requires three files -- your copy
+of a file, a remotely updated file, and a common ancestor file. These
+are given to org-merge-driver in the order ancestor, local, remote.
+
+To ensure that the file names are not confused with command line
+options, you can seperate them from the rest of the arguments with <span class="org-verbatim">--</span>.
+
+By default, org-merge-driver prints the merged file to stdout.  To
+have the output printed to a file, specify a fourth file on the
+command line.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">org-merge-driver -- ancestor.org local-update.org remote-update.org output.org
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Dependencies
+</span>
+To compile org-merge-driver, you may need: <span class="kc-org-link-url"><a href="http://www.gnu.org/software/gnulib/">Gnulib</a></span>, <span class="kc-org-link-url"><a href="http://flex.sourceforge.net/">Flex</a></span> (not lex) and
+GNU Autotools installed.  Install Flex and autotools using your
+desired package manager.  To obtain gnulib follow the instructions
+below.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> To obtain Gnulib:
+</span>
+You must obtain Gnulib by it's source code, there is no binary
+distribution.  Through git or cvs:
+
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block"><span class="type">git</span></span><span class="org-block"> clone git://git.savannah.gnu.org/gnulib.git
+</span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">or
+</span></span><span class="org-block">cvs -d :pserver:anonymous@pserver.git.sv.gnu.<a href="org:/gnulib.git">org:/gnulib.git</a> co -d gnulib HEAD
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Reimporting gnulib-tool dependencies
+</span>
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block"><span class="type">cd</span></span><span class="org-block"> $</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="sh-quoted-exec">top_srcdir</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+/PATH/TO/GNULIB/gnulib-tool --add-import
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Compiling
+</span>
+To compile, run:
+
+<span class="org-block-begin-line">#+begin_src sh
+</span><span class="org-block">autoreconf -i
+./configure &amp;&amp; </span><span class="org-block"><span class="type">make</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span></pre>
+  </body>
+</html>

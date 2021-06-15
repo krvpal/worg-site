@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-mac-mail-link.el &#x2013; Create and handle links to the selected Mail.app message</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-mac-mail-link.el &#x2013; Create and handle links to the selected Mail.app message</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf038796">Overview</a></li>
+<li><a href="#org5f650dd">Installation</a></li>
+<li><a href="#org16f64eb">Usage</a></li>
+<li><a href="#org7b74d80">Code</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s contibutions index}</a>
+</p>
+
+<div id="outline-container-orgf038796" class="outline-2">
+<h2 id="orgf038796">Overview</h2>
+<div class="outline-text-2" id="text-orgf038796">
+<p>
+This code will allow you to capture a TODO item based on the
+currently selected Mail.app message using <code>org-capture</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5f650dd" class="outline-2">
+<h2 id="org5f650dd">Installation</h2>
+<div class="outline-text-2" id="text-org5f650dd">
+<p>
+You should simply copy the source code from this document into your
+init file and edit it as you see fit.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org16f64eb" class="outline-2">
+<h2 id="org16f64eb">Usage</h2>
+<div class="outline-text-2" id="text-org16f64eb">
+<p>
+Activate <code>org-capture</code> however you see fit (<code>M-x org-capture</code> works
+just fine) and then whack the keychord you have set up to activate
+the capture template.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7b74d80" class="outline-2">
+<h2 id="org7b74d80">Code</h2>
+<div class="outline-text-2" id="text-org7b74d80">
+<div class="org-src-container">
+<pre class="src src-elisp">  <span style="color: #696969;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+  <span style="color: #696969;">;;; </span><span style="color: #696969;">Capture template for the currently selected Mail.app message</span>
+  <span style="color: #696969;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mac-mail-link-get-selected-message-subject</span>
+      <span style="color: #fd971f;">()</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">call-process</span>
+       <span style="color: #e2c770;">"osascript"</span> nil t nil
+       <span style="color: #e2c770;">"-e"</span> <span style="color: #e2c770;">"tell application \"Mail\" to get subject of item 1 of (selection as list)"</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">buffer-substring-no-properties</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">-</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #fd971f;">)</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mac-mail-link-get-selected-message-id</span>
+      <span style="color: #fd971f;">()</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">call-process</span>
+       <span style="color: #e2c770;">"osascript"</span> nil t nil
+       <span style="color: #e2c770;">"-e"</span> <span style="color: #e2c770;">"tell application \"Mail\" to get message id of item 1 of (selection as list)"</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">This additional encoding specifically of =/= is because Mail.app</span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">claims to be unable to find a message if it's ID contains unencoded</span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">slashes.</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">browse-url-url-encode-chars</span>
+       <span style="color: #eb4509;">(</span><span style="color: #fd971f;">buffer-substring-no-properties</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">-</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #b6e63e;">)</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+       <span style="color: #e2c770;">"[/]"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mac-mail-link-get-link-string</span>
+      <span style="color: #fd971f;">()</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>subject <span style="color: #fd971f;">(</span>org-mac-mail-link-get-selected-message-subject<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span>message-id <span style="color: #fd971f;">(</span>org-mac-mail-link-get-selected-message-id<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-link-make-string</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"message:%s"</span> message-id<span style="color: #eb4509;">)</span>
+                            subject<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mac-mail-link-get-body-quote-template-element</span>
+      <span style="color: #fd971f;">()</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>body <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> body <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+                             <span style="color: #eb4509;">(</span><span style="color: #fd971f;">call-process</span>
+                              <span style="color: #e2c770;">"osascript"</span> nil t nil
+                              <span style="color: #e2c770;">"-e"</span> <span style="color: #e2c770;">"tell application \"Mail\" to get content of item 1 of (selection as list)"</span><span style="color: #eb4509;">)</span>
+                             <span style="color: #eb4509;">(</span><span style="color: #fd971f;">buffer-substring-no-properties</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">-</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #b6e63e;">)</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"</span>
+
+<span style="color: #e2c770;">    #+begin_quote</span>
+<span style="color: #e2c770;">  %s</span>
+<span style="color: #e2c770;">    #+end_quote"</span>
+              <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">string-join</span>
+               <span style="color: #696969;">;; </span><span style="color: #696969;">Remove duplicate empty lines</span>
+               <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">seq-reduce</span>
+                <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>acc next<span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> next <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">last</span> acc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> <span style="color: #e2c770;">""</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                      acc
+                    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> acc <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">list</span> next<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                <span style="color: #696969;">;; </span><span style="color: #696969;">Indent each line by two spaces for inclusion in the quote</span>
+                <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string</span><span style="color: #fd971f;">)</span>
+                          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">string</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">string-trim</span> string<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #e2c770;">""</span> string<span style="color: #eb4509;">)</span>
+                                string
+                              <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"  %s"</span> string<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                        <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">split-string</span> body <span style="color: #e2c770;">"\n"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">()</span><span style="color: #fd971f;">)</span>
+               <span style="color: #e2c770;">"\n"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-capture</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #696969;">;;; </span><span style="color: #696969;">You may also wish to use the Customize interface for this variable</span>
+  <span style="color: #696969;">;;; </span><span style="color: #696969;">which is quite nice.</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-capture-templates</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">These 2-item entries are only necessary if you want to nest the</span>
+        <span style="color: #696969;">;; </span><span style="color: #696969;">capture template under a keychord.</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"t"</span> <span style="color: #e2c770;">"</span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;">"</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"tc"</span> <span style="color: #e2c770;">"</span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> Current"</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"tcm"</span> <span style="color: #e2c770;">"</span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> Current Mail"</span> entry
+           <span style="color: #696969;">;; </span><span style="color: #696969;">If you maintain your </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #696969;"> list in a single file this will</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">place the resulting org-capture template expansion under the</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">'Inbox' heading. You may want to modify this.</span>
+           <span style="color: #696969;">;;</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">The resulting heading looks something like</span>
+           <span style="color: #696969;">;;</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">** </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #696969;"> [[message:&lt;encoded messageID&gt;][subject]]</span>
+           <span style="color: #696969;">;;</span>
+           <span style="color: #696969;">;;    </span><span style="color: #696969;">[2021-05-02 Sun 16:22]</span>
+           <span style="color: #696969;">;;</span>
+           <span style="color: #696969;">;;    </span><span style="color: #696969;">#+begin_quote</span>
+           <span style="color: #696969;">;;    </span><span style="color: #696969;">Unwrapped</span>
+           <span style="color: #696969;">;;</span>
+           <span style="color: #696969;">;;    </span><span style="color: #696969;">Body</span>
+           <span style="color: #696969;">;;</span>
+           <span style="color: #696969;">;;    </span><span style="color: #696969;">Text</span>
+           <span style="color: #696969;">;;    </span><span style="color: #696969;">#+end_quote</span>
+           <span style="color: #eb4509;">(</span>file+headline <span style="color: #e2c770;">"~/your-org-todo.org"</span> <span style="color: #e2c770;">"Inbox"</span><span style="color: #eb4509;">)</span>
+           <span style="color: #e2c770;">"* </span><span style="color: #e2c770; font-weight: bold;">TODO</span><span style="color: #e2c770;"> %(org-mac-mail-link-get-link-string)</span>
+
+<span style="color: #e2c770;">    %U%(org-mac-mail-link-get-body-quote-template-element)"</span> <span style="color: #fd971f;">:prepend</span> t <span style="color: #fd971f;">:immediate-finish</span> t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #696969;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+  <span style="color: #696969;">;;; </span><span style="color: #696969;">Use =C-c C= as your org-capture keybinding</span>
+  <span style="color: #696969;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eval-after-load</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org</span>
+    <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>org-defkey <span style="color: #fd971f;">org-mode-map</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">kbd</span> <span style="color: #e2c770;">"C-c C"</span><span style="color: #b6e63e;">)</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">org-capture</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #696969;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+  <span style="color: #696969;">;;; </span><span style="color: #696969;">Teach org about opening message links</span>
+  <span style="color: #696969;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mac-mail-link-open-link</span>
+      <span style="color: #fd971f;">(</span>mid _<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">start-process</span> <span style="color: #e2c770;">"open-link"</span> nil <span style="color: #e2c770;">"open"</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"message://%%3C%s%%3E"</span>
+                                                  mid<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mac-mail-link-add-message-links</span>
+      <span style="color: #fd971f;">()</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-link-set-parameters</span>
+     <span style="color: #e2c770;">"message"</span> <span style="color: #fd971f;">:follow</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">org-mac-mail-link-open-link</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">eval-after-load</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org</span>
+    <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>org-mac-mail-link-add-message-links<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

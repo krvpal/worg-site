@@ -1,0 +1,784 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-build-system.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .makefile-space {
+        /* makefile-space */
+        background-color: #ff69b4;
+      }
+      .makefile-targets {
+        /* makefile-targets */
+        color: #268bd2;
+      }
+      .negation-char {
+        /* font-lock-negation-char-face */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>    <span class="org-document-title">Org-mode Build System
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>   <span class="org-document-info">Achim Gratz
+</span><span class="org-document-info-keyword">#+EMAIL:</span>    <span class="org-document-info">Stromeko &lt;at&gt; NexGo.DE
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven intestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc ':t</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+Org can be run directly from sources, however usually it is
+byte-compiled and installed before use.  Also, the documentation needs
+to be rebuilt from their respective sources, registered and put into a
+place where it can be found.  Instead of you having to do all this by
+hand, a build system based on GNU&#160;make will do it for you.  The Org
+build system makes extensive use of GNU&#160;make features and requires at
+least version 3.81 (use of the latest released version is
+recommended).
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Build System Structure
+</span>
+The build system consists of these files:
+
+<span class="org-code">: &lt;org-mode&gt;/Makefile
+: &lt;org-mode&gt;/local.mk
+: &lt;org-mode&gt;/doc/Makefile
+: &lt;org-mode&gt;/etc/Makefile
+: &lt;org-mode&gt;/lisp/Makefile
+: &lt;org-mode&gt;/mk/default.mk
+: &lt;org-mode&gt;/mk/targets.mk
+: &lt;org-mode&gt;/mk/org-fixup.el
+</span>
+Additional files are present for the Orgmode server in the
+<span class="org-verbatim">&lt;org-mode&gt;/mk/</span> subdirectory.  An additional file
+<span class="org-verbatim">&lt;org-mode&gt;/mk/version.mk</span> is present in the distribution archives to
+record the version information that gets used when building from these
+sources.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Top Level </span><span class="org-level-2"><span class="org-verbatim">Makefile</span></span><span class="org-level-2">
+</span>
+This file provides only the help.  Short help can be requested by
+<span class="org-verbatim">make help</span>, while <span class="org-verbatim">make helpall</span> will list all documented targets.
+Undocumented targets may exist for internal purposes and can be
+changed or removed at any time.
+
+All other functionality of the build system is provided in separate
+files, which will either be explicitly included from the top level or
+implicitly read by GNU&#160;make.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Local Customization </span><span class="org-level-2"><span class="org-verbatim">local.mk</span></span><span class="org-level-2">
+</span>
+<span class="bold">Never push</span> <span class="org-verbatim">local.mk</span> <span class="bold">to any public branch!</span>
+
+The build system is an integral part of Org.  To allow easy local
+customization, that customization must never become part of the
+official Git repository.  On the other hand the build system must work
+even when no local customization has been applied.  Therefore when the
+file <span class="org-verbatim">local.mk</span> does not exist, a local customization template will be
+created that copies some settings that most commonly would need to be
+changed from <span class="org-verbatim">mk/default.mk</span>.  The template includes some comments
+that are hopefully self-documenting.  As long as all necessary
+programs are available, the customization should in most cases be
+limited to setting <span class="org-verbatim">prefix</span> correctly.
+
+If you need to do more extensive changes, copy the relevant parts from
+<span class="org-verbatim">mk/default.mk</span> to <span class="org-verbatim">local.mk</span> (or maybe even the whole file if that
+seems easier to you, but you'll have to remember to check <span class="org-verbatim">local.mk</span>
+whenever <span class="org-verbatim">default.mk</span> changes in the repository).  Please look at some
+of the <span class="org-link"><a href="Customization">Customization Examples</a></span> to get an idea of what is possible.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Second Level </span><span class="org-level-2"><span class="org-verbatim">Makefile</span></span><span class="org-level-2">
+</span>
+The <span class="org-verbatim">Makefile</span> in subdirectories can be invoked from the top level only
+since they rely on the definitions that have been made there.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Defaults </span><span class="org-level-2"><span class="org-verbatim">mk/default.mk</span></span><span class="org-level-2">
+</span>
+<span class="bold">Never change anything in</span> <span class="org-verbatim">mk/default.mk</span> <span class="bold">&#8212; always do your changes in</span>
+ <span class="org-verbatim">local.mk</span> <span class="bold">!</span>
+
+The defaults are designed to work on a typical GNU/Linux system.  For
+system-wide installation as assumed by the build system the user must
+be able to obtain administrative privileges via sudo.  If sudo is not
+available, the user running make must have the necessary privileges to
+do the install (i.e. full access to the build and install
+directories).  Besides Emacs, the following programs must be available
+in PATH:
+
+<span class="org-list-dt">-</span> find
+<span class="org-list-dt">-</span> install
+<span class="org-list-dt">-</span> rm
+
+The following programs are optional when loss of functionality can be
+tolerated:
+
+<span class="org-list-dt">-</span> install-info
+<span class="org-list-dt">-</span> makeinfo
+<span class="org-list-dt">-</span> texi2pdf
+<span class="org-list-dt">-</span> sudo
+<span class="org-list-dt">-</span> git
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Make Targets </span><span class="org-level-2"><span class="org-verbatim">mk/targets.mk</span></span><span class="org-level-2">
+</span>
+All targets that the Org build system can build are defined here.
+Most of the actual work will be handed off to the second level
+<span class="org-verbatim">Makefile</span> in their respective subdirectories.  It is possible to
+override some parts of the build system by defining some variables.
+This is largely untested and consequently unsupported, but may still
+be useful in some situations.  The following variables are considered
+stable:
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">TEST_NO_AUTOCLEAN</span></span><span class="org-list-dt"> ::</span> Define to a non-null value to keep the test
+     directory around for inspection.  This is mostly useful for
+     debugging the test suite.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">ORGVERSION</span></span><span class="org-list-dt"> ::</span> Can be used to override the automatic determination
+                  of the version strings.  If you find a need to do
+                  this, it is likely a bug someplace else.  <span class="bold">Never
+                  define this in a customization file!</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">GITVERSION</span></span><span class="org-list-dt"> ::</span> See <span class="org-verbatim">ORGVERSION</span>.  Please do not define it to a
+                  value that could be confused with a real Git
+                  version string.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">GITSTATUS</span></span><span class="org-list-dt"> ::</span> See <span class="org-verbatim">GITVERSION</span>.  If this variable is defined
+                 non-null, the string ".dirty" will be appended to the
+                 Git version string, which indicates a locally
+                 modified version.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Utilities </span><span class="org-level-2"><span class="org-verbatim">mk/org-fixup.el</span></span><span class="org-level-2">
+</span>
+This is a collection of some Emacs Lisp routines that implement basic
+functionality of the build system.  This mainly eliminates the need
+for some external programs and thus reduces the number of external
+dependencies.
+
+A few of these functions have been designed to be used from the
+command line or even from within Emacs itself.  This is an aid for
+manually building a working Org installation when the external
+dependencies of the build system cannot be met.  See
+<span class="org-link"><a href="Support%20for%20Manual%20Build">Support for Manual Build</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Make Targets
+</span>
+Each time you want GNU&#160;make to build something for you, you need to
+tell it what that is: this is called a <span class="italic">target</span> or <span class="italic">goal</span>.  For each
+<span class="italic">target</span>, make determines the <span class="italic">prerequisites</span> and then goes on to
+build them in the order of dependence.  A <span class="italic">target</span> can be an actual
+file that GNU&#160;make should build, but more commonly it is just a
+moniker (called a <span class="italic">phony target</span>) that has the files to build as
+<span class="italic">prerequisites</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Help
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">help</span></span><span class="org-list-dt"> ::</span> Shows a brief list of the most commonly used <span class="italic">targets</span>
+            with a short description of what they do.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">targets</span></span><span class="org-list-dt"> ::</span> This is an alias for <span class="org-verbatim">help</span>, mandated by GNU Makefile
+               conventions.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">helpall</span></span><span class="org-list-dt"> ::</span> Shows (almost) all <span class="italic">targets</span> and a short description of
+               what they do.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Configuration Check
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">config-test</span></span><span class="org-list-dt"> ::</span> Show the test customization.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">config-cmd</span></span><span class="org-list-dt"> ::</span> Show what commands will be used.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">config-all</span></span><span class="org-list-dt"> ::</span> Show all customization.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Build
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">all</span></span><span class="org-list-dt"> ::</span> Build all of Org: byte-compile the source files and create
+           all documentation.<span class="org-footnote">[fn:1]</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">compile</span></span><span class="org-list-dt"> ::</span> Ensure a clean source directory and then byte-compile
+               the source files using the <span class="org-link"><a href="Compilation Methods">compilation method</a></span> <span class="org-verbatim">dirall</span>
+               by default.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">compile-dirty</span></span><span class="org-list-dt"> ::</span> Byte-compile just those sources that haven't been
+     compiled already or are newer than their byte-compiled
+     counterpart.<span class="org-footnote">[fn:2]</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">single</span></span><span class="org-list-dt"> ::</span> The same as <span class="org-verbatim">compile</span>, but uses the <span class="org-link"><a href="Compilation Methods">compilation method</a></span>
+              <span class="org-verbatim">single</span> (unless overridden by defining <span class="org-verbatim">ORGCM</span> on the
+              command line).
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">autoloads</span></span><span class="org-list-dt"> ::</span> Create just the autoload files, but do not
+                 byte-compile anything.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Test
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">test</span></span><span class="org-list-dt"> ::</span> runs <span class="org-verbatim">compile</span> and then the full testsuite.<span class="org-footnote">[fn:3]</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">check</span></span><span class="org-list-dt"> ::</span> An alias for <span class="org-verbatim">test</span>, to be compatible with GNU style.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">test-dirty</span></span><span class="org-list-dt"> ::</span> Run the full testsuite on whatever currently is
+                  available, compiled or not.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Installation
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">install</span></span><span class="org-list-dt"> ::</span> Build all of Org and install it.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">install-etc</span></span><span class="org-list-dt"> ::</span> Install only the <span class="org-verbatim">etc/</span> part of Org.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">install-lisp</span></span><span class="org-list-dt"> ::</span> Install only the <span class="org-verbatim">lisp/</span> part of Org.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">install-info</span></span><span class="org-list-dt"> ::</span> Build the documentation and install only the info
+                    documentation.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Documentation
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">doc</span></span><span class="org-list-dt"> ::</span> Create all documentation.<span class="org-footnote">[fn:1]</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">docs</span></span><span class="org-list-dt"> ::</span> An alias for <span class="org-verbatim">doc</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">info</span></span><span class="org-list-dt"> ::</span> Create only GNU&#160;Info documentation (requires GNU&#160;Makeinfo).
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">pdf</span></span><span class="org-list-dt"> ::</span> Create only PDF documentation (requires PDFTeX).
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">card</span></span><span class="org-list-dt"> ::</span> Create only the reference card (requires PDFTeX).
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">refcard</span></span><span class="org-list-dt"> ::</span> An alias for <span class="org-verbatim">card</span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Cleaning
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">clean</span></span><span class="org-list-dt"> ::</span> Cleans in <span class="org-verbatim">lisp/</span> and <span class="org-verbatim">doc/</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">cleanall</span></span><span class="org-list-dt"> ::</span> Cleans everything that can be cleaned, including
+                several types of backup files, so do not use this when
+                you have active edit sessions!
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">clean-install</span></span><span class="org-list-dt"> ::</span> Removes a previous Org installation.<span class="org-footnote">[fn:4]</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">cleantest</span></span><span class="org-list-dt"> ::</span> Removes a test directory if it exists.<span class="org-footnote">[fn:5]</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Compatibility and Convenience
+</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">up0</span></span><span class="org-list-dt"> ::</span> Updates the current Git branch from upstream by doing a
+           <span class="org-verbatim">git pull</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">up1</span></span><span class="org-list-dt"> ::</span> Does <span class="org-verbatim">up0</span> and then builds and checks Org.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">up2</span></span><span class="org-list-dt"> ::</span> Does <span class="org-verbatim">up1</span> and installs Org if there was no test error.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">update</span></span><span class="org-list-dt"> ::</span> Does <span class="org-verbatim">up0</span> and then builds Org.  Does not test.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">update2</span></span><span class="org-list-dt"> ::</span> Does <span class="org-verbatim">update</span> and then installs.  This is not
+               recommended, since there is no way of telling whether
+               the just built Org has errors.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">uncompiled</span></span><span class="org-list-dt"> ::</span> Removes any byte-compiled files and then creates the
+                  autoload files.  You can then use the Git worktree
+                  almost like an installed version of Org.  Not
+                  recommended for normal use of Org.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">local.mk</span></span><span class="org-list-dt"> ::</span> Create a customization template.  If one already
+                exists, you need to rename or remove it first.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Customization
+</span>
+Changing the behaviour of the build system to conform to your local
+system rules is done by editing the file <span class="org-verbatim">local.mk</span>.  The standard
+template that is created when this file does not exist offers only the
+most common customization variables, but you are free to customize
+anything that <span class="org-verbatim">mk/default.mk</span> offers (but you really have to know what
+you are doing for some of this).  Remember to only change <span class="org-verbatim">local.mk</span>,
+please.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Simple Customization
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Default target
+</span>
+The <span class="italic">default target</span> is what <span class="org-verbatim">make</span> tries to build when you don't give
+it anything else to do.  For compatibility with the old build system,
+a freshly created <span class="org-verbatim">local.mk</span> will have <span class="org-verbatim">oldorg</span> defined as the default
+target.  If you remove that line entirely from <span class="org-verbatim">local.mk</span>, <span class="org-verbatim">all</span> will
+become the default target.  But you can put any other target there
+that you want to become the default target or even define a new one
+(OK, that isn't simple customization anymore).
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Including sources from </span><span class="org-level-3"><span class="org-verbatim">contrib/</span></span><span class="org-level-3">
+</span>
+If you just want to try out some of the things in <span class="org-verbatim">contrib/</span>, you can
+simply add the directory to <span class="org-verbatim">load-path</span>.  But if you want to include
+some files in an installed version of Org: simply specify in the
+customization variable <span class="org-verbatim">ORG_ADD_CONTRIB</span> which files you want
+included, then build and install in the usual way.  Your <span class="org-verbatim">local.mk</span>
+default customization template has a commented out example for
+including the new exporter, you just need to remove the comment
+marker:
+
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">Define if you want to include some (or all) files from contrib/lisp
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">just the filename please (no path prefix, no .el suffix), maybe with globbing
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">ORG_ADD_CONTRIB</span></span><span class="org-block"> = ox-* </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">e.g. the contributed exporter
+</span></span><span class="org-block-end-line">#+END_SRC
+</span>
+You just give the base name of the file to include (much like you do
+in a <span class="org-verbatim">require</span> form), only that you can use a shell globbing pattern
+to specify many similar names at ones.  You do not need to specify the
+path prefix <span class="org-verbatim">contrib/lisp/</span> nor the file suffix <span class="org-verbatim">.el</span>, these are added
+by the build system.  To include all of <span class="org-verbatim">contrib/lisp/</span> (some of these
+aren't really meant to be used together, so this isn't recommended)
+you'd say:
+
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="variable-name">ORG_ADD_CONTRIB</span></span><span class="org-block"> = org* ox*
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Or if that was just a one-time install (with quoting for a POSIX
+shell):
+
+<span class="org-code">: make ORG_ADD_CONTRIB="ox-*" install
+</span>
+Note: A simple <span class="org-verbatim">*</span> would also include <span class="org-verbatim">htmlize.el</span>, which is currently
+bundled in contrib.  It is recommended to install that seperately, it
+is available for instance in GNU&#160;ELPA.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Non-standard Emacs location
+</span>
+Customization for using a self-compiled Emacs&#160;24 installed in
+<span class="org-verbatim">/usr/local</span> and the default target changed to <span class="org-verbatim">up2</span>.  Additional
+customization to enable htmlize installed from ELPA in users' home
+directory and ESS (for R) in the system <span class="org-verbatim">/usr/share/emacs/site-lisp/</span>
+and all Babel languages activated for testing.
+
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="makefile-targets">up2</span></span><span class="org-block">::   </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">default target
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">EMACS</span></span><span class="org-block">   = /usr/local/bin/emacs-24.</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">
+  </span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">  = /usr/local/share
+  </span><span class="org-block"><span class="variable-name">lispdir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/emacs/site-lisp/org
+  </span><span class="org-block"><span class="variable-name">datadir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/emacs/etc/org
+  </span><span class="org-block"><span class="variable-name">infodir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/info
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="variable-name">BTEST_EXTRA</span></span><span class="org-block"> = ess-site 
+  </span><span class="org-block"><span class="variable-name">BTEST_OB_LANGUAGES</span></span><span class="org-block"> = awk C fortran maxima lilypond octave python sh R
+  </span><span class="org-block"><span class="variable-name">BTEST_POST</span></span><span class="org-block"> = -L ~/.emacs.d/elpa/htmlize-1.</span><span class="org-block"><span class="highlight-numbers-number">39</span></span><span class="org-block"> \
+               -L /usr/share/emacs/site-lisp/emacs-ess-12.</span><span class="org-block"><span class="highlight-numbers-number">04.4</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> XEmacs
+</span>
+Customization for using XEmacs&#160;21.5, since there seems to be no ERT
+for XEmacs testing will not work and has been disabled.  The default
+target is set to <span class="org-verbatim">up0 doc uncompiled</span> (pull from Git and update
+documentation and autoload files).
+
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="makefile-targets">.PHONY</span></span><span class="org-block">: xemacs
+  </span><span class="org-block"><span class="makefile-targets">xemacs</span></span><span class="org-block">: up0 doc uncompiled
+  </span><span class="org-block"><span class="variable-name">EMACS</span></span><span class="org-block">   = xemacs
+  </span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">  = /usr/local/share
+  </span><span class="org-block"><span class="variable-name">lispdir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/xemacs/site-lisp/org
+  </span><span class="org-block"><span class="variable-name">datadir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/xemacs/etc/org
+  </span><span class="org-block"><span class="variable-name">infodir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/info
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="variable-name">BTEST</span></span><span class="org-block"> = /bin/true
+  </span><span class="org-block"><span class="variable-name">BATCH</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">EMACS</span></span><span class="org-block">) -batch -q -vanilla </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">XEmacs
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">How to byte-compile the whole source directory
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">ELCDIR</span></span><span class="org-block">  = $(</span><span class="org-block"><span class="variable-name">BATCH</span></span><span class="org-block">) \
+                  --eval </span><span class="org-block"><span class="string">'(add-to-list '"'"'load-path ".")'</span></span><span class="org-block"> \
+                  --eval </span><span class="org-block"><span class="string">'(byte-recompile-directory "." 0)'</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Emacs on Windows
+</span>
+Customization for using vanilla Emacs&#160;24 on Windows, with GNU&#160;make and
+other binaries provided by Cygwin.  Make sure the installation path(s)
+contain no spaces!  Use the 8.3 compatible names, e.g. <span class="org-verbatim">PROGRA~1</span>
+instead of "Program Files", if you already installed the applications
+in such a location. Babel languages have been stripped down for
+testing and the default target is again set to <span class="org-verbatim">up2</span>.
+
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="makefile-targets">up2</span></span><span class="org-block">::
+  </span><span class="org-block"><span class="variable-name">CYGWIN</span></span><span class="org-block"> += nodosfilewarning
+  </span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">  = C:/Freeware/Emacs-24.</span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block">
+  </span><span class="org-block"><span class="variable-name">EMACS</span></span><span class="org-block">   = SHELL=sh $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/bin/emacs
+  </span><span class="org-block"><span class="variable-name">lispdir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/site-lisp/org
+  </span><span class="org-block"><span class="variable-name">datadir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/etc/org
+  </span><span class="org-block"><span class="variable-name">infodir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/info
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="variable-name">BTEST_OB_LANGUAGES</span></span><span class="org-block"> = octave
+  </span><span class="org-block"><span class="variable-name">SUDO</span></span><span class="org-block"> =
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Advanced Customization
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Compilation Methods
+</span>
+The default compilation method compiles all source files within the
+same Emacs process, simply because that is the fastest method.
+Unfortunately, Emacs does not isolate the side-effects of compilations
+from each other, so the byte compiler may not issue some errors or
+warnings (mostly about missing declarations or requires).  To enable
+developers to catch these errors, different compilation methods can be
+configured by defining <span class="org-verbatim">ORGCM</span> to one of these values (either
+permanently in <span class="org-verbatim">local.mk</span> or for a single invocation of <span class="org-verbatim">make</span>):
+
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">dirall</span></span><span class="org-list-dt"> ::</span> The default compilation method, invoked via <span class="org-verbatim">ELCDIR</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">single</span></span><span class="org-list-dt"> ::</span> Uses a separate Emacs for each compilation, invoked via
+              <span class="org-verbatim">ELC</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">source</span></span><span class="org-list-dt"> ::</span> Uses a separate Emacs for each compilation invoked via
+              <span class="org-verbatim">ELC</span>.  Removes all <span class="org-verbatim">*.elc</span> files before and each
+              <span class="org-verbatim">*.elc</span> file directly after compilation so that all
+              requires are also loaded from source.  Recompiles via
+              <span class="org-verbatim">dirall</span> at the end so that all the <span class="org-verbatim">*.elc</span> files exist.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">slint1</span></span><span class="org-list-dt"> ::</span> First compiles using <span class="org-verbatim">dirall</span>, then compiles each file
+              again using <span class="org-verbatim">single</span>.
+<span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">slint2</span></span><span class="org-list-dt"> ::</span> First compiles via <span class="org-verbatim">source</span> and then again via <span class="org-verbatim">slint1</span>.
+
+Both <span class="org-verbatim">ELCDIR</span> and <span class="org-verbatim">ELC</span> are also customizable, but changing their
+definitions must not alter the semantics of compilation.  You have
+been warned.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Multiple Emacsen
+</span>
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Method 1
+</span>
+If you're a developer (or a system administrator that serves a diverse
+set of users) you'll likely have to deal with the need to build and
+test Org for different versions of Emacs.  Having to copy or link the
+correct customization file to <span class="org-verbatim">local.mk</span> quickly loses the appeal and
+is error prone.  Here's a (hopefully better) suggestion: put each
+customization into a file named <span class="org-verbatim">local-&lt;pattern&gt;.mk</span> and create a
+<span class="org-verbatim">local.mk</span> that looks like this:
+
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="keyword">ifdef</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">LOCALMK</span></span><span class="org-block">
+    </span><span class="org-block"><span class="keyword">include</span></span><span class="org-block"> local-$(</span><span class="org-block"><span class="variable-name">LOCALMK</span></span><span class="org-block">).mk
+  </span><span class="org-block"><span class="keyword">else</span></span><span class="org-block">
+    </span><span class="org-block"><span class="keyword">include</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">local-emacs24.mk</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">endif</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Now switching between your different customizations is as easy as
+<span class="org-code">: make LOCALMK=emacs23
+</span>(which assumes that there is a customization file <span class="org-verbatim">local-emacs23.mk</span>
+available).
+
+<span class="org-hide">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Method 2
+</span>
+If you need a more flexible structure, say to test different versions
+of Emacs with different configurations, then you quickly end up with
+lots of customization files.  Worse, if you then need to change a
+customization that has been copied into many such files, you'll have
+to remember to change it in all of them.  The idea from Method&#160;1 can
+be extended to split the name into different parts and then use these
+parts seperately to customize a single aspect only.  To keep this
+tidy, you can put all of these files into a directory <span class="org-verbatim">localmk</span> under
+control of Git and maybe even register it as a submodule in your local
+branch of the Org repository.
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">local.mk</span>
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="variable-name">LOCALMK</span></span><span class="org-block"> ?= loc
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">split into words
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">:=$(</span><span class="org-block"><span class="variable-name"><span class="function-name">subst</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">-, ,$(</span><span class="org-block"><span class="variable-name">LOCALMK</span></span><span class="org-block">))
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">what's the current trunk?
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">:=$(</span><span class="org-block"><span class="variable-name"><span class="function-name">subst</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">trunk,</span><span class="org-block"><span class="highlight-numbers-number">24.3</span></span><span class="org-block">.</span><span class="org-block"><span class="highlight-numbers-number">50</span></span><span class="org-block">,$(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">))
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">specific Emacs version requested?
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">:=$(</span><span class="org-block"><span class="variable-name"><span class="function-name">filter</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">2%,$(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">))
+  </span><span class="org-block"><span class="keyword">ifdef</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">
+    </span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">:=$(</span><span class="org-block"><span class="variable-name"><span class="function-name">subst</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">$(</span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">),loc,$(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">))
+    </span><span class="org-block"><span class="variable-name">_MAJ_</span></span><span class="org-block">:=$(</span><span class="org-block"><span class="variable-name"><span class="function-name">word</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">,$(</span><span class="org-block"><span class="variable-name"><span class="function-name">subst</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">., ,$(</span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">)))
+    </span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">:=$(</span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">:</span><span class="org-block"><span class="variable-name">2%</span></span><span class="org-block">=-2%)
+  </span><span class="org-block"><span class="keyword">else</span></span><span class="org-block">
+    </span><span class="org-block"><span class="variable-name">_MAJ_</span></span><span class="org-block">:=</span><span class="org-block"><span class="highlight-numbers-number">24</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">endif</span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">lets us just specify which emacs to use
+</span></span><span class="org-block">  </span><span class="org-block"><span class="keyword">ifeq</span></span><span class="org-block"> ($(</span><span class="org-block"><span class="variable-name"><span class="function-name">words</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">$(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">)),</span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block">)
+    </span><span class="org-block"><span class="variable-name">_LMK_+</span></span><span class="org-block">=testall tmp extra
+  </span><span class="org-block"><span class="keyword">endif</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"><span class="keyword"><span class="negation-char">n</span></span></span><span class="org-block"><span class="keyword">eq</span></span><span class="org-block"> ($(</span><span class="org-block"><span class="variable-name"><span class="function-name">origin</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">DEBUG),undefined)
+    $(</span><span class="org-block"><span class="variable-name"><span class="function-name">info</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">LMK[$(</span><span class="org-block"><span class="variable-name"><span class="function-name">words</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">$(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">))]: $(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">))
+    $(</span><span class="org-block"><span class="variable-name"><span class="function-name">info</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">VER: $(</span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">) major $(</span><span class="org-block"><span class="variable-name">_MAJ_</span></span><span class="org-block">))
+  </span><span class="org-block"><span class="keyword">endif</span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">remember this file is used from the org-mode directory via link,
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">so we have to prepend localmk/
+</span></span><span class="org-block">  $(</span><span class="org-block"><span class="variable-name"><span class="function-name">foreach</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">part,$(</span><span class="org-block"><span class="variable-name"><span class="function-name">subst</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">-, ,$(</span><span class="org-block"><span class="variable-name">_LMK_</span></span><span class="org-block">)),$(</span><span class="org-block"><span class="variable-name"><span class="function-name">eval</span></span></span><span class="org-block"><span class="function-name"> </span></span><span class="org-block">include localmk/$(</span><span class="org-block"><span class="variable-name">part</span></span><span class="org-block">).mk))
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+So, what does this do?  First, it splits <span class="org-verbatim">LOCALMK</span> on <span class="org-verbatim">-</span> characters.
+It then checks if something looks like an Emacs version number and
+tries to make sense of that, otherwise it's using a default version.
+If it only got an Emacs version to use, it tacks on a default set of
+standard customizations: <span class="org-verbatim">testall</span>, <span class="org-verbatim">tmp</span>, <span class="org-verbatim">extra</span>.  Finally, it
+includes each of the customization files it inferred from <span class="org-verbatim">LOCALMK</span> to
+arrive at the final customization.
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">loc.mk</span>
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">Name of your emacs binary
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">EMACS</span></span><span class="org-block">   := /usr/local/bin/emacs$(</span><span class="org-block"><span class="variable-name">_VER_</span></span><span class="org-block">)
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">Where local software is found
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">  := /usr/local/share
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">Where local lisp files go.
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">lispdir</span></span><span class="org-block"> := $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/emacs/site-lisp/org
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">Where local data files go.
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">datadir</span></span><span class="org-block"> := $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/emacs/etc/org
+</span><span class="org-block"><span class="makefile-space">  </span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">Where info files go.
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">infodir</span></span><span class="org-block"> := $(</span><span class="org-block"><span class="variable-name">prefix</span></span><span class="org-block">)/info
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">testall.mk</span>
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="variable-name">BTEST_OB_LANGUAGES</span></span><span class="org-block"> = perl awk C fortran maxima lilypond octave perl python sh
+  </span><span class="org-block"><span class="variable-name">BTEST_POST</span></span><span class="org-block"> = --eval </span><span class="org-block"><span class="string">'(add-to-list '"'"'load-path "~/.emacs.d/elpa/htmlize-1.39")'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">ifeq</span></span><span class="org-block"> ($(</span><span class="org-block"><span class="variable-name">_MAJ_</span></span><span class="org-block">),</span><span class="org-block"><span class="highlight-numbers-number">24</span></span><span class="org-block">)
+    </span><span class="org-block"><span class="variable-name">BTEST_EXTRA</span></span><span class="org-block"> += ess-site
+    </span><span class="org-block"><span class="variable-name">BTEST_OB_LANGUAGES</span></span><span class="org-block"> += R
+    </span><span class="org-block"><span class="variable-name">BTEST_POST</span></span><span class="org-block"> += --eval </span><span class="org-block"><span class="string">'(add-to-list '"'"'load-path "/usr/share/emacs/site-lisp/emacs-ess-12.04.4")'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">else</span></span><span class="org-block">
+    </span><span class="org-block"><span class="variable-name">BTEST_PRE</span></span><span class="org-block"> += --eval </span><span class="org-block"><span class="string">'(add-to-list '"'"'load-path "testing/ert")'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">endif</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">tmp.mk</span>
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">where to create temporary files for the testsuite
+</span></span><span class="org-block">  </span><span class="org-block"><span class="variable-name">TMPDIR</span></span><span class="org-block"> ?= /tmp
+  </span><span class="org-block"><span class="variable-name">testdir</span></span><span class="org-block"> = $(</span><span class="org-block"><span class="variable-name">TMPDIR</span></span><span class="org-block">)/tmp-orgtest
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">extra</span>
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter"># </span></span><span class="org-block"><span class="comment">extra targets
+</span></span><span class="org-block">  </span><span class="org-block"><span class="makefile-targets">.PHONY</span></span><span class="org-block">: testclean
+  </span><span class="org-block"><span class="makefile-targets">testclean</span></span><span class="org-block">:      test clean
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">testmin.mk</span>
+<span class="org-block-begin-line">#+BEGIN_SRC makefile-gmake
+</span><span class="org-block">  </span><span class="org-block"><span class="variable-name">BTEST_OB_LANGUAGES</span></span><span class="org-block"> = 
+  </span><span class="org-block"><span class="variable-name">BTEST_POST</span></span><span class="org-block"> = --eval </span><span class="org-block"><span class="string">'(add-to-list '"'"'load-path "~/.emacs.d/elpa/htmlize-1.39")'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"><span class="keyword"><span class="negation-char">n</span></span></span><span class="org-block"><span class="keyword">eq</span></span><span class="org-block"> ($(</span><span class="org-block"><span class="variable-name">_MAJ_</span></span><span class="org-block">),</span><span class="org-block"><span class="highlight-numbers-number">24</span></span><span class="org-block">)
+    </span><span class="org-block"><span class="variable-name">BTEST_PRE</span></span><span class="org-block"> += --eval </span><span class="org-block"><span class="string">'(add-to-list '"'"'load-path "testing/ert")'</span></span><span class="org-block">
+  </span><span class="org-block"><span class="keyword">endif</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Selective Testing
+</span>
+Sometimes you only want to run a set of specific tests instead of all.
+This is especially useful if you are trying to bisect a large range of
+commits with a run script.  Instead of checking if the failing test
+was perhaps a different one than the one you wanted to check for,
+running just these test (or tests) makes that task much easier.  For
+instance,
+<span class="org-code">: make BTEST_RE='^test-org/forward-element$' test-dirty
+</span>would run <span class="bold">only</span> the test for forward-element and nothing else, which
+is also much faster than running the almost 500 other tests as well.
+Keep in mind that the test selector is a regular expression, the
+default value of <span class="org-verbatim">\(org\|ob\)</span> matches all tests.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support for Installers
+</span>
+The Org build system supports staged installs via <span class="org-verbatim">DESTDIR</span>.  If
+<span class="org-verbatim">DESTDIR</span> is defined as a non-empty string (it really should be a
+leading path and end with a path separator), the actual installation
+paths are all prepended by the expansion of <span class="org-verbatim">DESTDIR</span>.  Except for
+install and testing, the build does not write outside the build
+directory and both of these can be customized to stay within the build
+directory also.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support for Manual Build
+</span>
+Since GNU&#160;make or some programs used by the build system might not be
+available on some systems, the core functionality has been implemented
+or replicated in Emacs Lisp with no dependencies on external tools.  The
+supported functions are: <span class="org-verbatim">org-make-autoloads</span>,
+<span class="org-verbatim">org-make-autoloads-compile</span> and <span class="org-verbatim">org-make-autoloads-compile-force</span>.
+All other interfaces should be considered private and are subject to
+change without notice.  The commands assume that the current working
+directory is at the toplevel of the Org build directory (i.e. where
+you'll find <span class="org-verbatim">mk/default.mk</span>).
+
+To make the autoloads file:
+<span class="org-code">: emacs -batch -Q -L lisp -l ../mk/org-fixup -f org-make-autoloads
+</span>To make the autoloads file and byte-compile Org:
+<span class="org-code">: emacs -batch -Q -L lisp -l ../mk/org-fixup -f org-make-autoloads-compile
+</span>To make the autoloads file and byte-compile all of Org again:
+<span class="org-code">: emacs -batch -Q -L lisp -l ../mk/org-fixup -f org-make-autoloads-compile-force
+</span>
+If <span class="org-verbatim">git</span> is also unavailable, fake version strings need to be provided.
+<span class="org-code">: emacs -batch -Q -L lisp -l ../mk/org-fixup \
+: --eval '(let ((org-fake-release "8.0.1")(org-fake-git-version "8.0.1-fake"))\
+: (org-make-autoloads))'
+</span>
+The above assumes a POSIX shell for its quoting, Windows <span class="org-verbatim">CMD.exe</span> has
+quite different quoting rules and this won't work.  Also, users of
+Aquamacs have reported that the command line examples aren't working
+for them.  Your other option is to start Emacs like this
+<span class="org-code">: emacs -Q -L lisp -l ../mk/org-fixup
+</span>then paste the following into the <span class="org-verbatim">*scratch*</span> buffer:
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">replace the version strings with something sensible that can't be
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">confused with a real Git version
+</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-fake-release     </span><span class="org-block"><span class="string">"8.0.1"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-fake-git-version </span><span class="org-block"><span class="string">"8.0.1-fake"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-make-autoloads</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Execute each form by placing the cursor after the closing paren on the
+last line and press <span class="org-verbatim">C-j</span> or <span class="org-verbatim">C-x C-e</span>.
+
+If the command line above is still spooking you: start Emacs like you
+normally do, then add <span class="org-verbatim">&lt;orgmode&gt;/lisp</span> to your load-path, then issue
+<span class="org-verbatim">M-x load-library</span>, answer the prompt with <span class="org-verbatim">../mk/org-fixup.el</span>, then
+do the same things in the scratch buffer as outlined above.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> The build systems' notion of "all documentation" can be
+influenced via the configuration variable <span class="org-verbatim">ORG_MAKE_DOC</span>.
+
+<span class="org-footnote">[fn:2]</span> If you just want to re-compile all lisp sources without doing
+anything else, you can run <span class="org-verbatim">make cleanelc compile-dirty</span>.
+
+<span class="org-footnote">[fn:3]</span> The build systems' notion of "full testsuite" can be configured
+with <span class="org-verbatim">BTEST_OB_LANGUAGES</span>.
+
+<span class="org-footnote">[fn:5]</span> The test directory is generally removed after testing, but this
+may not happen when there are test errors.  Also, the automatic
+removal of the test directory can be prevented (for debugging
+purposes) by defining a variable <span class="org-verbatim">TEST_NO_AUTOCLEAN</span>.
+
+<span class="org-footnote">[fn:4]</span> The build system doesn't really know where your previous
+installation is, of course: it tries to remove Org from where it would
+install it, based on the current customization.  So if you want to
+move your Org installation, you need to first uninstall it using the
+old customization, then change the costomization and then do a fresh
+install.
+
+</pre>
+  </body>
+</html>

@@ -1,0 +1,2450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Update Worg for the New Exporter</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Update Worg for the New Exporter</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8236a53">1. How to use this document</a>
+<ul>
+<li><a href="#orgeca76e9">1.1. Other important things:</a></li>
+<li><a href="#org260a468">1.2. Notes</a></li>
+</ul>
+</li>
+<li><a href="#orge8c713a">2. root: <code>[79/81]</code></a>
+<ul>
+<li><a href="#org2d9895e">2.1. <span class="done DONE">DONE</span> code</a></li>
+<li><a href="#orge58f612">2.2. <span class="done DONE">DONE</span> color-themes</a></li>
+<li><a href="#org36683fd">2.3. <span class="done DONE">DONE</span> dev</a></li>
+<li><a href="#org2c789e4">2.4. <span class="done DONE">DONE</span> exporters</a></li>
+<li><a href="#org59a4363">2.5. <span class="done DONE">DONE</span> images</a></li>
+<li><a href="#org368c8fd">2.6. <span class="done DONE">DONE</span> org-configs</a></li>
+<li><a href="#org1042a30">2.7. <span class="done DONE">DONE</span> org-contrib</a></li>
+<li><a href="#orgacf07d0">2.8. <span class="done DONE">DONE</span> org-testimonies</a></li>
+<li><a href="#orgb2c5b09">2.9. <span class="done DONE">DONE</span> org-tests</a></li>
+<li><a href="#org1ec2e7a">2.10. <span class="done DONE">DONE</span> org-tools</a></li>
+<li><a href="#org2283b0a">2.11. <span class="todo TODO">TODO</span> org-tutorials</a></li>
+<li><a href="#org7c39815">2.12. <span class="done DONE">DONE</span> orgguide</a></li>
+<li><a href="#org1c01c6e">2.13. <span class="done DONE">DONE</span> style</a></li>
+<li><a href="#orgd7dea4e">2.14. <span class="done DONE">DONE</span> users</a></li>
+<li><a href="#org8e8f661">2.15. <span class="done DONE">DONE</span> ChangeLog.org</a></li>
+<li><a href="#org775249e">2.16. <span class="done DONE">DONE</span> agenda-optimization.org</a></li>
+<li><a href="#org9c29ace">2.17. <span class="done DONE">DONE</span> blorgit.org</a></li>
+<li><a href="#org05ab582">2.18. <span class="done DONE">DONE</span> color-themes-screenshot.org</a></li>
+<li><a href="#org9622430">2.19. <span class="done DONE">DONE</span> doc.org</a></li>
+<li><a href="#org769f590">2.20. <span class="done DONE">DONE</span> gitrdone.org</a></li>
+<li><a href="#org422c600">2.21. <span class="done DONE">DONE</span> gtd-software-comparison.org</a></li>
+<li><a href="#org226ddaa">2.22. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#org9c146d9">2.23. <span class="done DONE">DONE</span> macros.setupfile</a></li>
+<li><a href="#orgbb373ce">2.24. <span class="done DONE">DONE</span> org-8.0.org</a></li>
+<li><a href="#org0bcaf0b">2.25. <span class="done DONE">DONE</span> org-artwork.org</a></li>
+<li><a href="#org5f241d0">2.26. <span class="done DONE">DONE</span> org-blog-articles.org</a></li>
+<li><a href="#org7dfaf9c">2.27. <span class="done DONE">DONE</span> org-blog-wiki.org</a></li>
+<li><a href="#org0643e8c">2.28. <span class="done DONE">DONE</span> org-color-themes.org</a></li>
+<li><a href="#org54dc4ee">2.29. <span class="done DONE">DONE</span> org-conference.org</a></li>
+<li><a href="#orgf2b4d90">2.30. <span class="done DONE">DONE</span> org-contribute.org</a></li>
+<li><a href="#org262545c">2.31. <span class="done DONE">DONE</span> org-dependencies.org</a></li>
+<li><a href="#orgff6916c">2.32. <span class="done DONE">DONE</span> org-devel.org</a></li>
+<li><a href="#orgd3740b4">2.33. <span class="done DONE">DONE</span> org-faq.org</a></li>
+<li><a href="#org3186e3d">2.34. <span class="done DONE">DONE</span> org-glossary.org</a></li>
+<li><a href="#orgd815d4c">2.35. <span class="done DONE">DONE</span> org-gtd-etc.org</a></li>
+<li><a href="#org1914b77">2.36. <span class="done DONE">DONE</span> org-hacks.org</a></li>
+<li><a href="#orgf57b711">2.37. <span class="done DONE">DONE</span> org-info-js.org</a></li>
+<li><a href="#org4c0690c">2.38. <span class="done DONE">DONE</span> org-issues.org</a></li>
+<li><a href="#orge889656">2.39. <span class="done DONE">DONE</span> org-mac.org</a></li>
+<li><a href="#orgcadd4ec">2.40. <span class="done DONE">DONE</span> org-mailing-list.org</a></li>
+<li><a href="#org21aaf48">2.41. <span class="done DONE">DONE</span> org-papers.org</a></li>
+<li><a href="#orgfb879c4">2.42. <span class="done DONE">DONE</span> org-people.org</a></li>
+<li><a href="#orga01f957">2.43. <span class="done DONE">DONE</span> org-quotes.org</a></li>
+<li><a href="#org4c48e2e">2.44. <span class="done DONE">DONE</span> org-screenshots-org-on-the-web.org</a></li>
+<li><a href="#orgdbd12f0">2.45. <span class="done DONE">DONE</span> org-screenshots.org</a></li>
+<li><a href="#org936b9d7">2.46. <span class="done DONE">DONE</span> org-survey.org</a></li>
+<li><a href="#orgfe4cb48">2.47. <span class="done DONE">DONE</span> org-symbols.org</a></li>
+<li><a href="#org90b1cb8">2.48. <span class="done DONE">DONE</span> org-translators.org</a></li>
+<li><a href="#org15b398a">2.49. <span class="done DONE">DONE</span> org-web.org</a></li>
+<li><a href="#org411ae10">2.50. <span class="done DONE">DONE</span> org-worg-stats.org</a></li>
+<li><a href="#org87f2c82">2.51. <span class="done DONE">DONE</span> orgcamps.org</a></li>
+<li><a href="#org4744667">2.52. <span class="done DONE">DONE</span> orgcard.org</a></li>
+<li><a href="#org35ad5e0">2.53. <span class="done DONE">DONE</span> patches.org</a></li>
+<li><a href="#org937507f">2.54. <span class="done DONE">DONE</span> preamble.html</a></li>
+<li><a href="#org2a3e7e6">2.55. <span class="done DONE">DONE</span> sandbox.org</a></li>
+<li><a href="#org4cb550d">2.56. <span class="done DONE">DONE</span> worg-about.org</a></li>
+<li><a href="#org5e7368f">2.57. <span class="done DONE">DONE</span> worg-editing.org</a></li>
+<li><a href="#org93108f2">2.58. <span class="done DONE">DONE</span> worg-git-advanced.org</a></li>
+<li><a href="#org9167723">2.59. <span class="done DONE">DONE</span> worg-git-ssh-key.org</a></li>
+<li><a href="#org4a9444c">2.60. <span class="done DONE">DONE</span> worg-git.org</a></li>
+<li><a href="#org2c35acb">2.61. <span class="done DONE">DONE</span> worg-header.org</a></li>
+<li><a href="#org78e0404">2.62. <span class="done DONE">DONE</span> worg-maintenance.org</a></li>
+<li><a href="#org919844e">2.63. <span class="done DONE">DONE</span> worg-setup.org</a></li>
+<li><a href="#orgf65bd41">2.64. <span class="done DONE">DONE</span> worg-todo.org</a></li>
+<li><a href="#org08dd597">2.65. <span class="done DONE">DONE</span> worg-todo<sub>archive</sub></a></li>
+<li><a href="#orgc3b4ea4">2.66. <span class="done DONE">DONE</span> worgers.org</a></li>
+<li><a href="#orge6ae215">2.67. <span class="done DONE">DONE</span> ./FIXME: <code>[4/4]</code></a>
+<ul>
+<li><a href="#org15510bd">2.67.1. <span class="done DONE">DONE</span> how-to-use-Org-Babel-for-R.org</a></li>
+<li><a href="#orgf757b85">2.67.2. <span class="done DONE">DONE</span> test-for-how-to-use-Org-Babel-for-R.org</a></li>
+<li><a href="#org042ebe2">2.67.3. <span class="done DONE">DONE</span> other files moved here for successful publish</a></li>
+<li><a href="#org8e82a78">2.67.4. <span class="done DONE">DONE</span> org-customization-survey.org (moved from org-configs)</a></li>
+</ul>
+</li>
+<li><a href="#orga8e3b89">2.68. <span class="done DONE">DONE</span> ./code: <code>[10/10]</code></a>
+<ul>
+<li><a href="#org1158377">2.68.1. <span class="done DONE">DONE</span> awk</a></li>
+<li><a href="#orgac6f6c1">2.68.2. <span class="done DONE">DONE</span> elisp</a></li>
+<li><a href="#org0af62e0">2.68.3. <span class="done DONE">DONE</span> latex</a></li>
+<li><a href="#org9eb102a">2.68.4. <span class="done DONE">DONE</span> org-info-js</a></li>
+<li><a href="#org434ea13">2.68.5. <span class="done DONE">DONE</span> perl</a></li>
+<li><a href="#orgf9d3974">2.68.6. <span class="done DONE">DONE</span> ./code/awk: <code>[1/1]</code></a></li>
+<li><a href="#org4fc7fba">2.68.7. <span class="done DONE">DONE</span> ./code/elisp: <code>[11/11]</code></a></li>
+<li><a href="#orgf1b0ff9">2.68.8. <span class="done DONE">DONE</span> ./code/latex: <code>[2/2]</code></a></li>
+<li><a href="#org063061b">2.68.9. <span class="done DONE">DONE</span> ./code/org-info-js: <code>[9/9]</code></a></li>
+<li><a href="#org43b55b2">2.68.10. <span class="done DONE">DONE</span> ./code/perl: <code>[1/1]</code></a></li>
+</ul>
+</li>
+<li><a href="#org6a70758">2.69. <span class="done DONE">DONE</span> ./color-themes: <code>[6/6]</code></a>
+<ul>
+<li><a href="#org092e4fc">2.69.1. <span class="done DONE">DONE</span> color-theme-folio.el</a></li>
+<li><a href="#org339da6d">2.69.2. <span class="done DONE">DONE</span> color-theme-manoj.el</a></li>
+<li><a href="#orgdaa6df3">2.69.3. <span class="done DONE">DONE</span> color-theme-railscast.el</a></li>
+<li><a href="#orgc41b9f5">2.69.4. <span class="done DONE">DONE</span> color-theme-tangotango.el</a></li>
+<li><a href="#org8472468">2.69.5. <span class="done DONE">DONE</span> color-theme-zenash.el</a></li>
+<li><a href="#org7092e12">2.69.6. <span class="done DONE">DONE</span> color-theme-zenburn.el</a></li>
+</ul>
+</li>
+<li><a href="#orgfd53b18">2.70. <span class="done DONE">DONE</span> ./dev: <code>[4/4]</code></a>
+<ul>
+<li><a href="#orgc8d16dd">2.70.1. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#orga9b176f">2.70.2. <span class="done DONE">DONE</span> org-build-system.org</a></li>
+<li><a href="#org7f71b3c">2.70.3. <span class="done DONE">DONE</span> org-export-reference.org</a></li>
+<li><a href="#org0f29770">2.70.4. <span class="done DONE">DONE</span> org-syntax.org</a></li>
+</ul>
+</li>
+<li><a href="#org6775e64">2.71. <span class="done DONE">DONE</span> ./exporters: <code>[11/11]</code></a>
+<ul>
+<li><a href="#org1feb3df">2.71.1. <span class="done DONE">DONE</span> beamer</a></li>
+<li><a href="#org9917117">2.71.2. <span class="done DONE">DONE</span> filter-markup.org</a></li>
+<li><a href="#orgdd0c085">2.71.3. <span class="done DONE">DONE</span> freemind.org</a></li>
+<li><a href="#orgd02526d">2.71.4. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#org1a6db2e">2.71.5. <span class="done DONE">DONE</span> ox-groff.org</a></li>
+<li><a href="#org60ab131">2.71.6. <span class="done DONE">DONE</span> ox-overview.org</a></li>
+<li><a href="#org4d8ebb7">2.71.7. <span class="done DONE">DONE</span> ox-template.org</a></li>
+<li><a href="#org1f8ac6e">2.71.8. <span class="done DONE">DONE</span> taskjuggler (directory)</a></li>
+<li><a href="#orgaca7468">2.71.9. <span class="done DONE">DONE</span> xoxo.org</a></li>
+<li><a href="#orgcb5431f">2.71.10. <span class="done DONE">DONE</span> ./exporters/beamer: <code>[4/4]</code></a></li>
+<li><a href="#org628d196">2.71.11. <span class="done DONE">DONE</span> ./exporters/taskjuggler: <code>[1/1]</code></a></li>
+</ul>
+</li>
+<li><a href="#org56cf5f6">2.72. <span class="done DONE">DONE</span> ./images: <code>[44/44]</code></a>
+<ul>
+<li><a href="#org19d5dd9">2.72.1. <span class="done DONE">DONE</span> artwork</a></li>
+<li><a href="#org9842b7e">2.72.2. <span class="done DONE">DONE</span> babel</a></li>
+<li><a href="#orgac2f5e3">2.72.3. <span class="done DONE">DONE</span> blorgit</a></li>
+<li><a href="#orged87341">2.72.4. <span class="done DONE">DONE</span> bzg</a></li>
+<li><a href="#orgf205c10">2.72.5. <span class="done DONE">DONE</span> cd</a></li>
+<li><a href="#orga946873">2.72.6. <span class="done DONE">DONE</span> color-themes</a></li>
+<li><a href="#orgcebec44">2.72.7. <span class="done DONE">DONE</span> dto</a></li>
+<li><a href="#orgaf8f357">2.72.8. <span class="done DONE">DONE</span> gsoc</a></li>
+<li><a href="#org59b1de8">2.72.9. <span class="done DONE">DONE</span> icons</a></li>
+<li><a href="#org28161fe">2.72.10. <span class="done DONE">DONE</span> mdl</a></li>
+<li><a href="#org189b24f">2.72.11. <span class="done DONE">DONE</span> org-R</a></li>
+<li><a href="#orgcfbed92">2.72.12. <span class="done DONE">DONE</span> org-beamer</a></li>
+<li><a href="#orgcc9e376">2.72.13. <span class="done DONE">DONE</span> org-collector</a></li>
+<li><a href="#org6d37734">2.72.14. <span class="done DONE">DONE</span> org-exp-blocks</a></li>
+<li><a href="#org88a7301">2.72.15. <span class="done DONE">DONE</span> org-lilypond</a></li>
+<li><a href="#org3ead130">2.72.16. <span class="done DONE">DONE</span> org-plot</a></li>
+<li><a href="#org43b8b62">2.72.17. <span class="done DONE">DONE</span> orgcamps</a></li>
+<li><a href="#org6e2f148">2.72.18. <span class="done DONE">DONE</span> orgweb</a></li>
+<li><a href="#org00f9669">2.72.19. <span class="done DONE">DONE</span> screenshots</a></li>
+<li><a href="#org4ea6d99">2.72.20. <span class="done DONE">DONE</span> sr</a></li>
+<li><a href="#orgfa913d7">2.72.21. <span class="done DONE">DONE</span> taskjuggler</a></li>
+<li><a href="#org895dba2">2.72.22. <span class="done DONE">DONE</span> thumbs</a></li>
+<li><a href="#orgdb8a3e1">2.72.23. <span class="done DONE">DONE</span> ./images/artwork: <code>[2/2]</code></a></li>
+<li><a href="#org6140044">2.72.24. <span class="done DONE">DONE</span> ./images/babel: <code>[16/16]</code></a></li>
+<li><a href="#org8ae8d0a">2.72.25. <span class="done DONE">DONE</span> ./images/blorgit: <code>[5/5]</code></a></li>
+<li><a href="#orgd01d818">2.72.26. <span class="done DONE">DONE</span> ./images/bzg: <code>[5/5]</code></a></li>
+<li><a href="#org1094ed3">2.72.27. <span class="done DONE">DONE</span> ./images/cd: <code>[4/4]</code></a></li>
+<li><a href="#orga032315">2.72.28. <span class="done DONE">DONE</span> ./images/color-themes: <code>[9/9]</code></a></li>
+<li><a href="#orgcfb4432">2.72.29. <span class="done DONE">DONE</span> ./images/dto: <code>[15/15]</code></a></li>
+<li><a href="#org4c45ec8">2.72.30. <span class="done DONE">DONE</span> ./images/gsoc: <code>[2/2]</code></a></li>
+<li><a href="#org14cc415">2.72.31. <span class="done DONE">DONE</span> ./images/icons: <code>[2/2]</code></a></li>
+<li><a href="#orgcb2e440">2.72.32. <span class="done DONE">DONE</span> ./images/mdl: <code>[3/3]</code></a></li>
+<li><a href="#org850f1ac">2.72.33. <span class="done DONE">DONE</span> ./images/org-R: <code>[9/9]</code></a></li>
+<li><a href="#org3617170">2.72.34. <span class="done DONE">DONE</span> ./images/org-beamer: <code>[4/4]</code></a></li>
+<li><a href="#org1cf5974">2.72.35. <span class="done DONE">DONE</span> ./images/org-collector: <code>[1/1]</code></a></li>
+<li><a href="#orgc773e5d">2.72.36. <span class="done DONE">DONE</span> ./images/org-exp-blocks: <code>[3/3]</code></a></li>
+<li><a href="#org38d274a">2.72.37. <span class="done DONE">DONE</span> ./images/org-lilypond: <code>[1/1]</code></a></li>
+<li><a href="#orga901a04">2.72.38. <span class="done DONE">DONE</span> ./images/org-plot: <code>[8/8]</code></a></li>
+<li><a href="#org162a1a7">2.72.39. <span class="done DONE">DONE</span> ./images/orgcamps: <code>[1/1]</code></a></li>
+<li><a href="#orga776afe">2.72.40. <span class="done DONE">DONE</span> ./images/orgweb: <code>[8/8]</code></a></li>
+<li><a href="#orga3383d9">2.72.41. <span class="done DONE">DONE</span> ./images/screenshots: <code>[6/6]</code></a></li>
+<li><a href="#org891621b">2.72.42. <span class="done DONE">DONE</span> ./images/sr: <code>[1/1]</code></a></li>
+<li><a href="#org773b7cb">2.72.43. <span class="done DONE">DONE</span> ./images/taskjuggler: <code>[8/8]</code></a></li>
+<li><a href="#org1bf81ab">2.72.44. <span class="done DONE">DONE</span> ./images/thumbs: <code>[11/11]</code></a></li>
+</ul>
+</li>
+<li><a href="#org97ca8ee">2.73. <span class="done DONE">DONE</span> ./org-configs: <code>[4/4]</code></a>
+<ul>
+<li><a href="#org71fa8e8">2.73.1. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#org071e681">2.73.2. <span class="done DONE">DONE</span> org-config-examples.org</a></li>
+<li><a href="#org5d4360a">2.73.3. <span class="done DONE">DONE</span> org-customization-guide.org</a></li>
+<li><a href="#org1b8102b">2.73.4. <span class="done DONE">DONE</span> org-customization-survey.org (moved to FIXME)</a></li>
+</ul>
+</li>
+<li><a href="#org6d1d0dc">2.74. <span class="done DONE">DONE</span> ./org-contrib: <code>[33/33]</code></a>
+<ul>
+<li><a href="#org8741d2a">2.74.1. <span class="done DONE">DONE</span> babel</a></li>
+<li><a href="#org7d8e411">2.74.2. <span class="done DONE">DONE</span> bibtex</a></li>
+<li><a href="#org3584138">2.74.3. <span class="done DONE">DONE</span> gsoc2012</a></li>
+<li><a href="#org20b5cd3">2.74.4. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#org2b5c561">2.74.5. <span class="done DONE">DONE</span> ob-table-operations.org</a></li>
+<li><a href="#org8f71af1">2.74.6. <span class="done DONE">DONE</span> org-annotation-helper.org</a></li>
+<li><a href="#org8c622f9">2.74.7. <span class="done DONE">DONE</span> org-bom.org</a></li>
+<li><a href="#org83caa99">2.74.8. <span class="done DONE">DONE</span> org-checklist.org</a></li>
+<li><a href="#org00c19ca">2.74.9. <span class="done DONE">DONE</span> org-choose.org</a></li>
+<li><a href="#org5677261">2.74.10. <span class="done DONE">DONE</span> org-collector-example.org</a></li>
+<li><a href="#orgb528aff">2.74.11. <span class="done DONE">DONE</span> org-collector.org</a></li>
+<li><a href="#org88adac7">2.74.12. <span class="done DONE">DONE</span> org-depend.org</a></li>
+<li><a href="#orgc3aecbf">2.74.13. <span class="done DONE">DONE</span> org-drill.org</a></li>
+<li><a href="#orgc07c52f">2.74.14. <span class="done DONE">DONE</span> org-eval-light.org</a></li>
+<li><a href="#org14c092c">2.74.15. <span class="done DONE">DONE</span> org-exp-blocks.org</a></li>
+<li><a href="#org12862fc">2.74.16. <span class="done DONE">DONE</span> org-export-generic.org</a></li>
+<li><a href="#org4649496">2.74.17. <span class="done DONE">DONE</span> org-export-template.org</a></li>
+<li><a href="#orgfe70cea">2.74.18. <span class="done DONE">DONE</span> org-favtable.org</a></li>
+<li><a href="#org494c016">2.74.19. <span class="done DONE">DONE</span> org-feed.org</a></li>
+<li><a href="#org89d2d8c">2.74.20. <span class="done DONE">DONE</span> org-git-link.org</a></li>
+<li><a href="#org0aae8d9">2.74.21. <span class="done DONE">DONE</span> org-mac-iCal.org</a></li>
+<li><a href="#org4d909e9">2.74.22. <span class="done DONE">DONE</span> org-mac-link-grabber.org</a></li>
+<li><a href="#orgb2a7e41">2.74.23. <span class="done DONE">DONE</span> org-mac-maillink.org</a></li>
+<li><a href="#org6ed73b3">2.74.24. <span class="done DONE">DONE</span> org-mac-message.org</a></li>
+<li><a href="#orgf5d4b12">2.74.25. <span class="done DONE">DONE</span> org-mime.org</a></li>
+<li><a href="#org99ac55a">2.74.26. <span class="done DONE">DONE</span> org-protocol.org</a></li>
+<li><a href="#orgb3ed814">2.74.27. <span class="done DONE">DONE</span> org-special-blocks.org</a></li>
+<li><a href="#orgf69a5a5">2.74.28. <span class="done DONE">DONE</span> org-track.org</a></li>
+<li><a href="#orgc238d76">2.74.29. <span class="done DONE">DONE</span> org-velocity.org</a></li>
+<li><a href="#orgf8e0115">2.74.30. <span class="done DONE">DONE</span> org-wikinodes.org</a></li>
+<li><a href="#org798e42c">2.74.31. <span class="done DONE">DONE</span> ./org-contrib/babel: <code>[14/14]</code></a></li>
+<li><a href="#orgb415d54">2.74.32. <span class="done DONE">DONE</span> ./org-contrib/bibtex: <code>[6/6]</code></a></li>
+<li><a href="#orgec063a3">2.74.33. <span class="done DONE">DONE</span> ./org-contrib/gsoc2012: <code>[7/7]</code></a></li>
+</ul>
+</li>
+<li><a href="#org4e7f808">2.75. <span class="done DONE">DONE</span> ./org-testimonies: <code>[1/1]</code></a>
+<ul>
+<li><a href="#orgb06cef2">2.75.1. <span class="done DONE">DONE</span> index.org</a></li>
+</ul>
+</li>
+<li><a href="#org4ff9f48">2.76. <span class="done DONE">DONE</span> ./org-tests: <code>[5/5]</code></a>
+<ul>
+<li><a href="#orgb326d83">2.76.1. <span class="done DONE">DONE</span> ert-publish-test.el</a></li>
+<li><a href="#org445314e">2.76.2. <span class="done DONE">DONE</span> example.org</a></li>
+<li><a href="#org17d92be">2.76.3. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#orgaa31d7b">2.76.4. <span class="done DONE">DONE</span> tools</a></li>
+<li><a href="#org1f2d7f9">2.76.5. <span class="done DONE">DONE</span> ./org-tests/tools: <code>[3/3]</code></a></li>
+</ul>
+</li>
+<li><a href="#orgea77e61">2.77. <span class="done DONE">DONE</span> ./org-tools: <code>[1/1]</code></a>
+<ul>
+<li><a href="#org4c1a99c">2.77.1. <span class="done DONE">DONE</span> index.org</a></li>
+</ul>
+</li>
+<li><a href="#orgcbe031c">2.78. <span class="todo TODO">TODO</span> ./org-tutorials: <code>[44/46]</code></a>
+<ul>
+<li><a href="#org8c8754d">2.78.1. <span class="todo TODO">TODO</span> org-R</a></li>
+<li><a href="#org89bfcaa">2.78.2. <span class="todo TODO">TODO</span> ./org-tutorials/org-R: <code>[10/12]</code></a></li>
+<li><a href="#orge97002a">2.78.3. <span class="done DONE">DONE</span> org-beamer</a></li>
+<li><a href="#orgd177e3c">2.78.4. <span class="done DONE">DONE</span> org-screencasts</a></li>
+<li><a href="#org04b0613">2.78.5. <span class="done DONE">DONE</span> advanced-searching.org</a></li>
+<li><a href="#orgb1d62e6">2.78.6. <span class="done DONE">DONE</span> agenda-filters.org</a></li>
+<li><a href="#org25bd844">2.78.7. <span class="done DONE">DONE</span> encrypting-files.org</a></li>
+<li><a href="#org527f7fb">2.78.8. <span class="done DONE">DONE</span> images-and-xhtml-export.org</a></li>
+<li><a href="#org503c12c">2.78.9. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#org518e837">2.78.10. <span class="done DONE">DONE</span> multitarget-tables.org</a></li>
+<li><a href="#org1d0ccdb">2.78.11. <span class="done DONE">DONE</span> non-beamer-presentations.org</a></li>
+<li><a href="#org88d4961">2.78.12. <span class="done DONE">DONE</span> org-appearance.org</a></li>
+<li><a href="#orgee9bd8b">2.78.13. <span class="done DONE">DONE</span> org-column-screencast.org</a></li>
+<li><a href="#org9ce2def">2.78.14. <span class="done DONE">DONE</span> org-column-view-tutorial.org</a></li>
+<li><a href="#orgfc541bb">2.78.15. <span class="done DONE">DONE</span> org-custom-agenda-commands.org</a></li>
+<li><a href="#org3b2af46">2.78.16. <span class="done DONE">DONE</span> org-customize.org</a></li>
+<li><a href="#orgc06b7ea">2.78.17. <span class="done DONE">DONE</span> org-e-man-documentation.org</a></li>
+<li><a href="#org2b6b5a7">2.78.18. <span class="done DONE">DONE</span> org-google-sync.org</a></li>
+<li><a href="#org517bcd3">2.78.19. <span class="done DONE">DONE</span> org-import-rtm.org</a></li>
+<li><a href="#org665ad96">2.78.20. <span class="done DONE">DONE</span> org-jekyll.org</a></li>
+<li><a href="#org765f16e">2.78.21. <span class="done DONE">DONE</span> org-jsmath.org</a></li>
+<li><a href="#org02524fc">2.78.22. <span class="done DONE">DONE</span> org-latex-export.org</a></li>
+<li><a href="#org6eb6d38">2.78.23. <span class="done DONE">DONE</span> org-lookups.org</a></li>
+<li><a href="#org6a66773">2.78.24. <span class="done DONE">DONE</span> org-meeting-tasks.org</a></li>
+<li><a href="#orgcfa0da2">2.78.25. <span class="done DONE">DONE</span> org-outside-org.org</a></li>
+<li><a href="#org4d08af0">2.78.26. <span class="done DONE">DONE</span> org-plot.org</a></li>
+<li><a href="#org27e250f">2.78.27. <span class="done DONE">DONE</span> org-protocol-custom-handler.org</a></li>
+<li><a href="#orgc0b2cc1">2.78.28. <span class="done DONE">DONE</span> org-publish-html-tutorial.org</a></li>
+<li><a href="#orgef9a04f">2.78.29. <span class="done DONE">DONE</span> org-publish-layersmenu.org</a></li>
+<li><a href="#org4f7d396">2.78.30. <span class="done DONE">DONE</span> org-reference-guide-es.org</a></li>
+<li><a href="#orgeea6579">2.78.31. <span class="done DONE">DONE</span> org-ruby.org</a></li>
+<li><a href="#org60958c5">2.78.32. <span class="done DONE">DONE</span> org-spreadsheet-intro.org</a></li>
+<li><a href="#org7bebba8">2.78.33. <span class="done DONE">DONE</span> org-spreadsheet-lisp-formulas.org</a></li>
+<li><a href="#org7c48065">2.78.34. <span class="done DONE">DONE</span> org-tableur-tutoriel.org</a></li>
+<li><a href="#org8b46de4">2.78.35. <span class="done DONE">DONE</span> org-taskjuggler-scr.org</a></li>
+<li><a href="#orgd3ba1f5">2.78.36. <span class="done DONE">DONE</span> org-taskjuggler.org</a></li>
+<li><a href="#org902b9ac">2.78.37. <span class="done DONE">DONE</span> org-vcs.org</a></li>
+<li><a href="#org1846415">2.78.38. <span class="done DONE">DONE</span> org4beginners.org</a></li>
+<li><a href="#org6a19f92">2.78.39. <span class="done DONE">DONE</span> orgtutorial<sub>dto</sub>-es.org</a></li>
+<li><a href="#org9da2049">2.78.40. <span class="done DONE">DONE</span> orgtutorial<sub>dto</sub>-fr.org</a></li>
+<li><a href="#org73b8f3a">2.78.41. <span class="done DONE">DONE</span> orgtutorial<sub>dto.org</sub></a></li>
+<li><a href="#org8ec5660">2.78.42. <span class="done DONE">DONE</span> tables.org</a></li>
+<li><a href="#org8f195cf">2.78.43. <span class="done DONE">DONE</span> theme-test.org</a></li>
+<li><a href="#org2cdbdaf">2.78.44. <span class="done DONE">DONE</span> tracking-habits.org</a></li>
+<li><a href="#org32e8c14">2.78.45. <span class="done DONE">DONE</span> ./org-tutorials/org-beamer: <code>[4/4]</code></a></li>
+<li><a href="#orgbaf8123">2.78.46. <span class="done DONE">DONE</span> ./org-tutorials/org-screencasts: <code>[4/4]</code></a></li>
+</ul>
+</li>
+<li><a href="#org7facd79">2.79. <span class="done DONE">DONE</span> ./orgguide: <code>[10/10]</code></a>
+<ul>
+<li><a href="#org5481138">2.79.1. <span class="done DONE">DONE</span> clean.sh</a></li>
+<li><a href="#orgf23de81">2.79.2. <span class="done DONE">DONE</span> doclicense.texi</a></li>
+<li><a href="#org0a5fab5">2.79.3. <span class="done DONE">DONE</span> make.sh</a></li>
+<li><a href="#org2788b8f">2.79.4. <span class="done DONE">DONE</span> org-version.inc</a></li>
+<li><a href="#org7ba94cf">2.79.5. <span class="done DONE">DONE</span> orgguide.es.html</a></li>
+<li><a href="#org61a442d">2.79.6. <span class="done DONE">DONE</span> orgguide.es.pdf</a></li>
+<li><a href="#orgf3e2bc3">2.79.7. <span class="done DONE">DONE</span> orgguide.es.po</a></li>
+<li><a href="#org656b8b7">2.79.8. <span class="done DONE">DONE</span> orgguide.es.texi</a></li>
+<li><a href="#orga78cba8">2.79.9. <span class="done DONE">DONE</span> orgguide.pot</a></li>
+<li><a href="#org0a21184">2.79.10. <span class="done DONE">DONE</span> orgguide.texi</a></li>
+</ul>
+</li>
+<li><a href="#orgb81e179">2.80. <span class="done DONE">DONE</span> ./style: <code>[5/5]</code></a>
+<ul>
+<li><a href="#orgfcccf65">2.80.1. <span class="done DONE">DONE</span> worg-classic.css</a></li>
+<li><a href="#orgaf10ceb">2.80.2. <span class="done DONE">DONE</span> worg-zenburn.css</a></li>
+<li><a href="#org1651c7b">2.80.3. <span class="done DONE">DONE</span> worg.css</a></li>
+<li><a href="#org22a3113">2.80.4. <span class="done DONE">DONE</span> worg7.css</a></li>
+<li><a href="#org3747ee5">2.80.5. <span class="done DONE">DONE</span> zenburn-emacs.css</a></li>
+</ul>
+</li>
+<li><a href="#org75e9972">2.81. <span class="done DONE">DONE</span> ./users: <code>[7/7]</code></a>
+<ul>
+<li><a href="#org0722146">2.81.1. <span class="done DONE">DONE</span> bzg.org</a></li>
+<li><a href="#org9072be7">2.81.2. <span class="done DONE">DONE</span> cnngimenez.org</a></li>
+<li><a href="#orga13a995">2.81.3. <span class="done DONE">DONE</span> davidam.org</a></li>
+<li><a href="#orgc12bf71">2.81.4. <span class="done DONE">DONE</span> index.org</a></li>
+<li><a href="#org57d64c8">2.81.5. <span class="done DONE">DONE</span> mlundin.org</a></li>
+<li><a href="#orgc41b87b">2.81.6. <span class="done DONE">DONE</span> rpr.org</a></li>
+<li><a href="#org9481c2e">2.81.7. <span class="done DONE">DONE</span> srose.org</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8236a53" class="outline-2">
+<h2 id="org8236a53"><span class="section-number-2">1</span> How to use this document</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The below is a complete listing of all files and directories on Worg
+current as of 2013-04-22 at approximately 19:30 EDT. Each headline
+represents a subdirectory of Worg, and items under headlines represent
+files/directories.
+</p>
+
+<ol class="org-ol">
+<li>Update an org file (if necessary) and verify that it exports
+cleanly under the new exporter shipped with Org 8.0.</li>
+<li>Find the file in the list below and mark it DONE with <code>C-c C-t d</code>.
+After finishing all files in a directory, locate the heading for
+that directory in the headlines above and <code>C-c C-t</code> to mark that
+directory as DONE.</li>
+<li>You can set the original AUTHOR (or other useful info) of an Org
+file with a headline property, <code>C-c C-x p</code>.</li>
+<li>If you are working on something please mark it as INPROGRESS with
+<code>C-c C-t i</code> so other people can update efficiently elsewhere.</li>
+</ol>
+</div>
+
+<div id="outline-container-orgeca76e9" class="outline-3">
+<h3 id="orgeca76e9"><span class="section-number-3">1.1</span> Other important things:</h3>
+<div class="outline-text-3" id="text-1-1">
+<ol class="org-ol">
+<li>For the time being, all that is important is for the Org file to
+export cleanly with the new exporter.  Publishing is a worry for
+another day.</li>
+<li>If you find something that does not work correctly, please mention
+it on the emacs-orgmode mailing list so problems can be identified
+and fixed.</li>
+<li>Please update this file as you make progress.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org260a468" class="outline-3">
+<h3 id="org260a468"><span class="section-number-3">1.2</span> Notes</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>You can clean out everything untracked (after having exported a
+bunch of .html files) with <code>git clean -fd</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge8c713a" class="outline-2">
+<h2 id="orge8c713a"><span class="section-number-2">2</span> root: <code>[79/81]</code></h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org2d9895e" class="outline-3">
+<h3 id="org2d9895e"><span class="section-number-3">2.1</span> <span class="done DONE">DONE</span> code</h3>
+<div class="outline-text-3" id="text-2-1">
+</div>
+</div>
+<div id="outline-container-orge58f612" class="outline-3">
+<h3 id="orge58f612"><span class="section-number-3">2.2</span> <span class="done DONE">DONE</span> color-themes</h3>
+</div>
+<div id="outline-container-org36683fd" class="outline-3">
+<h3 id="org36683fd"><span class="section-number-3">2.3</span> <span class="done DONE">DONE</span> dev</h3>
+</div>
+<div id="outline-container-org2c789e4" class="outline-3">
+<h3 id="org2c789e4"><span class="section-number-3">2.4</span> <span class="done DONE">DONE</span> exporters</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+</div>
+<div id="outline-container-org59a4363" class="outline-3">
+<h3 id="org59a4363"><span class="section-number-3">2.5</span> <span class="done DONE">DONE</span> images</h3>
+</div>
+<div id="outline-container-org368c8fd" class="outline-3">
+<h3 id="org368c8fd"><span class="section-number-3">2.6</span> <span class="done DONE">DONE</span> org-configs</h3>
+<div class="outline-text-3" id="text-2-6">
+</div>
+</div>
+<div id="outline-container-org1042a30" class="outline-3">
+<h3 id="org1042a30"><span class="section-number-3">2.7</span> <span class="done DONE">DONE</span> org-contrib</h3>
+<div class="outline-text-3" id="text-2-7">
+</div>
+</div>
+<div id="outline-container-orgacf07d0" class="outline-3">
+<h3 id="orgacf07d0"><span class="section-number-3">2.8</span> <span class="done DONE">DONE</span> org-testimonies</h3>
+<div class="outline-text-3" id="text-2-8">
+</div>
+</div>
+<div id="outline-container-orgb2c5b09" class="outline-3">
+<h3 id="orgb2c5b09"><span class="section-number-3">2.9</span> <span class="done DONE">DONE</span> org-tests</h3>
+<div class="outline-text-3" id="text-2-9">
+</div>
+</div>
+<div id="outline-container-org1ec2e7a" class="outline-3">
+<h3 id="org1ec2e7a"><span class="section-number-3">2.10</span> <span class="done DONE">DONE</span> org-tools</h3>
+<div class="outline-text-3" id="text-2-10">
+</div>
+</div>
+<div id="outline-container-org2283b0a" class="outline-3">
+<h3 id="org2283b0a"><span class="section-number-3">2.11</span> <span class="todo TODO">TODO</span> org-tutorials</h3>
+</div>
+<div id="outline-container-org7c39815" class="outline-3">
+<h3 id="org7c39815"><span class="section-number-3">2.12</span> <span class="done DONE">DONE</span> orgguide</h3>
+</div>
+<div id="outline-container-org1c01c6e" class="outline-3">
+<h3 id="org1c01c6e"><span class="section-number-3">2.13</span> <span class="done DONE">DONE</span> style</h3>
+</div>
+<div id="outline-container-orgd7dea4e" class="outline-3">
+<h3 id="orgd7dea4e"><span class="section-number-3">2.14</span> <span class="done DONE">DONE</span> users</h3>
+<div class="outline-text-3" id="text-2-14">
+</div>
+</div>
+<div id="outline-container-org8e8f661" class="outline-3">
+<h3 id="org8e8f661"><span class="section-number-3">2.15</span> <span class="done DONE">DONE</span> ChangeLog.org</h3>
+</div>
+<div id="outline-container-org775249e" class="outline-3">
+<h3 id="org775249e"><span class="section-number-3">2.16</span> <span class="done DONE">DONE</span> agenda-optimization.org</h3>
+</div>
+<div id="outline-container-org9c29ace" class="outline-3">
+<h3 id="org9c29ace"><span class="section-number-3">2.17</span> <span class="done DONE">DONE</span> blorgit.org</h3>
+</div>
+<div id="outline-container-org05ab582" class="outline-3">
+<h3 id="org05ab582"><span class="section-number-3">2.18</span> <span class="done DONE">DONE</span> color-themes-screenshot.org</h3>
+</div>
+<div id="outline-container-org9622430" class="outline-3">
+<h3 id="org9622430"><span class="section-number-3">2.19</span> <span class="done DONE">DONE</span> doc.org</h3>
+</div>
+<div id="outline-container-org769f590" class="outline-3">
+<h3 id="org769f590"><span class="section-number-3">2.20</span> <span class="done DONE">DONE</span> gitrdone.org</h3>
+</div>
+<div id="outline-container-org422c600" class="outline-3">
+<h3 id="org422c600"><span class="section-number-3">2.21</span> <span class="done DONE">DONE</span> gtd-software-comparison.org</h3>
+</div>
+<div id="outline-container-org226ddaa" class="outline-3">
+<h3 id="org226ddaa"><span class="section-number-3">2.22</span> <span class="done DONE">DONE</span> index.org</h3>
+</div>
+<div id="outline-container-org9c146d9" class="outline-3">
+<h3 id="org9c146d9"><span class="section-number-3">2.23</span> <span class="done DONE">DONE</span> macros.setupfile</h3>
+</div>
+<div id="outline-container-orgbb373ce" class="outline-3">
+<h3 id="orgbb373ce"><span class="section-number-3">2.24</span> <span class="done DONE">DONE</span> org-8.0.org</h3>
+</div>
+<div id="outline-container-org0bcaf0b" class="outline-3">
+<h3 id="org0bcaf0b"><span class="section-number-3">2.25</span> <span class="done DONE">DONE</span> org-artwork.org</h3>
+</div>
+<div id="outline-container-org5f241d0" class="outline-3">
+<h3 id="org5f241d0"><span class="section-number-3">2.26</span> <span class="done DONE">DONE</span> org-blog-articles.org</h3>
+</div>
+<div id="outline-container-org7dfaf9c" class="outline-3">
+<h3 id="org7dfaf9c"><span class="section-number-3">2.27</span> <span class="done DONE">DONE</span> org-blog-wiki.org</h3>
+</div>
+<div id="outline-container-org0643e8c" class="outline-3">
+<h3 id="org0643e8c"><span class="section-number-3">2.28</span> <span class="done DONE">DONE</span> org-color-themes.org</h3>
+</div>
+<div id="outline-container-org54dc4ee" class="outline-3">
+<h3 id="org54dc4ee"><span class="section-number-3">2.29</span> <span class="done DONE">DONE</span> org-conference.org</h3>
+</div>
+<div id="outline-container-orgf2b4d90" class="outline-3">
+<h3 id="orgf2b4d90"><span class="section-number-3">2.30</span> <span class="done DONE">DONE</span> org-contribute.org</h3>
+</div>
+<div id="outline-container-org262545c" class="outline-3">
+<h3 id="org262545c"><span class="section-number-3">2.31</span> <span class="done DONE">DONE</span> org-dependencies.org</h3>
+</div>
+<div id="outline-container-orgff6916c" class="outline-3">
+<h3 id="orgff6916c"><span class="section-number-3">2.32</span> <span class="done DONE">DONE</span> org-devel.org</h3>
+</div>
+<div id="outline-container-orgd3740b4" class="outline-3">
+<h3 id="orgd3740b4"><span class="section-number-3">2.33</span> <span class="done DONE">DONE</span> org-faq.org</h3>
+</div>
+<div id="outline-container-org3186e3d" class="outline-3">
+<h3 id="org3186e3d"><span class="section-number-3">2.34</span> <span class="done DONE">DONE</span> org-glossary.org</h3>
+</div>
+<div id="outline-container-orgd815d4c" class="outline-3">
+<h3 id="orgd815d4c"><span class="section-number-3">2.35</span> <span class="done DONE">DONE</span> org-gtd-etc.org</h3>
+</div>
+<div id="outline-container-org1914b77" class="outline-3">
+<h3 id="org1914b77"><span class="section-number-3">2.36</span> <span class="done DONE">DONE</span> org-hacks.org</h3>
+</div>
+<div id="outline-container-orgf57b711" class="outline-3">
+<h3 id="orgf57b711"><span class="section-number-3">2.37</span> <span class="done DONE">DONE</span> org-info-js.org</h3>
+</div>
+<div id="outline-container-org4c0690c" class="outline-3">
+<h3 id="org4c0690c"><span class="section-number-3">2.38</span> <span class="done DONE">DONE</span> org-issues.org</h3>
+</div>
+<div id="outline-container-orge889656" class="outline-3">
+<h3 id="orge889656"><span class="section-number-3">2.39</span> <span class="done DONE">DONE</span> org-mac.org</h3>
+</div>
+<div id="outline-container-orgcadd4ec" class="outline-3">
+<h3 id="orgcadd4ec"><span class="section-number-3">2.40</span> <span class="done DONE">DONE</span> org-mailing-list.org</h3>
+</div>
+<div id="outline-container-org21aaf48" class="outline-3">
+<h3 id="org21aaf48"><span class="section-number-3">2.41</span> <span class="done DONE">DONE</span> org-papers.org</h3>
+</div>
+<div id="outline-container-orgfb879c4" class="outline-3">
+<h3 id="orgfb879c4"><span class="section-number-3">2.42</span> <span class="done DONE">DONE</span> org-people.org</h3>
+</div>
+<div id="outline-container-orga01f957" class="outline-3">
+<h3 id="orga01f957"><span class="section-number-3">2.43</span> <span class="done DONE">DONE</span> org-quotes.org</h3>
+</div>
+<div id="outline-container-org4c48e2e" class="outline-3">
+<h3 id="org4c48e2e"><span class="section-number-3">2.44</span> <span class="done DONE">DONE</span> org-screenshots-org-on-the-web.org</h3>
+</div>
+<div id="outline-container-orgdbd12f0" class="outline-3">
+<h3 id="orgdbd12f0"><span class="section-number-3">2.45</span> <span class="done DONE">DONE</span> org-screenshots.org</h3>
+</div>
+<div id="outline-container-org936b9d7" class="outline-3">
+<h3 id="org936b9d7"><span class="section-number-3">2.46</span> <span class="done DONE">DONE</span> org-survey.org</h3>
+</div>
+<div id="outline-container-orgfe4cb48" class="outline-3">
+<h3 id="orgfe4cb48"><span class="section-number-3">2.47</span> <span class="done DONE">DONE</span> org-symbols.org</h3>
+</div>
+<div id="outline-container-org90b1cb8" class="outline-3">
+<h3 id="org90b1cb8"><span class="section-number-3">2.48</span> <span class="done DONE">DONE</span> org-translators.org</h3>
+</div>
+<div id="outline-container-org15b398a" class="outline-3">
+<h3 id="org15b398a"><span class="section-number-3">2.49</span> <span class="done DONE">DONE</span> org-web.org</h3>
+</div>
+<div id="outline-container-org411ae10" class="outline-3">
+<h3 id="org411ae10"><span class="section-number-3">2.50</span> <span class="done DONE">DONE</span> org-worg-stats.org</h3>
+</div>
+<div id="outline-container-org87f2c82" class="outline-3">
+<h3 id="org87f2c82"><span class="section-number-3">2.51</span> <span class="done DONE">DONE</span> orgcamps.org</h3>
+</div>
+<div id="outline-container-org4744667" class="outline-3">
+<h3 id="org4744667"><span class="section-number-3">2.52</span> <span class="done DONE">DONE</span> orgcard.org</h3>
+</div>
+<div id="outline-container-org35ad5e0" class="outline-3">
+<h3 id="org35ad5e0"><span class="section-number-3">2.53</span> <span class="done DONE">DONE</span> patches.org</h3>
+</div>
+<div id="outline-container-org937507f" class="outline-3">
+<h3 id="org937507f"><span class="section-number-3">2.54</span> <span class="done DONE">DONE</span> preamble.html</h3>
+</div>
+<div id="outline-container-org2a3e7e6" class="outline-3">
+<h3 id="org2a3e7e6"><span class="section-number-3">2.55</span> <span class="done DONE">DONE</span> sandbox.org</h3>
+</div>
+<div id="outline-container-org4cb550d" class="outline-3">
+<h3 id="org4cb550d"><span class="section-number-3">2.56</span> <span class="done DONE">DONE</span> worg-about.org</h3>
+</div>
+<div id="outline-container-org5e7368f" class="outline-3">
+<h3 id="org5e7368f"><span class="section-number-3">2.57</span> <span class="done DONE">DONE</span> worg-editing.org</h3>
+</div>
+<div id="outline-container-org93108f2" class="outline-3">
+<h3 id="org93108f2"><span class="section-number-3">2.58</span> <span class="done DONE">DONE</span> worg-git-advanced.org</h3>
+</div>
+<div id="outline-container-org9167723" class="outline-3">
+<h3 id="org9167723"><span class="section-number-3">2.59</span> <span class="done DONE">DONE</span> worg-git-ssh-key.org</h3>
+</div>
+<div id="outline-container-org4a9444c" class="outline-3">
+<h3 id="org4a9444c"><span class="section-number-3">2.60</span> <span class="done DONE">DONE</span> worg-git.org</h3>
+</div>
+<div id="outline-container-org2c35acb" class="outline-3">
+<h3 id="org2c35acb"><span class="section-number-3">2.61</span> <span class="done DONE">DONE</span> worg-header.org</h3>
+</div>
+<div id="outline-container-org78e0404" class="outline-3">
+<h3 id="org78e0404"><span class="section-number-3">2.62</span> <span class="done DONE">DONE</span> worg-maintenance.org</h3>
+</div>
+<div id="outline-container-org919844e" class="outline-3">
+<h3 id="org919844e"><span class="section-number-3">2.63</span> <span class="done DONE">DONE</span> worg-setup.org</h3>
+</div>
+<div id="outline-container-orgf65bd41" class="outline-3">
+<h3 id="orgf65bd41"><span class="section-number-3">2.64</span> <span class="done DONE">DONE</span> worg-todo.org</h3>
+</div>
+<div id="outline-container-org08dd597" class="outline-3">
+<h3 id="org08dd597"><span class="section-number-3">2.65</span> <span class="done DONE">DONE</span> worg-todo<sub>archive</sub></h3>
+</div>
+<div id="outline-container-orgc3b4ea4" class="outline-3">
+<h3 id="orgc3b4ea4"><span class="section-number-3">2.66</span> <span class="done DONE">DONE</span> worgers.org</h3>
+<div class="outline-text-3" id="text-2-66">
+</div>
+</div>
+
+<div id="outline-container-orge6ae215" class="outline-3">
+<h3 id="orge6ae215"><span class="section-number-3">2.67</span> <span class="done DONE">DONE</span> ./FIXME: <code>[4/4]</code></h3>
+<div class="outline-text-3" id="text-2-67">
+</div>
+<div id="outline-container-org15510bd" class="outline-4">
+<h4 id="org15510bd"><span class="section-number-4">2.67.1</span> <span class="done DONE">DONE</span> how-to-use-Org-Babel-for-R.org</h4>
+<div class="outline-text-4" id="text-2-67-1">
+</div>
+</div>
+<div id="outline-container-orgf757b85" class="outline-4">
+<h4 id="orgf757b85"><span class="section-number-4">2.67.2</span> <span class="done DONE">DONE</span> test-for-how-to-use-Org-Babel-for-R.org</h4>
+<div class="outline-text-4" id="text-2-67-2">
+</div>
+</div>
+<div id="outline-container-org042ebe2" class="outline-4">
+<h4 id="org042ebe2"><span class="section-number-4">2.67.3</span> <span class="done DONE">DONE</span> other files moved here for successful publish</h4>
+<div class="outline-text-4" id="text-2-67-3">
+</div>
+</div>
+<div id="outline-container-org8e82a78" class="outline-4">
+<h4 id="org8e82a78"><span class="section-number-4">2.67.4</span> <span class="done DONE">DONE</span> org-customization-survey.org (moved from org-configs)</h4>
+<div class="outline-text-4" id="text-2-67-4">
+</div>
+</div>
+</div>
+<div id="outline-container-orga8e3b89" class="outline-3">
+<h3 id="orga8e3b89"><span class="section-number-3">2.68</span> <span class="done DONE">DONE</span> ./code: <code>[10/10]</code></h3>
+<div class="outline-text-3" id="text-2-68">
+</div>
+<div id="outline-container-org1158377" class="outline-4">
+<h4 id="org1158377"><span class="section-number-4">2.68.1</span> <span class="done DONE">DONE</span> awk</h4>
+<div class="outline-text-4" id="text-2-68-1">
+</div>
+</div>
+<div id="outline-container-orgac6f6c1" class="outline-4">
+<h4 id="orgac6f6c1"><span class="section-number-4">2.68.2</span> <span class="done DONE">DONE</span> elisp</h4>
+<div class="outline-text-4" id="text-2-68-2">
+</div>
+</div>
+<div id="outline-container-org0af62e0" class="outline-4">
+<h4 id="org0af62e0"><span class="section-number-4">2.68.3</span> <span class="done DONE">DONE</span> latex</h4>
+<div class="outline-text-4" id="text-2-68-3">
+</div>
+</div>
+<div id="outline-container-org9eb102a" class="outline-4">
+<h4 id="org9eb102a"><span class="section-number-4">2.68.4</span> <span class="done DONE">DONE</span> org-info-js</h4>
+<div class="outline-text-4" id="text-2-68-4">
+</div>
+</div>
+<div id="outline-container-org434ea13" class="outline-4">
+<h4 id="org434ea13"><span class="section-number-4">2.68.5</span> <span class="done DONE">DONE</span> perl</h4>
+<div class="outline-text-4" id="text-2-68-5">
+</div>
+</div>
+
+<div id="outline-container-orgf9d3974" class="outline-4">
+<h4 id="orgf9d3974"><span class="section-number-4">2.68.6</span> <span class="done DONE">DONE</span> ./code/awk: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-68-6">
+</div>
+<ol class="org-ol">
+<li><a id="org0da531b"></a><span class="done DONE">DONE</span> ical2org.awk<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org4fc7fba" class="outline-4">
+<h4 id="org4fc7fba"><span class="section-number-4">2.68.7</span> <span class="done DONE">DONE</span> ./code/elisp: <code>[11/11]</code></h4>
+<div class="outline-text-4" id="text-2-68-7">
+</div>
+<ol class="org-ol">
+<li><a id="org23a429e"></a><span class="done DONE">DONE</span> davidam.el<br /></li>
+<li><a id="org7cc516d"></a><span class="done DONE">DONE</span> dto-org-gtd.el<br /></li>
+<li><a id="org33ceca4"></a><span class="done DONE">DONE</span> org-collector.el<br /></li>
+<li><a id="org9d7d816"></a><span class="done DONE">DONE</span> org-effectiveness.el<br /></li>
+<li><a id="orgbce8b8c"></a><span class="done DONE">DONE</span> org-exchange-capture.el<br /></li>
+<li><a id="org078c833"></a><span class="done DONE">DONE</span> org-favtable.el<br /></li>
+<li><a id="orga708323"></a><span class="done DONE">DONE</span> org-issue.el<br /></li>
+<li><a id="orgdac5bb7"></a><span class="done DONE">DONE</span> org-license.el<br /></li>
+<li><a id="org505f91b"></a><span class="done DONE">DONE</span> org-player.el<br /></li>
+<li><a id="org60e174e"></a><span class="done DONE">DONE</span> worg-fortune.el<br /></li>
+<li><a id="orge6cfe11"></a><span class="done DONE">DONE</span> worg.el<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orgf1b0ff9" class="outline-4">
+<h4 id="orgf1b0ff9"><span class="section-number-4">2.68.8</span> <span class="done DONE">DONE</span> ./code/latex: <code>[2/2]</code></h4>
+<div class="outline-text-4" id="text-2-68-8">
+</div>
+<ol class="org-ol">
+<li><a id="org3f87a59"></a><span class="done DONE">DONE</span> fr-orgcard.tex<br /></li>
+<li><a id="org62d4419"></a><span class="done DONE">DONE</span> gantt.sty<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org063061b" class="outline-4">
+<h4 id="org063061b"><span class="section-number-4">2.68.9</span> <span class="done DONE">DONE</span> ./code/org-info-js: <code>[9/9]</code></h4>
+<div class="outline-text-4" id="text-2-68-9">
+</div>
+<ol class="org-ol">
+<li><a id="org4ea4476"></a><span class="done DONE">DONE</span> Makefile<br /></li>
+<li><a id="org8abcee7"></a><span class="done DONE">DONE</span> changes.org<br />
+<div class="outline-text-5" id="text-2-68-9-2">
+</div>
+</li>
+<li><a id="orgaa9f455"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-5" id="text-2-68-9-3">
+</div>
+</li>
+<li><a id="org4273004"></a><span class="done DONE">DONE</span> org-info-src.js<br /></li>
+<li><a id="orgf83bb2e"></a><span class="done DONE">DONE</span> org-info.js<br /></li>
+<li><a id="org42e2b46"></a><span class="done DONE">DONE</span> sed.txt<br /></li>
+<li><a id="org8b23e1e"></a><span class="done DONE">DONE</span> stylesheet.css<br /></li>
+
+<li><a id="orge50c337"></a><span class="done DONE">DONE</span> ./code/org-info-js/img: <code>[1/1]</code><br />
+<ol class="org-ol">
+<li><a id="orgc1657a2"></a><span class="done DONE">DONE</span> emacs23-org.js.org.png<br /></li>
+</ol>
+</li>
+
+<li><a id="org20e1b0d"></a><span class="done DONE">DONE</span> ./code/org-info-js/org-slides: <code>[4/4]</code><br />
+<div class="outline-text-5" id="text-2-68-9-9">
+</div>
+<ol class="org-ol">
+<li><a id="org0451a45"></a><span class="done DONE">DONE</span> slides.css<br /></li>
+<li><a id="org4db51d7"></a><span class="done DONE">DONE</span> slides.html<br /></li>
+<li><a id="orgef707f4"></a><span class="done DONE">DONE</span> slides.org<br />
+<div class="outline-text-6" id="text-2-68-9-9-3">
+</div>
+</li>
+
+<li><a id="org811042b"></a><span class="done DONE">DONE</span> ./code/org-info-js/org-slides/img: <code>[2/2]</code><br />
+<ol class="org-ol">
+<li><a id="org4eeae1d"></a><span class="done DONE">DONE</span> bg.gif<br /></li>
+<li><a id="org99f462e"></a><span class="done DONE">DONE</span> unicorn.png<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org43b55b2" class="outline-4">
+<h4 id="org43b55b2"><span class="section-number-4">2.68.10</span> <span class="done DONE">DONE</span> ./code/perl: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-68-10">
+</div>
+<ol class="org-ol">
+<li><a id="org511c548"></a><span class="done DONE">DONE</span> org2remind.pl<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org6a70758" class="outline-3">
+<h3 id="org6a70758"><span class="section-number-3">2.69</span> <span class="done DONE">DONE</span> ./color-themes: <code>[6/6]</code></h3>
+<div class="outline-text-3" id="text-2-69">
+</div>
+<div id="outline-container-org092e4fc" class="outline-4">
+<h4 id="org092e4fc"><span class="section-number-4">2.69.1</span> <span class="done DONE">DONE</span> color-theme-folio.el</h4>
+</div>
+<div id="outline-container-org339da6d" class="outline-4">
+<h4 id="org339da6d"><span class="section-number-4">2.69.2</span> <span class="done DONE">DONE</span> color-theme-manoj.el</h4>
+</div>
+<div id="outline-container-orgdaa6df3" class="outline-4">
+<h4 id="orgdaa6df3"><span class="section-number-4">2.69.3</span> <span class="done DONE">DONE</span> color-theme-railscast.el</h4>
+</div>
+<div id="outline-container-orgc41b9f5" class="outline-4">
+<h4 id="orgc41b9f5"><span class="section-number-4">2.69.4</span> <span class="done DONE">DONE</span> color-theme-tangotango.el</h4>
+</div>
+<div id="outline-container-org8472468" class="outline-4">
+<h4 id="org8472468"><span class="section-number-4">2.69.5</span> <span class="done DONE">DONE</span> color-theme-zenash.el</h4>
+</div>
+<div id="outline-container-org7092e12" class="outline-4">
+<h4 id="org7092e12"><span class="section-number-4">2.69.6</span> <span class="done DONE">DONE</span> color-theme-zenburn.el</h4>
+</div>
+</div>
+
+<div id="outline-container-orgfd53b18" class="outline-3">
+<h3 id="orgfd53b18"><span class="section-number-3">2.70</span> <span class="done DONE">DONE</span> ./dev: <code>[4/4]</code></h3>
+<div class="outline-text-3" id="text-2-70">
+</div>
+<div id="outline-container-orgc8d16dd" class="outline-4">
+<h4 id="orgc8d16dd"><span class="section-number-4">2.70.1</span> <span class="done DONE">DONE</span> index.org</h4>
+</div>
+<div id="outline-container-orga9b176f" class="outline-4">
+<h4 id="orga9b176f"><span class="section-number-4">2.70.2</span> <span class="done DONE">DONE</span> org-build-system.org</h4>
+</div>
+<div id="outline-container-org7f71b3c" class="outline-4">
+<h4 id="org7f71b3c"><span class="section-number-4">2.70.3</span> <span class="done DONE">DONE</span> org-export-reference.org</h4>
+</div>
+<div id="outline-container-org0f29770" class="outline-4">
+<h4 id="org0f29770"><span class="section-number-4">2.70.4</span> <span class="done DONE">DONE</span> org-syntax.org</h4>
+<div class="outline-text-4" id="text-2-70-4">
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6775e64" class="outline-3">
+<h3 id="org6775e64"><span class="section-number-3">2.71</span> <span class="done DONE">DONE</span> ./exporters: <code>[11/11]</code></h3>
+<div class="outline-text-3" id="text-2-71">
+</div>
+<div id="outline-container-org1feb3df" class="outline-4">
+<h4 id="org1feb3df"><span class="section-number-4">2.71.1</span> <span class="done DONE">DONE</span> beamer</h4>
+<div class="outline-text-4" id="text-2-71-1">
+</div>
+</div>
+<div id="outline-container-org9917117" class="outline-4">
+<h4 id="org9917117"><span class="section-number-4">2.71.2</span> <span class="done DONE">DONE</span> filter-markup.org</h4>
+<div class="outline-text-4" id="text-2-71-2">
+</div>
+</div>
+<div id="outline-container-orgdd0c085" class="outline-4">
+<h4 id="orgdd0c085"><span class="section-number-4">2.71.3</span> <span class="done DONE">DONE</span> freemind.org</h4>
+<div class="outline-text-4" id="text-2-71-3">
+</div>
+</div>
+<div id="outline-container-orgd02526d" class="outline-4">
+<h4 id="orgd02526d"><span class="section-number-4">2.71.4</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-71-4">
+</div>
+</div>
+<div id="outline-container-org1a6db2e" class="outline-4">
+<h4 id="org1a6db2e"><span class="section-number-4">2.71.5</span> <span class="done DONE">DONE</span> ox-groff.org</h4>
+<div class="outline-text-4" id="text-2-71-5">
+</div>
+</div>
+<div id="outline-container-org60ab131" class="outline-4">
+<h4 id="org60ab131"><span class="section-number-4">2.71.6</span> <span class="done DONE">DONE</span> ox-overview.org</h4>
+<div class="outline-text-4" id="text-2-71-6">
+</div>
+</div>
+<div id="outline-container-org4d8ebb7" class="outline-4">
+<h4 id="org4d8ebb7"><span class="section-number-4">2.71.7</span> <span class="done DONE">DONE</span> ox-template.org</h4>
+<div class="outline-text-4" id="text-2-71-7">
+</div>
+</div>
+<div id="outline-container-org1f8ac6e" class="outline-4">
+<h4 id="org1f8ac6e"><span class="section-number-4">2.71.8</span> <span class="done DONE">DONE</span> taskjuggler (directory)</h4>
+<div class="outline-text-4" id="text-2-71-8">
+</div>
+</div>
+<div id="outline-container-orgaca7468" class="outline-4">
+<h4 id="orgaca7468"><span class="section-number-4">2.71.9</span> <span class="done DONE">DONE</span> xoxo.org</h4>
+<div class="outline-text-4" id="text-2-71-9">
+</div>
+</div>
+
+<div id="outline-container-orgcb5431f" class="outline-4">
+<h4 id="orgcb5431f"><span class="section-number-4">2.71.10</span> <span class="done DONE">DONE</span> ./exporters/beamer: <code>[4/4]</code></h4>
+<div class="outline-text-4" id="text-2-71-10">
+</div>
+<ol class="org-ol">
+<li><a id="org95bc795"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-5" id="text-2-71-10-1">
+</div>
+</li>
+<li><a id="org0cc6f2b"></a><span class="done DONE">DONE</span> ox-beamer.org<br />
+<div class="outline-text-5" id="text-2-71-10-2">
+</div>
+</li>
+<li><a id="org667b825"></a><span class="done DONE">DONE</span> presentation.org<br />
+<div class="outline-text-5" id="text-2-71-10-3">
+</div>
+</li>
+<li><a id="orgadef900"></a><span class="done DONE">DONE</span> tutorial.org<br />
+<div class="outline-text-5" id="text-2-71-10-4">
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org628d196" class="outline-4">
+<h4 id="org628d196"><span class="section-number-4">2.71.11</span> <span class="done DONE">DONE</span> ./exporters/taskjuggler: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-71-11">
+</div>
+<ol class="org-ol">
+<li><a id="orgac7a3a0"></a><span class="done DONE">DONE</span> ox-taskjuggler.org<br />
+<div class="outline-text-5" id="text-2-71-11-1">
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org56cf5f6" class="outline-3">
+<h3 id="org56cf5f6"><span class="section-number-3">2.72</span> <span class="done DONE">DONE</span> ./images: <code>[44/44]</code></h3>
+<div class="outline-text-3" id="text-2-72">
+</div>
+<div id="outline-container-org19d5dd9" class="outline-4">
+<h4 id="org19d5dd9"><span class="section-number-4">2.72.1</span> <span class="done DONE">DONE</span> artwork</h4>
+</div>
+<div id="outline-container-org9842b7e" class="outline-4">
+<h4 id="org9842b7e"><span class="section-number-4">2.72.2</span> <span class="done DONE">DONE</span> babel</h4>
+</div>
+<div id="outline-container-orgac2f5e3" class="outline-4">
+<h4 id="orgac2f5e3"><span class="section-number-4">2.72.3</span> <span class="done DONE">DONE</span> blorgit</h4>
+</div>
+<div id="outline-container-orged87341" class="outline-4">
+<h4 id="orged87341"><span class="section-number-4">2.72.4</span> <span class="done DONE">DONE</span> bzg</h4>
+</div>
+<div id="outline-container-orgf205c10" class="outline-4">
+<h4 id="orgf205c10"><span class="section-number-4">2.72.5</span> <span class="done DONE">DONE</span> cd</h4>
+</div>
+<div id="outline-container-orga946873" class="outline-4">
+<h4 id="orga946873"><span class="section-number-4">2.72.6</span> <span class="done DONE">DONE</span> color-themes</h4>
+</div>
+<div id="outline-container-orgcebec44" class="outline-4">
+<h4 id="orgcebec44"><span class="section-number-4">2.72.7</span> <span class="done DONE">DONE</span> dto</h4>
+</div>
+<div id="outline-container-orgaf8f357" class="outline-4">
+<h4 id="orgaf8f357"><span class="section-number-4">2.72.8</span> <span class="done DONE">DONE</span> gsoc</h4>
+</div>
+<div id="outline-container-org59b1de8" class="outline-4">
+<h4 id="org59b1de8"><span class="section-number-4">2.72.9</span> <span class="done DONE">DONE</span> icons</h4>
+</div>
+<div id="outline-container-org28161fe" class="outline-4">
+<h4 id="org28161fe"><span class="section-number-4">2.72.10</span> <span class="done DONE">DONE</span> mdl</h4>
+</div>
+<div id="outline-container-org189b24f" class="outline-4">
+<h4 id="org189b24f"><span class="section-number-4">2.72.11</span> <span class="done DONE">DONE</span> org-R</h4>
+</div>
+<div id="outline-container-orgcfbed92" class="outline-4">
+<h4 id="orgcfbed92"><span class="section-number-4">2.72.12</span> <span class="done DONE">DONE</span> org-beamer</h4>
+</div>
+<div id="outline-container-orgcc9e376" class="outline-4">
+<h4 id="orgcc9e376"><span class="section-number-4">2.72.13</span> <span class="done DONE">DONE</span> org-collector</h4>
+</div>
+<div id="outline-container-org6d37734" class="outline-4">
+<h4 id="org6d37734"><span class="section-number-4">2.72.14</span> <span class="done DONE">DONE</span> org-exp-blocks</h4>
+</div>
+<div id="outline-container-org88a7301" class="outline-4">
+<h4 id="org88a7301"><span class="section-number-4">2.72.15</span> <span class="done DONE">DONE</span> org-lilypond</h4>
+</div>
+<div id="outline-container-org3ead130" class="outline-4">
+<h4 id="org3ead130"><span class="section-number-4">2.72.16</span> <span class="done DONE">DONE</span> org-plot</h4>
+</div>
+<div id="outline-container-org43b8b62" class="outline-4">
+<h4 id="org43b8b62"><span class="section-number-4">2.72.17</span> <span class="done DONE">DONE</span> orgcamps</h4>
+</div>
+<div id="outline-container-org6e2f148" class="outline-4">
+<h4 id="org6e2f148"><span class="section-number-4">2.72.18</span> <span class="done DONE">DONE</span> orgweb</h4>
+</div>
+<div id="outline-container-org00f9669" class="outline-4">
+<h4 id="org00f9669"><span class="section-number-4">2.72.19</span> <span class="done DONE">DONE</span> screenshots</h4>
+</div>
+<div id="outline-container-org4ea6d99" class="outline-4">
+<h4 id="org4ea6d99"><span class="section-number-4">2.72.20</span> <span class="done DONE">DONE</span> sr</h4>
+</div>
+<div id="outline-container-orgfa913d7" class="outline-4">
+<h4 id="orgfa913d7"><span class="section-number-4">2.72.21</span> <span class="done DONE">DONE</span> taskjuggler</h4>
+</div>
+<div id="outline-container-org895dba2" class="outline-4">
+<h4 id="org895dba2"><span class="section-number-4">2.72.22</span> <span class="done DONE">DONE</span> thumbs</h4>
+</div>
+
+<div id="outline-container-orgdb8a3e1" class="outline-4">
+<h4 id="orgdb8a3e1"><span class="section-number-4">2.72.23</span> <span class="done DONE">DONE</span> ./images/artwork: <code>[2/2]</code></h4>
+<div class="outline-text-4" id="text-2-72-23">
+</div>
+<ol class="org-ol">
+<li><a id="orga48a00e"></a><span class="done DONE">DONE</span> uniborg.png<br />
+<div class="outline-text-5" id="text-2-72-23-1">
+</div>
+</li>
+<li><a id="orge628cd1"></a><span class="done DONE">DONE</span> uniborg.svg<br />
+<div class="outline-text-5" id="text-2-72-23-2">
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org6140044" class="outline-4">
+<h4 id="org6140044"><span class="section-number-4">2.72.24</span> <span class="done DONE">DONE</span> ./images/babel: <code>[16/16]</code></h4>
+<div class="outline-text-4" id="text-2-72-24">
+</div>
+<ol class="org-ol">
+<li><a id="org7185693"></a><span class="done DONE">DONE</span> babelfish.png<br /></li>
+<li><a id="org68ee38e"></a><span class="done DONE">DONE</span> blue.png<br /></li>
+<li><a id="org46ac1d3"></a><span class="done DONE">DONE</span> dirs.png<br /></li>
+<li><a id="org27de73f"></a><span class="done DONE">DONE</span> dot-emacs-1.png<br /></li>
+<li><a id="org6025022"></a><span class="done DONE">DONE</span> dot-emacs-2.png<br /></li>
+<li><a id="org0aac424"></a><span class="done DONE">DONE</span> dot-emacs.png<br /></li>
+<li><a id="org3b67058"></a><span class="done DONE">DONE</span> drift-1-gen.png<br /></li>
+<li><a id="org756cce8"></a><span class="done DONE">DONE</span> drift-2-gen.png<br /></li>
+<li><a id="org35ce7d7"></a><span class="done DONE">DONE</span> example-graph.png<br /></li>
+<li><a id="org8af0199"></a><span class="done DONE">DONE</span> library-of-babel.png<br /></li>
+<li><a id="orgdd65dc9"></a><span class="done DONE">DONE</span> r-example.png<br /></li>
+<li><a id="org41dcc1e"></a><span class="done DONE">DONE</span> repdrift.png<br /></li>
+<li><a id="org0209c5e"></a><span class="done DONE">DONE</span> sequencechart.png<br /></li>
+<li><a id="orgafed045"></a><span class="done DONE">DONE</span> simpledrift.png<br /></li>
+<li><a id="org5040b4c"></a><span class="done DONE">DONE</span> tower-of-babel.png<br /></li>
+<li><a id="org264e4b3"></a><span class="done DONE">DONE</span> transprob.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org8ae8d0a" class="outline-4">
+<h4 id="org8ae8d0a"><span class="section-number-4">2.72.25</span> <span class="done DONE">DONE</span> ./images/blorgit: <code>[5/5]</code></h4>
+<div class="outline-text-4" id="text-2-72-25">
+</div>
+<ol class="org-ol">
+<li><a id="org68cb8ec"></a><span class="done DONE">DONE</span> Passenger.png<br /></li>
+<li><a id="org88ac060"></a><span class="done DONE">DONE</span> blorgit<sub>features.png</sub><br /></li>
+<li><a id="orgf19ac17"></a><span class="done DONE">DONE</span> blorgit<sub>search.png</sub><br /></li>
+<li><a id="org6507e89"></a><span class="done DONE">DONE</span> foods.png<br /></li>
+<li><a id="orga6c311f"></a><span class="done DONE">DONE</span> themes.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orgd01d818" class="outline-4">
+<h4 id="orgd01d818"><span class="section-number-4">2.72.26</span> <span class="done DONE">DONE</span> ./images/bzg: <code>[5/5]</code></h4>
+<div class="outline-text-4" id="text-2-72-26">
+</div>
+<ol class="org-ol">
+<li><a id="org8d58df0"></a><span class="done DONE">DONE</span> formulas<sub>editor.jpg</sub><br /></li>
+<li><a id="org84ffa46"></a><span class="done DONE">DONE</span> fr-orgcard.pdf<br /></li>
+<li><a id="org9a0e01a"></a><span class="done DONE">DONE</span> org-spreadsheet-table1.jpg<br /></li>
+<li><a id="org798a8d4"></a><span class="done DONE">DONE</span> org-spreadsheet-table2.jpg<br /></li>
+<li><a id="org8b558f4"></a><span class="done DONE">DONE</span> reference<sub>visualization.jpg</sub><br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org1094ed3" class="outline-4">
+<h4 id="org1094ed3"><span class="section-number-4">2.72.27</span> <span class="done DONE">DONE</span> ./images/cd: <code>[4/4]</code></h4>
+<div class="outline-text-4" id="text-2-72-27">
+</div>
+<ol class="org-ol">
+<li><a id="orgd681c32"></a><span class="done DONE">DONE</span> customize-1.png<br /></li>
+<li><a id="org74bba84"></a><span class="done DONE">DONE</span> customize-2.png<br /></li>
+<li><a id="org6005513"></a><span class="done DONE">DONE</span> customize-3.png<br /></li>
+<li><a id="orgf2ccb96"></a><span class="done DONE">DONE</span> customize-4.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orga032315" class="outline-4">
+<h4 id="orga032315"><span class="section-number-4">2.72.28</span> <span class="done DONE">DONE</span> ./images/color-themes: <code>[9/9]</code></h4>
+<div class="outline-text-4" id="text-2-72-28">
+</div>
+<ol class="org-ol">
+<li><a id="org304053a"></a><span class="done DONE">DONE</span> color-theme-colorful-obsolescence.png<br /></li>
+<li><a id="org8e00835"></a><span class="done DONE">DONE</span> color-theme-dark-emacs.png<br /></li>
+<li><a id="org9617fcd"></a><span class="done DONE">DONE</span> color-theme-leuven.png<br /></li>
+<li><a id="org00e62b2"></a><span class="done DONE">DONE</span> color-theme-manoj.png<br /></li>
+<li><a id="orgb158de0"></a><span class="done DONE">DONE</span> color-theme-tangotango.png<br /></li>
+<li><a id="orgd9e013d"></a><span class="done DONE">DONE</span> color-theme-wombat.png<br /></li>
+<li><a id="org9124ecb"></a><span class="done DONE">DONE</span> color-theme-zenash.png<br /></li>
+<li><a id="orga2e14a4"></a><span class="done DONE">DONE</span> color-theme-zenburn.png<br /></li>
+<li><a id="orgf413b0e"></a><span class="done DONE">DONE</span> cyberpunk-theme.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orgcfb4432" class="outline-4">
+<h4 id="orgcfb4432"><span class="section-number-4">2.72.29</span> <span class="done DONE">DONE</span> ./images/dto: <code>[15/15]</code></h4>
+<div class="outline-text-4" id="text-2-72-29">
+</div>
+<ol class="org-ol">
+<li><a id="org4b654f0"></a><span class="done DONE">DONE</span> tutorial-1.png<br /></li>
+<li><a id="org64e47f3"></a><span class="done DONE">DONE</span> tutorial-10.png<br /></li>
+<li><a id="org3f492a6"></a><span class="done DONE">DONE</span> tutorial-11.png<br /></li>
+<li><a id="orgfeccb8c"></a><span class="done DONE">DONE</span> tutorial-12.png<br /></li>
+<li><a id="orgcfee112"></a><span class="done DONE">DONE</span> tutorial-13.png<br /></li>
+<li><a id="org7dce126"></a><span class="done DONE">DONE</span> tutorial-14.png<br /></li>
+<li><a id="org2e4d801"></a><span class="done DONE">DONE</span> tutorial-15.png<br /></li>
+<li><a id="orgc9b7ff9"></a><span class="done DONE">DONE</span> tutorial-16.png<br /></li>
+<li><a id="org1a3c076"></a><span class="done DONE">DONE</span> tutorial-2.png<br /></li>
+<li><a id="org8f890a6"></a><span class="done DONE">DONE</span> tutorial-3.png<br /></li>
+<li><a id="org71a836f"></a><span class="done DONE">DONE</span> tutorial-4.png<br /></li>
+<li><a id="orgcc72012"></a><span class="done DONE">DONE</span> tutorial-5.png<br /></li>
+<li><a id="orgdd5f26a"></a><span class="done DONE">DONE</span> tutorial-6.png<br /></li>
+<li><a id="orgba68ba2"></a><span class="done DONE">DONE</span> tutorial-7.png<br /></li>
+<li><a id="org03a5091"></a><span class="done DONE">DONE</span> tutorial-9.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org4c45ec8" class="outline-4">
+<h4 id="org4c45ec8"><span class="section-number-4">2.72.30</span> <span class="done DONE">DONE</span> ./images/gsoc: <code>[2/2]</code></h4>
+<div class="outline-text-4" id="text-2-72-30">
+</div>
+<ol class="org-ol">
+<li><a id="orga41614b"></a><span class="done DONE">DONE</span> 2012<br /></li>
+
+<li><a id="org07acf67"></a><span class="done DONE">DONE</span> ./images/gsoc/2012: <code>[4/4]</code><br />
+<ol class="org-ol">
+<li><a id="orga59476d"></a><span class="done DONE">DONE</span> beach-books-beer-60pc.png<br /></li>
+<li><a id="org7d116ab"></a><span class="done DONE">DONE</span> beach-books-beer.png<br /></li>
+<li><a id="orgd85179e"></a><span class="done DONE">DONE</span> bugpile<br /></li>
+
+<li><a id="orge23a473"></a><span class="done DONE">DONE</span> ./images/gsoc/2012/bugpile: <code>[47/47]</code><br />
+<ol class="org-ol">
+<li><a id="org4887d8e"></a><span class="done DONE">DONE</span> add-attachment-uml-roa.png<br /></li>
+<li><a id="orgd7ef5a1"></a><span class="done DONE">DONE</span> add-attachment-uml-soa.png<br /></li>
+<li><a id="org53e4747"></a><span class="done DONE">DONE</span> add-comment-uml-roa.png<br /></li>
+<li><a id="org0b2b133"></a><span class="done DONE">DONE</span> add-comment-uml-soa.png<br /></li>
+<li><a id="orgc267b64"></a><span class="done DONE">DONE</span> bugpile-users-example-class-model.png<br /></li>
+<li><a id="orgb0df1c7"></a><span class="done DONE">DONE</span> bugpile-users-roles-class-model.png<br /></li>
+<li><a id="orgbacd712"></a><span class="done DONE">DONE</span> bugpile-users.png<br /></li>
+<li><a id="orgb7773a8"></a><span class="done DONE">DONE</span> create-project-uml-roa.png<br /></li>
+<li><a id="org46d0404"></a><span class="done DONE">DONE</span> create-project-uml-soa.png<br /></li>
+<li><a id="org0b61af8"></a><span class="done DONE">DONE</span> delete-attachment-uml-roa.png<br /></li>
+<li><a id="org879e721"></a><span class="done DONE">DONE</span> delete-attachment-uml-soa.png<br /></li>
+<li><a id="org0bbe915"></a><span class="done DONE">DONE</span> domain-class-uml.png<br /></li>
+<li><a id="org6def388"></a><span class="done DONE">DONE</span> edit-comment-uml-roa.png<br /></li>
+<li><a id="org64e080f"></a><span class="done DONE">DONE</span> edit-comment-uml-soa.png<br /></li>
+<li><a id="org14be35b"></a><span class="done DONE">DONE</span> edit-project-uml-roa.png<br /></li>
+<li><a id="org5d1d4ab"></a><span class="done DONE">DONE</span> edit-project-uml-soa.png<br /></li>
+<li><a id="orga38f047"></a><span class="done DONE">DONE</span> edit-task-uml-roa.png<br /></li>
+<li><a id="org4862245"></a><span class="done DONE">DONE</span> edit-task-uml-soa.png<br /></li>
+<li><a id="org07243ed"></a><span class="done DONE">DONE</span> edit-user-details-uml-roa.png<br /></li>
+<li><a id="orge7a467c"></a><span class="done DONE">DONE</span> edit-user-details-uml-soa.png<br /></li>
+<li><a id="org5e6509c"></a><span class="done DONE">DONE</span> iorg-arch.png<br /></li>
+<li><a id="org543764f"></a><span class="done DONE">DONE</span> login-uml-roa.png<br /></li>
+<li><a id="orgba10765"></a><span class="done DONE">DONE</span> login-uml-soa.png<br /></li>
+<li><a id="orgfa5e4c7"></a><span class="done DONE">DONE</span> logout-uml-roa.png<br /></li>
+<li><a id="org00232af"></a><span class="done DONE">DONE</span> logout-uml-soa.png<br /></li>
+<li><a id="org0e15e7b"></a><span class="done DONE">DONE</span> open-new-task-uml-roa.png<br /></li>
+<li><a id="orgcc55e7e"></a><span class="done DONE">DONE</span> open-new-task-uml-soa.png<br /></li>
+<li><a id="org66d6c20"></a><span class="done DONE">DONE</span> project-management-uml-uc.png<br /></li>
+<li><a id="orgeb7c7ca"></a><span class="done DONE">DONE</span> refined-arch-iorg.png<br /></li>
+<li><a id="org2227ff0"></a><span class="done DONE">DONE</span> register-as-user-uml-roa.png<br /></li>
+<li><a id="org3c458a1"></a><span class="done DONE">DONE</span> register-as-user-uml-soa.png<br /></li>
+<li><a id="org1c1a2f9"></a><span class="done DONE">DONE</span> search-event-log-uml-roa.png<br /></li>
+<li><a id="org9ffd0dd"></a><span class="done DONE">DONE</span> search-event-log-uml-soa.png<br /></li>
+<li><a id="org5148cbc"></a><span class="done DONE">DONE</span> search-tasklist-uml-roa.png<br /></li>
+<li><a id="org9e49c7d"></a><span class="done DONE">DONE</span> search-tasklist-uml-soa.png<br /></li>
+<li><a id="org7bd2e57"></a><span class="done DONE">DONE</span> search-tasks-uml-csa.png<br /></li>
+<li><a id="org4dc41f8"></a><span class="done DONE">DONE</span> search-users-uml-csa.png<br /></li>
+<li><a id="org207dc1e"></a><span class="done DONE">DONE</span> search-users-uml-roa.png<br /></li>
+<li><a id="orgc4d5467"></a><span class="done DONE">DONE</span> search-users-uml-soa.png<br /></li>
+<li><a id="org7f94b08"></a><span class="done DONE">DONE</span> switch-project-uml-roa.png<br /></li>
+<li><a id="orgc6cbc62"></a><span class="done DONE">DONE</span> switch-project-uml-soa.png<br /></li>
+<li><a id="org582349a"></a><span class="done DONE">DONE</span> take-action-select-tasks-uml-roa.png<br /></li>
+<li><a id="org2855afe"></a><span class="done DONE">DONE</span> take-action-select-tasks-uml-soa.png<br /></li>
+<li><a id="orgd98f3e1"></a><span class="done DONE">DONE</span> take-action-select-users-uml-roa.png<br /></li>
+<li><a id="org0e79cd6"></a><span class="done DONE">DONE</span> take-action-select-users-uml-soa.png<br /></li>
+<li><a id="org46167f9"></a><span class="done DONE">DONE</span> task-management-uml-uc.png<br /></li>
+<li><a id="org5a728aa"></a><span class="done DONE">DONE</span> user-management-uml-uc.png<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org14cc415" class="outline-4">
+<h4 id="org14cc415"><span class="section-number-4">2.72.31</span> <span class="done DONE">DONE</span> ./images/icons: <code>[2/2]</code></h4>
+<div class="outline-text-4" id="text-2-72-31">
+</div>
+<ol class="org-ol">
+<li><a id="orga4cef7c"></a><span class="done DONE">DONE</span> info.png<br /></li>
+<li><a id="org08b627a"></a><span class="done DONE">DONE</span> warning.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orgcb2e440" class="outline-4">
+<h4 id="orgcb2e440"><span class="section-number-4">2.72.32</span> <span class="done DONE">DONE</span> ./images/mdl: <code>[3/3]</code></h4>
+<div class="outline-text-4" id="text-2-72-32">
+</div>
+<ol class="org-ol">
+<li><a id="org8446c06"></a><span class="done DONE">DONE</span> org-custom-agenda-commands-1.png<br /></li>
+<li><a id="org25d5f09"></a><span class="done DONE">DONE</span> org-custom-agenda-commands-2.png<br /></li>
+<li><a id="orgb4f52c1"></a><span class="done DONE">DONE</span> org-custom-agenda-commands-3.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org850f1ac" class="outline-4">
+<h4 id="org850f1ac"><span class="section-number-4">2.72.33</span> <span class="done DONE">DONE</span> ./images/org-R: <code>[9/9]</code></h4>
+<div class="outline-text-4" id="text-2-72-33">
+</div>
+<ol class="org-ol">
+<li><a id="orgd46bb6e"></a><span class="done DONE">DONE</span> density.png<br /></li>
+<li><a id="orgf917555"></a><span class="done DONE">DONE</span> histogram-example.png<br /></li>
+<li><a id="org4c1cd5f"></a><span class="done DONE">DONE</span> org-R-output-652pRO.png<br /></li>
+<li><a id="orgc5f33bd"></a><span class="done DONE">DONE</span> org-R-output-8119Y<sub>N.png</sub><br /></li>
+<li><a id="orgeae4c56"></a><span class="done DONE">DONE</span> org-plot-example-1.png<br /></li>
+<li><a id="org446a055"></a><span class="done DONE">DONE</span> org-users-tree.png<br /></li>
+<li><a id="org70ff735"></a><span class="done DONE">DONE</span> org-variables-barplot.png<br /></li>
+<li><a id="org5e40812"></a><span class="done DONE">DONE</span> org-variables-hist.png<br /></li>
+<li><a id="org6b38ae1"></a><span class="done DONE">DONE</span> org-variables-tree.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org3617170" class="outline-4">
+<h4 id="org3617170"><span class="section-number-4">2.72.34</span> <span class="done DONE">DONE</span> ./images/org-beamer: <code>[4/4]</code></h4>
+<div class="outline-text-4" id="text-2-72-34">
+</div>
+<ol class="org-ol">
+<li><a id="orgbfba993"></a><span class="done DONE">DONE</span> a-simple-slide.png<br /></li>
+<li><a id="org5a311e1"></a><span class="done DONE">DONE</span> babel-octave.png<br /></li>
+<li><a id="orge07e7ee"></a><span class="done DONE">DONE</span> column-view.png<br /></li>
+<li><a id="org8bbfa9f"></a><span class="done DONE">DONE</span> two-column-slide-madrid-style.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org1cf5974" class="outline-4">
+<h4 id="org1cf5974"><span class="section-number-4">2.72.35</span> <span class="done DONE">DONE</span> ./images/org-collector: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-72-35">
+</div>
+<ol class="org-ol">
+<li><a id="org576f640"></a><span class="done DONE">DONE</span> dec-spending.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orgc773e5d" class="outline-4">
+<h4 id="orgc773e5d"><span class="section-number-4">2.72.36</span> <span class="done DONE">DONE</span> ./images/org-exp-blocks: <code>[3/3]</code></h4>
+<div class="outline-text-4" id="text-2-72-36">
+</div>
+<ol class="org-ol">
+<li><a id="org0ecf48b"></a><span class="done DONE">DONE</span> blue.png<br /></li>
+<li><a id="orgbadc3e9"></a><span class="done DONE">DONE</span> cardioid.png<br /></li>
+<li><a id="orgd7b5a45"></a><span class="done DONE">DONE</span> dot.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org38d274a" class="outline-4">
+<h4 id="org38d274a"><span class="section-number-4">2.72.37</span> <span class="done DONE">DONE</span> ./images/org-lilypond: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-72-37">
+</div>
+<ol class="org-ol">
+<li><a id="org798ff3e"></a><span class="done DONE">DONE</span> mixolydian.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orga901a04" class="outline-4">
+<h4 id="orga901a04"><span class="section-number-4">2.72.38</span> <span class="done DONE">DONE</span> ./images/org-plot: <code>[8/8]</code></h4>
+<div class="outline-text-4" id="text-2-72-38">
+</div>
+<ol class="org-ol">
+<li><a id="org60b0ec5"></a><span class="done DONE">DONE</span> example-1.png<br /></li>
+<li><a id="org685f59a"></a><span class="done DONE">DONE</span> example-2.png<br /></li>
+<li><a id="org861b210"></a><span class="done DONE">DONE</span> example-3.png<br /></li>
+<li><a id="org96c23e2"></a><span class="done DONE">DONE</span> example-4.png<br /></li>
+<li><a id="org112ccd0"></a><span class="done DONE">DONE</span> example-5.png<br /></li>
+<li><a id="org089bf46"></a><span class="done DONE">DONE</span> example-6.png<br /></li>
+<li><a id="orgcb11ed6"></a><span class="done DONE">DONE</span> example-7.png<br /></li>
+<li><a id="orgc51242e"></a><span class="done DONE">DONE</span> example-8.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org162a1a7" class="outline-4">
+<h4 id="org162a1a7"><span class="section-number-4">2.72.39</span> <span class="done DONE">DONE</span> ./images/orgcamps: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-72-39">
+</div>
+<ol class="org-ol">
+<li><a id="org5d69903"></a><span class="done DONE">DONE</span> orgcamp-paris-january-2011.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orga776afe" class="outline-4">
+<h4 id="orga776afe"><span class="section-number-4">2.72.40</span> <span class="done DONE">DONE</span> ./images/orgweb: <code>[8/8]</code></h4>
+<div class="outline-text-4" id="text-2-72-40">
+</div>
+<ol class="org-ol">
+<li><a id="orgadb74af"></a><span class="done DONE">DONE</span> 1.jpg<br /></li>
+<li><a id="orgd635367"></a><span class="done DONE">DONE</span> 2.jpg<br /></li>
+<li><a id="org9d29b4a"></a><span class="done DONE">DONE</span> 3.jpg<br /></li>
+<li><a id="org93d9126"></a><span class="done DONE">DONE</span> 4.jpg<br /></li>
+<li><a id="orgcbd4178"></a><span class="done DONE">DONE</span> 5.jpg<br /></li>
+<li><a id="org9497752"></a><span class="done DONE">DONE</span> 6.jpg<br /></li>
+<li><a id="org3336a00"></a><span class="done DONE">DONE</span> 7.jpg<br /></li>
+<li><a id="orgd34d7ed"></a><span class="done DONE">DONE</span> 8.jpg<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orga3383d9" class="outline-4">
+<h4 id="orga3383d9"><span class="section-number-4">2.72.41</span> <span class="done DONE">DONE</span> ./images/screenshots: <code>[6/6]</code></h4>
+<div class="outline-text-4" id="text-2-72-41">
+</div>
+<ol class="org-ol">
+<li><a id="org991c5f3"></a><span class="done DONE">DONE</span> davison-minimal-research-thumb.png<br /></li>
+<li><a id="org7aa82d7"></a><span class="done DONE">DONE</span> davison-minimal-research.png<br /></li>
+<li><a id="org4c950da"></a><span class="done DONE">DONE</span> org-fireforg-screenshot-context-menu.png<br /></li>
+<li><a id="org10ffe29"></a><span class="done DONE">DONE</span> org-fireforg-screenshot.png<br /></li>
+<li><a id="org98086ea"></a><span class="done DONE">DONE</span> org-mode-publishing.jpg<br /></li>
+<li><a id="org0bb13c4"></a><span class="done DONE">DONE</span> schulte.dark-background.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org891621b" class="outline-4">
+<h4 id="org891621b"><span class="section-number-4">2.72.42</span> <span class="done DONE">DONE</span> ./images/sr: <code>[1/1]</code></h4>
+<div class="outline-text-4" id="text-2-72-42">
+</div>
+<ol class="org-ol">
+<li><a id="orgfb51eab"></a><span class="done DONE">DONE</span> phplayermenu-example-tree.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org773b7cb" class="outline-4">
+<h4 id="org773b7cb"><span class="section-number-4">2.72.43</span> <span class="done DONE">DONE</span> ./images/taskjuggler: <code>[8/8]</code></h4>
+<div class="outline-text-4" id="text-2-72-43">
+</div>
+<ol class="org-ol">
+<li><a id="org2956cf5"></a><span class="done DONE">DONE</span> TaskJugglerUI1.png<br /></li>
+<li><a id="org8bd5fad"></a><span class="done DONE">DONE</span> TaskJugglerUI2.png<br /></li>
+<li><a id="org1a1450b"></a><span class="done DONE">DONE</span> TaskJugglerUI3.png<br /></li>
+<li><a id="orgd0a41fe"></a><span class="done DONE">DONE</span> assign-resources.png<br /></li>
+<li><a id="org229d3c1"></a><span class="done DONE">DONE</span> define-dependencies.png<br /></li>
+<li><a id="org266f4da"></a><span class="done DONE">DONE</span> effort-estimation.png<br /></li>
+<li><a id="org01172fc"></a><span class="done DONE">DONE</span> project-plan.pdf<br /></li>
+<li><a id="org25468ee"></a><span class="done DONE">DONE</span> resource-graph.png<br /></li>
+</ol>
+</div>
+
+<div id="outline-container-org1bf81ab" class="outline-4">
+<h4 id="org1bf81ab"><span class="section-number-4">2.72.44</span> <span class="done DONE">DONE</span> ./images/thumbs: <code>[11/11]</code></h4>
+<div class="outline-text-4" id="text-2-72-44">
+</div>
+<ol class="org-ol">
+<li><a id="org9310881"></a><span class="done DONE">DONE</span> anothertest.png<br /></li>
+<li><a id="org52e8552"></a><span class="done DONE">DONE</span> blue.png<br /></li>
+<li><a id="org2029a90"></a><span class="done DONE">DONE</span> minimal-org-file.png<br /></li>
+<li><a id="orgad4a3aa"></a><span class="done DONE">DONE</span> org-col-default-customized-view1.png<br /></li>
+<li><a id="orgbb70842"></a><span class="done DONE">DONE</span> org-col-default-customized-view2.png<br /></li>
+<li><a id="org3cdaa22"></a><span class="done DONE">DONE</span> org-col-default-customized-view3.png<br /></li>
+<li><a id="orgf433e27"></a><span class="done DONE">DONE</span> org-col-default-customized-view4.png<br /></li>
+<li><a id="orgf5d3e8b"></a><span class="done DONE">DONE</span> org-col-default-customized-view5.png<br /></li>
+<li><a id="orge75d196"></a><span class="done DONE">DONE</span> org-col-default-view.png<br /></li>
+<li><a id="org53ff67e"></a><span class="done DONE">DONE</span> org-export-as-latex.png<br /></li>
+<li><a id="org743b299"></a><span class="done DONE">DONE</span> test.png<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org97ca8ee" class="outline-3">
+<h3 id="org97ca8ee"><span class="section-number-3">2.73</span> <span class="done DONE">DONE</span> ./org-configs: <code>[4/4]</code></h3>
+<div class="outline-text-3" id="text-2-73">
+</div>
+<div id="outline-container-org71fa8e8" class="outline-4">
+<h4 id="org71fa8e8"><span class="section-number-4">2.73.1</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-73-1">
+</div>
+</div>
+<div id="outline-container-org071e681" class="outline-4">
+<h4 id="org071e681"><span class="section-number-4">2.73.2</span> <span class="done DONE">DONE</span> org-config-examples.org</h4>
+<div class="outline-text-4" id="text-2-73-2">
+</div>
+</div>
+<div id="outline-container-org5d4360a" class="outline-4">
+<h4 id="org5d4360a"><span class="section-number-4">2.73.3</span> <span class="done DONE">DONE</span> org-customization-guide.org</h4>
+<div class="outline-text-4" id="text-2-73-3">
+</div>
+</div>
+<div id="outline-container-org1b8102b" class="outline-4">
+<h4 id="org1b8102b"><span class="section-number-4">2.73.4</span> <span class="done DONE">DONE</span> org-customization-survey.org (moved to FIXME)</h4>
+<div class="outline-text-4" id="text-2-73-4">
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6d1d0dc" class="outline-3">
+<h3 id="org6d1d0dc"><span class="section-number-3">2.74</span> <span class="done DONE">DONE</span> ./org-contrib: <code>[33/33]</code></h3>
+<div class="outline-text-3" id="text-2-74">
+</div>
+<div id="outline-container-org8741d2a" class="outline-4">
+<h4 id="org8741d2a"><span class="section-number-4">2.74.1</span> <span class="done DONE">DONE</span> babel</h4>
+<div class="outline-text-4" id="text-2-74-1">
+</div>
+</div>
+<div id="outline-container-org7d8e411" class="outline-4">
+<h4 id="org7d8e411"><span class="section-number-4">2.74.2</span> <span class="done DONE">DONE</span> bibtex</h4>
+</div>
+<div id="outline-container-org3584138" class="outline-4">
+<h4 id="org3584138"><span class="section-number-4">2.74.3</span> <span class="done DONE">DONE</span> gsoc2012</h4>
+<div class="outline-text-4" id="text-2-74-3">
+</div>
+</div>
+<div id="outline-container-org20b5cd3" class="outline-4">
+<h4 id="org20b5cd3"><span class="section-number-4">2.74.4</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-74-4">
+</div>
+</div>
+<div id="outline-container-org2b5c561" class="outline-4">
+<h4 id="org2b5c561"><span class="section-number-4">2.74.5</span> <span class="done DONE">DONE</span> ob-table-operations.org</h4>
+<div class="outline-text-4" id="text-2-74-5">
+</div>
+</div>
+<div id="outline-container-org8f71af1" class="outline-4">
+<h4 id="org8f71af1"><span class="section-number-4">2.74.6</span> <span class="done DONE">DONE</span> org-annotation-helper.org</h4>
+<div class="outline-text-4" id="text-2-74-6">
+</div>
+</div>
+<div id="outline-container-org8c622f9" class="outline-4">
+<h4 id="org8c622f9"><span class="section-number-4">2.74.7</span> <span class="done DONE">DONE</span> org-bom.org</h4>
+<div class="outline-text-4" id="text-2-74-7">
+</div>
+</div>
+<div id="outline-container-org83caa99" class="outline-4">
+<h4 id="org83caa99"><span class="section-number-4">2.74.8</span> <span class="done DONE">DONE</span> org-checklist.org</h4>
+<div class="outline-text-4" id="text-2-74-8">
+</div>
+</div>
+<div id="outline-container-org00c19ca" class="outline-4">
+<h4 id="org00c19ca"><span class="section-number-4">2.74.9</span> <span class="done DONE">DONE</span> org-choose.org</h4>
+<div class="outline-text-4" id="text-2-74-9">
+</div>
+</div>
+<div id="outline-container-org5677261" class="outline-4">
+<h4 id="org5677261"><span class="section-number-4">2.74.10</span> <span class="done DONE">DONE</span> org-collector-example.org</h4>
+<div class="outline-text-4" id="text-2-74-10">
+</div>
+</div>
+<div id="outline-container-orgb528aff" class="outline-4">
+<h4 id="orgb528aff"><span class="section-number-4">2.74.11</span> <span class="done DONE">DONE</span> org-collector.org</h4>
+<div class="outline-text-4" id="text-2-74-11">
+</div>
+</div>
+<div id="outline-container-org88adac7" class="outline-4">
+<h4 id="org88adac7"><span class="section-number-4">2.74.12</span> <span class="done DONE">DONE</span> org-depend.org</h4>
+</div>
+<div id="outline-container-orgc3aecbf" class="outline-4">
+<h4 id="orgc3aecbf"><span class="section-number-4">2.74.13</span> <span class="done DONE">DONE</span> org-drill.org</h4>
+<div class="outline-text-4" id="text-2-74-13">
+</div>
+</div>
+<div id="outline-container-orgc07c52f" class="outline-4">
+<h4 id="orgc07c52f"><span class="section-number-4">2.74.14</span> <span class="done DONE">DONE</span> org-eval-light.org</h4>
+<div class="outline-text-4" id="text-2-74-14">
+</div>
+</div>
+<div id="outline-container-org14c092c" class="outline-4">
+<h4 id="org14c092c"><span class="section-number-4">2.74.15</span> <span class="done DONE">DONE</span> org-exp-blocks.org</h4>
+<div class="outline-text-4" id="text-2-74-15">
+</div>
+</div>
+<div id="outline-container-org12862fc" class="outline-4">
+<h4 id="org12862fc"><span class="section-number-4">2.74.16</span> <span class="done DONE">DONE</span> org-export-generic.org</h4>
+<div class="outline-text-4" id="text-2-74-16">
+</div>
+</div>
+<div id="outline-container-org4649496" class="outline-4">
+<h4 id="org4649496"><span class="section-number-4">2.74.17</span> <span class="done DONE">DONE</span> org-export-template.org</h4>
+<div class="outline-text-4" id="text-2-74-17">
+</div>
+</div>
+<div id="outline-container-orgfe70cea" class="outline-4">
+<h4 id="orgfe70cea"><span class="section-number-4">2.74.18</span> <span class="done DONE">DONE</span> org-favtable.org</h4>
+<div class="outline-text-4" id="text-2-74-18">
+</div>
+</div>
+<div id="outline-container-org494c016" class="outline-4">
+<h4 id="org494c016"><span class="section-number-4">2.74.19</span> <span class="done DONE">DONE</span> org-feed.org</h4>
+</div>
+<div id="outline-container-org89d2d8c" class="outline-4">
+<h4 id="org89d2d8c"><span class="section-number-4">2.74.20</span> <span class="done DONE">DONE</span> org-git-link.org</h4>
+<div class="outline-text-4" id="text-2-74-20">
+</div>
+</div>
+<div id="outline-container-org0aae8d9" class="outline-4">
+<h4 id="org0aae8d9"><span class="section-number-4">2.74.21</span> <span class="done DONE">DONE</span> org-mac-iCal.org</h4>
+<div class="outline-text-4" id="text-2-74-21">
+</div>
+</div>
+<div id="outline-container-org4d909e9" class="outline-4">
+<h4 id="org4d909e9"><span class="section-number-4">2.74.22</span> <span class="done DONE">DONE</span> org-mac-link-grabber.org</h4>
+<div class="outline-text-4" id="text-2-74-22">
+</div>
+</div>
+<div id="outline-container-orgb2a7e41" class="outline-4">
+<h4 id="orgb2a7e41"><span class="section-number-4">2.74.23</span> <span class="done DONE">DONE</span> org-mac-maillink.org</h4>
+<div class="outline-text-4" id="text-2-74-23">
+</div>
+</div>
+<div id="outline-container-org6ed73b3" class="outline-4">
+<h4 id="org6ed73b3"><span class="section-number-4">2.74.24</span> <span class="done DONE">DONE</span> org-mac-message.org</h4>
+<div class="outline-text-4" id="text-2-74-24">
+</div>
+</div>
+<div id="outline-container-orgf5d4b12" class="outline-4">
+<h4 id="orgf5d4b12"><span class="section-number-4">2.74.25</span> <span class="done DONE">DONE</span> org-mime.org</h4>
+<div class="outline-text-4" id="text-2-74-25">
+</div>
+</div>
+<div id="outline-container-org99ac55a" class="outline-4">
+<h4 id="org99ac55a"><span class="section-number-4">2.74.26</span> <span class="done DONE">DONE</span> org-protocol.org</h4>
+<div class="outline-text-4" id="text-2-74-26">
+</div>
+</div>
+<div id="outline-container-orgb3ed814" class="outline-4">
+<h4 id="orgb3ed814"><span class="section-number-4">2.74.27</span> <span class="done DONE">DONE</span> org-special-blocks.org</h4>
+<div class="outline-text-4" id="text-2-74-27">
+</div>
+</div>
+<div id="outline-container-orgf69a5a5" class="outline-4">
+<h4 id="orgf69a5a5"><span class="section-number-4">2.74.28</span> <span class="done DONE">DONE</span> org-track.org</h4>
+<div class="outline-text-4" id="text-2-74-28">
+</div>
+</div>
+<div id="outline-container-orgc238d76" class="outline-4">
+<h4 id="orgc238d76"><span class="section-number-4">2.74.29</span> <span class="done DONE">DONE</span> org-velocity.org</h4>
+<div class="outline-text-4" id="text-2-74-29">
+</div>
+</div>
+<div id="outline-container-orgf8e0115" class="outline-4">
+<h4 id="orgf8e0115"><span class="section-number-4">2.74.30</span> <span class="done DONE">DONE</span> org-wikinodes.org</h4>
+<div class="outline-text-4" id="text-2-74-30">
+</div>
+</div>
+
+<div id="outline-container-org798e42c" class="outline-4">
+<h4 id="org798e42c"><span class="section-number-4">2.74.31</span> <span class="done DONE">DONE</span> ./org-contrib/babel: <code>[14/14]</code></h4>
+<div class="outline-text-4" id="text-2-74-31">
+</div>
+<ol class="org-ol">
+<li><a id="orgc9090cd"></a><span class="done DONE">DONE</span> examples<br />
+<div class="outline-text-5" id="text-2-74-31-1">
+</div>
+</li>
+<li><a id="orgef9adf0"></a><span class="done DONE">DONE</span> header-args.org<br />
+<div class="outline-text-5" id="text-2-74-31-2">
+</div>
+</li>
+<li><a id="org00662cd"></a><span class="done DONE">DONE</span> images<br /></li>
+<li><a id="org7b74818"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-5" id="text-2-74-31-4">
+</div>
+</li>
+<li><a id="orgd008a1b"></a><span class="done DONE">DONE</span> intro.org<br />
+<div class="outline-text-5" id="text-2-74-31-5">
+</div>
+</li>
+<li><a id="org88f7c6e"></a><span class="done DONE">DONE</span> languages<br />
+<div class="outline-text-5" id="text-2-74-31-6">
+</div>
+</li>
+<li><a id="orgbc8f770"></a><span class="done DONE">DONE</span> languages.org<br />
+<div class="outline-text-5" id="text-2-74-31-7">
+</div>
+</li>
+<li><a id="org43379d1"></a><span class="done DONE">DONE</span> library-of-babel.org<br />
+<div class="outline-text-5" id="text-2-74-31-8">
+</div>
+</li>
+<li><a id="orgb03460c"></a><span class="done DONE">DONE</span> ob-template.el<br />
+<div class="outline-text-5" id="text-2-74-31-9">
+</div>
+</li>
+<li><a id="org29150d7"></a><span class="done DONE">DONE</span> org-babel.org<br />
+<div class="outline-text-5" id="text-2-74-31-10">
+</div>
+</li>
+<li><a id="orgddfed33"></a><span class="done DONE">DONE</span> uses.org<br />
+<div class="outline-text-5" id="text-2-74-31-11">
+</div>
+</li>
+
+<li><a id="orgb65bc5f"></a><span class="done DONE">DONE</span> ./org-contrib/babel/examples: <code>[16/16]</code><br />
+<div class="outline-text-5" id="text-2-74-31-12">
+</div>
+<ol class="org-ol">
+<li><a id="org46aceac"></a><span class="done DONE">DONE</span> Rpackage.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-1">
+</div>
+</li>
+<li><a id="orgb38a061"></a><span class="done DONE">DONE</span> ascii.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-2">
+</div>
+</li>
+<li><a id="org91cc0b8"></a><span class="done DONE">DONE</span> auxiliary-files<br /></li>
+<li><a id="org63dd751"></a><span class="done DONE">DONE</span> data-collection-analysis.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-4">
+</div>
+</li>
+<li><a id="org427be21"></a><span class="done DONE">DONE</span> drift.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-5">
+</div>
+</li>
+<li><a id="orgf1b61ee"></a><span class="done DONE">DONE</span> finances.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-6">
+</div>
+</li>
+<li><a id="orgb7860d8"></a><span class="done DONE">DONE</span> fontify-src-code-blocks.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-7">
+</div>
+</li>
+<li><a id="org931ccfc"></a><span class="done DONE">DONE</span> foo.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-8">
+</div>
+</li>
+<li><a id="orga936e33"></a><span class="done DONE">DONE</span> foo.org.html<br /></li>
+<li><a id="org766549d"></a><span class="done DONE">DONE</span> foo.pdf<br /></li>
+<li><a id="org09ba953"></a><span class="done DONE">DONE</span> latex-form.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-11">
+</div>
+</li>
+<li><a id="orgdd06681"></a><span class="done DONE">DONE</span> lob-table-operations.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-12">
+</div>
+</li>
+<li><a id="org25711bb"></a><span class="done DONE">DONE</span> org-babel-gnuplot.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-13">
+</div>
+</li>
+<li><a id="orga41cf23"></a><span class="done DONE">DONE</span> org-check.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-14">
+</div>
+</li>
+<li><a id="org18ea4b9"></a><span class="done DONE">DONE</span> short-report.org<br />
+<div class="outline-text-6" id="text-2-74-31-12-15">
+</div>
+</li>
+
+<li><a id="org168cb9f"></a><span class="done DONE">DONE</span> ./org-contrib/babel/examples/auxiliary-files: <code>[1/1]</code><br />
+<ol class="org-ol">
+<li><a id="org39af537"></a><span class="done DONE">DONE</span> o18-data.zip<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li><a id="orgf0db1be"></a><span class="done DONE">DONE</span> ./org-contrib/babel/images: <code>[9/9]</code><br />
+<ol class="org-ol">
+<li><a id="org3ba38ab"></a><span class="done DONE">DONE</span> fontified-src-code-blocks.png<br /></li>
+<li><a id="org3bf59b3"></a><span class="done DONE">DONE</span> gnuplot-basic-function.png<br /></li>
+<li><a id="orge7ad7df"></a><span class="done DONE">DONE</span> gnuplot-basic-plot.png<br /></li>
+<li><a id="org524d8f3"></a><span class="done DONE">DONE</span> gnuplot-broken-axis.png<br /></li>
+<li><a id="org6c93801"></a><span class="done DONE">DONE</span> gnuplot-diff-scales.png<br /></li>
+<li><a id="orgdb759fb"></a><span class="done DONE">DONE</span> gnuplot-multi-axes.png<br /></li>
+<li><a id="orga0e49ad"></a><span class="done DONE">DONE</span> gnuplot-named-xtics.png<br /></li>
+<li><a id="orgb65d3b0"></a><span class="done DONE">DONE</span> gnuplot-uneven-named-xtics.png<br /></li>
+<li><a id="org1530f0c"></a><span class="done DONE">DONE</span> org-article-text-blocks.png<br /></li>
+</ol>
+</li>
+
+<li><a id="org46cca8c"></a><span class="done DONE">DONE</span> ./org-contrib/babel/languages: <code>[29/29]</code><br />
+<div class="outline-text-5" id="text-2-74-31-14">
+</div>
+<ol class="org-ol">
+<li><a id="orgd0370df"></a><span class="done DONE">DONE</span> R<br />
+<div class="outline-text-6" id="text-2-74-31-14-1">
+</div>
+</li>
+<li><a id="orgb023e5e"></a><span class="done DONE">DONE</span> images<br />
+<div class="outline-text-6" id="text-2-74-31-14-2">
+</div>
+</li>
+<li><a id="org646a56f"></a><span class="done DONE">DONE</span> ob-doc-C.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-3">
+</div>
+</li>
+<li><a id="org02347ac"></a><span class="done DONE">DONE</span> ob-doc-LaTeX.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-4">
+</div>
+</li>
+<li><a id="org775f405"></a><span class="done DONE">DONE</span> ob-doc-R.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-5">
+</div>
+</li>
+<li><a id="orgd1bdd41"></a><span class="done DONE">DONE</span> ob-doc-asymptote.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-6">
+</div>
+</li>
+<li><a id="orgcc0a269"></a><span class="done DONE">DONE</span> ob-doc-awk.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-7">
+</div>
+</li>
+<li><a id="org3b8cdb4"></a><span class="done DONE">DONE</span> ob-doc-clojure.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-8">
+</div>
+</li>
+<li><a id="orgaf5eace"></a><span class="done DONE">DONE</span> ob-doc-css.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-9">
+</div>
+</li>
+<li><a id="org8372174"></a><span class="done DONE">DONE</span> ob-doc-ditaa.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-10">
+</div>
+</li>
+<li><a id="org0c1294d"></a><span class="done DONE">DONE</span> ob-doc-dot.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-11">
+</div>
+</li>
+<li><a id="org9f4fc72"></a><span class="done DONE">DONE</span> ob-doc-eukleides.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-12">
+</div>
+</li>
+<li><a id="org43fa8ce"></a><span class="done DONE">DONE</span> ob-doc-gnuplot.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-13">
+</div>
+</li>
+<li><a id="orgcd441f4"></a><span class="done DONE">DONE</span> ob-doc-ledger.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-14">
+</div>
+</li>
+<li><a id="org894d055"></a><span class="done DONE">DONE</span> ob-doc-lilypond.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-15">
+</div>
+</li>
+<li><a id="org4ceb3c7"></a><span class="done DONE">DONE</span> ob-doc-lisp.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-16">
+</div>
+</li>
+<li><a id="org8f77b50"></a><span class="done DONE">DONE</span> ob-doc-makefile.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-17">
+</div>
+</li>
+<li><a id="org11f8d26"></a><span class="done DONE">DONE</span> ob-doc-mathomatic.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-18">
+</div>
+</li>
+<li><a id="org4c5030f"></a><span class="done DONE">DONE</span> ob-doc-maxima.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-19">
+</div>
+</li>
+<li><a id="org62f1bd9"></a><span class="done DONE">DONE</span> ob-doc-mscgen.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-20">
+</div>
+</li>
+<li><a id="orgc5398d7"></a><span class="done DONE">DONE</span> ob-doc-octave-matlab.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-21">
+</div>
+</li>
+<li><a id="org99601b5"></a><span class="done DONE">DONE</span> ob-doc-oz.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-22">
+</div>
+</li>
+<li><a id="org919384b"></a><span class="done DONE">DONE</span> ob-doc-picolisp.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-23">
+</div>
+</li>
+<li><a id="org449fd2d"></a><span class="done DONE">DONE</span> ob-doc-python.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-24">
+</div>
+</li>
+<li><a id="org34345bb"></a><span class="done DONE">DONE</span> ob-doc-screen.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-25">
+</div>
+</li>
+<li><a id="orgf992cf8"></a><span class="done DONE">DONE</span> ob-doc-tcl.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-26">
+</div>
+</li>
+<li><a id="orgbc8d0e5"></a><span class="done DONE">DONE</span> ob-doc-template.org<br />
+<div class="outline-text-6" id="text-2-74-31-14-27">
+</div>
+</li>
+
+<li><a id="org2cd64ec"></a><span class="done DONE">DONE</span> ./org-contrib/babel/languages/R: <code>[2/2]</code><br />
+<div class="outline-text-6" id="text-2-74-31-14-28">
+</div>
+<ol class="org-ol">
+<li><a id="orgdc55de6"></a><span class="done DONE">DONE</span> RBabelExample.org<br />
+<div class="outline-text-7" id="text-2-74-31-14-28-1">
+</div>
+</li>
+<li><a id="orgfb555dd"></a><span class="done DONE">DONE</span> RBabelExample.pdf<br /></li>
+</ol>
+</li>
+
+<li><a id="orga00a6d2"></a><span class="done DONE">DONE</span> ./org-contrib/babel/languages/images: <code>[10/10]</code><br />
+<ol class="org-ol">
+<li><a id="org020db10"></a><span class="done DONE">DONE</span> asy-tile.png<br /></li>
+<li><a id="org0f34dea"></a><span class="done DONE">DONE</span> asymptote.png<br /></li>
+<li><a id="orgf6e513d"></a><span class="done DONE">DONE</span> hello-world-round.png<br /></li>
+<li><a id="org7d82a33"></a><span class="done DONE">DONE</span> hello-world.png<br /></li>
+<li><a id="orge96fa15"></a><span class="done DONE">DONE</span> latex-logo-for-banner.png<br /></li>
+<li><a id="org1acfd74"></a><span class="done DONE">DONE</span> maxima-3d.png<br /></li>
+<li><a id="org41cfe7f"></a><span class="done DONE">DONE</span> python-matplot-fig.png<br /></li>
+<li><a id="org6fe1bf9"></a><span class="done DONE">DONE</span> slime-small.png<br /></li>
+<li><a id="org11027aa"></a><span class="done DONE">DONE</span> test-dot.png<br /></li>
+<li><a id="org15e50ab"></a><span class="done DONE">DONE</span> test.png<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgb415d54" class="outline-4">
+<h4 id="orgb415d54"><span class="section-number-4">2.74.32</span> <span class="done DONE">DONE</span> ./org-contrib/bibtex: <code>[6/6]</code></h4>
+<div class="outline-text-4" id="text-2-74-32">
+</div>
+<ol class="org-ol">
+<li><a id="org0f9dbd9"></a><span class="done DONE">DONE</span> Delescluse2011.bib<br /></li>
+<li><a id="org739b615"></a><span class="done DONE">DONE</span> Dominik2010.bib<br /></li>
+<li><a id="orgdab7cb9"></a><span class="done DONE">DONE</span> Schulte<sub>Davison</sub><sub>2011.bib</sub><br /></li>
+<li><a id="orgb78562d"></a><span class="done DONE">DONE</span> Schulte<sub>et</sub><sub>al</sub><sub>2012.bib</sub><br /></li>
+<li><a id="orgf8f7b04"></a><span class="done DONE">DONE</span> Voit2013.bib<br /></li>
+<li><a id="org89bd18e"></a><span class="done DONE">DONE</span> Voit<sub>Dye</sub><sub>2012.bib</sub><br /></li>
+</ol>
+</div>
+
+<div id="outline-container-orgec063a3" class="outline-4">
+<h4 id="orgec063a3"><span class="section-number-4">2.74.33</span> <span class="done DONE">DONE</span> ./org-contrib/gsoc2012: <code>[7/7]</code></h4>
+<div class="outline-text-4" id="text-2-74-33">
+</div>
+<ol class="org-ol">
+<li><a id="org63aa0d4"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-5" id="text-2-74-33-1">
+</div>
+</li>
+<li><a id="org8660313"></a><span class="done DONE">DONE</span> orgmode-gsoc2012-admin.org<br />
+<div class="outline-text-5" id="text-2-74-33-2">
+</div>
+</li>
+<li><a id="org43ea3f9"></a><span class="done DONE">DONE</span> orgmode-gsoc2012-ideas.org<br />
+<div class="outline-text-5" id="text-2-74-33-3">
+</div>
+</li>
+<li><a id="org3198c37"></a><span class="done DONE">DONE</span> orgmode-gsoc2012-mentor.org<br />
+<div class="outline-text-5" id="text-2-74-33-4">
+</div>
+</li>
+<li><a id="org3a6b0f4"></a><span class="done DONE">DONE</span> orgmode-gsoc2012-student.org<br />
+<div class="outline-text-5" id="text-2-74-33-5">
+</div>
+</li>
+<li><a id="org938f975"></a><span class="done DONE">DONE</span> student-projects<br />
+<div class="outline-text-5" id="text-2-74-33-6">
+</div>
+</li>
+
+<li><a id="org3cdf6b1"></a><span class="done DONE">DONE</span> ./org-contrib/gsoc2012/student-projects: <code>[4/4]</code><br />
+<div class="outline-text-5" id="text-2-74-33-7">
+</div>
+<ol class="org-ol">
+<li><a id="org8360bc6"></a><span class="done DONE">DONE</span> git-merge-tool<br />
+<div class="outline-text-6" id="text-2-74-33-7-1">
+</div>
+</li>
+<li><a id="org5997db4"></a><span class="done DONE">DONE</span> org-sync<br />
+<div class="outline-text-6" id="text-2-74-33-7-2">
+</div>
+</li>
+
+<li><a id="orgd8874b1"></a><span class="done DONE">DONE</span> ./org-contrib/gsoc2012/student-projects/git-merge-tool: <code>[7/7]</code><br />
+<div class="outline-text-6" id="text-2-74-33-7-3">
+</div>
+<ol class="org-ol">
+<li><a id="orga16ca90"></a><span class="done DONE">DONE</span> development.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-1">
+</div>
+</li>
+<li><a id="org6d2956a"></a><span class="done DONE">DONE</span> examples.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-2">
+</div>
+</li>
+<li><a id="orge8fbae9"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-3">
+</div>
+</li>
+<li><a id="org8e49dca"></a><span class="done DONE">DONE</span> manual.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-4">
+</div>
+</li>
+<li><a id="orgb1121f3"></a><span class="done DONE">DONE</span> project-plan.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-5">
+</div>
+</li>
+<li><a id="org71292fe"></a><span class="done DONE">DONE</span> proposal.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-6">
+</div>
+</li>
+<li><a id="orgaaad48b"></a><span class="done DONE">DONE</span> prototype.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-3-7">
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org2f2b0db"></a><span class="done DONE">DONE</span> ./org-contrib/gsoc2012/student-projects/org-sync: <code>[5/5]</code><br />
+<div class="outline-text-6" id="text-2-74-33-7-4">
+</div>
+<ol class="org-ol">
+<li><a id="org827a01a"></a><span class="done DONE">DONE</span> backends.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-4-1">
+</div>
+</li>
+<li><a id="org2683204"></a><span class="done DONE">DONE</span> gnu-application.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-4-2">
+</div>
+</li>
+<li><a id="org3a6e308"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-7" id="text-2-74-33-7-4-3">
+</div>
+</li>
+<li><a id="org15e1fc1"></a><span class="done DONE">DONE</span> tutorial<br />
+<div class="outline-text-7" id="text-2-74-33-7-4-4">
+</div>
+</li>
+
+<li><a id="orgb6d8914"></a><span class="done DONE">DONE</span> ./org-contrib/gsoc2012/student-projects/org-sync/tutorial: <code>[9/9]</code><br />
+<div class="outline-text-7" id="text-2-74-33-7-4-5">
+</div>
+<ol class="org-ol">
+<li><a id="orgf7d6ddb"></a><span class="done DONE">DONE</span> auth-setup.png<br /></li>
+<li><a id="org6ee2181"></a><span class="done DONE">DONE</span> first-sync.png<br /></li>
+<li><a id="orgea02da3"></a><span class="done DONE">DONE</span> import-ok.png<br /></li>
+<li><a id="org718007a"></a><span class="done DONE">DONE</span> import.png<br /></li>
+<li><a id="orgd3cad81"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-8" id="text-2-74-33-7-4-5-5">
+</div>
+</li>
+<li><a id="orgdd2e056"></a><span class="done DONE">DONE</span> new-ok.png<br /></li>
+<li><a id="orgc41fe62"></a><span class="done DONE">DONE</span> on-github.png<br /></li>
+<li><a id="org75b9972"></a><span class="done DONE">DONE</span> sync-ok.png<br /></li>
+<li><a id="org4885646"></a><span class="done DONE">DONE</span> try-new.png<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org4e7f808" class="outline-3">
+<h3 id="org4e7f808"><span class="section-number-3">2.75</span> <span class="done DONE">DONE</span> ./org-testimonies: <code>[1/1]</code></h3>
+<div class="outline-text-3" id="text-2-75">
+</div>
+<div id="outline-container-orgb06cef2" class="outline-4">
+<h4 id="orgb06cef2"><span class="section-number-4">2.75.1</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-75-1">
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4ff9f48" class="outline-3">
+<h3 id="org4ff9f48"><span class="section-number-3">2.76</span> <span class="done DONE">DONE</span> ./org-tests: <code>[5/5]</code></h3>
+<div class="outline-text-3" id="text-2-76">
+</div>
+<div id="outline-container-orgb326d83" class="outline-4">
+<h4 id="orgb326d83"><span class="section-number-4">2.76.1</span> <span class="done DONE">DONE</span> ert-publish-test.el</h4>
+</div>
+<div id="outline-container-org445314e" class="outline-4">
+<h4 id="org445314e"><span class="section-number-4">2.76.2</span> <span class="done DONE">DONE</span> example.org</h4>
+<div class="outline-text-4" id="text-2-76-2">
+</div>
+</div>
+<div id="outline-container-org17d92be" class="outline-4">
+<h4 id="org17d92be"><span class="section-number-4">2.76.3</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-76-3">
+</div>
+</div>
+<div id="outline-container-orgaa31d7b" class="outline-4">
+<h4 id="orgaa31d7b"><span class="section-number-4">2.76.4</span> <span class="done DONE">DONE</span> tools</h4>
+</div>
+
+<div id="outline-container-org1f2d7f9" class="outline-4">
+<h4 id="org1f2d7f9"><span class="section-number-4">2.76.5</span> <span class="done DONE">DONE</span> ./org-tests/tools: <code>[3/3]</code></h4>
+<div class="outline-text-4" id="text-2-76-5">
+</div>
+<ol class="org-ol">
+<li><a id="org062e6cf"></a><span class="done DONE">DONE</span> el-expectations.el<br /></li>
+<li><a id="orgf8a3003"></a><span class="done DONE">DONE</span> el-mock.el<br /></li>
+<li><a id="orgc2d7afe"></a><span class="done DONE">DONE</span> ert.el<br /></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgea77e61" class="outline-3">
+<h3 id="orgea77e61"><span class="section-number-3">2.77</span> <span class="done DONE">DONE</span> ./org-tools: <code>[1/1]</code></h3>
+<div class="outline-text-3" id="text-2-77">
+</div>
+<div id="outline-container-org4c1a99c" class="outline-4">
+<h4 id="org4c1a99c"><span class="section-number-4">2.77.1</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-77-1">
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcbe031c" class="outline-3">
+<h3 id="orgcbe031c"><span class="section-number-3">2.78</span> <span class="todo TODO">TODO</span> ./org-tutorials: <code>[44/46]</code></h3>
+<div class="outline-text-3" id="text-2-78">
+</div>
+<div id="outline-container-org8c8754d" class="outline-4">
+<h4 id="org8c8754d"><span class="section-number-4">2.78.1</span> <span class="todo TODO">TODO</span> org-R</h4>
+</div>
+<div id="outline-container-org89bfcaa" class="outline-4">
+<h4 id="org89bfcaa"><span class="section-number-4">2.78.2</span> <span class="todo TODO">TODO</span> ./org-tutorials/org-R: <code>[10/12]</code></h4>
+<div class="outline-text-4" id="text-2-78-2">
+</div>
+<ol class="org-ol">
+<li><a id="org070e1c6"></a><span class="done DONE">DONE</span> data<br />
+<div class="outline-text-5" id="text-2-78-2-1">
+</div>
+</li>
+<li><a id="org4cecef4"></a><span class="done DONE">DONE</span> density.png<br /></li>
+<li><a id="org22d6c6c"></a><span class="done DONE">DONE</span> file.csv<br /></li>
+<li><a id="orgda0b063"></a><span class="done DONE">DONE</span> org-R.org<br />
+<div class="outline-text-5" id="text-2-78-2-4">
+</div>
+</li>
+<li><a id="org82ccb4d"></a><span class="done DONE">DONE</span> org-variables-barplot.png<br /></li>
+<li><a id="orga20d978"></a><span class="done DONE">DONE</span> org-variables-counts.org<br />
+<div class="outline-text-5" id="text-2-78-2-6">
+</div>
+</li>
+<li><a id="org837d7d6"></a><span class="done DONE">DONE</span> org-variables-hist.png<br /></li>
+<li><a id="orgd913571"></a><span class="done DONE">DONE</span> org-variables-incidence.org<br />
+<div class="outline-text-5" id="text-2-78-2-8">
+</div>
+</li>
+<li><a id="org2d803d9"></a><span class="done DONE">DONE</span> tmp.org<br />
+<div class="outline-text-5" id="text-2-78-2-9">
+</div>
+</li>
+<li><a id="org4b3b56a"></a><span class="todo TODO">TODO</span> variable-popcon-restricted.org<br /></li>
+<li><a id="org6cb9ea3"></a><span class="todo TODO">TODO</span> variable-popcon.org<br /></li>
+
+<li><a id="orgab966ef"></a><span class="done DONE">DONE</span> ./org-tutorials/org-R/data: <code>[4/4]</code><br />
+<ol class="org-ol">
+<li><a id="org6be0928"></a><span class="done DONE">DONE</span> 2c<br /></li>
+<li><a id="orgac2e134"></a><span class="done DONE">DONE</span> 45<br /></li>
+
+<li><a id="org569a281"></a><span class="done DONE">DONE</span> ./org-tutorials/org-R/data/2c: <code>[2/2]</code><br />
+<ol class="org-ol">
+<li><a id="orgbf5278b"></a><span class="done DONE">DONE</span> e0fc04-b308-4b8d-8acc-805a9e5fed7d<br /></li>
+
+<li><a id="org914b9ce"></a><span class="done DONE">DONE</span> ./org-tutorials/org-R/data/2c/e0fc04-b308-4b8d-8acc-805a9e5fed7d: <code>[6/6]</code><br />
+<ol class="org-ol">
+<li><a id="orgfadec52"></a><span class="done DONE">DONE</span> org-R-output-16365QHx.png<br /></li>
+<li><a id="org844a1d3"></a><span class="done DONE">DONE</span> org-R-output-18038ZGt.png<br /></li>
+<li><a id="orgf92f1ba"></a><span class="done DONE">DONE</span> org-R-output-18038<sub>xg.png</sub><br /></li>
+<li><a id="orgf88ebd4"></a><span class="done DONE">DONE</span> org-R-output-652oJT.png<br /></li>
+<li><a id="org36da6b2"></a><span class="done DONE">DONE</span> org-R-output-8119YGC.png<br /></li>
+<li><a id="orgcaa44f6"></a><span class="done DONE">DONE</span> org-R-output-8119Zys.png<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+
+<li><a id="org4d2bbdc"></a><span class="done DONE">DONE</span> ./org-tutorials/org-R/data/45: <code>[2/2]</code><br />
+<ol class="org-ol">
+<li><a id="org98f4616"></a><span class="done DONE">DONE</span> f39291-3abc-4d5b-96c9-3a32f77877a5<br /></li>
+
+<li><a id="org65d19ac"></a><span class="done DONE">DONE</span> ./org-tutorials/org-R/data/45/f39291-3abc-4d5b-96c9-3a32f77877a5: <code>[4/4]</code><br />
+<ol class="org-ol">
+<li><a id="org91a6a91"></a><span class="done DONE">DONE</span> org-R-output-652CsH.png<br /></li>
+<li><a id="orge837d63"></a><span class="done DONE">DONE</span> org-R-output-652pRO.png<br /></li>
+<li><a id="orgf6dd01b"></a><span class="done DONE">DONE</span> org-R-output-8119AYz.png<br /></li>
+<li><a id="org18fd7bd"></a><span class="done DONE">DONE</span> org-R-output-8119M2O.png<br /></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orge97002a" class="outline-4">
+<h4 id="orge97002a"><span class="section-number-4">2.78.3</span> <span class="done DONE">DONE</span> org-beamer</h4>
+<div class="outline-text-4" id="text-2-78-3">
+</div>
+</div>
+<div id="outline-container-orgd177e3c" class="outline-4">
+<h4 id="orgd177e3c"><span class="section-number-4">2.78.4</span> <span class="done DONE">DONE</span> org-screencasts</h4>
+<div class="outline-text-4" id="text-2-78-4">
+</div>
+</div>
+<div id="outline-container-org04b0613" class="outline-4">
+<h4 id="org04b0613"><span class="section-number-4">2.78.5</span> <span class="done DONE">DONE</span> advanced-searching.org</h4>
+<div class="outline-text-4" id="text-2-78-5">
+</div>
+</div>
+<div id="outline-container-orgb1d62e6" class="outline-4">
+<h4 id="orgb1d62e6"><span class="section-number-4">2.78.6</span> <span class="done DONE">DONE</span> agenda-filters.org</h4>
+<div class="outline-text-4" id="text-2-78-6">
+</div>
+</div>
+<div id="outline-container-org25bd844" class="outline-4">
+<h4 id="org25bd844"><span class="section-number-4">2.78.7</span> <span class="done DONE">DONE</span> encrypting-files.org</h4>
+<div class="outline-text-4" id="text-2-78-7">
+</div>
+</div>
+<div id="outline-container-org527f7fb" class="outline-4">
+<h4 id="org527f7fb"><span class="section-number-4">2.78.8</span> <span class="done DONE">DONE</span> images-and-xhtml-export.org</h4>
+<div class="outline-text-4" id="text-2-78-8">
+</div>
+</div>
+<div id="outline-container-org503c12c" class="outline-4">
+<h4 id="org503c12c"><span class="section-number-4">2.78.9</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-78-9">
+</div>
+</div>
+<div id="outline-container-org518e837" class="outline-4">
+<h4 id="org518e837"><span class="section-number-4">2.78.10</span> <span class="done DONE">DONE</span> multitarget-tables.org</h4>
+<div class="outline-text-4" id="text-2-78-10">
+</div>
+</div>
+<div id="outline-container-org1d0ccdb" class="outline-4">
+<h4 id="org1d0ccdb"><span class="section-number-4">2.78.11</span> <span class="done DONE">DONE</span> non-beamer-presentations.org</h4>
+<div class="outline-text-4" id="text-2-78-11">
+</div>
+</div>
+<div id="outline-container-org88d4961" class="outline-4">
+<h4 id="org88d4961"><span class="section-number-4">2.78.12</span> <span class="done DONE">DONE</span> org-appearance.org</h4>
+<div class="outline-text-4" id="text-2-78-12">
+</div>
+</div>
+<div id="outline-container-orgee9bd8b" class="outline-4">
+<h4 id="orgee9bd8b"><span class="section-number-4">2.78.13</span> <span class="done DONE">DONE</span> org-column-screencast.org</h4>
+<div class="outline-text-4" id="text-2-78-13">
+</div>
+</div>
+<div id="outline-container-org9ce2def" class="outline-4">
+<h4 id="org9ce2def"><span class="section-number-4">2.78.14</span> <span class="done DONE">DONE</span> org-column-view-tutorial.org</h4>
+<div class="outline-text-4" id="text-2-78-14">
+</div>
+</div>
+<div id="outline-container-orgfc541bb" class="outline-4">
+<h4 id="orgfc541bb"><span class="section-number-4">2.78.15</span> <span class="done DONE">DONE</span> org-custom-agenda-commands.org</h4>
+<div class="outline-text-4" id="text-2-78-15">
+</div>
+</div>
+<div id="outline-container-org3b2af46" class="outline-4">
+<h4 id="org3b2af46"><span class="section-number-4">2.78.16</span> <span class="done DONE">DONE</span> org-customize.org</h4>
+</div>
+<div id="outline-container-orgc06b7ea" class="outline-4">
+<h4 id="orgc06b7ea"><span class="section-number-4">2.78.17</span> <span class="done DONE">DONE</span> org-e-man-documentation.org</h4>
+<div class="outline-text-4" id="text-2-78-17">
+</div>
+</div>
+<div id="outline-container-org2b6b5a7" class="outline-4">
+<h4 id="org2b6b5a7"><span class="section-number-4">2.78.18</span> <span class="done DONE">DONE</span> org-google-sync.org</h4>
+<div class="outline-text-4" id="text-2-78-18">
+</div>
+</div>
+<div id="outline-container-org517bcd3" class="outline-4">
+<h4 id="org517bcd3"><span class="section-number-4">2.78.19</span> <span class="done DONE">DONE</span> org-import-rtm.org</h4>
+<div class="outline-text-4" id="text-2-78-19">
+</div>
+</div>
+<div id="outline-container-org665ad96" class="outline-4">
+<h4 id="org665ad96"><span class="section-number-4">2.78.20</span> <span class="done DONE">DONE</span> org-jekyll.org</h4>
+<div class="outline-text-4" id="text-2-78-20">
+</div>
+</div>
+<div id="outline-container-org765f16e" class="outline-4">
+<h4 id="org765f16e"><span class="section-number-4">2.78.21</span> <span class="done DONE">DONE</span> org-jsmath.org</h4>
+<div class="outline-text-4" id="text-2-78-21">
+</div>
+</div>
+<div id="outline-container-org02524fc" class="outline-4">
+<h4 id="org02524fc"><span class="section-number-4">2.78.22</span> <span class="done DONE">DONE</span> org-latex-export.org</h4>
+<div class="outline-text-4" id="text-2-78-22">
+</div>
+</div>
+<div id="outline-container-org6eb6d38" class="outline-4">
+<h4 id="org6eb6d38"><span class="section-number-4">2.78.23</span> <span class="done DONE">DONE</span> org-lookups.org</h4>
+<div class="outline-text-4" id="text-2-78-23">
+</div>
+</div>
+<div id="outline-container-org6a66773" class="outline-4">
+<h4 id="org6a66773"><span class="section-number-4">2.78.24</span> <span class="done DONE">DONE</span> org-meeting-tasks.org</h4>
+</div>
+<div id="outline-container-orgcfa0da2" class="outline-4">
+<h4 id="orgcfa0da2"><span class="section-number-4">2.78.25</span> <span class="done DONE">DONE</span> org-outside-org.org</h4>
+<div class="outline-text-4" id="text-2-78-25">
+</div>
+</div>
+<div id="outline-container-org4d08af0" class="outline-4">
+<h4 id="org4d08af0"><span class="section-number-4">2.78.26</span> <span class="done DONE">DONE</span> org-plot.org</h4>
+<div class="outline-text-4" id="text-2-78-26">
+</div>
+</div>
+<div id="outline-container-org27e250f" class="outline-4">
+<h4 id="org27e250f"><span class="section-number-4">2.78.27</span> <span class="done DONE">DONE</span> org-protocol-custom-handler.org</h4>
+<div class="outline-text-4" id="text-2-78-27">
+</div>
+</div>
+<div id="outline-container-orgc0b2cc1" class="outline-4">
+<h4 id="orgc0b2cc1"><span class="section-number-4">2.78.28</span> <span class="done DONE">DONE</span> org-publish-html-tutorial.org</h4>
+<div class="outline-text-4" id="text-2-78-28">
+</div>
+</div>
+<div id="outline-container-orgef9a04f" class="outline-4">
+<h4 id="orgef9a04f"><span class="section-number-4">2.78.29</span> <span class="done DONE">DONE</span> org-publish-layersmenu.org</h4>
+<div class="outline-text-4" id="text-2-78-29">
+</div>
+</div>
+<div id="outline-container-org4f7d396" class="outline-4">
+<h4 id="org4f7d396"><span class="section-number-4">2.78.30</span> <span class="done DONE">DONE</span> org-reference-guide-es.org</h4>
+<div class="outline-text-4" id="text-2-78-30">
+</div>
+</div>
+<div id="outline-container-orgeea6579" class="outline-4">
+<h4 id="orgeea6579"><span class="section-number-4">2.78.31</span> <span class="done DONE">DONE</span> org-ruby.org</h4>
+<div class="outline-text-4" id="text-2-78-31">
+</div>
+</div>
+<div id="outline-container-org60958c5" class="outline-4">
+<h4 id="org60958c5"><span class="section-number-4">2.78.32</span> <span class="done DONE">DONE</span> org-spreadsheet-intro.org</h4>
+<div class="outline-text-4" id="text-2-78-32">
+</div>
+</div>
+<div id="outline-container-org7bebba8" class="outline-4">
+<h4 id="org7bebba8"><span class="section-number-4">2.78.33</span> <span class="done DONE">DONE</span> org-spreadsheet-lisp-formulas.org</h4>
+<div class="outline-text-4" id="text-2-78-33">
+</div>
+</div>
+<div id="outline-container-org7c48065" class="outline-4">
+<h4 id="org7c48065"><span class="section-number-4">2.78.34</span> <span class="done DONE">DONE</span> org-tableur-tutoriel.org</h4>
+<div class="outline-text-4" id="text-2-78-34">
+</div>
+</div>
+<div id="outline-container-org8b46de4" class="outline-4">
+<h4 id="org8b46de4"><span class="section-number-4">2.78.35</span> <span class="done DONE">DONE</span> org-taskjuggler-scr.org</h4>
+<div class="outline-text-4" id="text-2-78-35">
+</div>
+</div>
+<div id="outline-container-orgd3ba1f5" class="outline-4">
+<h4 id="orgd3ba1f5"><span class="section-number-4">2.78.36</span> <span class="done DONE">DONE</span> org-taskjuggler.org</h4>
+<div class="outline-text-4" id="text-2-78-36">
+</div>
+</div>
+<div id="outline-container-org902b9ac" class="outline-4">
+<h4 id="org902b9ac"><span class="section-number-4">2.78.37</span> <span class="done DONE">DONE</span> org-vcs.org</h4>
+<div class="outline-text-4" id="text-2-78-37">
+</div>
+</div>
+<div id="outline-container-org1846415" class="outline-4">
+<h4 id="org1846415"><span class="section-number-4">2.78.38</span> <span class="done DONE">DONE</span> org4beginners.org</h4>
+<div class="outline-text-4" id="text-2-78-38">
+</div>
+</div>
+<div id="outline-container-org6a19f92" class="outline-4">
+<h4 id="org6a19f92"><span class="section-number-4">2.78.39</span> <span class="done DONE">DONE</span> orgtutorial<sub>dto</sub>-es.org</h4>
+<div class="outline-text-4" id="text-2-78-39">
+</div>
+</div>
+<div id="outline-container-org9da2049" class="outline-4">
+<h4 id="org9da2049"><span class="section-number-4">2.78.40</span> <span class="done DONE">DONE</span> orgtutorial<sub>dto</sub>-fr.org</h4>
+<div class="outline-text-4" id="text-2-78-40">
+</div>
+</div>
+<div id="outline-container-org73b8f3a" class="outline-4">
+<h4 id="org73b8f3a"><span class="section-number-4">2.78.41</span> <span class="done DONE">DONE</span> orgtutorial<sub>dto.org</sub></h4>
+<div class="outline-text-4" id="text-2-78-41">
+</div>
+</div>
+<div id="outline-container-org8ec5660" class="outline-4">
+<h4 id="org8ec5660"><span class="section-number-4">2.78.42</span> <span class="done DONE">DONE</span> tables.org</h4>
+<div class="outline-text-4" id="text-2-78-42">
+</div>
+</div>
+<div id="outline-container-org8f195cf" class="outline-4">
+<h4 id="org8f195cf"><span class="section-number-4">2.78.43</span> <span class="done DONE">DONE</span> theme-test.org</h4>
+<div class="outline-text-4" id="text-2-78-43">
+</div>
+</div>
+<div id="outline-container-org2cdbdaf" class="outline-4">
+<h4 id="org2cdbdaf"><span class="section-number-4">2.78.44</span> <span class="done DONE">DONE</span> tracking-habits.org</h4>
+<div class="outline-text-4" id="text-2-78-44">
+</div>
+</div>
+
+<div id="outline-container-org32e8c14" class="outline-4">
+<h4 id="org32e8c14"><span class="section-number-4">2.78.45</span> <span class="done DONE">DONE</span> ./org-tutorials/org-beamer: <code>[4/4]</code></h4>
+<div class="outline-text-4" id="text-2-78-45">
+</div>
+<ol class="org-ol">
+<li><a id="org8948901"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-5" id="text-2-78-45-1">
+</div>
+</li>
+<li><a id="orgaea9611"></a><span class="done DONE">DONE</span> org-e-beamer.org<br />
+<div class="outline-text-5" id="text-2-78-45-2">
+</div>
+</li>
+<li><a id="orgaaca913"></a><span class="done DONE">DONE</span> presentation.org<br />
+<div class="outline-text-5" id="text-2-78-45-3">
+</div>
+</li>
+<li><a id="org126ec1f"></a><span class="done DONE">DONE</span> tutorial.org<br />
+<div class="outline-text-5" id="text-2-78-45-4">
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgbaf8123" class="outline-4">
+<h4 id="orgbaf8123"><span class="section-number-4">2.78.46</span> <span class="done DONE">DONE</span> ./org-tutorials/org-screencasts: <code>[4/4]</code></h4>
+<div class="outline-text-4" id="text-2-78-46">
+</div>
+<ol class="org-ol">
+<li><a id="orga151c97"></a><span class="done DONE">DONE</span> ghm2011-demo.org<br />
+<div class="outline-text-5" id="text-2-78-46-1">
+</div>
+</li>
+<li><a id="org0064724"></a><span class="done DONE">DONE</span> index.org<br />
+<div class="outline-text-5" id="text-2-78-46-2">
+</div>
+</li>
+<li><a id="orgd3da6b6"></a><span class="done DONE">DONE</span> org-mode-google-tech-talk.org<br />
+<div class="outline-text-5" id="text-2-78-46-3">
+</div>
+</li>
+<li><a id="orgc411f7e"></a><span class="done DONE">DONE</span> org-series-episode-1.org<br />
+<div class="outline-text-5" id="text-2-78-46-4">
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org7facd79" class="outline-3">
+<h3 id="org7facd79"><span class="section-number-3">2.79</span> <span class="done DONE">DONE</span> ./orgguide: <code>[10/10]</code></h3>
+<div class="outline-text-3" id="text-2-79">
+</div>
+<div id="outline-container-org5481138" class="outline-4">
+<h4 id="org5481138"><span class="section-number-4">2.79.1</span> <span class="done DONE">DONE</span> clean.sh</h4>
+</div>
+<div id="outline-container-orgf23de81" class="outline-4">
+<h4 id="orgf23de81"><span class="section-number-4">2.79.2</span> <span class="done DONE">DONE</span> doclicense.texi</h4>
+</div>
+<div id="outline-container-org0a5fab5" class="outline-4">
+<h4 id="org0a5fab5"><span class="section-number-4">2.79.3</span> <span class="done DONE">DONE</span> make.sh</h4>
+</div>
+<div id="outline-container-org2788b8f" class="outline-4">
+<h4 id="org2788b8f"><span class="section-number-4">2.79.4</span> <span class="done DONE">DONE</span> org-version.inc</h4>
+</div>
+<div id="outline-container-org7ba94cf" class="outline-4">
+<h4 id="org7ba94cf"><span class="section-number-4">2.79.5</span> <span class="done DONE">DONE</span> orgguide.es.html</h4>
+</div>
+<div id="outline-container-org61a442d" class="outline-4">
+<h4 id="org61a442d"><span class="section-number-4">2.79.6</span> <span class="done DONE">DONE</span> orgguide.es.pdf</h4>
+</div>
+<div id="outline-container-orgf3e2bc3" class="outline-4">
+<h4 id="orgf3e2bc3"><span class="section-number-4">2.79.7</span> <span class="done DONE">DONE</span> orgguide.es.po</h4>
+</div>
+<div id="outline-container-org656b8b7" class="outline-4">
+<h4 id="org656b8b7"><span class="section-number-4">2.79.8</span> <span class="done DONE">DONE</span> orgguide.es.texi</h4>
+</div>
+<div id="outline-container-orga78cba8" class="outline-4">
+<h4 id="orga78cba8"><span class="section-number-4">2.79.9</span> <span class="done DONE">DONE</span> orgguide.pot</h4>
+</div>
+<div id="outline-container-org0a21184" class="outline-4">
+<h4 id="org0a21184"><span class="section-number-4">2.79.10</span> <span class="done DONE">DONE</span> orgguide.texi</h4>
+</div>
+</div>
+
+<div id="outline-container-orgb81e179" class="outline-3">
+<h3 id="orgb81e179"><span class="section-number-3">2.80</span> <span class="done DONE">DONE</span> ./style: <code>[5/5]</code></h3>
+<div class="outline-text-3" id="text-2-80">
+</div>
+<div id="outline-container-orgfcccf65" class="outline-4">
+<h4 id="orgfcccf65"><span class="section-number-4">2.80.1</span> <span class="done DONE">DONE</span> worg-classic.css</h4>
+</div>
+<div id="outline-container-orgaf10ceb" class="outline-4">
+<h4 id="orgaf10ceb"><span class="section-number-4">2.80.2</span> <span class="done DONE">DONE</span> worg-zenburn.css</h4>
+</div>
+<div id="outline-container-org1651c7b" class="outline-4">
+<h4 id="org1651c7b"><span class="section-number-4">2.80.3</span> <span class="done DONE">DONE</span> worg.css</h4>
+</div>
+<div id="outline-container-org22a3113" class="outline-4">
+<h4 id="org22a3113"><span class="section-number-4">2.80.4</span> <span class="done DONE">DONE</span> worg7.css</h4>
+</div>
+<div id="outline-container-org3747ee5" class="outline-4">
+<h4 id="org3747ee5"><span class="section-number-4">2.80.5</span> <span class="done DONE">DONE</span> zenburn-emacs.css</h4>
+</div>
+</div>
+
+<div id="outline-container-org75e9972" class="outline-3">
+<h3 id="org75e9972"><span class="section-number-3">2.81</span> <span class="done DONE">DONE</span> ./users: <code>[7/7]</code></h3>
+<div class="outline-text-3" id="text-2-81">
+</div>
+<div id="outline-container-org0722146" class="outline-4">
+<h4 id="org0722146"><span class="section-number-4">2.81.1</span> <span class="done DONE">DONE</span> bzg.org</h4>
+<div class="outline-text-4" id="text-2-81-1">
+</div>
+</div>
+<div id="outline-container-org9072be7" class="outline-4">
+<h4 id="org9072be7"><span class="section-number-4">2.81.2</span> <span class="done DONE">DONE</span> cnngimenez.org</h4>
+<div class="outline-text-4" id="text-2-81-2">
+</div>
+</div>
+<div id="outline-container-orga13a995" class="outline-4">
+<h4 id="orga13a995"><span class="section-number-4">2.81.3</span> <span class="done DONE">DONE</span> davidam.org</h4>
+<div class="outline-text-4" id="text-2-81-3">
+</div>
+</div>
+<div id="outline-container-orgc12bf71" class="outline-4">
+<h4 id="orgc12bf71"><span class="section-number-4">2.81.4</span> <span class="done DONE">DONE</span> index.org</h4>
+<div class="outline-text-4" id="text-2-81-4">
+</div>
+</div>
+<div id="outline-container-org57d64c8" class="outline-4">
+<h4 id="org57d64c8"><span class="section-number-4">2.81.5</span> <span class="done DONE">DONE</span> mlundin.org</h4>
+<div class="outline-text-4" id="text-2-81-5">
+</div>
+</div>
+<div id="outline-container-orgc41b87b" class="outline-4">
+<h4 id="orgc41b87b"><span class="section-number-4">2.81.6</span> <span class="done DONE">DONE</span> rpr.org</h4>
+<div class="outline-text-4" id="text-2-81-6">
+</div>
+</div>
+<div id="outline-container-org9481c2e" class="outline-4">
+<h4 id="org9481c2e"><span class="section-number-4">2.81.7</span> <span class="done DONE">DONE</span> srose.org</h4>
+<div class="outline-text-4" id="text-2-81-7">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2013-04-22 Mon 00:00</p>
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+<p class="creator">Emacs 24.3.1 (Org mode 8.0)</p>
+</div>
+</body>
+</html>

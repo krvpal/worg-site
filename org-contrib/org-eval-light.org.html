@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-eval-light.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-eval-light.el --- Display result of evaluating code in various languages (light)
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General 
+</span>
+Org-eval-light enables the execution of source code embedded in
+org-mode files.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to use it
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Quick Example
+</span>
+As a quick demonstration of use of <span class="org-verbatim">org-eval-light</span> first <span class="org-link"><a href="Loading it (No surprises here)">load it</a></span> as
+described below.  Then place a <span class="org-verbatim">#+begin_src</span> block like that below in
+an org-file on your system.  Place the cursor <span class="bold">inside</span> of the block
+(in this case on the same line as the word <span class="org-verbatim">date</span>) and press
+<span class="org-verbatim">\C-c\C-c</span> calling <span class="org-verbatim">org-eval-light-current-snippet</span>.  This will run
+the <span class="org-verbatim">date</span> command in your shell, and will place the output into your
+org file after the block.  In the case of short output like below,
+<span class="org-verbatim">org-eval-light</span> will use the consise <span class="org-verbatim">:</span> style comments, but larger
+output (the cutoff default to 10 lines, but can be changed by setting
+the <span class="org-verbatim">org-eval-light-example-size-cutoff</span> variable) will be placed in
+an example block.
+
+<span class="org-code">: #+begin_src shell
+:  date
+: #+end_src
+</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Loading it (No surprises here)
+</span>The easiest way is by 
+
+<span class="whitespace-tab">        </span>M-x customize-apropos org-modules
+
+Check the line for eval-light.  This will cause it to be loaded every
+time you start org-mode.
+
+You'll still have to load it manually the first time.
+
+Of course, you can also just try it out by loading it manually.
+
+If you prefer to manually customize your emacs then make sure that the
+path to org's contrib directory is in your load-path and add the
+following to your <span class="org-verbatim">.emacs</span>.
+
+<span class="org-code">: (require 'org-eval-light)
+</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Adding new source-code types
+</span><span class="org-verbatim">org-eval-light</span> is extensible.  If you would like to add a new type
+of source code to <span class="org-verbatim">org-eval-light</span> you may do so by adding the name of
+your new lang (let say <span class="org-verbatim">new_lang</span>) to the
+<span class="org-verbatim">org-eval-light-interpreters</span> variable.  You will then need to add a
+new conditional statement to the <span class="org-verbatim">org-eval-light-code</span> function
+(<span class="bold">note</span>: you should only try this if you are willing to get your hands
+dirty with some elisp).
+
+If you add a new code type, and get it working please share your
+changes with the mailing list.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Credits
+</span>
+Eric Schulte adapted org-eval-light from org-eval, with
+much-appreciated code and advice from Carsten Dominik.
+</pre>
+  </body>
+</html>

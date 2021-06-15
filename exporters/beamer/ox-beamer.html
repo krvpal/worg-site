@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Beamer presentations using the new export engine</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Suvayu Ali" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Beamer presentations using the new export engine</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orge5a3f96">Introduction</a>
+<ul>
+<li><a href="#setup">Initial setup</a></li>
+</ul>
+</li>
+<li><a href="#config">Configuring export options</a>
+<ul>
+<li><a href="#simple-example">A simple example</a></li>
+<li><a href="#frame-level">Configuring frame export level</a></li>
+<li><a href="#export-filters">Use of filters to customise export</a></li>
+</ul>
+</li>
+<li><a href="#editing-environments-markup">Structure editing, environments and markup</a>
+<ul>
+<li><a href="#environments-overlay">Block environments and overlay specifications</a></li>
+<li><a href="#special-environments">Special environments</a></li>
+</ul>
+</li>
+<li><a href="#migration">Migrating from the old to the new exporter</a>
+<ul>
+<li><a href="#org8084c0d">Configuration</a></li>
+<li><a href="#backwards-compatibility">Backwards incompatible changes</a></li>
+</ul>
+</li>
+<li><a href="#new-features">New features available with the new exporter</a>
+<ul>
+<li><a href="#org306f7b9"><span class="todo TODO">TODO</span> Hacks</a></li>
+<li><a href="#org05b9bc3"><span class="todo TODO">TODO</span> Beamer article</a></li>
+<li><a href="#orgf53780a"><span class="todo TODO">TODO</span> Overlays</a></li>
+<li><a href="#org31daaa2"><span class="todo TODO">TODO</span> Snippet translation</a></li>
+<li><a href="#org8834eef"><span class="todo TODO">TODO</span> Ordered and unordered lists</a></li>
+<li><a href="#orga446187"><span class="todo TODO">TODO</span> Images</a></li>
+<li><a href="#orga7d99b8"><span class="todo TODO">TODO</span> Tables</a></li>
+<li><a href="#orge86ceb9"><span class="todo TODO">TODO</span> Source blocks</a></li>
+<li><a href="#org1337497"><span class="done DONE">DONE</span> Environments</a></li>
+</ul>
+</li>
+<li><a href="#examples"><span class="todo TODO">TODO</span> Examples</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orge5a3f96" class="outline-2">
+<h2 id="orge5a3f96">Introduction</h2>
+<div class="outline-text-2" id="text-orge5a3f96">
+<p>
+This tutorial covers exporting org documents to LaTeX Beamer slides
+using the new export engine, <code>org-elements</code> and <code>ox</code> (short for
+org-export), written by Nicolas Goaziou.
+</p>
+
+<p>
+<span class="underline">Note:</span> It will not cover any of the basic features common with the
+old beamer exporter; it will only focus on the improvements, new
+additions and backwards incompatibilities.  It is also assumed that
+the reader is already acquainted with GNU Emacs and Org mode itself.
+Basic understanding of LaTeX and the Beamer package is also assumed.
+</p>
+</div>
+
+<div id="outline-container-setup" class="outline-3">
+<h3 id="setup">Initial setup</h3>
+<div class="outline-text-3" id="text-setup">
+<p>
+Unlike the old exporter, requiring the beamer exporter is not enough
+to export to beamer slides with <code>ox</code>.  This difference arises from a
+new feature in <code>ox-beamer</code> that allows, in the author&rsquo;s words, a
+beamer translation of <b>any</b> Org document.  This is extremely useful
+when creating handouts or article versions of your slides by loading
+the <code>beamerarticle</code> package (see the <a href="http://www.tex.ac.uk/tex-archive/macros/latex/contrib/beamer/doc/beameruserguide.pdf">beamer user guide</a> for specifics).
+</p>
+
+<p>
+You can use the following minimal setup to start exporting to the
+beamer <code>documentclass</code>.  As of the latest Org mode version (8.0.3),
+this setup is not necessary anymore.  If you want to customise this
+variable, you should do it before loading <code>ox-beamer</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-latex</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+               <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"beamer"</span>
+                 <span style="color: #e2c770;">"\\documentclass</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">[presentation</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">]</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{beamer</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{%s</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span> . <span style="color: #e2c770;">"\\section*</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{%s</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{%s</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span> . <span style="color: #e2c770;">"\\subsection*</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{%s</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{%s</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span> . <span style="color: #e2c770;">"\\subsubsection*</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">{%s</span><span style="color: #e2c770;">\</span><span style="color: #e2c770;">}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<p>
+The first string <code>beamer</code> in <code>org-latex-classes</code> is by no means
+unique, it can be substituted for any convenient name you wish.  This
+name however should be the argument to the <code>LaTeX_CLASS</code> file header
+option (or <code>EXPORT_LaTeX_CLASS</code> subtree property).
+</p>
+
+<p>
+Eric recently updated the <a href="presentation.html">old example presentation</a> for beamer export
+to work with <code>ox-beamer</code>.  You can take a look at that to get started.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-config" class="outline-2">
+<h2 id="config">Configuring export options</h2>
+<div class="outline-text-2" id="text-config">
+<p>
+Apart from the usual export options provided by the <code>OPTIONS</code> keyword,
+you can put additional beamer export options in the file header.  For
+a minimal beamer export, you have to specify the <code>LaTeX_CLASS</code> and the
+<code>LaTeX_CLASS_OPTIONS</code> keywords in the header of a file.  A preset
+export template can be inserted by calling the interactive function
+<code>org-beamer-insert-options-template</code>.  This can be further modified as
+per your needs.  You can also do a subtree export; in that case you
+can provide the keywords as subtree <code>PROPERTIES</code>.  However take note
+that the keyword names should be prepended with <code>EXPORT_</code>.  A list of
+supported keywords are,
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Export option keywords and corresponding subtree properties.</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">File header keywords</th>
+<th scope="col" class="org-left">Subtree properties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>OPTIONS</code></td>
+<td class="org-left"><code>EXPORT_OPTIONS</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>LaTeX_CLASS</code></td>
+<td class="org-left"><code>EXPORT_LaTeX_CLASS</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>LaTeX_CLASS_OPTIONS</code></td>
+<td class="org-left"><code>EXPORT_LaTeX_CLASS_OPTIONS</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>LaTeX_HEADER</code></td>
+<td class="org-left"><code>EXPORT_LaTeX_HEADER</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BEAMER_THEME</code></td>
+<td class="org-left"><code>EXPORT_BEAMER_THEME</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BEAMER_COLOR_THEME</code></td>
+<td class="org-left"><code>EXPORT_BEAMER_COLOR_THEME</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BEAMER_FONT_THEME</code></td>
+<td class="org-left"><code>EXPORT_BEAMER_FONT_THEME</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BEAMER_INNER_THEME</code></td>
+<td class="org-left"><code>EXPORT_BEAMER_INNER_THEME</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BEAMER_OUTER_THEME</code></td>
+<td class="org-left"><code>EXPORT_BEAMER_OUTER_THEME</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>BEAMER_HEADER</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+For a subtree export, a few extra keywords are supported.  For example
+you can specify the exported filename with the <code>EXPORT_FILE_NAME</code>
+property.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> Properties specific to subtree export</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Subtree properties</th>
+<th scope="col" class="org-left">Functionality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>EXPORT_TITLE</code></td>
+<td class="org-left">Export title</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>EXPORT_AUTHOR</code></td>
+<td class="org-left">Export author</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>EXPORT_DATE</code></td>
+<td class="org-left">Export date</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>EXPORT_FILE_NAME</code></td>
+<td class="org-left">Export file name</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-simple-example" class="outline-3">
+<h3 id="simple-example">A simple example</h3>
+<div class="outline-text-3" id="text-simple-example">
+<p>
+A simple file header might look like the example below.
+</p>
+<pre class="example">
+  #+LaTeX_CLASS: beamer
+  #+LaTeX_CLASS_OPTIONS: [presentation,smaller]
+  #+BEAMER_THEME: default
+</pre>
+<p>
+A corresponding subtree export should have properties as shown below.
+</p>
+<pre class="example">
+  * Exported title
+    :PROPERTIES:
+    :EXPORT_LaTeX_CLASS: beamer
+    :EXPORT_LaTeX_CLASS_OPTIONS: [presentation,smaller]
+    :EXPORT_BEAMER_THEME: default
+    :EXPORT_FILE_NAME: presentation.pdf
+    :END:
+</pre>
+
+<p>
+The export class, as defined in <code>org-latex-classes</code>, determines the
+<code>documentclass</code>, and the class options are passed on as optional
+arguments (note the presence of square brackets).
+</p>
+<pre class="example">
+\documentclass[smaller,presentation]{beamer}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-frame-level" class="outline-3">
+<h3 id="frame-level">Configuring frame export level</h3>
+<div class="outline-text-3" id="text-frame-level">
+<p>
+The new exporter allows the grouping slides into LaTeX sections.  The
+sectioning behaviour is controlled by <code>org-latex-classes</code>, where as
+heading levels to be exported as frames are controlled by the <code>H:n</code>
+option to the <code>OPTIONS</code> keyword (<code>EXPORT_OPTIONS</code> property for subtree
+export).  The <code>n</code> here is the headline level number that you want to
+export as frames.  To elaborate with an example, to export third level
+headlines as frames, use <code>#+OPTIONS: H:3</code> in the file header.  This
+behaviour can be overridden per headline by setting the <code>BEAMER_env</code>
+property to <code>frame</code>.  You can also provide options to a frame by
+setting the <code>BEAMER_opt</code> property on the headline.  This also adds the
+<code>fragile</code> option to the frame.
+</p>
+</div>
+</div>
+
+<div id="outline-container-export-filters" class="outline-3">
+<h3 id="export-filters">Use of filters to customise export</h3>
+<div class="outline-text-3" id="text-export-filters">
+<p>
+<code>ox</code> also gives you access to all <code>org-element</code> entities in the
+exported text for customisation with user filters.  Filters are
+essentially simple lisp functions that reformat the exported elements.
+As a simple example; the <code>ox-beamer</code> translates <b>bold text</b> as
+<code>\alert{bold text}</code>.  To revert this back to the old behaviour, you
+can you a filter like this:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">my-beamer-bold</span> <span style="color: #fd971f;">(</span>contents backend info<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">eq</span> backend <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">beamer</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">replace-regexp-in-string</span> <span style="color: #e2c770;">"\\`\\\\[</span><span style="color: #fd971f;">A-Za-z0-9</span><span style="color: #e2c770;">]+"</span> <span style="color: #e2c770;">"\\\\textbf"</span> contents<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-export-filter-bold-functions</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">my-beamer-bold</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+<p>
+Another example would be to translate <del>strike through text</del> to
+<code>\structure{strike through text}</code> with the following filter.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">my-beamer-structure</span> <span style="color: #fd971f;">(</span>contents backend info<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">eq</span> backend <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">beamer</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">replace-regexp-in-string</span> <span style="color: #e2c770;">"\\`\\\\[</span><span style="color: #fd971f;">A-Za-z0-9</span><span style="color: #e2c770;">]+"</span> <span style="color: #e2c770;">"\\\\structure"</span> contents<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-export-filter-strike-through-functions</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">my-beamer-structure</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-editing-environments-markup" class="outline-2">
+<h2 id="editing-environments-markup">Structure editing, environments and markup</h2>
+<div class="outline-text-2" id="text-editing-environments-markup">
+<p>
+All the usual Org mode structure editing commands work.  The minor
+mode <code>org-beamer-mode</code> is also provided to make it convenient to
+insert Beamer specific environments in an Org mode buffer.
+</p>
+
+<p>
+A notable change in <code>ox-beamer</code> with regards to markup is, <b>bold text</b>
+is translated as <code>\alert{bold text}</code> by default.
+</p>
+</div>
+
+<div id="outline-container-environments-overlay" class="outline-3">
+<h3 id="environments-overlay">Block environments and overlay specifications</h3>
+<div class="outline-text-3" id="text-environments-overlay">
+<p>
+All headlines below the <code>org-beamer-frame-level</code> (i.e. below <code>H</code> value
+in <code>OPTIONS</code>), are exported as blocks with <code>ox-beamer</code>.  You can
+choose special block environments by setting the <code>BEAMER_env</code> property
+on the headline.  Supported blocks are listed in
+<code>org-beamer-environments-default</code>.  To specify an overlay
+specification for a frame or block environment, set the <code>BEAMER_act</code>
+property.  If the value is enclosed in square brackets, it is
+interpreted as a default overlay specification.
+</p>
+<pre class="example">
+  * A theorem block
+    :PROPERTIES:
+    :BEAMER_env: theorem
+    :BEAMER_act: &lt;2-&gt;
+    :END:
+
+  The =BEAMER_act= property says to overlay this environment from the
+  second frame onwards.
+</pre>
+
+<p>
+You can add your own environments by customising the
+<code>org-beamer-environments-extra</code> variable.  For example the snippet
+below adds support for <code>only</code> environment and associates to the letter
+<code>O</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-beamer-environments-extra</span>
+               <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"onlyenv"</span> <span style="color: #e2c770;">"O"</span> <span style="color: #e2c770;">"\\begin{onlyenv}%a"</span> <span style="color: #e2c770;">"\\end{onlyenv}"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-special-environments" class="outline-3">
+<h3 id="special-environments">Special environments</h3>
+<div class="outline-text-3" id="text-special-environments">
+<p>
+Environments can be put in a column by setting the <code>BEAMER_col</code>
+property on a headline.  It accepts decimal point numbers which is
+interpreted as a fraction of the text width.  If the headline does not
+have an environment the headline text is ignored and all the contents
+are put inside the column environment.
+</p>
+<pre class="example">
+  * A block in a column
+    :PROPERTIES:
+    :BEAMER_env: block
+    :BEAMER_col: 0.5
+    :END:
+
+  * Just a column with contents
+    :PROPERTIES:
+    :BEAMER_col: 0.5
+    :END:
+  Some text, the headline above is ignored
+</pre>
+
+<p>
+You can start an appendix by setting the <code>BEAMER_env</code> property to
+<code>appendix</code> on a headline.  Similarly you can insert notes by setting
+the property to <code>note</code> (use <code>noteNH</code> to exclude the headline from the
+note).  You can also use Beamer&rsquo;s <code>againframe</code> command by setting the
+same property.  The frame being referred to by <code>againframe</code> is
+specified by the <code>BEAMER_ref</code> property.  You can also ignore a
+headline by using <code>ignoreheading</code>.  This can also be used to close a
+<code>column</code> environment.
+</p>
+
+<p>
+All contiguous environments are automatically wrapped in a <code>columns</code>
+environment, although it can be forced at any point by setting the
+<code>BEAMER_env</code> property to <code>columns</code>.  This might be handy if you want
+to pass special options.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-migration" class="outline-2">
+<h2 id="migration">Migrating from the old to the new exporter</h2>
+<div class="outline-text-2" id="text-migration">
+</div>
+
+<div id="outline-container-org8084c0d" class="outline-3">
+<h3 id="org8084c0d">Configuration</h3>
+<div class="outline-text-3" id="text-org8084c0d">
+<p>
+Many configuration variables have been renamed, some might even have
+slightly different meanings.  For a summary of these changes take a
+look at the following entries:
+</p>
+<ul class="org-ul">
+<li></li>
+<li></li>
+</ul>
+<p>
+If there is information missing from the above entries, please do not
+hesitate to report on the Org mode mailing list.
+</p>
+
+<p>
+Besides configuration variables, the earlier version allowed more
+generic configuration of export using hooks.  This has been replaced
+by export filters.  There is a nice <a href="../filter-markup.html">article</a> on how you could explore
+available filters by Charles Berry.  A few simple examples were also
+shown above.
+</p>
+
+<p>
+That said, two old-style hooks are still available:
+<code>org-export-before-parsing-hook</code>, and
+<code>org-export-before-processing-hook</code>.  Take a look at their
+documentation strings for more details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-backwards-compatibility" class="outline-3">
+<h3 id="backwards-compatibility">Backwards incompatible changes</h3>
+<div class="outline-text-3" id="text-backwards-compatibility">
+<p>
+The new exporter has a few backwards incompatible changes.  The most
+visible change is the export behaviour of headlines deeper than the
+exported headline level.  You can configure the headline levels that
+are exported with the <code>#+OPTIONS: H:n</code> line (as explained <a href="#frame-level">earlier</a>).
+If there are any headlines deeper than <code>n</code>, they are exported as
+blocks during beamer export.  For the old exporter, these were
+exported as unordered lists.  <a href="https://orgmode.org/list/5234728E.3000901@gmail.com">This thread</a> from the mailing list
+archive has some discussion on how to deal with this change.  If you
+have anything to add to that discussion, please share on the mailing
+list.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-new-features" class="outline-2">
+<h2 id="new-features">New features available with the new exporter</h2>
+<div class="outline-text-2" id="text-new-features">
+</div>
+
+<div id="outline-container-org306f7b9" class="outline-3">
+<h3 id="org306f7b9"><span class="todo TODO">TODO</span> Hacks</h3>
+<div class="outline-text-3" id="text-org306f7b9">
+<p>
+Show some non-trivial hacks that can be used to achieve customised
+output.  Often one needs to do these when trying to work with beamer
+specific features like overlay.  One example:
+<a href="http://mid.gmane.org/87bo2fudnn.fsf@gmail.com">http://mid.gmane.org/87bo2fudnn.fsf@gmail.com</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org05b9bc3" class="outline-3">
+<h3 id="org05b9bc3"><span class="todo TODO">TODO</span> Beamer article</h3>
+<div class="outline-text-3" id="text-org05b9bc3">
+<p>
+Discuss that <code>EXPORT_LaTeX_CLASS</code> need not be beamer.  Useful to
+export <code>beamerarticle</code> document for slides.
+</p>
+
+<p>
+Email from Nicolas Goaziou discussing this feature:
+<a href="http://mid.gmane.org/87hapz3na9.fsf@gmail.com">http://mid.gmane.org/87hapz3na9.fsf@gmail.com</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf53780a" class="outline-3">
+<h3 id="orgf53780a"><span class="todo TODO">TODO</span> Overlays</h3>
+<div class="outline-text-3" id="text-orgf53780a">
+<ul class="org-ul">
+<li><a href="#environments-overlay">Overlay specifications for frames and blocks</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org31daaa2" class="outline-3">
+<h3 id="org31daaa2"><span class="todo TODO">TODO</span> Snippet translation</h3>
+</div>
+
+<div id="outline-container-org8834eef" class="outline-3">
+<h3 id="org8834eef"><span class="todo TODO">TODO</span> Ordered and unordered lists</h3>
+</div>
+
+<div id="outline-container-orga446187" class="outline-3">
+<h3 id="orga446187"><span class="todo TODO">TODO</span> Images</h3>
+</div>
+
+<div id="outline-container-orga7d99b8" class="outline-3">
+<h3 id="orga7d99b8"><span class="todo TODO">TODO</span> Tables</h3>
+</div>
+
+<div id="outline-container-orge86ceb9" class="outline-3">
+<h3 id="orge86ceb9"><span class="todo TODO">TODO</span> Source blocks</h3>
+</div>
+
+<div id="outline-container-org1337497" class="outline-3">
+<h3 id="org1337497"><span class="done DONE">DONE</span> Environments</h3>
+</div>
+</div>
+
+<div id="outline-container-examples" class="outline-2">
+<h2 id="examples"><span class="todo TODO">TODO</span> Examples</h2>
+<div class="outline-text-2" id="text-examples">
+<ol class="org-ol">
+<li class="off"><code>[&#xa0;]</code> Sectioning and TOC (progress state between sections)</li>
+<li class="off"><code>[&#xa0;]</code> Overlays</li>
+<li class="off"><code>[&#xa0;]</code> Blocks
+<ol class="org-ol">
+<li class="off"><code>[&#xa0;]</code> Normal blocks</li>
+<li class="off"><code>[&#xa0;]</code> Verbatim blocks</li>
+<li class="off"><code>[&#xa0;]</code> Source blocks</li>
+</ol></li>
+<li class="on"><code>[X]</code> Columns</li>
+<li class="off"><code>[&#xa0;]</code> Text / LaTeX commands in between frames</li>
+<li class="off"><code>[&#xa0;]</code> Images
+<ul class="org-ul">
+<li>Centering</li>
+<li>Captions</li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> Footnotes and references</li>
+<li class="on"><code>[X]</code> Backup slides with <code>\appendix</code></li>
+<li class="off"><code>[&#xa0;]</code> Caveats about using alternate TeX binaries</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2013-02-05</p>
+<p class="author">Author: Suvayu Ali</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

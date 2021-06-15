@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>examples.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .success {
+        /* success */
+        color: #b6e63e;
+      }
+      .warning {
+        /* warning */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Org-Merge-Driver Example Usage
+</span>
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+Here are some examples of the usage of org-merge-driver. When there is
+a conflict, local updates are shown on the top, and remote updates on
+the bottom.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Adding and Removing Headings
+</span>When local and remote files add headings, org-merge-driver combines
+the information as best it can. If local and remote add the same in
+the same place, org-merge-driver will add them as the same heading.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Ancestor
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Basket
+  ,** Green Apple
+  ,*** Seed 1
+  ,** Red Apple
+  ,*** Seed 1
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Local
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,** Green Apple
+  ,*** Seed 1
+  ,*** Seed 2
+  ,** Red Apple
+  ,*** Seed 1
+  ,** Yellow Apple
+  ,*** Seed 1
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Remote
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Basket
+  ,** Green Apple
+  ,*** Seed 2
+  ,** Red Apple
+  ,*** Seed 1
+  ,*** Seed 2
+  ,** Yellow Apple
+  ,*** Seed 1
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Output
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Basket
+  ,** Green Apple
+  ,*** Seed 2
+  ,** Red Apple
+  ,*** Seed 1
+  ,*** Seed 2
+  ,** Yellow Apple
+  ,*** Seed 1
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Modifying Text
+</span>Text blocks have more conservative rules for what will conflict than
+headings. Notably, if text is added to the same spot from local and
+remote, there will be a conflict.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Ancestor
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Produce
+  ,- the farmers market is famous for their produce.
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Local
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+TITLE: Farmers Market
+  ,* Produce
+  ,- They are open on weekends
+  ,- the farmers market is famous for their produce.
+  ,- Its too bad I HATE vegetables
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Remote
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Produce
+  ,- the farmers market is famous for their produce.
+  ,- Its a good thing I love vegetables
+  ,  - Snow Peas are the best.
+  ,* Pies
+  ,- also they have a lot of pies
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Output
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+TITLE: Farmers Market
+  ,* Produce
+  ,- They are open on weekends
+  ,- the farmers market is famous for their produce.
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,- Its too bad I HATE vegetables
+  ,======= 
+  ,- Its a good thing I love vegetables
+  ,  - Snow Peas are the best.
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,* Pies
+  ,- also they have a lot of pies
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Headline Matching
+</span>In general, org-merge-driver will try to ignore white space and cookie
+values when determining if two headings are the same one. This works
+great as long as you do not identify headings by the amount of spaces
+in the name, or the value of a priority cookie. Dates can still be
+used as identifiers, though.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Ancestor
+</span><span class="org-block-begin-line">#+begin_src org :tangle heading_match_anc.org
+</span><span class="org-block">  ,* Todo state updates
+  ,** Updated in one file
+  ,** Updated in both files
+  ,** Same update in both files
+  ,* Cookies
+  ,** Updated in one file
+  ,** Updated in both files
+  ,** Same update in both file
+  ,* Tags
+  ,** Updated in one file                                               :oldtag:
+  ,** Updated in both files                                      :oldtag:keeper:
+  ,** Same update in both files                                         :keeper:
+  ,* Other Examples
+  ,** Spacing    doesn't     matter
+  ,** spacingkindofmatters
+  ,** Cookies   </span><span class="org-block"><span class="org-checkbox-statistics-todo"><span class="org-checkbox-statistics-todo">[5/3]</span></span></span><span class="org-block">   are   </span><span class="org-block"><span class="org-checkbox-statistics-todo"><span class="org-checkbox-statistics-todo">[75%]</span></span></span><span class="org-block"> stripped </span><span class="org-block"><span class="error">[#A] </span></span><span class="org-block"> out
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Local
+</span><span class="org-block-begin-line">#+begin_src org :tangle heading_match_loc.org
+</span><span class="org-block">  ,* Todo state updates
+  ,** TODO Updated in one file
+  ,** DONE Updated in both files
+  ,** TODO Same update in both files
+  ,* Cookies
+  ,** </span><span class="org-block"><span class="warning">[#B] </span></span><span class="org-block">Updated in one file
+  ,** </span><span class="org-block"><span class="success">[#C] </span></span><span class="org-block">Updated in both files
+  ,** </span><span class="org-block"><span class="warning">[#B] </span></span><span class="org-block">Same update in both file
+  ,* Tags
+  ,** Updated in one file                                       :NEWTAG:NEWTAG2:
+  ,** Updated in both files                                      :NewTag:keeper:
+  ,** Same update in both file                                      :SameNewTag:
+  ,* Other Examples
+  ,** Spacing        doesn't         matter
+  ,** spacing</span><span class="org-block"><span class="warning">[#B]</span></span><span class="org-block">kindofmatters
+  ,** Cookies are stripped out
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Remote
+</span><span class="org-block-begin-line">#+begin_src org :tangle heading_match_rem.org
+</span><span class="org-block">  ,* Todo state updates
+  ,** Updated in one file
+  ,** TODO Updated in both files
+  ,** TODO Same update in both files
+  ,* Cookies
+  ,** Updated in one file
+  ,** </span><span class="org-block"><span class="error">[#A] </span></span><span class="org-block">Updated in both files
+  ,** </span><span class="org-block"><span class="warning">[#B] </span></span><span class="org-block">Same update in both file
+  ,* Tags
+  ,** Updated in one file
+  ,** Updated in both files                                       :file2:keeper:
+  ,** Same update in both file                                      :SameNewTag:
+  ,* Other Examples
+  ,** Spacing                   doesn't           matter
+  ,** spacing kindofmatters
+  ,** Cookies   </span><span class="org-block"><span class="org-checkbox-statistics-todo"><span class="org-checkbox-statistics-todo">[5/3]</span></span></span><span class="org-block">   are   </span><span class="org-block"><span class="org-checkbox-statistics-todo"><span class="org-checkbox-statistics-todo">[75%]</span></span></span><span class="org-block"> stripped </span><span class="org-block"><span class="error">[#A] </span></span><span class="org-block"> out
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Output
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Todo state updates
+  ,** TODO Updated in one file
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,** DONE Updated in both files
+  ,======= 
+  ,** TODO Updated in both files
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,** TODO Same update in both files
+  ,* Cookies
+  ,** </span><span class="org-block"><span class="warning">[#B] </span></span><span class="org-block">Updated in one file
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,** </span><span class="org-block"><span class="success">[#C] </span></span><span class="org-block">Updated in both files
+  ,======= 
+  ,** </span><span class="org-block"><span class="error">[#A] </span></span><span class="org-block">Updated in both files
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,** </span><span class="org-block"><span class="warning">[#B] </span></span><span class="org-block">Same update in both file
+  ,* Tags
+  ,** Updated in one file                                       :NEWTAG:NEWTAG2:
+  ,** Updated in both files                                :keeper:file2:NewTag:
+  ,** Same update in both file                                      :SameNewTag:
+  ,* Other Examples
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,** Spacing        doesn't         matter
+  ,======= 
+  ,** Spacing                   doesn't           matter
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,** spacing kindofmatters
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,** spacing</span><span class="org-block"><span class="warning">[#B]</span></span><span class="org-block">kindofmatters
+  ,======= 
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Deleted
+  ,** Cookies are stripped out
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Properties
+</span>Properties have special support when it comes to matching, as well as
+conflict resolution. Properties must be inside :PROPERTIES: to be
+identified as such.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Ancestor
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Picnic Basket
+  ,:PROPERTIES:
+  ,   :Bread: Brown
+  ,:Apple:     green
+  ,   :Basket: wicker
+  ,:END:
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Local
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Picnic Basket
+  ,:PROPERTIES:
+  , :Bread: White
+  , :Apple:    yellow
+  , :Basket:             wicker
+  ,:END:
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Remote
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Picnic Basket
+  ,:PROPERTIES:
+  ,:Bread:    white
+  ,:Apple:  red
+  ,:Basket:     plastic
+  ,:END:
+</span><span class="org-block-end-line">#+end_src
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Output
+</span>
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Picnic Basket
+  ,:PROPERTIES:
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  , :Bread: White
+  ,======= 
+  ,:Bread:    white
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  , :Apple:    yellow
+  ,======= 
+  ,:Apple:  red
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,:Basket:     plastic
+  ,:END:
+</span><span class="org-block-end-line">#+end_src
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Heading Movement
+</span>If your headings have unique ID properties, org-merge-driver can
+detect movements of those elements.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Ancestor
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Changing the order of headings
+  ,** heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+  ,** heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  ,*** sub heading
+  ,- some text
+  ,** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  ,** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  ,* Moving Children and Parent
+  ,* Deleting the 'moved to' heading
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Local
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Matching ID Headings
+  ,* Changing the order of headings
+  ,** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  ,* Moving Children and Parent
+  ,** new heading
+  ,*** heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  ,**** sub heading
+  ,- some text
+  ,- a new line in local
+  ,* Deleting the 'moved to' heading
+  ,** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  ,*** heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Remote
+</span><span class="org-block-begin-line">#+begin_src org 
+</span><span class="org-block">  ,* Matching ID Headings
+  ,* Changing the order of headings
+  ,** heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+  ,** heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  ,- some new text in remote
+  ,** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  ,** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  ,* Moving Children and Parent
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Output
+</span><span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Matching ID Headings
+  ,* Changing the order of headings
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Deleted
+  ,======= 
+  ,** heading 2
+  ,- some new text in remote
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  ,* Moving Children and Parent
+  ,** new heading
+  ,*** heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  ,**** sub heading
+  ,- some text
+  ,- a new line in local
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,* Deleting the 'moved to' heading
+  ,** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  ,*** heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+  ,======= 
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Deleted
+</span><span class="org-block-end-line">#+end_src
+</span>
+If you have any comments or suggestions for features, improvements, or
+bugs, please drop an email to me &lt;youngar at gmail dot com&gt;, or to the
+org-mode list <a href="mailto:emacs-orgmode%40gnu.org">&lt;emacs-orgmode@gnu.org&gt;</a>.
+</pre>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>gnu-application.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-sync
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Aur&#233;lien Aptel
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">aurelie.aptel@gmail.com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:  <a href="https://orgmode.org/worg/org-faq.html">https://orgmode.org/worg/org-faq.html</a></span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Name
+</span>
+My name is Aur&#233;lien Aptel. I'm a 3rd year Computer-Science student at
+University Claude Bernard in Lyon, France.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Email address
+</span>
+Aur&#233;lien Aptel <a href="mailto:aurelien.aptel%40gmail.com">&lt;aurelien.aptel@gmail.com&gt;</a>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Project
+</span>
+Org-mode -- Let Org-mode synchronize with online bug-tracking
+and todo-list services.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Summary
+</span>
+There's currently no convenient way to manage services like Redmine,
+Bugzilla or GitHub issue tracking system in Org-mode. Org-mode
+already handles TODO-list pretty well, but there's no synchronization
+functionality for TODO-list services such as <span class="kc-org-link-url"><a href="http://www.toodledo.com/">Toodledo</a></span> or <span class="kc-org-link-url"><a href="http://mail.google.com/mail/help/tasks/">Google
+Tasks</a></span>. The goal of the project is to let Org-mode import and export to
+these kind of services in a generic way so that new services can be
+added easily later on.
+
+The possible mentors for this project are Bastien Guerry and Nicolas
+Goaziou.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Benefits
+</span>
+Emacs is one of the flagship software of GNU and Org-mode is a major
+editing mode bundled with Emacs. This project will improve Org-mode and
+thus Emacs interaction with the outside world. Developers will be
+able to manipulate their favorite bug-tracking service via Emacs.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Deliverables
+</span>
+The project consists of more than just backends for several
+services. As there is currently no support for such service, this new
+import/export feature will require several changes in Org-mode
+internals, namely the parser.
+
+The parsing module of Org-mode has access to all properties of a
+document. Some of them are irrelevant to bug-tracker backends and other have
+to be processed the same way by each backends.
+
+As it happens, the parser is currently being rewritten by Nicolas
+Goaziou and after discussing with him and other developers of
+Org-mode, we have come to the conclusion that I should help him
+finishing the parser, adding things as I need them.
+
+I will then write a library sitting between the parser and the
+backends that will factor out redundant code and provide helpers for
+backends.
+
+Finally, once everything is in place writing the actual backends will
+be a lot easier. I plan to write backends for at least Redmine,
+Bugzilla, BitBucket, Google Tasks, Google Code and Github.
+
+Documentation will be an integral part of the project and will be
+written in my code repository.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Plan
+</span>
+I will start by analyzing the different services I will write backends
+for. I need a clear list of common features that every services
+shares. Once that list is done I will know how to design my interfaces
+and what can be factored out.
+
+I will then study the Org-mode codebase and more specifically the
+parser to identify what parts I will have to use or change.
+
+Then, I will start writing a simple tool that connects to one the
+services and stores its content to a data structure that can be
+manipulated by Org-mode.
+
+Subsequently, I will have to identify all useful interactions between
+an Org-mode buffer and a bug-tracker data structure. These
+interactions along with the list of common features of bug-trackers
+will let me design my library.
+
+I know I will be half-way to completion when the parser
+reach a usable state, when my library has a well-defined API and is
+being implemented. I will be done when all the backends are
+implemented and the documentation is complete.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Timeline
+</span>
+I won't be able to work full-time on the project until May 4 because
+of school engagements.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Before April 23
+</span>
+<span class="org-list-dt">-</span> Get familiar with, study and analyze various services. Start writing
+  the list of common usecase and feature.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> April 23 to May 22 (official coding period starts)
+</span>
+<span class="org-list-dt">-</span> Finish previous list.
+<span class="org-list-dt">-</span> Write a tool to connect and retrive data off a first service as a
+  starting point.
+<span class="org-list-dt">-</span> Study Org-mode's new parser (org-element.el) and introduce necessary
+  changes.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> May 23 to July 8
+</span>
+<span class="org-list-dt">-</span> Design, implement and document library for interfacing Org-mode with
+  backends.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> July 9 -- Mid-term evaluation
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> July 9 to August 5
+</span>
+<span class="org-list-dt">-</span> Finish library implementation
+<span class="org-list-dt">-</span> Use library to write all backends
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> August 6 to August 20
+</span>
+<span class="org-list-dt">-</span> Additionnal time for unpredictable delay.
+<span class="org-list-dt">-</span> Polish code and documentation, help with integration in Org-mode.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Communications
+</span>
+I can be reached via email or irc. I will idle on the Org-mode irc
+channel during the GSoC. Also, since my mentors are both
+French-speaker (and living in France) phone calls can be arranged.
+
+As Org-mode already uses git, I plan on using it too. Thus, importing
+my changes at the end will be straight-forward. I will publish my
+commits on a public hosting service such as Gitorious so everyone can
+follow my progress. I will seek assistance when I need it from the irc
+channel, my mentors and the Org-mode mailing list.
+
+I will report my progress every 2 or 3 days to my mentors and I will
+probably post to the developer mailing list after each meaningful
+steps. I have agreed to call my mentor once a week to discuss my
+progress and the work left.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Qualification
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> I've already contributed to free software
+</span>
+<span class="org-list-dt">-</span> I've added cross-platform "underwave" support to GNU Emacs, hopefully
+  included in future releases. More info and patch <span class="kc-org-link-url"><a href="http://lists.gnu.org/archive/html/bug-gnu-emacs/2012-02/msg00238.html">here</a></span> and <span class="kc-org-link-url"><a href="http://lists.gnu.org/archive/html/emacs-devel/2012-01/msg00844.html">here</a></span>.
+<span class="org-list-dt">-</span> I have a project of my own: a very small terminal emulator with a
+  very small userbase. More info at <span class="kc-org-link-url"><a href="http://st.suckless.org">http://st.suckless.org</a></span>
+<span class="org-list-dt">-</span> I have other smaller projects on my <span class="kc-org-link-url"><a href="https://bitbucket.org/knarf/">bitbucket page</a></span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> I'm familiar with parsing techniques
+</span>
+I've had classes on languages theory and automata which involved the
+implementation of several algorithms such as a recursive descendant
+parser or the implementation of deterministic and non-deterministic finite
+state automaton which are commonly used in regex engines and parsers.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> I use Emacs every day
+</span>
+<span class="org-list-dt">-</span> I read and sometime post on various Emacs mailing lists and I keep
+  up with Emacs-related news on the web.
+<span class="org-list-dt">-</span> I'm familiar with Lisp-like language. I've implemented a interpreter
+  in C for my own Lisp dialect.
+<span class="org-list-dt">-</span> I have already got basic Elisp skills and I plan to improve them
+  with this project.
+<span class="org-list-dt">-</span> I use Org-mode on a daily basis.
+</pre>
+  </body>
+</html>

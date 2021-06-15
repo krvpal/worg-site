@@ -1,0 +1,81 @@
+#+TITLE:      Org-mode Import/Export Tools
+#+AUTHOR:     Worg people
+#+EMAIL:      mdl AT imapmail DOT org
+#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate
+#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+TAGS:       Write(w) Update(u) Fix(f) Check(c)
+#+LANGUAGE:   en
+#+PRIORITIES: A C B
+#+CATEGORY:   worg
+#+HTML_LINK_UP:    index.html
+#+HTML_LINK_HOME:  https://orgmode.org/worg/
+
+# This file is released by its authors and contributors under the GNU
+# Free Documentation license v1.3 or later, code examples are released
+# under the GNU General Public License v3 or later.
+
+# This file is the default header for new Org files in Worg.  Feel free
+# to tailor it to your needs.
+
+This page lists the various conversion tools that have been written to
+export Org-mode data and import external data into the Org-mode system.
+
+* Org-mode Export Tools
+
+  - [[https://www.drupal.org/node/1977240][From Org-mode to Drupal]] by [[file:users/davidam.org][David Arroyo Menéndez]].
+
+  - From Org-mode to Freemind by Marco Vezzoli, this is available in
+    the contrib directory of the distribution.
+
+  - From Org-mode to [[https://en.wikipedia.org/wiki/ICalendar][ICal]]endar applications:
+
+    - there are an export tool already implemented in org mode, is
+      [[https://orgmode.org/manual/iCalendar-export.html#iCalendar-export][explained at the org manual]].
+
+    - For Google users, read [[file:org-tutorials/org-google-sync.org][this tutorial]].
+
+* Org-mode Import Tools
+
+  - [[http://www.olafdietsche.de/palm/palm2orgmode.pl][From Palm TODO database to Orgmode]].  This Translator was
+    written by [[http://www.olafdietsche.de/][Olaf Dietsche]].
+
+  - From [[https://orgmode.org/list/20080112175502.0fb06b66@linux.site][Remind to Org]] by Detlef Steuer.
+
+  - From [[http://bitbucket.org/legoscia/of2org][OmniFocus to Org]] by Magnus Henoch.
+
+  - From [[http://www.hogbaysoftware.com/products/taskpaper][TaskPaper]] to Org by Carsten Dominik.  A quite complete
+    translation can be achieved by a compact Perl program:
+
+    #+begin_src perl
+      #!/usr/bin/perl
+      /^(\t*)-(.*?)((@\w+ *)*)$/;
+      @u=grep{$_ ne'@done'}(@t=split/ +/,$3);
+      @v=@u?('',@u,''):();
+      $t{$_}++for@u;
+      $_="*"x(2+length$1).(@t==@u?" TODO":" DONE").$2.join(":",@v)."\n"if$&;
+      s/^\w.*:\s*$/* $&/;
+      END{printf "* Setup\n#+TAGS: %s\n",join' ',keys%t}
+    #+end_src
+
+    This program is quite unreadable because it resulted from a
+    [[https://orgmode.org/list/0277B507-1486-4172-B1C6-1B73B84148DD@science.uva.nl][contest for the most compact translator]] - but it works very well
+    anyway.
+
+  - From [[https://bitbucket.org/josemaria.alkala/odt2org/wiki/Home][ODT to Org]], by Jose Maria Alkala.
+
+  - From ICalendar to Org. There are some tools and documentation related:
+
+    - There is a mention of some tools at the [[file:org-tools/index.org][org-tools]] section, [[file:org-tools/index.org::*ical2org.awk%20-%20convert%20ics%20files%20to%20Org][here]].
+
+    - For Google users, see [[file:org-tutorials/org-google-sync.org::*From%20Google%20Calendar%20into%20org%20using%20.ics%20files][this]].
+
+    - For a command line tool that converts files, URLs (e.g., Google
+      Calendar), email attachments, and other sources into org-mode
+      events, see [[https://github.com/rjhorniii/ical2org][this]].  It can integrate with crontab, systemd,
+      etc. for automatic updating.  An example of [[https://www.djcbsoftware.nl/code/mu/mu4e.html][mu4e]] integration for
+      processing email attachments with ics content is shown.
+
+* Bi-directional
+
+  - Google Calendar :: There is a method for synching. Read [[file:org-tutorials/org-google-sync.org][this tutorial]].

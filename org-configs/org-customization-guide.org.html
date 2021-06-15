@@ -1,0 +1,492 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-customization-guide.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Org-Mode Beginners Customization Guide
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Carsten Dominik
+</span><span class="org-document-info-keyword">#+EMAIL:</span>     <span class="org-document-info">carsten.dominik@gmail.com
+</span><span class="org-meta-line">#+LANGUAGE:  en</span>
+<span class="org-meta-line">#+OPTIONS:   H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:ID:</span>       <span class="org-property-value">68EE02FB-4F09-4BDC-8577-AD4F60DE1B1B</span>
+  <span class="org-drawer">:END:</span>
+
+<span class="org-meta-line">#+index: Customization!Introduction</span>
+
+Org-mode is a highly customizable package.  It currently contains close to
+400 customization variables that can be changed to tweak every detail, and
+more than 260 are known to be actually used out there.
+
+However, as a beginner you do not care about this kind of flexibility.  On
+this page, we have a list of five settings that you might want to try first
+in order to personalize your system.
+
+Once you are done with that, we also have a list of some 40 variables that
+are <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-configs/org-customization-survey-2013.html">changed by many users</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> The Basics
+</span>
+<span class="org-meta-line">#+index: Customization!Basics</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Minimal customization
+</span>
+<span class="org-meta-line">#+index: Customization!Minimal</span>
+
+The minimal customization needed to use Org-mode is -- <span class="bold">Nothing at all!</span>
+\par Org-mode works out of the box, and besides the steps described in the
+manual to <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Activation.html#Activation">activate</a></span> it, <span class="italic">nothing is needed at all</span>.  Just open a <span class="italic">.org</span>
+file, press <span class="org-verbatim">C-c [</span> to tell org that this is a file you want to use in your
+agenda, and start putting your life into plain text.
+
+OK, for completeness, let's just repeat what is needed to activate
+Org-mode in files with <span class="italic">.org</span> extension, and a few important key
+assignments.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">auto-mode-alist</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"\\.org\\'"</span></span><span class="org-block"> . org-mode</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">global-set-key</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\C-cl"</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-store-link</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">global-set-key</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\C-ca"</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-agenda</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(global-font-lock-mode 1)  Not needed in recent emacsen
+</span></span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Five small steps toward a personalized system
+</span>   
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> One: More TODO keywords
+</span>
+<span class="org-meta-line">#+index: Todo Keywords</span>
+
+Define the TODO states you find useful and single letters for fast
+selection.  Customize the variable <span class="org-verbatim">org-todo-keywords</span> or simply do this
+right in the file with<span class="org-footnote">[fn:1:press </span><span class="org-footnote"><span class="org-verbatim">C-c C-c</span></span><span class="org-footnote"> in the line after changing it]</span>:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+TODO: TODO(t) STARTED(s) WAITING(w) | DONE(d) CANCELED(c)
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Two: Which tags do you use most?
+</span>
+<span class="org-meta-line">#+index: Tag</span>
+
+You can always add tags freely and by hand, but if you configure the
+most important ones along with fast-access keys, life will be better.
+Configure the variable <span class="org-verbatim">org-tags-alist</span> or simply do this right in the
+file with<span class="org-footnote">[fn:1]</span>
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+TAGS: home(h) work(w) </span><span class="org-block"><span class="org-formula"><span class="org-formula">@computer(c)</span></span></span><span class="org-block"> </span><span class="org-block"><span class="org-formula"><span class="org-formula">@phone(p)</span></span></span><span class="org-block"> errants(e)
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Three: Which files are relevant for the agenda?
+</span>
+<span class="org-meta-line">#+index: Agenda</span>
+
+When Org compiles agenda views like the the agenda for the current
+week (<span class="org-verbatim">C-c a a</span>) or the global TODO list (<span class="org-verbatim">C-c a t</span>), it checks all
+files in the variable <span class="org-verbatim">org-agenda-files</span>.  Instead of setting this
+variable explicitly, it is much easier to just add and remove the
+current buffer with <span class="org-verbatim">C-c [</span> and <span class="org-verbatim">C-c ]</span>, respectively.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Four: Find what you need to see now
+</span>
+If you need to sharpen the predefined agenda commands, define your <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views">own</a></span>
+Agenda commands, using the variable <span class="org-verbatim">org-agenda-custom-commands</span>.
+This is a pretty complex variable, but if you use the customize
+interface<span class="org-footnote">[fn:2: =M-x customize-variable RET
+org-agenda-custom-commands RET=]</span>, it is not too hard.  Everyone
+ends up customizing this one after getting comfortable with Org-mode.
+Do checkout <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-custom-agenda-commands.php">this tutorial</a></span> on building your own custom agenda commands
+as well.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Five: Capture ideas with predefined templates
+</span>
+<span class="org-meta-line">#+index: Capture</span>
+
+Use <span class="org-verbatim">org-capture</span> to quickly capture ideas, tasks, and notes.
+Populate<span class="org-footnote">[fn:3: M-x customize-variable RET org-capture-templates RET]</span>
+the variable <span class="org-verbatim">org-capture-templates</span> with templates and target
+locations.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Pretend to be a power-user
+</span>
+Here is a list of the variables most frequently changed by power
+users.  The variables mentioned above are repeated in this list.  Yes,
+some power users change 60 options or more, but these showed up most
+frequently in the <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-configs/org-customization-survey-2013.html">customization survey</a></span>.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Basic setup
+</span>
+<span class="org-meta-line">#+index: Directory</span>
+<span class="org-meta-line">#+index: Agenda!Files</span>
+<span class="org-meta-line">#+index: Startup</span>
+<span class="org-meta-line">#+index: Archive!Location</span>
+
+Here are a few things about basic setup that many people change.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-directory ::</span> Where are my Org files typically located?  Org
+     acutally uses this variable only under rare circumstances, like
+     when filing remember notes in an interactive way and prompting
+     you for an Org file to put the note into.
+<span class="whitespace-tab">                </span>   
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-files ::</span> Which <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Agenda-files.html#Agenda-files">files</a></span> do I want to be checked for entries
+     when compiling my agenda?  Many people do not customize this one,
+     but just use <span class="org-verbatim">C-c [</span> and <span class="org-verbatim">C-c ]</span> to add or remove the current
+     file, respectively.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-startup-folded ::</span> When visiting an Org file, in what <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Visibility-cycling.html#Visibility-cycling">folding
+     state</a></span> do I first want to see it?  Many use <span class="org-verbatim">#+STARTUP</span> options to
+     set this on a <span class="kc-org-link-url"><a href="https://orgmode.org/manual/In_002dbuffer-settings.html#In_002dbuffer-settings">per-file basis</a></span>.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-archive-location ::</span> When <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Archiving.html#Archiving">archiving</a></span> an entry, where will it go?
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Editing behavior and appearance
+</span>
+<span class="org-meta-line">#+index: Appearance</span>
+<span class="org-meta-line">#+index: Follow links</span>
+<span class="org-meta-line">#+index: Completion</span>
+<span class="org-meta-line">#+index: Ido</span>
+<span class="org-meta-line">#+index: Levels</span>
+<span class="org-meta-line">#+index: Blank</span>
+
+Besides being an organizer, Org-mode is also a text mode for writing
+and taking notes.  The following variables that influence basic
+editing behavior and the appearance of the buffer are often
+customized:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-hide-leading-stars ::</span> Make the outline more list-like be <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Clean-view.html#Clean-view">hiding</a></span>
+     all leading stars but one.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-odd-levels-only ::</span> Should <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Clean-view.html#Clean-view">2 stars</a></span> be added per level?  This
+     makes the indentation more like in a book.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-special-ctrl-a/e ::</span> Should <span class="org-verbatim">C-a</span> and <span class="org-verbatim">C-e</span> behave specially,
+     considering the headline and not the leading stars, todo
+     keywords, or the trailing tags?  About equal numbers of users set
+     this to <span class="org-verbatim">t</span> or to <span class="org-verbatim">reversed</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-special-ctrl-k ::</span> Should <span class="org-verbatim">C-k</span> behave <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-faq.html#C-k-is-killing-subtrees">specially</a></span> in headlines,
+     considering tags and visibility state?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-completion-use-ido ::</span> Should <span class="italic">ido.el</span> be used for completion
+     whenever it makes sense?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-return-follows-link ::</span> Should pressing RET on a hyperlink <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Handling-links.html#Handling-links">follow</a></span>
+     the link?  People who are used to this from web browsers often
+     make this choice.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-blank-before-new-entry ::</span> Org-mode tries to be smart about
+     inserting blank lines before <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Structure-editing.html#Structure-editing">new entries/items</a></span>, by looking at
+     what is before the previous entry/item.  Customize this to
+     out-smart it.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> The TODO keywords
+</span>
+<span class="org-meta-line">#+index: Todo Keywords</span>
+<span class="org-meta-line">#+index: Todo Keywords!Faces</span>
+<span class="org-meta-line">#+index: Todo Keywords!Dependencies</span>
+<span class="org-meta-line">#+index: Checkbox</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-todo-keywords ::</span> Which <span class="kc-org-link-url"><a href="https://orgmode.org/manual/TODO-extensions.html#TODO-extensions">TODO keywords</a></span> should be used?  Also you
+     can define keys for <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Fast-access-to-TODO-states.html#Fast-access-to-TODO-states">fast access</a></span> here.  Very many people use this,
+     or define the keywords with a <span class="org-verbatim">#+TODO:</span> setting in the buffer.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-todo-keyword-faces ::</span> Here you can define different faces for
+     different TODO keywords.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-enforce-todo-dependencies ::</span> Should unfinished children <span class="kc-org-link-url"><a href="https://orgmode.org/manual/TODO-dependencies.html#TODO-dependencies">block</a></span>
+     state changes in the parent?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-enforce-todo-checkbox-dependencies ::</span> Should unfinished
+     checkboxes <span class="kc-org-link-url"><a href="https://orgmode.org/manual/TODO-dependencies.html#TODO-dependencies">block</a></span> state changes in the parent?
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Tags
+</span>
+<span class="org-meta-line">#+index: Tag</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-tag-alist ::</span> Which <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Tags.html#Tags">tags</a></span> should be available?  Note that tags
+     besides the configured ones can be used, but for the important
+     ones you can define keys for <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Setting-tags.html#Setting-tags">fast access</a></span> here.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-tags-column ::</span> How should tags be aligned in the headline?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-fast-tag-selection-single-key ::</span> Set this to make the tags
+     interface even faster, if all you normally do is changing a single
+     tag.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Progress logging
+</span>
+<span class="org-meta-line">#+index: Progress!Logging</span>
+<span class="org-meta-line">#+index: Logging</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-log-done ::</span> Do you want to <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Progress-logging.html#Progress-logging">capture</a></span> time stamps and/or notes when
+     TODO state changes, in particular when a task is DONE?  A simple
+     setting that many use is <span class="org-verbatim">(setq org-log-done 'time)</span>.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Capture and Refile
+</span>
+<span class="org-meta-line">#+index: Capture</span>
+<span class="org-meta-line">#+index: Refile</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-reverse-note-order ::</span> When adding new entries (or tasks) to a
+     list, do I want the entry to be first or last in the list?
+
+<span class="org-verbatim">org-capture</span> is great for fast capture of ideas, notes, and tasks.  It
+is one of the primary capture methods in Org-mode.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-capture-templates ::</span> Prepare <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Capture-templates.html#Capture-templates">templates</a></span> for the typical notes and
+     tasks you want to capture quickly.  I believe everyone using
+     <span class="org-verbatim">org-capture</span> customizes this.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-default-notes-file ::</span> If you do not set up templates with target
+     files, at least tell Org where to put captured notes.
+
+<span class="italic">Refiling</span> means moving entries around, for example from a capturing
+location to the correct project.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-refile-targets ::</span> What should be on the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Refile-and-copy.html#Refile-and-copy">menu</a></span> when you refile
+     tasks with <span class="org-verbatim">C-c C-w</span>?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-refile-use-outline-path ::</span> How would you like to select refile
+     targets. Headline only, or the path along the outline hierarchy?
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Agenda Views
+</span>
+<span class="org-meta-line">#+index: Agenda!Views</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-start-on-weekday ::</span> Should the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Weekly_002fdaily-agenda.html#Weekly_002fdaily-agenda">agenda</a></span> start on Monday, or
+     better today?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-ndays ::</span> How many days should the default agenda show?
+     Default is 7, a whole week.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-include-diary ::</span> Should the agenda also show <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Weekly_002fdaily-agenda.html#Weekly_002fdaily-agenda">entries</a></span> from
+     the Emacs diary?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-custom-commands ::</span> Define your <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views">own</a></span> Agenda commands.
+     Complex, advanced variable, but pretty much everyone ends up
+     configuring it.  Use customize to configure it, this is the best
+     and safest way.  Do checkout <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-custom-agenda-commands.php">this tutorial</a></span> on building your own
+     custom agenda commands as well.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-sorting-strategy ::</span> How should things be <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Sorting-agenda-items.html#Sorting-agenda-items">sorted</a></span> in the
+     agenda display.  Even though I think the defaults are very usable,
+     power users tend to tweak this.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-stuck-projects ::</span> How to find projects that need <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Stuck-projects.html#Stuck-projects">attention</a></span>?
+
+To reduce clutter in the task list for today, many users like to
+remove tasks from the daily list right when they are done.  The
+following variables give detailed control to what kind of entries this
+should apply:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-skip-scheduled-if-done ::</span> Scheduled entries.  Many users
+     turn this on.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-skip-deadline-if-done  ::</span> Deadlines.  Many users turn
+     this on.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-skip-timestamp-if-done ::</span> Entries with any timestamp,
+     appointments just like scheduled and deadline entries.
+     Relatively few users select this one.
+
+People who use Org like a <span class="kc-org-link-url"><a href="http://www.newartisans.com/2007/08/using-org-mode-as-a-day-planner.html">day planner</a></span>, who <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Deadlines-and-scheduling.html#Deadlines-and-scheduling">schedule</a></span> all tasks to
+specific dates, often like to not have scheduled tasks listed in their
+global TODO list, because scheduling it already means to have taking
+care of it in a sense, and because they know they will run into these
+tasks in the agenda anyway.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-todo-ignore-deadlines ::</span> Don't show deadline tasks in
+     global TODO list.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-todo-ignore-with-date ::</span> Don't show any tasks with a date
+     in the global TODO list.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-agenda-todo-ignore-scheduled ::</span> Don't show scheduled tasks
+     in the global TODO list.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Export/Publishing setup
+</span>
+<span class="org-meta-line">#+index: Export</span>
+<span class="org-meta-line">#+index: Publish!Setup</span>
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-export-with-LaTeX-fragments ::</span> Should <span class="kc-org-link-url"><a href="https://orgmode.org/manual/LaTeX-fragments.html#LaTeX-fragments">LaTeX fragments</a></span> be
+     converted to inline images for HTML output?
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-export-html-style ::</span> Customize the default <span class="kc-org-link-url"><a href="https://orgmode.org/manual/CSS-support.html#CSS-support">style</a></span> for HTML
+     export.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-publish-project-alist ::</span> Set up projects that allow many files
+     to be exported and <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Publishing.html#Publishing">published</a></span> with a single command.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Become a true power user
+</span>
+If you want to become a true power user, <span class="kc-org-link-url"><a href="https://orgmode.org/list/FD50CA36-A385-4C80-8E86-E3BE9F352B0A@uva.nl">see</a></span> for yourself what some users
+do.  The Emacs customization system<span class="org-footnote">[fn:5:=M-x org-customize RET=]</span> organizes
+all variables into a structure that can be used to easily <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-customize.html">find the one
+particular option</a></span> you might be looking for.  Also, the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/">Org-mode manual</a></span> and
+the <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-faq.html">FAQ</a></span> mention many variables in the appropriate context.
+
+</pre>
+  </body>
+</html>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Agenda speedup and optimization</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Bastien Guerry" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Agenda speedup and optimization</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb676269">Reduce the number of Org agenda files</a></li>
+<li><a href="#orgac9e4ed">Reduce the number of DONE and archived headlines</a></li>
+<li><a href="#org8817fc0">Inhibit the dimming of blocked tasks</a></li>
+<li><a href="#orga0a99a1">Inhibit agenda files startup options (Org &gt; 8.0)</a></li>
+<li><a href="#org085e5f1">Disable tag inheritance in agendas (Org &gt; 8.0)</a></li>
+<li><a href="#orge40c995">Disable parsing for some drawer properties</a></li>
+</ul>
+</div>
+</div>
+<p>
+When your Org files grow, agenda generation may slow down.
+</p>
+
+<p>
+Here are some tips on how to speed up the agenda generation.  For those
+tips that depend on a specific version of Org, we mention this version.
+</p>
+
+<div id="outline-container-orgb676269" class="outline-2">
+<h2 id="orgb676269">Reduce the number of Org agenda files</h2>
+<div class="outline-text-2" id="text-orgb676269">
+<p>
+The more agenda files, the more time it takes to check all of them before
+producing an agenda command.  The older your hardrive is, the longer it
+takes to visit a file.  Don&rsquo;t buy a new harddrive now!  Just reduce the
+number of agenda files.
+</p>
+
+<p>
+Also, don&rsquo;t forget that you can define the set of agenda files for each
+agenda custom command like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">" "</span> <span style="color: #e2c770;">"Aujourd'hui"</span> agenda <span style="color: #e2c770;">"List of rendez-vous and tasks for today"</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"~/org/rdv.org"</span> <span style="color: #e2c770;">"~/org/bzg.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgac9e4ed" class="outline-2">
+<h2 id="orgac9e4ed">Reduce the number of DONE and archived headlines</h2>
+<div class="outline-text-2" id="text-orgac9e4ed">
+<p>
+When matching against TODO-type tasks, Org will skip the ones marked as
+DONE or archived.  If you have many DONE tasks and archived tasks in your
+file, better to store them in another file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8817fc0" class="outline-2">
+<h2 id="org8817fc0">Inhibit the dimming of blocked tasks</h2>
+<div class="outline-text-2" id="text-org8817fc0">
+<p>
+By default <a href="https://orgmode.org/worg/doc.html#org-agenda-dim-blocked-tasks">org-agenda-dim-blocked-tasks</a> is set to t, which will dim blocked
+tasks.  For the agenda to get the relevant information, it needs to check
+against the headline up, and this takes time.  If you don&rsquo;t need this
+feature globally or for a specific agenda, turning it off will speed up
+agenda generation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga0a99a1" class="outline-2">
+<h2 id="orga0a99a1">Inhibit agenda files startup options (Org &gt; 8.0)</h2>
+<div class="outline-text-2" id="text-orga0a99a1">
+<p>
+When you run an agenda command, Org visits agenda files that are not yet
+visited.  When finding a file for the first time, Org checks the startup
+options and apply them to the buffer: those options are either globally set
+through the <code>org-startup-*</code> variables or on a per-file basis through the
+<code>#+STARTUP</code> keyword.
+</p>
+
+<p>
+Especially, Org will honor the startup visibility status, as set by
+<a href="https://orgmode.org/worg/doc.html#org-startup-folded">org-startup-folded</a> or <code>#+STARTUP: folded</code>.
+</p>
+
+<p>
+This may slow down the operation of visiting a file very much, and the
+process of selecting agenda entries consequently.
+</p>
+
+<p>
+To prevent agenda commands to honor startup options when visiting an agenda
+file for the first time, use this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-inhibit-startup</span> t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The side-effect is that newly visited file will have all their headlines
+visible, but this speeds up agenda generation <i>a lot</i> when those files have
+many nested headlines.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org085e5f1" class="outline-2">
+<h2 id="org085e5f1">Disable tag inheritance in agendas (Org &gt; 8.0)</h2>
+<div class="outline-text-2" id="text-org085e5f1">
+<p>
+Defining inherited tags for a headline in the agenda takes time, because
+Org needs will grab inherited tags from higher level headlines.
+</p>
+
+<p>
+Whether the agenda knows about inherited tags for each task depends on
+<a href="https://orgmode.org/worg/doc.html#org-use-tag-inheritance">org-use-tag-inheritance</a> and <a href="https://orgmode.org/worg/doc.html#org-agenda-use-tag-inheritance">org-agenda-use-tag-inheritance</a>:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://orgmode.org/worg/doc.html#org-use-tag-inheritance">org-use-tag-inheritance</a> controls whether tags are inherited for tags-type
+agenda commands: <code>tags</code>, <code>tags-todo</code> and <code>tags-tree</code>.  This variable also
+controls whether tags are inherited when running the command <code>M-x
+  org-sparse-tree RET</code> in an Org buffer (hence the name of this variable,
+without the <code>org-agenda-</code> prefix.)</li>
+
+<li><p>
+<a href="https://orgmode.org/worg/doc.html#org-agenda-use-tag-inheritance">org-agenda-use-tag-inheritance</a> controls whether tags are inherited for
+other agenda types too: <code>todo</code>, <code>search</code>, <code>timeline</code>, <code>agenda</code>.
+</p>
+
+<p>
+Generally, you want this variable to be nil, because the headlines on
+those agenda types don&rsquo;t depend on tags (and <i>a fortiori</i> on inherited
+ones.)  Still, the default is to use tags in all agenda types, because
+<a href="https://orgmode.org/worg/doc.html#org-agenda-show-inherited-tags">org-agenda-show-inherited-tags</a> needs to do the right thing by default.
+</p></li>
+</ul>
+
+<p>
+What to do?  If you don&rsquo;t need inherited tags in
+todo/search/timeline/agenda, just use this setting:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-use-tag-inheritance</span> nil<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+If you need tags in todo agendas only:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-use-tag-inheritance</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>search timeline agenda<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+You can also set this on a per-command basis:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">" "</span> <span style="color: #e2c770;">"Aujourd'hui"</span> agenda <span style="color: #e2c770;">"List of rendez-vous and tasks for today"</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-files</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"~/org/rdv.org"</span> <span style="color: #e2c770;">"~/org/bzg.org"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-use-tag-inheritance</span> nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge40c995" class="outline-2">
+<h2 id="orge40c995">Disable parsing for some drawer properties</h2>
+<div class="outline-text-2" id="text-orge40c995">
+<p>
+Text properties are used to prepare buffers for effort estimates,
+appointments, and subtree-local categories in the agenda.  If you
+don&rsquo;t use some of these agenda features, you can turn them off.
+Since using such drawer properties require a special scan before each
+new agenda command, this can lead to a speedup. For example
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-ignore-drawer-properties</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>effort appt category<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Bastien Guerry</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

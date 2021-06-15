@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-spreadsheet-intro.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org as a spreadsheet system: a short introduction
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">bzg AT altern DOT org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+CONSTANTS: pi=3.14159265358979323846</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span> -- <span class="org-link"><a href="file:org-tableur-tutoriel.org">{Ce tutoriel en </a></span><span class="org-link"><span class="bold"><a href="file:org-tableur-tutoriel.org">fran&#231;ais</a></span></span><span class="org-link"><a href="file:org-tableur-tutoriel.org">}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+This short tutorial will go through the basics that you need to know
+if you want to use Org as a spreadsheet system.
+
+Let's start with a this very simple table:
+
+<span class="org-table">| Student  | Maths | Physics |</span>
+<span class="org-table">|----------+-------+---------|</span>
+<span class="org-table">| Bertrand |    13 |      09 |</span>
+<span class="org-table">| Henri    |    15 |      14 |</span>
+<span class="org-table">| Arnold   |    17 |      13 |</span>
+
+Which is the output of this table in Org:
+
+<span class="org-code">: | Student  | Maths | Physics |
+: |----------+-------+---------|
+: | Bertrand |    13 |      09 |
+: | Henri    |    15 |      14 |
+: | Arnold   |    17 |      13 |
+</span>
+The purpose of this tutorial is to understand how to get from this
+simple table to this one, where we have the mean per student and per
+discipline:
+
+<span class="org-table">| Student  | Maths | Physics | Mean |</span>
+<span class="org-table">|----------+-------+---------+------|</span>
+<span class="org-table">| Bertrand |    13 |      09 |   11 |</span>
+<span class="org-table">| Henri    |    15 |      14 | 14.5 |</span>
+<span class="org-table">| Arnold   |    17 |      13 |   15 |</span>
+<span class="org-table">|----------+-------+---------+------|</span>
+<span class="org-table">| Means    |    15 |      12 | 13.5 |</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Getting acquainted with references
+</span>
+Let's start with the mean per student.
+
+<span class="org-code">: | Student  | Maths | Physics | Mean      |
+: |----------+-------+---------+-----------|
+: | Bertrand |    13 |      09 | [Formula] |
+: | Henri    |    15 |      14 |           |
+: | Arnold   |    17 |      13 |           |
+</span>
+Before being able to insert a formula in <span class="org-verbatim">[Formula]</span>, you need to know
+how to <span class="bold">refer</span> to a row, a column or a single field.
+
+The easiest way to learn about references is to type <span class="org-verbatim">C-c ?</span> while you
+are in a field.
+
+For example, if you are in the <span class="org-verbatim">[Formula]</span> field, <span class="org-verbatim">C-c ?</span> will tell
+you: <span class="org-verbatim">line </span><span class="org-verbatim"><span class="org-formula">@2</span></span><span class="org-verbatim">, col $4, ref </span><span class="org-verbatim"><span class="org-formula">@2$4</span></span><span class="org-verbatim"> or D2</span>, meaning that you are on the
+second row (or line) of the fourth column, and the reference for this
+field is either <span class="org-verbatim">@2$4</span> or <span class="org-verbatim">D2</span>.
+
+At any moment, if you are lost in rows and columns, you can always
+turn on the reference visualization grid with <span class="org-verbatim">C-c }</span>:
+
+<span class="org-link"><a href="file:../images/bzg/reference_visualization.jpg">file:../images/bzg/reference_visualization.jpg</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Your first formula
+</span>
+Put the cursor in the (empty) <span class="org-verbatim">[Formula]</span> field.  Now type
+<span class="org-verbatim">:=vmean($2..$3)</span> in this field.  This formula means: calculate the
+<span class="italic">mean</span> for fields from the second (<span class="org-verbatim">$2</span>) to the third (<span class="org-verbatim">$3</span>) field <span class="italic">in
+this row</span>.  If you prefer to use the other notation, type
+<span class="org-verbatim">:=vmean(B&amp;..C&amp;)</span> -- where the <span class="org-verbatim">&amp;</span> character stands for "in this row",
+which is implicit in the previous notation.
+
+While still in the row, hit <span class="org-verbatim">C-c C-c</span> -- you should observe two
+things: 1) the formula has been replaced by the result of the
+calculation and 2) a new line starting with <span class="org-verbatim">#+TBLFM</span> has been
+inserted at the bottom of the table.
+
+The <span class="org-verbatim">#+TBLFM</span> line contains all the formulas for the table above, and
+you should be careful while editing it manually.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Column formulas and field formulas
+</span>
+Ok, so now we have this table:
+
+<span class="org-code">: | Student  | Maths | Physics | Mean |
+: |----------+-------+---------+------|
+: | Bertrand |    13 |      09 |   11 |
+: | Henri    |    15 |      14 |      |
+: | Arnold   |    17 |      13 |      |
+: #+TBLFM: </span><span class="org-code"><span class="org-formula">@2$4=vmean($2</span></span><span class="org-code">..$3)
+</span>
+But what we really want is to compute the formulas for <span class="italic">all fields in
+the column</span> named "Mean".  In other words, we really want a <span class="org-verbatim">column
+formula</span>, not a <span class="org-verbatim">field formula</span>.
+
+To replace the formula with a column formula, go back to the field
+where it has been defined and type <span class="org-code">=vmean($2..$3)</span>.  Note that the
+only difference with what you've inserted previously is that the
+formula is prefixed by <span class="org-code">=</span> instead of <span class="org-code">:=</span>.  When you're done, do a
+<span class="org-verbatim">C-c C-c</span> in the field: you should be prompted whether you want to
+replace the formula with a column formula, which is precisely what we
+want.
+
+Once you agree with this, the value in the field should be the same
+than before (namely <span class="org-verbatim">11</span>) and you can now update all the fields in
+this column by reapplying all formulas with <span class="org-verbatim">C-u C-c *</span> (or <span class="org-verbatim">C-c
+C-c</span> if you're on the <span class="org-verbatim">#+TBLFM</span> line.)
+
+So now we have this table:
+
+<span class="org-code">: | Student  | Maths | Physics | Mean |
+: |----------+-------+---------+------|
+: | Bertrand |    13 |      09 |   11 |
+: | Henri    |    15 |      14 | 14.5 |
+: | Arnold   |    17 |      13 |   15 |
+: #+TBLFM: $4=vmean($2..$3)
+</span>
+As our single formula in <span class="org-verbatim">#+TBLFM</span> now applies to the entire column,
+it doesn't contain any reference to a row.  The formula was previously
+applied for the <span class="org-verbatim">@2$4</span> field, and it is now applied for the <span class="org-verbatim">$4</span>
+column.
+
+Finally, we can add the row for the means per discipline.  This row
+contains two <span class="italic">field formulas</span>, each one calculating the mean for the
+fields above in the same column:
+
+<span class="org-code">: | Student  | Maths | Physics | Mean |
+: |----------+-------+---------+------|
+: | Bertrand |    13 |      09 |   11 |
+: | Henri    |    15 |      14 | 14.5 |
+: | Arnold   |    17 |      13 |   15 |
+: |----------+-------+---------+------|
+: | Means    |    15 |      12 |      |
+: #+TBLFM: $4=vmean($2..$3)::@5$2=vmean(@2$2..@4$2)::@5$3=vmean(@2$3..@4$3)
+</span>
+Which brings up this table:
+
+<span class="org-table">| Student  | Maths | Physics | Mean |</span>
+<span class="org-table">|----------+-------+---------+------|</span>
+<span class="org-table">| Bertrand |    13 |      09 |   11 |</span>
+<span class="org-table">| Henri    |    15 |      14 | 14.5 |</span>
+<span class="org-table">| Arnold   |    17 |      13 |   15 |</span>
+<span class="org-table">|----------+-------+---------+------|</span>
+<span class="org-table">| Means    |    15 |      12 |      |</span>
+<span class="org-meta-line">#+TBLFM: $4=vmean($2..$3)::@5$2=vmean(@2$2..@4$2)::@5$3=vmean(@2$3..@4$3)</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Interactively edit formulas
+</span>
+For now we have been defining formulas by inserting them directly in
+the table cells: typing <span class="org-code">=</span> in a field starts the definition for a
+column formula and typing <span class="org-code">:=</span> starts a definition for a field
+formula.  
+
+If you prefer, you can edit formulas <span class="italic">in the minibuffer</span>: use <span class="org-verbatim">C-c =
+for editing column formulas or </span><span class="org-verbatim"><span class="org-verbatim">C-u C-c =</span></span> for field formulas.
+
+But you can also edit formulas more interactively in a dedicated
+buffer by typing C-c '.  This new buffer lists all the formulas for
+the table at point and provides facilities to edit the references.
+
+When the cursor is above a reference, the corresponding field in the
+table get highlighted.  Nice!  But you can do more than that: you can
+actually select the reference by using the <span class="org-verbatim">S-&lt;left/right/up/down&gt;</span>
+keys.
+
+<span class="org-link"><a href="file:../images/bzg/formulas_editor.jpg">file:../images/bzg/formulas_editor.jpg</a></span>
+
+Note: you might worry that moving a table's column with
+<span class="org-verbatim">M-&lt;left/right&gt;</span> or a table's row with <span class="org-verbatim">M-&lt;up/down&gt;</span> might confuse the
+references in the <span class="org-verbatim">#+TBLFM</span> line, but each move automagically updates
+the references in this line.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Calc and Elisp formulas
+</span>
+The default syntax for formulas is the one of Calc, the GNU Emacs
+package for doing computations.
+
+Here is an excerpt from the <span class="kc-org-link-url"><a href="http://www.delorie.com/gnu/docs/calc/calc_21.html">Calc manual</a></span> about algebraic-style
+formulas:
+
+<span class="org-code">: Algebraic formulas use the operators `+', `-', `*', `/', and `^'. You
+: can use parentheses to make the order of evaluation clear. In the
+: absence of parentheses, `^' is evaluated first, then `*', then `/',
+: then finally `+' and `-'. For example, the expression
+: 
+: 2 + 3*4*5 / 6*7^8 - 9
+: 
+: is equivalent to
+: 
+: 2 + ((3*4*5) / (6*(7^8)) - 9
+</span>
+In org tables, you can use references instead of values for performing
+the computation.  Pretty simple.
+
+But what if you want to use Emacs lisp code instead of Calc?  
+
+Lets say for example that you want to associate each student with a
+decimal of the Pi number, depending on their mean across maths and
+physics.
+
+For this you need to tell Org about the value you consider to be the
+value of the Pi number.  You can do this by adding this line:
+
+<span class="org-code">: #+CONSTANTS: pi=3.14159265358979323846
+</span>
+(Don't forget to hit <span class="org-verbatim">C-c C-c</span> on the <span class="org-verbatim">#+CONSTANTS</span> line so that
+org-mode knows about it.)
+
+Then you can define an Emacs lisp formula like this one:
+
+<span class="org-code">: $5='(substring (number-to-string $pi) (round $4) (1+ (round $4)));N
+</span>
+Ahem.  Let's parse this: 
+
+<span class="org-list-dt">-</span> <span class="org-verbatim">(substring S A B)</span>: get a substring of string <span class="org-verbatim">S</span> between <span class="org-verbatim">A</span> and
+  <span class="org-verbatim">B</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">(number-to-string $pi)</span>: convert the constant "Pi" into a string
+<span class="org-list-dt">-</span> <span class="org-verbatim">(round $4)</span>: get the rounded value of the value in column <span class="org-verbatim">$4</span>
+<span class="org-list-dt">-</span> <span class="org-verbatim">;N</span>: consider the values of fields to be numeric values, not strings.
+
+If the mean of a student is 10, this formula returns the tenth decimal
+of Pi.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Debugging formulas
+</span>
+So now our table is this one:
+
+<span class="org-code">: | Student  | Maths | Physics | Mean | Pi number |
+: |----------+-------+---------+------+-----------|
+: | Bertrand |    13 |      09 |   11 |         5 |
+: | Henri    |    15 |      14 | 14.5 |         7 |
+: | Arnold   |    17 |      13 |   15 |         9 |
+: #+TBLFM: $4=vmean($2..$3)::$5='(substring (number-to-string $pi) (round $4) (1+ (round $4)));N
+</span>
+If you come back to this table but feel a bit lazy trying to
+understand what the Emacs Lisp function does, you might as well want
+to <span class="bold">debug</span> the formula and follow the computation step by step.
+
+Turn the formulas debugger on with <span class="org-verbatim">C-c {</span> and hit <span class="org-verbatim">C-c C-c</span> in a
+field (or <span class="org-verbatim">C-u C-c *</span> anywhere on this table.)  This will perform the
+computations of the formulas one by one, and display details about the
+steps of the computation for each formula in a separate buffer.
+
+Here is what such a buffer looks like:
+
+<span class="org-code">: Substitution history of formula
+: Orig:   '(substring (number-to-string $pi) (round $4) (1+ (round $4)));N
+: $xyz-&gt;  '(substring (number-to-string 3.14159265358979323846) (round $4) (1+ (round $4)))
+: </span><span class="org-code"><span class="org-formula">@r$c-&gt;</span></span><span class="org-code">  '(substring (number-to-string 3.14159265358979323846) (round $4) (1+ (round $4)))
+: $1-&gt;    '(substring (number-to-string 3.14159265358979323846) (round 11) (1+ (round 11)))
+: Result: 5
+: Format: NONE
+: Final:  5
+</span>
+Once you're done checking the formulas, you can switch the debugger
+off by hitting <span class="org-verbatim">C-c {</span> again.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Much, much more...
+</span>
+Using Org as a spreadsheet system turns to be really handy.
+
+But you can do a lot more than that!  You can use relative references,
+define names for columns and parameters for formulas, define fields that
+should be automatically recalculated, etc.  You can also use Emacs lisp in
+formulas (<span class="org-link"><a href="file:org-spreadsheet-lisp-formulas.org">read this tutorial</a></span>).
+
+Have a look to the <span class="kc-org-link-url"><a href="https://orgmode.org/org.html#Advanced-features">advanced features</a></span> in Org-mode manual, it will give you a
+quick overlook on this...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Comments
+</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"disqus_thread"</span></span><span class="org-block">&gt;&lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+&lt;</span><span class="org-block"><span class="function-name">script</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">type</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"text/javascript"</span></span><span class="org-block">&gt;
+    var disqus_shortname = 'worg'; // required: replace example with your forum shortname
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+&lt;/</span><span class="org-block"><span class="function-name">script</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+</pre>
+  </body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>tables.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org tutorial for tables
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Bastien
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">bzg AT altern DOT org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   org-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span>
+
+This tutorial briefly describes the use of tables with Org.  You can
+freely improve this tutorial by editing <span class="org-link"><a href="file:../index.org">Worg</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Creating a table
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> While typing
+</span>
+The easiest way to create a table is to directly type the "|" character
+at the beginning of a line, or after any amount of white space.  This
+will put you in the first field of an atomic table.
+
+<span class="org-code">: | This is the content of the first cell
+</span>
+Once you've finished editing this cell, you can jump to the next one by
+pressing <span class="org-verbatim">TAB</span>.  Since the row you just started only contains one cell,
+the next cell is really the first cell of the next row.
+
+<span class="org-code">: | This is the content of the first cell |
+: | &lt; Here I am after pressing TAB        |
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> By creating the structure and filling it
+</span>
+You can also create a table from scratch with <span class="org-verbatim">C-c |</span>.  You will be
+asked for the structure of the table, the default being 5x2 (see
+<span class="org-verbatim">org-table-default-size</span>), five columns and two rows:
+
+<span class="org-code">: |   |   |   |   |   |
+: |---+---+---+---+---|
+: |   |   |   |   |   |
+</span>
+Then you can jump from one field to another with the <span class="org-verbatim">TAB</span> key (jump to
+the <span class="italic">next</span> cell) or <span class="org-verbatim">S-&lt;TAB&gt;</span> (jump to the <span class="italic">previous</span> cell).  <span class="org-verbatim">RET</span> will
+jump to the to the next cell in the same colum, and create a new column
+if there is no such cell (or if the next row is beyond a separator
+line.)
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> By converting a region into a table
+</span>
+Org provides useful ways of converting a region into a table.  For this,
+select a region and press <span class="org-verbatim">C-c |</span>.  For example, press <span class="org-verbatim">C-c |</span> on this:
+
+<span class="org-code">: some, comma, separated, values
+</span>
+will automagically produce this:
+
+<span class="org-code">: | some | comma | separated | values |
+</span>
+Usually, this command should be smart enough to guess what is the field
+separator for the region.  If each line of the active region contains a
+<span class="org-verbatim">TAB</span> or a comma, it will assume this is the separator.
+
+<span class="org-list-dt">-</span> If you want to force the comma as a field separator, press <span class="org-verbatim">C-u C-c |</span>.
+
+<span class="org-list-dt">-</span> If you want to force TAB as a field separator, press <span class="org-verbatim">C-u C-u C-c |</span>.
+
+<span class="org-list-dt">-</span> If you want to force a specific number of spaces -- say 3 -- use <span class="org-verbatim">C-u 3 C-c |</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Editing the structure of a table
+</span>
+Editing table with Org is pure magic.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Moving rows/columns
+</span>
+Let's say for example that you have this basic table:
+
+<span class="org-code">: | A | B | C |
+: | 1 | 2 | 3 |
+: | a | b | c |
+</span>
+With the cursor in the A field, pressing <span class="org-verbatim">M-&lt;right&gt;</span> will move the A
+column to the right:
+
+<span class="org-code">: | B | A | C |
+: | 2 | 1 | 3 |
+: | b | a | c |
+</span>
+With the cursor in the first row, pressing <span class="org-verbatim">M-&lt;down&gt;</span> will move the
+first row down:
+
+<span class="org-code">: | 1 | 2 | 3 |
+: | A | B | C |
+: | a | b | c |
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inserting rows/columns
+</span>
+Prefixed with the Shift key, these command will <span class="italic">insert</span> a new column or
+a new row, instead of moving it.  For example, with the cursor initially
+in the <span class="org-verbatim">B</span> cell, <span class="org-verbatim">S-M-&lt;right&gt;</span> will insert a new column between <span class="org-verbatim">A</span> and
+<span class="org-verbatim">B</span>
+
+<span class="org-code">: | A |   | B | C |
+: | 1 |   | 2 | 3 |
+: | a |   | b | c |
+</span>
+... leaving the cursor in the newly created column.
+
+And <span class="org-verbatim">S-M-&lt;down&gt;</span> when cursor is in the first row will insert a new row
+at the beginning of the table:
+
+<span class="org-code">: |   |   |   |
+: | A | B | C |
+: | 1 | 2 | 3 |
+: | a | b | c |
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Narrowing the visible part of a column
+</span>
+Sometimes cells can get really wide.  If you want to restrict the width
+visible width of a cell, you need to add a new row to your table.
+
+<span class="org-code">: | &lt;10&gt;             | &lt;15&gt;                        |
+: | A very wide cell | Another very very wide cell |
+</span>
+Pressing <span class="org-verbatim">C-c C-c</span> on this table will update the display so that the
+first and second columns are respectively narrowed to 10 and 15
+characters:
+
+<span class="org-code">: | &lt;10&gt;     | &lt;15&gt;            |
+: | A very=&gt; | Another very =&gt; |
+</span>
+When columns are narrowed, it might be useful to temporarily see the
+content of a cell with <span class="org-verbatim">C-u &lt;TAB&gt;</span> (or <span class="org-verbatim">C-u C-c `</span>) or to edit the
+content in a separate window with <span class="org-verbatim">C-c `</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Preparing tables for export
+</span>
+This table :
+
+<span class="org-code">: | A | B |
+: | 1 | 2 |
+</span>
+will be exported like this:
+
+<span class="org-table">| A | B |</span>
+<span class="org-table">| 1 | 2 |</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Adding a table header
+</span>
+This table :
+
+<span class="org-code">: | A | B |
+: |---+---|
+: | 1 | 2 |
+</span>
+will be exported like this:
+
+<span class="org-table">| A | B |</span>
+<span class="org-table">|---+---|</span>
+<span class="org-table">| 1 | 2 |</span>
+
+The horizontal line separating the two rows tells the exporter to
+consider the first line is the table header.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Grouping columns
+</span>
+You can group columns like this:
+
+<span class="org-code">: |   |  N | N^2 | N^3 | N^4 | sqrt(n) | sqrt[4](N) |
+: |---+----+-----+-----+-----+---------+------------|
+: | / | &lt;&gt; |   &lt; |     |   &gt; |       &lt; |          &gt; |
+: | # |  1 |   1 |   1 |   1 |       1 |          1 |
+: | # |  2 |   4 |   8 |  16 |  1.4142 |     1.1892 |
+: | # |  3 |   9 |  27 |  81 |  1.7321 |     1.3161 |
+: |---+----+-----+-----+-----+---------+------------|
+</span>
+Here is the output:
+
+<span class="org-table">|   |  N | N^2 | N^3 | N^4 | sqrt(n) | sqrt(N) |</span>
+<span class="org-table">|---+----+----+----+----+---------+---------|</span>
+<span class="org-table">|</span><span class="org-formula"> / | &lt;&gt; |  &lt; |    |  &gt; |       &lt; |       &gt; </span><span class="org-table">|</span>
+<span class="org-table">| </span><span class="org-formula">#</span><span class="org-table"> |  1 |  1 |  1 |  1 |       1 |       1 |</span>
+<span class="org-table">| </span><span class="org-formula">#</span><span class="org-table"> |  2 |  4 |  8 | 16 |  1.4142 |  1.1892 |</span>
+<span class="org-table">| </span><span class="org-formula">#</span><span class="org-table"> |  3 |  9 | 27 | 81 |  1.7321 |  1.3161 |</span>
+<span class="org-table">|---+----+----+----+----+---------+---------|</span>
+
+
+
+
+
+
+
+
+
+</pre>
+  </body>
+</html>

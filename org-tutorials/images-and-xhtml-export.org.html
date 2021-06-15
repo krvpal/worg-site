@@ -1,0 +1,762 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>images-and-xhtml-export.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-macro {
+        /* org-macro */
+        color: #ffffff;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Images and XHTML export
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Sebastian Rose and the Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">sebastian_rose gmx de
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+CATEGORY:   worg-tutorial</span>
+<span class="org-meta-line">#+SETUPFILE:  ../macros.setupfile</span>
+<span class="org-meta-line">#+MACRO: imageurl /img/org-mode-unicorn.png</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Image basics
+</span>
+  Images are inserted into an Org file in a fashion similar to links:
+
+  <span class="org-code">: <a href="file:/img/org-mode-unicorn.png">[[file:/img/org-mode-unicorn.png]]</a>
+</span>
+  The <span class="org-verbatim">file:</span> prefix is optional, as long as a known image type is
+  used. Org-mode recognizes images by the file name suffix. Recognized
+  suffixes are all the members of
+  <span class="org-verbatim">org-export-html-inline-image-extensions</span> which defaults to the list
+  <span class="org-verbatim">("png" "jpeg" "jpg" "gif")</span>. That said, the images above could as
+  well be included using this link:
+
+  <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>
+  The special form
+
+  <span class="org-code">:  <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png][Monocerus glaucus]]</a>
+</span>
+  exports to a link to the image:
+
+<span class="org-block-begin-line">  #+begin_src html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block">&gt;Monocerus glaucus&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">  #+end_src
+</span>
+  For this tutorial, we assume the variable
+  <span class="org-verbatim">org-export-html-inline-images</span> is unchanged from its standard
+  setting, i.e. <span class="org-verbatim">maybe</span>. Images are shown in the exported page this
+  way. And we will talk about visible images only.
+
+  Don't be afraid.  Most of the text in this little tutorial is just
+  blind text (and in gray color therefor).
+
+  Read the basics about images in XHTML export in the Org-mode manual,
+  <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Images-in-HTML-export.html#Images-in-HTML-export">Section Images</a></span> (e.g. show a thumbnail, that links to a high
+  resolution image...).
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> A simple image
+</span>
+  Let's simply put an image inside a paragraph like this
+
+  <span class="org-code">: Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+</span>  <span class="org-code">: [[<a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>]]
+</span>  <span class="org-code">: euismod  tincidunt ut laoreet dolore magna aliquam erat volutpat.
+</span>
+  <span class="org-macro">{{{BeginWarningBox}}}</span> Note, that <span class="bold">empty lines are crucial</span>. The exporter
+  will start a new paragraph, if you add an empty line before or after
+  the image. You can easily try that yourself, simply by adding an
+  empty line before and/or after the image and export
+  again.<span class="org-macro">{{{EndWarningBox}}}</span>
+
+  To see the result, export your Org file to HTML (press <span class="org-verbatim">C-x C-e b</span>)
+  and see the results. Note, that the image is displayed just where
+  you placed it.
+
+  <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+  <span class="org-macro">{{{BeginBlindText}}}</span>
+
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+  nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi
+  enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis
+  nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in
+  hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+  feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui
+  blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+  facilisi.
+
+  <span class="org-macro">{{{EndBlindText}}}</span>
+
+  <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+
+  <span class="org-macro">{{{BeginBlindText}}}</span>
+
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+  nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi
+  enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis
+  nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in
+  hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+  feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui
+  blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+  facilisi.
+  
+  <span class="org-macro">{{{EndBlindText}}}</span>
+
+  <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Image attributes
+</span>
+  Org-mode allows us to add HTML attributes to the exported
+  image. There are several useful attributes, some of which are
+  mandatory, as the <span class="org-verbatim">src</span> and <span class="org-verbatim">alt</span> attributes. Org-mode adds an empty <span class="org-verbatim">alt</span>
+  attribute for you, if not supplied. You can add additional
+  attributes using a special syntax. E.g. you could change the value
+  of the <span class="org-verbatim">alt</span> attribute this way:
+
+  <span class="org-code">: #+ATTR_HTML: :alt My fancy value for the alt attribute
+</span>  <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>
+  You may add more attributes to an <span class="org-verbatim">#+ATTR_HTML:</span> line. More than one
+  <span class="org-verbatim">#+ATTR_HTML:</span> line is allowed for readability. Example:
+
+  <span class="org-code">: #+ATTR_HTML: :alt Zoomed image.
+</span>  <span class="org-code">: #+ATTR_HTML: :width 300 :style border:2px solid black;
+</span>  <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>
+  A full list of valid attributes can be found on
+  <span class="kc-org-link-url"><a href="http://www.w3schools.com/tags/tag_img.asp">http://www.w3schools.com/tags/tag_img.asp</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Align images
+</span>
+  If you want text to flow around your images, the <span class="org-verbatim">style</span> attribute
+  comes handy.  To place the image on the left, and let the text flow
+  around the image on the right, use this code:
+
+  <span class="org-code">: #+ATTR_HTML: :style float:left;
+</span>
+  Possible values for the <span class="org-verbatim">float:</span> CSS attribute are <span class="org-verbatim">left</span>, <span class="org-verbatim">right</span> and
+  <span class="org-verbatim">none</span> (the default). <span class="org-verbatim">left</span> causes the image to show up on the left of
+  the text succeeding the image, <span class="org-verbatim">right</span> will place the image on the
+  right side of the text succeeding the image.
+
+  You can control the gap between image and surrounding text, using
+  the <span class="org-verbatim">margin:</span> CSS attribute like so:
+
+  <span class="org-code">: #+ATTR_HTML: :style float:left;margin:20px 20px 20px 0px;
+</span>
+  The order of the values given, are the distances in the north east
+  south, and west.
+
+  Again: <span class="bold">Please avoid empty lines before and after</span> the image, if you
+  want to achieve the effect shown in this example: one paragraph of
+  text that flows around two images. The exporter adds a <span class="org-verbatim">&lt;p&gt;</span> element
+  for empty lines otherwise.
+
+  This code shows, how we can add attributes to the <span class="org-verbatim">&lt;img ... /&gt;</span> tag in Org-mode:
+
+  <span class="org-code">: #+ATTR_HTML: :style float:right;margin:0px 0px 20px 20px;
+</span>  <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>  <span class="org-code">: Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+</span>  <span class="org-code">: #+ATTR_HTML: :style float:left;margin:20px 20px 20px 0px;
+</span>  <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>  <span class="org-code">: euismod  tincidunt ut laoreet dolore magna aliquam erat volutpat.
+</span>
+  <span class="org-macro">{{{BeginInfoBox}}}</span>
+
+  <span class="bold">Note:</span> The <span class="org-verbatim">#+ATTR_HTML:</span> line as well as the image definition have to
+  be on a single line respectively. Don't put <span class="bold">any</span> additional text on
+  those lines or the attributes will not be added to the image tag on
+  export!
+
+  <span class="org-macro">{{{EndInfoBox}}}</span>
+
+  <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+<span class="org-meta-line">  #+ATTR_HTML: :style float:right;margin:0px 0px 20px 20px;</span>
+  <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+
+  This text is directly succeeds the first image, which is right
+  aligned. Because of the alignment, placing the image after the first few
+  lines would make no difference.
+
+  <span class="org-macro">{{{BeginBlindText}}}</span>
+
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy
+  nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi
+  enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis
+  nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in
+  hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+  feugiat nulla facilisis at vero et accumsan et iusto odio dignissim qui
+  blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+  facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+  nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+  volutpat.
+
+  <span class="org-macro">{{{EndBlindText}}}</span> 
+
+  Text before the second image ends here.
+
+<span class="org-meta-line">  #+ATTR_HTML: :style float:left;margin:20px 20px 20px 0px;</span>
+  <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+
+  This text is directly following the second image. No empty lines are added.
+  Neither before, nor after the image. We therefor see one big paragraph with
+  two images. Note, that browsers will place this second image where ever they
+  see fit. Browsers will not interrupt the text flow, just to place the image
+  add the exact point between two words.
+
+  <span class="org-macro">{{{BeginBlindText}}}</span>
+
+  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+  nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+  volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+  ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+  consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate
+  velit esse molestie consequat, vel illum dolore eu feugiat nulla
+  facilisis at vero et accumsan et iusto odio dignissim qui blandit
+  praesent luptatum zzril delenit augue duis dolore te feugait nulla
+  facilisi.
+
+  <span class="org-macro">{{{EndBlindText}}}</span>
+
+  <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Images in a row
+</span>
+   And here is how to fill the width of your display with images and let the
+   lines break automatically. Just add <span class="org-verbatim">display:inline;</span> to the <span class="org-verbatim">style</span> attributes.
+
+   <span class="org-code">: #+ATTR_HTML: :style display:inline;margin:10px;
+</span>   <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>   <span class="org-code">: #+ATTR_HTML: :style display:inline;margin:10px;
+</span>   <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>   <span class="org-code">: #+ATTR_HTML: :style display:inline;margin:10px;
+</span>   <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>   <span class="org-code">: #+ATTR_HTML: :style display:inline;margin:10px;
+</span>   <span class="org-code">: <a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>
+</span>
+   results in:
+
+   <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+<span class="org-meta-line">   #+ATTR_HTML: :style display:inline;margin:10px;</span>
+   <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+
+   <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Images with Captions
+</span>
+  You might want to attach a caption to your images. You can do so using this
+  code:
+
+  <span class="org-code">: #+CAPTION: Monocerus glaucus
+</span>  <span class="org-code">: #+ATTR_HTML: :alt Monocerus glaucus
+</span>  <span class="org-code">: [[<a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a>]]
+</span>
+  <span class="org-macro">{{{BeginInfoBox}}}</span>
+  In this case, empty lines before and after the image make no difference since
+  the exporter ends paragraphs and restarts them below the image.
+  <span class="org-macro">{{{EndInfoBox}}}</span>
+
+  <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+<span class="org-meta-line">  #+CAPTION:</span> <span class="org-block">Monocerus glaucus</span>
+<span class="org-meta-line">  #+ATTR_HTML: :alt Monocerus glaucus</span>
+  <span class="error"><a href="/img/org-mode-unicorn.png">/img/org-mode-unicorn.png</a></span>
+  <span class="org-macro">{{{BeginBlindText
+  }}}</span>Lorem ipsum dolor sit amet, consectetuer
+  adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
+  magna aliquam erat volutpat.
+  <span class="org-macro">{{{EndBlindText}}}</span>
+
+  <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Captions and floating
+</span>
+   There is no <span class="italic">figure</span> element in XHTML and captions are not supported
+   at all. But the exporter wraps the <span class="org-verbatim">&lt;img..../&gt;</span> tag in certain
+   containers to add the caption for you:
+
+<span class="org-block-begin-line">   #+BEGIN_SRC html
+</span><span class="org-block">    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"path/to/img.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"Monocerus glaucus"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Monocerus glaucus&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">   #+END_SRC
+</span>
+   To make text flow around your image, you need to adjust the styles
+   for the special HTML elements that wrap images with captions. The
+   exporter puts the default styles in the <span class="org-verbatim">&lt;head&gt;</span> section of your
+   XHTML files. This is, what they look like:
+
+   <span class="org-code">: div.figure { padding: 0.5em; }
+</span>   <span class="org-code">: div.figure p { text-align: center; }
+</span>
+   To achive the floating, add this to the top of the Org-file:
+   
+<span class="org-meta-line">   #+COMMENT: no width necessary, CSS 2.1</span>
+
+   <span class="org-code">: #+STYLE: &lt;style type="text/css"&gt;
+</span>   <span class="org-code">: #+STYLE:&lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/
+</span>   <span class="org-code">: #+STYLE: div.figure { float:left; }
+</span>   <span class="org-code">: #+STYLE: /*]]&gt;*/--&gt;
+</span>   <span class="org-code">: #+STYLE: &lt;/style&gt;
+</span>
+   The crucial attribute is <span class="org-verbatim">float:left;</span>. Choose <span class="org-verbatim">float:right;</span> to place
+   the images on the right edge of your paragraphs. The styles will
+   apply to <span class="bold">all</span> images with captions in your file.
+
+   <span class="org-macro">{{{BeginInfoBox}}}</span>
+
+   <span class="bold">Note (again):</span> In this case, empty lines before and after the image
+   make no difference since the exporter ends paragraphs and restarts
+   them below the image. This said, a floating image with a caption
+   will always sit on the top left/right of the following paragraph.
+
+   <span class="org-macro">{{{EndInfoBox}}}</span>
+
+   Result:
+
+   <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+   <span class="org-macro">{{{BeginBlindText}}}</span>
+
+   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+   nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+   volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+   ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+   consequat.
+
+   <span class="org-macro">{{{EndBlindText}}}</span> 
+
+   This text
+   directly preceeds the image and ends here.
+
+<span class="org-block-begin-line">    #+begin_export html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+&lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">hspace</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"20"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">vspace</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"20"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+&lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Equus Unicorn Viridis&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+&lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">   #+end_export
+</span>
+   This text directly follows the image. No empty are inserted before or after
+   the image. Note, that a new paragraph has started nonetheless.
+
+   <span class="org-macro">{{{BeginBlindText }}}</span> 
+
+   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+   nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+   volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+   ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+   consequat. Duis autem vel eum iriure dolor in hendrerit in
+   vulputate velit esse molestie consequat, vel illum dolore eu
+   feugiat nulla facilisis at vero et accumsan et iusto odio dignissim
+   qui blandit praesent luptatum zzril delenit augue duis dolore te
+   feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
+   adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+   dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+   quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+   aliquip ex ea commodo.
+
+   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+   nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+   volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+   ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+   consequat. Duis autem vel eum iriure dolor in hendrerit in
+   vulputate velit esse molestie consequat, vel illum dolore eu
+   feugiat nulla facilisis at vero et accumsan et iusto odio dignissim
+   qui blandit praesent luptatum zzril delenit augue duis dolore te
+   feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
+   adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+   dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+   quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+   aliquip ex ea commodo...
+   
+   <span class="org-macro">{{{EndBlindText}}}</span>
+
+   <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Problems with captions and float
+</span>
+    The <span class="org-verbatim">float:left;</span> style causes following blocks to show up on the right of
+    your image. So did the following paragraph in the previous example.
+    Inevitably, this will happen against your will. In that case, put this after
+    the image:
+
+    <span class="org-code">: #+begin_export html
+</span>    <span class="org-code">:  &lt;br style="clear:both;" /&gt;
+</span>    <span class="org-code">: #+end_export
+</span>
+    Or you could use the less obtrusive syntax:
+
+    <span class="org-code">: </span><span class="org-code"><span class="org-formula">@&lt;br</span></span><span class="org-code"> style="clear:both;" /&gt;
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Captions in a row
+</span>
+   In addition, <span class="org-verbatim">float:left;</span> changes the alignment of several images with caption
+   in a row. They now fill a row on the display, until the screen width is
+   filled with images. They now behave like simple text.
+
+<span class="org-block-begin-line">   #+begin_src org
+</span><span class="org-block">     ,#+CAPTION: Michael
+     ,#+ATTR_HTML::alt image
+     </span><span class="org-block"><span class="error"><a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a></span></span><span class="org-block">
+     ,#+CAPTION: Steve
+     ,#+ATTR_HTML::alt image
+     </span><span class="org-block"><span class="error"><a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a></span></span><span class="org-block">
+     ,#+CAPTION: Carla
+     ,#+ATTR_HTML::alt image
+     </span><span class="org-block"><span class="error"><a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a></span></span><span class="org-block">
+     ,#+CAPTION: Pete
+     ,#+ATTR_HTML::alt image
+     </span><span class="org-block"><span class="error"><a href="/img/org-mode-unicorn.png">[[/img/org-mode-unicorn.png]]</a></span></span><span class="org-block">
+
+     ... etc. - many more ...
+</span><span class="org-block-end-line">   #+end_src
+</span>
+    results in:
+
+<span class="org-meta-line">#+COMMENT: This has to be HTML, because we cannot include the styles into the head section.</span>
+<span class="org-meta-line">#+COMMENT: Therefor, this has to be reworked if the output of the exporter changes.</span>
+
+   <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+<span class="org-block-begin-line">   #+begin_export html
+</span><span class="org-block">    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Michael&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Steve&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Carla&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Pete&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Paul&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Alice&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Maria&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:left;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;Lucien&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">br</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"clear:both;"</span></span><span class="org-block"> /&gt;
+</span><span class="org-block-end-line">   #+end_export
+</span>
+   <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Italic captions
+</span>
+   Captions are often printed in italics. To do so, go to the top of your
+   Org-file again, and edit the styles again:
+
+   <span class="org-code">: #+STYLE: &lt;style type="text/css"&gt;
+</span>   <span class="org-code">: #+STYLE:&lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/
+</span>   <span class="org-code">: #+STYLE: div.figure p { font-style:italic; }
+</span>   <span class="org-code">: #+STYLE: /*]]&gt;*/--&gt;
+</span>   <span class="org-code">: #+STYLE: &lt;/style&gt;
+</span>
+   <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+<span class="org-block-begin-line">   #+begin_export html
+</span><span class="org-block">    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float:right;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"Save the unicorns"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"font-style:italic;"</span></span><span class="org-block">&gt;Save the unicorns&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">   #+end_export
+</span>   <span class="org-macro">{{{BeginBlindText}}}</span>
+
+   Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+   nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+   volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+   ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+   consequat. Duis autem vel eum iriure dolor in hendrerit in
+   vulputate velit esse molestie consequat, vel illum dolore eu
+   feugiat nulla facilisis at vero et accumsan et iusto odio dignissim
+   qui blandit praesent luptatum zzril delenit augue duis dolore te
+   feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
+   adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+   dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+   quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+   aliquip ex ea commodo.  Lorem ipsum dolor sit amet, consectetuer
+   adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+   dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam,
+   quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut
+   aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in
+   hendrerit in vulputate velit esse molestie consequat, vel illum
+   dolore eu feugiat nulla facilisis at vero et accumsan et iusto odio
+   dignissim qui blandit praesent luptatum zzril delenit augue duis
+   dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
+   consectetuer adipiscing elit, sed diam nonummy nibh euismod
+   tincidunt ut laoreet dolore magna aliquam erat volutpat.  Lorem
+   ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+   nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
+   volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
+   ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+   consequat. Duis autem vel eum iriure dolor in hendrerit in
+   vulputate velit esse molestie consequat, vel illum dolore eu
+   feugiat nulla facilisis at vero et accumsan et iusto odio dignissim
+   qui blandit praesent luptatum zzril delenit augue duis dolore te
+   feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer
+   adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
+   dolore magna aliquam erat volutpat.
+
+   <span class="org-macro">{{{EndBlindText}}}</span>
+
+   <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Final captions example
+</span>
+   Here is a last weird example of what styles can do for you. Let's
+   put the caption to the right of an image.
+
+   <span class="org-code">: #+STYLE: &lt;style type="text/css"&gt;
+</span>   <span class="org-code">: #+STYLE:&lt;!--/*--&gt;&lt;![CDATA[/*&gt;&lt;!--*/
+</span>   <span class="org-code">: #+STYLE: div.figure {
+</span>   <span class="org-code">: #+STYLE:  width:235px; /* ensure the same width for each. */
+</span>   <span class="org-code">: #+STYLE:  float:left;
+</span>   <span class="org-code">: #+STYLE:  margin:5px;
+</span>   <span class="org-code">: #+STYLE: }
+</span>   <span class="org-code">: #+STYLE: div.figure p {
+</span>   <span class="org-code">: #+STYLE:  display:inline;
+</span>   <span class="org-code">: #+STYLE:  font-style:italic;
+</span>   <span class="org-code">: #+STYLE: }
+</span>   <span class="org-code">: #+STYLE: /*]]&gt;*/--&gt;
+</span>   <span class="org-code">: #+STYLE: &lt;/style&gt;
+</span>
+   <span class="org-macro">{{{BeginMiniPage}}}</span>
+
+<span class="org-block-begin-line">   #+begin_export html
+</span><span class="org-block">    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"width:235px;float:left;margin:5px;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"vertical-align:middle;"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;font-style:italic;"</span></span><span class="org-block">&gt;Michael&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"width:235px;float:left;margin:5px;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"vertical-align:middle;"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;font-style:italic;"</span></span><span class="org-block">&gt;Steve&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"width:235px;float:left;margin:5px;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"vertical-align:middle;"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;font-style:italic;"</span></span><span class="org-block">&gt;Carla&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">br</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"clear:both;"</span></span><span class="org-block"> /&gt;
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"width:235px;float:left;margin:5px;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"vertical-align:middle;"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;font-style:italic;"</span></span><span class="org-block">&gt;Pete&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+
+    &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"figure"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"width:235px;float:left;margin:5px;"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"/img/org-mode-unicorn.png"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"image"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"vertical-align:middle;"</span></span><span class="org-block"> /&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"display:inline;font-style:italic;"</span></span><span class="org-block">&gt;Paul&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">   #+end_export
+</span>
+   If the sum of three <span class="org-verbatim">div.figure</span>'s widths and margins were so wide,
+   that three Monoceri wouldn't fit in one row, this text would start
+   on the very top of this mini page.
+
+   Let's add another little paragraph here, to show how <span class="org-verbatim">float</span>
+   works. How to get out of here?
+
+   <span class="org-code">: =@&lt;br style="clear:both;"/&gt;=
+</span>
+   ...did the trick. It's advisable, to add this after the third image
+   above since the first paragraph starts with very short words.
+
+   <span class="org-macro">{{{EndMiniPage}}}</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Summary
+</span>
+  <span class="org-list-dt">1.</span> Images are referenced using Org-mode's link syntax.
+  <span class="org-list-dt">2.</span> As for simple links, the <span class="org-verbatim">file:</span> prefix is optional, as long as the
+     suffix is a member of <span class="org-verbatim">org-export-html-inline-image-extensions</span>.
+  <span class="org-list-dt">3.</span> We can add HTML attributes to images
+     <span class="org-list-dt">-</span> using <span class="org-verbatim">#+ATTR_HTML:</span>
+     <span class="org-list-dt">-</span> Both, the <span class="org-verbatim">#+ATTR_HTML:</span> line and the image have to be on their own line.
+  <span class="org-list-dt">4.</span> We prefer the <span class="org-verbatim">style</span> attribute to align images. The most important CSS
+     attributes are <span class="org-verbatim">float:</span> and <span class="org-verbatim">margin:</span>.
+  <span class="org-list-dt">5.</span> We can add a caption to images, even though (X)HTML doesn't
+     support this. We use the special <span class="org-verbatim">#+CAPTION:</span> line to supply a
+     caption. This has to be on a single line, too.
+  <span class="org-list-dt">6.</span> The exporter wraps the image and the caption into a <span class="org-verbatim">&lt;div
+     class=</span>"<span class="org-verbatim">figure"&gt;</span> and two <span class="org-verbatim">&lt;p&gt;</span> elements. The first <span class="org-verbatim">&lt;p&gt;</span> element
+     contains our image, the second one the caption.
+  <span class="org-list-dt">7.</span> By adding special styles for those elements to the top of our
+     Org-file (<span class="org-verbatim">#+STYLE:</span>), we can align images with captions, too.
+  <span class="org-list-dt">8.</span> Styles added for images with captions apply to all images with
+     captions in the file.
+</pre>
+  </body>
+</html>

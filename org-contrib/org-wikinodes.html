@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-wikinodes.el &#x2013; CamelCase wiki-like links to Org-mode nodes</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-wikinodes.el &#x2013; CamelCase wiki-like links to Org-mode nodes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgece5c00">Introduction</a></li>
+<li><a href="#org11895a9">Installation</a></li>
+<li><a href="#org31a76d0">How to use this module</a></li>
+<li><a href="#orgbcdad07">Wiki links across files</a></li>
+<li><a href="#org0cb455e">Export and publishing</a></li>
+<li><a href="#orgbe438a3">CamelCase words are hard to read</a></li>
+<li><a href="#org6ef9128">Author</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgece5c00" class="outline-2">
+<h2 id="orgece5c00">Introduction</h2>
+<div class="outline-text-2" id="text-orgece5c00">
+<p>
+<i>org-wikinodes.el</i> implements CamelCase wiki-like links in Org mode.
+However, while most wiki implementations use files as the basic data
+unit, it is more natural for Org to use outline nodes.
+</p>
+
+<p>
+<i>org-wikinodes.el</i> turns CamelCase words into links to CamelCase
+headlines and creates missing headlines if necessary.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org11895a9" class="outline-2">
+<h2 id="org11895a9">Installation</h2>
+<div class="outline-text-2" id="text-org11895a9">
+<p>
+Like with most contribued modules, just customize the variable
+<code>org-modules</code> and select the line for <i>org-wikinodes</i>.
+</p>
+
+<p>
+If you want to use this module only in some files/directories but not
+in others, set your general preference in the variable
+<code>org-wikinodes-active</code> and then use Emacs <a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/File-Variables.html">file variables</a> or
+<a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html">directory-local variables</a> to change things where necessary.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31a76d0" class="outline-2">
+<h2 id="org31a76d0">How to use this module</h2>
+<div class="outline-text-2" id="text-org31a76d0">
+<p>
+When this package is activated, any headlines that consist of only a
+single CamelCase word, optionally with a TODO keyword, a priority
+cookie and tags, are treated as a wiki node.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * TODO <span style="color: #b6e63e;">[#C] </span>ThisIsAWikiNodeInOrgMode    :test:
+</pre>
+</div>
+
+<p>
+Writing the CamelCase word plainly in the text will create a link to
+that node.
+</p>
+
+<p>
+Following the link will jump to it, and you can return to the previous
+position with <code>C-c &amp;</code>.  If the target does not exist, it can be
+created.  By default the user will be asked if the target should be
+created, but the exact behavior can be modified using the user option
+<code>org-wikinodes-create-targets</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbcdad07" class="outline-2">
+<h2 id="orgbcdad07">Wiki links across files</h2>
+<div class="outline-text-2" id="text-orgbcdad07">
+<p>
+By default a match for a link is only attempted in the current file.
+However, you can make Org consider headlines in all org files in the
+same directory by setting
+</p>
+
+<pre class="example">
+(setq org-wikinodes-scope 'directory)
+</pre>
+
+
+<p>
+In this case, to speed things up, a cache is created that remembers in
+which file a particular node can be found.  The cache is updated
+directly if you create nodes automatically by following CamelCase
+links to non-existing headlines.  However, if you create a new node by
+hand (just typing it), then you need to clear the cache before the
+node can be found from a link in a different file.  To clear the
+cache, press <code>C-c C-c</code> in any headline that is just a CamelCase word.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0cb455e" class="outline-2">
+<h2 id="org0cb455e">Export and publishing</h2>
+<div class="outline-text-2" id="text-org0cb455e">
+<p>
+<i>org-wikinodes.el</i> fully supports export and publishing.  Links will
+be functional in the published version of the files.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbe438a3" class="outline-2">
+<h2 id="orgbe438a3">CamelCase words are hard to read</h2>
+<div class="outline-text-2" id="text-orgbe438a3">
+<p>
+Yes, this is true.  If you find this problematic, try <code>glasses-mode</code>
+which makes <code>CamelCase</code> words more readable by displaying them like
+<code>Camel_Case</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6ef9128" class="outline-2">
+<h2 id="org6ef9128">Author</h2>
+<div class="outline-text-2" id="text-org6ef9128">
+<p>
+<i>org-wikinodes.el</i> was written by Carsten Dominik.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

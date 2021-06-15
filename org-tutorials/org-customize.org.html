@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-customize.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Customizing Org-mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Carsten Dominik
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">carsten dot dominik at gmail dot com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+This page contains an illustrated example on how to use the Emacs
+customization system to find the right variable for a particular
+purpose.  Org-mode contains more than 650 options that can be used to
+fine-tune a detail, and it can be daunting to find the right variable
+for a particular job - even though more often than not, the variable
+does exist.
+
+The <span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/Easy-Customization.html#Easy-Customization">Emacs customize system</a></span> offers a way out.  With this tool,
+variables can be grouped and organized into a hierarchical system
+that makes it much easier to find the right one.  The best way to
+start is to <span class="italic">browse a customization group</span>.  This can be done with
+
+<span class="org-meta-line">#+example</span>
+M-x customize-browse RET
+<span class="org-meta-line">#+end_example</span>
+
+which enters the top-level group for all of Emacs and lets you drill
+down from there.  Org-mode provides a special command to start
+directly in the Org group:
+
+<span class="org-meta-line">#+example</span>
+M-x org-customize RET
+<span class="org-meta-line">#+end_example</span>
+
+You can also access this command from the Org menu under <span class="org-verbatim">Org -&gt;
+Customize -&gt; Brows Org Group</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to change the parameters for the clocktable in the Org-mode Daily Agenda
+</span>
+So here is an example.  Recently, Flavio de Souza <span class="kc-org-link-url"><a href="https://orgmode.org/list/87d4go5x8j.fsf@gmail.com">asked</a></span> on
+<span class="kc-org-link-url"><a href="http://dir.gmane.org/gmane.emacs.orgmode">emacs-orgmode@gnu.org</a></span> how he could change the maximum level for the
+construction of the clock table in the Org Daily/Weekly agenda.
+
+Here is the illustrated answer:
+
+
+<span class="org-list-dt">1.</span> In an Org-buffer, use the menu to select
+   Org -&gt; Customize -&gt; Browse Org Group
+
+    <span class="org-link"><a href="file:../images/cd/customize-1.png">file:../images/cd/customize-1.png</a></span>
+
+<span class="org-list-dt">2.</span> Open the "Org Agenda" group by clicking the "+" in front of it.
+
+    <span class="org-link"><a href="file:../images/cd/customize-2.png">file:../images/cd/customize-2.png</a></span>
+
+
+<span class="org-list-dt">3.</span> Inside you find another group: "Daily/Weekly Agenda", and in that group
+   there is the option "Org Agenda Clockreport Parameter Plist":
+
+    <span class="org-link"><a href="file:../images/cd/customize-3.png">file:../images/cd/customize-3.png</a></span>
+
+<span class="org-list-dt">4.</span> When you select this variable, you are in a customization buffer
+   where you can changes the parameters for this option, in your case
+   you will set maxlevel to 3.
+
+    <span class="org-link"><a href="file:../images/cd/customize-4.png">file:../images/cd/customize-4.png</a></span>
+
+<span class="org-list-dt">5.</span> After you are done, click on <span class="bold">Set for current section</span> and then on
+   <span class="bold">Save for future sessions</span> near the top of the buffer.
+
+
+It may not always be as simple to find the correct variable, but with
+some clicking around, you will get there.  And if you find that a
+particular variable has a stupid name, or is not in the right group,
+<span class="org-link"><a href="mailto:emacs-orgmode@gnu.org">drop us a note</a></span> so that we can fix things.
+</pre>
+  </body>
+</html>

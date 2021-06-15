@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Using Ledger for Accounting in Org-mode with Babel</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric S Fraga" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Using Ledger for Accounting in Org-mode with Babel</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1d61e40">1. Introduction</a>
+<ul>
+<li><a href="#orgaf00a95">1.1. Getting Started</a></li>
+</ul>
+</li>
+<li><a href="#orga465146">2. Embedded Ledger example with single source block</a></li>
+<li><a href="#org88e8846">3. Multiple Ledger source blocks with noweb</a>
+<ul>
+<li><a href="#org1d93e56">3.1. Income Entries</a></li>
+<li><a href="#org02aefe1">3.2. Expenses</a></li>
+<li><a href="#orge9ee5d2">3.3. Financial Summaries</a>
+<ul>
+<li><a href="#org47f25ce">3.3.1. An overall balance summary</a></li>
+<li><a href="#org528f131">3.3.2. Generating a monthly register</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org071cc8b">4. Summary</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1d61e40" class="outline-2">
+<h2 id="org1d61e40"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="https://github.com/ledger/ledger/wiki">Ledger</a> is a double entry accounting system which uses simple text
+files for recording all transactions.  As such, it is fundamentally
+compatible with org mode in Emacs.  Using Babel, it is possible
+to record financial transactions conveniently in an org file and
+subsequently generate the financial reports required. 
+</p>
+</div>
+
+<div id="outline-container-orgaf00a95" class="outline-3">
+<h3 id="orgaf00a95"><span class="section-number-3">1.1</span> Getting Started</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+With a recent version of org (7.01+), Ledger support is provided.  To
+use it, enable Ledger support.  Check the <a href="https://orgmode.org/worg/org-contrib/babel/index.html">Babel documentation on
+Worg</a> for instructions on how to achieve this but I currently do this
+directly as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orge7f9909"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>R . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>ditaa . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>dot . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>emacs-lisp . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>gnuplot . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>haskell . nil<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>latex . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>ledger . t<span style="color: #b6e63e;">)</span>   <span style="color: #696969;">;</span><span style="color: #696969;">this is the important one for this tutorial</span>
+   <span style="color: #b6e63e;">(</span>ocaml . nil<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>octave . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>python . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>ruby . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>screen . nil<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>sh . t<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>sql . nil<span style="color: #b6e63e;">)</span>
+   <span style="color: #b6e63e;">(</span>sqlite . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Once Ledger support in Babel has been enabled, we can use proceed to
+include Ledger entries within an org file.  There are three ways (at
+least) in which these can be included:
+</p>
+
+
+<ol class="org-ol">
+<li>place all Ledger entries within one source block and execute this
+block with different arguments to generate the appropriate reports;</li>
+
+<li>place Ledger entries in more than one source block and use the
+<i>noweb</i> literary programming approach, supported by babel, to combine
+these into one block elsewhere in the file for processing by
+Ledger; and,</li>
+
+<li>place Ledger entries in different source blocks and use <i>tangling</i> to
+generate a Ledger file which you can subsequently process using
+Ledger directly.</li>
+</ol>
+
+
+<p>
+The first two are described in more detail in this short tutorial.
+This tutorial, however, only scratches the surface of what is possible
+in Ledger.  For further information on Ledger, check out <a href="http://www.ledger-cli.org/">the project
+website</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga465146" class="outline-2">
+<h2 id="orga465146"><span class="section-number-2">2</span> Embedded Ledger example with single source block</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The easiest, albeit possibly less useful, way in which to use Ledger
+within an org file is to use a single source block to record all
+Ledger entries.  The following is an example source block:
+</p>
+
+<pre class="example">
+#+name: allinone
+#+begin_src ledger
+2010/01/01 * Starting balance
+  assets:bank:savings  £1300.00
+  income:starting balances
+2010/07/22 * Got paid
+  assets:bank:chequing  £1000.00
+  income:salary
+2010/07/23 Rent
+  expenses:rent  £500.00
+  assets:bank:chequing
+2010/07/24 Food
+  expenses:food  £150.00
+  assets:bank:chequing
+2010/07/31 * Interest on bank savings
+  assets:bank:savings  £3.53
+  income:interest
+2010/07/31 * Transfer savings
+  assets:bank:savings  £250.00
+  assets:bank:chequing
+2010/08/01 got paid again
+  assets:bank:chequing  £1000.00
+  income:salary
+#+end_src
+</pre>
+
+<p>
+In this example, we have combined both expenses and income into one
+set of Ledger entries.  We can now generate register and balance
+reports (as well as many other types of reports) using babel to invoke
+Ledger with specific arguments.  The arguments are passed to Ledger
+using the <code>:cmdline</code> header argument.  In the code block above, there is
+no such argument so the system takes the default.  For Ledger code
+blocks, the default <code>:cmdline</code> argument is <code>bal</code> and the result of
+evaluating this code block (<code>C-c C-c</code>) would be:
+</p>
+
+<pre class="example">
+#+results: allinone()
+:            £2653.53  assets
+:             £650.00  expenses
+:           £-3303.53  income
+</pre>
+
+<p>
+If, instead, you wished to generate a register of all the
+transactions, you would change the <code>#+begin_src</code> line for the code block
+to include the required command line option:
+</p>
+
+<pre class="example">
+#+begin_src ledger :cmdline reg
+</pre>
+
+
+<p>
+Evaluating the code block again would generate a different report.
+</p>
+
+<p>
+Having to change the actual directive on the code block and
+re-evaluate makes it difficult to have more than one view of your
+transactions and financial state.  Eventually, babel will support
+passing arguments to <code>#+call</code> evaluations of code blocks but this
+support is missing currently.  Instead, we can use the concepts of
+literary programming, as implemented by the <code>noweb</code> features of babel,
+to help us.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org88e8846" class="outline-2">
+<h2 id="org88e8846"><span class="section-number-2">3</span> Multiple Ledger source blocks with noweb</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The <code>noweb</code> feature of babel allows us to expand references to other
+code blocks within a code block.  For Ledger, this can be used to
+group transactions according to type, say, and then bring various
+sets of transactions together to generate reports.
+</p>
+
+<p>
+Using the same transactions used above, we could consider splitting
+these into <i>expenses</i> and <i>income</i>, as follows:
+</p>
+</div>
+
+<div id="outline-container-org1d93e56" class="outline-3">
+<h3 id="org1d93e56"><span class="section-number-3">3.1</span> Income Entries</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+The first set of entries relates to income, either monthly pay or
+interest, all typically going into one of my bank accounts.  Here,
+I have placed several entries, but we could have had each entry in
+a separate <code>src</code> block.  Note that all code blocks you wish to refer
+to later must have the <code>:noweb yes</code> babel header argument specified.
+</p>
+
+<pre class="example">
+#+name: income
+#+begin_src ledger :noweb yes
+2010/01/01 * Starting balance
+  assets:bank:savings  £1300.00
+  income:starting balances
+2010/07/22 * Got paid
+  assets:bank:chequing  £1000.00
+  income:salary
+2010/07/31 * Interest on bank savings
+  assets:bank:savings  £3.53
+  income:interest
+2010/07/31 * Transfer savings
+  assets:bank:savings  £250.00
+  assets:bank:chequing
+2010/08/01 got paid again
+  assets:bank:chequing  £1000.00
+  income:salary
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org02aefe1" class="outline-3">
+<h3 id="org02aefe1"><span class="section-number-3">3.2</span> Expenses</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The following entries relate to personal expenses, such as rent
+and food.  Again, these have all been placed in a single <code>src</code> block
+but could have been done individually.
+</p>
+
+<pre class="example">
+#+name: expenses
+#+begin_src ledger :noweb yes
+2010/07/23 Rent
+  expenses:rent  £500.00
+  assets:bank:chequing
+2010/07/24 Food
+  expenses:food  £150.00
+  assets:bank:chequing
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge9ee5d2" class="outline-3">
+<h3 id="orge9ee5d2"><span class="section-number-3">3.3</span> Financial Summaries</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Given the ledger entries defined above in the <code>income</code> and <code>expenses</code>
+code blocks, we can now refer to these using the <code>noweb</code> expansion
+directives, <code>&lt;&lt;name&gt;&gt;</code>.  We can now define different code blocks to
+generate specific reports for those transactions.  Below are two
+examples, one to generate a balance report and one to generate a
+register report of all transactions.
+</p>
+</div>
+
+<div id="outline-container-org47f25ce" class="outline-4">
+<h4 id="org47f25ce"><span class="section-number-4">3.3.1</span> An overall balance summary</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+The overall balance of your account and expenditure with a breakdown
+according to category is specified by passing the <code>:cmdline bal</code> argument
+to Ledger.  This code block can now be evaluated (<code>C-c C-c</code>) and
+the results generated by incorporating the transactions referred
+to by the <code>&lt;&lt;income&gt;&gt;</code> and <code>&lt;&lt;expenses&gt;&gt;=</code> lines.
+</p>
+
+<pre class="example">
+#+name: balance
+#+begin_src ledger :cmdline bal :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+#+end_src
+
+#+results: balance
+:            £2653.53  assets
+:             £650.00  expenses
+:           £-3303.53  income
+
+</pre>
+
+<p>
+If you want a more detailed breakdown of where your money is and where
+it has been spent, you can specify the <code>-s</code> flag (i.e. <code>:cmdline -s bal</code>)
+to tell Ledger to include sub-accounts in the report.
+</p>
+
+<pre class="example">
+#+begin_src ledger :cmdline -s bal :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+#+end_src
+
+#+results:
+:           £2653.53  assets:bank
+:           £1100.00    chequing
+:           £1553.53    savings
+:            £650.00  expenses
+:            £150.00    food
+:            £500.00    rent
+:          £-3303.53  income
+:             £-3.53    interest
+:          £-2000.00    salary
+:          £-1300.00    starting balances
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org528f131" class="outline-4">
+<h4 id="org528f131"><span class="section-number-4">3.3.2</span> Generating a monthly register</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+You can also generate a monthly register (the <code>reg</code> command) by
+executing the following <code>src</code> block.  This presents a summary of
+transactions for each monthly period (the <code>-M</code> argument) with a
+running total in the final column (which should be 0 at the end
+if all the entries are correct).
+</p>
+
+<pre class="example">
+#+name: monthlyregister
+#+begin_src ledger :cmdline -M reg :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+#+end_src
+
+#+results: monthlyregister
+:2010/01/01 - 2010/01/31         assets:bank:savings       £1300.00    £1300.00
+:                                in:starting balances     £-1300.00            0
+:2010/07/01 - 2010/07/31         assets:bank:chequing       £100.00     £100.00
+:                                assets:bank:savings        £253.53     £353.53
+:                                expenses:food              £150.00     £503.53
+:                                expenses:rent              £500.00    £1003.53
+:                                income:interest             £-3.53    £1000.00
+:                                income:salary            £-1000.00            0
+:2010/08/01 - 2010/08/01         assets:bank:chequing      £1000.00    £1000.00
+:                                income:salary            £-1000.00            0
+</pre>
+
+<p>
+We could also generate a monthly report on our <code>assets</code> showing how
+these are increasing (or decreasing!).  In this case, the final column
+will be the running total of the <code>assets</code> in our ledger.
+</p>
+
+<pre class="example">
+#+name: monthlyassetsregister
+#+begin_src ledger :cmdline -M reg assets :noweb yes
+&lt;&lt;income&gt;&gt;
+&lt;&lt;expenses&gt;&gt;
+#+end_src
+
+#+results: monthlyassetsregister
+: 2010/01/01 - 2010/01/31         assets:bank:savings       £1300.00    £1300.00
+: 2010/07/01 - 2010/07/31         assets:bank:chequing       £100.00    £1400.00
+:                                 assets:bank:savings        £253.53    £1653.53
+: 2010/08/01 - 2010/08/01         assets:bank:chequing      £1000.00    £2653.53
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org071cc8b" class="outline-2">
+<h2 id="org071cc8b"><span class="section-number-2">4</span> Summary</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+This short tutorial shows how Ledger entries can be embedded in a org
+file and manipulated using <a href="https://orgmode.org/worg/org-contrib/babel/index.html">Babel</a>.  However, only simple Ledger
+features have been illustrated; please refer to the Ledger
+<a href="http://www.ledger-cli.org/docs.html">documentation</a> for examples of more complex integrations with a ledger.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2010-08-25 Wed</p>
+<p class="author">Author: Eric S Fraga</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

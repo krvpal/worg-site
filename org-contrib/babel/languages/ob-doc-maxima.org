@@ -1,0 +1,183 @@
+# Created 2021-06-15 Tue 18:20
+#+OPTIONS: H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Maxima Source Code Blocks in Org Mode
+#+AUTHOR: Thomas S. Dye
+#+startup: align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+language: en
+#+html_link_up: index.html
+#+html_link_home: https://orgmode.org/worg/
+#+exclude_tags: noexport
+
+* Introduction
+Maxima is a computer algebra system descended from Macsyma, which was
+originally released in 1982.  It is released under the terms of the
+GNU General Public License.
+
+Maxima is written in Common Lisp.  It can be accessed and extended in
+Lisp. 
+
+* Requirements and Setup
+Maxima binaries are available for Windows and Linux.  These either
+require a compatible Common Lisp or an executable Lisp image.  Mac OS
+X users can install via brew or MacPorts.  The combinations of
+operating system and Lisp implementation known to run Maxima can be
+found on [[http://maxima-project.org/wiki/index.php?title%3DMaxima_ports][the Maxima ports page]].
+
+There are several versions of Maxima, some with different names.  The
+variable =org-babel-maxima-command= can be set to the name of your
+Maxima executable.  The default value is "maxima".
+
+Maxima ships with =Emacs= modes.  Instructions for configuring them
+can be found on [[http://emacswiki.org/emacs/MaximaMode][emacswiki]].  =imaxima= is an =Emacs= front end with
+image that displays fully typeset math in your =Emacs= window.
+
+You must activate Maxima by adding a line to
+=org-babel-load-languages=:
+
+#+begin_src emacs-lisp
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((maxima . t))) ; this line activates maxima
+#+end_src
+
+
+* Org Mode Features for Maxima Source Code Blocks
+** Header Arguments
+There are no Maxima-specific default header argument values.
+
+The header argument, =:cmdline=, can be used to pass command line
+arguments to Maxima.
+
+** Sessions
+Org-mode support for Maxima does not include sessions.
+
+** Result Types
+Maxima produces the full range of result types.
+
+* Examples of Use
+
+** Calculator
+The following source code block uses =maxima= as a calculator for
+powers of 12, where the powers are passed with a variable.
+
+#+begin_example
+,#+name: test-maxima
+,#+header: :exports results
+,#+header: :var x=1.3121254
+,#+begin_src maxima 
+  programmode: false;
+  print(12^x);
+,#+end_src
+#+end_example
+
+#+name: test-maxima
+#+header: :exports results
+#+header: :var x=1.3121254
+#+begin_src maxima
+  programmode: false;
+  print(12^x);
+#+end_src
+
+#+results: test-maxima
+: 26.06280316745402
+
+** Solver
+Of course, =maxima= is more than a calculator.
+
+#+begin_example
+,#+name: solve-maxima
+,#+header: :exports results
+,#+begin_src maxima :results output
+  programmode: false;
+  eq: x**2-16 = 0;
+  solution: solve(eq, x);
+  print(solution);
+,#+end_src
+#+end_example
+
+#+name: solve-maxima
+#+header: :exports results
+#+begin_src maxima :results output
+  programmode: false;
+  eq: x**2-16 = 0;
+  solution: solve(eq, x);
+  print(solution);
+#+end_src
+
+** 3D plots
+With =gnuplot= installed (4.0 or higher), 3D graphics are possible.
+This example is from [[http://maxima.sourceforge.net/maxima-gnuplot.html][a tutorial on the maxima/gnuplot interface]].
+
+#+begin_example
+,#+name: 3d-maxima
+,#+header: :file images/maxima-3d.png
+,#+header: :exports results
+,#+header: :results graphics
+,#+begin_src maxima 
+  programmode: false;
+  plot3d(atan(-x^2+y^3/4),[x,-4,4],[y,-4,4],[grid,50,50],[gnuplot_pm3d,true]);
+,#+end_src
+#+end_example
+
+#+name: 3d-maxima
+#+header: :file images/maxima-3d.png
+#+header: :results graphics
+#+header: :exports results
+#+begin_src maxima
+  programmode: false;
+  plot3d(atan(-x^2+y^3/4),[x,-4,4],[y,-4,4],[grid,50,50],[gnuplot_pm3d,true]);
+#+end_src
+
+#+results: 3d-maxima
+[[file:images/maxima-3d.png]]
+
+** Inline Display of Maxima LaTeX Output
+[[http://maxima.sourceforge.net/][Maxima]] code can be evaluated and displayed inline in Org mode
+through babel [fn:1] as in the example below, based on RS initial
+example.
+
+#+begin_example
+,#+NAME: solve-maxima
+,#+HEADER: :exports none
+,#+BEGIN_SRC maxima :results raw
+  tex(exp(-x)/x);
+,#+END_SRC
+#+end_example
+
+#+name: solve-maxima
+#+header: :exports results
+#+begin_src maxima :results raw
+  tex(exp(-x)/x);
+#+end_src
+
+[fn:1] (info "(org)Library of Babel")
+
+*** Toggle inline display of latex code
+Latex code in org mode can be displayed inline by 'C-c C-x
+C-l'. To remove the inline display 'C-c C-c' is used. This is
+described further in the manual [fn:2].
+
+[fn:2] (info "(org)Previewing LaTeX fragments")
+*** Set scale of output
+If the inline display of the equations are illegible, the scale
+can be set by customising the variable 'org-format-latex-options',
+by setting the :scale variable to a value >1.
+*** Export
+This exports nicely to both html (C-c C-e b) and pdf (C-c C-e
+d). See [fn:3] and [fn:4] in the manual.
+
+[fn:3] (info "(org)Exporting code blocks")
+
+[fn:4] (info "(org)The export dispatcher")
+*** Noweb expansion
+_NOTE:_ I have not tested this yet, but as Eric Schulte noted on
+the mailing list: "Alternately, if you really want to get fancy
+you could use noweb expansion [fn:5] to insert the results of the
+imaxima code block into a latex code block, and then use the
+existing latex code block functionality to convert the imaxima
+output to images of different types depending on the export
+target."
+
+[fn:5] (info "(org)noweb")

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-tcl</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Luis Anaya" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-tcl</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgeeb8e5c">Introduction</a></li>
+<li><a href="#orgceb5658">Requirements and Setup</a></li>
+<li><a href="#org00ae0e0">Babel Header Arguments</a></li>
+<li><a href="#org50ab04e">Overview and Use</a>
+<ul>
+<li><a href="#org25c9a67">Basic Use</a></li>
+<li><a href="#orgf90d08b">Named Procedures and Tables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org-babel support for
+<a href="http://www.tcl.tk/">tclsh</a>
+</p>
+</p>
+</div>
+
+<div id="outline-container-orgeeb8e5c" class="outline-2">
+<h2 id="orgeeb8e5c">Introduction</h2>
+<div class="outline-text-2" id="text-orgeeb8e5c">
+<p>
+<code>org-babel-tcl</code> allows Tcl code to be executed directly
+within embedded code blocks in Org-mode documents. These code blocks and
+its results can be included as the document is exported to documentation
+formats. 
+</p>
+
+<p>
+The following provides instructions and some examples of tclsh
+usage. Since babel is simply allowing native code to run inside of
+Org-mode, all tclsh documentation is applicable and valid.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgceb5658" class="outline-2">
+<h2 id="orgceb5658">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orgceb5658">
+<p>
+To get Tcl  up and running, you need the <code>tclsh</code> interpreter installed in your
+system or any of its variants: 
+</p>
+
+<ul class="org-ul">
+<li><code>wish</code> if you want GUI support</li>
+<li><code>expect</code> for interactions with the console</li>
+<li><code>ns2</code> to run network simulations from Org-mode.</li>
+</ul>
+
+<p>
+The variable <code>org-babel-tcl-command</code> defines the value of the
+interpreter that will be run. It defaults to <code>tclsh</code>. 
+</p>
+
+<p>
+To enable support for Tcl, it must be enabled as part of your
+initialization script. For example: 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #696969;">;; </span><span style="color: #696969;">set up babel support</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ob-tcl</span><span style="color: #eb4509;">)</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">add additional languages with (require 'ob-language)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org00ae0e0" class="outline-2">
+<h2 id="org00ae0e0">Babel Header Arguments</h2>
+<div class="outline-text-2" id="text-org00ae0e0">
+<p>
+Babel block headers are used to pass various arguments to control the
+results of the executed code. The complete list of header arguments
+is covered in the Org-mode manual; for now, some options frequently used for
+tclsh are:
+</p>
+
+<ul class="org-ul">
+<li><code>:exports {code, results, both, none}</code>
+<ul class="org-ul">
+<li>When the code is run and the document exported (e.g. to HTML or
+\LaTeX PDF), what should appear? Just the code block itself? Only
+the produced output (in this case a plot of some sort)? Both the
+code and the accompanying results? Or nothing?</li>
+</ul></li>
+<li><code>:results {value, output}</code>
+<ul class="org-ul">
+<li>Controls the results of the output. Only two alternatives are
+allowed:</li>
+<li id="<i>value</i>">Returns the value of the last <code>return</code> statement in the
+code. and places in <code>#+RESULTS:</code>.</li>
+<li id="<i>output</i>">Returns the value of the <code>puts</code> or <code>write</code> statement and
+places those in <code>#+RESULTS:</code>.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org50ab04e" class="outline-2">
+<h2 id="org50ab04e">Overview and Use</h2>
+<div class="outline-text-2" id="text-org50ab04e">
+<p>
+Tcl is a complete language that provides a rich set of
+facilities. Describing these are beyond the scope of this
+manual. However, the examples provided in this guide should 
+be easy enough to follow to
+those that have program in other languages in the past.  If you are
+interested in learning about Tcl, please refer to the official documents
+or books on the subject. <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
+</p>
+
+<p>
+Through this overview, Any of the commands
+typed in <code>code</code> font below should be assumed to reside in a babel
+code block (between <code>#+begin_src tcl</code> and <code>#+end_src</code>).
+</p>
+
+<p>
+To run a Tcl block  and produce a result from the babel block
+move the cursor anywhere in the code
+block and press <code>C-c C-c</code> (Ctrl+C followed by Ctrl+C) and type &ldquo;yes&rdquo;
+in the minibuffer when asked about executing the code.
+</p>
+</div>
+
+<div id="outline-container-org25c9a67" class="outline-3">
+<h3 id="org25c9a67">Basic Use</h3>
+<div class="outline-text-3" id="text-org25c9a67">
+<p>
+The easiest way to use this feature is to create a block of 
+<code>#+begin_src tcl</code> / <code>#+end_src</code> and enter your commands there. The 
+default is to return a value being this the last value from a <code>return</code>
+statement. 
+</p>
+
+<pre class="example">
+#+begin_src tcl
+  return "Hello"
+#+end_src
+
+#+RESULTS: 
+: Hello
+</pre>
+
+<p>
+In this example, pressing C-c C-c will result in the value &ldquo;Hello&rdquo; being
+written in the <code>#+RESULTS:</code>.  Placing a <code>puts</code> or <code>write</code> statement
+will <b>not</b> show up in the <code>#RESULTS:</code> 
+To change this behavior, the keyword
+<code>:results output</code> must be written in the header. For example: 
+</p>
+
+<pre class="example">
+#+begin_src tcl :results output
+puts "Hi"
+return "Hello"
+#+end_src 
+
+#+RESULTS:
+: Hi
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf90d08b" class="outline-3">
+<h3 id="orgf90d08b">Named Procedures and Tables</h3>
+<div class="outline-text-3" id="text-orgf90d08b">
+<p>
+The Babel Tcl plugin supports the use of named procedures, calls  and table
+operations. The use of these are detailed in the <i>Org Manual</i>.  This
+manual will describe how they are used within the context of a Tcl
+program. 
+</p>
+
+<p>
+A variable can be passed to a Tcl program which can be used to call the
+aforementioned program later on in your org document.  The following
+example is a program that just writes the value of the variable. 
+</p>
+
+<pre class="example">
+#+name: reflector(x=0)
+#+begin_src tcl :results output
+puts $x
+#+end_src
+
+#+RESULTS: reflector
+: 0
+</pre>
+
+<p>
+Pressing <code>C-c C-c</code> will result in the default value to be written. Calling
+the named block later on with a different value will result on that
+value been written in the <code>#RESULTS:</code> For example: 
+</p>
+
+<pre class="example">
+#+call: reflector(20)
+#+RESULTS: reflector(20)
+: 20
+</pre>
+
+<p>
+This is not constrained only to <code>:results output</code> headers. Procedures in
+which the result is a <code>value</code> can also be used. For example: 
+</p>
+
+<pre class="example">
+#+name: square(x=0)
+#+begin_src tcl :results value
+return [expr $x * $x]
+#+end_src
+
+#+RESULTS: square
+: 0
+</pre>
+
+<p>
+Executing it with C-c C-c with different values will result to that value being
+returned. For example:
+</p>
+
+<pre class="example">
+#+call: square(x=2)
+
+#+RESULTS: square(x=2)
+: 4
+</pre>
+
+<p>
+Sending Tcl code as part of the parameter is also supported. For
+example: 
+</p>
+
+<pre class="example">
+#+call: square(x=[expr 2 + 10])
+
+#+RESULTS: square(x=[expr 2 + 10])
+: 144
+</pre>
+
+<p>
+Table processing is supported in Tcl blocks. The resultant data
+structure in  Tcl is a list of lists. For example: 
+</p>
+
+
+<pre class="example">
+#+tblname: testtbl
+| 1 | 2 |
+| 3 | 4 |
+
+#+name: processtbl(x=0)
+#+begin_src tcl :results output
+puts $x
+foreach y $x {
+  puts [expr [lindex $y 0] * [lindex $y 1]]
+}
+#+end_src
+</pre>
+
+<p>
+The program prints the table as a list, add the first and second values and
+writing the results. Calling this block later on in the Org document
+will result in the following output.
+</p>
+
+<pre class="example">
+#+call: processtbl(x=testtbl)
+
+#+RESULTS: processtbl(x=testtbl)
+: {1  2}  {3  4}
+: 2
+: 12
+</pre>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Tcl  manual downloads and further information can be obtained
+from: <a href="http://www.tcl.tk/doc/">http://www.tcl.tk/doc/</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Luis Anaya</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

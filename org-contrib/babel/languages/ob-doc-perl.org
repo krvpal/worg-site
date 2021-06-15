@@ -1,0 +1,232 @@
+# Created 2021-06-15 Tue 18:20
+#+OPTIONS: H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Perl in Org Mode
+#+AUTHOR: Daniel M. German
+#+startup: align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+language: en
+#+html_link_up: index.html
+#+html_link_home: https://orgmode.org/worg/
+#+exclude_tags: noexport
+
+* Introduction
+
+This document is a short introduction to using Perl within Org mode.
+
+* Requirements and Setup
+
+The only requirement is installed in the computer where Org Babel is
+executing the scripts.
+
+
+#+begin_src emacs-lisp :exports code
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((lisp . t)))
+#+end_src
+
+* Org Mode Features for Perl Code Blocks
+** Header Arguments
+
+The support of Perl in Babel is basic. There are no language-specific
+arguments for Perl code blocks.
+
+** Result Types
+
+The only supported type is ~value~
+
+** Support for sessions
+
+There is no support for sessions.
+
+** var
+
+It is possible ot pass several variables to Perl, including table
+variables. See below.
+
+* Examples of Use
+
+These are two simple examples:
+
+#+begin_example
+,#+BEGIN_SRC perl :results value
+"hello world";
+,#+END_SRC
+
+,#+RESULTS:
+: hello world
+#+end_example
+
+#+begin_src perl
+10 * 20 + 5;
+#+end_src
+
+#+results: 
+: 205
+
+#+end_example
+
+#+results: countingTo10
+
+* Other types of output
+
+Perl scripts might generate data that is parsed by Org. Unfortunately
+its current support is not very powerful. Currently there is only one
+method to receive data: ~:results value~. This is the default.  The
+result of the code block (the value of the last expression evaluated)
+if returned to Org. If the result is an array (up to two dimensions)
+it is interpreted as a table. Some examples below:
+
+
+#+begin_example
+,#+BEGIN_SRC perl :results value
+[[1,2],[2,4]]
+,#+END_SRC
+
+,#+RESULTS:
+| 1 | 2 |
+| 2 | 4 |
+#+end_example
+
+#+begin_src perl :results value
+10 + 20
+#+end_src
+
+#+results: 
+#+begin_example
+30
+#+end_example
+
+When returning an array, it is important to return a reference to the array. Otherwise it is interpreted as an scalar.
+
+For example, this returns the size of the array:
+
+#+begin_example
+,#+BEGIN_SRC perl :results value
+my @result ;
+$i = 0;
+for $j ('a'..'e')  {
+   $result[$i] = $j;
+   $i ++;
+}
+@result;
+,#+END_SRC
+
+,#+RESULTS:
+: 5
+#+end_example
+But this returns the values of the array and creates the corresponding table
+
+#+begin_example
+,#+BEGIN_SRC perl :results value
+my @result ;
+$i = 0;
+for $j ('a'..'e')  {
+   $result[$i] = $j;
+   $i ++;
+}
+\@result;
+,#+END_SRC
+
+,#+RESULTS:
+| a |
+| b |
+| c |
+| d |
+| e |
+#+end_example
+
+#+begin_example
+,#+BEGIN_SRC perl :results value
+my @result ;
+for $i (0..3) {
+   for $j (0..2) {
+      $result[$i][$j] = $j*$i+$j;
+   }
+}
+\@result;
+,#+END_SRC
+
+,#+RESULTS:
+| 0 | 1 | 2 |
+| 0 | 2 | 4 |
+| 0 | 3 | 6 |
+| 0 | 4 | 8 |
+#+end_example
+
+* Using tables as input
+
+The most useful feature of using Perl within Org is the ability to use
+tables as input to scripts.
+
+Let us assume we have the following table:
+
+#+begin_example
+,#+NAME:exampletable
+| 1 | a |
+| 2 | b |
+| 3 | c |
+| 4 | d |
+#+end_example
+
+We want to use this table as input. Org passes a table to Perl as
+a reference to an array of anonymous one-dimension arrays. In
+a nutshell, you can access an element of a table using
+~$$nameTable[row][column]~. Remember, in Perl indexes are zero based:
+For instance, this block simply returns the input table. Please note
+that because data is already a reference we can simply return it.
+
+#+begin_example
+,#+name: example1usingTable
+,#+begin_src perl :var data=exampletable :results table :type value
+$data
+,#+end_src
+
+,#+RESULTS: example1usingTable
+| 1 | a |
+| 2 | b |
+| 3 | c |
+| 4 | d |
+#+end_example
+
+One challenge, however, is to know how big the table is. Perl does not have
+native two dimensional arrays. Instead, it uses arrays of arrays (each sub-array
+can have any size). In the block below we use a function (~org_table_size~) to
+return the number of columns and rows in a table.
+
+#+begin_example
+,#+name: example2usingTable
+,#+begin_src perl :results value :var data=exampletable
+# first we need to define two functions that will make our life easier
+sub org_table_size
+{
+    # return the number of columns and rows in a table
+    my ($table) = @_;
+    my $y = $$table[0];
+    return (scalar(@$y), scalar (@$table));
+}
+
+my @result ;
+
+my ($cols, $rows) = org_table_size($data);
+
+## transpose the input table
+
+for my $i ($0..$cols-1) {
+    for my $j (0 .. $rows-1) {
+        $result[$i][$j] = $$data[$j][$i];
+    }
+}
+\@result;
+,#+end_src
+
+,#+RESULTS: example2usingTable
+| 1 | 2 | 3 | 4 |
+| a | b | c | d |
+#+end_example
+
+* Links to Tutorials and Other Resources
+
+The best resource for Perl is [[https://perldoc.perl.org][The Perl programming documentation]]
+project.

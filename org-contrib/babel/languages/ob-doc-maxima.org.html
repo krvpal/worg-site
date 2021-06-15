@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-maxima.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Maxima Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd[at]tsdye[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://maxima.sourceforge.net/">http://maxima.sourceforge.net/</a>"</span></span><span class="org-block">&gt;Maxima&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://maxima.sourceforge.net/">http://maxima.sourceforge.net/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://maxima.sourceforge.net/i/logo.png&quot;/">http://maxima.sourceforge.net/i/logo.png"</a></span></span><span class="org-block"><a href="http://maxima.sourceforge.net/i/logo.png&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[8/12]</span></span><span class="org-level-1">                                        </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Header%20Arguments">Header Arguments</a></span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe support for <span class="org-link"><a href="Sessions">Sessions</a></span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Result%20Types">Result Types</a></span>
+  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Other">Other</a></span> differences from supported languages
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>Maxima is a computer algebra system descended from Macsyma, which was
+originally released in 1982.  It is released under the terms of the
+GNU General Public License.
+
+Maxima is written in Common Lisp.  It can be accessed and extended in
+Lisp. 
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>Maxima binaries are available for Windows and Linux.  These either
+require a compatible Common Lisp or an executable Lisp image.  Mac OS
+X users can install via brew or MacPorts.  The combinations of
+operating system and Lisp implementation known to run Maxima can be
+found on <span class="kc-org-link-url"><a href="http://maxima-project.org/wiki/index.php?title%3DMaxima_ports">the Maxima ports page</a></span>.
+
+There are several versions of Maxima, some with different names.  The
+variable <span class="org-verbatim">org-babel-maxima-command</span> can be set to the name of your
+Maxima executable.  The default value is "maxima".
+
+Maxima ships with <span class="org-verbatim">Emacs</span> modes.  Instructions for configuring them
+can be found on <span class="kc-org-link-url"><a href="http://emacswiki.org/emacs/MaximaMode">emacswiki</a></span>.  <span class="org-verbatim">imaxima</span> is an <span class="org-verbatim">Emacs</span> front end with
+image that displays fully typeset math in your <span class="org-verbatim">Emacs</span> window.
+
+You must activate Maxima by adding a line to
+<span class="org-verbatim">org-babel-load-languages</span>:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+     </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+     </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">maxima . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">this line activates maxima
+</span></span><span class="org-block-end-line">#+END_SRC
+</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for Maxima Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>There are no Maxima-specific default header argument values.
+
+The header argument, <span class="org-verbatim">:cmdline</span>, can be used to pass command line
+arguments to Maxima.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>Org-mode support for Maxima does not include sessions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span>Maxima produces the full range of result types.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Calculator
+</span>The following source code block uses <span class="org-verbatim">maxima</span> as a calculator for
+powers of 12, where the powers are passed with a variable.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: test-maxima
+,#+header: :exports results
+,#+header: :var x=1.3121254
+,#+begin_src maxima 
+  programmode: false;
+  print(12^x);
+,#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-meta-line">#+name: test-maxima</span>
+<span class="org-meta-line">#+header: :exports results</span>
+<span class="org-meta-line">#+header: :var x=1.3121254</span>
+<span class="org-block-begin-line">#+begin_src maxima 
+</span>  programmode: false;
+  print(12^x);
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results: test-maxima</span>
+<span class="org-code">: 26.06280316745402
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Solver
+</span>Of course, <span class="org-verbatim">maxima</span> is more than a calculator.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: solve-maxima
+,#+header: :exports results
+,#+begin_src maxima :results output
+  programmode: false;
+  eq: x**2-16 = 0;
+  solution: solve(eq, x);
+  print(solution);
+,#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-meta-line">#+name: solve-maxima</span>
+<span class="org-meta-line">#+header: :exports results</span>
+<span class="org-block-begin-line">#+begin_src maxima :results output
+</span>  programmode: false;
+  eq: x**2-16 = 0;
+  solution: solve(eq, x);
+  print(solution);
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> 3D plots
+</span>With <span class="org-verbatim">gnuplot</span> installed (4.0 or higher), 3D graphics are possible.
+This example is from <span class="kc-org-link-url"><a href="http://maxima.sourceforge.net/maxima-gnuplot.html">a tutorial on the maxima/gnuplot interface</a></span>.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+name: 3d-maxima
+,#+header: :file images/maxima-3d.png
+,#+header: :exports results
+,#+header: :results graphics
+,#+begin_src maxima 
+  programmode: false;
+  plot3d(atan(-x^2+y^3/4),[x,-4,4],[y,-4,4],[grid,50,50],[gnuplot_pm3d,true]);
+,#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-meta-line">#+name: 3d-maxima</span>
+<span class="org-meta-line">#+header: :file images/maxima-3d.png</span>
+<span class="org-meta-line">#+header: :results graphics</span>
+<span class="org-meta-line">#+header: :exports results</span>
+<span class="org-block-begin-line">#+begin_src maxima 
+</span>  programmode: false;
+  plot3d(atan(-x^2+y^3/4),[x,-4,4],[y,-4,4],[grid,50,50],[gnuplot_pm3d,true]);
+<span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+results: 3d-maxima</span>
+<span class="org-link"><a href="file:images/maxima-3d.png">file:images/maxima-3d.png</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inline Display of Maxima LaTeX Output
+</span>  <span class="kc-org-link-url"><a href="http://maxima.sourceforge.net/">Maxima</a></span> code can be evaluated and displayed inline in Org mode
+  through babel <span class="org-footnote">[fn:1]</span> as in the example below, based on RS initial
+  example.
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+NAME: solve-maxima
+,#+HEADER: :exports none
+,#+BEGIN_SRC maxima :results raw
+  tex(exp(-x)/x);
+,#+END_SRC
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-meta-line">#+NAME: solve-maxima</span>
+<span class="org-meta-line">#+HEADER: :exports results</span>
+<span class="org-block-begin-line">#+BEGIN_SRC maxima :results raw
+</span>  tex(exp(-x)/x);
+<span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Toggle inline display of latex code
+</span>    Latex code in org mode can be displayed inline by 'C-c C-x
+    C-l'. To remove the inline display 'C-c C-c' is used. This is
+    described further in the manual <span class="org-footnote">[fn:2]</span>.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Set scale of output
+</span>    If the inline display of the equations are illegible, the scale
+    can be set by customising the variable 'org-format-latex-options',
+    by setting the :scale variable to a value &gt;1.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Export
+</span>    This exports nicely to both html (C-c C-e b) and pdf (C-c C-e
+    d). See <span class="org-footnote">[fn:3]</span> and <span class="org-footnote">[fn:4]</span> in the manual.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Noweb expansion
+</span>    <span class="bold">NOTE:</span> I have not tested this yet, but as Eric Schulte noted on
+    the mailing list: "Alternately, if you really want to get fancy
+    you could use noweb expansion <span class="org-footnote">[fn:5]</span> to insert the results of the
+    imaxima code block into a latex code block, and then use the
+    existing latex code block functionality to convert the imaxima
+    output to images of different types depending on the export
+    target."
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Footnotes
+</span><span class="org-footnote">[fn:1]</span> (info "(org)Library of Babel")
+<span class="org-footnote">[fn:2]</span> (info "(org)Previewing LaTeX fragments")
+<span class="org-footnote">[fn:3]</span> (info "(org)Exporting code blocks")
+<span class="org-footnote">[fn:4]</span> (info "(org)The export dispatcher")
+<span class="org-footnote">[fn:5]</span> (info "(org)noweb")
+
+
+</pre>
+  </body>
+</html>

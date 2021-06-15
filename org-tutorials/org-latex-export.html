@@ -1,0 +1,2563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LaTeX Export for Org Mode &lt; 8.0</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Tom Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">LaTeX Export for Org Mode &lt; 8.0</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2b370e8">1. Start up</a></li>
+<li><a href="#org1cf7c61">2. Why LaTeX Export?</a></li>
+<li><a href="#orga35778f">3. More Highly-Structured Documents</a></li>
+<li><a href="#orgbd1fa54">4. Exporting Other LaTeX Document Classes</a></li>
+<li><a href="#org64f7409">5. Passing Options to Document Classes</a></li>
+<li><a href="#orgd5ba1f6">6. Using Custom Classes</a></li>
+<li><a href="#orga60e501">7. Specifying LaTeX Packages</a></li>
+<li><a href="#org589e419">8. Creating PDF Output</a></li>
+<li><a href="#org01e5d96">9. Exporting Parts of an Org-mode Buffer</a>
+<ul>
+<li><a href="#org6540c3c">9.1. The Single Export Case</a></li>
+<li><a href="#org7c132a0">9.2. The Multiple Export Case</a></li>
+</ul>
+</li>
+<li><a href="#org5beafea">10. Markup</a>
+<ul>
+<li><a href="#org6a35cc9">10.1. Special Characters</a></li>
+<li><a href="#org6de069d">10.2. Block-level Markup</a></li>
+<li><a href="#orgfb8966b">10.3. Inline Markup</a></li>
+<li><a href="#org14ae472">10.4. Captions</a></li>
+</ul>
+</li>
+<li><a href="#org9eed797">11. Styling the Frontmatter</a>
+<ul>
+<li><a href="#org6488ab1">11.1. Abstract, contents, and lists of figures and tables</a></li>
+<li><a href="#org0872c9c">11.2. Titles and Title Page Layout</a></li>
+</ul>
+</li>
+<li><a href="#orgf22a7d1">12. Exporting Listings</a>
+<ul>
+<li><a href="#org4fac271">12.1. Exporting Pseudo-Code</a></li>
+<li><a href="#org955e55e">12.2. Typesetting and Fontifying Source Code</a></li>
+<li><a href="#org825137f">12.3. Example minted setup</a></li>
+<li><a href="#org080f9bf">12.4. Example listings setup</a></li>
+</ul>
+</li>
+<li><a href="#org15d8f17">13. Exporting Tables</a>
+<ul>
+<li><a href="#org0e4b248">13.1. How LaTeX typesets tables</a></li>
+<li><a href="#orgf48b53c">13.2. Table Rules</a></li>
+<li><a href="#orgc5207a3">13.3. Notes in tables</a></li>
+<li><a href="#orgce03296">13.4. Changing font size</a></li>
+</ul>
+</li>
+<li><a href="#orgba54317">14. Exporting Lists</a>
+<ul>
+<li><a href="#orgae48841">14.1. Vertical White Space</a></li>
+<li><a href="#orgbafb758">14.2. Set Enumerated Lists in a Paragraph</a></li>
+<li><a href="#orga00de80">14.3. Specify the Enumerator</a></li>
+<li><a href="#org3571dc8">14.4. Checkboxes</a></li>
+</ul>
+</li>
+<li><a href="#org932ec73">15. Fonts</a>
+<ul>
+<li><a href="#org7a4be49">15.1. Bera</a></li>
+<li><a href="#org3400f17">15.2. Charter</a></li>
+<li><a href="#org3a9a8e4">15.3. Garamond</a></li>
+<li><a href="#org9373dd1">15.4. KP family</a></li>
+<li><a href="#org919bdaf">15.5. Libertine</a></li>
+<li><a href="#org56d1add">15.6. Nimbus</a></li>
+<li><a href="#org99b40d0">15.7. Palatino</a></li>
+<li><a href="#orgf2dc416">15.8. Times</a></li>
+<li><a href="#orgade7c73">15.9. Utopia</a></li>
+</ul>
+</li>
+<li><a href="#org6512bb4">16. Cross-references</a></li>
+<li><a href="#orgc13ac8e">17. Bibliography</a>
+<ul>
+<li><a href="#org08445f7">17.1. Biblatex</a></li>
+<li><a href="#orgb46d6ec">17.2. Using Ebib and Extended Link Syntax</a>
+<ul>
+<li><a href="#orgb620ccf">17.2.1. Natbib citation commands</a></li>
+<li><a href="#org9ba77eb">17.2.2. Standard biblatex citation commands</a></li>
+<li><a href="#org4e19641">17.2.3. Style-specific biblatex commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org2b370e8" class="outline-2">
+<h2 id="org2b370e8"><span class="section-number-2">1</span> Start up</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Org-mode LaTeX export is easy.  Place the following code in your
+.emacs and you&rsquo;re ready to go.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-latex</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">boundp</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-latex-classes</span> nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+               <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"article"</span>
+                 <span style="color: #e2c770;">"\\documentclass{article}"</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+This tells the Org-mode LaTeX exporter to use the standard LaTeX
+<code>article</code> document class by default and to map Org-mode headlines and
+lists to LaTeX sectioning and list commands, as follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * section
+  ** itemize
+  <span style="font-weight: bold;">*</span> itemize, etc.
+  ,    - itemize
+</pre>
+</div>
+
+<p>
+Now you can pick a LaTeX export command from the export menu, <code>C-c
+C-e</code>, and expect to find a well-formed LaTeX document with the same
+base name as your org-mode buffer.
+</p>
+
+<p>
+It could hardly be easier!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1cf7c61" class="outline-2">
+<h2 id="org1cf7c61"><span class="section-number-2">2</span> Why LaTeX Export?</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+As the manual says, &ldquo;Org is a mode for keeping notes, maintaining TODO
+lists, and doing project planning with a fast and effective plain-text
+system.&rdquo;  LaTeX is a convenient interface to TeX, a typesetting system
+that its author &ldquo;intended for the creation of beautiful books — and
+especially for books that contain a lot of mathematics.&rdquo;  Where do
+these two activities&#x2013;keeping notes and making beautiful books&#x2013;overlap?
+</p>
+
+<p>
+Org-mode is well supplied with a variety of other exporters.  The Org
+ASCII exporter produces a readable and simple version of an Org file
+for printing and sharing of notes.  The HTML exporter does such a good
+job of preparing notes for the web that many people use it to create
+entire web sites.  The XOXO exporter makes notes accessible to other
+software applications and the DocBook exporter starts the journey to
+many other formats, including LaTeX, using DocBook tools.
+</p>
+
+<p>
+The niche for the LaTeX exporter is producing a version of an Org file
+for printing and sharing notes that looks better than an ASCII
+printout but that can be produced without the overhead required to
+support DocBook.  All that is needed is a working LaTeX installation.
+LaTeX distributions for all major platforms are today well-developed
+and easy to use and maintain.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga35778f" class="outline-2">
+<h2 id="orga35778f"><span class="section-number-2">3</span> More Highly-Structured Documents</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+You can prepare more highly structured LaTeX documents by adding a few
+lines to <code>org-latex-classes</code> in <code>.emacs</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+               <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"article"</span>
+                 <span style="color: #e2c770;">"\\documentclass{article}"</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection{%s}"</span> . <span style="color: #e2c770;">"\\subsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection{%s}"</span> . <span style="color: #e2c770;">"\\subsubsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\paragraph{%s}"</span> . <span style="color: #e2c770;">"\\paragraph*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subparagraph{%s}"</span> . <span style="color: #e2c770;">"\\subparagraph*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+This setup produces the following document structure:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * section
+  ** subsection
+  <span style="font-weight: bold;">*</span> subsubsection
+  <span style="font-weight: bold;">**</span> paragraph
+  <span style="font-weight: bold;">***</span> subparagraph
+  <span style="font-weight: bold;">****</span> itemize, etc.
+  ,       - itemize
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd1fa54" class="outline-2">
+<h2 id="orgbd1fa54"><span class="section-number-2">4</span> Exporting Other LaTeX Document Classes</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The LaTeX exporter can be configured to produce LaTeX output for
+books, reports, letters or any other document class, including custom
+classes.  These can be useful if notes need to be formatted to a
+certain specification, such as a company technical manual, or if the
+notes are quite long, as might be the case when Org-mode is used as a
+laboratory or project notebook.
+</p>
+
+<p>
+Here is a standard setup for export to a LaTeX book class:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+               <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"book"</span>
+                 <span style="color: #e2c770;">"\\documentclass{book}"</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\part{%s}"</span> . <span style="color: #e2c770;">"\\part*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\chapter{%s}"</span> . <span style="color: #e2c770;">"\\chapter*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection{%s}"</span> . <span style="color: #e2c770;">"\\subsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection{%s}"</span> . <span style="color: #e2c770;">"\\subsubsection*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+               <span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Then, in the Org file with a book-full of notes, add this line:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+LaTeX_CLASS: book</span>
+</pre>
+</div>
+
+<p>
+<a id="org0360de4"></a>
+A useful set of alternatives is the <a href="http://www.komascript.de/">KOMA script</a> classes.  These have a
+somewhat more modern design than the standard LaTeX classes.
+</p>
+
+<p>
+For example, the KOMA script article class can be configured in <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+            <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"koma-article"</span>
+               <span style="color: #e2c770;">"\\documentclass{scrartcl}"</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection{%s}"</span> . <span style="color: #e2c770;">"\\subsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection{%s}"</span> . <span style="color: #e2c770;">"\\subsubsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\paragraph{%s}"</span> . <span style="color: #e2c770;">"\\paragraph*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subparagraph{%s}"</span> . <span style="color: #e2c770;">"\\subparagraph*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Then, this class can be used by including the following line in the
+Org-mode file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+LaTeX_CLASS: koma-article</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org64f7409" class="outline-2">
+<h2 id="org64f7409"><span class="section-number-2">5</span> Passing Options to Document Classes</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The standard LaTeX document classes, <code>article</code>, <code>report</code>, <code>book</code>,
+<code>slides</code>, and <code>letter</code> take options that, where applicable, select the
+type size, paper size, orientation, whether to print one- or
+two-sided, and a variety of formatting specifications.  Custom LaTeX
+document classes can define their own options, as needed.
+</p>
+
+<p>
+You can pass options to the LaTeX <code>\documentclass</code> macro by putting a
+line like this in your Org-mode file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+LaTeX_CLASS_OPTIONS: [a4paper,twoside,twocolumn]</span>
+</pre>
+</div>
+
+<p>
+A useful option with the <a href="#org0360de4">KOMA script</a> classes typesets table captions
+properly.  The standard LaTeX classes will incorrectly typeset table captions
+exported by Org-mode above the table.  The following option to the
+<a href="#org0360de4">KOMA script</a> classes accomplishes this.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+LaTeX_CLASS_OPTIONS: [captions=tableheading]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5ba1f6" class="outline-2">
+<h2 id="orgd5ba1f6"><span class="section-number-2">6</span> Using Custom Classes</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+If the user has custom LaTeX document classes that conflict with the
+default packages or that only require a few of the default packages to
+support all features of the LaTeX exporter, then this can be handled
+in <code>.emacs</code> using [DEFAULT-PACKAGES], [NO-DEFAULT-PACKAGES],
+[PACKAGES], [NO-PACKAGES], [EXTRA], [NO-EXTRA].
+</p>
+
+<p>
+Here is a simple example that uses an experimental LaTeX class<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>
+that supports the Org-mode requirements and leaves open the
+possibility of adding file specific packages:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"org-article"</span>
+           <span style="color: #e2c770;">"\\documentclass{org-article}</span>
+<span style="color: #e2c770;">           [NO-DEFAULT-PACKAGES]</span>
+<span style="color: #e2c770;">           [PACKAGES]</span>
+<span style="color: #e2c770;">           [EXTRA]"</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection{%s}"</span> . <span style="color: #e2c770;">"\\subsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection{%s}"</span> . <span style="color: #e2c770;">"\\subsubsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\paragraph{%s}"</span> . <span style="color: #e2c770;">"\\paragraph*{%s}"</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subparagraph{%s}"</span> . <span style="color: #e2c770;">"\\subparagraph*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The Org-mode LaTeX exporter uses several packages to support special
+characters used by <code>org-entities</code>.  One of these, <code>amssymb</code>, conflicts
+with several <a href="#orgd00c2c3">LaTeX fonts</a>.  If you want finer control over which
+packages are loaded, then it makes sense to define an export class
+like this in <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+            <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"koma-article"</span>
+               <span style="color: #e2c770;">"\\documentclass{scrartcl}</span>
+<span style="color: #e2c770;">               [NO-DEFAULT-PACKAGES]</span>
+<span style="color: #e2c770;">               [EXTRA]"</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection{%s}"</span> . <span style="color: #e2c770;">"\\subsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection{%s}"</span> . <span style="color: #e2c770;">"\\subsubsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\paragraph{%s}"</span> . <span style="color: #e2c770;">"\\paragraph*{%s}"</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subparagraph{%s}"</span> . <span style="color: #e2c770;">"\\subparagraph*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Alternatively, export classes can be defined on a per-file basis in a
+source code block that is evaluated prior to LaTeX export.  This is
+perhaps the most flexible way to set up LaTeX export.  Since the
+<code>add-to-list</code> is a globally side-effecting action, this
+example only calls it if it would add a LaTeX class that isn&rsquo;t
+already on the <code>org-latex-classes</code> list:
+</p>
+
+<pre class="example">
+  #+name: setup
+  #+begin_src emacs-lisp :results silent :exports none
+ (unless (find "per-file-class" org-latex-classes :key 'car
+           :test 'equal)
+   (add-to-list 'org-latex-classes
+            '("per-file-class"
+               "\\documentclass{scrartcl}
+               [NO-DEFAULT-PACKAGES]
+               [EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  #+end_src
+</pre>
+
+<p>
+Then, add this line to the Org-mode file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+LaTeX_CLASS: per-file-class</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga60e501" class="outline-2">
+<h2 id="orga60e501"><span class="section-number-2">7</span> Specifying LaTeX Packages</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+According to its author, the LaTeX macro package &ldquo;represents a balance
+between functionality and ease of use.&rdquo;  The LaTeX user who adds
+functionality through the addition of packages necessarily makes the
+software more difficult to use.  Like LaTeX itself, the Org-mode LaTeX
+exporter has struck its own balance between functionality and ease of
+use with the addition of several LaTeX packages.  These are written
+out in the LaTeX header as LaTeX <code>\usepackage</code> commands.
+</p>
+
+<p>
+Org-mode keeps the names of the LaTeX packages it uses in a data
+structure designed for ease of maintenance as additional features are
+added to the LaTeX exporter.  Packages in the default packages list,
+<code>org-latex-default-packages-alist</code>, are required to support all
+features of the LaTeX exporter.  This list is typically specified in
+the Org-mode source code and its documentation contains a warning not
+to modify it.  Packages not included on the default packages list that
+the user needs consistently can be added to
+<code>org-latex-packages-alist</code>.
+</p>
+
+<p>
+If you want to specify particular packages, either in addition to
+or in place of those used by Org-mode, then you can either place them
+in a custom class definition, where they can be used by any Org-mode
+document, or you can add them to the Org-mode document directly so
+their effect is local to the Org-mode buffer.
+</p>
+
+<p>
+An example custom class definition that adds the <code>graphicx</code> package
+might look like this in <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org99147e5">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-latex-classes</span>
+               <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"per-file-class"</span>
+                 <span style="color: #e2c770;">"\\documentclass{scrartcl}</span>
+<span style="color: #e2c770;">                   \\usepackage{graphicx}</span>
+<span style="color: #e2c770;">              [NO-DEFAULT-PACKAGES]</span>
+<span style="color: #e2c770;">              [NO-PACKAGES]"</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\section{%s}"</span> . <span style="color: #e2c770;">"\\section*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsection{%s}"</span> . <span style="color: #e2c770;">"\\subsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subsubsection{%s}"</span> . <span style="color: #e2c770;">"\\subsubsection*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\paragraph{%s}"</span> . <span style="color: #e2c770;">"\\paragraph*{%s}"</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\\subparagraph{%s}"</span> . <span style="color: #e2c770;">"\\subparagraph*{%s}"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Packages needed for a particular file can be specified by inserting a
+line like this in the Org-mode buffer:
+</p>
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+LATEX_HEADER: \usepackage{xyz}</span>
+</pre>
+</div>
+
+<p>
+One reason for specifying LaTeX packages in the Org-mode buffer is
+that highly configurable packages can be tailored for a particular
+use.  Perhaps the best example among the packages in
+<code>org-latex-default-packages-alist</code> is <code>hyperref</code>, which has an
+elaborate list of keyval options.  PDF output destined for interactive
+use might load <code>hyperref</code> with options to distinguish links with
+attractive colors, for instance.  This might be achieved with
+following lines, which load the <code>xcolor</code> package<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup> and then use
+named colors to distinguish external blue links from internal red
+links:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" id="org2f66ca3">  ,  #+LATEX_HEADER: \usepackage[hyperref,x11names]{xcolor}
+  ,  #+LATEX_HEADER: \usepackage[colorlinks=true,urlcolor=SteelBlue4,linkcolor=Firebrick4]{hyperref}
+</pre>
+</div>
+
+<p>
+In addition, you can pick up the encoding used in the Org-mode buffer and pass
+this information on to LaTeX by loading the <code>inputenc</code> package as
+follows:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org" id="org54f71f5"><span style="color: #7f7f80;">  #+LATEX_HEADER: \usepackage[AUTO]{inputenc}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org589e419" class="outline-2">
+<h2 id="org589e419"><span class="section-number-2">8</span> Creating PDF Output</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+The LaTeX exporter by default produces code ready for processing by
+pdflatex.  pdflatex calls the pdfTeX program, a modern extension of
+TeX that produces PDF output directly, using the standard LaTeX
+macros.  pdfTeX is tightly integrated with PDF features such as
+hypertext links and tables of contents, using LaTeX packages such as
+hyperref, which is included in the default packages list.
+</p>
+
+<p>
+Org-mode offers a command to produce a PDF file from the LaTeX export.
+This is bound to <code>C-c C-e p</code>.  The command <code>C-c C-e d</code> does all this
+<b>and</b> opens the PDF file in the default reader.
+</p>
+
+<p>
+If you use a different TeX typesetting engine or would like to
+customize how Org-mode produces the pdf file, then you will want to
+modify the variable <code>org-latex-to-pdf-process</code>.  This is a list of
+strings, each of which contains a call to one of the TeX typesetting
+engines or to an auxiliary program, such as BibTeX, makeindex, etc.
+</p>
+
+<p>
+For example, the shell script <code>texi2dvi</code> will run <code>pdflatex</code> as many
+times as needed to build a pdf file successfully.  The following code
+in <code>.emacs</code> will instruct Org-mode to use <code>texi2dvi</code> when making a pdf
+file.  Note that you should check that <code>texi2dvi</code> is installed on your
+system and that it works correctly before adding this code to your
+<code>.emacs</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgb92ab3b"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-latex-to-pdf-process <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"texi2dvi --pdf --clean --verbose --batch %f"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Note that <code>makeindex</code> and <code>bibtex</code> require a bit more effort to work
+in this way because of path name issues.  Nick Dokos suggested
+this fix, which specifies a path to one or more BibTeX <code>.bib</code> files:
+</p>
+
+<pre class="example">
+  #+begin_src sh :exports none
+    BIBINPUTS=/path/to/bib/:$BIBINPUTS
+    export BIBINPUTS
+  #+end_src
+</pre>
+
+<p>
+If you have system-wide bibliography and index files, then it might be
+useful to modify <code>BIBINPUTS</code> in <code>.profile</code> or similar.  The code
+example above uses Babel to set the variable on a per-file basis.
+</p>
+
+<p>
+An alternative to the default TeX engine is <a href="http://scripts.sil.org/cms/scripts/page.php?site_id%3Dnrsi&amp;id%3Dxetex">XeTeX</a>, which merges TeX
+with Unicode and modern font technologies.  The Emacs-Fu blog has an
+<a href="http://emacs-fu.blogspot.com/2011/04/nice-looking-pdfs-with-org-mode-and.html">example XeTeX setup for Org-mode</a>.  There is also an entry in the
+Org-Mode FAQ entitled <a href="https://orgmode.org/worg/org-faq.html#using-xelatex-for-pdf-export">How can I use XeLaTeX for LaTeX export instead
+of pdfLaTeX?</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org01e5d96" class="outline-2">
+<h2 id="org01e5d96"><span class="section-number-2">9</span> Exporting Parts of an Org-mode Buffer</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Tags can be used to select which parts of an Org-mode buffer are sent
+to the LaTeX exporter.  In the typical case, the
+Org-mode buffer contains material for a single export file along with
+material that shouldn&rsquo;t appear in the export; tags distinguish the
+export parts from the non-export parts.  This is the single
+export case.  It is also possible to use tags to specify multiple
+export targets in a single Org-mode buffer.  In the multiple export
+case, tags are resolved by a <a href="https://orgmode.org/org.html#Publishing">publishing management system</a>.
+</p>
+</div>
+
+<div id="outline-container-org6540c3c" class="outline-3">
+<h3 id="org6540c3c"><span class="section-number-3">9.1</span> The Single Export Case</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+The tags used for the single export case are held in
+two variables: <code>org-export-select-tags</code> is a list of tags, initially set
+to <code>export</code>, that select a tree or sub-tree for export;
+<code>org-export-exclude-tags</code> is a list of tags, initially set to
+<code>noexport</code>, that exclude a tree or subtree for export.  The effect
+they have on export is logical, but the logic isn&rsquo;t necessarily what
+one might expect.  In particular, if both select tags and exclude tags
+are to be used in the same buffer, then their use must follow certain
+rules.  Also, the handling of unmarked trees and subtrees changes
+depending on which tags are used and how they are used.
+</p>
+
+<p>
+If neither select tags nor exclude tags are used, then all of the trees
+and their subtrees are sent to the LaTeX exporter.  If, however, a
+select tag is added to a tree as in the example below, then unmarked
+trees will <b>not</b> be sent to the exporter.  Thus, the effect of a
+select tag is not restricted to its tree; its effect extends to the
+entire buffer.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Tree 1                                                             :export:
+  ,   This is exported
+  ** Subtree 1
+  ,   This is also exported
+  * Tree 2
+  ,  This is not exported
+  ** Subtree 2
+  ,  This is not exported, either
+</pre>
+</div>
+
+<p>
+Once the scope of the tag&rsquo;s effect is grasped, the primary rule of using
+select and exclude tags is obvious: only one type of tag may be used
+for the trees of a buffer.  If both types of tags are used for trees,
+how can Org-mode decide what to do with the unmarked trees?
+</p>
+
+<p>
+A corollary of this rule is that the other type of tag can only be
+used in a subtree of the tagged tree in order to reverse the effect of
+the tree-level tag, as in the following example.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Tree 1                                                             :export:
+  ,   This is exported
+  ** Subtree 1                                                       :noexport:
+  ,   This is not exported
+  * Tree 2
+  ,  This is not exported
+  ** Subtree 2
+  ,  This is not exported, either
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7c132a0" class="outline-3">
+<h3 id="org7c132a0"><span class="section-number-3">9.2</span> The Multiple Export Case</h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+In the multiple export case, tags used to select a tree or subtree for
+export are defined in <code>.emacs</code> as part of the configuration needed to
+specify the many properties of a publication project.  A tutorial
+illustrates <a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">the flexibility of the publishing mechanism</a> using an HTML
+example.  The intricacies of the publishing mechanism are beyond the
+scope of of this LaTeX export tutorial.  Here, a working example<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>
+is described.
+</p>
+
+<p>
+In the example, the file <code>index.org</code> holds material for two export
+targets, one related to work items and the other related to home.  The
+variable <code>org-publish-project-alist</code> has two entries, one for a
+project named <code>work</code> and the other for a project named <code>home</code>.  Both
+projects are based on the file <code>index.org</code> located in <code>~/notes/org</code>.
+</p>
+
+<p>
+Both projects will create output files named <code>index.tex</code>, based on the
+name of the Org-mode file used for import.  The two <code>index.tex</code> files
+are kept separate by writing them to different directories, as
+indicated by the keyword argument <code>:publishing-directory</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-publish-project-alist</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"work"</span>
+           <span style="color: #fd971f;">:base-directory</span> <span style="color: #e2c770;">"~/notes/org/"</span>
+           <span style="color: #fd971f;">:base-extension</span> <span style="color: #e2c770;">"org"</span>
+           <span style="color: #fd971f;">:publishing-directory</span> <span style="color: #e2c770;">"~/notes/export/work/"</span>
+           <span style="color: #fd971f;">:publishing-function</span> org-publish-org-to-latex
+           <span style="color: #fd971f;">:select-tags</span>     <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"@WORK"</span><span style="color: #eb4509;">)</span>
+           <span style="color: #fd971f;">:title</span> <span style="color: #e2c770;">"Work Notes"</span>
+           <span style="color: #fd971f;">:include</span> <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"index.org"</span><span style="color: #eb4509;">)</span>
+           <span style="color: #fd971f;">:exclude</span> <span style="color: #e2c770;">"\\.org$"</span>
+           <span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"home"</span>
+           <span style="color: #fd971f;">:base-directory</span> <span style="color: #e2c770;">"~/notes/org/"</span>
+           <span style="color: #fd971f;">:base-extension</span> <span style="color: #e2c770;">"org"</span>
+           <span style="color: #fd971f;">:publishing-directory</span> <span style="color: #e2c770;">"~/notes/export/home/"</span>
+           <span style="color: #fd971f;">:publishing-function</span> org-publish-org-to-latex
+           <span style="color: #fd971f;">:select-tags</span>     <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"@HOME"</span><span style="color: #eb4509;">)</span>
+           <span style="color: #fd971f;">:title</span> <span style="color: #e2c770;">"Home Phone"</span>
+           <span style="color: #fd971f;">:include</span> <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"index.org"</span><span style="color: #eb4509;">)</span>
+           <span style="color: #fd971f;">:exclude</span> <span style="color: #e2c770;">"\\.org$"</span>
+           <span style="color: #b6e63e;">)</span>
+          <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The parts of <code>index.org</code> tagged <code>@WORK</code> can now be exported to
+<code>~/notes/export/work/index.tex</code> with <code>C-c C-e X</code> and selecting the
+<code>work</code> project.
+</p>
+
+<p>
+Similarly, the parts of <code>index.org</code> tagged <code>@HOME</code> can now be exported to
+<code>~/notes/export/home/index.tex</code> with <code>C-c C-e X</code> and selecting the
+<code>home</code> project.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5beafea" class="outline-2">
+<h2 id="org5beafea"><span class="section-number-2">10</span> Markup</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Org-mode provides wiki-like markup for various display
+characteristics.  This is often handy and it translates directly into
+LaTeX, but the design philosophy of LaTeX is centered around semantic
+markup, &ldquo;what you say is what you mean&rdquo; rather than &ldquo;what you see is
+what you get&rdquo; (lampooned by zealous LaTeX users as &ldquo;what you see is
+all you get&rdquo;).  In practice, LaTeX users define common semantic
+elements in a LaTeX class or style file and these are marked up in
+text with commands often peculiar to the class or style file.
+Clearly, there is no way that Org-mode can anticipate commands
+peculiar to arbitrary class or style files.  Fortunately, Org-mode
+provides facilities to define special characters and to specify inline
+and block-level markup.
+</p>
+</div>
+
+<div id="outline-container-org6a35cc9" class="outline-3">
+<h3 id="org6a35cc9"><span class="section-number-3">10.1</span> Special Characters</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+The variable <code>org-entities-user</code> holds the information needed to
+define special characters.  In response to a question posed by Rasmus
+Pank Roulund, Lawrence Mitchell described how to use this variable to
+define an escaped space, which is used in LaTeX to insert a single
+space, instead of a double space, after a period that doesn&rsquo;t end a
+sentence.
+</p>
+
+<p>
+With this definition:
+</p>
+
+<pre class="example">
+(setq org-entities-user '(("space" "\\ " nil " " " " " " " ")))
+</pre>
+
+
+<p>
+then
+</p>
+
+<pre class="example">
+this is some text, e.g.\space foo bar
+</pre>
+
+
+<p>
+is exported as
+</p>
+
+<pre class="example">
+this is some text, e.g.\  foo bar
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6de069d" class="outline-3">
+<h3 id="org6de069d"><span class="section-number-3">10.2</span> Block-level Markup</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+For simple <i>block-level</i> arbitrary markup, you can use the contributed
+package <a href="../org-contrib/org-special-blocks.html">org-special-blocks</a>, which turns <code>#+begin_foo</code> into
+<code>\begin{foo}</code> upon LaTeX export. You can use ordinary Org markup
+inside the block. For example, you can wrap an abstract in
+</p>
+
+<pre class="example">
+#+BEGIN_ABSTRACT
+This is an *abstract* with ordinary =Org-mode= /markup/.
+#+END_ABSTRACT
+</pre>
+
+
+<p>
+For more complex cases, where you need to pass parameters or process
+block contents, but don&rsquo;t want to use literal LaTeX, you may want to
+explore the possibilities of the contributed <a href="../org-contrib/org-exp-blocks.html">org-exp-blocks</a> package.
+</p>
+
+<p>
+An example of block-level markup for a results block that will be
+typeset with a shaded background:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage{framed}
+#+LaTeX_HEADER: \usepackage{xcolor}
+#+LaTeX_HEADER: \definecolor{shadecolor}{gray}{.95}
+#+LaTeX_HEADER: \newenvironment{results}{\begin{shaded}}{\end{shaded}}
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgfb8966b" class="outline-3">
+<h3 id="orgfb8966b"><span class="section-number-3">10.3</span> Inline Markup</h3>
+<div class="outline-text-3" id="text-10-3">
+<p>
+<i>Inline</i> arbitrary semantic markup can be implemented by defining a new link type
+in <code>.emacs</code>.<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>   The following code block defines a new link type,
+<code>latex</code>, whose <code>path</code> argument can hold the name of any LaTeX
+command.  This one defines export markup for HTML and LaTeX.  A link
+such as <code>[latex:proglang][Org-mode]</code> will export
+<code>\proglang{Org-mode}</code> to the LaTeX file.  In this way, it is possible
+to make the Org-mode LaTeX exporter conform to the semantic markup
+defined in arbitrary style files.  Org-mode will even complete your
+new link type!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org744d7df">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"latex"</span> nil
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"&lt;span class=\"%s\"&gt;%s&lt;/span&gt;"</span> path desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\%s{%s}"</span> path desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Two examples of LaTeX commands for inline semantic markup:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \let\progstruct=\texttt
+#+LaTeX_HEADER: \newcommand{\progexample}[1]{{\ttfamily\small #1}}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org14ae472" class="outline-3">
+<h3 id="org14ae472"><span class="section-number-3">10.4</span> Captions</h3>
+<div class="outline-text-3" id="text-10-4">
+<p>
+The LaTeX caption command is typically passed two arguments: the
+required argument, which is typeset with the figure or table; and the
+optional argument, which appears in the List of Figures or List of
+Tables.  It is common nowadays, especially in the sciences, to have
+long captions (actually captions plus legends) with figures and much
+abbreviated versions, typically less than a line long, in the List of
+Figures.  In addition, many styles require that figure captions end
+with a period; the caption passed to the List of Figures should not
+end in a period.
+</p>
+
+<p>
+The Org-mode <code>#+CAPTION:</code> macro handles an optional argument.
+</p>
+
+<p>
+This construct:
+</p>
+
+<pre class="example">
+#+CAPTION[Short caption]: Long caption.
+</pre>
+
+
+<p>
+exports:
+</p>
+
+<pre class="example">
+\caption[Short caption]{Long caption.}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9eed797" class="outline-2">
+<h2 id="org9eed797"><span class="section-number-2">11</span> Styling the Frontmatter</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+The Org-mode LaTeX exporter requires configuration to gain full access
+to the LaTeX frontmatter formatting capacity.
+</p>
+</div>
+
+<div id="outline-container-org6488ab1" class="outline-3">
+<h3 id="org6488ab1"><span class="section-number-3">11.1</span> Abstract, contents, and lists of figures and tables</h3>
+<div class="outline-text-3" id="text-11-1">
+<p>
+In the default configuration, the Org-mode LaTeX exporter includes a
+function that sandwiches the LaTeX <code>\tableofcontents</code> command between
+a command that sets the depth of the headings that appear in the table
+of contents (based on the number of headline levels that will be
+exported as headings, rather than lists) and a command to add some
+vertical space.  Neither of these additions to the <code>\tableofcontents</code>
+command is especially desireable.  It is often the case that one wants
+the table of contents depth to differ from the depth to which sections
+are numbered.  Also, in the LaTeX world, the space between the end of one
+element and the start of another is something that is specified within
+a class or style file, rather than within the document itself.  Formatting with
+the class or style file exclusively can give the finished document a pleasing
+stylistic uniformity that is difficult to achieve in an ad hoc way.
+Also, hardwiring the table of contents in this way always puts it
+directly following the output of the LaTeX <code>maketitle</code> command.  In
+practice, however, it is often useful to print an abstract or
+executive summary between the title and the table of contents.
+Fortunately, the LaTeX exporter is coded in such a way that it is
+possible for the user to alter this behavior relatively easily.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org39392bc"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-export-latex-no-toc</span> <span style="color: #fd971f;">(</span>depth<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> depth
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%% Org-mode is exporting headings to %s levels.\n"</span>
+              depth<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-export-latex-format-toc-function <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-export-latex-no-toc</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+With this setup, place the abstract and <code>#+LATEX:</code> commands for
+frontmatter before the first exported headline, e.g.,
+</p>
+
+<pre class="example">
+#+BEGIN_abstract
+  [Abstract here]
+#+END_abstract
+#+LATEX: \tableofcontents
+#+LATEX: \listoftables
+#+LATEX: \listoffigures
+* First Exported Headline
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org0872c9c" class="outline-3">
+<h3 id="org0872c9c"><span class="section-number-3">11.2</span> Titles and Title Page Layout</h3>
+<div class="outline-text-3" id="text-11-2">
+<p>
+The default title created by the LaTeX exporter is often just fine,
+but in cases where you would like to include specific information in
+the title, or create a custom title page, then perhaps the best way to
+do this was posted to the Org-mode list by Nick Dokos:
+</p>
+
+<pre class="example">
+#+LATEX_HEADER: \input{mytitle}
+
+ * Foo
+ foo
+
+ * Bar
+ bar
+</pre>
+
+<p>
+where the file mytitle.tex looks like this:
+</p>
+
+<pre class="example">
+\renewcommand\maketitle{\begin{titlepage}%
+FOO
+\end{titlepage}%
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf22a7d1" class="outline-2">
+<h2 id="orgf22a7d1"><span class="section-number-2">12</span> Exporting Listings</h2>
+<div class="outline-text-2" id="text-12">
+</div>
+<div id="outline-container-org4fac271" class="outline-3">
+<h3 id="org4fac271"><span class="section-number-3">12.1</span> Exporting Pseudo-Code</h3>
+<div class="outline-text-3" id="text-12-1">
+<p>
+The LaTeX exporter will fontify exported code blocks written in any
+language that has an associated Emacs mode for editing.  If you want
+to export pseudo-code, for which there is no corresponding Emacs
+mode, then one approach is to use <code>#+begin_latex ... #+end_latex</code>
+and write the pseudo-code directly in LaTeX.  This depends on the
+LaTeX <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/listings/">listings package</a>, which is one of the default packages used by
+Org-mode.
+</p>
+
+<p>
+Dan Davison provided this example on the Org-mode list:
+</p>
+
+<pre class="example">
+#+begin_latex
+\begin{algorithm}
+ \caption{An algorithm}
+ \label{alg:myalg}
+ \begin{lstlisting}[mathescape,escapeinside='']
+   '\foreach individual $i$'
+       '\foreach group $k$'
+           $\gamma_{ik} \getsp Q_{k}\prod_{l}\prod_{a=1}^{2}P_{lkX_{ila}}$
+ \end{lstlisting}
+\end{algorithm}
+#+end_latex
+</pre>
+</div>
+</div>
+<div id="outline-container-org955e55e" class="outline-3">
+<h3 id="org955e55e"><span class="section-number-3">12.2</span> Typesetting and Fontifying Source Code</h3>
+<div class="outline-text-3" id="text-12-2">
+<p>
+Org-mode supports two LaTeX packages for typesetting and fontifying
+source code; listings and minted.  The listings package is a pure
+LaTeX implementation that works reasonably well, but the package
+appears to be orphaned and the latest documentation was written
+in 2007.  In contrast, the minted package is not a pure LaTeX solution
+and relies on an external Python script, pygmentize, to typeset and
+fontify source code.  This package appears to be actively maintained.
+Both packages are included in the TeXLive and MacTeX LaTeX
+distributions.  If your distribution lacks one or the other, then
+you&rsquo;ll need to check the documentation for instructions how to install
+them.
+</p>
+
+<p>
+The two packages are structured somewhat differently, but it is
+possible to configure Org-mode so that these differences are mostly
+smoothed over, making it possible to generate LaTeX code that will
+work with either package.  The two main differences have to do with
+the minted package&rsquo;s generation of language names by appending <code>code</code>
+to the language name; this convention is not followed by the listings
+package.  In addition, the minted package defines <i>styles</i>, by which
+it means colorizing semantic elements of the programming language.
+This facility is not implemented in the listings package.
+</p>
+
+<p>
+The following sections show the basics of listings and minted setups
+which, when exported to LaTeX, illustrate the ability of each package
+to typeset and fontify source code on a per-language basis.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org825137f" class="outline-3">
+<h3 id="org825137f"><span class="section-number-3">12.3</span> Example minted setup</h3>
+<div class="outline-text-3" id="text-12-3">
+<p>
+In this example, the minted package is specified in the
+<code>#+LaTeX_HEADER:</code>.  This is followed by a command to use the minted
+style <code>emacs</code>, which colors source code in a way familiar to emacs
+users.  The final <code>#+LaTeX_HEADER:</code> line uses the <code>newminted</code> macro to
+set the font size for code blocks of <code>common-lisp</code>.
+</p>
+
+<p>
+The source code block <code>setup-minted</code> includes emacs-lisp code that
+might typically appear in .emacs, but can be useful in a source code
+block where it can be used to configure LaTeX export for an individual
+document.  In the source code block, the variables that control LaTeX
+export using the minted package are configured.  First,
+<code>org-latex-listings</code> is set to use the minted package.  Then,
+the variable <code>org-latex-custom-lang-environments</code> is used to
+associate the emacs-lisp code of an Org-mode source code block with
+the common-lisp language that the minted package knows how to parse.
+Note that this is given as <code>common-lispcode</code> here, but as
+<code>common-lisp</code> in the call to the <code>newminted</code> macro.  The minted
+package appends <code>code</code> to language names by default.  The variable
+<code>org-latex-minted-options</code> sets typesetting options that will
+apply to all programming languages.  See the minted package
+documentation for the very many options that can be set with key/val
+pairs. The three entries in the association list call for source code
+blocks to be framed with lines, set in a very small font, and
+identified with line numbers.  In relation to these settings, the
+emacs-lisp code will be set at a slightly larger font size.  Finally,
+the variable <code>org-latex-to-pdf-process</code> is set using the
+<code>-shell-escape</code> option so the external pygmentize program can be
+called and its results incorporated into the pdf document.  Note that
+using the <code>-shell-escape</code> option creates security holes.
+</p>
+
+<p>
+A Python source code block at the end illustrates how the default
+emacs-style code differs from the specially formatted emacs-lisp
+source code.
+</p>
+
+<pre class="example">
+, #+LATEX_CLASS: article
+, #+LaTeX_HEADER: \usepackage{minted}
+, #+LaTeX_HEADER: \usemintedstyle{emacs}
+, #+LaTeX_HEADER: \newminted{common-lisp}{fontsize=\footnotesize}
+
+, #+name: setup-minted
+, #+begin_src emacs-lisp :exports both :results silent
+     (setq org-latex-listings 'minted)
+     (setq org-latex-custom-lang-environments
+           '(
+            (emacs-lisp "common-lispcode")
+             ))
+     (setq org-latex-minted-options
+           '(("frame" "lines")
+             ("fontsize" "\\scriptsize")
+             ("linenos" "")))
+     (setq org-latex-to-pdf-process
+           '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+             "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+             "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+, #+end_src
+
+, #+name: another-listing
+, #+begin_src python :exports code
+   x = str(y)
+, #+end_src
+</pre>
+
+<p>
+When this example is exported (<code>C-c C-e d</code>) the resulting pdf file
+contains two source code blocks nicely typeset and colored in a way
+common to many emacs setups.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org080f9bf" class="outline-3">
+<h3 id="org080f9bf"><span class="section-number-3">12.4</span> Example listings setup</h3>
+<div class="outline-text-3" id="text-12-4">
+<p>
+In this example, the listings package is specified in the
+<code>#+LaTeX_HEADER:</code>.  It is followed by three <code>#+LaTeX_HEADER:</code> lines
+that construct a call to the <code>lstnewenvironment</code> command that
+associates the language identifier <code>common-lispcode</code> with the <code>Lisp</code>
+language that the listings package knows how to parse, and configures
+typesetting options that will apply to code identified as
+<code>common-lispcode</code>.  Note that <code>common-lispcode</code> is used here simply to
+conform with the setup used by the minted package for typesetting
+emacs-lisp code.  The final <code>#+LaTeX_HEADER:</code> line defines a new LaTeX
+command that configures typesetting Python code inline.
+</p>
+
+<p>
+The source code block <code>setup-listings</code> instructs Org-mode to use the
+listings package.  It sets the variable
+<code>org-latex-custom-lang-environments</code> to associate <code>emacs-lisp</code>
+source code in Org-mode with <code>common-lispcode</code>, as defined by
+<code>lstnewenvironment</code>.  Then it configures default options in the
+variable <code>org-latex-listings-options</code> that place a frame around
+source code blocks, set code in a fairly small font, and number lines
+at the left with tiny numbers.  The variable
+<code>org-latex-to-pdf-process</code> doesn&rsquo;t need to use the <code>-shell-escape</code>
+option in the call to pdflatex because the listings package is pure
+LaTeX and doesn&rsquo;t rely on the output of external programs.  A new link
+type, <code>latex</code>, is defined.  This can be used to markup inline code
+snippets.  This is followed by a short Python source code block that
+illustrates the difference between the default typesetting options and
+the options specified for <code>emacs-lisp</code> source code blocks.  Finally,
+the <code>latex</code> link type is used to call the new <code>python</code> command to
+typeset an inline code snippet.
+</p>
+
+<pre class="example">
+, #+LATEX_CLASS: article
+, #+LaTeX_HEADER: \usepackage{listings}
+, #+LaTeX_HEADER: \lstnewenvironment{common-lispcode}
+, #+LaTeX_HEADER: {\lstset{language={Lisp},basicstyle={\ttfamily\footnotesize},frame=single,breaklines=true}}
+, #+LaTeX_HEADER: {}
+, #+LaTeX_HEADER: \newcommand{\python}[1]{\lstset{language={Python},basicstyle={\ttfamily\small}}\lstinline{#1}}
+
+, #+name: setup-listings
+, #+begin_src emacs-lisp :exports both :results silent
+  (setq org-latex-listings 'listings)
+  (setq org-latex-custom-lang-environments
+        '((emacs-lisp "common-lispcode")))
+  (setq org-latex-listings-options
+        '(("frame" "lines")
+          ("basicstyle" "\\footnotesize")
+          ("numbers" "left")
+          ("numberstyle" "\\tiny")))
+  (setq org-latex-to-pdf-process
+        '("pdflatex -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -interaction nonstopmode -output-directory %o %f"))
+  (org-add-link-type
+   "latex" nil
+   (lambda (path desc format)
+     (cond
+      ((eq format 'html)
+       (format "&lt;span class=\"%s\"&gt;%s&lt;/span&gt;" path desc))
+      ((eq format 'latex)
+       (format "\\%s{%s}" path desc)))))
+, #+end_src
+
+, #+name: another-listing
+, #+begin_src python :exports code
+  x = str(y)
+, #+end_src
+
+, This is an inline snippet of Python: [[latex:python][x = str(y)]].
+</pre>
+
+<p>
+When this example is exported, both source code blocks are typeset
+without any semantic markup, which would be specified by element,
+rather than with a style as with the minted package.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org15d8f17" class="outline-2">
+<h2 id="org15d8f17"><span class="section-number-2">13</span> Exporting Tables</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+There are several ways to prepare a table in Org-mode for export to
+LaTeX.  Perhaps the easiest is to supply the Org-mode table with a
+caption and a label:
+</p>
+
+<pre class="example">
+#+CAPTION: [Short caption]{Long caption}
+#+LABEL: tab:my-table
+</pre>
+
+
+<p>
+This has the great advantage of exporting cleanly to HTML, ASCII, and
+other backends, but the amount of control over the results is somewhat
+limited.
+</p>
+
+<p>
+At the other extreme, you can create an arbitrarily complex LaTeX
+table and wrap it in <code>#+BEGIN_LATEX:</code> &#x2026; <code>#+END_LATEX:</code>.  This will
+give you complete control over the LaTeX export, but leave you high
+and dry for export to other backends and deprive you of the pleasure
+of building a table with the facilities provided by Org-mode.
+</p>
+
+<p>
+A middle ground passes one or more Org-mode tables to a Babel source
+block, which uses <code>orgtbl-to-generic</code> to set the table.  Currently,
+the entries in the Library of Babel convert only to LaTeX.  This
+approach lets you compose tables in Org-mode but currently requires
+entries in the table to be marked up with LaTeX, rather than Org-mode
+conventions.
+</p>
+</div>
+
+<div id="outline-container-org0e4b248" class="outline-3">
+<h3 id="org0e4b248"><span class="section-number-3">13.1</span> How LaTeX typesets tables</h3>
+<div class="outline-text-3" id="text-13-1">
+<p>
+LaTeX divides table handling into two parts: typesetting the actual
+table, and placing the table on the page along with a caption and
+cross-reference information.
+</p>
+
+<p>
+LaTeX provides several environments for typesetting tables.  The LaTeX
+exporter currently supports a well-rounded subset of these:
+</p>
+
+<dl class="org-dl">
+<dt>tabular</dt><dd>table doesn&rsquo;t break across pages, user responsible for
+determining column widths</dd>
+<dt>tabularx</dt><dd>table doesn&rsquo;t break across pages, width of table
+specified by user, automatic calculation of column widths</dd>
+<dt>tabulary</dt><dd>like tabularx, but tries harder to calculate optimal
+column widths</dd>
+<dt>longtable</dt><dd>table breaks across pages, can&rsquo;t be used in a
+multicolumn page layout</dd>
+</dl>
+
+<p>
+Because the various tabular envionments don&rsquo;t break across pages, they
+are typically &ldquo;floated&rdquo; by wrapping them in a <code>table</code> environment, or
+for a table that spans columns in a multi-column page layout, a
+<code>table*</code> environment.  LaTeX will &ldquo;float&rdquo; the typeset table to an
+appropriate place in the output, ensuring that the table doesn&rsquo;t run
+off the end of the page (unless it is taller than the text height).
+Note that the LaTeX environments responsible for handling the
+information specified by <code>#+CAPTION:</code> and <code>#+LABEL:</code> are <code>table</code>,
+<code>table*</code>, and <code>longtable</code>.  If <code>tabular</code>, <code>tabularx</code>, and <code>tabulary</code>
+are used by themselves, then they won&rsquo;t support captions and
+cross-references.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf48b53c" class="outline-3">
+<h3 id="orgf48b53c"><span class="section-number-3">13.2</span> Table Rules</h3>
+<div class="outline-text-3" id="text-13-2">
+<p>
+The tables in many high-quality publications use rules of different
+widths for the different &ldquo;lines&rdquo; in a table.  The horizontal rules at
+the top and bottom of a table are heavier than the rule separating the
+column heads from the table body.  In general, good table design
+discourages the use of vertical rules; they are superfluous in an
+otherwise well-designed table.
+</p>
+
+<p>
+The LaTeX exporter currently uses rules of the same width everywhere
+in a table.  It is possible to get book quality tables.
+</p>
+
+<p>
+The following steps assume that the <code>org-babel-load-languages</code>
+variable has an entry <code>(latex . t)</code> and that functions in the Library
+of Babel are available.  I have this in <code>.emacs</code> so that Org-mode
+knows where to find the Library of Babel (but don&rsquo;t know if it
+is strictly necessary):
+</p>
+<pre class="example">
+(org-babel-lob-ingest "/path/to/library-of-babel.org")
+</pre>
+
+
+
+<p>
+First, load the <code>booktabs</code> package:
+</p>
+
+<pre class="example">
+#+LATEX_HEADER: \usepackage{booktabs}
+</pre>
+
+
+<p>
+Then, give your table a name, e.g., <code>#+tblname: test-table</code> and put it
+somewhere the LaTeX exporter won&rsquo;t see, perhaps in a sub-tree tagged with
+<code>:noexport:</code>.
+</p>
+
+<p>
+Finally, create a LaTeX source block something like this:
+</p>
+
+<pre class="example">
+#+name: tabularx-export
+#+begin_src latex :exports results :results latex :noweb yes
+  \begin{table}[htb!]
+  \centering
+  \footnotesize
+  \caption{A table to test booktabs}
+  \label{tab:test-table}
+  &lt;&lt;booktabs(table=test-table,align="lrX",env="tabularx",width="\\textwidth")&gt;&gt;
+  \end{table}
+ #+end_src
+</pre>
+
+
+<p>
+When you export the file to LaTeX, this code block is expanded in a
+<code>#+results:</code> block and wrapped in <code>#+BEGIN_LaTeX</code> &#x2026; <code>#+END_LaTeX</code>.
+If the table has column heads, then the rule beneath them should be
+finer than the rules at the top and bottom of the table.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc5207a3" class="outline-3">
+<h3 id="orgc5207a3"><span class="section-number-3">13.3</span> Notes in tables</h3>
+<div class="outline-text-3" id="text-13-3">
+<p>
+In a better world, the LaTeX <code>footnote</code> command would work inside a
+<code>tabular</code> environment, setting the notes at the end of the table. The
+current situation is described in the
+<a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label%3Dfootintab">TeX
+FAQ</a>.  A manual solution is possible, and can be implemented in
+Org-mode as follows.
+</p>
+
+<p>
+First, define a counter that uses table note marks (asterisk, dagger,
+pilcrow, etc.) and a command to use it.  Here is an example:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \newcounter{my@fn}
+#+LaTeX_HEADER: \newcommand{\fn}[1]{\setcounter{my@fn}{#1}\textsuperscript{\fnsymbol{my@fn}}}
+</pre>
+
+
+<p>
+Then use a LaTeX source block that calls <code>booktabs-notes</code> from the
+Library of Babel.
+</p>
+
+<pre class="example">
+#+begin_src latex :exports results :results latex
+  \begin{table}[htb!]
+    \centering
+    \footnotesize
+    \caption{The table caption without Org-mode markup}
+    \label{tab:dates}
+    &lt;&lt;booktabs-notes(table=dates,notes=dates-fn,lspace=t,align="rcr",env="tabular")&gt;&gt;
+  \end{table}
+#+end_src
+</pre>
+
+
+<p>
+This works like <code>booktabs</code> (see ),
+except it accepts a second Org-mode table that contains the table
+notes.  Remember that both of these Org-mode tables are sent to
+<code>orgtbl-to-generic</code> so Org-mode markup within them won&rsquo;t give the
+results you might expect.  Instead, the table entries use LaTeX
+markup.
+</p>
+
+<pre class="example">
+#+tblname: dates
+| One\fn{1} | Two\fn{2} | Three\fn{3} |
+|-----------+------------+-------------|
+| A         | B          | C           |
+| D         | E          | F           |
+</pre>
+
+
+<pre class="example">
+#+tblname: dates-fn
+| \multicolumn{3}{l}{\fn{1} A table note.}               |
+| \multicolumn{3}{l}{\fn{2} Another table note.}         |
+| \multicolumn{3}{l}{\fn{3} The \emph{last} table note.} |
+</pre>
+
+
+
+<p>
+There is also a switch, <code>lspace</code>, which if set non-nil calls the
+<code>addlinespace</code> command from the <code>booktabs</code> package after the
+<code>bottomrule</code> that separates the table body from the notes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgce03296" class="outline-3">
+<h3 id="orgce03296"><span class="section-number-3">13.4</span> Changing font size</h3>
+<div class="outline-text-3" id="text-13-4">
+<p>
+Tables often benefit from a smaller font size than the body text of a
+document.  However, Org-mode doesn&rsquo;t offer a way to change the font
+size in a table.  A discussion on the Org-mode list yielded two solutions,
+one of which makes a setting for all the tables in the Org-mode
+document and another that is used on individual tables.
+</p>
+
+<p>
+The first solution, offered by Nick Dokos, uses a LaTeX style file,
+illustrated here with <code>scripttab.sty</code>.  This style file sets all the
+tables in the document with the same size font.  The command
+<code>\scriptsize</code> yields a very small font; the particular size is
+determined in LaTeX by the font size of <code>\normalsize</code>.  Note that
+<code>\scriptsize</code> can be replaced by another legal LaTeX font size, such
+as <code>\footnotesize</code> or <code>\small</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-latex" id="org8f885f0"><span style="color: #d3d3d3;">\makeatletter</span>
+<span style="color: #d3d3d3;">\def</span> <span style="color: #d3d3d3;">\@floatboxreset</span> {<span style="color: #696969;">%</span>
+        <span style="color: #d3d3d3;">\reset@font</span>
+        <span style="color: #66d9ef;">\scriptsize</span> <span style="color: #696969;">%</span><span style="color: #696969;">\footnotesize</span><span style="color: #696969;"> %</span><span style="color: #696969;">\small</span>
+        <span style="color: #d3d3d3;">\@setminipage</span>
+}
+<span style="color: #d3d3d3;">\makeatother</span>
+</pre>
+</div>
+
+<p>
+Put <code>scriptab.sty</code> where LaTeX can find it and then add this line to
+the Org-mode file:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage{scripttab}
+</pre>
+
+
+<p>
+A second approach, which sets the font size for an individual table
+with the <code>#+ATTR_LaTeX</code> line, was proposed by Suvayu Ali. This
+solution is documented on
+<a href="https://orgmode.org/worg/org-hacks.html#latex-command-for-floats">Org
+ad hoc code, quick hacks and workarounds</a>. Any LaTeX command that
+works inside the table environment can be passed in this way.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgba54317" class="outline-2">
+<h2 id="orgba54317"><span class="section-number-2">14</span> Exporting Lists</h2>
+<div class="outline-text-2" id="text-14">
+<p>
+LaTeX typically sets lists as displayed material, outside of normal
+paragraphs.  The three LaTeX list environments &#x2014; <code>itemize</code>,
+<code>enumerate</code>, and <code>description</code> &#x2014; are all supported by Org-mode.
+Additionally, Org-mode includes code to typeset its checkboxes.
+</p>
+</div>
+
+<div id="outline-container-orgae48841" class="outline-3">
+<h3 id="orgae48841"><span class="section-number-3">14.1</span> Vertical White Space</h3>
+<div class="outline-text-3" id="text-14-1">
+<p>
+In standard LaTeX, lists are set with a lot of vertical white space
+and it is sometimes nicer to set them more compactly.  This can be
+accomplished with the <code>paralist</code> package.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage{paralist}
+</pre>
+
+
+<p>
+You can redefine the standard LaTeX list environments with their
+compact <code>paralist</code> equivalents:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \let\itemize\compactitem
+#+LaTeX_HEADER: \let\description\compactdesc
+#+LaTeX_HEADER: \let\enumerate\compactenum
+</pre>
+
+
+<p>
+With these settings, all the lists in the Org-mode document will be
+exported in compact form.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbafb758" class="outline-3">
+<h3 id="orgbafb758"><span class="section-number-3">14.2</span> Set Enumerated Lists in a Paragraph</h3>
+<div class="outline-text-3" id="text-14-2">
+<p>
+The <code>paralist</code> package has a facility for setting lists in paragraphs,
+rather than displayed separately.  Typically the lists in a paragraph
+are enumerated and it is possible to set Org-mode&rsquo;s enumerated lists
+in paragraph, while displaying itemized and description lists.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \let\itemize\compactitem
+#+LaTeX_HEADER: \let\description\compactdesc
+#+LaTeX_HEADER: \let\enumerate\inparaenum
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orga00de80" class="outline-3">
+<h3 id="orga00de80"><span class="section-number-3">14.3</span> Specify the Enumerator</h3>
+<div class="outline-text-3" id="text-14-3">
+<p>
+With the <code>paralist</code> package you can also specify how to enumerate the
+list.  These two examples use lowercase Roman numerals in parentheses
+and lowercase letters in parentheses, either of which might be used
+when an enumerated list is set in a paragraph.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \renewenvironment{enumerate}{\begin{inparaenum}[(i)]}{\end{inparaenum}}
+#+LaTeX_HEADER: \renewenvironment{enumerate}{\begin{inparaenum}[(a)]}{\end{inparaenum}}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3571dc8" class="outline-3">
+<h3 id="org3571dc8"><span class="section-number-3">14.4</span> Checkboxes</h3>
+<div class="outline-text-3" id="text-14-4">
+<p>
+Checkboxes aren&rsquo;t supported natively in LaTeX, so Org-mode rolls its
+own.  The variable <code>org-export-latex-list-parameters</code> controls how
+this is done.  Skip Collins and Nick Dokos discussed how to modify
+these parameters.  Their discussion resulted in a proposal for better
+looking checkboxes.
+</p>
+
+<pre class="example">
+#LATEX_HEADER: \setbox0=\hbox{\large$\square$}
+</pre>
+
+
+<pre class="example">
+#+BIND: org-export-latex-list-parameters (:cbon "[{\\parbox[][][c]{\\wd0}{\\large$\\boxtimes$}}]" :cboff "[{\\parbox[][][c]{\\wd0}{\\large$\\square$}}]")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org932ec73" class="outline-2">
+<h2 id="org932ec73"><span class="section-number-2">15</span> Fonts</h2>
+<div class="outline-text-2" id="text-15">
+<p>
+<a id="orgd00c2c3"></a>
+The default LaTeX font is Computer Modern, which was designed by
+Donald Knuth.  Computer Modern is perfectly serviceable, but not as
+nice as other fonts available for LaTeX.  Alternative font sets are
+suggested below.
+</p>
+
+<p>
+There are many choices and your choice of which ones to use will be
+guided, in part, by whether or not your document uses math.  If so,
+then you&rsquo;ll want to choose a font with math support.
+</p>
+
+<p>
+Another consideration will be whether or not the font clashes with the
+<code>amssymb</code> package that Org-mode loads by default.
+</p>
+
+<p>
+LaTeX documents might need three text fonts, one for the serif
+typeface used for text, the sans-serif typeface often used for heads
+and sub-heads, and the monospace typewriter typeface typically used to
+set code examples and the like.  Choosing fonts that look good with
+one another is part of the typesetter&rsquo;s art; some care has been taken
+to match fonts in each set.
+</p>
+</div>
+
+<div id="outline-container-org7a4be49" class="outline-3">
+<h3 id="org7a4be49"><span class="section-number-3">15.1</span> Bera</h3>
+<div class="outline-text-3" id="text-15-1">
+<p>
+<a id="org07c73fc"></a>
+</p>
+
+<p>
+Bera is the LaTeX version of the Bitstream&rsquo;s Vera family of fonts.
+The family includes serif, sans-serif, and monospace fonts designed to
+work well with one another.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage[scaled]{beraserif}
+#+LaTeX_HEADER: \usepackage[scaled]{berasans}
+#+LaTeX_HEADER: \usepackage[scaled]{beramono}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3400f17" class="outline-3">
+<h3 id="org3400f17"><span class="section-number-3">15.2</span> Charter</h3>
+<div class="outline-text-3" id="text-15-2">
+<p>
+<a id="org5e9be61"></a>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Bitstream_Charter">Charter</a> was designed to reproduce well on low-resolution 300 dpi
+printers.  It is paired here with Helvetica and Courier, like <a href="#org3df155a">Times</a>,
+for which it is an alternative.  Helvetica is set a bit smaller to
+match the shape of the Charter font.  These fonts conflict with the
+<code>amssymb=</code> package.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage[bitstream-charter]{mathdesign}
+#+LaTeX_HEADER: \usepackage[scaled=.9]{helvet}
+#+LaTeX_HEADER: \usepackage{courier} % tt
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3a9a8e4" class="outline-3">
+<h3 id="org3a9a8e4"><span class="section-number-3">15.3</span> Garamond</h3>
+<div class="outline-text-3" id="text-15-3">
+<p>
+<a id="org0dbfd84"></a>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Garamond">Garamond</a> refers to a group of old-style serif typefaces and is named
+after the sixteenth-century type designer, Claude Garamond.  It is an
+elegant typeface.  Garamond requires a bit more leading than normal.
+The sans-serif font is Latin Modern and the typewriter font is
+Courier.  Both were chosen to match the shape and stroke weight of
+Garamond.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage[urw-garamond]{mathdesign}
+#+LaTeX_HEADER: \usepackage{lmodern}
+#+LaTeX_HEADER: \usepackage{courier}
+#+LaTeX_HEADER: \linespread{1.0609}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org9373dd1" class="outline-3">
+<h3 id="org9373dd1"><span class="section-number-3">15.4</span> KP family</h3>
+<div class="outline-text-3" id="text-15-4">
+<p>
+<a id="org52db162"></a>
+</p>
+
+<p>
+The <a href="http://tug.ctan.org/pkg/kpfonts">KP font family</a> is produced by Christophe Caignaert for the
+Johannes Kepler project.  The family supports math.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage{kpfonts}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org919bdaf" class="outline-3">
+<h3 id="org919bdaf"><span class="section-number-3">15.5</span> Libertine</h3>
+<div class="outline-text-3" id="text-15-5">
+<p>
+<a id="org3e332ba"></a>
+</p>
+
+<p>
+The <a href="http://www.linuxlibertine.org/">Linux Libertine Project</a> produces OpenSource fonts.  Libertine is a
+replacement for Times New Roman and includes a companion sans-serif
+font.  It was used to typeset the Wikipedia logo.  The monospace
+typewriter font is Latin Modern.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage{libertine}
+#+LaTeX_HEADER: \renewcommand*\oldstylenums[1]{{\fontfamily{fxlj}\selectfont #1}}
+#+LaTeX_HEADER: \usepackage{lmodern}
+</pre>
+</div>
+</div>
+<div id="outline-container-org56d1add" class="outline-3">
+<h3 id="org56d1add"><span class="section-number-3">15.6</span> Nimbus</h3>
+<div class="outline-text-3" id="text-15-6">
+<p>
+<a id="org9379543"></a>
+</p>
+
+<p>
+The Nimbus font set uses fonts from the <a href="http://www.gust.org.pl/projects/e-foundry/tex-gyre/">Tex-Gyre</a> distribution, which
+provides a rich collection of diacritical characters in the attempt to
+cover as many Latin-based scripts as possible.  The serif font is
+Termes, which is a replacement for Times Roman.  The sans-serif font
+is Heros, which is a replacement for Helvetica.  The monospace font is
+Cursor, which is a Courier replacement.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage{tgtermes}
+#+LaTeX_HEADER: \usepackage[scale=.85]{tgheros}
+#+LaTeX_HEADER: \usepackage{tgcursor}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org99b40d0" class="outline-3">
+<h3 id="org99b40d0"><span class="section-number-3">15.7</span> Palatino</h3>
+<div class="outline-text-3" id="text-15-7">
+<p>
+<a id="orgbb6754c"></a>
+</p>
+
+<p>
+The beautiful, old-style serif font, <a href="https://en.wikipedia.org/wiki/Palatino">Palatino</a>, was designed by <a href="https://en.wikipedia.org/wiki/Herman_Zapf">Herman
+Zapf</a>.  It is somewhat heavier and easier to read than <a href="#org0dbfd84">Garamond</a>.
+Palatino gets a bit more leading than normal.  It is paired here with
+Helvetica and Courier, as is <a href="#org3df155a">Times</a>, for which it is an alternative.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage{mathpazo}
+#+LaTeX_HEADER: \linespread{1.05}
+#+LaTeX_HEADER: \usepackage[scaled]{helvet}
+#+LaTeX_HEADER: \usepackage{courier}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf2dc416" class="outline-3">
+<h3 id="orgf2dc416"><span class="section-number-3">15.8</span> Times</h3>
+<div class="outline-text-3" id="text-15-8">
+<p>
+<a id="org3df155a"></a>
+</p>
+
+<p>
+The <code>times</code> option uses URW Nimbus Roman, a Times clone, for the serif
+font, URW Nimbus Sans, a Helvetica clone, for the sans-serif font,
+and URW Nimbus Mono, a Courier clone, for the typewriter font.  This
+is a standard set of common typefaces typically used in scientific
+publications.  All of the fonts should be included in a typical LaTeX
+distribution.
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Times_Roman">Times New Roman</a> was designed by <a href="https://en.wikipedia.org/wiki/Stanley_Morison">Stanley Morison</a> for <i>The Times</i> of
+London during a redesign of the newspaper prompted, in part, by
+Morison&rsquo;s criticism of its typography in 1929.  <a href="https://en.wikipedia.org/wiki/Helvetica">Helvetica</a> was
+developed in 1957 by <a href="https://en.wikipedia.org/wiki/Max_Miedinger">Max Miedinger</a>.  Helvetica looks better with Times
+if it is set slightly smaller than the serif font.  <a href="https://en.wikipedia.org/wiki/Courier_(typeface)">Courier</a> was
+designed by Howard Kettler in 1955 for use in IBM typewriters.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage{mathptmx}
+#+LaTeX_HEADER: \usepackage[scaled=.90]{helvet}
+#+LaTeX_HEADER: \usepackage{courier}
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgade7c73" class="outline-3">
+<h3 id="orgade7c73"><span class="section-number-3">15.9</span> Utopia</h3>
+<div class="outline-text-3" id="text-15-9">
+<p>
+<a id="orgcdc9832"></a>
+</p>
+
+<p>
+<a href="https://en.wikipedia.org/wiki/Utopia_(typeface)">Utopia</a> is a transitional serif font designed by <a href="https://en.wikipedia.org/wiki/Robert_Slimbach">Robert Slimbach</a> for
+Adobe in 1989.  It became free software in 2006.  It is paired here
+with the Bera sans serif and monospaced fonts.  Note that the Utopia
+font clashes with the <code>amssymb</code> package.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[T1]{fontenc}
+#+LaTeX_HEADER: \usepackage[adobe-utopia]{mathdesign}
+#+LaTeX_HEADER: \usepackage[scaled]{berasans}
+#+LaTeX_HEADER: \usepackage[scaled]{beramono}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6512bb4" class="outline-2">
+<h2 id="org6512bb4"><span class="section-number-2">16</span> Cross-references</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+The Org-mode LaTeX exporter assigns its own labels to section
+headings.  In response to a question from Rasmus Pank Roulund on how
+to resolve a label when cross-referencing a section heading, Lawrence
+Mitchell pointed out that with the following setting:
+</p>
+
+<pre class="example">
+(setq org-export-latex-hyperref-format "\\ref{%s}")
+</pre>
+
+
+<p>
+a link to a headline will cross reference properly during LaTeX
+export.
+</p>
+
+<p>
+For example,
+</p>
+
+<pre class="example">
+* My Headline
+In section [[My Headline]] we discuss ...
+</pre>
+
+
+<p>
+exports to LaTeX correctly.  Note that the link must match the
+headline exactly for this to work.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc13ac8e" class="outline-2">
+<h2 id="orgc13ac8e"><span class="section-number-2">17</span> Bibliography</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+<a id="org2855ee9"></a>
+</p>
+
+<p>
+LaTeX has its own bibliography management system based on the BibTeX
+software.  The BibTeX software uses an external database of
+bibliographic entries identified by keys.  The user passes the
+bibliographic key to any one of several citation commands at an
+appropriate place in the text and BibTeX replaces it in the output
+with a formatted in-text citation.  It also compiles and typesets a
+list of cited works, ensuring that every work cited in the text
+appears in the list, and that every work that appears in the list is
+cited in the text.
+</p>
+
+<p>
+In its standard configuration Org-mode uses the BibTeX software.
+Citation commands can be inserted directly into the Org-mode file,
+e.g.,
+</p>
+
+<pre class="example">
+\cite{dominick_10}
+</pre>
+
+
+<p>
+and the list of cited works inserted at an appropriate place, e.g.,
+</p>
+
+<pre class="example">
+\bibliographystyle{plain}
+\bibliography{my-bib-db}
+</pre>
+
+
+<p>
+where <code>my-bib-db</code> is the name of an external bibliographic database,
+and <code>plain</code> is a BibTeX style.
+</p>
+
+<p>
+In-text citations can be entered by hand, but in practice it quickly
+becomes cumbersome to remember bibliographic keys and to type them
+correctly.  Authors writing in LaTeX typically use the RefTeX
+software, originally written by Carsten Dominick, to select the
+bibliographic key from the external database and to insert it into the
+text with a citation command.  RefTeX can also be used to insert
+citations into the Org-mode document, as detailed in <a href="https://orgmode.org/worg/org-faq.html#using-reftex-in-org-mode">this FAQ.</a>  A more
+detailed setup that associates reading notes with BibTeX
+bibliographic entries is described in this <a href="https://orgmode.org/list/87ejjcz9yu.fsf@is003308.saclay.cea.fr">post to the Org-mode list.</a>
+</p>
+
+<p>
+The <code>natbib</code> package extends BibTeX with several convenient in-text
+citation commands.  The commands all start with <code>cite</code> and end with
+one or more letters that indicate a style.  The most commonly used
+commands are:
+</p>
+<ol class="org-ol">
+<li><code>\citep</code> for parenthetical citations, e.g., (Jones, 1958);</li>
+<li><code>\citet</code> for textual citations, e.g., Jones (1958);</li>
+<li><code>\citealt</code> for textual citations without parentheses, e.g. Jones 1958.</li>
+</ol>
+<p>
+There are starred versions of most commands that will output the full
+author lists rather than use the abbreviation <code>et. al.</code>
+</p>
+
+<p>
+To use <code>natbib</code> place this line in the Org-mode file:
+</p>
+
+<pre class="example">
+LATEX_HEADER: \usepackage{natbib}
+</pre>
+</div>
+
+<div id="outline-container-org08445f7" class="outline-3">
+<h3 id="org08445f7"><span class="section-number-3">17.1</span> Biblatex</h3>
+<div class="outline-text-3" id="text-17-1">
+<p>
+The <code>biblatex</code> package, which recently emerged from beta status, offers
+support for the full range of citation styles, including the numeric
+styles favored by scientists, the author-date styles used by social
+scientists, and the footnote styles popular in the humanities.
+</p>
+
+<p>
+You&rsquo;ll need two additions to the LaTeX preamble, one to load biblatex
+and the other to specify the <code>*.bib</code> files that hold the BibTeX
+database.  Loading biblatex without options defaults to a numeric
+citation style typical in the sciences.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage{biblatex}
+#+LaTeX_HEADER: \bibliography{my-bib,my-other-bib}
+</pre>
+
+
+<p>
+There are a number of citation and bibliography styles that ship with
+biblatex and there is a growing body of contributed styles.  These can
+be selected by passing options to biblatex.  The author/date style
+used in the social sciences can be selected:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[style=authordate]{biblatex}
+</pre>
+
+
+<p>
+Or a footnote style used in the humanities:
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[style=verbose]{biblatex}
+</pre>
+
+
+
+<p>
+Biblatex supports the various citation commands implemented by
+<code>natbib</code>.
+</p>
+
+<pre class="example">
+#+LaTeX_HEADER: \usepackage[natbib]{biblatex}
+</pre>
+
+
+<p>
+The list of cited works can be placed in the document by adding this
+line to the appropriate place in the Org-mode file:
+</p>
+
+<pre class="example">
+\printbibliography
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb46d6ec" class="outline-3">
+<h3 id="orgb46d6ec"><span class="section-number-3">17.2</span> Using Ebib and Extended Link Syntax</h3>
+<div class="outline-text-3" id="text-17-2">
+<p>
+Thanks to work by Ali Tofigh and Joost Kremers, it is possible to
+manage citations using the <a href="http://ebib.sourceforge.net/">ebib</a> program for managing BibTeX databases.
+Using ebib with Org-mode was the idea of Ali Tofigh, who sent this
+message to the Org-mode list:
+</p>
+
+<p>
+A while ago I asked on this list about connecting org-mode with ebib,
+which is a bibtex database manager for emacs. Thanks to Joost Kremers,
+there is now a solution.
+</p>
+
+<p>
+I asked the developer of ebib, Joost Kremers, if he could write a
+function that would start ebib on a given bibtex entry. He kindly
+added this functionality to the &rsquo;ebib&rsquo; function (which starts ebib in
+emacs) and it is now available in the ebib git repository (see
+<a href="http://ebib.sourceforge.net">http://ebib.sourceforge.net</a>). If you are using ebib and would like to
+get org-mode to open bibtex entries do the following:
+</p>
+
+<ol class="org-ol">
+<li>Install the latest development version of ebib.</li>
+
+<li>make sure <code>ebib-preload-bib-files</code> is set properly so that your <code>.bib</code> file is loaded by ebib when ebib starts</li>
+
+<li>add the following line to your <code>.emacs</code>:</li>
+</ol>
+<pre class="example">
+(org-add-link-type "ebib" 'ebib)
+</pre>
+
+
+<p>
+Now you can insert ebib links in your documents like this:
+<code>[ebib:Jones1998][some paper title]</code>. Opening this link should now
+result in ebib starting, loading your default bibtex database, and
+highlighting the bibtex entry Jones1998. Alternatively, if you have
+already started ebib, then opening the link will get you to the bibtex
+entry in your opened ebib database.
+</p>
+</div>
+
+<div id="outline-container-orgb620ccf" class="outline-4">
+<h4 id="orgb620ccf"><span class="section-number-4">17.2.1</span> Natbib citation commands</h4>
+<div class="outline-text-4" id="text-17-2-1">
+<p>
+The link types defined for use with ebib can also format output for
+the LaTeX exporter.  The following link types insert the natbib
+citation commands, using an optional command if the citation link
+includes a description.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgaa2b1ea">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citep"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citep:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citep{%s}"</span> path<span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citep[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org8d380b0">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citet"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citet:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citet{%s}"</span> path<span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citet[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org23df146">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citealt"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citealt:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealt{%s}"</span> path<span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealt[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgf79b22f">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citealp"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citealp:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealp{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealp[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+         <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org1f1b7c1">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citealt*"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citealt*:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealt*{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealt*[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+         <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgf193d44">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citealp*"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citealp*:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealp*{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citealp*[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+         <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org73e3e37">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citep*"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citep*:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citep*{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citep*[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+         <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org9cfdfe0">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"citet*"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"citet*:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citet*{%s}"</span> path<span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\citet*[%s]{%s}"</span> desc path<span style="color: #b6e63e;">)</span>
+<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org9ba77eb" class="outline-4">
+<h4 id="org9ba77eb"><span class="section-number-4">17.2.2</span> Standard biblatex citation commands</h4>
+<div class="outline-text-4" id="text-17-2-2">
+<p>
+The standard biblatex citation commands have the following syntax:
+\command[⟨prenote⟩][⟨postnote⟩]{⟨keys⟩}
+</p>
+
+<p>
+They have been implemented by parsing the description part of the link
+on a semicolon, so that, e.g.,
+<code>[[cite:foo][postnote;prenote]]</code> becomes
+<code>\cite[prenote][postnote]{foo}</code>.  Note that <code>[[cite:foo]]</code> and
+<code>[[cite:foo][;]]</code> are functionally equivalent.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgb84d8d7">  &lt;&lt;define-biblatex-cite-link&gt;&gt;
+  &lt;&lt;define-biblatex-cap-cite-link&gt;&gt;
+  &lt;&lt;define-biblatex-parencite-link&gt;&gt;
+  &lt;&lt;define-biblatex-cap-parencite-link&gt;&gt;
+  &lt;&lt;define-biblatex-footcite-link&gt;&gt;
+  &lt;&lt;define-biblatex-footcitetext-link&gt;&gt;
+
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org5848745">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"cite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"cite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\cite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\cite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgc868952">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"Cite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"Cite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Cite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Cite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgdeaeca9">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"parencite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"parencite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\parencite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\parencite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgff92276">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"Parencite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"Parencite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Parencite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Parencite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org8afb826">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"footcite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"footcite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\footcite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\footcite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgf4aa676">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"footcitetext"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"footcitetext:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\footcitetext{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\footcitetext[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4e19641" class="outline-4">
+<h4 id="org4e19641"><span class="section-number-4">17.2.3</span> Style-specific biblatex commands</h4>
+<div class="outline-text-4" id="text-17-2-3">
+<p>
+These commands can only be used by some of the citation styles that
+ship with biblatex.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org2ce4e23">  &lt;&lt;define-biblatex-textcite-link&gt;&gt;
+  &lt;&lt;define-biblatex-cap-textcite-link&gt;&gt;
+  &lt;&lt;define-biblatex-smartcite-link&gt;&gt;
+  &lt;&lt;define-biblatex-cap-smartcite-link&gt;&gt;
+  &lt;&lt;define-biblatex-citestar-link&gt;&gt;
+  &lt;&lt;define-biblatex-parencitestar-link&gt;&gt;
+  &lt;&lt;define-biblatex-supercite-link&gt;&gt;
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org584f9d6">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"textcite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"textcite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\textcite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\textcite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org759310a">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"Textcite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"Textcite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Textcite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Textcite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgabd728f">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"smartcite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"smartcite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\smartcite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\smartcite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgacf8c23">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"Smartcite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"Smartcite:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Smartcite{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\Smartcite[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org2292945">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"cite*"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"cite*:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\cite*{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\cite*[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org5141e0d">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"parencite*"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> desc<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">search</span> <span style="color: #e2c770;">"parencite*:"</span> desc<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\parencite*{%s}"</span> path<span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\parencite*[%s][%s]{%s}"</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">cadr</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">car</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">split-string</span> desc <span style="color: #e2c770;">";"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>  path<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org4fdaa77">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-add-link-type</span>
+   <span style="color: #e2c770;">"supercite"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ebib</span>
+   <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>path desc format<span style="color: #b6e63e;">)</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">html</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"(&lt;cite&gt;%s&lt;/cite&gt;)"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> format <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">latex</span><span style="color: #fd971f;">)</span>
+       <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\cite*{%s}"</span> path<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+The results of this experiment are now included in this
+document.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+The <code>xcolor</code> manual is an education in color management and is
+highly recommended reading.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+Based on posts to the mailing list by Karl Marino and Carsten
+Dominik.  Thanks to Bernt Hansen and Nick Dokos for help debugging a
+problem implementing the publishing project.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+This non-obvious use of the Org-mode link syntax appeared on the
+Org-mode mailing list under the heading <code>text color + highlight</code> (!).
+There was a lively discussion there, to which the ideas of
+Samuel Wales, Christian Moe and Eric Schulte contributed directly to
+this implementation.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Date: 2010-04-24 Sat</p>
+<p class="author">Author: Tom Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

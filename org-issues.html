@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org bugs and issues</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Carsten Dominik" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org bugs and issues</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgff2be4a">Issue tracker</a></li>
+<li><a href="#org5ad8a36">Current issues</a></li>
+<li><a href="#orgf54f022">Old issues</a>
+<ul>
+<li><a href="#org45f23af"><span class="todo TODO">TODO</span> Clocktable error with multiple source files from parent dir (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_28">#28</span></span></a></li>
+<li><a href="#org044a563"><span class="todo TODO">TODO</span> Background color reset for links and DONE headlines (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_27">#27</span></span></a></li>
+<li><a href="#orge53e0c1"><span class="todo DELEGATED">DELEGATED</span> Better handling of fontenc in LaTeX export (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_26">#26</span></span></a></li>
+<li><a href="#orgb56fbf0"><span class="todo TODO">TODO</span> org-clock-save.el state unwanted Resume clock prompt (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_25">#25</span></span></a></li>
+<li><a href="#org6a8280a"><span class="todo TODO">TODO</span> Duplicate agenda entries when enabling archives-mode (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_23">#23</span></span></a></li>
+<li><a href="#orgb231ad9"><span class="todo TODO">TODO</span> How to trigger the clockcheck in an agenda view (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_22">#22</span></span></a></li>
+<li><a href="#orgcceb6a4"><span class="todo TODO">TODO</span> org-capture doesn&rsquo;t narrow correctly if :prepend is t (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_18">#18</span></span></a></li>
+<li><a href="#orgdb5e1cb"><span class="todo TODO">TODO</span> Makes ido think that some candidates are directories (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_16">#16</span></span></a></li>
+<li><a href="#org9e0d03b"><span class="todo TODO">TODO</span> Structure clocktable by tags rather than by hierarchy (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_14">#14</span></span></a></li>
+<li><a href="#orgf82caa1"><span class="todo TODO">TODO</span> Problem with special characters in dired and attachment paths (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_13">#13</span></span></a></li>
+<li><a href="#org2045a3e"><span class="todo TODO">TODO</span> Agenda does not restrict to file (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_11">#11</span></span></a></li>
+<li><a href="#orgff3c9b2"><span class="todo DELEGATED">DELEGATED</span> Three bugs/misfeatures in org-reveal (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_10">#10</span></span></a></li>
+<li><a href="#org4f4748a"><span class="todo TODO">TODO</span> Restriction lock ignored in indirect buffer (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_9">#9</span></span></a></li>
+<li><a href="#orge48112f"><span class="todo TODO">TODO</span> Restruct <code>org-create-formula-image</code> function (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_8">#8</span></span></a></li>
+<li><a href="#orgae79368"><span class="todo TODO">TODO</span> Agenda Search and <code>org-agenda-text-search-extra-files</code> (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_7">#7</span></span></a></li>
+<li><a href="#orge0abc9f"><span class="todo TODO">TODO</span> Ido org-refile results in misfiling (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_6">#6</span></span></a></li>
+<li><a href="#org1d962fc"><span class="todo TODO">TODO</span> Can org regenerate the cache automatically (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_4">#4</span></span></a></li>
+<li><a href="#org4cf2a23"><span class="todo TODO">TODO</span> How to refile without refiling in order to cache a restricted refile? (report)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_3">#3</span></span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgff2be4a" class="outline-2">
+<h2 id="orgff2be4a">Issue tracker</h2>
+<div class="outline-text-2" id="text-orgff2be4a">
+<p>
+The Org community tracks issue on <a href="https://updates.orgmode.org/">updates.orgmode.org</a> - see <a href="https://orgmode.org/list/87y2p64xo7.fsf@gnu.org/">this
+announcement</a>.
+</p>
+
+<p>
+You can subscribe to this <a href="https://updates.orgmode.org/feed/bugs">RSS feed for new bugs</a>.
+</p>
+
+<p>
+If you want to report a bug, use <code>M-x org-submit-bug-report</code> or directly
+send an email to <a href="mailto:emacs-orgmode@gnu.org">the Org mailing list</a>.
+</p>
+
+<p>
+Make sure to read Org&rsquo;s manual instructions on how to provide <a href="https://orgmode.org/org.html#Feedback">useful
+feedback</a>.
+</p>
+
+<p>
+If you can reproduce a bug, that&rsquo;s really helpful: reply to the
+original poster adding <code>X-Bug-Woof: confirmed</code> in your mail header.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5ad8a36" class="outline-2">
+<h2 id="org5ad8a36">Current issues</h2>
+<div class="outline-text-2" id="text-org5ad8a36">
+<script language="JavaScript" src="https://feed2js.org//feed2js.php?src=https%3A%2F%2Fupdates.orgmode.org%2Ffeed%2Fbugs&chan=y&num=10&utf=y"  charset="UTF-8" type="text/javascript"></script>
+
+<noscript>
+<a href="https://feed2js.org//feed2js.php?src=https%3A%2F%2Fupdates.orgmode.org%2Ffeed%2Fbugs&chan=y&num=10&utf=y&html=y">View RSS feed</a>
+</noscript>
+</div>
+</div>
+
+<div id="outline-container-orgf54f022" class="outline-2">
+<h2 id="orgf54f022">Old issues</h2>
+<div class="outline-text-2" id="text-orgf54f022">
+<p>
+These issues are <i>old</i>: if you want to help, please check the report
+link, try to reproduce the problem and reply to the email using
+<code>X-Bug-Woof: confirmed</code> if the issue is still present or <code>X-Bug-Woof:
+fixed</code> if the issue as been fixed, removing it from this file too.
+</p>
+</div>
+
+<div id="outline-container-org45f23af" class="outline-3">
+<h3 id="org45f23af"><span class="todo TODO">TODO</span> Clocktable error with multiple source files from parent dir (<a href="https://orgmode.org/list/86txhu59fu.fsf@somewhere.org">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_28">#28</span></span></h3>
+</div>
+<div id="outline-container-org044a563" class="outline-3">
+<h3 id="org044a563"><span class="todo TODO">TODO</span> Background color reset for links and DONE headlines (<a href="https://orgmode.org/list/867gl81tml.fsf@somewhere.org">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_27">#27</span></span></h3>
+</div>
+<div id="outline-container-orge53e0c1" class="outline-3">
+<h3 id="orge53e0c1"><span class="todo DELEGATED">DELEGATED</span> Better handling of fontenc in LaTeX export (<a href="https://orgmode.org/list/87ob7z4nzl.fsf@pinto.chemeng.ucl.ac.uk">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_26">#26</span></span></h3>
+<div class="outline-text-3" id="text-orge53e0c1">
+<ul class="org-ul">
+<li>State &ldquo;DELEGATED&rdquo;  from &ldquo;TODO&rdquo;       <span class="timestamp-wrapper"><span class="timestamp">[2013-09-25 Wed 10:06] </span></span> <br />
+Nicolas Girard is taking this up with TeX people</li>
+</ul>
+
+<p>
+The idea is to put LaTeX code that does do the decision on what kind
+of encapsulation should be used, based on the LaTeX processor that
+actually runs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb56fbf0" class="outline-3">
+<h3 id="orgb56fbf0"><span class="todo TODO">TODO</span> org-clock-save.el state unwanted Resume clock prompt (<a href="https://orgmode.org/list/loom.20130817T071624-574@post.gmane.org">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_25">#25</span></span></h3>
+</div>
+<div id="outline-container-org6a8280a" class="outline-3">
+<h3 id="org6a8280a"><span class="todo TODO">TODO</span> Duplicate agenda entries when enabling archives-mode (<a href="https://orgmode.org/list/864n9rbpjd.fsf@somewhere.org">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_23">#23</span></span></h3>
+</div>
+<div id="outline-container-orgb231ad9" class="outline-3">
+<h3 id="orgb231ad9"><span class="todo TODO">TODO</span> How to trigger the clockcheck in an agenda view (<a href="https://orgmode.org/list/krode2$96d$1@ger.gmane.org">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_22">#22</span></span></h3>
+</div>
+<div id="outline-container-orgcceb6a4" class="outline-3">
+<h3 id="orgcceb6a4"><span class="todo TODO">TODO</span> org-capture doesn&rsquo;t narrow correctly if :prepend is t (<a href="https://orgmode.org/list/CAOkDyE-PNYnK2EVGTz+f45kudUYRc37sMNc_s4dFujyn3hj6YQ@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_18">#18</span></span></h3>
+</div>
+<div id="outline-container-orgdb5e1cb" class="outline-3">
+<h3 id="orgdb5e1cb"><span class="todo TODO">TODO</span> Makes ido think that some candidates are directories (<a href="https://orgmode.org/list/CAJcAo8tAeb45q9YdkjjDA+3si7ukKcZPymALgZwr0efAFTtFeA@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_16">#16</span></span></h3>
+</div>
+<div id="outline-container-org9e0d03b" class="outline-3">
+<h3 id="org9e0d03b"><span class="todo TODO">TODO</span> Structure clocktable by tags rather than by hierarchy (<a href="https://orgmode.org/list/AANLkTimGqugmEPqNmXcNVnaPGWwNYOaV_Yvp_koqg5Pm@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_14">#14</span></span></h3>
+</div>
+<div id="outline-container-orgf82caa1" class="outline-3">
+<h3 id="orgf82caa1"><span class="todo TODO">TODO</span> Problem with special characters in dired and attachment paths (<a href="https://orgmode.org/list/trinity-9f59bf80-9eb3-489f-a949-544150fc1311-1377099779092@3capp-webde-bs17">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_13">#13</span></span></h3>
+</div>
+<div id="outline-container-org2045a3e" class="outline-3">
+<h3 id="org2045a3e"><span class="todo TODO">TODO</span> Agenda does not restrict to file (<a href="https://orgmode.org/list/CAJcAo8s+RP4S0hVn6n5VczU-UJNyyKF_vdbKj8Z+bECF1PcgSA@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_11">#11</span></span></h3>
+</div>
+<div id="outline-container-orgff3c9b2" class="outline-3">
+<h3 id="orgff3c9b2"><span class="todo DELEGATED">DELEGATED</span> Three bugs/misfeatures in org-reveal (<a href="https://orgmode.org/list/CAJcAo8uBKSJgr22K=oYZKeBRFvTtjHL42fKHD_PE1W2rCOyMqA@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_10">#10</span></span></h3>
+<div class="outline-text-3" id="text-orgff3c9b2">
+<ul class="org-ul">
+<li>State &ldquo;DELEGATED&rdquo;  from &ldquo;TODO&rdquo;       <span class="timestamp-wrapper"><span class="timestamp">[2015-01-31 Sat 13:07] </span></span> <br />
+Delegated to ngz</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4f4748a" class="outline-3">
+<h3 id="org4f4748a"><span class="todo TODO">TODO</span> Restriction lock ignored in indirect buffer (<a href="https://orgmode.org/list/CAJcAo8sxRni4BtEeZYJRZUD6XxCgZh3tQ0ZatDJA=XXwAexuKQ@mail.gmail.com/">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_9">#9</span></span></h3>
+</div>
+<div id="outline-container-orge48112f" class="outline-3">
+<h3 id="orge48112f"><span class="todo TODO">TODO</span> Restruct <code>org-create-formula-image</code> function (<a href="https://orgmode.org/list/CAJpRBmcqRE=dYJOj7aNARK9y4PQc_748E_ktOgs6pGrTQQL7mw@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_8">#8</span></span></h3>
+</div>
+<div id="outline-container-orgae79368" class="outline-3">
+<h3 id="orgae79368"><span class="todo TODO">TODO</span> Agenda Search and <code>org-agenda-text-search-extra-files</code> (<a href="https://orgmode.org/list/51EAAED5.4090500@mkblog.org">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_7">#7</span></span></h3>
+</div>
+<div id="outline-container-orge0abc9f" class="outline-3">
+<h3 id="orge0abc9f"><span class="todo TODO">TODO</span> Ido org-refile results in misfiling (<a href="https://orgmode.org/list/CAJcAo8u2pQcA3GLO8wFE6j0FYcqt+FEyYrOfHYvmUCdoFi6HSg@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_6">#6</span></span></h3>
+</div>
+<div id="outline-container-org1d962fc" class="outline-3">
+<h3 id="org1d962fc"><span class="todo TODO">TODO</span> Can org regenerate the cache automatically (<a href="https://orgmode.org/list/CAJcAo8sVQDjbE5sdn0PTzQ9edgNkCBOpE+joD=vekscB8yhjJQ@mail.gmail.com/">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_4">#4</span></span></h3>
+</div>
+<div id="outline-container-org4cf2a23" class="outline-3">
+<h3 id="org4cf2a23"><span class="todo TODO">TODO</span> How to refile without refiling in order to cache a restricted refile? (<a href="https://orgmode.org/list/CAJcAo8uzE5MkGMOQ+=DV5Oq7vMBypW61MtsYP4Az2_kRvP2wbw@mail.gmail.com">report</a>)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="_3">#3</span></span></h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Carsten Dominik</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

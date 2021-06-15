@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-eshell.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* warning */
+        color: #e2c770;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-babel-eshell
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">stardiviner
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">numbchild at gmail dot com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Motivation
+</span>
+Eshell is Emacs built-in powerful shell. Combine Eshell with Org-mode Babel is great!
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Simple execution
+</span>
+<span class="org-block-begin-line">#+begin_src eshell
+</span><span class="org-block">(setq hello-world </span><span class="org-block"><span class="string">"hello, world"</span></span><span class="org-block">)
+echo $hello-world
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+RESULTS[&lt;2018-04-22 09:52:01&gt; d1708dc4cf0532b5fb254837e3e313a76fe0f02c]:</span>
+<span class="org-code">: hello, world
+</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support variables assignment
+</span>
+<span class="org-block-begin-line">#+begin_src eshell :var name="stardiviner"
+</span><span class="org-block">echo </span><span class="org-block"><span class="string">"hello, "</span></span><span class="org-block"> $name
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+RESULTS[&lt;2018-04-22 10:03:51&gt; d49eeac7c268b4cc02d8670a54f6b34084359c9d]:</span>
+<span class="org-code">: ("hello, " "stardiviner")
+</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Support session
+</span>
+<span class="org-block-begin-line">#+begin_src eshell :session *kk*
+</span><span class="org-block">(setq hello-world </span><span class="org-block"><span class="string">"hello, world"</span></span><span class="org-block">)
+(setq hello-stardiviner </span><span class="org-block"><span class="string">"hello, stardiviner"</span></span><span class="org-block">)
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+RESULTS[&lt;2018-04-22 10:08:31&gt; 5dd0a2ab05c6100510e599eb8cc321d952f7f0a4]:</span>
+<span class="org-code">: hello, stardiviner
+</span>
+<span class="org-block-begin-line">#+begin_src eshell :session *kk*
+</span><span class="org-block">echo $hello-world
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+RESULTS[&lt;2018-04-22 10:13:18&gt; 1bfdc81da0834b97295ddd7ed57fd78c9bb5c8f1]:</span>
+<span class="org-code">: hello, world
+</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Source code
+</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">ob-eshell.el --- Babel Functions for Eshell            -*- lexical-binding: t; -*-
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Copyright (C) 2009-2018 Free Software Foundation, Inc.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Author: stardiviner <a href="mailto:numbchild%40gmail.com">&lt;numbchild@gmail.com&gt;</a>
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Keywords: literate programming, reproducible research
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Homepage: <a href="https://orgmode.org">https://orgmode.org</a>
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">This file is part of GNU Emacs.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">GNU Emacs is free software: you can redistribute it and/or modify
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">it under the terms of the GNU General Public License as published by
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">the Free Software Foundation, either version 3 of the License, or
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(at your option) any later version.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">GNU Emacs is distributed in the hope that it will be useful,
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">GNU General Public License for more details.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">You should have received a copy of the GNU General Public License
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">along with GNU Emacs.  If not, see <a href="https://www.gnu.org/licenses/">&lt;https://www.gnu.org/licenses/&gt;</a>.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Commentary:
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Org Babel support for evaluating Eshell source code.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Code:
+</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">ob</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">eshell</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defvar</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-babel-default-header-args:eshell</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-babel-execute:eshell</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">body params</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Execute a block of Eshell code BODY with PARAMS.
+This function is called by `</span></span><span class="org-block"><span class="doc"><span class="constant">org-babel-execute-src-block</span></span></span><span class="org-block"><span class="doc">'.
+
+The BODY can be any code which allowed executed in Eshell.
+Eshell allow to execute normal shell command and Elisp code.
+More details please reference Eshell Info.
+
+The PARAMS are variables assignments."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">session </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-babel-eshell-initiate-session
+</span><span class="whitespace-tab">                </span><span class="org-block">   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">assq</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:session</span></span><span class="org-block"> params</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">full-body </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-babel-expand-body:generic</span></span><span class="org-block">
+</span><span class="whitespace-tab">                </span><span class="org-block">     body params </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-babel-variable-assignments:eshell params</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> session
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> session
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">dolist</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">line </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">split-string</span></span><span class="org-block"> full-body </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">eshell-last-output-end</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> line</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">eshell-send-input</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">get output of last input
+</span></span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="bold"><span class="warning">TODO:</span></span></span><span class="org-block"><span class="comment"> collect all output instead of last command's output.
+</span></span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">eshell-last-input-end</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">buffer-substring-no-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">point</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">eshell-last-output-start</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">eshell-command</span></span><span class="org-block"> full-body t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">buffer-string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-babel-prep-session:eshell</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">session params</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Prepare SESSION according to the header arguments specified in PARAMS."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">session </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-babel-eshell-initiate-session session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Eshell session buffer is read from variable `</span></span><span class="org-block"><span class="comment"><span class="constant">eshell-buffer-name</span></span></span><span class="org-block"><span class="comment">'.
+</span></span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">eshell-buffer-name</span></span><span class="org-block"> session</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">var-lines </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-babel-variable-assignments:eshell params</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">call-interactively</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">eshell</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-3"><span class="org-tag">)</span></span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapc</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">eshell-command</span></span></span><span class="org-block"> var-lines</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">ob-eshell-session-live-p</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Non-nil if Eshell SESSION exists."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">get-buffer</span></span><span class="org-block"> session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-babel-eshell-initiate-session</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> session params</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Initiate a session named SESSION according to PARAMS."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> session </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> session </span><span class="org-block"><span class="string">"none"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">save-window-excursion</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">ob-eshell-session-live-p session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">progn</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">eshell-buffer-name</span></span><span class="org-block"> session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">eshell</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">get-buffer</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">current-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    session</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-babel-variable-assignments:eshell</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">params</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Convert ob-eshell :var specified variables into Eshell variables assignments."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">pair</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+     </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"(setq %s %S)"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> pair</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> pair</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-babel--get-vars</span></span><span class="org-block"> params</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-babel-load-session:eshell</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">session body params</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Load BODY into SESSION with PARAMS."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">save-window-excursion</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">buffer </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-babel-prep-session:eshell session params</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> buffer
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-babel-chomp</span></span><span class="org-block"> body</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+      buffer</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">provide</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">ob-eshell</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">ob-eshell.el ends here
+</span></span><span class="org-block-end-line">#+end_src
+</span></pre>
+  </body>
+</html>

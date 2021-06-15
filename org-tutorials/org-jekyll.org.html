@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-jekyll.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .css-property {
+        /* css-property */
+        color: #eb4509;
+      }
+      .css-selector {
+        /* css-selector */
+        color: #b6e63e;
+      }
+      .custom {
+        /* (:background "#c0c0c0" :foreground "black" :box (:line-width -1)) */
+        color: #000000;
+        background-color: #c0c0c0;
+      }
+      .custom-1 {
+        /* (:background "#0000ff" :foreground "white" :box (:line-width -1)) */
+        color: #ffffff;
+        background-color: #0000ff;
+      }
+      .custom-2 {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .regexp-grouping-backslash {
+        /* font-lock-regexp-grouping-backslash */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .regexp-grouping-construct {
+        /* font-lock-regexp-grouping-construct */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* font-lock-warning-face */
+        color: #e2c770;
+      }
+      .warning-1 {
+        /* warning */
+        color: #e2c770;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Using org to Blog with Jekyll
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Ian Barton.
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">ian@manor-farm.org
+</span><span class="org-meta-line">#+LANGUAGE: en</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:nil -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    hidestars</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span><span class="kc-org-link-url"><a href="http://wiki.github.com/mojombo/jekyll">Jekyll</a></span> is a static web site generator written in Ruby. It can
+transform various text markups, using a templating language, into
+static html. The resulting site can be served by almost any web server
+without requiring additional components such as php. Jekyll is the
+tool used to produce Github's pages.
+
+This article discusses how to produce both a static site and a blog
+using Jekyll and org. Rather than writing a markup processor for org
+files, I have relied on org's html export features to generate files
+that can be processed by Jekyll.
+
+Org already has an excellent html export engine. However, it lacks
+built in support for blogging. Using Jekyll also gives more control
+over the final appearance of your site.
+
+Publishing your site with org and Jekyll involves three steps:
+
+<span class="org-list-dt">1)</span> write your page content using org.
+
+<span class="org-list-dt">2)</span> use org to export your pages to html in the Jekyll project directory.
+
+<span class="org-list-dt">3)</span> run Jekyll to convert your html pages exported from org into your
+  final site.
+
+By default Jekyll produces its output in the <span class="org-verbatim">_site</span> directory of
+Jekyll's working directory. This is a self contained version of your
+site, which can be deployed to your web server. The files in <span class="org-verbatim">_site</span> are
+completely self contained, so all you need to do is to copy them to
+your web server. Methods include using ftp, rsync or a git post commit
+hook. You can configure where Jekyll puts its published files in
+<span class="org-verbatim">_config.yml</span>.
+
+Essentially, I am using org to produce everything between the <span class="org-verbatim">&lt;body&gt;</span>
+tags on the page and Jekyll to produce the rest. Note that you can
+easily embed html content in your org pages using the <span class="org-verbatim">+BEGIN_EXPORT html</span> tag.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Install Jekyll
+</span>
+Installation is described at the <span class="kc-org-link-url"><a href="http://github.com/mojombo/jekyll">Jekyll</a></span> web site.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Project Directory Structure
+</span>Jekyll expects a certain directory structure. In the example below my
+Jekyll project is in a directory called <span class="org-verbatim">jekyll</span>. Blog posts are in
+<span class="org-verbatim">_posts</span> and the layout templates in <span class="org-verbatim">_layouts</span>. The <span class="org-verbatim">_includes</span>
+directory is for files containing code you want to include in other
+pages e.g. a header or sidebar.
+
+The file <span class="org-verbatim">_config.yml</span> is a YAML file that contains Jekyll's
+configuration for the site.
+
+In addition to the <span class="org-verbatim">_posts</span> directory you can create other directories
+to hold different non blog parts of your site.
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom-2">'|myproject
+'|   |org
+'|      |_posts
+'|      |-- 2009-11-26-my-first-post.org
+'|   |index.org
+'|   |jekyll
+'|   -- _config.yml
+'|   -- _layouts
+'|      |-- default.html
+'|      `-- post.html
+'|   -- _posts
+'|      |-- 2009-11-26-my-first-post.html
+'|
+'|   -- |_site
+'|   -- |_includes
+`    -- index.html
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+You should setup the directory structure of your org files to mirror
+that of the Jekyll project. Then when you export your org files as
+html the files will end up in the correct place in your Jekyll
+project. I usually place the directory containing my org files in the
+directory about the Jekyll project directory to make sure that Jekyll
+doesn't consider .org files to be part of its project.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Configuring org html Export
+</span>The fundamentals of publishing html are described in the
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">HTML publishing tutorial</a></span> on worg. I am
+assuming that you have a basic working org publishing setup. By
+default org produces complete web pages. However, as I am using Jekyll
+I am only really interested in the section of the page between the
+<span class="org-verbatim">&lt;body&gt;</span> tags, as Jekyll produces the rest. Most things in org are
+configurable and it's possible to tell org to export only the bits of
+the page between the <span class="org-verbatim">&lt;body&gt;</span> tags. Here is the relevant section of my
+<span class="org-verbatim">.emacs</span> file:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-publish-project-alist</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"org-ianbarton"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Path to your org files.
+</span></span><span class="org-block">          </span><span class="org-block"><span class="builtin">:base-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/devel/ianbarton/org/"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:base-extension</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org"</span></span><span class="org-block">
+
+          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Path to your Jekyll project.
+</span></span><span class="org-block">          </span><span class="org-block"><span class="builtin">:publishing-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/devel/ianbarton/jekyll/"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:recursive</span></span><span class="org-block"> t
+          </span><span class="org-block"><span class="builtin">:publishing-function</span></span><span class="org-block"> org-publish-org-to-html
+          </span><span class="org-block"><span class="builtin">:headline-levels</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">4</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:html-extension</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"html"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:body-only</span></span><span class="org-block"> t </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Only export section between &lt;body&gt; &lt;/body&gt;
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"org-static-ian"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:base-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/devel/ianbarton/org/"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:base-extension</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"css</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">js</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">png</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">jpg</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">gif</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">pdf</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">mp3</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">ogg</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">swf</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">php"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:publishing-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/devel/ianbarton/"</span></span><span class="org-block">
+          </span><span class="org-block"><span class="builtin">:recursive</span></span><span class="org-block"> t
+          </span><span class="org-block"><span class="builtin">:publishing-function</span></span><span class="org-block"> org-publish-attachment</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"ian"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:components</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="string">"org-ianbarton"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"org-static-ian"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+To export my site I just run <span class="org-verbatim">C-c e X ian</span>.
+
+You need to set the destination of your exported files to your Jekyll
+project directory. Assuming you have set up your org directory
+structure to mirror that of your Jekyll project everything should end
+up in the correct place.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Creating an org File to be Published with Jekyll
+</span>When you run Jekyll it processes the source files for your site and
+any files with YAML Front Matter are subject to special processing. The
+Front Matter is used to tell Jekyll how to format your page.
+
+Bear in mind that Jekyll doesn't process your <span class="org-verbatim">.org</span> files, but the
+<span class="org-verbatim">.html</span> files produced by exporting. So when writing an org file it
+should be formatted in such a way that when exported it produces html
+suitable for processing by Jekyll.
+
+YAML Front Matter must be the first thing in the file, with
+no blank lines above the Front Matter Section. A typical Front Matter
+Section would look like:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-2">---
+layout: default
+title: My Page Title.
+---
+</span><span class="org-block-end-line">#+end_example
+</span>
+So you should ensure that any Front Matter directives come first in
+your org file.
+
+Note that the three hyphens <span class="org-verbatim">---</span> are part of the markup and are
+required. The layout tag tells Jekyll which layout from its <span class="org-verbatim">_layouts</span>
+directory should be used to format your page. You can include any
+other keys in the Front Matter section (e.g. <span class="org-verbatim">title:</span>), which you can use
+in your page. See the Jekyll <span class="kc-org-link-url"><a href="http://wiki.github.com/mojombo/jekyll/yaml-front-matter">wiki</a></span> for more details on Front Matter.
+
+Below is a short extract from one of my org files showing my setup:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE org
+</span><span class="org-block"><span class="org-meta-line">#+STARTUP: showall indent</span></span><span class="org-block">
+</span><span class="org-block"><span class="org-meta-line">#+STARTUP: hidestars</span></span><span class="org-block">
+</span><span class="org-block"><span class="org-block-begin-line">#+BEGIN_EXPORT html
+</span></span><span class="org-block"><span class="org-block">---
+layout: default
+title: Benighted on the Ben.
+excerpt: An unplanned bivouac on Ben Nevis.
+---
+</span></span><span class="org-block"><span class="org-block-end-line">#+END_EXPORT
+</span></span><span class="org-block">It was early January when six of us travelled up to ....
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+The Front Matter section is wrapped in <span class="org-verbatim">#+BEGIN_EXPORT html</span> so it is exported
+literally to the final html file. You may need to upgrade your org
+version as older versions produced two blank lines before the Front
+Matter section when exported. You can define your own Front Matter keys and use
+them within your generated page. In the above example I use the
+"excerpt" key to display "teasers" for a blog post.
+
+Note that the current git version of org removes the first <span class="org-verbatim">---</span> if the
+directory containing the file start with an underscore. The workaround
+is to start your file with <span class="org-verbatim">---</span> in both the first two lines.
+
+Carsten has also provided two hooks that are run after exporting is
+complete, which can also be used to tidy up the output:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">org-export-html-final-hook      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">always</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+org-publish-after-export-hook   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> going through org-publish</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Once you have exported your org project to html it's simply a matter
+of running jekyll to produce the final output. By default Jekyll puts
+its output in the <span class="org-verbatim">_site</span> directory of your project, but you can
+customize this in your <span class="org-verbatim">_config.yml</span> file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Blogging with Jekyll and Org
+</span>
+Jekyll has built-in support for blogging. Anything you place in the
+<span class="org-verbatim">_posts</span> directory of your Jekyll project is considered as a blog
+post. However, the file names of your posts must adhere to the
+following format:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom-2">yyyy-mm-dd-post_name.html
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+To write a post just create a new file with the correct filename in
+your <span class="org-verbatim">org/_posts</span> directory. You may find that Yasnippet is useful for
+inserting Front Matter and other directives in your org file. When you
+have finished just run <span class="org-verbatim">C-c e X</span> project_name to export your org project
+as html and then run jekyll to generate your site.
+
+You can use Jekyll's <span class="kc-org-link-url"><a href="http://wiki.github.com/mojombo/jekyll/template-data">template</a></span> markup to decide how your blog posts are
+displayed. On the Jekyll <span class="kc-org-link-url"><a href="http://wiki.github.com/mojombo/jekyll/sites">sites</a></span> page there are many sites with source
+listed, so you can study how other people use the markup to create
+their blog. You can also view my site <span class="kc-org-link-url"><a href="http://www.ian-barton.com">http://www.ian-barton.com</a></span> and
+see a snapshot of the source at
+<span class="kc-org-link-url"><a href="http://github.com/geekinthesticks/ianbarton">http://github.com/geekinthesticks/ianbarton</a></span>.
+
+You can assign categories to your posts either by placing posts inside
+folders like:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom-2">_posts/org/jekyll/howto.html
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+This would assign your post to the <span class="italic">org</span> and <span class="italic">jekyll</span> categories.
+
+or by using YAML markup in your org file:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom-2">categories:
+    </span><span class="org-list-dt"><span class="custom-2">-</span></span><span class="custom-2"> org
+    </span><span class="org-list-dt"><span class="custom-2">-</span></span><span class="custom-2"> linux
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Showing Blog Posts on the Front Page
+</span>Most blogs show the latest posts on their front page. The example
+below shows the title and an excerpt for the five latest posts:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">ul</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"posts"</span></span><span class="org-block">&gt;
+{% for post in site.posts limit: 5 %}
+  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"post_info"</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">li</span></span><span class="org-block">&gt;
+</span><span class="whitespace-tab">        </span><span class="org-block">    &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"{{ post.url }}"</span></span><span class="org-block">&gt;{{ post.title }}&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+</span><span class="whitespace-tab">        </span><span class="org-block">    &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;({{ post.date | date:"</span><span class="org-block"><span class="variable-name">%Y-%m-%d</span></span><span class="org-block">" }})&lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">li</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">br</span></span><span class="org-block">&gt; &lt;</span><span class="org-block"><span class="function-name">em</span></span><span class="org-block">&gt;</span><span class="org-block"><span class="italic">{{ post.excerpt }} </span></span><span class="org-block">&lt;/</span><span class="org-block"><span class="function-name">em</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+  {% endfor %}
+&lt;/</span><span class="org-block"><span class="function-name">ul</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Creating Archive Pages
+</span>You will probably only want to display a limited number of blog posts
+on your front page. However, you will also want to make older pages
+available. You can create a simple list of all blog posts using the
+following markup:
+
+<span class="org-block-begin-line">#+begin_example html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">ul</span></span><span class="org-block">&gt;
+  {% for post in site.posts %}
+  &lt;</span><span class="org-block"><span class="function-name">li</span></span><span class="org-block">&gt;
+    &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"{{ post.url }}"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">title</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"{{ post.title }}"</span></span><span class="org-block">&gt;
+      &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"date"</span></span><span class="org-block">&gt;
+        &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"day"</span></span><span class="org-block">&gt;{{ post.date | date: '</span><span class="org-block"><span class="variable-name">%d</span></span><span class="org-block">' }}&lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+        &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"month"</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">abbr</span></span><span class="org-block">&gt;{{ post.date | date: '</span><span class="org-block"><span class="variable-name">%b</span></span><span class="org-block">' }}&lt;/</span><span class="org-block"><span class="function-name">abbr</span></span><span class="org-block">&gt;&lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+        &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"year"</span></span><span class="org-block">&gt;{{ post.date | date: '</span><span class="org-block"><span class="variable-name">%Y</span></span><span class="org-block">' }}&lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+      &lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+      &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"title"</span></span><span class="org-block">&gt;{{ post.title }}&lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+    &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">li</span></span><span class="org-block">&gt;
+  {% endfor %}
+&lt;/</span><span class="org-block"><span class="function-name">ul</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Inserting Image
+</span>You will probably want to insert some images into your blog posts. I
+use the following method:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> src =</span><span class="org-block"><span class="string">"/images/skiddaw.jpg"</span></span><span class="org-block">
+</span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"John and Ella on Skiddaw"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">align</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"left"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">width</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"300"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">height</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"250"</span></span><span class="org-block">
+</span><span class="org-block"><span class="variable-name">title</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"John and Ella on Skiddaw"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"img"</span></span><span class="org-block">&lt;/</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+Note that the class attribute refers to the class used to style the
+image tag in your css. My css contains:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE css
+</span><span class="org-block"><span class="css-selector">img </span></span><span class="org-block">{
+    </span><span class="org-block"><span class="css-property">margin</span></span><span class="org-block">: 15px;
+    </span><span class="org-block"><span class="css-property">border</span></span><span class="org-block">: 1px solid </span><span class="org-block"><span class="custom-1">blue</span></span><span class="org-block">;
+}
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+Note that if you wish to have some space between your image and the
+text, using padding in your css doesn't seem to work. I use margin,
+which gives the same effect.
+
+Whilst this works, it won't display captions for your
+images. Unfortunately, after years of development xhtml doesn't seem
+to provide an easy way to display image captions. I decided to use the
+method described <span class="kc-org-link-url"><a href="http://www.w3.org/Style/Examples/007/figures">here</a></span>. An example from of floating a picture to the
+right of the text is shown below.
+
+In your <span class="org-verbatim">.org</span> file use the following html to embed the picture:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">class</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"photofloatr"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;&lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"myphoto.jpg"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">width</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"300"</span></span><span class="org-block">
+    </span><span class="org-block"><span class="variable-name">height</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"150"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">alt</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"My Mug Shot"</span></span><span class="org-block">&gt;&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;A photo of me&lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+&lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+Now you need to add some information to your style sheet:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE css
+</span><span class="org-block"><span class="css-selector">div.photofloatr </span></span><span class="org-block">{
+    </span><span class="org-block"><span class="css-property">float</span></span><span class="org-block">: right;
+    </span><span class="org-block"><span class="css-property">border</span></span><span class="org-block">: thin </span><span class="org-block"><span class="custom">silver</span></span><span class="org-block"> solid;
+    </span><span class="org-block"><span class="css-property">margin</span></span><span class="org-block">: 0.5em;
+    </span><span class="org-block"><span class="css-property">padding</span></span><span class="org-block">: 0.5em;
+}
+
+</span><span class="org-block"><span class="css-selector">div.photofloatr p </span></span><span class="org-block">{
+  </span><span class="org-block"><span class="css-property">text-align</span></span><span class="org-block">: center;
+  </span><span class="org-block"><span class="css-property">font-style</span></span><span class="org-block">: italic;
+  </span><span class="org-block"><span class="css-property">font-size</span></span><span class="org-block">: smaller;
+  </span><span class="org-block"><span class="css-property">text-indent</span></span><span class="org-block">: </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">;
+}
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+A third method, which I haven't tried myself, is to use the <span class="italic">jQuery EXIF</span>
+plugin to extract the caption from the image EXIF data and use
+Javascript to display it. See <span class="kc-org-link-url"><a href="http://www.nihilogic.dk/labs/exif/">here</a></span> for more details.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using Text Markup in Front Matte
+</span>By default text in the Front Matter part of your file isn't processed
+by Jekyll's markup engine. However, you can use the Textilize filter
+to convert your Front Matter string into HTML, formatted using textile
+markup.
+
+I use this to format my page excerpts, which I include in my org files
+Front Matter markup. So in my sites index.html I have:
+
+<span class="org-block-begin-line">#+begin_example html
+</span><span class="org-block">&lt;</span><span class="org-block"><span class="function-name">li</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"{{ post.url }}"</span></span><span class="org-block">&gt;{{ post.title }}&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;({{ post.date | date:"</span><span class="org-block"><span class="variable-name">%Y-%m-%d</span></span><span class="org-block">" }})&lt;/</span><span class="org-block"><span class="function-name">span</span></span><span class="org-block">&gt;
+&lt;/</span><span class="org-block"><span class="function-name">li</span></span><span class="org-block">&gt;
+&lt;/</span><span class="org-block"><span class="function-name">br</span></span><span class="org-block">&gt;
+&lt;</span><span class="org-block"><span class="function-name">em</span></span><span class="org-block">&gt;</span><span class="org-block"><span class="italic">{{ post.excerpt | textilize}}</span></span><span class="org-block">&lt;/</span><span class="org-block"><span class="function-name">em</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_example
+</span>
+This lets me use textile markup in my page excerpts, which are defined
+in my page's YAML Front Matter section.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Version Control with Jekyl
+</span>Jekyll is amenable to using version control systems. If you follow my
+suggested directory structure you can create a git repo to your top
+level directory. You can then create a post-commit script that runs
+the org html export and then runs Jekyll to generate your site.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> HappyBlogger's Jekyll Modification
+</span>Bj&#248;rn Arild M&#230;land has created some modifications to Jekyll to
+provide some pre-processing to org files to allow for better
+integration with Jekyll. You can find his code on <span class="kc-org-link-url"><a href="http://github.com/bmaland/happyblogger">github</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Another example of Org-mode/Jekyll usage
+</span>The on-line documentation for <span class="org-link"><a href="file:../org-contrib/babel/index.org">Org-babel</a></span> development is published on
+<span class="kc-org-link-url"><a href="http://github.com">github</a></span> which uses jekyll.  The following code is used to publish one
+blog post for every subheading of the first to top-level headings of a
+org file which tracks Org-babel development.  The results can be seen
+<span class="kc-org-link-url"><a href="http://eschulte.github.io/babel-dev/">here</a></span>, and the code used to create this site is available <span class="kc-org-link-url"><a href="http://github.com/eschulte/babel-dev/">here</a></span>.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+    </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">map over all tasks entries
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">dev-file </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="string">"development.org"</span></span><span class="org-block">
+                     </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">file-name-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">buffer-file-name</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">posts-dir </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="string">"_posts"</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">file-name-directory</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">buffer-file-name</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">yaml-front-matter </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"layout"</span></span><span class="org-block"> . </span><span class="org-block"><span class="string">"default"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">go through both the tasks and bugs
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapc</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">top-level</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">find-file</span></span><span class="org-block"> dev-file</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">outline-next-visible-heading</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-map-tree</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">()</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">props </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-entry-properties</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">todo </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">assoc</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning-1">TODO</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"> props</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">time </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">assoc</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"TIMESTAMP_IA"</span></span><span class="org-block"> props</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">each task with a state and timestamp can be exported as a
+</span></span><span class="org-block">              </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">jekyll blog post
+</span></span><span class="org-block">              </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> todo time</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"time=%s"</span></span><span class="org-block"> time</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">heading </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-get-heading</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">title </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">replace-regexp-in-string</span></span><span class="org-block">
+                               </span><span class="org-block"><span class="string">"[:=</span></span><span class="org-block"><span class="string"><span class="warning">\</span></span></span><span class="org-block"><span class="string">(</span></span><span class="org-block"><span class="string"><span class="warning">\</span></span></span><span class="org-block"><span class="string">)</span></span><span class="org-block"><span class="string"><span class="warning">\</span></span></span><span class="org-block"><span class="string">?]"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+                               </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">replace-regexp-in-string</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="string">"[ \t]"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"-"</span></span><span class="org-block"> heading</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">str-time </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">[[:digit:]</span></span><span class="org-block"><span class="string"><span class="warning">\</span></span></span><span class="org-block"><span class="string">-]+</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string"> "</span></span><span class="org-block"> time</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">match-string</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> time</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">to-file </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s-%s.html"</span></span><span class="org-block"> str-time title</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-buffer </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">current-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                       </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">yaml-front-matter </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"title"</span></span><span class="org-block"> heading</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> yaml-front-matter</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                       html</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-narrow-to-subtree</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> html </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-export-as-html nil nil nil </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">string</span></span><span class="org-block"> t nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">set-buffer</span></span><span class="org-block"> org-buffer</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">widen</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">with-temp-file</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">expand-file-name</span></span><span class="org-block"> to-file posts-dir</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> yaml-front-matter
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"---\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapc</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">pair</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s: %s\n"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> pair</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> pair</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                            yaml-front-matter</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"---\n\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> html</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">get-buffer</span></span><span class="org-block"> org-buffer</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+       </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Other Blog Solutions for org
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Blorgit
+</span><span class="kc-org-link-url"><a href="https://orgmode.org/worg/blorgit.html">Blorgit</a></span> uses org mode for markup and runs on the Sinatra mini
+framework. It is amenable to using git for posting and maintenance.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> ikiwiki
+</span><span class="kc-org-link-url"><a href="http://ikiwiki.info/">ikiwiki</a></span> is a web site compiler written in Perl. In many ways it is
+similar to Jekyll, but has closer integration with version control
+systems. It supports blogging and has many plugins.
+
+There is an org mode plugin by <span class="kc-org-link-url"><a href="http://www.golden-gryphon.com/blog/manoj/blog/2008/06/08/Using_org-mode_with_Ikiwiki/">Manoj</a></span>, which lets you write your posts in org
+and converts them to html suitable for processing by ikiwiki.
+</pre>
+  </body>
+</html>

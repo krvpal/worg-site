@@ -1,0 +1,86 @@
+# Created 2021-06-15 Tue 18:20
+#+OPTIONS: H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: =Ditaa= Source Code Blocks in Org Mode
+#+AUTHOR: Thomas Dye
+#+startup: align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+language: en
+#+html_link_up: index.html
+#+html_link_home: https://orgmode.org/worg/
+#+exclude_tags: noexport
+
+* Introduction
+=Ditaa= is a command-line utility that converts diagrams drawn using
+ASCII art into bitmap graphics.
+* Requirements and Setup
+=Ditaa= is distributed with =Org mode=. The file =ditaa.jar= can be found
+in =contrib/scripts=.
+
+Activate evaluation of =ditaa= source code blocks by adding =ditaa= to
+=org-babel-load-languages=.
+
+#+begin_src emacs-lisp
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((ditaa . t))) ; this line activates ditaa
+#+end_src
+
+* Org Mode Features for =ditaa= Source Code Blocks
+** Header Arguments
+- file :: =ditaa= source code blocks require that an output file
+     be specified.
+- cmdline :: specify [[http://ditaa.sourceforge.net/#usage][command line arguments]] for =ditaa=
+- java :: arguments for the =java= runtimes (JRE)
+** Sessions
+=ditaa= does not support sessions.
+** Result Types
+=Ditaa= source code blocks return a link to a [[http://www.libpng.org/pub/png/][png]] bitmap file.
+* Examples of Use
+The obligatory Hello World! example in =ditaa=:
+#+begin_example
+,#+BEGIN_SRC ditaa :file images/hello-world.png
++--------------+
+|              |
+| Hello World! |
+|              |
++--------------+
+,#+END_SRC
+#+end_example
+
+#+header: :exports results
+#+begin_src ditaa :file images/hello-world.png
++--------------+
+|              |
+| Hello World! |
+|              |
++--------------+
+#+end_src
+
+#+results: 
+[[file:images/hello-world.png]]
+
+Now, round all corners by passing =ditaa= the =-r,--round-corners=
+command line switch.
+
+#+begin_example
+,#+BEGIN_SRC ditaa :file images/hello-world-round.png :cmdline -r
++--------------+
+|              |
+| Hello World! |
+|              |
++--------------+
+,#+END_SRC
+#+end_example
+
+#+header: :exports results
+#+begin_src ditaa :file images/hello-world-round.png :cmdline -r
++--------------+
+|              |
+| Hello World! |
+|              |
++--------------+
+#+end_src
+
+#+results: 
+[[file:images/hello-world-round.png]]

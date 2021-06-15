@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org Merge Driver</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org Merge Driver</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgac31f79">Introduction</a></li>
+<li><a href="#orgdafe785">Obtaining the source code</a></li>
+<li><a href="#org5c37024">Compiling</a></li>
+<li><a href="#org1604c94">Quick Start</a>
+<ul>
+<li><a href="#org7bb0328">Using and Installation</a></li>
+<li><a href="#orgc5eab55">Git users:</a></li>
+<li><a href="#orgaa6933f">Bazaar users:</a></li>
+<li><a href="#org3b7ebeb">Mercurial users:</a></li>
+</ul>
+</li>
+<li><a href="#org9eb5ffc">Options</a>
+<ul>
+<li><a href="#orgdebfc91">&ldquo;TODO&rdquo; States</a></li>
+<li><a href="#org4ee6e62">Priority Cookies</a></li>
+<li><a href="#org43e9ef9">Right Margin</a></li>
+<li><a href="#org1766d5f">Specify Input and Out Files</a></li>
+</ul>
+</li>
+<li><a href="#org76103ed">Dependencies</a>
+<ul>
+<li><a href="#org3213d1c">To obtain Gnulib:</a></li>
+<li><a href="#org38cb823">Reimporting gnulib-tool dependencies</a></li>
+<li><a href="#orge9bc67c">Compiling</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgac31f79" class="outline-2">
+<h2 id="orgac31f79">Introduction</h2>
+<div class="outline-text-2" id="text-orgac31f79">
+<p>
+This is Org Merge Driver, a program for merging changes to Org mode
+files.
+</p>
+
+<p>
+This project is currently being developed under Google Summer of Code
+2012 for the Gnu organization.
+</p>
+
+<ul class="org-ul">
+<li>The project page can be found <a href="https://orgmode.org/worg/org-contrib/gsoc2012/student-projects/git-merge-tool/index.html">here</a>.</li>
+<li>The homepage of Org-mode is <a href="https://orgmode.org">here</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgdafe785" class="outline-2">
+<h2 id="orgdafe785">Obtaining the source code</h2>
+<div class="outline-text-2" id="text-orgdafe785">
+<p>
+The source code may be obtained from the GIT repository hosted at
+Orgmode.org.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #66d9ef;">git</span> clone https://code.orgmode.org/bzg/org-merge-driver
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5c37024" class="outline-2">
+<h2 id="org5c37024">Compiling</h2>
+<div class="outline-text-2" id="text-org5c37024">
+<p>
+Compiling this program requires that you have autotools installed. To
+compile this program, you should only have to run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">autoreconf --install &amp;&amp; ./configure &amp;&amp; <span style="color: #66d9ef;">make</span>
+</pre>
+</div>
+
+<p>
+If this fails because of missing dependencies, please see <a href="#org76103ed">dependencies</a>
+below.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1604c94" class="outline-2">
+<h2 id="org1604c94">Quick Start</h2>
+<div class="outline-text-2" id="text-org1604c94">
+</div>
+<div id="outline-container-org7bb0328" class="outline-3">
+<h3 id="org7bb0328">Using and Installation</h3>
+</div>
+
+<div id="outline-container-orgc5eab55" class="outline-3">
+<h3 id="orgc5eab55">Git users:</h3>
+<div class="outline-text-3" id="text-orgc5eab55">
+<ol class="org-ol">
+<li><p>
+Add to your git configuration located in either
+${GIT_DIR}/.git/config (for repository local configuration) or
+~/.gitconfig (for global configuration) the following lines:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">  <span style="color: #eb4509;">[</span>merge <span style="color: #e2c770;">"merge-orgmode"</span><span style="color: #eb4509;">]</span>
+     name = Org Mode merge driver
+     driver = /usr/local/bin/org-merge-driver -- %O %A %B %A
+</pre>
+</div></li>
+
+<li><p>
+In every work tree you wish to you the org-merge-driver, make a
+.gitattributes file or .git/info/attributes if you don&rsquo;t want to have
+the file committed with the project.  Add the following line to this
+file:
+</p>
+
+<pre class="example">
+   *.org merge=merge-orgmode
+</pre>
+
+<p>
+(See &ldquo;man 5 gitattributes&rdquo; for more info.)
+</p></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgaa6933f" class="outline-3">
+<h3 id="orgaa6933f">Bazaar users:</h3>
+<div class="outline-text-3" id="text-orgaa6933f">
+<ol class="org-ol">
+<li>Install the <a href="http://doc.bazaar.canonical.com/plugins/en/index.html">extmerge bzr plug-in</a></li>
+
+<li><p>
+Add to your ~/.bazaar/bazaar.conf the line
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   external_merge = org-merge-driver -- %b %T %o %T
+</pre>
+</div></li>
+
+<li>Then, to merge a conflict in a ChangeLog file, use</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh">bzr extmerge --all --verbose
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3b7ebeb" class="outline-3">
+<h3 id="org3b7ebeb">Mercurial users:</h3>
+<div class="outline-text-3" id="text-org3b7ebeb">
+<ol class="org-ol">
+<li>Add to your $HOME/.hgrc the lines</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #eb4509;">[</span>merge-patterns<span style="color: #eb4509;">]</span>
+**.org = org-merge-driver
+
+<span style="color: #eb4509;">[</span>merge-tools<span style="color: #eb4509;">]</span>
+org-merge-driver.executable = /usr/local/bin/org-merge-driver
+org-merge-driver.args = -- $<span style="color: #fd971f;">base</span> $<span style="color: #fd971f;">local</span> $<span style="color: #fd971f;">other</span> $<span style="color: #fd971f;">local</span>
+</pre>
+</div>
+
+<p>
+See <a href="http://www.selenic.com/mercurial/hgrc.5.html">Configuration files for Mercurial</a>, section merge-tools for
+reference.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9eb5ffc" class="outline-2">
+<h2 id="org9eb5ffc">Options</h2>
+<div class="outline-text-2" id="text-org9eb5ffc">
+<p>
+This program currently supports the following options:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Short</th>
+<th scope="col" class="org-left">Long</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">-m,</td>
+<td class="org-left">&#x2013;rmargin=COLUMN</td>
+<td class="org-left">Set the right margin of headings</td>
+</tr>
+
+<tr>
+<td class="org-left">-N,</td>
+<td class="org-left">&#x2013;notabs</td>
+<td class="org-left">Use only spaces in the output</td>
+</tr>
+
+<tr>
+<td class="org-left">-p,</td>
+<td class="org-left">&#x2013;priority=PRIORITY</td>
+<td class="org-left">Specify an accepted prority</td>
+</tr>
+
+<tr>
+<td class="org-left">-t,</td>
+<td class="org-left">&#x2013;todo=STATE</td>
+<td class="org-left">Specify an accepted todo state.</td>
+</tr>
+
+<tr>
+<td class="org-left">-T,</td>
+<td class="org-left">&#x2013;usetabs</td>
+<td class="org-left">Use tabs in the output, unused.</td>
+</tr>
+
+<tr>
+<td class="org-left">-W,</td>
+<td class="org-left">&#x2013;tabwidth=WIDTH</td>
+<td class="org-left">The width of tabs in spaces, unused</td>
+</tr>
+
+<tr>
+<td class="org-left">-?,</td>
+<td class="org-left">&#x2013;help</td>
+<td class="org-left">Give this help list</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#x2013;usage</td>
+<td class="org-left">Give a short usage message</td>
+</tr>
+
+<tr>
+<td class="org-left">-V,</td>
+<td class="org-left">&#x2013;version</td>
+<td class="org-left">Print program version</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="outline-container-orgdebfc91" class="outline-3">
+<h3 id="orgdebfc91">&ldquo;TODO&rdquo; States</h3>
+<div class="outline-text-3" id="text-orgdebfc91">
+<p>
+If you have defined TODO states, you can describe them with this
+command. The defaults are set to &ldquo;TODO&rdquo; and &ldquo;DONE&rdquo;. Declaring a single
+todo state causes the default set of todo states to be
+discarded. Because of this, you must declare all TODO states used.
+</p>
+
+<p>
+At this time, Todo states can only be configured on the command line.
+</p>
+
+<pre class="example">
+org-merge-driver -tDONE --todo=TODO
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4ee6e62" class="outline-3">
+<h3 id="org4ee6e62">Priority Cookies</h3>
+<div class="outline-text-3" id="text-org4ee6e62">
+<p>
+If you have defined more priority states system-wide, you can describe
+them with this command. The defaults are set to &rsquo;A&rsquo;, &rsquo;B&rsquo;, and &rsquo;C&rsquo;. You
+must declare all priority states used (all defaults are immediately
+overridden). Currently, priority cookies may only be a single ASCII
+character.
+</p>
+
+<pre class="example">
+org-merge-driver -pA -pB --priority=C
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org43e9ef9" class="outline-3">
+<h3 id="org43e9ef9">Right Margin</h3>
+<div class="outline-text-3" id="text-org43e9ef9">
+<p>
+Org-merge-driver will attempt to minimize reformatting, but it is
+sometimes necessary for org-merge-driver to realign text on the right
+margin of the text. This can happen after merging lists of heading
+TAGS.
+</p>
+
+<p>
+You can set the preferred right margin value (in spaces) with the
+<code>--rmargin=</code> command. If the margin is not large enough to fit a line of
+text, it will extend past the margin. The default margin value is 77
+spaces.
+</p>
+
+<pre class="example">
+org-merge-driver -m77
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1766d5f" class="outline-3">
+<h3 id="org1766d5f">Specify Input and Out Files</h3>
+<div class="outline-text-3" id="text-org1766d5f">
+<p>
+To perform a merge, org-merge-driver requires three files &#x2013; your copy
+of a file, a remotely updated file, and a common ancestor file. These
+are given to org-merge-driver in the order ancestor, local, remote.
+</p>
+
+<p>
+To ensure that the file names are not confused with command line
+options, you can seperate them from the rest of the arguments with <code>--</code>.
+</p>
+
+<p>
+By default, org-merge-driver prints the merged file to stdout.  To
+have the output printed to a file, specify a fourth file on the
+command line.
+</p>
+
+<pre class="example">
+org-merge-driver -- ancestor.org local-update.org remote-update.org output.org
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org76103ed" class="outline-2">
+<h2 id="org76103ed">Dependencies</h2>
+<div class="outline-text-2" id="text-org76103ed">
+<p>
+To compile org-merge-driver, you may need: <a href="http://www.gnu.org/software/gnulib/">Gnulib</a>, <a href="http://flex.sourceforge.net/">Flex</a> (not lex) and
+GNU Autotools installed.  Install Flex and autotools using your
+desired package manager.  To obtain gnulib follow the instructions
+below.
+</p>
+</div>
+
+<div id="outline-container-org3213d1c" class="outline-3">
+<h3 id="org3213d1c">To obtain Gnulib:</h3>
+<div class="outline-text-3" id="text-org3213d1c">
+<p>
+You must obtain Gnulib by it&rsquo;s source code, there is no binary
+distribution.  Through git or cvs:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #66d9ef;">git</span> clone git://git.savannah.gnu.org/gnulib.git
+<span style="color: #696969;"># </span><span style="color: #696969;">or</span>
+cvs -d :pserver:anonymous@pserver.git.sv.gnu.org:/gnulib.git co -d gnulib HEAD
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org38cb823" class="outline-3">
+<h3 id="org38cb823">Reimporting gnulib-tool dependencies</h3>
+<div class="outline-text-3" id="text-org38cb823">
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #66d9ef;">cd</span> $<span style="color: #eb4509;">(</span><span style="color: #9c91e4; font-weight: bold;">top_srcdir</span><span style="color: #eb4509;">)</span>
+/PATH/TO/GNULIB/gnulib-tool --add-import
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge9bc67c" class="outline-3">
+<h3 id="orge9bc67c">Compiling</h3>
+<div class="outline-text-3" id="text-orge9bc67c">
+<p>
+To compile, run:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">autoreconf -i
+./configure &amp;&amp; <span style="color: #66d9ef;">make</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

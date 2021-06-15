@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-mac-mail-link.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* warning */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-mac-mail-link.el -- Create and handle links to the selected Mail.app message
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:Tim Visher</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's contibutions index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Overview
+</span>
+  This code will allow you to capture a TODO item based on the
+  currently selected Mail.app message using <span class="org-verbatim">org-capture</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Installation
+</span>
+  You should simply copy the source code from this document into your
+  init file and edit it as you see fit.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Usage
+</span>
+  Activate <span class="org-verbatim">org-capture</span> however you see fit (<span class="org-verbatim">M-x org-capture</span> works
+  just fine) and then whack the keychord you have set up to activate
+  the capture template.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Code
+</span>
+<span class="org-block-begin-line">  #+begin_src elisp
+</span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Capture template for the currently selected Mail.app message
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mac-mail-link-get-selected-message-subject</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">call-process</span></span><span class="org-block">
+       </span><span class="org-block"><span class="string">"osascript"</span></span><span class="org-block"> nil t nil
+       </span><span class="org-block"><span class="string">"-e"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"tell application \"Mail\" to get subject of item 1 of (selection as list)"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">buffer-substring-no-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">-</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mac-mail-link-get-selected-message-id</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">call-process</span></span><span class="org-block">
+       </span><span class="org-block"><span class="string">"osascript"</span></span><span class="org-block"> nil t nil
+       </span><span class="org-block"><span class="string">"-e"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"tell application \"Mail\" to get message id of item 1 of (selection as list)"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">This additional encoding specifically of =/= is because Mail.app
+</span></span><span class="org-block">      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">claims to be unable to find a message if it's ID contains unencoded
+</span></span><span class="org-block">      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">slashes.
+</span></span><span class="org-block">      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">browse-url-url-encode-chars</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">buffer-substring-no-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">-</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+       </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="org-checkbox-statistics-todo">[/]</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mac-mail-link-get-link-string</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">subject </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-mac-mail-link-get-selected-message-subject</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">message-id </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-mac-mail-link-get-selected-message-id</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-link-make-string</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"message:%s"</span></span><span class="org-block"> message-id</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                            subject</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mac-mail-link-get-body-quote-template-element</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">body </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> body </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-temp-buffer</span></span><span class="org-block">
+                             </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">call-process</span></span><span class="org-block">
+                              </span><span class="org-block"><span class="string">"osascript"</span></span><span class="org-block"> nil t nil
+                              </span><span class="org-block"><span class="string">"-e"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"tell application \"Mail\" to get content of item 1 of (selection as list)"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                             </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">buffer-substring-no-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">-</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"
+
+    ,#+begin_quote
+  %s
+    ,#+end_quote"</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">string-join</span></span><span class="org-block">
+               </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Remove duplicate empty lines
+</span></span><span class="org-block">               </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">seq-reduce</span></span><span class="org-block">
+                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">acc next</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> next </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">or</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">last</span></span><span class="org-block"> acc</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                      acc
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">append</span></span><span class="org-block"> acc </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">list</span></span><span class="org-block"> next</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Indent each line by two spaces for inclusion in the quote
+</span></span><span class="org-block">                </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">string-trim</span></span><span class="org-block"> string</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string=</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> string</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                string
+                              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"  %s"</span></span><span class="org-block"> string</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">split-string</span></span><span class="org-block"> body </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">()</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+               </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-capture</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">You may also wish to use the Customize interface for this variable
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">which is quite nice.
+</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-capture-templates</span></span><span class="org-block">
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">These 2-item entries are only necessary if you want to nest the
+</span></span><span class="org-block">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">capture template under a keychord.
+</span></span><span class="org-block">        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"t"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"tc"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> Current"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"tcm"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> Current Mail"</span></span><span class="org-block"> entry
+           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">If you maintain your </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="comment"> list in a single file this will
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">place the resulting org-capture template expansion under the
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">'Inbox' heading. You may want to modify this.
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">The resulting heading looks something like
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">** </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="comment"> <a href="message:&lt;encoded messageID&gt;">[[message:&lt;encoded messageID&gt;][subject]]</a>
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;    </span></span><span class="org-block"><span class="comment"><span class="org-date">[2021-05-02 Sun 16:22]</span></span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;    </span></span><span class="org-block"><span class="comment">#+begin_quote
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;    </span></span><span class="org-block"><span class="comment">Unwrapped
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;    </span></span><span class="org-block"><span class="comment">Body
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;    </span></span><span class="org-block"><span class="comment">Text
+</span></span><span class="org-block">           </span><span class="org-block"><span class="comment-delimiter">;;    </span></span><span class="org-block"><span class="comment">#+end_quote
+</span></span><span class="org-block">           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">file+headline </span><span class="org-block"><span class="string">"~/your-org-todo.org"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Inbox"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="string">"* </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> %(org-mac-mail-link-get-link-string)
+
+    %U%(org-mac-mail-link-get-body-quote-template-element)"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:prepend</span></span><span class="org-block"> t </span><span class="org-block"><span class="builtin">:immediate-finish</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Use =C-c C= as your org-capture keybinding
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">eval-after-load</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org</span></span><span class="org-block">
+    </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-defkey </span><span class="org-block"><span class="variable-name">org-mode-map</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">kbd</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"C-c C"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">org-capture</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-2"><span class="org-tag">)</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-1"><span class="org-tag">)</span></span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Teach org about opening message links
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mac-mail-link-open-link</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">mid _</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">start-process</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"open-link"</span></span><span class="org-block"> nil </span><span class="org-block"><span class="string">"open"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"message://%%3C%s%%3E"</span></span><span class="org-block">
+                                                  mid</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mac-mail-link-add-message-links</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-link-set-parameters</span></span><span class="org-block">
+     </span><span class="org-block"><span class="string">"message"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:follow</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">org-mac-mail-link-open-link</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-2"><span class="org-tag">)</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-1"><span class="org-tag">)</span></span></span><span class="org-block">
+
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">eval-after-load</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org</span></span><span class="org-block">
+    </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-mac-mail-link-add-message-links</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block-end-line">  #+end_src
+</span></pre>
+  </body>
+</html>

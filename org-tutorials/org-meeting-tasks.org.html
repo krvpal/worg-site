@@ -1,0 +1,532 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-meeting-tasks.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .negation-char {
+        /* font-lock-negation-char-face */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .regexp-grouping-backslash {
+        /* font-lock-regexp-grouping-backslash */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .regexp-grouping-construct {
+        /* font-lock-regexp-grouping-construct */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* warning */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Tracking actions through a series of meetings
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Carsten Dominik
+</span><span class="org-document-info-keyword">#+EMAIL:</span>     <span class="org-document-info">carsten.dominik@gmail.com
+</span><span class="org-document-info-keyword">#+DATE:</span>      <span class="org-document-info">2011-03-30
+</span><span class="org-meta-line">#+DESCRIPTION: </span>
+<span class="org-meta-line">#+KEYWORDS: </span>
+<span class="org-meta-line">#+LANGUAGE:  en</span>
+<span class="org-meta-line">#+OPTIONS:   H:4 num:nil toc:t \n:nil </span><span class="org-meta-line"><span class="org-formula">@:t</span></span><span class="org-meta-line"> ::t |:t ^:t -:t f:t *:t &lt;:t</span>
+<span class="org-meta-line">#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc</span>
+<span class="org-meta-line">#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:<a href="https://orgmode.org/org-info.js">https://orgmode.org/org-info.js</a></span>
+<span class="org-meta-line">#+HTML_LINK_UP:</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:</span>
+<span class="org-meta-line">#+STARTUP: oddeven</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+Org-mode can be used very well for taking notes and for capturing
+action items during the meeting.  This keeps the tasks inside the
+notes and works really well for planning out projects.
+
+When documenting a series of meetings with Org-mode, a different work
+flow is required.  Such a meeting series usually has a set of tasks
+which are continuously being defined during the meetings, and which
+need to be tracked from meeting to meeting until completion.  So
+usually the meeting notes contains the current list of tasks.  Done
+tasks disappear from the meeting notes, but still need to be available
+to the person who is running the series of meeting.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements
+</span>
+To use the work flow described here, you will need the bleeding edge
+git version of 2011-03-30 or any release that was created after this
+date.  Basic task tracking has been possible with Org, of course, since
+day one, but exporting without DONE tasks is a only recent addition.
+
+Also, this tutorial assumes that you are using the helper functions
+shown in section <span class="org-link"><a href="id:F18E5D49-BFAC-4C17-A108-E069E46F141E">Custom code</a></span>.  This is not strictly necessary - you
+could do the corresponding steps by hand - but if you are using this
+work flow more often, you may appreciate these tools.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Setup
+</span>
+Use a special Org file to document the meetings and to track the
+actions.  In the file,  I have the following setup.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+TODO: TODO(t) | CANCELED(c) DONE(d)
+  ,#+OPTIONS: tasks:todo
+</span><span class="org-block-end-line">#+end_src
+</span>
+Of course you can define the TODO keywords any way you like.  The
+<span class="org-verbatim">#+OPTIONS</span> line arranges for DONE tasks to be excluded from export,
+so that when you send around the list of actions to the participants,
+these completed tasks will not clutter the list.  If you want to keep DONE tasks
+in the list, either always or occasionally, modify this line to say
+<span class="org-verbatim">#+OPTIONS: tasks:t</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to identify tasks
+</span>
+It is useful to identify a task in a unique way, so that you can get
+back to it easily in the next meeting.  The method I am choosing here
+is to simply number the tasks sequentially, in the sequence they come
+up.  The <span class="org-link"><a href="id:F18E5D49-BFAC-4C17-A108-E069E46F141E">custom code</a></span> below defines a command to create tasks in this
+way, to ensure that the sequential number is indeed not already taken.
+To bind this command to a key, use (for example)
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">define-key</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-mode-map</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\C-cn"</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-mactions-new-numbered-action</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+The command <span class="org-verbatim">org-mactions-new-numbered-action</span> uses the specification
+in <span class="org-verbatim">org-mactions-numbered-action-format</span> to insert a task like this:
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">   ,** TODO Action </span><span class="org-block"><span class="org-tag"><span class="org-tag">#2:</span></span></span><span class="org-block">                                 :#2:
+</span><span class="org-block-end-line">#+end_src
+</span>
+You can also call the command with a prefix argument in order to
+insert an inline-task.
+
+With the default setup, the action starts with "Action <span class="org-tag">#2"</span>, and it is
+tagged by "#2" to that I can tag other stuff relating to this action
+and search for it.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> The work flow
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Before a meeting
+</span>
+For each meeting I start a new top-level section in the document for
+the notes.  In the notes I create new actions and leave them there for
+the time being.
+
+I also have a top-level section "ACTIONS" in the file.  This section
+contains all the actions from previous meetings, each action
+identified by its unique number.  I have this section right after the
+meeting notes sections, so that I can easily export the latest meeting
+notes together with the action list, simply by narrowing the buffer to
+the two sequential trees.  Here is an example what this might look
+like
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* Notes from </span><span class="org-block"><span class="org-date"><span class="org-date">&lt;2011-03-16 Wed&gt;</span></span></span><span class="org-block">                                       :ARCHIVE:
+  ,* Notes from </span><span class="org-block"><span class="org-date"><span class="org-date">&lt;2011-03-23 Wed&gt;</span></span></span><span class="org-block">                                       :ARCHIVE:
+  ,* Notes from </span><span class="org-block"><span class="org-date"><span class="org-date">&lt;2011-03-30 Wed&gt;</span></span></span><span class="org-block">
+  ,** Present at meeting
+  ,   - [X] Peter
+  ,   - [X] Sarah
+  ,   - [X] Sam
+  ,** Agenda
+  ,   - Comments and corrections to last meting notes
+  ,   - Reports from the sub teams
+  ,   - Discussion
+  ,   - Final round
+  ,** Notes
+  ,   ...
+  , 
+  ,* ACTIONS
+  ,  This is the general list of Actions
+  ,** DONE Action </span><span class="org-block"><span class="org-tag"><span class="org-tag">#1</span></span></span><span class="org-block"> Inventory of equipment                           :#1:Sarah:
+  ,** DONE Action </span><span class="org-block"><span class="org-tag"><span class="org-tag">#2</span></span></span><span class="org-block"> Definition of main goals                         :#2:Peter:
+  ,** TODO Action </span><span class="org-block"><span class="org-tag"><span class="org-tag">#4</span></span></span><span class="org-block"> Talk to companies                                  :#4:Sam:
+  
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> During the meeting
+</span>
+During the meeting, take notes and create new actions.  You could add
+these new actions immediately to the global list, or you could define
+the actions inside the notes for now.  Below I will show how to copy
+or move the actions to the general list.
+
+When I create actions, I also tag them with the names of people who
+are responsible, so that it later becomes easy to track progress and
+to send reminders.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> After the meeting
+</span>
+After the meeting, I organize the notes of the current meeting until
+they are ready to be sent out.  I like to keep the newly defined
+actions inside the meeting notes, to highlight them as new.  Once
+satisfied with the notes, the new actions need to be integrated with
+the general list of actions.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Copying the actions from the meeting notes to the action list
+</span>
+I then <span class="bold">copy</span> the new actions from the last meeting to the ACTIONS
+section.  For this task I use the command <span class="org-verbatim">M-x
+org-mactions-collect-todos-in-subtree</span>.  It will copy all the actions
+in a subtree and put them into the kill ring, so that I can simply
+paste them with <span class="org-verbatim">C-c C-x C-y</span> into the ACTIONS list.  There I organize
+the actions, change the sequence, create subsections with related
+actions together etc.  Some groups have trivial task lists, then the
+list just stays simple and flat.  For complex consortia I do a lot of
+analysis, structuring, and ordering.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Sending out the notes
+</span>
+To send the meeting notes and the current list of actions, I narrow
+the buffer to the node with the meeting notes and the node with the
+action list, export to the desired format, and mail it out.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Deactivate tasks in the meeting notes
+</span>
+I then deactivate any actions in the meeting notes I just sent around
+by marking the entire new notes tree with an ARCHIVE tag.  Then, TODO
+lists and other Agenda views will get entries only from the ACTIONS
+tree, not from the meeting notes.  Instead of copying, you could also
+<span class="bold">move</span> (refile) the actions to the ACTIONS tree, but I like to keep
+them deactivated in the notes, so that I have a copy of the notes
+exactly as sent around, in the file.  The idea is that the meeting
+notes are fixed, and all procedural stuff with the actions will be
+added and tracked in the ACTIONS tree.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Between meetings
+</span>
+Between meetings, I use the ACTIONS tree to generate reminders for
+people in the list, check DONE tasks off etc.  Before the next
+meeting, I create an agenda view to show me which actions have been
+closed during the last period.  I create this view in the following
+way:  With the cursor in the actions tree I do
+
+<span class="org-code">: C-c a &lt; &lt; a         ;; Agenda view restricted on subtree
+: v L                 ;; turn on logging
+</span>
+I extract what needs to be reported to the group and add that to the
+invitation mailing for the next meeting.  I also attach an export of
+the current ACTIONS tree to the agenda, for reference during the
+following meeting.  The DONE items will not be on that tree anymore.
+The nice thing is that the members of the meeting always have an
+uncluttered list of actions, while I as the responsible person still
+have all the old tasks and the history of the entire project at my
+finger tips.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Conclusion
+</span>
+This setup has worked really well for me, both for meetings that
+happen locally, and for meetings with international groups who meet
+via telephone/video conferencing.
+
+In the section below, I welcome contributions by anyone, describing
+additional ideas and modification to the workflow.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Custom code
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:ID:</span>       <span class="org-property-value">F18E5D49-BFAC-4C17-A108-E069E46F141E</span>
+  <span class="org-drawer">:END:</span>
+
+Here is some custom code to help entering numbered actions, and to
+collect TODO items in a subtree into a flat list.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defcustom</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-mactions-numbered-action-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> Action </span></span><span class="org-block"><span class="string"><span class="org-tag">#%d</span></span></span><span class="org-block"><span class="string"> "</span></span><span class="org-block">
+    </span><span class="org-block"><span class="doc">"Default structure of the headling of a new action.
+      %d will become the number of the action."</span></span><span class="org-block">
+    </span><span class="org-block"><span class="builtin">:group</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-edit-structure</span></span><span class="org-block">
+    </span><span class="org-block"><span class="builtin">:type</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defcustom</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-mactions-change-id-on-copy</span></span><span class="org-block"> t
+    </span><span class="org-block"><span class="doc">"Non-nil means make new IDs in copied actions.
+  If an action copied with the command `</span></span><span class="org-block"><span class="doc"><span class="constant">org-mactions-collect-todos-in-subtree</span></span></span><span class="org-block"><span class="doc">'
+  contains an ID, that ID will be replaced with a new one."</span></span><span class="org-block">
+    </span><span class="org-block"><span class="builtin">:group</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-edit-structure</span></span><span class="org-block">
+    </span><span class="org-block"><span class="builtin">:type</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mactions-new-numbered-action</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> inline</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="doc">"Insert a new numbered action, using `</span></span><span class="org-block"><span class="doc"><span class="constant">org-mactions-numbered-action-format</span></span></span><span class="org-block"><span class="doc">'.
+      With prefix argument, insert an inline task."</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">interactive</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"P"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">num </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">re </span><span class="org-block"><span class="string">"\\`#</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">[0-9]+</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">\\'"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">1+</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">apply</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">max</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block">
+                             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block">
+                              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">e</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                                </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> re </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> e</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">string-to-number</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">match-string</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> e</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                                  </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-get-buffer-tags</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">tag </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"#"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">number-to-string</span></span><span class="org-block"> num</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> inline
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-inlinetask-insert-task</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-insert-heading</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">force</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">eql</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">char-before</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> ?\ </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> org-mactions-numbered-action-format num</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-toggle-tag</span></span><span class="org-block"> tag </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">on</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">=</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-at-bol</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-at-eol</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">eql</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">char-before</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> ?\ </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> </span><span class="org-block"><span class="string">" "</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-mactions-collect-todos-in-subtree</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="doc">"Collect all </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="doc"> items in the current subtree into a flat list."</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">interactive</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">buf </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">get-buffer-create</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Org </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> Collect"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">cnt </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> beg end string s</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> buf </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">erase-buffer</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-mode</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-map-entries</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> beg </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> end </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-end-of-subtree</span></span><span class="org-block"> t t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> cnt </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">1+</span></span><span class="org-block"> cnt</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+               string </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">buffer-substring</span></span><span class="org-block"> beg end</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+               s </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> org-mactions-change-id-on-copy
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">string-match</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"^</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">[ \t]*:ID:</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">[ \t\n]+</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">[</span></span><span class="org-block"><span class="string"><span class="negation-char">^</span></span></span><span class="org-block"><span class="string"> \t\n]+</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">[ \t]*$"</span></span><span class="org-block">
+                                string s</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+             </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> s </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">match-end</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                   string </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">replace-match</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\\1 "</span></span><span class="org-block">
+                                                 </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-match-data</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-id-new</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                                         t nil string</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> buf </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">org-paste-subtree</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> string</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+                              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">point-max</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string">={%s}"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">regexp-opt</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-not-done-keywords</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+       </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">tree</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">=</span></span><span class="org-block"> cnt </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"No </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> items in subtree"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%d </span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string"> entries copied to kill ring"</span></span><span class="org-block"> cnt</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">prog1</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">with-current-buffer</span></span><span class="org-block"> buf
+                 </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">kill-new</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">buffer-string</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">kill-buffer</span></span><span class="org-block"> buf</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Other ideas and remarks about this workflow
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Exporting to LaTeX (by Eric S Fraga)
+</span>
+I use LaTeX to create the minutes I circulate to the people that
+attended a meeting.  I have adopted Carsten's workflow but have
+customised some of the behaviour to better suit the LaTeX export.
+The customisations address primarily the formatting of the
+actions and identifying the person responsible for each action.
+
+<span class="org-list-dt">1.</span> I customise the export options to not include TODO keywords or
+   tags and to not number the sections, using:
+         
+   <span class="org-code">: #+OPTIONS: tags:nil todo:nil num:nil toc:nil
+</span>         
+   The <span class="org-verbatim">toc</span> option is not strictly necessary but minutes of
+   meetings are typically only a few pages so a table of contents
+   is seldom required.  However, it <span class="bold">can</span> be useful for generating
+   a list of actions.
+
+<span class="org-list-dt">2.</span> The numbering of actions is done by explicitly putting
+   the number into the headline.  I do this by customising the
+   <span class="org-verbatim">org-numbered-action-format</span> variable to the string
+         
+   <span class="org-code">: "TODO %d. \\action{?}"
+</span>
+<span class="org-list-dt">3.</span> To support this type of headline, I have defined the <span class="org-verbatim">\action</span> LaTeX macro:
+         
+   <span class="org-code">: #+latex_header: \newcommand{\action}[1]{\marginpar{\fbox{#1}}}
+</span>
+   I will typically put the name or initials of the person
+   responsible for taking the action in lieu of the <span class="org-verbatim">?</span> as the
+   argument to the action macro in the headline, such as:
+         
+<span class="org-block-begin-line">   #+begin_src org
+</span><span class="org-block">     , ** TODO 3. \action{ESF} Prepare plan.         :#3:
+</span><span class="org-block-end-line">   #+end_src
+</span>
+   The macro, on export, will place the person's name or initials
+   in the right margin of the page with a box around it, making
+   it very easy to identify who has actions and who does not.
+
+ I do customise the LaTeX export further but those customisations
+ are not specific to minute taking.
+
+</pre>
+  </body>
+</html>

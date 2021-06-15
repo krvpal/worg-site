@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-clojure.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Org-babel-clojure
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Joel Boehland, Greg Raven
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">joel dot boehland at evocomputing dot com, soapy-smith at comcast dot net
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org-babel support for
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://clojure.org/">http://clojure.org/</a>"</span></span><span class="org-block">&gt;Clojure&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://clojure.org/">http://clojure.org/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://clojure.org/images/clojure-logo-120b.png&quot;/">http://clojure.org/images/clojure-logo-120b.png"</a></span></span><span class="org-block"><a href="http://clojure.org/images/clojure-logo-120b.png&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Notes </span><span class="whitespace-tab">                                                        </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Template Design
+</span>  <span class="org-list-dt">-</span> What the user wants to know:
+    <span class="org-list-dt">-</span> Required software
+    <span class="org-list-dt">-</span> How to install it
+    <span class="org-list-dt">-</span> How to configure it in Org-babel
+    <span class="org-list-dt">-</span> Org-babel conventions that might affect the language
+    <span class="org-list-dt">-</span> How it modifies Org-babel
+    <span class="org-list-dt">-</span> Common ways to use it
+ * Updated January 2014 to CIDER which replaces swank/slime.  Greg Raven
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>Clojure is a dynamic LISP dialect programming language which is built on the Java Virtual Machine (and also CLR and Javascript).
+
+org-babel-clojure allows Clojure code to be executed directly within embedded code blocks in Org-mode documents. 
+These code blocks and their results can be included in an exported document.
+
+The following covers details on how to implement Clojure source code blocks in Org Mode documents.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements
+</span>A functional org-mode Clojure code block system requires several technologies:
+ * Java 1.5 or greater.  Refer to the <span class="kc-org-link-url"><a href="http://www.oracle.com/technetwork/java/index.html">Oracle Java download site</a></span> or to your platform's software installation manager.
+ * <span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/">emacs 24.3</a></span> or greater
+ * <span class="kc-org-link-url"><a href="https://orgmode.org/">org-mode (development version)</a></span> (as of January 23, 2014)
+ * <span class="kc-org-link-url"><a href="http://clojure.org/">Clojure</a></span> a LISP style language built on the Java Virtual Machine.
+ * The <span class="kc-org-link-url"><a href="http://leiningen.org/">Leiningen</a></span> Clojure project system
+ * <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/clojure-mode">Clojure Mode</a></span> for optimal editing of Clojure source code in emacs.
+ * <span class="kc-org-link-url"><a href="https://github.com/clojure-emacs/cider">CIDER</a></span> and IDE and REPL for Clojure.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Instructions for Installation
+</span>
+The following page is a recommended source of instructions for installing a working emacs/Clojure system.
+These instructions assume you already have a working Java installation.
+
+<span class="kc-org-link-url"><a href="http://clojure-doc.org/articles/tutorials/emacs.html">Clojure with Emacs</a></span>
+
+After successful installation using the instructions from the above linked page, the remaining
+task is to install the latest org-mode which includes support for CIDER.
+Follow the procedure described on this page to install the development version:
+
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-faq.html#keeping-current-with-Org-mode-development">Download and compile the org-mode development version</a></span>
+
+Next, add this line to your .emacs file:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">(add-to-list 'load-path "/full-path-to/org-mode/lisp")
+</span><span class="org-block-end-line">#+end_example
+</span>The above code will load the development version of org-mode upon emacs invocation.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Configure Org-mode
+</span>
+Add these lines to your .emacs file to configure org-mode for Clojure code blocks.
+Note that emacs lisp code blocks are turned on by default in org.
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">ob-clojure</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Configure CIDER
+</span>
+Add these lines to your .emacs file to configure CIDER:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp :tangle emacs.el
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-babel-clojure-backend </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">cider</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">cider</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Create a Clojure Project with Leiningen
+</span>
+Create a Leiningen project directory tree:
+
+<span class="org-verbatim">lein new clojure-examples</span>
+
+You should be able to descend into the newly create directory clojure-examples.  You should be able to see
+a Clojure project tree.  This would normally be used as an outline of a Clojure project.
+For the purposes of demonstrating Clojure source code in org-mode, this
+project is only used to allow Leiningen to deal with Java class paths and resolve
+dependencies.  In this case, it will download the Clojure core into your machine.  If other
+dependencies are required, they should be added to the project.clj file.  Please see
+the <span class="kc-org-link-url"><a href="https://github.com/technomancy/leiningen/blob/stable/doc/TUTORIAL.md">Leiningen tutorial</a></span> for further details.  For the purposes of this demonstration,
+simply creating the project is sufficient to proceed.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> An Introduction to Org Code Block Evaluation
+</span>
+This is a simple example which evaluates emacs LISP code.
+From within the Leiningen project directory, begin editing an org file:
+
+<span class="org-verbatim">emacs clojure-examples.org</span>
+
+Copy the following into the Org buffer:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+BEGIN_SRC emacs-lisp
+  (message "Yeah!")
+#+END_SRC
+</span><span class="org-block-end-line">#+end_example
+</span>
+Notice that a ``code block'' is delimited by the lines <span class="org-verbatim">#+BEGIN_SRC emacs-lisp</span>
+and <span class="org-verbatim">#+END_SRC</span>.
+
+To see how a code block is evaluated, hit <span class="org-verbatim">C-c C-c</span> anywhere within the code block.
+
+The emacs minibuffer displays the output: yeah!
+This is the simplest possible example.  There are numerous options
+available for output and format of the result of code evaluation.
+Options are added to the <span class="org-verbatim">#+BEGIN_SRC</span> line.
+Please refer to the org-mode manual for usage of these options.
+Another source for information on options is this page at Worg:
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-contrib/babel/header-args.html">Header arguments and result types in Org Babel</a></span>
+ 
+Next, a similar process for executing code will be used with Clojure.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Connect to the REPL
+</span>
+To compile and run Clojure code, you will need to connect to a REPL (Read Evaluation Print Loop).
+To connect the current Org buffer to a REPL:
+
+<span class="org-verbatim">M-x cider-jack-in RET</span>
+
+... and wait until you get a confirmation message in the minibuffer.
+A second buffer (window) should open, and a CIDER REPL prompt should appear.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples
+</span>The following are Clojure code block examples.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Basic Functionality
+</span>
+Let's start really simple. We will test the evaluation of a
+simple Clojure form. Insert the following into the org file:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src clojure :results silent
+  (+ 1 4)
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>    
+Now place the cursor in the code block and enter the command:
+
+<span class="org-verbatim">C-c C-c</span>
+    
+This should evaluate the Clojure form, and echo the results: "5" in the mini-buffer.
+    
+Now let's insert the results into the buffer immediately after the Clojure code
+block. Insert the following into your org file:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src clojure :results value
+  [ 1 2 3 4]
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+Execute as before:
+
+<span class="org-verbatim">C-c C-c</span>
+    
+Now, immediately following the code block, the following results block will be inserted:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+RESULTS
+[ 1 2 3 4]
+</span><span class="org-block-end-line">#+end_example
+</span>
+The result of the last form evaluated will be inserted into the results block.
+
+Here is another simple example, with the results of evaluation included:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src clojure :results value
+  (def small-map {:a 2 :b 4 :c 8})
+  (:b small-map)
+#+end_src
+
+#+RESULTS:
+: 4
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> A More Complicated Example- Make a Graph and Insert It into the Document
+</span>
+The next example will use an interesting Clojure based library called <span class="kc-org-link-url"><a href="http://incanter.org/">Incanter</a></span>.
+The code will demonstrate the creation of a basic x-y line plot using the Incanter xy-plot function.
+There is a preliminary step which is required to download the Incanter library into your machine.
+In the Leiningen project, there is a file called <span class="org-verbatim">project.clj</span> which must
+have the Incanter library dependency added to it as follows:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">(defproject clojure-examples "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "<a href="http://example.com/FIXME">http://example.com/FIXME</a>"
+  :license {:name "Eclipse Public License"
+            :url "<a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>"}
+  :dependencies [[org.clojure/clojure "1.5.0"]
+                 [incanter "1.5.4"]])
+</span><span class="org-block-end-line">#+end_example
+</span>
+After the <span class="org-verbatim">project.clj</span> file is modified, issue the command <span class="org-verbatim">lein deps</span> at the
+command line.  You must have an internet connection for this to successfully
+download the dependencies into your local machine.
+
+The following code block shows how the Incanter library is
+used to create an x-y line plot.  The <span class="org-verbatim">view</span> function will display the plot. 
+The plot is also saved to both PDF and PNG format image files.
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">#+begin_src clojure
+  (use '(incanter core charts pdf))
+  ;;; Create the x and y data:
+  (def x-data [0.0 1.0 2.0 3.0 4.0 5.0])
+  (def y-data [2.3 9.0 2.6 3.1 8.1 4.5])
+  (def xy-line (xy-plot x-data y-data))
+  (view xy-line)
+  (save-pdf xy-line "incanter-xy-line.pdf")
+  (save xy-line "incanter-xy-line.png")
+#+end_src
+</span><span class="org-block-end-line">#+end_example
+</span>
+To insert the image into the exported document, add this code:
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">  #+CAPTION: A basic x-y line plot
+  #+NAME: fig:xy-line
+  <a href="./incanter-xy-line.pdf">[[./incanter-xy-line.pdf]]</a>
+</span><span class="org-block-end-line">#+end_example
+</span>
+Note that the file will be saved to the highest level of the Leiningen project.
+Depending on where you created the org file, the path to the file may have to be different
+than shown.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export to LaTeX or HTML
+</span>
+To export to LaTeX, <span class="org-verbatim">C-c C-e l l</span>.
+To export to HTML, <span class="org-verbatim">C-c C-e h h</span>.
+
+Note that the exported HTML will hyperlink the PDF file;
+to embed the image in the HTML, switch to the PNG image file.
+The exported LaTeX (.tex) file will embed either the PDF or PNG file.
+Graphical quality will be superior with the PDF file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Session Evaluation
+</span>
+By default, each individual code block will execute by starting a Clojure process.
+Each code block will execute in isolation from the others.  Due to the start-up
+time of a Java virtual machine, this can make execution of many blocks slow.
+The :session option will allow control of the process assigned to each code block.
+Please refer to the org manual for details on :session usage.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Specify namespace
+</span>
+By default, each individual code block will execute under CIDER
+connection session's current namespace. But you can specify a namespace like bellowing:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">,#+begin_src clojure :results pp
+(ns kk.test)
+(def he "hi")
+,#+end_src
+
+,#+RESULTS:
+: </span><span class="custom"><span class="org-tag">#'kk</span></span><span class="custom">.test/he
+
+You can see the second code block still us individual namespace.
+
+,#+begin_src clojure :results value :ns kk2
+(def he "hi")
+,*ns*
+,#+end_src
+
+,#+RESULTS:
+: nil#'kk2/he#namespace[kk2
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Change Clojure cwd in Org-mode way
+</span>
+As this blog post <span class="kc-org-link-url"><a href="https://stardiviner.github.io/Blog/Clojure%2520Plotting%2520to%2520Org%2520inline%2520image%2520in%2520ob-clojure.html">Clojure Plotting to Org inline image in ob-clojure</a></span> mentioned.
+
+Because Clojure is based on JVM, can JVM does not allow to dynamically
+change current working directory (<span class="org-verbatim">cwd</span>). So if you use <span class="org-verbatim">ob-clojure</span> in
+Org-mode, and need to interact with path, directory, file etc. You
+need to figure other ways. Here is an Org-mode way, use header
+argument <span class="org-code">:var</span> to pass current buffer's path into Clojure, then use
+this dir variable in Clojure to construct a correct path.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">,#+begin_src clojure :results graphics :dir "data/images" :file "ob-clojure-literate.png" :var dir=(concat (file-name-directory (buffer-file-name)) "data/images/")
+(use '(incanter core stats datasets charts io pdf))
+(def hist (histogram (sample-normal 1000)))
+(save hist (str dir "ob-clojure-literate.png"))
+,#+end_src
+</span><span class="org-block-end-line">#+end_src
+</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Additional Examples
+</span>
+The above set-up and examples were intended for the beginner to achieve success
+with Clojure code blocks in org mode documents.
+
+Please refer to the documentation for emacs, Clojure-mode, and CIDER which are
+referenced in the requirements session for details on how to enhance the system
+beyond the basics described in this tutorial.
+
+More examples of Clojure code blocks can be found at these sites:
+ * <span class="kc-org-link-url"><a href="http://bzg.fr/emacs-org-babel-overtone-intro.html">Emacs Org and Overtone</a></span>
+ * <span class="kc-org-link-url"><a href="https://github.com/lambdatronic/org-babel-example">Literate Programming Solution to the Potter Kata</a></span>
+ * <span class="kc-org-link-url"><a href="https://github.com/Greg-R/incanterchartcustom">Incanter Chart Customizations</a></span>
+ * <span class="kc-org-link-url"><a href="https://github.com/thi-ng/geom">thi.ng/geom: Comprehensive geometry toolkit for Clojure/ClojureScript developed in a literate programming style.</a></span>
+</pre>
+  </body>
+</html>

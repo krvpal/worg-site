@@ -1,0 +1,1331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plotting tables in Org-Mode using org-plot</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Eric Schulte" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Plotting tables in Org-Mode using org-plot</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2d1be67">Introduction</a></li>
+<li><a href="#org34c24ca">Getting Set up</a>
+<ul>
+<li><a href="#org77e9ce3">Requirements</a></li>
+<li><a href="#orgcafd1a8">Installation</a></li>
+</ul>
+</li>
+<li><a href="#orgf663226">Examples</a>
+<ul>
+<li><a href="#orgcd38149">2d plots (lines and histograms)</a></li>
+<li><a href="#org465470e">3d grid plots</a></li>
+<li><a href="#org39345a2">3d plots</a></li>
+<li><a href="#orgf7fd4cc">Setting Axis Titles</a></li>
+</ul>
+</li>
+<li><a href="#org57589f5">Reference</a>
+<ul>
+<li><a href="#org71e8374">Plotting Options</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org2d1be67" class="outline-2">
+<h2 id="org2d1be67">Introduction</h2>
+<div class="outline-text-2" id="text-org2d1be67">
+<p>
+This tutorial provides instructions for installing and using org-plot
+as well as a complete overview of the org-plot options and
+demonstrations of some of the many types of graphs which can be
+generated automatically from tables in your org-mode files using
+org-plot.
+</p>
+
+<p>
+While graphs will be included in the html version of this tutorial, if
+you would like to play along at home you can download the original org
+file here <a href="https://code.orgmode.org/bzg/worg/src/master/org-tutorials/org-plot.org">org-plot.org</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34c24ca" class="outline-2">
+<h2 id="org34c24ca">Getting Set up</h2>
+<div class="outline-text-2" id="text-org34c24ca">
+</div>
+<div id="outline-container-org77e9ce3" class="outline-3">
+<h3 id="org77e9ce3">Requirements</h3>
+<div class="outline-text-3" id="text-org77e9ce3">
+<p>
+Org-plot uses Gnuplot as well as the Emacs Gnuplot-mode to power its
+graphing.  To download and install these two requirements see the
+following
+</p>
+
+
+<dl class="org-dl">
+<dt>Gnuplot</dt><dd><a href="http://www.gnuplot.info/">http://www.gnuplot.info/</a></dd>
+<dt>Gnuplot-Mode</dt><dd><a href="http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html">http://cars9.uchicago.edu/~ravel/software/gnuplot-mode.html</a></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcafd1a8" class="outline-3">
+<h3 id="orgcafd1a8">Installation</h3>
+<div class="outline-text-3" id="text-orgcafd1a8">
+<p>
+First we need to make sure that org-plot is on your system and
+available to emacs.  If you have a recent version of org-mode (version
+6.07 or later) then org-plot is already included.  Otherwise you can
+grab the latest org-plot.el from <a href="http://github.com/eschulte/org-plot/tree/master">github/eschulte/org-plot</a>.  Once you
+have org-plot loaded it may be useful to bind the main plotting
+command <code>org-plot/gnuplot</code> to a key chord, I use <code>C-M-g</code> for the
+mnemonic &ldquo;graph&rdquo; which can be done by executing the following elisp
+snippet.  This command will be the only org-plot command needed for
+the remainder of this tutorial.
+</p>
+
+<p>
+<a href="(local-set-key "\M-\C-g" 'org-plot/gnuplot)">(local-set-key "\M-\C-g" 'org-plot/gnuplot)</a>
+</p>
+
+<p>
+Alright, we&rsquo;re now ready to start generating some graphs.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf663226" class="outline-2">
+<h2 id="orgf663226">Examples</h2>
+<div class="outline-text-2" id="text-orgf663226">
+</div>
+<div id="outline-container-orgcd38149" class="outline-3">
+<h3 id="orgcd38149">2d plots (lines and histograms)</h3>
+<div class="outline-text-3" id="text-orgcd38149">
+<p>
+First, to plot the following table use the key sequence defined above
+<code>C-M-g</code>.  This will call <code>org-plot/gnuplot</code> which finds and plots the
+nearest table.  The options specified in any <code>#+PLOT</code> lines above the
+table are read and applied to the plot.  Notice that the second
+<code>#+PLOT:</code> line specifies labels for each column, if this line is
+removed the labels will default to the column headers in the table,
+try removing this line and re-plotting.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-1.png" alt="example-1.png" />
+</p>
+</div>
+
+<p>
+For a complete list of all of the options and their meanings see the
+<a href="#orgb787309">No description for this link</a> section at the end of this file.  For more information on
+gnuplot options see <a href="http://gnuplot.sourceforge.net/documentation.html">the gnuplot documentation</a>, nearly all gnuplot
+options should be accessible through org-plot.
+</p>
+
+<table id="org1bb6872" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">independent var</th>
+<th scope="col" class="org-right">first dependent var</th>
+<th scope="col" class="org-right">second dependent var</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0.1</td>
+<td class="org-right">0.425</td>
+<td class="org-right">0.375</td>
+</tr>
+
+<tr>
+<td class="org-right">0.2</td>
+<td class="org-right">0.3125</td>
+<td class="org-right">0.3375</td>
+</tr>
+
+<tr>
+<td class="org-right">0.3</td>
+<td class="org-right">0.24999993</td>
+<td class="org-right">0.28333338</td>
+</tr>
+
+<tr>
+<td class="org-right">0.4</td>
+<td class="org-right">0.275</td>
+<td class="org-right">0.28125</td>
+</tr>
+
+<tr>
+<td class="org-right">0.5</td>
+<td class="org-right">0.26</td>
+<td class="org-right">0.27</td>
+</tr>
+
+<tr>
+<td class="org-right">0.6</td>
+<td class="org-right">0.25833338</td>
+<td class="org-right">0.24999993</td>
+</tr>
+
+<tr>
+<td class="org-right">0.7</td>
+<td class="org-right">0.24642845</td>
+<td class="org-right">0.23928553</td>
+</tr>
+
+<tr>
+<td class="org-right">0.8</td>
+<td class="org-right">0.23125</td>
+<td class="org-right">0.2375</td>
+</tr>
+
+<tr>
+<td class="org-right">0.9</td>
+<td class="org-right">0.23333323</td>
+<td class="org-right">0.2333332</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">0.2225</td>
+<td class="org-right">0.22</td>
+</tr>
+
+<tr>
+<td class="org-right">1.1</td>
+<td class="org-right">0.20909075</td>
+<td class="org-right">0.22272708</td>
+</tr>
+
+<tr>
+<td class="org-right">1.2</td>
+<td class="org-right">0.19999998</td>
+<td class="org-right">0.21458333</td>
+</tr>
+
+<tr>
+<td class="org-right">1.3</td>
+<td class="org-right">0.19615368</td>
+<td class="org-right">0.21730748</td>
+</tr>
+
+<tr>
+<td class="org-right">1.4</td>
+<td class="org-right">0.18571433</td>
+<td class="org-right">0.21071435</td>
+</tr>
+
+<tr>
+<td class="org-right">1.5</td>
+<td class="org-right">0.19000008</td>
+<td class="org-right">0.2150001</td>
+</tr>
+
+<tr>
+<td class="org-right">1.6</td>
+<td class="org-right">0.1828125</td>
+<td class="org-right">0.2046875</td>
+</tr>
+
+<tr>
+<td class="org-right">1.7</td>
+<td class="org-right">0.18088253</td>
+<td class="org-right">0.1985296</td>
+</tr>
+
+<tr>
+<td class="org-right">1.8</td>
+<td class="org-right">0.17916675</td>
+<td class="org-right">0.18888898</td>
+</tr>
+
+<tr>
+<td class="org-right">1.9</td>
+<td class="org-right">0.19342103</td>
+<td class="org-right">0.21315783</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">0.19</td>
+<td class="org-right">0.21625</td>
+</tr>
+
+<tr>
+<td class="org-right">2.1</td>
+<td class="org-right">0.18214268</td>
+<td class="org-right">0.20714265</td>
+</tr>
+
+<tr>
+<td class="org-right">2.2</td>
+<td class="org-right">0.17727275</td>
+<td class="org-right">0.2022727</td>
+</tr>
+
+<tr>
+<td class="org-right">2.3</td>
+<td class="org-right">0.1739131</td>
+<td class="org-right">0.1989131</td>
+</tr>
+
+<tr>
+<td class="org-right">2.4</td>
+<td class="org-right">0.16770833</td>
+<td class="org-right">0.1916667</td>
+</tr>
+
+<tr>
+<td class="org-right">2.5</td>
+<td class="org-right">0.164</td>
+<td class="org-right">0.188</td>
+</tr>
+
+<tr>
+<td class="org-right">2.6</td>
+<td class="org-right">0.15769238</td>
+<td class="org-right">0.18076923</td>
+</tr>
+
+<tr>
+<td class="org-right">2.7</td>
+<td class="org-right">0.1592591</td>
+<td class="org-right">0.1888887</td>
+</tr>
+
+<tr>
+<td class="org-right">2.8</td>
+<td class="org-right">0.1598214</td>
+<td class="org-right">0.18928565</td>
+</tr>
+
+<tr>
+<td class="org-right">2.9</td>
+<td class="org-right">0.15603453</td>
+<td class="org-right">0.1844828</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+Org-plot can also produce histograms from 2d data, plot the following
+table.  Notice that the column specified as <code>ind</code> contains textual
+non-numeric data, when this is the case org-plot will use the data as
+labels for the x-axis using the gnuplot <code>xticlabels()</code> function.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-2.png" alt="example-2.png" />
+</p>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Sede</th>
+<th scope="col" class="org-right">Max cites</th>
+<th scope="col" class="org-right">H-index</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Chile</td>
+<td class="org-right">257.72</td>
+<td class="org-right">21.39</td>
+</tr>
+
+<tr>
+<td class="org-left">Leeds</td>
+<td class="org-right">165.77</td>
+<td class="org-right">19.68</td>
+</tr>
+
+<tr>
+<td class="org-left">São Paolo</td>
+<td class="org-right">71.00</td>
+<td class="org-right">11.50</td>
+</tr>
+
+<tr>
+<td class="org-left">Stockholm</td>
+<td class="org-right">134.19</td>
+<td class="org-right">14.33</td>
+</tr>
+
+<tr>
+<td class="org-left">Morelia</td>
+<td class="org-right">257.56</td>
+<td class="org-right">17.67</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+For another example of plotting histograms instead of lines, change
+the following options on the first table on this page, and replot
+</p>
+<ol class="org-ol">
+<li>remove the <code>ind:1</code> option</li>
+<li>replace the <code>with:lines</code> option with <code>with:histograms</code></li>
+</ol>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-3.png" alt="example-3.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org465470e" class="outline-3">
+<h3 id="org465470e">3d grid plots</h3>
+<div class="outline-text-3" id="text-org465470e">
+<p>
+There are also some functions for plotting 3d or grid data.  To see an
+example of a grid plot call org-plot/gnuplot <code>C-M-g</code> which will plot
+the following table as a grid.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-4.png" alt="example-4.png" />
+</p>
+</div>
+
+<p>
+To see the effect of <code>map</code> try setting it to <code>t</code>, and then
+re-plotting.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-5.png" alt="example-5.png" />
+</p>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Plotting grids also respects the independent variable (<code>ind:</code>) option,
+and uses the values of the independent row to label the resulting
+graph.  The following example borrows a short description of org-mode
+from Bernt Hansen on the mailing list (a more practical usage would
+label every single row with something informative).
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-6.png" alt="example-6.png" />
+</p>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">text</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">plain</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">in</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">everything</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">track</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">and</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-left">Organize</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org39345a2" class="outline-3">
+<h3 id="org39345a2">3d plots</h3>
+<div class="outline-text-3" id="text-org39345a2">
+<p>
+Finally the last type of graphing currently supported is 3d graphs of
+data in a table.  This will probably require some more knowledge of
+gnuplot to make full use of the many options available.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-7.png" alt="example-7.png" />
+</p>
+</div>
+
+<p>
+For some simple demonstrations try the following graph using some
+different <code>with:</code> options <code>with:points</code>, <code>with:lines</code>, and
+<code>with:pm3d</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-plot/example-8.png" alt="example-8.png" />
+</p>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">4</td>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf7fd4cc" class="outline-3">
+<h3 id="orgf7fd4cc">Setting Axis Titles</h3>
+<div class="outline-text-3" id="text-orgf7fd4cc">
+<p>
+The question of the proper syntax for setting axis labels via org-plot
+has occurred on the mailing list.<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> The answer is to use this:
+</p>
+<pre class="example">
+#+PLOT: set:"xlabel 'Name'" set:"ylabel 'Name'"
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org57589f5" class="outline-2">
+<h2 id="org57589f5">Reference</h2>
+<div class="outline-text-2" id="text-org57589f5">
+</div>
+<div id="outline-container-org71e8374" class="outline-3">
+<h3 id="org71e8374">Plotting Options</h3>
+<div class="outline-text-3" id="text-org71e8374">
+<p>
+#<a id="orgb787309"></a>
+</p>
+
+<p>
+Gnuplot options (see <a href="http://gnuplot.sourceforge.net/documentation.html">the gnuplot documentation</a>) accessible through
+`org-plot&rsquo;, common gnuplot options are specifically supported, while
+all other options are accessible through specification of generic set
+commands, script lines, or specification of custom script files.
+Possible options are&#x2026;
+</p>
+
+<dl class="org-dl">
+<dt>set</dt><dd>specify any gnuplot option to be set when graphing</dd>
+<dt>title</dt><dd>specify the title of the plot</dd>
+<dt>ind</dt><dd>specify which column of the table to use as the x axis</dd>
+<dt>deps</dt><dd>specify the columns to graph as a lisp style list,
+surrounded by parenthesis and separated by spaces for
+example <code>dep:(3 4)</code> to graph the third and fourth columns
+(defaults to graphing all other columns aside from the ind
+column).</dd>
+<dt>type</dt><dd>specify whether the plot will be &rsquo;2d&rsquo; &rsquo;3d or &rsquo;grid&rsquo;</dd>
+<dt>with</dt><dd>specify a with option to be inserted for every col being
+plotted (e.g. lines, points, boxes, impulses, etc&#x2026;)
+defaults to &rsquo;lines&rsquo;</dd>
+<dt>file</dt><dd>if you want to plot to a file specify the path to the
+desired output file</dd>
+<dt>labels</dt><dd>list of labels to be used for the deps (defaults to column
+headers if they exist)</dd>
+<dt>line</dt><dd>specify an entire line to be inserted in the gnuplot script</dd>
+<dt>map</dt><dd>when plotting 3d or grid types, set this to true to graph a
+flat mapping rather than a 3d slope</dd>
+<dt>script</dt><dd>if you want total control you can specify a script file
+(place the file name inside quotes) which will be used to
+plot, before plotting every instance of $datafile in the
+specified script will be replaced with the path to the
+generated data file.  Note even if you set this option you
+may still want to specify the plot type, as that can
+impact the content of the data file.</dd>
+<dt>timefmt</dt><dd>if there is time and/or date data to be plotted, set the
+format.  For example, <code>timefmt:%Y-%m-%d</code> if the data look
+like <code>2008-03-25</code>.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg08669.html">http://www.mail-archive.com/emacs-orgmode@gnu.org/msg08669.html</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Eric Schulte</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

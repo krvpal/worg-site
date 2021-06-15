@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-sync tutorial</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Aurélien Aptel" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-sync tutorial</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4d174a8">Introduction</a></li>
+<li><a href="#org4258e4e">Installation</a>
+<ul>
+<li><a href="#org0c7d34c">Check out Org-sync</a></li>
+<li><a href="#orgf018eee">Org-element</a></li>
+<li><a href="#orgc6f786d">Loading</a></li>
+</ul>
+</li>
+<li><a href="#orgdafdc55">Tutorial</a></li>
+<li><a href="#org43179e0">How to write a new backend</a></li>
+<li><a href="#org0586e2d">More information</a></li>
+</ul>
+</div>
+</div>
+<p>
+<i>An Org-sync tutorial</i>
+</p>
+
+<div id="outline-container-org4d174a8" class="outline-2">
+<h2 id="org4d174a8">Introduction</h2>
+<div class="outline-text-2" id="text-org4d174a8">
+<p>
+Org-sync is a tool to synchronize online bugtrackers with org
+documents.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4258e4e" class="outline-2">
+<h2 id="org4258e4e">Installation</h2>
+<div class="outline-text-2" id="text-org4258e4e">
+</div>
+<div id="outline-container-org0c7d34c" class="outline-3">
+<h3 id="org0c7d34c">Check out Org-sync</h3>
+<div class="outline-text-3" id="text-org0c7d34c">
+</div>
+<div id="outline-container-orgc046ccd" class="outline-4">
+<h4 id="orgc046ccd"><span class="todo TODO">TODO</span> Fix the repo link</h4>
+<div class="outline-text-4" id="text-orgc046ccd">
+<p>
+Make sure to checkout the same revision this tutorial was written with.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #66d9ef;">git</span> clone git://orgmode.org/org-sync.git
+<span style="color: #66d9ef;">git</span> checkout 8222ec31f
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf018eee" class="outline-3">
+<h3 id="orgf018eee">Org-element</h3>
+<div class="outline-text-3" id="text-orgf018eee">
+<p>
+Org-sync uses Nicolas Goaziou&rsquo;s new parser, org-element.  It&rsquo;s in the
+contrib directory of Org-mode which is not included in vanilla Emacs.
+</p>
+
+<p>
+If you don&rsquo;t have it you can download a recent version from the
+Org-mode repo and move it to your Org-sync directory.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">wget -O org-element.el <span style="color: #e2c770;">'https://code.orgmode.org/bzg/org-mode/raw/5057ae0fc2c0d551a83d3c3e9bd621b751db9f09/contrib/lisp/org-element.el'</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc6f786d" class="outline-3">
+<h3 id="orgc6f786d">Loading</h3>
+<div class="outline-text-3" id="text-orgc6f786d">
+<p>
+Add Org-sync directory to your load-path and load the backend you
+want.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">load-path</span> <span style="color: #e2c770;">"path/to/org-sync"</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapc</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">load</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"org-element"</span> <span style="color: #e2c770;">"os"</span> <span style="color: #e2c770;">"os-bb"</span> <span style="color: #e2c770;">"os-github"</span> <span style="color: #e2c770;">"os-rmine"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Phew!  Still there?  Good because it&rsquo;s starting to get interesting&#x2026;
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdafdc55" class="outline-2">
+<h2 id="orgdafdc55">Tutorial</h2>
+<div class="outline-text-2" id="text-orgdafdc55">
+<p>
+There is a <a href="https://www.youtube.com/watch?v=kbj6-j0teCY">demo video on youtube</a> that covers the Bitbucket backend and
+conflicts handling.  Check it out.
+</p>
+
+<p>
+In this tutorial we will sync some bugs from <a href="http://github.com/ostesting/test">this github repo</a>.
+</p>
+
+<p>
+There are 3 interactive command in Org-sync:
+</p>
+
+<ul class="org-ul">
+<li><code>os-import</code> to import a document in the current buffer at point.</li>
+<li><code>os-sync</code> to sync all the imported documents in the buffer.</li>
+<li><code>os</code> which does both depending on the buffer content.  It calls
+<code>os-import</code> if there is nothing to sync in the buffer, <code>os-sync</code>
+otherwise.</li>
+</ul>
+
+<p>
+Open a new buffer, switch to org-mode (<code>M-x org-mode</code>).
+</p>
+
+<p>
+To import a document in a new buffer you can just run <code>M-x os</code>.  It
+prompts you for an URL.
+</p>
+
+
+<div class="figure">
+<p><img src="import.png" alt="import.png" />
+</p>
+</div>
+
+<p>
+Org-sync should import the issues from the repo.
+</p>
+
+
+<div class="figure">
+<p><img src="import-ok.png" alt="import-ok.png" />
+</p>
+</div>
+
+<p>
+Now, let&rsquo;s try to change an issue.  First you have to set a
+user/password to be able to modify the issue remotely.
+</p>
+
+<p>
+Set the variable <code>os-github-auth</code> to like so:
+<code>(setq os-github-auth (cons "ostesting" "thisisostesting42"))</code>.
+</p>
+
+<p>
+Here I have just typed it in my org-buffer, put the cursor after the
+last closing paren and hit <code>C-x C-e</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="auth-setup.png" alt="auth-setup.png" />
+</p>
+</div>
+
+<p>
+I&rsquo;ve made some change in the first issue. Let&rsquo;s sync with <code>M-x os</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="first-sync.png" alt="first-sync.png" />
+</p>
+</div>
+
+<p>
+Once it&rsquo;s done you should see a message indicating it.
+</p>
+
+
+<div class="figure">
+<p><img src="sync-ok.png" alt="sync-ok.png" />
+</p>
+</div>
+
+<p>
+You can check on github to make sure it worked:
+</p>
+
+
+<div class="figure">
+<p><img src="on-github.png" alt="on-github.png" />
+</p>
+</div>
+
+<p>
+Now, let&rsquo;s try to add a new issue.  Insert something like <code>** OPEN my
+test issue</code>.  You can type a description under it if you want.
+</p>
+
+
+<div class="figure">
+<p><img src="try-new.png" alt="try-new.png" />
+</p>
+</div>
+
+<p>
+The next step is simple, just run <code>M-x os</code>.  It will sync all issues
+in the buffer. If you don&rsquo;t see the new issue, it was probably added
+at the bottom of the list, just scroll down you buffer.
+</p>
+
+
+<div class="figure">
+<p><img src="new-ok.png" alt="new-ok.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org43179e0" class="outline-2">
+<h2 id="org43179e0">How to write a new backend</h2>
+<div class="outline-text-2" id="text-org43179e0">
+<p>
+Writing a new backend is easy.  If something is not clear, try to read
+the header in <code>os.el</code> or one of the existing backend.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #696969;">;; </span><span style="color: #696969;">backend symbol/name: demo</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">the symbol is used to find and call your backend functions (for now)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">what kind of urls does you backend handle?</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">add it to os-backend-alist in os.el:</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">os-backend-alist</span>
+  <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"github.com/</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(?:</span><span style="color: #e2c770;">repos/</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">?[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">/]+/[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">/]+"</span>  . os-github-backend<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"bitbucket.org/[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">/]+/[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">/]+"</span>              . os-bb-backend<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"demo.com"</span>                               . os-demo-backend<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">if you have already loaded os.el, you'll have to add it</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">manually in that case just eval this in *scratch*</span>
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">os-backend-alist</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"demo.com"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">os-demo-backend</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">now, in its own file os-demo.el:</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-sync</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">this is the variable used in os-backend-alist</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">os-demo-backend</span>
+  <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>base-url      . os-demo-base-url<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span>fetch-buglist . os-demo-fetch-buglist<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span>send-buglist  . os-demo-send-buglist<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Demo backend."</span><span style="color: #eb4509;">)</span>
+
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">this overrides os--base-url.</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">the argument is the url the user gave.</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">it must return a cannonical version of the url that will be</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">available to your backend function in the os-base-url variable.</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">In the github backend, it returns API base url</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">ie. https://api.github/reposa/&lt;user&gt;/&lt;repo&gt;</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">os-demo-base-url</span> <span style="color: #fd971f;">(</span>url<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Return proper URL."</span>
+  <span style="color: #e2c770;">"http://api.demo.com/foo"</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">this overrides os--fetch-buglist</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">you can use the variable os-base-url</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">os-demo-fetch-buglist</span> <span style="color: #fd971f;">(</span>last-update<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Fetch buglist from demo.com (anything that happened after LAST-UPDATE)"</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">a buglist is just a plist</span>
+  <span style="color: #9c91e4;">`</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">:title</span> <span style="color: #e2c770;">"Stuff at demo.com"</span>
+           <span style="color: #fd971f;">:url</span> ,os-base-url
+
+           <span style="color: #696969;">;; </span><span style="color: #696969;">add a :since property set to last-update if you return</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">only the bugs updated since it.  omit it or set it to</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">nil if you ignore last-update and fetch all the bugs of</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">the repo.</span>
+
+           <span style="color: #696969;">;; </span><span style="color: #696969;">bugs contains a list of bugs</span>
+           <span style="color: #696969;">;; </span><span style="color: #696969;">a bug is a plist too</span>
+           <span style="color: #fd971f;">:bugs</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">:id</span> <span style="color: #9c91e4; font-weight: bold;">1</span> <span style="color: #fd971f;">:title</span> <span style="color: #e2c770;">"Foo"</span> <span style="color: #fd971f;">:status</span> open <span style="color: #fd971f;">:desc</span> <span style="color: #e2c770;">"bar."</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">this overrides os--send-buglist</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">os-demo-send-buglist</span> <span style="color: #fd971f;">(</span>buglist<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Send BUGLIST to demo.com and return updated buglist"</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">here you should loop over :bugs in buglist</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #b6e63e;">(</span>b <span style="color: #eb4509;">(</span>os-get-prop <span style="color: #fd971f;">:bugs</span> buglist<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+      <span style="color: #696969;">;; </span><span style="color: #696969;">new bug (no id)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">null</span> <span style="color: #b6e63e;">(</span>os-get-prop <span style="color: #fd971f;">:id</span> b<span style="color: #b6e63e;">)</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>do-stuff<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+      <span style="color: #696969;">;; </span><span style="color: #696969;">delete bug</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>os-get-prop <span style="color: #fd971f;">:delete</span> b<span style="color: #fd971f;">)</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>do-stuff<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+      <span style="color: #696969;">;; </span><span style="color: #696969;">else, modified bug</span>
+      <span style="color: #eb4509;">(</span>t
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>do-stuff<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+
+  <span style="color: #696969;">;; </span><span style="color: #696969;">return any bug that has changed (modification date, new bugs,</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">etc).  they will overwrite/be added in the buglist in os.el</span>
+
+  <span style="color: #696969;">;; </span><span style="color: #696969;">we return the same thing for the demo.</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">:bugs is the only property used from this function in os.el</span>
+  <span style="color: #9c91e4;">`</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">:bugs</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">:id</span> <span style="color: #9c91e4; font-weight: bold;">1</span> <span style="color: #fd971f;">:title</span> <span style="color: #e2c770;">"Foo"</span> <span style="color: #fd971f;">:status</span> open <span style="color: #fd971f;">:desc</span> <span style="color: #e2c770;">"bar."</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+That&rsquo;s it.  A bug has to have at least an id, title and status
+properties.  Other recognized but optionnal properties are
+<code>:date-deadline</code>, <code>:date-creation</code>, <code>:date-modification</code>, <code>:desc</code>.
+Any other properties are automatically added in the <code>PROPERTIES</code> block
+of the bug via <code>prin1-to-string</code> and are <code>read</code> back by org-sync.  All
+the dates are regular emacs time object.  For more details you can
+look at the github backend in <code>os-github.el</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0586e2d" class="outline-2">
+<h2 id="org0586e2d">More information</h2>
+<div class="outline-text-2" id="text-org0586e2d">
+<p>
+You can find more in the <code>os.el</code> commentary headers.
+</p>
+
+<p>
+There is also <a href="https://www.youtube.com/watch?v=kbj6-j0teCY">demo video on youtube</a> that covers the Bitbucket backend
+and conflicts handling.  Check it out.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Aurélien Aptel</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

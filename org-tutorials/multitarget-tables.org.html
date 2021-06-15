@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>multitarget-tables.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Using Org-Mode Table Formatting Functions
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Jason Riedy
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">jason@acm.org
+</span><span class="org-meta-line">#+LANGUAGE: en</span>
+<span class="org-meta-line">#+TEXT: *Abstract:* Org-mode's ability to slice one table into many</span>
+<span class="org-meta-line">#+TEXT: separately formatted destinations helps keep documentation</span>
+<span class="org-meta-line">#+TEXT: and data in sync.  We provide an example using both the</span>
+<span class="org-meta-line">#+TEXT: multiple-target facilities and formatting with functions.</span>
+<span class="org-meta-line">#+TEXT: Side-effects in the functions gather header data necessary</span>
+<span class="org-meta-line">#+TEXT: for generating flexible SQL insertion statements.</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:../index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+In large-scale data analysis, one often associates integers with
+parameter name rather than strings.  The performance and storage
+difference is significant for multi-gigabyte data sets.  But integers
+are not at all convenient or descriptive.  Systems like <span class="kc-org-link-url"><a href="http://www.r-project.org">R</a></span> provide a
+<span class="org-verbatim">factor</span> data type that translates the stored integers into user-level
+strings.  Emulating that construct in SQL is handy for data transfer
+with <span class="kc-org-link-url"><a href="http://www.sqlite.org">SQLite</a></span> or out-of-core analysis in R using a <span class="kc-org-link-url"><a href="http://cran.r-project.org/web/packages/SQLiteDF/index.html">SQL back-end</a></span>.  That
+leaves the problem of maintaining a registry of integer level codes,
+string names, and documentation.
+
+<span class="kc-org-link-url"><a href="https://orgmode.org">Org-mode</a></span> provide a fast, light-weight table mechanism that can be sent
+in email, bundled with code, or embedded in documentation.  The tables
+can be transformed and placed elsewhere.  It sounds like a perfect
+registry, generating documentation and code from one data table.
+Similar techniques could be used in a multi-lingual document to store
+many translations in one table and send them to sections in specific
+languages.
+
+We start with a simple table:
+
+<span class="org-meta-line">#+ORGTBL: SEND exdoc orgtbl-to-orgtbl :skipcols (2) :fmt (1 "=%s=") :hfmt (1 "%s")</span>
+<span class="org-meta-line">#+ORGTBL: SEND exsql orgtbl-to-sqlinsert :sqlname "extbl" :fmt (2 "%s") :tstart "#+BEGIN_EXAMPLE\nBEGIN TRANSACTION;" :tend "COMMIT;\n#+END_EXAMPLE"</span>
+<span class="org-table">| Name  | Level | Description |</span>
+<span class="org-table">|-------+-------+-------------|</span>
+<span class="org-table">| normx |     1 | norm(x, \infty)  |</span>
+<span class="org-table">| normb |     2 | norm(b, \infty)  |</span>
+<span class="org-table">| normA |     3 | norm(A, \infty)  |</span>
+
+That one source table contains the documentation in the first and third
+column:
+
+<span class="org-meta-line">#+BEGIN RECEIVE ORGTBL exdoc</span>
+<span class="org-table">| Name  | Description |</span>
+<span class="org-table">|-------+-------------|</span>
+<span class="org-table">| </span><span class="org-formula"><span class="org-verbatim">normx</span></span><span class="org-formula"> </span><span class="org-table">| norm(x, \infty)  |</span>
+<span class="org-table">| </span><span class="org-formula"><span class="org-verbatim">normb</span></span><span class="org-formula"> </span><span class="org-table">| norm(b, \infty)  |</span>
+<span class="org-table">| </span><span class="org-formula"><span class="org-verbatim">normA</span></span><span class="org-formula"> </span><span class="org-table">| norm(A, \infty)  |</span>
+<span class="org-meta-line">#+END RECEIVE ORGTBL exdoc</span>
+
+The first two columns of the source table provide the data we must
+transfer the SQL.  The third column can be used to embed some
+documentation into the table itself after the string is sanitized for
+SQL.  The remaining necessary information, the SQL destination table
+name, can be provided as a parameter to <span class="org-verbatim">#+ORGTBL: SEND</span>, producing the
+following code chunk:
+
+<span class="org-meta-line">#+BEGIN RECEIVE ORGTBL exsql</span>
+<span class="org-block-begin-line">#+BEGIN_SRC sql
+</span><span class="org-block"><span class="keyword">BEGIN</span></span><span class="org-block"> </span><span class="org-block"><span class="keyword">TRANSACTION</span></span><span class="org-block">;
+</span><span class="org-block"><span class="keyword">INSERT</span></span><span class="org-block"> </span><span class="org-block"><span class="keyword">INTO</span></span><span class="org-block"> extbl( </span><span class="org-block"><span class="keyword">Name</span></span><span class="org-block">, </span><span class="org-block"><span class="keyword">Level</span></span><span class="org-block">, Description ) </span><span class="org-block"><span class="keyword">VALUES</span></span><span class="org-block"> ( </span><span class="org-block"><span class="string">'normx'</span></span><span class="org-block"> , </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"> , </span><span class="org-block"><span class="string">'norm(x, infty)'</span></span><span class="org-block"> );
+</span><span class="org-block"><span class="keyword">INSERT</span></span><span class="org-block"> </span><span class="org-block"><span class="keyword">INTO</span></span><span class="org-block"> extbl( </span><span class="org-block"><span class="keyword">Name</span></span><span class="org-block">, </span><span class="org-block"><span class="keyword">Level</span></span><span class="org-block">, Description ) </span><span class="org-block"><span class="keyword">VALUES</span></span><span class="org-block"> ( </span><span class="org-block"><span class="string">'normb'</span></span><span class="org-block"> , </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"> , </span><span class="org-block"><span class="string">'norm(b, infty)'</span></span><span class="org-block"> );
+</span><span class="org-block"><span class="keyword">INSERT</span></span><span class="org-block"> </span><span class="org-block"><span class="keyword">INTO</span></span><span class="org-block"> extbl( </span><span class="org-block"><span class="keyword">Name</span></span><span class="org-block">, </span><span class="org-block"><span class="keyword">Level</span></span><span class="org-block">, Description ) </span><span class="org-block"><span class="keyword">VALUES</span></span><span class="org-block"> ( </span><span class="org-block"><span class="string">'normA'</span></span><span class="org-block"> , </span><span class="org-block"><span class="highlight-numbers-number">3</span></span><span class="org-block"> , </span><span class="org-block"><span class="string">'norm(A, infty)'</span></span><span class="org-block"> );
+</span><span class="org-block"><span class="keyword">COMMIT</span></span><span class="org-block">;
+</span><span class="org-block-end-line">#+END_SRC
+</span><span class="org-meta-line">#+END RECEIVE ORGTBL exsql</span>
+
+We will explain the parameters used to produce both outputs.  The SQL
+insertion statements use functions as formatting parameters, some of
+which are called purely for the side-effect of gathering the header
+fields.  The SQL-generating code is distributed with org-mode in
+<span class="org-verbatim">contrib/lisp/orgtbl-sqlinsert.el</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Specifying multiple destinations for a single table
+</span>
+Sending one table to multiple destinations is straight-forward.  Add one
+<span class="org-verbatim">SEND</span> directive for each destination.  For example, the first table has
+the following two directives prepended, with parameters described later:
+
+<span class="org-code">: #+ORGTBL: SEND exdoc orgtbl-to-orgtbl ...
+: #+ORGTBL: SEND exsql orgtbl-to-sqlinsert ...
+</span>
+The documentation removes the second column and adds fiddly formatting
+parameters with
+
+<span class="org-code">: :skipcols (2) :fmt (1 "=%s=") :hfmt (1 "%s")
+</span>
+The SQL-generating line gathers the destination table name and passes
+integers through unchanged with the parameters
+
+<span class="org-code">: :sqlname "extbl" :fmt (2 "%s")
+</span>
+The SQL table name defaults to the name of the target, <span class="org-verbatim">exsql</span> in this
+case.  And the default formatting used for other columns is
+<span class="org-verbatim">orgtbl-sql-strip-and-quote</span>.  That routine only removes potentially
+non-portable constructs; it is not designed to prevent insertion
+attacks.
+
+We could apply <span class="org-verbatim">orgtbl-sql-strip-and-quote</span> to the first column of the
+documentation table to ensure the strings match exactly, but it easier
+to use simple, non-mangled strings as names.
+
+By default, a block of insertions is wrapped in <span class="org-verbatim">BEGIN TRANSACTION</span> and
+<span class="org-verbatim">COMMIT</span> statements.  These can be supressed by setting <span class="org-verbatim">:tstart</span> and
+<span class="org-verbatim">:tend</span> to <span class="org-verbatim">nil</span>.  The example used in this document uses a
+"double-embedding" trick to wrap the statement in an org-mode code
+block:
+
+<span class="org-code">: :tstart "#+BEGIN_EXAMPLE\nBEGIN TRANSACTION;"
+: :tend "COMMIT;\n#+END_EXAMPLE"
+</span>
+Similar wrapping can embed the SQL statements into literate programs.
+There is built-in support for <span class="kc-org-link-url"><a href="http://www.eecs.harvard.edu/nr/noweb/">Noweb</a></span> with the <span class="org-verbatim">:nowebname</span> parameter.
+Setting <span class="org-verbatim">:nowebname</span> to a string wraps the insertions in a Noweb code
+chunk named with the string.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Formatting with functions for side effects and display
+</span>
+The <span class="org-verbatim">orgtbl-to-sqlinsert</span> routine calls <span class="org-verbatim">orgtbl-to-generic</span> for all the
+generic table parsing.  The parameters provide an example of using
+functions for gathering data as well as formatting.  Emacs Lisp's
+dynamic binding allows manipulating any symbols in the current
+environment, so the formatting functions do not need to pass parameters
+through the outer functions.
+
+The default <span class="org-verbatim">:tstart</span> parameter is one example used strictly for
+formatting.  After the <span class="org-verbatim">:nowebname</span> parameter is decoded and bound to
+<span class="org-verbatim">nowebname</span>, it can be checked within a thunk to produce the starting
+string:
+
+<span class="org-code">: :tstart (lambda () (concat (if nowebname
+:                                (format "&lt;&lt;%s&gt;&gt;= \n" nowebname)
+:                              "")
+:                            "BEGIN TRANSACTION;"))
+</span>
+The functions need not be pure.  The header formatting gathers the
+first header line into the variable <span class="org-verbatim">hdrlist</span> with
+<span class="org-code">: :hfmt (lambda (f) (progn (if firstheader (push f hdrlist)) ""))
+</span>Then each line is preceded with a function that uses <span class="org-verbatim">hdrlist</span> to ensure
+data values are associated with named columns rather than just
+positions.
+
+<span class="org-code">: :lstart (lambda () (concat "INSERT INTO "
+:                            sqlname "( "
+:                            (mapconcat 'identity (reverse hdrlist)
+:                                       ", ")
+:                            " )" (if breakvals "\n" " ")
+:                                     "VALUES ( "))
+</span>
+Note that <span class="org-verbatim">orgtbl-to-sqlinsert</span> takes advantage of org-mode's applying
+the formatting to each cell <span class="italic">before</span> checking for a line-formatting
+function.  The header line itself and sectioning line are suppressed
+with the settings
+
+<span class="org-code">: :hlfmt (lambda (lst) (setq firstheader nil))
+: :hline nil
+: :remove-nil-lines t
+</span>
+Similar techniques could be used to generate a table's SQL definition
+from the second header line.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Current limitations
+</span>
+One current limitation is that all the tables are in the same Emacs
+buffer and hence the same text file.  A literate programming mechanism
+like <span class="kc-org-link-url"><a href="http://www.eecs.harvard.edu/nr/noweb/">Noweb</a></span> can separate the chunks.
+
+Also, the tables must be sent manually.  Writing a function that scans
+an entire buffer for all <span class="org-verbatim">SEND</span> and <span class="org-verbatim">RECEIVE</span> pairs is feasible, as is
+using <span class="kc-org-link-url"><a href="http://www.gnu.org/software/emacs/elisp/html_node/Overlays.html">overlays</a></span> to manage automatic updates.
+
+</pre>
+  </body>
+</html>

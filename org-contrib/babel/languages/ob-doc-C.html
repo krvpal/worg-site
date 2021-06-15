@@ -1,0 +1,827 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>C, C++, D Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg People, Eric Schulte, Thierry Banel, Thomas S. Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">C, C++, D Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org71c22eb">Introduction</a>
+<ul>
+<li><a href="#orgb59f14e">About C</a></li>
+<li><a href="#org3a757a3">About C++</a></li>
+<li><a href="#orgfaa7668">About D</a></li>
+</ul>
+</li>
+<li><a href="#org2b1ec43">Requirements and Setup</a></li>
+<li><a href="#org5401aa6">Org Mode Features for C, C++, D Source Code Blocks</a>
+<ul>
+<li><a href="#org54b09e9">Header Arguments</a></li>
+<li><a href="#org9426c66">Sessions</a></li>
+</ul>
+</li>
+<li><a href="#org41a5d49">Examples of Use</a>
+<ul>
+<li><a href="#orgaaf7b48">Hello World in C</a></li>
+<li><a href="#org70cc202">Hello World in C++</a></li>
+<li><a href="#org88afca4">Hello World in D</a></li>
+<li><a href="#orgf1e00e9">Note that:</a></li>
+<li><a href="#orgc805078">Scalar variables</a></li>
+<li><a href="#orgbf92476">Process an Org Mode Table</a></li>
+<li><a href="#orge2558ef"><span class="todo TODO">TODO</span> Lists and vectors in the header</a></li>
+</ul>
+</li>
+<li><a href="#orgfb5d0f3">Shortcomings and known bugs</a>
+<ul>
+<li><a href="#org31fb8ac">C++ vs. cpp</a></li>
+<li><a href="#org6f582fa">Pure numeric + header  cast error</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for
+  <br><a href="http://www.gnu.org/software/gcc/">C, C++</a>
+  <br><a href="http://dlang.org/">D</a>
+</p>
+<p>
+<a href="http://www.gnu.org/software/gcc/"><img src="http://www.gnu.org/software/gcc/img/gccegg-65.png"/></a>
+<a href="http://dlang.org/"><img src="http://dlang.org/images/dlogo.png"/></a>
+</p>
+</div>
+
+<div id="outline-container-org71c22eb" class="outline-2">
+<h2 id="org71c22eb">Introduction</h2>
+<div class="outline-text-2" id="text-org71c22eb">
+<p>
+Babel can evaluate C, C++, and D code.
+</p>
+
+<p>
+As opposed to interpreted languages, which can be evaluated directly,
+C, C++, and D code is first compiled to an executable which is then
+run.
+</p>
+
+<p>
+If a <code>main</code> method is not present in a code block then the entire
+block is wrapped in a trivial <code>main</code> function call.
+</p>
+
+<p>
+Note: there used to be two separate library files, <code>ob-C.el</code> and
+<code>ob-D.el</code>. They have been merged in a single <code>ob-C.el</code> file which
+handle all three languages.
+</p>
+
+<p>
+So, for example, the following simple code block can be evaluated and
+the results of evaluation inserted into the buffer.
+</p>
+
+<pre class="example">
+#+begin_src C++ :includes &lt;stdio.h&gt;
+  int a=1;
+  int b=1;
+  printf("%d\n", a+b);
+#+end_src
+
+#+results:
+: 2
+</pre>
+</div>
+
+<div id="outline-container-orgb59f14e" class="outline-3">
+<h3 id="orgb59f14e">About C</h3>
+<div class="outline-text-3" id="text-orgb59f14e">
+<p>
+C dates back in the 1970.
+It was devised by Kernighan &amp; Ritchie.
+It was used to create the Unix kernel, and many of its utilities.
+Today it is still the base of the Linux &amp; Unix kernel.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3a757a3" class="outline-3">
+<h3 id="org3a757a3">About C++</h3>
+<div class="outline-text-3" id="text-org3a757a3">
+<p>
+C++ was devised by Stroustrup in the 1980.
+The purpose was to enhance C with object programming.
+Among the features introduced by C++, there are:
+</p>
+<ul class="org-ul">
+<li>templates and the Standard Template Library,</li>
+<li>object programming, with class definition and inheritance,</li>
+<li>functions and operators overloading,</li>
+<li>exceptions.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgfaa7668" class="outline-3">
+<h3 id="orgfaa7668">About D</h3>
+<div class="outline-text-3" id="text-orgfaa7668">
+<p>
+<a href="http://dlang.org/">D</a> is a C++-like language made by <a href="http://dlang.org/">Digital Mars</a>.
+It features:
+</p>
+<ul class="org-ul">
+<li>C++ syntax</li>
+<li>Built-in garbage collector</li>
+<li>Strong type system</li>
+<li>Meta-programming</li>
+<li>Seamless assembler support</li>
+<li>Usable as a scripting language</li>
+<li>C binary compatibility</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b1ec43" class="outline-2">
+<h2 id="org2b1ec43">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org2b1ec43">
+<p>
+1- You must have the compilers available on your computer.
+   You may use only one of the three languages:
+   there is no requirement to have all three installed.
+</p>
+<ul class="org-ul">
+<li>C and C++ often come pre-installed.
+Popular compilers are the GNU ones, called <code>gcc</code> and <code>g++</code>.
+But others are usable as well.</li>
+<li>For D, look at <a href="http://dlang.org/">http://dlang.org/</a> for downloading and instructions.
+The compilers are called <code>dmd</code> and <code>rdmd</code>.</li>
+</ul>
+
+<p>
+Eventually, the compilers must be in the <code>PATH</code>.
+</p>
+
+<p>
+2- Make any or all languages available to Babel.
+   Type:
+</p>
+<pre class="example">
+M-x customize-variable org-babel-load-languages
+</pre>
+
+<p>
+and add the C language (capital &ldquo;C&rdquo;, which gives access to C, C++, D)
+</p>
+
+<p>
+3- Default are given for the compilers: <code>gcc</code>, <code>g++</code>, <code>rdmd</code>. They may be
+   customized. Type:
+</p>
+<pre class="example">
+M-x customize-group org-babel
+</pre>
+
+<p>
+and look for <code>Org Babel C++ Compiler</code> and such.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5401aa6" class="outline-2">
+<h2 id="org5401aa6">Org Mode Features for C, C++, D Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org5401aa6">
+</div>
+<div id="outline-container-org54b09e9" class="outline-3">
+<h3 id="org54b09e9">Header Arguments</h3>
+<div class="outline-text-3" id="text-org54b09e9">
+<dl class="org-dl">
+<dt><code>:var VARIABLE=VALUE</code></dt><dd><p>
+A global C, C++, or D variable named VARIABLE will be declared
+and initialized with VALUE
+</p>
+
+<p>
+Possible types for VARIABLE may be:
+</p>
+<pre class="example">
+int,
+double,
+string or const char*,
+type[]    // type = int, double, string, const char*
+type[][]  // type = int, double, string, const char*
+</pre>
+
+
+<p>
+The later type, <code>type[][]</code>, is used for variables storing Org tables
+</p>
+
+<p>
+The <code>type[]</code> is used for lists or vectors declared in the header.
+</p></dd>
+
+<dt><code>:cmdline</code></dt><dd>command line arguments to pass to the executable
+compiled from the code block.</dd>
+
+<dt><code>:flags</code></dt><dd>flags to pass to the compiler.</dd>
+
+<dt><code>:main</code></dt><dd>can be set to &ldquo;no&rdquo; to inhibit wrapping of the code block
+in a <code>main</code> function call.</dd>
+
+<dt><code>:includes</code></dt><dd>(C &amp; C++ only)
+accepts either a single string name, or a list of
+names of files to <code>#include</code> in the execution of the code block.</dd>
+
+<dt><code>:import</code></dt><dd>(D only) An import statement will be declared in the D source
+before the source code.</dd>
+
+<dt><code>:defines</code></dt><dd>(C &amp; C++ only) just like <code>:includes</code> but for <code>#defines</code> lines at the
+top of the code.</dd>
+
+<dt><code>:namespaces</code></dt><dd>(C++ only)
+accepts either a single name, or a list of names of namespaces to use.
+The final format will look like this: <code>using namespace name;</code></dd>
+
+<dt><code>:libs</code></dt><dd>(C &amp; C++ only) useful for linking with a library, may be given
+<code>-L/path/to/lib</code> and <code>-llibrary</code> instructions.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org9426c66" class="outline-3">
+<h3 id="org9426c66">Sessions</h3>
+<div class="outline-text-3" id="text-org9426c66">
+<p>
+There is no support for sessions
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org41a5d49" class="outline-2">
+<h2 id="org41a5d49">Examples of Use</h2>
+<div class="outline-text-2" id="text-org41a5d49">
+</div>
+<div id="outline-container-orgaaf7b48" class="outline-3">
+<h3 id="orgaaf7b48">Hello World in C</h3>
+<div class="outline-text-3" id="text-orgaaf7b48">
+<p>
+Here is Hello World!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C" id="org678fb01">  printf <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"Hello World!\n"</span><span style="color: #eb4509;">)</span>;
+</pre>
+</div>
+
+<p>
+This source code block:
+</p>
+<pre class="example">
+#+begin_src C
+  printf ("Hello World!\n");
+#+end_src
+</pre>
+
+<p>
+yields this result (type <code>C-c C-c</code> in the source block):
+</p>
+<p>
+Hello World!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org70cc202" class="outline-3">
+<h3 id="org70cc202">Hello World in C++</h3>
+<div class="outline-text-3" id="text-org70cc202">
+<div class="org-src-container">
+<pre class="src src-C++" id="orgdabcfce">  <span style="color: #fd971f;">std</span>::cout&lt;&lt;<span style="color: #e2c770;">"Hello World!\n"</span>;
+</pre>
+</div>
+
+<p>
+This source code block:
+</p>
+<pre class="example">
+#+begin_src C++ :includes &lt;iostream&gt;
+  std::cout&lt;&lt;"Hello World!\n";
+#+end_src
+</pre>
+
+<p>
+yields this result (type <code>C-c C-c</code> in the source block):
+</p>
+<p>
+Hello World!
+</p>
+
+<p>
+Note that the <code>&lt;iostream&gt;</code> used to be automatically #included, but now
+it must be specified through the <code>:includes</code> parameter.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org88afca4" class="outline-3">
+<h3 id="org88afca4">Hello World in D</h3>
+<div class="outline-text-3" id="text-org88afca4">
+<p>
+Here is Hello World!
+</p>
+
+<div class="org-src-container">
+<pre class="src src-D" id="org1de4a3b">  writefln ("Hello World!");
+</pre>
+</div>
+
+<p>
+This source code block:
+</p>
+<pre class="example">
+#+begin_src D
+  writefln ("Hello World!");
+#+end_src
+</pre>
+
+<p>
+yields this result (type <code>C-c C-c</code> in the source block):
+</p>
+<p>
+Hello World!
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf1e00e9" class="outline-3">
+<h3 id="orgf1e00e9">Note that:</h3>
+<div class="outline-text-3" id="text-orgf1e00e9">
+<ul class="org-ul">
+<li>if no <code>main()</code> is declared, a trivial one is automatically provided,</li>
+<li><p>
+there is no directive like:
+</p>
+<ul class="org-ul">
+<li><code>#include "stdio.h"</code> (in C)</li>
+<li><code>import std.stdio;</code> (in D)</li>
+</ul>
+<p>
+because those libraries are so common that they are always included.
+</p></li>
+<li>C++ needs to explicitely include either <code>stdio.h</code> or <code>&lt;iostream&gt;</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc805078" class="outline-3">
+<h3 id="orgc805078">Scalar variables</h3>
+<div class="outline-text-3" id="text-orgc805078">
+<p>
+Variables may be declared outside the script.
+They are automatically inserted at the top of the script.
+Three types are supported, based on the look of the value:
+</p>
+<ul class="org-ul">
+<li><code>string</code> or <code>const char*</code></li>
+<li><code>int</code></li>
+<li><code>double</code></li>
+</ul>
+
+<p>
+Example in C or C++:
+</p>
+<pre class="example">
+#+header: :var mystring="Sunday" :var myint=145 :var mydouble=3.14
+#+BEGIN_SRC C
+  printf ("mystring %s\n", mystring);
+  printf ("myint    %d\n", myint);
+  printf ("mydouble %g\n", mydouble);
+#+END_SRC
+</pre>
+
+<p>
+yields this result (type <code>C-c C-c</code>):
+</p>
+
+<pre class="example">
+#+RESULTS:
+| mystring | Sunday |
+| myint    |    145 |
+| mydouble |   3.14 |
+</pre>
+
+<p>
+Example in D:
+</p>
+<pre class="example">
+#+header: :var mystring="Sunday" :var myint=145 :var mydouble=3.14
+#+BEGIN_SRC D
+  writefln ("mystring %s", mystring);
+  writefln ("myint    %d", myint);
+  writefln ("mydouble %g", mydouble);
+#+END_SRC
+</pre>
+
+<p>
+yields this result (type <code>C-c C-c</code>):
+</p>
+
+<pre class="example">
+#+RESULTS:
+| mystring | Sunday |
+| myint    |    145 |
+| mydouble |   3.14 |
+</pre>
+
+<p>
+If you want to see the expanded source code, without compiling and running it,
+just type <code>C-c C-v v</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbf92476" class="outline-3">
+<h3 id="orgbf92476">Process an Org Mode Table</h3>
+<div class="outline-text-3" id="text-orgbf92476">
+</div>
+<div id="outline-container-org43b6500" class="outline-4">
+<h4 id="org43b6500">How to handle a table</h4>
+<div class="outline-text-4" id="text-org43b6500">
+<p>
+We take an Org mode table as input, process it, and output
+a new Org mode table.
+</p>
+
+<p>
+This table will be input in the script, and iterated row by row:
+</p>
+
+<pre class="example">
+#+tblname: somedata
+| nb    | sqr | noise |
+|-------+-----+-------|
+| zero  |   0 |  0.23 |
+| one   |   1 |  1.31 |
+| two   |   4 |  4.61 |
+| three |   9 |  9.05 |
+| four  |  16 | 16.55 |
+</pre>
+
+<p>
+The table is converted to a variable in the script:
+</p>
+<pre class="example">
+const char* somedata[5][3] = {...};  // in C &amp; C++
+string      somedata[5][3] = [...];  // in D
+</pre>
+
+
+<p>
+The header, if any, is available to the script as well:
+</p>
+<pre class="example">
+const char* somedata_header[3] = { "nb", "sqr", "noise" };  // in C &amp; C++
+string      somedata_header[3] = [ "nb", "sqr", "noise" ];  // in D
+</pre>
+
+
+<p>
+The dimensions of the table are available:
+</p>
+<pre class="example">
+int somedata_rows = 5;
+int somedata_cols = 3;
+</pre>
+
+
+<p>
+Additionnally, an accessor function retrives a cell using the column
+name as found in the header:
+</p>
+<pre class="example">
+const char* cell = somedata_h(3,"noise"); // "9.05" in C &amp; C++
+string      cell = somedata_h(3,"noise"); // "9.05" in D
+</pre>
+
+
+<p>
+Type <code>C-c C-v v</code> to look at the generate code without running it.
+</p>
+
+<p>
+Note that table contents are (almost) always strings
+(as opposed to integers or floating point numbers).
+This allows to easily handle heterogeneous tables,
+and tables with missing values.
+To convert a string cell to a numeric value on the fly, use standard convertors:
+</p>
+<pre class="example">
+int    cell = atoi(somedata_h(4,"sqr"));        // integer conversion in C &amp; C++
+double cell = atof(somedata_h(4,"noise"));      //  double conversion in C &amp; C++
+int    cell = to!int(somedata_h(4,"sqr"));      // integer conversion in D
+double cell = to!double(somedata_h(4,"noise")); //  double conversion in D
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org87b36ec" class="outline-4">
+<h4 id="org87b36ec">Example in C &amp; C++</h4>
+<div class="outline-text-4" id="text-org87b36ec">
+<div class="org-src-container">
+<pre class="src src-C++" id="orgcdece4c">  <span style="color: #66d9ef;">int</span> <span style="color: #b6e63e;">main</span><span style="color: #eb4509;">()</span>
+  <span style="color: #eb4509;">{</span>
+    <span style="color: #eb4509;">for</span> <span style="color: #fd971f;">(</span><span style="color: #66d9ef;">int</span> <span style="color: #fd971f;">i</span>=<span style="color: #9c91e4; font-weight: bold;">0</span>; i&lt;somedata_rows; i++<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">{</span>
+      printf <span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"%2d %7s "</span>, i, somedata_h<span style="color: #eb4509;">(</span>i,<span style="color: #e2c770;">"nb"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>;
+      <span style="color: #eb4509;">for</span> <span style="color: #b6e63e;">(</span><span style="color: #66d9ef;">int</span> <span style="color: #fd971f;">j</span>=<span style="color: #9c91e4; font-weight: bold;">1</span>; j&lt;somedata_cols; j++<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">{</span>
+        <span style="color: #eb4509;">const</span> <span style="color: #66d9ef;">char</span>* <span style="color: #fd971f;">cell</span> = somedata<span style="color: #eb4509;">[</span>i<span style="color: #eb4509;">][</span>j<span style="color: #eb4509;">]</span>;
+        printf <span style="color: #eb4509;">(</span><span style="color: #e2c770;">"%5s %5g "</span>, cell, <span style="color: #9c91e4; font-weight: bold;">1000</span>*atof<span style="color: #fd971f;">(</span>cell<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>;
+      <span style="color: #b6e63e;">}</span>
+      printf<span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"\n"</span><span style="color: #b6e63e;">)</span>;
+    <span style="color: #fd971f;">}</span>
+    <span style="color: #eb4509;">return</span> <span style="color: #9c91e4; font-weight: bold;">0</span>;
+  <span style="color: #eb4509;">}</span>
+</pre>
+</div>
+
+<p>
+This code:
+</p>
+
+<pre class="example">
+#+name: c-table
+#+header: :exports results
+#+begin_src C++ :var somedata=somedata
+  #include "stdlib.h"
+  #include "stdio.h"
+  int main()
+  {
+    for (int i=0; i&lt;somedata_rows; i++) {
+      printf ("%2d ", i);
+      for (int j=1; j&lt;somedata_cols; j++) {
+        const char* cell = somedata[i][j];
+        printf ("%5s %5g ", cell, 1000*atof(cell));
+      }
+      printf("\n");
+    }
+    return 0;
+  }
+#+end_src
+</pre>
+
+<p>
+yields this result:
+</p>
+
+<pre class="example">
+#+RESULTS: c-table
+| 0 | zero  |  0 |     0 |  0.23 |   230 |
+| 1 | one   |  1 |  1000 |  1.31 |  1310 |
+| 2 | two   |  4 |  4000 |  4.61 |  4610 |
+| 3 | three |  9 |  9000 |  9.05 |  9050 |
+| 4 | four  | 16 | 16000 | 16.55 | 16550 |
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org18b198a" class="outline-4">
+<h4 id="org18b198a">Example in D</h4>
+<div class="outline-text-4" id="text-org18b198a">
+<div class="org-src-container">
+<pre class="src src-D" id="orge503056">  void main()
+  {
+    foreach (i, row; somedata) {
+      writef ("%2s %7s ", i, somedata_h(i,"nb"));
+      foreach (j, cell; row)
+        if (j) // skip 1st column
+          writef ("%5s %5s ", cell, 1000*to!double(cell));
+      writeln();
+    }
+  }
+</pre>
+</div>
+
+<pre class="example">
+#+begin_src D :var somedata=somedata
+  void main()
+  {
+    foreach (i, row; somedata) {
+      writef ("%2s %7s ", i, somedata_h(i,"nb"));
+      foreach (j, cell; row)
+        if (j) // skip 1st column
+          writef ("%5s %5s ", cell, 1000*to!double(cell));
+      writeln();
+    }
+  }
+#+end_src
+</pre>
+
+<p>
+yields this result:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">zero</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0.23</td>
+<td class="org-right">230</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">one</td>
+<td class="org-right">1</td>
+<td class="org-right">1000</td>
+<td class="org-right">1.31</td>
+<td class="org-right">1310</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">two</td>
+<td class="org-right">4</td>
+<td class="org-right">4000</td>
+<td class="org-right">4.61</td>
+<td class="org-right">4610</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">three</td>
+<td class="org-right">9</td>
+<td class="org-right">9000</td>
+<td class="org-right">9.05</td>
+<td class="org-right">9050</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">four</td>
+<td class="org-right">16</td>
+<td class="org-right">16000</td>
+<td class="org-right">16.55</td>
+<td class="org-right">16550</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-orge31b57c" class="outline-4">
+<h4 id="orge31b57c">Pure numeric table</h4>
+<div class="outline-text-4" id="text-orge31b57c">
+<p>
+This table is a pure numeric table.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">3.3</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">4.1</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">5.9</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-right">6.5</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In this special case, it is translated to a numeric table:
+</p>
+<pre class="example">
+double MyTable[4][2] = { {3,3.3}, {4,4.1}, {5,5.9}, {6,6.5} };
+</pre>
+
+
+<p>
+If there is a blank cell among numeric cells,
+then the whole table falls back to the string case,
+where the blank cell is translated to the empty string &ldquo;&rdquo;.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge2558ef" class="outline-3">
+<h3 id="orge2558ef"><span class="todo TODO">TODO</span> Lists and vectors in the header</h3>
+</div>
+</div>
+
+<div id="outline-container-orgfb5d0f3" class="outline-2">
+<h2 id="orgfb5d0f3">Shortcomings and known bugs</h2>
+<div class="outline-text-2" id="text-orgfb5d0f3">
+</div>
+<div id="outline-container-org31fb8ac" class="outline-3">
+<h3 id="org31fb8ac">C++ vs. cpp</h3>
+<div class="outline-text-3" id="text-org31fb8ac">
+<p>
+After the <code>#+begin_src</code> block header, both <code>C++</code> and <code>cpp</code> are
+accepted to specify C++ language.
+However only <code>C++</code> works for generated code visualization
+through <code>C-c C-v v</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6f582fa" class="outline-3">
+<h3 id="org6f582fa">Pure numeric + header  cast error</h3>
+<div class="outline-text-3" id="text-org6f582fa">
+<p>
+A type mismatch between strings and double cause an error
+when attempting to use the cell accessor with column name
+when the table is pure numeric.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg People, Eric Schulte, Thierry Banel, Thomas S. Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

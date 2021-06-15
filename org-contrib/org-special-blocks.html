@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-special-blocks.el &#x2014; turn blocks into LaTeX envs and HTML divs</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-special-blocks.el &#x2014; turn blocks into LaTeX envs and HTML divs</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org17fcb84">General</a></li>
+<li><a href="#org6a2a228">How to use it</a>
+<ul>
+<li><a href="#org06592b6">Quick Example</a></li>
+<li><a href="#orgdeaf956">(OBSOLETE for org-mode versions &gt; 8.0) Loading it (No surprises here)</a></li>
+</ul>
+</li>
+<li><a href="#orgc3e33a6">Credits</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org17fcb84" class="outline-2">
+<h2 id="org17fcb84">General</h2>
+<div class="outline-text-2" id="text-org17fcb84">
+<p>
+WARNING: although the general ideas described herein are still valid,
+the implementation has changed starting with version 8.0. In
+particular, the file <code>org-special-blocks.el</code> does not exist any longer,
+so you cannot load it as described below: the &ldquo;Loading it&rdquo; section is
+obsolete. Special blocks are now part of Orgmode proper.
+</p>
+
+<p>
+<code>org-special-blocks</code> turns org blocks into LaTeX environments and HTML
+divs. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6a2a228" class="outline-2">
+<h2 id="org6a2a228">How to use it</h2>
+<div class="outline-text-2" id="text-org6a2a228">
+</div>
+<div id="outline-container-org06592b6" class="outline-3">
+<h3 id="org06592b6">Quick Example</h3>
+<div class="outline-text-3" id="text-org06592b6">
+<p>
+After loading <code>org-special-blocks</code>, you can begin using blocks in
+org files.  For example, let&rsquo;s look at Fermat&rsquo;s Last Theorem:
+</p>
+
+<pre class="example">
+#+begin_theorem
+If an integer $n$ is greater than 2, then the equation $a^n + b^n = c^n$
+has no solutions in non-zero integers $a$, $b$, and $c$.
+#+end_theorem
+</pre>
+
+
+<pre class="example">
+#+begin_proof
+I have a truly /marvelous/ proof of this proposition that this margin is too
+narrow to contain.
+#+end_proof
+</pre>
+
+
+<p>
+This is exported into LaTeX as follows:
+</p>
+
+<pre class="example">
+\begin{theorem}
+If an integer $n$ is greater than 2, then the equation $a^n + b^n = c^n$
+has no solutions in non-zero integers $a$, $b$, and $c$.
+\end{theorem}
+</pre>
+
+
+<pre class="example">
+\begin{proof}
+I have a truly \emph{marvelous} proof of this proposition that this
+margin is too narrow to contain.
+\end{proof}
+</pre>
+
+
+<p>
+Note that the standard org markup works inside the blocks.  If you
+were to use LaTeX environments inside an org file, this would not
+be true.  Also make sure that the name of the environment is
+something that LaTeX knows about &#x2013; otherwise it will not be able
+to compile your file.
+</p>
+
+<p>
+The org file can also be exported into HTML.  In that case, the
+exported file would look something like this:
+</p>
+
+<pre class="example">
+&lt;div class="theorem"&gt;
+...
+&lt;/div&gt;
+</pre>
+
+
+<pre class="example">
+&lt;div class="proof"&gt;
+...
+&lt;/div&gt;
+</pre>
+
+
+<p>
+It is up to you to make sure that the div classes are styled
+properly.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdeaf956" class="outline-3">
+<h3 id="orgdeaf956">(OBSOLETE for org-mode versions &gt; 8.0) Loading it (No surprises here)</h3>
+<div class="outline-text-3" id="text-orgdeaf956">
+<p>
+The easiest way is by 
+</p>
+
+<p>
+M-x customize-apropos org-modules
+</p>
+
+<p>
+Check the line for special-blocks.  This will cause it to be loaded every
+time you start org-mode.
+</p>
+
+<p>
+You&rsquo;ll still have to load it manually the first time.
+</p>
+
+<p>
+Of course, you can also just try it out by loading it manually.
+</p>
+
+<p>
+If you prefer to manually customize your emacs then make sure that the
+path to org&rsquo;s contrib directory is in your load-path and add the
+following to your <code>.emacs</code>.
+</p>
+
+<pre class="example">
+(require 'org-special-blocks)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc3e33a6" class="outline-2">
+<h2 id="orgc3e33a6">Credits</h2>
+<div class="outline-text-2" id="text-orgc3e33a6">
+<p>
+Chris Gray wrote <code>org-special-blocks</code> with the help of Carsten
+Dominik.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

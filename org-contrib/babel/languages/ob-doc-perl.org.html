@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-perl.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Perl in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Daniel M. German
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">dmg[at]uvic[dot]ca
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.perl.org/">http://www.perl.org/</a>"</span></span><span class="org-block">&gt;Perl&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.perl.org/">http://www.perl.org/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"./images/perl5raptor.png"</span></span><span class="org-block">/&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[11/12]</span></span><span class="org-level-1">                                       </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>    web site
+<span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span><span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Describe <span class="org-link"><a href="Other">Other</a></span> differences from supported languages
+<span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+This document is a short introduction to using Perl within Org mode.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>
+The only requirement is installed in the computer where Org Babel is
+executing the scripts.
+
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :exports code
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+ </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+ </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">lisp . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for Perl Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>
+The support of Perl in Babel is basic. There are no language-specific
+arguments for Perl code blocks.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span>
+The only supported type is <span class="org-code">value</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Support for sessions
+</span>
+There is no support for sessions.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> var
+</span>
+It is possible ot pass several variables to Perl, including table
+variables. See below.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>
+These are two simple examples:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+BEGIN_SRC perl :results value
+"hello world";
+#+END_SRC
+
+#+RESULTS:
+: hello world
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-block-begin-line">#+begin_src perl
+</span><span class="org-block"><span class="highlight-numbers-number">10</span></span><span class="org-block"> * </span><span class="org-block"><span class="highlight-numbers-number">20</span></span><span class="org-block"> + </span><span class="org-block"><span class="highlight-numbers-number">5</span></span><span class="org-block">;
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-meta-line">#+RESULTS:</span>
+<span class="org-code">: 205
+</span><span class="org-meta-line">#+end_example</span>
+
+<span class="org-meta-line">#+RESULTS: countingTo10</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Other types of output
+</span>
+Perl scripts might generate data that is parsed by Org. Unfortunately
+its current support is not very powerful. Currently there is only one
+method to receive data: <span class="org-code">:results value</span>. This is the default.  The
+result of the code block (the value of the last expression evaluated)
+if returned to Org. If the result is an array (up to two dimensions)
+it is interpreted as a table. Some examples below:
+
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+BEGIN_SRC perl :results value
+[[1,2],[2,4]]
+#+END_SRC
+
+#+RESULTS:
+| 1 | 2 |
+| 2 | 4 |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-block-begin-line">#+BEGIN_SRC perl :results value
+</span><span class="org-block"><span class="highlight-numbers-number">10</span></span><span class="org-block"> + </span><span class="org-block"><span class="highlight-numbers-number">20</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-meta-line">#+RESULTS:</span>
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">30
+</span><span class="org-block-end-line">#+end_example
+</span>
+When returning an array, it is important to return a reference to the array. Otherwise it is interpreted as an scalar.
+
+For example, this returns the size of the array:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+BEGIN_SRC perl :results value
+my </span><span class="custom"><span class="org-formula">@result</span></span><span class="custom"> ;
+$i = 0;
+for $j ('a'..'e')  {
+   $result[$i] = $j;
+   $i ++;
+}
+</span><span class="custom"><span class="org-formula">@result;</span></span><span class="custom">
+#+END_SRC
+
+#+RESULTS:
+: 5
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>But this returns the values of the array and creates the corresponding table
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+BEGIN_SRC perl :results value
+my </span><span class="custom"><span class="org-formula">@result</span></span><span class="custom"> ;
+$i = 0;
+for $j ('a'..'e')  {
+   $result[$i] = $j;
+   $i ++;
+}
+\@result;
+#+END_SRC
+
+#+RESULTS:
+| a |
+| b |
+| c |
+| d |
+| e |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+BEGIN_SRC perl :results value
+my </span><span class="custom"><span class="org-formula">@result</span></span><span class="custom"> ;
+for $i (0..3) {
+   for $j (0..2) {
+      $result[$i][$j] = $j*$i+$j;
+   }
+}
+\@result;
+#+END_SRC
+
+#+RESULTS:
+| 0 | 1 | 2 |
+| 0 | 2 | 4 |
+| 0 | 3 | 6 |
+| 0 | 4 | 8 |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using tables as input
+</span>
+The most useful feature of using Perl within Org is the ability to use
+tables as input to scripts.
+
+Let us assume we have the following table:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+NAME:exampletable
+| 1 | a |
+| 2 | b |
+| 3 | c |
+| 4 | d |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+We want to use this table as input. Org passes a table to Perl as
+a reference to an array of anonymous one-dimension arrays. In
+a nutshell, you can access an element of a table using
+<span class="org-code">$$nameTable[row][column]</span>. Remember, in Perl indexes are zero based:
+For instance, this block simply returns the input table. Please note
+that because data is already a reference we can simply return it.
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+name: example1usingTable
+#+begin_src perl :var data=exampletable :results table :type value
+$data
+#+end_src
+
+#+RESULTS: example1usingTable
+| 1 | a |
+| 2 | b |
+| 3 | c |
+| 4 | d |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+One challenge, however, is to know how big the table is. Perl does not have
+native two dimensional arrays. Instead, it uses arrays of arrays (each sub-array
+can have any size). In the block below we use a function (<span class="org-code">org_table_size</span>) to
+return the number of columns and rows in a table.
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">#+name: example2usingTable
+#+begin_src perl :results value :var data=exampletable
+# first we need to define two functions that will make our life easier
+sub org_table_size
+{
+    # return the number of columns and rows in a table
+    my ($table) = </span><span class="custom"><span class="org-formula">@_;</span></span><span class="custom">
+    my $y = $$table[0];
+    return (scalar(@$y), scalar (@$table));
+}
+
+my </span><span class="custom"><span class="org-formula">@result</span></span><span class="custom"> ;
+
+my ($cols, $rows) = org_table_size($data);
+
+</span><span class="custom"><span class="org-tag">##</span></span><span class="custom"> transpose the input table
+
+for my $i ($0..$cols-1) {
+    for my $j (0 .. $rows-1) {
+        $result[$i][$j] = $$data[$j][$i];
+    }
+}
+\@result;
+#+end_src
+
+#+RESULTS: example2usingTable
+| 1 | 2 | 3 | 4 |
+| a | b | c | d |
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Links to Tutorials and Other Resources
+</span>
+The best resource for Perl is <span class="kc-org-link-url"><a href="https://perldoc.perl.org">The Perl programming documentation</a></span>
+project.
+</pre>
+  </body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>non-beamer-presentations.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Writing Non-Beamer presentations in org-mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Eric Schulte
+</span><span class="org-document-info-keyword">#+DATE:</span>      <span class="org-document-info">2018-04-25
+</span><span class="org-meta-line">#+DESCRIPTION:</span>
+<span class="org-meta-line">#+KEYWORDS:</span>
+<span class="org-meta-line">#+LANGUAGE:  en</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:<a href="https://orgmode.org/org-info.js">https://orgmode.org/org-info.js</a></span>
+<span class="org-meta-line">#+SELECT_TAGS: export</span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+<span class="org-meta-line">#+HTML_LINK_UP:</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+While <span class="org-link"><a href="file:org-beamer/tutorial.org">Beamer</a></span> is a great option for generating high-quality
+presentations from Org-mode documents, sometimes a lighter-weight
+simpler option is desirable.  This page presents the alternative
+options for giving quick slide-show presentations from Org-mode
+documents.
+
+<span class="org-list-dt">-</span> <span class="org-link"><span class="org-list-dt"><a href="Epresent">Epresent</a></span></span><span class="org-list-dt"> ::</span> is an Emacs minor mode for giving presentations.  The
+     Emacs editor is used in a full-screen mode as the presentation
+     engine, and headings of the Org-mode buffer are presented
+     directly (with a few nice bells and whistles).
+
+<span class="org-list-dt">-</span> <span class="org-link"><span class="org-list-dt"><a href="S5">S5</a></span></span><span class="org-list-dt"> ::</span> is a standards-based suite for writing slide-show
+     presentations in html web pages.  The browser is used as the
+     presentation engine, and a slightly altered form of Org-mode's
+     HTML export serves as the base of the presentation.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">org-html5presentation ::</span> Is an Exporter of Org-mode documents to
+     HTML5 slide show presentations.
+     (see <span class="kc-org-link-url"><a href="https://gist.github.com/509761">gist.github.com/509761</a></span> for code and usage information)
+
+<span class="org-list-dt">-</span> <span class="org-link"><span class="org-list-dt"><a href="org-tree-slide">org-tree-slide</a></span></span><span class="org-list-dt"> ::</span> is a simple tool to treat a tree of an org buffer as
+     a single slide. Since each slide is displayed by simple narrowing,
+     an editable presentation is easily achieved without restricting
+     the functionality of Org Mode. And usage of org-tree-slide is not
+     limited to a presentation. Three profiles are predefined for
+     different use cases.
+
+<span class="org-list-dt">-</span> <span class="org-link"><span class="org-list-dt"><a href="org-reveal">org-reveal</a></span></span><span class="org-list-dt"> ::</span> is an Org-mode extension that exports Org documents
+                into Reveal.js presentations. Reveal.js is a web-based
+                presentation framework with 3-D effects, customizable
+                themes and animations, powered by the latest HTML5
+                technologies. For details, please check the <span class="org-link"><a href="org-reveal">org-reveal</a></span>
+                section below.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Epresent
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Epresent</span>
+  <span class="org-drawer">:END:</span>
+
+Epresent was originally developed on top of outline mode by Tom
+Tromey.  Eric Schulte then adopted it for work with Org-mode.  The
+code for using Org-mode with epresent is available at
+<span class="kc-org-link-url"><a href="https://github.com/eschulte/epresent">https://github.com/eschulte/epresent</a></span>.
+
+Epresent leverages existing Org-mode features like inline image
+display, inline latex fragments, and in-buffer code fontification to
+generate very nice (if somewhat nerdy) looking presentations directly
+from within Emacs.  This has the nice benefit that during-presentation
+editing and code evaluation is possible.
+
+The README file in the epresent repository has instillation
+instructions, however usage is as simple as...
+<span class="org-list-dt">1.</span> <span class="org-verbatim">M-x load-file epresent.el</span>
+<span class="org-list-dt">2.</span> open the example <span class="org-verbatim">present.org</span> file located in the repository
+<span class="org-list-dt">3.</span> call <span class="org-verbatim">M-x epresent-run</span>
+<span class="org-list-dt">4.</span> press "<span class="org-verbatim">t</span>" to view the top level of the presentation
+<span class="org-list-dt">5.</span> navigate the presentation with "<span class="org-verbatim">n</span>", "<span class="org-verbatim">p</span>", "<span class="org-verbatim">t</span>" and quit with "<span class="org-verbatim">q</span>"
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> S5
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">S5</span>
+  <span class="org-drawer">:END:</span>
+
+<span class="kc-org-link-url"><a href="http://meyerweb.com/eric/tools/s5/">S5</a></span> is a "<span class="italic">Simple Standards-Based Slide Show System</span>" implemented using
+HTML, CSS and Javascript.
+
+Two S5 options exist for Org-mode.
+
+<span class="org-list-dt">1.</span> Yann Hodique has developed a javascript based option which works
+   directly with Org-mode's existing html export.
+
+   This technique is described on Yann's blog
+   <span class="kc-org-link-url"><a href="http://www.hodique.info/blog/2009/11/14/s5_presentation_from_org-mode">s5 presentation from org-mode</a></span>.
+
+<span class="org-list-dt">2.</span> There is also code implementing an altered version of Org-mode's
+   existing html export tailored to generating static S5
+   presentations.
+
+  This second technique is described below.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Code and usage for </span><span class="org-level-2"><span class="org-verbatim">org-export-as-s5</span></span><span class="org-level-2">.
+</span><span class="org-list-dt">-</span> The emacs-lisp code available <span class="kc-org-link-url"><a href="https://github.com/eschulte/org-S5/blob/master/org-export-as-s5.el">here</a></span> defines a single function
+  (<span class="org-verbatim">org-export-as-s5</span>) as a simple wrapper around Org-mode's existing
+  html export.  This function is based heavily on Pierre de Buyl's
+  <span class="kc-org-link-url"><a href="https://orgmode.org/list/28A74B24-4011-4F2D-AA51-7E18C4765669@chem.utoronto.ca">very thorough S5 export instructions</a></span> posted to the Org-mode mailing
+  list.
+
+<span class="org-list-dt">-</span> Simply evaluate this code, or add it to your <span class="org-verbatim">.emacs</span>, then call
+  <span class="org-verbatim">M-x org-export-as-s5</span> from within an Org-mode buffer. <span class="bold">Note</span>: the
+  <span class="kc-org-link-url"><a href="http://gitweb.adaptive.cs.unm.edu/org-S5.git/tree/HEAD:/ui">ui</a></span> directory holding S5 support files must be located in the same
+  directory as the exported html.
+
+<span class="org-list-dt">-</span> Currently there are three themes which can be set with the
+  following.
+<span class="org-block-begin-line">  #+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-s5-theme </span><span class="org-block"><span class="string">"railscast"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">   </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">based off `</span></span><span class="org-block"><span class="comment"><span class="constant">color-theme-railscasts</span></span></span><span class="org-block"><span class="comment">'
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-s5-theme </span><span class="org-block"><span class="string">"default"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">     </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">the default S5 theme
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-s5-theme </span><span class="org-block"><span class="string">"i18n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">        </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">the i18n theme by the author of S5
+</span></span><span class="org-block-end-line">  #+end_src
+</span>
+<span class="org-list-dt">-</span> This entire directory is available as a <span class="kc-org-link-url"><a href="https://github.com/eschulte/org-S5/blob/master/org-export-as-s5.el">git repository</a></span>.
+
+<span class="org-list-dt">-</span> For two examples of org-S5 in action see <span class="kc-org-link-url"><a href="http://eschulte.github.io/org-S5/">here</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> org-tree-slide
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">org-tree-slide</span>
+  <span class="org-drawer">:END:</span>
+
+org-tree-slide is an Emacs minor mode for Org Mode. Once you toggle
+<span class="org-verbatim">M-x org-tree-slide-mode</span>, just type <span class="org-verbatim">C-&gt;</span> and <span class="org-verbatim">C-&lt;</span> to move between slides.
+To show CONTENT, type <span class="org-verbatim">C-x s c</span>. When you exit this minor mode,
+the slideshow will be finished. It is recommended to customize the default
+keybindings so that user can smoothly operate their presentations.
+
+The code is available at <span class="kc-org-link-url"><a href="https://github.com/takaxp/org-tree-slide">Github</a></span>. Please read <span class="kc-org-link-url"><a href="https://github.com/takaxp/org-tree-slide/blob/master/README.org">README.org</a></span> and check the user
+variables to make your presentation more attractive.
+
+Download org-tree-slide from the following direct link:
+<span class="kc-org-link-url"><a href="https://raw.github.com/takaxp/org-tree-slide/master/org-tree-slide.el">https://raw.github.com/takaxp/org-tree-slide/master/org-tree-slide.el</a></span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Recommended key bindings and profiles
+</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">global-set-key</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">kbd</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;f8&gt;"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-tree-slide-mode</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">global-set-key</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">kbd</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"S-&lt;f8&gt;"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-tree-slide-skip-done-toggle</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Preset profiles are defined in org-tree-slide.
+<span class="org-list-dt">1.</span> <span class="org-verbatim">M-x org-tree-slide-simple-profile</span>            ; Simple use
+<span class="org-list-dt">2.</span> <span class="org-verbatim">M-x org-tree-slide-presentation-profile</span>      ; Presentation use
+<span class="org-list-dt">3.</span> <span class="org-verbatim">M-x org-tree-slide-narrowing-control-profile</span> ; TODO Pursuit with narrowing
+These functions set user variables for each using scenario.
+You can find more detail in <span class="kc-org-link-url"><a href="https://github.com/takaxp/org-tree-slide/blob/master/README.org">README.org</a></span>.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Frame maximized presentation
+</span>
+Normally, presentations will appear in full screen or frame maximized.
+<span class="kc-org-link-url"><a href="https://github.com/takaxp/moom#org-mode-org-tree-slide">moom</a></span> is useful in such cases since the package can change frame position and size
+by keyboard and the font size will be increased suitably for your presentation.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> orgmode-slideshow
+</span>
+Sander Boer created orgmode-slideshow -- see his message:
+
+I hacked together a javascript and a css that transforms the default html
+export of my org file to a slide show:
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.mauc.nl/presentations/test.html">http://www.mauc.nl/presentations/test.html</a></span>
+
+Here's the org-file:
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.mauc.nl/presentations/test.org">http://www.mauc.nl/presentations/test.org</a></span>
+
+Here's the rest (depends on jQuery)
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.mauc.nl/assets/css/orgmode-slideshow.css">http://www.mauc.nl/assets/css/orgmode-slideshow.css</a></span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.mauc.nl/assets/js/orgmode-slideshow.js">http://www.mauc.nl/assets/js/orgmode-slideshow.js</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> org-reveal
+</span>
+  Reveal.js is a web-based presentation framework, with attracting
+  features like:
+  <span class="org-list-dt">-</span> 3-D slide transition effect.
+  <span class="org-list-dt">-</span> 2-D slide arrangement.
+  <span class="org-list-dt">-</span> Fragmented items.
+  <span class="org-list-dt">-</span> Navigation control.
+  <span class="org-list-dt">-</span> Slide thumbnail.
+  <span class="org-list-dt">-</span> Customizable themes.
+
+  An <span class="kc-org-link-url"><a href="http://lab.hakim.se/reveal-js/">example of Reveal.js</a></span> is available online.
+
+  Org-reveal is an Org-mode extension that exports Org-mode documents
+  into Reveal.js presentations. With org-reveal, you can easily
+  organize Reveal.js presentations without knowing the detail of HTML,
+  AND with some extra benifits:
+  <span class="org-list-dt">-</span> Highlighted source codes.
+  <span class="org-list-dt">-</span> Neat math equations.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sources
+</span>
+   Both Reveal.js and org-reveal are hosted on GitHub.
+   * <span class="org-list-dt">Reveal.js ::</span> <span class="kc-org-link-url"><a href="https://github.com/hakimel/reveal.js/">https://github.com/hakimel/reveal.js/</a></span>
+   * <span class="org-list-dt">Org-reveal ::</span> <span class="kc-org-link-url"><a href="https://github.com/yjwen/org-reveal/">https://github.com/yjwen/org-reveal/</a></span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Usage
+</span>
+   See org-reveal's <span class="kc-org-link-url"><a href="https://github.com/yjwen/org-reveal/blob/master/Readme.org">Readme.org</a></span> for detail instruction about installing
+   Reveal.js/org-reveal and the setting ups.
+
+   Though you can read it online, it is recommended to download the
+   projects and read it in your Emacs, so that you can try exporting
+   it to Reveal.js presentation while reading.
+</pre>
+  </body>
+</html>

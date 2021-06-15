@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>koma-letter-new-example.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verse {
+        /* org-verse */
+        background-color: #000000;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Preamble</span><span class="whitespace-tab">                                                      </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>
+<span class="org-document-info-keyword">#+TITLE:</span>  <span class="org-document-title">Mis-shapen chaos of well-seeming forms!
+</span><span class="org-document-info-keyword">#+DATE:</span> <span class="org-document-info">1580
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Romeo
+</span>
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-meta-line">#+SUBJECT: Or: org-mode and KOMA-Script letters</span>
+<span class="org-meta-line">#+PLACE: Verona, Italy</span>
+
+<span class="org-meta-line">#+LCO: DINmtext</span>
+<span class="comment"># NOTE: Check the KOMA-Script manual to find a LCO that fits the</span>
+<span class="comment">#       envelope standards of your country.</span>
+
+<span class="comment"># NOTE: Change the order of the backletter, use smart quotes and</span>
+<span class="comment">#       include backaddress</span>
+<span class="org-meta-line">#+OPTIONS: after-closing-order:(my_after_signature ps cc encl)</span>
+<span class="org-meta-line">#+options: ':t backaddress:t subject:centered</span>
+
+<span class="comment"># Remove the first header</span>
+<span class="org-meta-line">#+LATEX_HEADER: \setkomavar{firsthead}{}</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> To-address of the lovely Juliet </span><span class="whitespace-tab">                                      </span><span class="org-level-1"> </span><span class="org-level-1"><span class="org-tag">:to:</span></span><span class="org-level-1">
+</span><span class="comment"># NOTE: Explicit newlines are not necessary in TO and FROM</span>
+Juliet
+House of Capulet
+Verona
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> From </span><span class="whitespace-tab">                                                         </span><span class="org-level-1">       </span><span class="org-level-1"><span class="org-tag">:from:</span></span><span class="org-level-1">
+</span>House of Montague
+Verona
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Location</span><span class="whitespace-tab">                                                      </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:location:</span></span><span class="org-level-1">
+</span><span class="org-meta-line">#+LATEX_HEADER: \usepackage{tikz}</span>
+<span class="org-block-begin-line">#+BEGIN_CENTER
+</span><span class="bold">Montague</span>
+#+BEGIN_EXPORT latex
+\tikz \draw (0,0) --+ (0,-1)
+       arc [radius=1, start angle=-180, end angle=0]
+       --+ (0,1) -- cycle
+       node [below=1.5em,midway] {\bfseries M};
+#+END_EXPORT
+<span class="org-block-end-line">#+END_CENTER
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Dear Juliet,
+</span><span class="comment"># NOTE: Your letter is the first non-special heading.  The title of</span>
+<span class="comment"># this heading may used as an opening.</span>
+
+<span class="org-block-begin-line">#+BEGIN_VERSE
+</span><span class="org-verse">Then plainly know my heart's dear love is set
+On the fair daughter of rich Capulet:
+As mine on hers, so hers is set on mine;
+And all combin'd, save what thou must combine
+By holy marriage: when, and where, and how
+We met, we woo'd, and made exchange of vow,
+I'll tell thee as we pass; but this I pray,
+That thou consent to marry us to-day.
+</span><span class="org-block-end-line">#+END_VERSE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Yours truly,</span><span class="whitespace-tab">                                                  </span><span class="org-level-1">    </span><span class="org-level-1"><span class="org-tag">:closing:</span></span><span class="org-level-1">
+</span>Romeo of House Montague
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> some arbitrary LaTeX code</span><span class="whitespace-tab">                             </span><span class="org-level-1"> </span><span class="org-level-1"><span class="org-tag">:my_after_signature:</span></span><span class="org-level-1">
+</span><span class="org-block-begin-line">#+BEGIN_EXPORT latex
+</span><span class="org-block"><span class="comment-delimiter">% </span></span><span class="org-block"><span class="comment">this special heading was added dynamically.
+</span></span><span class="org-block-end-line">#+END_EXPORT
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> PS</span><span class="whitespace-tab">                                                                    </span><span class="org-level-1"> </span><span class="org-level-1"><span class="org-tag">:ps:</span></span><span class="org-level-1">
+</span>PS: "PS" is not typeset automatically by KOMA-Script
+
+<span class="org-formula">@@latex:\noindent@@</span> PPS: This is a feature!
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> CC</span><span class="whitespace-tab">                                                                    </span><span class="org-level-1"> </span><span class="org-level-1"><span class="org-tag">:cc:</span></span><span class="org-level-1">
+</span>Paris and Lawrence.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> ENCL</span><span class="whitespace-tab">                                                          </span><span class="org-level-1">       </span><span class="org-level-1"><span class="org-tag">:encl:</span></span><span class="org-level-1">
+</span>See also <span class="kc-org-link-url"><a href="https://en.wikisource.org/wiki/The_Tragedy_of_Romeo_and_Juliet">The Tragedy of Romeo and Juliet</a></span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> some more arbitrary LaTeX code </span><span class="whitespace-tab">                       </span><span class="org-level-1">       </span><span class="org-level-1"><span class="org-tag">:after_letter:</span></span><span class="org-level-1">
+</span><span class="org-block-begin-line">#+BEGIN_EXPORT latex
+</span><span class="org-block"><span class="comment-delimiter">% </span></span><span class="org-block"><span class="comment">here we can place random LaTeX code, e.g. including PDFs via the pdfpages package.
+</span></span><span class="org-block-end-line">#+END_EXPORT
+</span></pre>
+  </body>
+</html>

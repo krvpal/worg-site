@@ -1,0 +1,1203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-syntax.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-quote {
+        /* org-quote */
+        color: #cfc0c5;
+        background-color: #212224;
+        font-style: italic;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Org Syntax (draft)
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Nicolas Goaziou
+</span><span class="org-meta-line">#+OPTIONS: toc:t ':t author:nil</span>
+<span class="org-meta-line">#+LANGUAGE: en</span>
+<span class="org-meta-line">#+CATEGORY: worg</span>
+<span class="org-meta-line">#+BIND: sentence-end-double-space t</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+This document describes and comments Org syntax as it is currently
+read by its parser (Org Elements) and, therefore, by the export
+framework.  It also includes a few comments on that syntax.
+
+A core concept in this syntax is that only headlines, sections,
+planning lines and property drawers are context-free<span class="org-footnote">[fn:1][fn:2]</span>.
+Every other syntactical part only exists within specific environments.
+
+Three categories are used to classify these environments: "Greater
+elements", "elements", and "objects", from the broadest scope to the
+narrowest.  The word "element" is used for both Greater and non-Greater
+elements, the context should make that clear.
+
+The paragraph is the unit of measurement.  An element defines
+syntactical parts that are at the same level as a paragraph,
+i.e. which cannot contain or be included in a paragraph.  An object is
+a part that could be included in an element.  Greater elements are all
+parts that can contain an element.
+
+Empty lines belong to the largest element ending before them.  For
+example, in a list, empty lines between items are part of the
+item before them, but empty lines at the end of a list belong to the
+plain list element.
+
+Unless specified otherwise, case is not significant.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Headlines and Sections
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Headlines_and_Sections</span>
+  <span class="org-drawer">:END:</span>
+
+  A headline is defined as:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  STARS KEYWORD PRIORITY TITLE TAGS
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+  STARS is a string starting at column 0, containing at least one
+  asterisk (and up to <span class="org-code">org-inlinetask-min-level</span> if <span class="org-verbatim">org-inlinetask</span>
+  library is loaded) and ended by a space character.  The number of
+  asterisks is used to define the level of the headline.  It's the
+  sole compulsory part of a headline.
+
+  KEYWORD is a TODO keyword, which has to belong to the list defined
+  in <span class="org-code">org-todo-keywords-1</span>.  Case is significant.
+
+  PRIORITY is a priority cookie, i.e. a single letter preceded by
+  a hash sign # and enclosed within square brackets.
+
+  TITLE can be made of any character but a new line.  Though, it will
+  match after every other part have been matched.
+
+  TAGS is made of words containing any alpha-numeric character,
+  underscore, at sign, hash sign or percent sign, and separated with
+  colons.
+
+  Examples of valid headlines include:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  ,* 
+
+  ,** DONE
+
+  ,*** Some e-mail
+
+  ,**** TODO [#A] COMMENT Title :tag:a2%:
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+  If the first word appearing in the title is "COMMENT", the headline
+  will be considered as "commented".  Case is significant.
+
+  If its title is <span class="org-code">org-footnote-section</span>, it will be considered as
+  a "footnote section".  Case is significant.
+
+  If "ARCHIVE" is one of its tags, it will be considered as
+  "archived".  Case is significant.
+
+  A headline contains directly one section (optionally), followed by
+  any number of deeper level headlines.
+
+  A section contains directly any greater element or element.  Only
+  a headline can contain a section.  As an exception, text before the
+  first headline in the document also belongs to a section.
+
+  As an example, consider the following document:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  An introduction.
+
+  ,* A Headline
+
+    Some text.
+
+  ,** Sub-Topic 1
+
+  ,** Sub-Topic 2
+
+  ,*** Additional entry
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+  Its internal structure could be summarized as:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  (document
+   (section)
+   (headline
+    (section)
+    (headline)
+    (headline
+     (headline))))
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Affiliated Keywords
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Affiliated_keywords</span>
+  <span class="org-drawer">:END:</span>
+
+  With the exception of <span class="org-link"><a href="#Comments">comment</a></span>, <span class="org-link"><a href="#Clock,_Diary_Sexp_and_Planning">clocks</a></span>, <span class="org-link"><a href="#Headlines_and_Sections">headlines</a></span>, <span class="org-link"><a href="#Inlinetasks">inlinetasks</a></span>,
+  <span class="org-link"><a href="#Plain_Lists_and_Items">items</a></span>, <span class="org-link"><a href="#Node_Properties">node properties</a></span>, <span class="org-link"><a href="#Clock,_Diary_Sexp_and_Planning">planning</a></span>, <span class="org-link"><a href="#Property_Drawers">property drawers</a></span>, <span class="org-link"><a href="#Headlines_and_Sections">sections</a></span>, and
+  <span class="org-link"><a href="#Table_Rows">table rows</a></span>, every other element type can be assigned attributes.
+
+  This is done by adding specific keywords, named "affiliated
+  keywords", just above the element considered, no blank line
+  allowed.
+
+  Affiliated keywords are built upon one of the following patterns:
+
+<span class="org-block-begin-line">  #+BEGIN_EXAMPLE
+</span><span class="custom">  ,#+KEY: VALUE
+  ,#+KEY[OPTIONAL]: VALUE
+  ,#+ATTR_BACKEND: VALUE
+</span><span class="org-block-end-line">  #+END_EXAMPLE
+</span>
+  KEY is either "CAPTION", "HEADER", "NAME", "PLOT" or "RESULTS"
+  string.
+
+  BACKEND is a string constituted of alpha-numeric characters, hyphens
+  or underscores.
+
+  OPTIONAL and VALUE can contain any character but a new line.  Only
+  "CAPTION" and "RESULTS" keywords can have an optional value.
+
+  An affiliated keyword can appear more than once if KEY is either
+  "CAPTION" or "HEADER" or if its pattern is "#+ATTR_BACKEND: VALUE".
+
+  "CAPTION", "AUTHOR", "DATE" and "TITLE" keywords can contain objects
+  in their value and their optional value, if applicable.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Greater Elements
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Greater_Elements</span>
+  <span class="org-drawer">:END:</span>
+
+  Unless specified otherwise, greater elements can contain directly
+  any other element or greater element except:
+
+  <span class="org-list-dt">-</span> elements of their own type,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Node_Properties">node properties</a></span>, which can only be found in <span class="org-link"><a href="#Property_Drawers">property drawers</a></span>,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Plain_Lists_and_Items">items</a></span>, which can only be found in <span class="org-link"><a href="#Plain_Lists_and_Items">plain lists</a></span>.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Greater Blocks
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Greater_Blocks</span>
+   <span class="org-drawer">:END:</span>
+
+   Greater blocks consist in the following pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   ,#+BEGIN_NAME PARAMETERS
+   CONTENTS
+   ,#+END_NAME
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME can contain any non-whitespace character.
+
+   PARAMETERS can contain any character other than new line, and can
+   be omitted.
+
+   If NAME is "CENTER", it will be a "center block".  If it is
+   "QUOTE", it will be a "quote block".
+
+   If the block is neither a center block, a quote block or a <span class="org-link"><a href="#Blocks">block
+   element</a></span>, it will be a "special block".
+
+   CONTENTS can contain any element, except a line <span class="org-verbatim">#+END_NAME</span> on
+   its own.  Also lines beginning with STARS must be quoted by
+   a comma.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Drawers and Property Drawers
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Drawers</span>
+   <span class="org-drawer">:END:</span>
+
+   Pattern for drawers is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   :NAME:
+   CONTENTS
+   :END:
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME can contain word-constituent characters, hyphens and
+   underscores.
+
+   CONTENTS can contain any element but another drawer.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Dynamic Blocks
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Dynamic_Blocks</span>
+   <span class="org-drawer">:END:</span>
+
+   Pattern for dynamic blocks is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   ,#+BEGIN: NAME PARAMETERS
+   CONTENTS
+   ,#+END:
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME cannot contain any whitespace character.
+
+   PARAMETERS can contain any character and can be omitted.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Footnote Definitions
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Footnote_Definitions</span>
+   <span class="org-drawer">:END:</span>
+
+   Pattern for footnote definitions is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   [fn:LABEL] CONTENTS
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   It must start at column 0.
+
+   LABEL is either a number or follows the pattern "fn:WORD", where
+   word can contain any word-constituent character, hyphens and
+   underscore characters.
+
+   CONTENTS can contain any element excepted another footnote
+   definition.  It ends at the next footnote definition, the next
+   headline, two consecutive empty lines or the end of buffer.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inlinetasks
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Inlinetasks</span>
+   <span class="org-drawer">:END:</span>
+
+   Inlinetasks are defined by <span class="org-code">org-inlinetask-min-level</span> contiguous
+   asterisk characters starting at column 0, followed by a whitespace
+   character.
+
+   Optionally, inlinetasks can be ended with a string constituted of
+   <span class="org-code">org-inlinetask-min-level</span> contiguous asterisk characters starting
+   at column 0, followed by a space and the "END" string.
+
+   Inlinetasks are recognized only after <span class="org-verbatim">org-inlinetask</span> library is
+   loaded.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Plain Lists and Items
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Plain_Lists_and_Items</span>
+   <span class="org-drawer">:END:</span>
+
+   Items are defined by a line starting with the following pattern:
+   "BULLET COUNTER-SET CHECK-BOX TAG", in which only BULLET is
+   mandatory.
+
+   BULLET is either an asterisk, a hyphen, a plus sign character or
+   follows either the pattern "COUNTER." or "COUNTER)".  In any case,
+   BULLET is follwed by a whitespace character or line ending.
+
+   COUNTER can be a number or a single letter.
+
+   COUNTER-SET follows the pattern [@COUNTER].
+
+   CHECK-BOX is either a single whitespace character, a "X" character
+   or a hyphen, enclosed within square brackets.
+
+   TAG follows "TAG-TEXT ::" pattern, where TAG-TEXT can contain any
+   character but a new line.
+
+   An item ends before the next item, the first line less or equally
+   indented than its starting line, or two consecutive empty lines.
+   Indentation of lines within other greater elements do not count,
+   neither do inlinetasks boundaries.
+
+   A plain list is a set of consecutive items of the same indentation.
+   It can only directly contain items.
+
+   If first item in a plain list has a counter in its bullet, the
+   plain list will be an "ordered plain-list".  If it contains a tag,
+   it will be a "descriptive list".  Otherwise, it will be an
+   "unordered list".  List types are mutually exclusive.
+
+   For example, consider the following excerpt of an Org document:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   </span><span class="org-list-dt"><span class="custom">1.</span></span><span class="custom"> item 1
+   </span><span class="org-list-dt"><span class="custom">2.</span></span><span class="custom"> </span><span class="custom"><span class="org-headline-done">[X] item 2
+</span></span><span class="custom">      </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> some tag :: item 2.1
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   Its internal structure is as follows:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   (ordered-plain-list
+    (item)
+    (item
+     (descriptive-plain-list
+      (item))))
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Property Drawers
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Property_Drawers</span>
+   <span class="org-drawer">:END:</span>
+
+   Property drawers are a special type of drawer containing properties
+   attached to a headline.  They are located right after a <span class="org-link"><a href="#Headlines_and_Sections">headline</a></span>
+   and its <span class="org-link"><a href="#Clock,_Diary_Sexp_and_Planning">planning</a></span> information.
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   HEADLINE
+   PROPERTYDRAWER
+
+   HEADLINE
+   PLANNING
+   PROPERTYDRAWER
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   PROPERTYDRAWER follows the pattern
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   :PROPERTIES:
+   CONTENTS
+   :END:
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   where CONTENTS consists of zero or more <span class="org-link"><a href="#Node_Properties">node properties</a></span>.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tables
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Tables</span>
+   <span class="org-drawer">:END:</span>
+
+   Tables start at lines beginning with either a vertical bar or the
+   "+-" string followed by plus or minus signs only, assuming they are
+   not preceded with lines of the same type.  These lines can be
+   indented.
+
+   A table starting with a vertical bar has "org" type.  Otherwise it
+   has "table.el" type.
+
+   Org tables end at the first line not starting with a vertical bar.
+   Table.el tables end at the first line not starting with either
+   a vertical line or a plus sign.  Such lines can be indented.
+
+   An org table can only contain table rows.  A table.el table does
+   not contain anything.
+
+   One or more "#+TBLFM: FORMULAS" lines, where "FORMULAS" can contain
+   any character, can follow an org table.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Elements
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Elements</span>
+  <span class="org-drawer">:END:</span>
+
+  Elements cannot contain any other element.
+
+  Only <span class="org-link"><a href="#Keywords">keywords</a></span> whose name belongs to
+  <span class="org-code">org-element-document-properties</span>, <span class="org-link"><a href="#Blocks">verse blocks</a></span> , <span class="org-link"><a href="#Paragraphs">paragraphs</a></span> and
+  <span class="org-link"><a href="#Table_Rows">table rows</a></span> can contain objects.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Babel Call
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Babel_Call</span>
+   <span class="org-drawer">:END:</span>
+
+   Pattern for babel calls is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   ,#+CALL: VALUE
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   VALUE is optional.  It can contain any character but a new line.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Blocks
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Blocks</span>
+   <span class="org-drawer">:END:</span>
+
+   Like <span class="org-link"><a href="#Greater_Blocks">greater blocks</a></span>, pattern for blocks is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   ,#+BEGIN_NAME DATA
+   CONTENTS
+   ,#+END_NAME
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME cannot contain any whitespace character.
+
+   If NAME is "COMMENT", it will be a "comment block".  If it is
+   "EXAMPLE", it will be an "example block".  If it is "EXPORT", it
+   will be an "export block".  If it is "SRC", it will be a "source
+   block".  If it is "VERSE", it will be a "verse block".
+
+   DATA can contain any character but a new line.  It can be ommitted,
+   unless the block is either a "source block" or an "export block".
+
+   In the latter case, it should be constituted of a single word.
+
+   In the former case, it must follow the pattern "LANGUAGE SWITCHES
+   ARGUMENTS", where SWITCHES and ARGUMENTS are optional.
+
+   LANGUAGE cannot contain any whitespace character.
+
+   SWITCHES is made of any number of "SWITCH" patterns, separated by
+   blank lines.
+
+   A SWITCH pattern is either "-l "FORMAT"", where FORMAT can contain
+   any character but a double quote and a new line, "-S" or "+S",
+   where S stands for a single letter.
+
+   ARGUMENTS can contain any character but a new line.
+
+   CONTENTS can contain any character, including new lines.  Though it
+   will only contain Org objects if the block is a verse block.
+   Otherwise, CONTENTS will not be parsed.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Clock, Diary Sexp and Planning
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Clock,_Diary_Sexp_and_Planning</span>
+   <span class="org-drawer">:END:</span>
+
+   A clock follows either of the patterns below:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   CLOCK: INACTIVE-TIMESTAMP
+   CLOCK: INACTIVE-TIMESTAMP-RANGE DURATION
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   INACTIVE-TIMESTAMP, resp. INACTIVE-TIMESTAMP-RANGE, is an inactive,
+   resp. inactive range, <span class="org-link"><a href="#Timestamp">timestamp</a></span> object.
+
+   DURATION follows the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   =&gt; HH:MM
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   HH is a number containing any number of digits.  MM is a two digit
+   numbers.
+
+   A diary sexp is a line starting at column 0 with "%%(" string.  It
+   can then contain any character besides a new line.
+
+   A planning is an element with the following pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   HEADLINE
+   PLANNING
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   where HEADLINE is a <span class="org-link"><a href="#Headlines_and_Sections">headline</a></span> element and PLANNING is a line filled
+   with INFO parts, where each of them follows the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   KEYWORD: TIMESTAMP
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   KEYWORD is either "DEADLINE", "SCHEDULED" or "CLOSED".  TIMESTAMP
+   is a <span class="org-link"><a href="#Timestamp">timestamp</a></span> object.
+
+   In particular, no blank line is allowed between PLANNING and
+   HEADLINE.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Comments
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Comments</span>
+   <span class="org-drawer">:END:</span>
+
+   A "comment line" starts with zero or more whitespace characters,
+   followed by a hash sign and a whitespace character or an end of
+   line.
+
+   Comments consist of one or more consecutive comment lines.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Fixed Width Areas
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Fixed_Width_Areas</span>
+   <span class="org-drawer">:END:</span>
+
+   A "fixed-width line" start with a colon character and a whitespace
+   or an end of line.
+
+   Fixed width areas can contain any number of consecutive fixed-width
+   lines.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Horizontal Rules
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Horizontal_Rules</span>
+   <span class="org-drawer">:END:</span>
+
+   A horizontal rule is a line made of at least 5 consecutive hyphens.
+   It can be indented.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Keywords
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Keywords</span>
+   <span class="org-drawer">:END:</span>
+
+   Keywords follow the syntax:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   ,#+KEY: VALUE
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   KEY can contain any non-whitespace character, but it cannot be
+   equal to "CALL" or any affiliated keyword.
+
+   VALUE can contain any character excepted a new line.
+
+   If KEY belongs to <span class="org-code">org-element-document-properties</span>, VALUE can
+   contain objects.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX Environments
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">LaTeX_Environments</span>
+   <span class="org-drawer">:END:</span>
+
+   Pattern for LaTeX environments is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   \begin{NAME} CONTENTS \end{NAME}
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME is constituted of alpha-numeric or asterisk characters.
+
+   CONTENTS can contain anything but the "\end{NAME}" string.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Node Properties
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Node_Properties</span>
+   <span class="org-drawer">:END:</span>
+
+   Node properties can only exist in <span class="org-link"><a href="#Property_Drawers">property drawers</a></span>.  Their pattern
+   is any of the following
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   :NAME: VALUE
+
+   :NAME+: VALUE
+
+   :NAME:
+
+   :NAME+:
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME can contain any non-whitespace character but cannot end with
+   a plus sign.  It cannot be the empty string.
+
+   VALUE can contain anything but a newline character.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Paragraphs
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Paragraphs</span>
+   <span class="org-drawer">:END:</span>
+
+   Paragraphs are the default element, which means that any
+   unrecognized context is a paragraph.
+
+   Empty lines and other elements end paragraphs.
+
+   Paragraphs can contain every type of object.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table Rows
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Table_Rows</span>
+   <span class="org-drawer">:END:</span>
+
+   A table rows is either constituted of a vertical bar and any number
+   of <span class="org-link"><a href="#Table_Cells">table cells</a></span> or a vertical bar followed by a hyphen.
+
+   In the first case the table row has the "standard" type.  In the
+   second case, it has the "rule" type.
+
+   Table rows can only exist in <span class="org-link"><a href="#Tables">tables</a></span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Objects
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Objects</span>
+  <span class="org-drawer">:END:</span>
+
+  Objects can only be found in the following locations:
+
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Affiliated_keywords">affiliated keywords</a></span> defined in <span class="org-code">org-element-parsed-keywords</span>,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Keywords">document properties</a></span>,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Headlines_and_Sections">headline</a></span> titles,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Inlinetasks">inlinetask</a></span> titles,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Plain_Lists_and_Items">item</a></span> tags,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Paragraphs">paragraphs</a></span>,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Table_Cells">table cells</a></span>,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Table_Rows">table rows</a></span>, which can only contain table cell
+    objects,
+  <span class="org-list-dt">-</span> <span class="org-link"><a href="#Blocks">verse blocks</a></span>.
+
+  Most objects cannot contain objects.  Those which can will be
+  specified.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Entities and LaTeX Fragments
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Entities_and_LaTeX_Fragments</span>
+   <span class="org-drawer">:END:</span>
+
+   An entity follows the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   \NAME POST
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   where NAME has a valid association in either <span class="org-code">org-entities</span> or
+   <span class="org-code">org-entities-user</span>.
+
+   POST is the end of line, "{}" string, or a non-alphabetical
+   character.  It isn't separated from NAME by a whitespace character.
+
+   A LaTeX fragment can follow multiple patterns:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   \NAME BRACKETS
+   \(CONTENTS\)
+   \[CONTENTS\]
+   $$CONTENTS$$
+   PRE$CHAR$POST
+   PRE$BORDER1 BODY BORDER2$POST
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME contains alphabetical characters only and must not have an
+   association in either <span class="org-code">org-entities</span> or <span class="org-code">org-entities-user</span>.
+
+   BRACKETS is optional, and is not separated from NAME with white
+   spaces.  It may contain any number of the following patterns:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   [CONTENTS1]
+   {CONTENTS2}
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   where CONTENTS1 can contain any characters excepted "{" "}", "["
+   "]" and newline and CONTENTS2 can contain any character excepted
+   "{", "}" and newline.
+
+   CONTENTS can contain any character but cannot contain "\)" in the
+   second template or "\]" in the third one.
+
+   PRE is either the beginning of line or a character different from
+   <span class="org-code">$</span>.
+
+   CHAR is a non-whitespace character different from <span class="org-code">.</span>, <span class="org-code">,</span>, <span class="org-code">?</span>,
+   <span class="org-code">;</span>, <span class="org-code">'</span> or a double quote.
+
+   POST is any punctuation (including parentheses and quotes) or space
+   character, or the end of line.
+
+   BORDER1 is a non-whitespace character different from <span class="org-code">.</span>, <span class="org-code">,</span>, <span class="org-code">;</span>
+   and <span class="org-code">$</span>.
+
+   BODY can contain any character excepted <span class="org-code">$</span>, and may not span over
+   more than 3 lines.
+
+   BORDER2 is any non-whitespace character different from <span class="org-code">,</span>, <span class="org-code">.</span> and
+   <span class="org-code">$</span>.
+
+<span class="org-meta-line">   #+ATTR_ASCII: :width 5</span>
+   <span class="org-meta-line">-----</span>
+
+<span class="org-block-begin-line">   #+BEGIN_QUOTE
+</span><span class="org-quote">   It would introduce incompatibilities with previous Org versions,
+   but support for </span><span class="org-quote"><span class="org-code">$...$</span></span><span class="org-quote"> (and for symmetry, </span><span class="org-quote"><span class="org-code">$$...$$</span></span><span class="org-quote">) constructs
+   ought to be removed.
+
+   They are slow to parse, fragile, redundant and imply false
+   positives.  --- ngz
+</span><span class="org-block-end-line">   #+END_QUOTE
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export Snippets
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Export_Snippets</span>
+   <span class="org-drawer">:END:</span>
+
+   Patter for export snippets is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   </span><span class="custom"><span class="org-formula">@@NAME:VALUE@@</span></span><span class="custom">
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME can contain any alpha-numeric character and hyphens.
+
+   VALUE can contain anything but "@@" string.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Footnote References
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Footnote_References</span>
+   <span class="org-drawer">:END:</span>
+
+   There are four patterns for footnote references:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   [fn:LABEL]
+   [fn:LABEL:DEFINITION]
+   [fn::DEFINITION]
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   LABEL can contain any word constituent character, hyphens and
+   underscores.
+
+   DEFINITION can contain any character.  Though opening and closing
+   square brackets must be balanced in it.  It can contain any object
+   encountered in a paragraph, even other footnote references.
+
+   If the reference follows the second pattern, it is called an
+   "inline footnote".  If it follows the third one, i.e. if LABEL is
+   omitted, it is an "anonymous footnote".
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Inline Babel Calls and Source Blocks
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Inline_Babel_Calls_and_Source_Blocks</span>
+   <span class="org-drawer">:END:</span>
+
+   Inline Babel calls follow any of the following patterns:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   call_NAME(ARGUMENTS)
+   call_NAME[HEADER](ARGUMENTS)[HEADER]
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME can contain any character besides <span class="org-code">(, </span><span class="org-code"><span class="org-code">)</span></span> and "\n".
+
+   HEADER can contain any character besides <span class="org-code">]</span> and "\n".
+
+   ARGUMENTS can contain any character besides <span class="org-code">)</span> and "\n".
+
+   Inline source blocks follow any of the following patterns:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   src_LANG{BODY}
+   src_LANG[OPTIONS]{BODY}
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   LANG can contain any non-whitespace character.
+
+   OPTIONS and BODY can contain any character but "\n".
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Line Breaks
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Line_Breaks</span>
+   <span class="org-drawer">:END:</span>
+
+   A line break consists in "\\SPACE" pattern at the end of an
+   otherwise non-empty line.
+
+   SPACE can contain any number of tabs and spaces, including 0.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Links
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Links</span>
+   <span class="org-drawer">:END:</span>
+
+   There are 4 major types of links:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   PRE1 RADIO POST1          ("radio" link)
+   &lt;PROTOCOL:PATH&gt;           ("angle" link)
+   PRE2 PROTOCOL:PATH2 POST2 ("plain" link)
+   [[PATH3]DESCRIPTION]      ("regular" link)
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   PRE1 and POST1, when they exist, are non alphanumeric characters.
+
+   RADIO is a string matched by some <span class="org-link"><a href="#Targets_and_Radio_Targets">radio target</a></span>.  It may contain
+   <span class="org-link"><a href="#Entities_and_LaTeX_Fragments">entities</a></span>, <span class="org-link"><a href="#Entities_and_LaTeX_Fragments">latex fragments</a></span>, <span class="org-link"><a href="#Subscript_and_Superscript">subscript</a></span> and <span class="org-link"><a href="#Subscript_and_Superscript">superscript</a></span>.
+
+   PROTOCOL is a string among <span class="org-code">org-link-types</span>.
+
+   PATH can contain any character but <span class="org-code">]</span>, <span class="org-code">&lt;</span>, <span class="org-code">&gt;</span> and <span class="org-code">\n</span>.
+
+   PRE2 and POST2, when they exist, are non word constituent
+   characters.
+
+   PATH2 can contain any non-whitespace character excepted <span class="org-code">(, </span><span class="org-code"><span class="org-code">)</span></span>,
+   <span class="org-code">&lt;</span> and <span class="org-code">&gt;</span>.  It must end with a word-constituent character, or any
+   non-whitespace non-punctuation character followed by <span class="org-code">/</span>.
+
+   DESCRIPTION must be enclosed within square brackets.  It can
+   contain any character but square brackets.  It can contain any
+   object found in a paragraph excepted a <span class="org-link"><a href="#Footnote_References">footnote reference</a></span>, a <span class="org-link"><a href="#Targets_and_Radio_Targets">radio
+   target</a></span> and a <span class="org-link"><a href="#Line_Breaks">line break</a></span>.  It cannot contain another link either,
+   unless it is a plain or angular link.
+
+   DESCRIPTION is optional.
+
+   PATH3 is built according to the following patterns:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   FILENAME           ("file" type)
+   PROTOCOL:PATH4     ("PROTOCOL" type)
+   PROTOCOL://PATH4   ("PROTOCOL" type)
+   <a href="id:ID">id:ID</a>              ("id" type)
+   </span><span class="custom"><span class="org-tag">#CUSTOM-ID</span></span><span class="custom">         ("custom-id" type)
+   (CODEREF)          ("coderef" type)
+   FUZZY              ("fuzzy" type)
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   FILENAME is a file name, either absolute or relative.
+
+   PATH4 can contain any character besides square brackets.
+
+   ID is constituted of hexadecimal numbers separated with hyphens.
+
+   PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
+   besides square brackets.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Macros
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Macros</span>
+   <span class="org-drawer">:END:</span>
+
+   Macros follow the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   {{{NAME(ARGUMENTS)}}}
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   NAME must start with a letter and can be followed by any number of
+   alpha-numeric characters, hyphens and underscores.
+
+   ARGUMENTS can contain anything but "}}}" string.  Values within
+   ARGUMENTS are separated by commas.  Non-separating commas have to
+   be escaped with a backslash character.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Targets and Radio Targets
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Targets_and_Radio_Targets</span>
+   <span class="org-drawer">:END:</span>
+
+   Radio targets follow the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   &lt;&lt;&lt;CONTENTS&gt;&gt;&gt;
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   CONTENTS can be any character besides <span class="org-code">&lt;</span>, <span class="org-code">&gt;</span> and "\n".  It cannot
+   start or end with a whitespace character.  As far as objects go, it
+   can contain <span class="org-link"><a href="#Emphasis_Markers">text markup</a></span>, <span class="org-link"><a href="#Entities_and_LaTeX_Fragments">entities</a></span>, <span class="org-link"><a href="#Entities_and_LaTeX_Fragments">latex fragments</a></span>, <span class="org-link"><a href="#Subscript_and_Superscript">subscript</a></span> and
+   <span class="org-link"><a href="#Subscript_and_Superscript">superscript</a></span> only.
+
+   Targets follow the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   &lt;&lt;TARGET&gt;&gt;
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   TARGET can contain any character besides <span class="org-code">&lt;</span>, <span class="org-code">&gt;</span> and "\n".  It
+   cannot start or end with a whitespace character.  It cannot contain
+   any object.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Statistics Cookies
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Statistics_Cookies</span>
+   <span class="org-drawer">:END:</span>
+
+   Statistics cookies follow either pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   [PERCENT%]
+   [NUM1/NUM2]
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   PERCENT, NUM1 and NUM2 are numbers or the empty string.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Subscript and Superscript
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Subscript_and_Superscript</span>
+   <span class="org-drawer">:END:</span>
+
+   Pattern for subscript is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   CHAR_SCRIPT
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   Pattern for superscript is:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   CHAR^SCRIPT
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   CHAR is any non-whitespace character.
+
+   SCRIPT can be <span class="org-code">*</span> or an expression enclosed in parenthesis
+   (respectively curly brackets), possibly containing balanced
+   parenthesis (respectively curly brackets).
+
+   SCRIPT can also follow the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   SIGN CHARS FINAL
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   SIGN is either a plus sign, a minus sign, or an empty string.
+
+   CHARS is any number of alpha-numeric characters, commas,
+   backslashes and dots, or an empty string.
+
+   FINAL is an alpha-numeric character.
+
+   There is no white space between SIGN, CHARS and FINAL.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Table Cells
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Table_Cells</span>
+   <span class="org-drawer">:END:</span>
+
+   Table cells follow the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   CONTENTS SPACES|
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   CONTENTS can contain any character excepted a vertical bar.
+
+   SPACES contains any number of space characters, including zero.  It
+   can be used to align properly the table.
+
+   The final bar may be replaced with a newline character for the last
+   cell in row.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Timestamps
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Timestamp</span>
+   <span class="org-drawer">:END:</span>
+
+   There are seven possible patterns for timestamps:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   &lt;%%(SEXP)&gt;                                                     (diary)
+   &lt;DATE TIME REPEATER-OR-DELAY&gt;                                  (active)
+   [DATE TIME REPEATER-OR-DELAY]                                  (inactive)
+   &lt;DATE TIME REPEATER-OR-DELAY&gt;--&lt;DATE TIME REPEATER-OR-DELAY&gt;   (active range)
+   &lt;DATE TIME-TIME REPEATER-OR-DELAY&gt;                             (active range)
+   [DATE TIME REPEATER-OR-DELAY]--[DATE TIME REPEATER-OR-DELAY]   (inactive range)
+   [DATE TIME-TIME REPEATER-OR-DELAY]                             (inactive range)
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   SEXP can contain any character excepted <span class="org-code">&gt;</span> and <span class="org-code">\n</span>.
+
+   DATE follows the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   YYYY-MM-DD DAYNAME
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   <span class="org-code">Y</span>, <span class="org-code">M</span> and <span class="org-code">D</span> are digits.  DAYNAME can contain any non
+   whitespace-character besides <span class="org-code">+</span>, <span class="org-code">-, </span><span class="org-code"><span class="org-code">]</span></span>, <span class="org-code">&gt;</span>, a digit or <span class="org-code">\n</span>.
+
+   TIME follows the pattern <span class="org-code">H:MM</span>.  <span class="org-code">H</span> can be one or two digit long
+   and can start with 0.
+
+   REPEATER-OR-DELAY follows the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   MARK VALUE UNIT
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   MARK is <span class="org-code">+</span> (cumulate type), <span class="org-code">++</span> (catch-up type) or <span class="org-code">.+</span> (restart
+   type) for a repeater, and <span class="org-code">-</span> (all type) or <span class="org-code">--</span> (first type) for
+   warning delays.
+
+   VALUE is a number.
+
+   UNIT is a character among <span class="org-code">h</span> (hour), <span class="org-code">d</span> (day), <span class="org-code">w</span> (week), <span class="org-code">m</span>
+   (month), <span class="org-code">y</span> (year).
+
+   MARK, VALUE and UNIT are not separated by whitespace characters.
+
+   There can be two REPEATER-OR-DELAY in the timestamp: one as
+   a repeater and one as a warning delay.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Text Markup
+</span>   <span class="org-drawer">:PROPERTIES:</span>
+   <span class="org-special-keyword">:CUSTOM_ID:</span> <span class="org-property-value">Emphasis_Markers</span>
+   <span class="org-drawer">:END:</span>
+
+   Text markup follows the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   PRE MARKER CONTENTS MARKER POST
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   PRE is a whitespace character, <span class="org-code">-, </span><span class="org-code"><span class="org-code">(</span></span><span class="org-code">, </span><span class="org-code"><span class="org-code">{</span></span> <span class="org-code">'</span> or <span class="org-code">"</span>.  It can
+   also be a beginning of line.
+
+   MARKER is a character among <span class="org-code">*</span> (bold), <span class="org-code">=</span> (verbatim), <span class="org-code">/</span>
+   (italic), <span class="org-code">+</span> (strike-through), <span class="org-code">_</span> (underline), <span class="org-code">~</span> (code).
+
+   CONTENTS is a string following the pattern:
+
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   BORDER BODY BORDER
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   BORDER can be any non-whitespace character.
+
+   BODY can contain contain any character but may not span over more
+   than 3 lines.
+
+   BORDER and BODY are not separated by whitespaces.
+
+   CONTENTS can contain any object encountered in a paragraph when
+   markup is "bold", "italic", "strike-through" or "underline".
+
+   POST is a whitespace character, <span class="org-code">-, </span><span class="org-code"><span class="org-code">.</span></span>, <span class="org-code">,</span>, <span class="org-code">;</span>, <span class="org-code">:</span>, <span class="org-code">!</span>, <span class="org-code">?</span>,
+   <span class="org-code">', </span><span class="org-code"><span class="org-code">)</span></span>, <span class="org-code">}</span>, <span class="org-code">[</span> or <span class="org-code">"</span>.  It can also be an end of line.
+
+   PRE, MARKER, CONTENTS, MARKER and POST are not separated by
+   whitespace characters.
+
+<span class="org-meta-line">   #+ATTR_ASCII: :width 5</span>
+   <span class="org-meta-line">-----</span>
+
+<span class="org-block-begin-line">   #+BEGIN_QUOTE
+</span><span class="org-quote">   All of this is wrong if </span><span class="org-quote"><span class="org-code">org-emphasis-regexp-components</span></span><span class="org-quote"> or
+   </span><span class="org-quote"><span class="org-code">org-emphasis-alist</span></span><span class="org-quote"> are modified.
+
+   This should really be simplified.
+
+   Also, CONTENTS should be anything within code and verbatim
+   emphasis, by definition.  --- ngz
+</span><span class="org-block-end-line">   #+END_QUOTE
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> In particular, the parser requires stars at column 0 to be
+quoted by a comma when they do not define a headline.
+
+<span class="org-footnote">[fn:2]</span> It also means that only headlines and sections can be
+recognized just by looking at the beginning of the line.  Planning
+lines and property drawers can be recognized by looking at one or two
+lines above.
+
+As a consequence, using <span class="org-code">org-element-at-point</span> or
+<span class="org-code">org-element-context</span> will move up to the parent headline, and parse
+top-down from there until context around original location is found.
+
+
+<span class="comment"># Local Variables&#58;</span>
+<span class="comment"># sentence-end-double-space: t</span>
+<span class="comment"># End:</span>
+</pre>
+  </body>
+</html>

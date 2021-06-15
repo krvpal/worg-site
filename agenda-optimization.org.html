@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>agenda-optimization.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Agenda speedup and optimization
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Bastien Guerry
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+LINK:       doc <a href="https://orgmode.org/worg/doc.html#%s">https://orgmode.org/worg/doc.html#%s</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+When your Org files grow, agenda generation may slow down.
+
+Here are some tips on how to speed up the agenda generation.  For those
+tips that depend on a specific version of Org, we mention this version.
+
+<span class="org-meta-line">#+INDEX: Agenda speedup</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Reduce the number of Org agenda files
+</span>
+The more agenda files, the more time it takes to check all of them before
+producing an agenda command.  The older your hardrive is, the longer it
+takes to visit a file.  Don't buy a new harddrive now!  Just reduce the
+number of agenda files.
+
+Also, don't forget that you can define the set of agenda files for each
+agenda custom command like this:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Aujourd'hui"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">"List of rendez-vous and tasks for today"</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"~/org/rdv.org"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/org/bzg.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Reduce the number of DONE and archived headlines
+</span>
+When matching against TODO-type tasks, Org will skip the ones marked as
+DONE or archived.  If you have many DONE tasks and archived tasks in your
+file, better to store them in another file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Inhibit the dimming of blocked tasks
+</span>
+<span class="org-meta-line">#+INDEX: Dim blocked tasks</span>
+<span class="org-meta-line">#+INDEX: org-agenda-dim-blocked-tasks</span>
+
+By default <span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-agenda-dim-blocked-tasks">org-agenda-dim-blocked-tasks</a></span> is set to t, which will dim blocked
+tasks.  For the agenda to get the relevant information, it needs to check
+against the headline up, and this takes time.  If you don't need this
+feature globally or for a specific agenda, turning it off will speed up
+agenda generation.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Inhibit agenda files startup options (Org &gt; 8.0)
+</span>
+<span class="org-meta-line">#+INDEX: org-startup-folded</span>
+
+When you run an agenda command, Org visits agenda files that are not yet
+visited.  When finding a file for the first time, Org checks the startup
+options and apply them to the buffer: those options are either globally set
+through the <span class="org-verbatim">org-startup-*</span> variables or on a per-file basis through the
+<span class="org-verbatim">#+STARTUP</span> keyword.
+
+Especially, Org will honor the startup visibility status, as set by
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-startup-folded">org-startup-folded</a></span> or <span class="org-verbatim">#+STARTUP: folded</span>.
+
+This may slow down the operation of visiting a file very much, and the
+process of selecting agenda entries consequently.
+
+To prevent agenda commands to honor startup options when visiting an agenda
+file for the first time, use this:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-inhibit-startup</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+The side-effect is that newly visited file will have all their headlines
+visible, but this speeds up agenda generation <span class="italic">a lot</span> when those files have
+many nested headlines.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Disable tag inheritance in agendas (Org &gt; 8.0)
+</span>
+<span class="org-meta-line">#+INDEX: Tag inheritance</span>
+<span class="org-meta-line">#+INDEX: org-use-tag-inheritance</span>
+<span class="org-meta-line">#+INDEX: org-agenda-use-tag-inheritance</span>
+<span class="org-meta-line">#+INDEX: org-agenda-show-inherited-tags</span>
+
+Defining inherited tags for a headline in the agenda takes time, because
+Org needs will grab inherited tags from higher level headlines.
+
+Whether the agenda knows about inherited tags for each task depends on
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-use-tag-inheritance">org-use-tag-inheritance</a></span> and <span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-agenda-use-tag-inheritance">org-agenda-use-tag-inheritance</a></span>:
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-use-tag-inheritance">org-use-tag-inheritance</a></span> controls whether tags are inherited for tags-type
+  agenda commands: <span class="org-verbatim">tags</span>, <span class="org-verbatim">tags-todo</span> and <span class="org-verbatim">tags-tree</span>.  This variable also
+  controls whether tags are inherited when running the command <span class="org-verbatim">M-x
+  org-sparse-tree RET</span> in an Org buffer (hence the name of this variable,
+  without the <span class="org-verbatim">org-agenda-</span> prefix.)
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-agenda-use-tag-inheritance">org-agenda-use-tag-inheritance</a></span> controls whether tags are inherited for
+  other agenda types too: <span class="org-verbatim">todo</span>, <span class="org-verbatim">search</span>, <span class="org-verbatim">timeline</span>, <span class="org-verbatim">agenda</span>.
+
+  Generally, you want this variable to be nil, because the headlines on
+  those agenda types don't depend on tags (and <span class="italic">a fortiori</span> on inherited
+  ones.)  Still, the default is to use tags in all agenda types, because
+  <span class="kc-org-link-url"><a href="https://orgmode.org/worg/doc.html#org-agenda-show-inherited-tags">org-agenda-show-inherited-tags</a></span> needs to do the right thing by default.
+
+What to do?  If you don't need inherited tags in
+todo/search/timeline/agenda, just use this setting:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-use-tag-inheritance</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+If you need tags in todo agendas only:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-use-tag-inheritance</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">search timeline agenda</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+You can also set this on a per-command basis:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">" "</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Aujourd'hui"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">"List of rendez-vous and tasks for today"</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"~/org/rdv.org"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/org/bzg.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-use-tag-inheritance</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Disable parsing for some drawer properties
+</span>
+Text properties are used to prepare buffers for effort estimates,
+appointments, and subtree-local categories in the agenda.  If you
+don't use some of these agenda features, you can turn them off.
+Since using such drawer properties require a special scan before each
+new agenda command, this can lead to a speedup. For example
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-ignore-drawer-properties</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">effort appt category</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span></pre>
+  </body>
+</html>

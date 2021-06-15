@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-git-link.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-quote {
+        /* org-quote */
+        color: #cfc0c5;
+        background-color: #212224;
+        font-style: italic;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">org-git-link.el -- link to specific git revisions
+</span><span class="org-meta-line">#+OPTIONS: ^:{} author:nil toc:nil</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+org-git-link allows linking to specific (git) versions of a file.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Use case
+</span>
+  Often one wants to link to a specific version of a reference
+  document which may change in time. Thorsten Wagner described an
+  important use case in his mailing list entry
+  (<span class="kc-org-link-url"><a href="https://orgmode.org/list/200907241232.52729.torsten.wagner@googlemail.com">https://orgmode.org/list/200907241232.52729.torsten.wagner@googlemail.com</a></span>), namely
+  linking to results in a lab book. Quote:
+
+<span class="org-block-begin-line">  #+BEGIN_QUOTE
+</span><span class="org-quote">  [...] Please think about the following situation: I have
+  something like "... In the [graph] of the last results, a huge
+  peak is observable due to measurement problems for the
+  following set-up parameters ...." in my org-file and then
+  several month later in a stupid act I overwrite this file by
+  some very similar but different results, e.g. because I was not
+  longer aware of the link and thought there is no need to keep
+  this old graph with the ugly peak and replace it by something
+  "better". Now the link still depicts to a graph (lets say
+  without or smaller peak) and back in org-mode I might reread my
+  entries check what I did several months ago... and I will be
+  very confused since the graph and the written text have some
+  quirks (refer to a peak where no peak is depict in the graph
+  and refers to wrong measurement parameters) my boss ask me what
+  sort of mess I did, which I can not explain. He claims its the
+  fault of all this "linux-hacker-
+  emacs-org-mode-work-only-on-text-files"-stuff blaims me to dead
+  and force me switching back to use Outlook, MS Office and MS
+  Windows for the rest of my life..... wooohhh that would be a
+  sad story !!!!
+</span><span class="org-block-end-line">  #+END_QUOTE
+</span>
+  What a sad story indeed. Collaborative editing is another case
+  where linking of (e.g.) todo items to specific versions or to
+  files in different branches comes in handy.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Specifying revisions
+</span>
+  <span class="org-verbatim">org-git-link.el</span> defines two new link types. The <span class="org-verbatim">git</span> link
+  type is meant to be used in the typical scenario and mimics the
+  <span class="org-verbatim">file</span> link syntax as closely as possible. The <span class="org-verbatim">gitbare</span> link
+  type exists mostly for debugging reasons, but also allows e.g.
+  linking to files in a bare git repository for the experts. I
+  will first show an example usage for both kinds of links before
+  the syntax is defined more formally.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Example
+</span>
+   In the lab book use case described above assume that the org
+   file in located in <span class="org-verbatim">/home/user/repo/planning/labbook.org</span> and
+   the measurement data is visualized in
+   <span class="org-verbatim">/home/user/repo/data/result.png</span>. The data is so exciting that
+   the relevant commit has been tagged <span class="org-verbatim">nobelprize</span>. Then the
+   links in a lab book entry could read any of the following:
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> <a href="git:../data/result.png::master@{3.10.2009}">[[git:../data/result.png::master@{3.10.2009}]]</a>
+   </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> <a href="git:/home/user/repo/data/results.png::nobelprize">[[git:/home/user/repo/data/results.png::nobelprize]]</a>
+   </span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> <a href="gitbare:../.git::nobelprize:data/results.png">[[gitbare:../.git::nobelprize:data/results.png]]</a>
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   For usage in collaborative editing, typical entries might be:
+<span class="org-block-begin-line">   #+BEGIN_EXAMPLE
+</span><span class="custom">   * TODO Merge <a href="git:paper.tex::theirstuff">[[git:paper.tex::theirstuff][Their version]]</a> with <a href="git:paper.tex::ourstuff">[[git:paper.tex::ourstuff][Our version]]</a>
+   * <a href="git:answer.txt::firstround">[[git:answer.txt::firstround][Answer]]</a> to  <a href="git:report.txt::firstround">[[git:report.txt::firstround][Referee report]]</a> of our paper
+   * <a href="gitbare:/path/to/centralrepos.git::simulation.cpp">[[gitbare:/path/to/centralrepos.git::simulation.cpp][Simulation program]]</a>
+</span><span class="org-block-end-line">   #+END_EXAMPLE
+</span>
+   In all these examples, the linked files do not even have to exist
+   in the working repository, i.e. the links continue to work even
+   after the files have been deleted.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Formal specification
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> User friendy form
+</span><span class="org-block-begin-line">    #+BEGIN_EXAMPLE
+</span><span class="custom">    <a href="git:/path/to/file::searchstring">[[git:/path/to/file::searchstring]]</a>
+</span><span class="org-block-end-line">    #+END_EXAMPLE
+</span>    This form is the familiar from normal org file links
+    including search options <span class="org-link"><a href="info:org#Search options">Search options</a></span>. However, its use is
+    restricted to files in a working directory and does not
+    handle bare repositories on purpose (see the bare form for
+    that).
+
+    The search string references a commit (a tree-ish in Git
+    terminology). The two most useful types of search strings are
+
+    <span class="org-list-dt">-</span> A symbolic ref name, usually a branch or tag name (e.g.
+      master or nobelprize).
+    <span class="org-list-dt">-</span> A ref followed by the suffix @ with a date specification
+      enclosed in a brace pair (e.g. {yesterday}, {1 month 2
+      weeks 3 days 1 hour 1 second ago} or {1979-02-26 18:30:00})
+      to specify the value of the ref at a prior point in time
+
+    For other ways to specify commits see the git documentation
+    referenced in the <span class="org-link"><a href="*Bare git form">bare git section</a></span>.
+
+<span class="org-superstar-leading">***</span><span class="org-level-4"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-4"> Technical note
+</span>     From the (not necessarily existing) file path first the
+     corresponding git directory is extracted. This is done in the
+     following way: Starting with the directory of the linken
+     file, it is checked whether
+
+     <span class="org-list-dt">-</span> the directory exists and
+     <span class="org-list-dt">-</span> whether a .git subdirectory exists.
+
+     If not, the procedure is iterated with the parent directory.
+     The link path (which can be given as a local link) is thus
+     separated into an absolute path GIT_DIR to the git directory
+     (without .git) and a relative path RELPATH to the file. Git
+     is now called as
+     <span class="org-code">: git --no-pager --git-dir=GIT_DIR/.git show SEARCHSTRING:RELPATH
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Bare git form
+</span>
+<span class="org-block-begin-line">    #+BEGIN_EXAMPLE
+</span><span class="custom">    <a href="gitbare:GIT_DIR::OBJECT">[[gitbare:GIT_DIR::OBJECT]]</a>
+</span><span class="org-block-end-line">    #+END_EXAMPLE
+</span>    This is the more bare metal version, which gives the user most
+    control. It directly translates to the git command
+    <span class="org-code">: git --no-pager --git-dir=GIT_DIR show OBJECT
+</span>    Using this version one can also view files from a bare git
+    repository. For detailed information on how to specify an
+    object, see the man page of <span class="org-verbatim">git-rev-parse</span> (section
+    SPECIFYING REVISIONS). A specific blob (file) can be
+    specified by a suffix clolon (:) followed by a path.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Following a git link
+</span>
+   Following any of the git links creates a direcory named
+   <span class="org-verbatim">org-git-link-SHA</span> under <span class="org-verbatim">temporary-file-directory</span> (if it
+   does not exist), where SHA is the hash of the linked file
+   (blob). The file contents is saved within this directory under
+   the name used in the link. This ensures that each file is only
+   checked out once, even when they are referenced by different
+   search strings (e.g. once by branch name and once by tag). The
+   file is supsequently opened using <span class="org-verbatim">org-open-file</span>, which does
+   the right thing for non-text files as well.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Creating a git link
+</span>
+   As an org mode is a simple text file, a git link can of course
+   be inserted directly as a string. For your convenience two functions creating links
+   automatically have been defined:
+
+   <span class="org-list-dt">-</span> <span class="org-list-dt">org-git-store-link ::</span> This function is automatically added
+        to <span class="org-verbatim">org-store-link-functions</span>. When <span class="org-verbatim">org-store-link</span>
+        (usually bound to <span class="org-verbatim">C-c l</span>) is called in a buffer whose
+        file is in a git repository, it creates a git link to the
+        file version corresponding to the current branchname and
+        date. The link is then added to <span class="org-verbatim">org-stored-links</span>, from
+        where it can be inserted with <span class="org-verbatim">org-insert-link(-global)</span>,
+        usually bound to <span class="org-verbatim">C-c C-l</span>.
+
+   <span class="org-list-dt">-</span> <span class="org-list-dt">org-git-insert-link-interactively ::</span> This function
+        interactively asks for a file name, a search string, and
+        a description. The corresponding link is then inserted at
+        point. Currently the only advantage over writing the link
+        directly is file completion. Completion of the search
+        string with the help of current tags and branch names
+        might be implemented at a later stage, if demand exists.
+</pre>
+  </body>
+</html>

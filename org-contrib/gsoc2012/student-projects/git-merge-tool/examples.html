@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-Merge-Driver Example Usage</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org-Merge-Driver Example Usage</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga5018ec">Adding and Removing Headings</a>
+<ul>
+<li><a href="#orgd12986d">Ancestor</a></li>
+<li><a href="#org6ba3660">Local</a></li>
+<li><a href="#org7d22726">Remote</a></li>
+<li><a href="#orgbf2cb14">Output</a></li>
+</ul>
+</li>
+<li><a href="#orgae20637">Modifying Text</a>
+<ul>
+<li><a href="#orgf87264b">Ancestor</a></li>
+<li><a href="#org76441d8">Local</a></li>
+<li><a href="#org2776800">Remote</a></li>
+<li><a href="#org493d1da">Output</a></li>
+</ul>
+</li>
+<li><a href="#org86091c9">Headline Matching</a>
+<ul>
+<li><a href="#org1d00541">Ancestor</a></li>
+<li><a href="#org11700af">Local</a></li>
+<li><a href="#orgc816428">Remote</a></li>
+<li><a href="#org097ef07">Output</a></li>
+</ul>
+</li>
+<li><a href="#orgad107c5">Properties</a>
+<ul>
+<li><a href="#org644a64b">Ancestor</a></li>
+<li><a href="#org8b0ccc2">Local</a></li>
+<li><a href="#orga92c207">Remote</a></li>
+<li><a href="#org0da2d57">Output</a></li>
+</ul>
+</li>
+<li><a href="#org20ac7c4">Heading Movement</a>
+<ul>
+<li><a href="#org2a02a91">Ancestor</a></li>
+<li><a href="#orge737161">Local</a></li>
+<li><a href="#orgfc4257f">Remote</a></li>
+<li><a href="#org18332d6">Output</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+Here are some examples of the usage of org-merge-driver. When there is
+a conflict, local updates are shown on the top, and remote updates on
+the bottom.
+</p>
+
+<div id="outline-container-orga5018ec" class="outline-2">
+<h2 id="orga5018ec">Adding and Removing Headings</h2>
+<div class="outline-text-2" id="text-orga5018ec">
+<p>
+When local and remote files add headings, org-merge-driver combines
+the information as best it can. If local and remote add the same in
+the same place, org-merge-driver will add them as the same heading.
+</p>
+</div>
+
+<div id="outline-container-orgd12986d" class="outline-3">
+<h3 id="orgd12986d">Ancestor</h3>
+<div class="outline-text-3" id="text-orgd12986d">
+<div class="org-src-container">
+<pre class="src src-org">  * Basket
+  ** Green Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+  ** Red Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ba3660" class="outline-3">
+<h3 id="org6ba3660">Local</h3>
+<div class="outline-text-3" id="text-org6ba3660">
+<div class="org-src-container">
+<pre class="src src-org">  ** Green Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+  <span style="font-weight: bold;">*</span> Seed 2
+  ** Red Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+  ** Yellow Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7d22726" class="outline-3">
+<h3 id="org7d22726">Remote</h3>
+<div class="outline-text-3" id="text-org7d22726">
+<div class="org-src-container">
+<pre class="src src-org">  * Basket
+  ** Green Apple
+  <span style="font-weight: bold;">*</span> Seed 2
+  ** Red Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+  <span style="font-weight: bold;">*</span> Seed 2
+  ** Yellow Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbf2cb14" class="outline-3">
+<h3 id="orgbf2cb14">Output</h3>
+<div class="outline-text-3" id="text-orgbf2cb14">
+<div class="org-src-container">
+<pre class="src src-org">  * Basket
+  ** Green Apple
+  <span style="font-weight: bold;">*</span> Seed 2
+  ** Red Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+  <span style="font-weight: bold;">*</span> Seed 2
+  ** Yellow Apple
+  <span style="font-weight: bold;">*</span> Seed 1
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgae20637" class="outline-2">
+<h2 id="orgae20637">Modifying Text</h2>
+<div class="outline-text-2" id="text-orgae20637">
+<p>
+Text blocks have more conservative rules for what will conflict than
+headings. Notably, if text is added to the same spot from local and
+remote, there will be a conflict.
+</p>
+</div>
+
+<div id="outline-container-orgf87264b" class="outline-3">
+<h3 id="orgf87264b">Ancestor</h3>
+<div class="outline-text-3" id="text-orgf87264b">
+<div class="org-src-container">
+<pre class="src src-org">  * Produce
+  ,- the farmers market is famous for their produce.
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org76441d8" class="outline-3">
+<h3 id="org76441d8">Local</h3>
+<div class="outline-text-3" id="text-org76441d8">
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">Farmers Market</span>
+  * Produce
+  ,- They are open on weekends
+  ,- the farmers market is famous for their produce.
+  ,- Its too bad I HATE vegetables
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2776800" class="outline-3">
+<h3 id="org2776800">Remote</h3>
+<div class="outline-text-3" id="text-org2776800">
+<div class="org-src-container">
+<pre class="src src-org">  * Produce
+  ,- the farmers market is famous for their produce.
+  ,- Its a good thing I love vegetables
+  ,  - Snow Peas are the best.
+  * Pies
+  ,- also they have a lot of pies
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org493d1da" class="outline-3">
+<h3 id="org493d1da">Output</h3>
+<div class="outline-text-3" id="text-org493d1da">
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #555556;">  #+TITLE:</span> <span style="color: #fd971f; font-weight: bold;">Farmers Market</span>
+  * Produce
+  ,- They are open on weekends
+  ,- the farmers market is famous for their produce.
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ,- Its too bad I HATE vegetables
+  ,======= 
+  ,- Its a good thing I love vegetables
+  ,  - Snow Peas are the best.
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  * Pies
+  ,- also they have a lot of pies
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86091c9" class="outline-2">
+<h2 id="org86091c9">Headline Matching</h2>
+<div class="outline-text-2" id="text-org86091c9">
+<p>
+In general, org-merge-driver will try to ignore white space and cookie
+values when determining if two headings are the same one. This works
+great as long as you do not identify headings by the amount of spaces
+in the name, or the value of a priority cookie. Dates can still be
+used as identifiers, though.
+</p>
+</div>
+
+<div id="outline-container-org1d00541" class="outline-3">
+<h3 id="org1d00541">Ancestor</h3>
+<div class="outline-text-3" id="text-org1d00541">
+<div class="org-src-container">
+<pre class="src src-org">  * Todo state updates
+  ** Updated in one file
+  ** Updated in both files
+  ** Same update in both files
+  * Cookies
+  ** Updated in one file
+  ** Updated in both files
+  ** Same update in both file
+  * Tags
+  ** Updated in one file                                               :oldtag:
+  ** Updated in both files                                      :oldtag:keeper:
+  ** Same update in both files                                         :keeper:
+  * Other Examples
+  ** Spacing    doesn't     matter
+  ** spacingkindofmatters
+  ** Cookies   <span style="color: #e2c770; font-weight: bold;">[5/3]</span>   are   <span style="color: #e2c770; font-weight: bold;">[75%]</span> stripped <span style="color: #e74c3c;">[#A] </span> out
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org11700af" class="outline-3">
+<h3 id="org11700af">Local</h3>
+<div class="outline-text-3" id="text-org11700af">
+<div class="org-src-container">
+<pre class="src src-org">  * Todo state updates
+  ** TODO Updated in one file
+  ** DONE Updated in both files
+  ** TODO Same update in both files
+  * Cookies
+  ** <span style="color: #e2c770;">[#B] </span>Updated in one file
+  ** <span style="color: #b6e63e;">[#C] </span>Updated in both files
+  ** <span style="color: #e2c770;">[#B] </span>Same update in both file
+  * Tags
+  ** Updated in one file                                       :NEWTAG:NEWTAG2:
+  ** Updated in both files                                      :NewTag:keeper:
+  ** Same update in both file                                      :SameNewTag:
+  * Other Examples
+  ** Spacing        doesn't         matter
+  ** spacing<span style="color: #e2c770;">[#B]</span>kindofmatters
+  ** Cookies are stripped out
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc816428" class="outline-3">
+<h3 id="orgc816428">Remote</h3>
+<div class="outline-text-3" id="text-orgc816428">
+<div class="org-src-container">
+<pre class="src src-org">  * Todo state updates
+  ** Updated in one file
+  ** TODO Updated in both files
+  ** TODO Same update in both files
+  * Cookies
+  ** Updated in one file
+  ** <span style="color: #e74c3c;">[#A] </span>Updated in both files
+  ** <span style="color: #e2c770;">[#B] </span>Same update in both file
+  * Tags
+  ** Updated in one file
+  ** Updated in both files                                       :file2:keeper:
+  ** Same update in both file                                      :SameNewTag:
+  * Other Examples
+  ** Spacing                   doesn't           matter
+  ** spacing kindofmatters
+  ** Cookies   <span style="color: #e2c770; font-weight: bold;">[5/3]</span>   are   <span style="color: #e2c770; font-weight: bold;">[75%]</span> stripped <span style="color: #e74c3c;">[#A] </span> out
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org097ef07" class="outline-3">
+<h3 id="org097ef07">Output</h3>
+<div class="outline-text-3" id="text-org097ef07">
+<div class="org-src-container">
+<pre class="src src-org">  * Todo state updates
+  ** TODO Updated in one file
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ** DONE Updated in both files
+  ,======= 
+  ** TODO Updated in both files
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ** TODO Same update in both files
+  * Cookies
+  ** <span style="color: #e2c770;">[#B] </span>Updated in one file
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ** <span style="color: #b6e63e;">[#C] </span>Updated in both files
+  ,======= 
+  ** <span style="color: #e74c3c;">[#A] </span>Updated in both files
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ** <span style="color: #e2c770;">[#B] </span>Same update in both file
+  * Tags
+  ** Updated in one file                                       :NEWTAG:NEWTAG2:
+  ** Updated in both files                                :keeper:file2:NewTag:
+  ** Same update in both file                                      :SameNewTag:
+  * Other Examples
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ** Spacing        doesn't         matter
+  ,======= 
+  ** Spacing                   doesn't           matter
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ** spacing kindofmatters
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  ** spacing<span style="color: #e2c770;">[#B]</span>kindofmatters
+  ,======= 
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Deleted
+  ** Cookies are stripped out
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgad107c5" class="outline-2">
+<h2 id="orgad107c5">Properties</h2>
+<div class="outline-text-2" id="text-orgad107c5">
+<p>
+Properties have special support when it comes to matching, as well as
+conflict resolution. Properties must be inside :PROPERTIES: to be
+identified as such.
+</p>
+</div>
+
+<div id="outline-container-org644a64b" class="outline-3">
+<h3 id="org644a64b">Ancestor</h3>
+<div class="outline-text-3" id="text-org644a64b">
+<div class="org-src-container">
+<pre class="src src-org">  * Picnic Basket
+  ,:PROPERTIES:
+  ,   :Bread: Brown
+  ,:Apple:     green
+  ,   :Basket: wicker
+  ,:END:
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8b0ccc2" class="outline-3">
+<h3 id="org8b0ccc2">Local</h3>
+<div class="outline-text-3" id="text-org8b0ccc2">
+<div class="org-src-container">
+<pre class="src src-org">  * Picnic Basket
+  ,:PROPERTIES:
+  , :Bread: White
+  , :Apple:    yellow
+  , :Basket:             wicker
+  ,:END:
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga92c207" class="outline-3">
+<h3 id="orga92c207">Remote</h3>
+<div class="outline-text-3" id="text-orga92c207">
+<div class="org-src-container">
+<pre class="src src-org">  * Picnic Basket
+  ,:PROPERTIES:
+  ,:Bread:    white
+  ,:Apple:  red
+  ,:Basket:     plastic
+  ,:END:
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0da2d57" class="outline-3">
+<h3 id="org0da2d57">Output</h3>
+<div class="outline-text-3" id="text-org0da2d57">
+<div class="org-src-container">
+<pre class="src src-org">  * Picnic Basket
+  ,:PROPERTIES:
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  , :Bread: White
+  ,======= 
+  ,:Bread:    white
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  , :Apple:    yellow
+  ,======= 
+  ,:Apple:  red
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ,:Basket:     plastic
+  ,:END:
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org20ac7c4" class="outline-2">
+<h2 id="org20ac7c4">Heading Movement</h2>
+<div class="outline-text-2" id="text-org20ac7c4">
+<p>
+If your headings have unique ID properties, org-merge-driver can
+detect movements of those elements.
+</p>
+</div>
+
+<div id="outline-container-org2a02a91" class="outline-3">
+<h3 id="org2a02a91">Ancestor</h3>
+<div class="outline-text-3" id="text-org2a02a91">
+<div class="org-src-container">
+<pre class="src src-org">  * Changing the order of headings
+  ** heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+  ** heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  <span style="font-weight: bold;">*</span> sub heading
+  ,- some text
+  ** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  ** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  * Moving Children and Parent
+  * Deleting the 'moved to' heading
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge737161" class="outline-3">
+<h3 id="orge737161">Local</h3>
+<div class="outline-text-3" id="text-orge737161">
+<div class="org-src-container">
+<pre class="src src-org">  * Matching ID Headings
+  * Changing the order of headings
+  ** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  * Moving Children and Parent
+  ** new heading
+  <span style="font-weight: bold;">*</span> heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  <span style="font-weight: bold;">**</span> sub heading
+  ,- some text
+  ,- a new line in local
+  * Deleting the 'moved to' heading
+  ** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  <span style="font-weight: bold;">*</span> heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc4257f" class="outline-3">
+<h3 id="orgfc4257f">Remote</h3>
+<div class="outline-text-3" id="text-orgfc4257f">
+<div class="org-src-container">
+<pre class="src src-org">  * Matching ID Headings
+  * Changing the order of headings
+  ** heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+  ** heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  ,- some new text in remote
+  ** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  ** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  * Moving Children and Parent
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org18332d6" class="outline-3">
+<h3 id="org18332d6">Output</h3>
+<div class="outline-text-3" id="text-org18332d6">
+<div class="org-src-container">
+<pre class="src src-org">  * Matching ID Headings
+  * Changing the order of headings
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Deleted
+  ,======= 
+  ** heading 2
+  ,- some new text in remote
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Updated
+  ** heading 4
+  ,:PROPERTIES:
+  ,:ID: 4
+  ,:END:
+  * Moving Children and Parent
+  ** new heading
+  <span style="font-weight: bold;">*</span> heading 2
+  ,:PROPERTIES:
+  ,:ID: 2
+  ,:END:
+  <span style="font-weight: bold;">**</span> sub heading
+  ,- some text
+  ,- a new line in local
+  ,&gt;&gt;&gt;&gt;&gt;&gt;&gt; Updated
+  * Deleting the 'moved to' heading
+  ** heading 3
+  ,:PROPERTIES:
+  ,:ID: 3
+  ,:END:
+  <span style="font-weight: bold;">*</span> heading 1
+  ,:PROPERTIES:
+  ,:ID: 1
+  ,:END:
+  ,======= 
+  ,&lt;&lt;&lt;&lt;&lt;&lt;&lt; Deleted
+</pre>
+</div>
+
+<p>
+If you have any comments or suggestions for features, improvements, or
+bugs, please drop an email to me &lt;youngar at gmail dot com&gt;, or to the
+org-mode list &lt;emacs-orgmode@gnu.org&gt;.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

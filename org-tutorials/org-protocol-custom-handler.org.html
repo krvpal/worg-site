@@ -1,0 +1,416 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-protocol-custom-handler.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .type {
+        /* font-lock-type-face */
+        color: #66d9ef;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Defining custom handlers for use with org-protocol
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Sebastian Rose
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">sebastian_rose gmx de
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg-tutorial</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's tutorial index}</a></span>
+
+org-protocol intercepts calls from emacsclient to trigger custom actions without
+external dependencies. Please refer to <span class="org-link"><a href="file:../org-contrib/org-protocol.org">this file</a></span> for the basic setup required.
+
+You might want to watch the <span class="kc-org-link-url"><a href="http://www.youtube.com/watch?v=h7Z2PiAcgh8">screencast</a></span> on youTube.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Defining custom handlers
+</span>
+  <span class="org-verbatim">org-protocol</span> scans the list of filenames passed to the emacs-server for
+  "<span class="org-verbatim">org-protocol:/sub-protocol:/</span>" and triggers actions associated with
+  <span class="org-verbatim">sub-protocol</span> through the custom variable <span class="org-verbatim">org-protocol-protocol-alist</span>.
+
+  To defun a custom org-protocol handler basically means to define two basic
+  elements:
+
+  <span class="org-list-dt">1.</span> a sub-protocol that triggers the action
+  <span class="org-list-dt">2.</span> a function that consumes the data (i.e. the part of an URL that follows
+     "<span class="org-verbatim">org-protocol://sub-protocol://</span>")
+
+  To install the custom handler's protocol, we add an entry to
+  <span class="org-verbatim">org-protocol-protocol-alist</span>:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-protocol-protocol-alist</span></span><span class="org-block">
+             </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"Hello World"</span></span><span class="org-block">
+               </span><span class="org-block"><span class="builtin">:protocol</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"hello-world"</span></span><span class="org-block">
+               </span><span class="org-block"><span class="builtin">:function</span></span><span class="org-block"> my-hello-world</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+  The <span class="org-verbatim">:protocol</span> property is the sub-protocol, that triggers the action. Note,
+  that names of protocols (or URL schemes) are only allowed to consist of a
+  restricted set of characters. See <span class="kc-org-link-url"><a href="http://www.ietf.org/rfc/rfc1738.txt">rfc1738</a></span>, section 2.1.
+
+  The <span class="org-verbatim">:function</span> is an arbitrary function that takes exactly one argument: the
+  string that follows our protocol, found in a filename passed to emacs through
+  emacsclient. All the three standard handlers split and decode that string
+  using a helper function in <span class="org-verbatim">org-protocol.el</span>:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"> org-protocol-split-data </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">data </span><span class="org-block"><span class="type">&amp;optional</span></span><span class="org-block"> unhexify separator</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+  You may use different separators for your custom handlers and pass them to
+  <span class="org-verbatim">org-protocol-split-data</span>.
+
+
+
+  Here is a simple definition:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">hello-world</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Say hello to the world."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">message</span></span><span class="org-block"> data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+  Now the URL <span class="org-verbatim">org-protocol://hello-world://encoded-data</span> will call our function
+  with the string "<span class="org-verbatim">encoded-data</span>". Hence an
+
+  <span class="org-code">: emacsclient org-protocol://hello-world://encoded-data
+</span>
+  will put "<span class="org-verbatim">encoded-data</span>" into the minibuffer.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Killing the client
+</span>
+  If your handler uses interactive functions that could be canceled by the user
+  by typing '<span class="org-verbatim">C-g</span>', consider to supply the '<span class="org-verbatim">:kill-client</span>' property when you
+  define the protocol.
+
+  This is what we did for the capture handler:
+
+<span class="org-block-begin-line">  #+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defconst</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-protocol-protocol-alist-default</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"org-capture"</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:protocol</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"capture"</span></span><span class="org-block">
+         </span><span class="org-block"><span class="builtin">:function</span></span><span class="org-block"> org-protocol-capture
+         </span><span class="org-block"><span class="builtin">:kill-client</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...
+</span></span><span class="org-block">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">  #+end_src
+</span>
+  Otherwise, if the user has an interactive property defined in her capture
+  template, discarding it through '<span class="org-verbatim">C-g</span>' would lead to emacsclient waiting for
+  ever, thus to the appropriate questions when exiting emacs.
+
+  All filenames passing from emacsclient to the emacs will be ignored if you
+  set <span class="org-verbatim">:kill-client</span> to a non-nil value.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Return values
+</span>
+  Note, that our <span class="org-verbatim">hello-world</span> handler explicitly returns <span class="org-verbatim">nil</span>. This tells
+  <span class="org-verbatim">org-protocol</span> to remove the filename from the list of files passed to the
+  emacs-server. If more than one filename was supplied, all those filenames are
+  searched for protocols. Only filenames without protocols are passed to the
+  emacs-server as usual.
+
+  Another possible return value is a string. If the string is a valid filename,
+  and if that file can be read, <span class="org-verbatim">org-protocol</span> replaces the original filename with
+  the one returned from the handler.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using more than one value
+</span>
+  Passing one argument to our custom handler is nice, but sometimes more
+  parameters are needed. We would have to encode the the data and split it into
+  parts using a separator.
+
+  This is where <span class="org-verbatim">org-protocol-split-data</span> comes into play. It takes a string as
+  its first argument, an optional parameter to tell if the string should be
+  considered URL-encoded UTF-8 text and finally an optional separator. By
+  default, no URL-encoding is assumed and '<span class="org-verbatim">/</span>' is used as the separator.
+
+  The return value is a list of strings. If a non-nil value is supplied as the
+  second argument, each elements of the returned list will be URL-decoded using
+  <span class="org-verbatim">org-protocol-unhex-string</span>. If the second argument is a function, that function
+  is used to decode each element of the list. The function should take a string
+  as its only parameter, and return the decoded value <span class="org-footnote">[fn:1]</span>.
+
+  This is a rewrite of our handler:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">hello-world</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">data</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Say hello to the world."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">parts </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-protocol-split-data</span></span><span class="org-block"> data nil </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="builtin">::my-separator::</span></span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">one </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> parts</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">two </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">cadr</span></span><span class="org-block"> parts</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">three </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">caddr</span></span><span class="org-block"> parts</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">... do something with one, two and three
+</span></span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using more than one value </span><span class="org-level-1"><span class="italic">the greedy way</span></span><span class="org-level-1">
+</span>
+  Finally, it is possible to define a <span class="italic">greedy</span> handler. Basically it will discard
+  <span class="bold">all</span> the filenames from the servers list of files that follow the filename that
+  triggered the handler.
+
+  A handler is greedy, if you add the <span class="org-verbatim">:greedy</span> property to
+  <span class="org-verbatim">org-protocol-protocol-alist</span>, regardless of its return value:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-protocol-protocol-alist</span></span><span class="org-block">
+             </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"Greedy"</span></span><span class="org-block">
+               </span><span class="org-block"><span class="builtin">:protocol</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"greedy"</span></span><span class="org-block">
+               </span><span class="org-block"><span class="builtin">:function</span></span><span class="org-block"> my-greedy-handler
+               </span><span class="org-block"><span class="builtin">:greedy</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+  The one argument to greedy handlers is the rest of the list of filenames, the
+  one that triggered the handler included. But read on, please.
+
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> The list of filenames
+</span>
+   Here I have to admit, that I was lying all the time. emacsclient does not
+   pass a list of filenames to the emacs-server. It's a list of lists. And the
+   list is the list of emacsclient's arguments reversed.
+
+   As an example, the following commandline:
+
+   <span class="org-code">: emacsclient org-protocol:/greedy:/one two three +15:42
+</span>
+   is passed as
+
+   <span class="org-code">: ((/dir/three (15 . 42)) (/dir/two) (/dir/org-protocol:/greedy:/one))
+</span>
+   to the emacs-server, where <span class="org-verbatim">org-protocol</span> grabs it and reverses it to make it
+   look like this:
+
+   <span class="org-code">: ((/dir/org-protocol:/greedy:/one) (/dir/two) (/dir/three  (15 . 42)))
+</span>
+   This is now, what our greedy handler will receive as its only parameter.
+
+   The "<span class="org-verbatim">/dir/</span>" prefix is added by emacsclient. It's the absolute path to its
+   working directory.
+
+   You may set <span class="org-verbatim">org-protocol-reverse-list-of-files</span> to <span class="org-verbatim">nil</span> to inhibit the
+   reversion. But that leads to unexpected results. In this example, the only
+   filename left would be the one that triggered the actions. That seems not
+   very greedy, and reversing the arguments on the commandline seems
+   unnatural. Note though, that the sequence is not changed for the server.
+
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Flatten the list of arguments
+</span>
+   <span class="org-verbatim">org-protocol.el</span> provides a function to flatten the list of arguments for
+   greedy handlers:
+
+   <span class="org-code">: org-protocol-flatten-greedy (param-list &amp;optional strip-path replacement)
+</span>
+   This function takes the list of lists your greedy handler gets as its only
+   parameter, and turns it into a flat list. Also, all prefixes and protocols
+   are stripped from the element that triggered your handler.
+
+   This is, what the first parameter might look like:
+
+   <span class="org-code">: (("/dir/org-protocol:/greedy:/one") ("/dir/two") ("/dir/three" (15 . 42)))
+</span>
+   If only the first parameter is supplied, <span class="org-verbatim">org-protocol-flatten-greedy</span> will
+   return this list:
+
+   <span class="org-code">: ("/dir/one" "/dir/two" "/dir/three" 15 42)
+</span>
+   If you supply a non-nil value as the second parameter for the function:
+
+   <span class="org-code">: ("one" "two" "three" 15 42)
+</span>
+   And, last not least, if you supply a replacement "<span class="org-verbatim">REPL-</span>" (must be a string):
+
+   <span class="org-code">: ("REPL-one" "REPL-two" "REPL-three" 15 42)
+</span>
+   Note, that this works exactly this way regardless of your setting of
+   "<span class="org-verbatim">org-protocol-reverse-list-of-files</span>". The sequence of the returned list will
+   always reflect the sequence of arguments on the command line.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General remarks
+</span>
+  emacsclient compresses double and tripple slashes to one. That's why it
+  doesn't really matter how many slashes succeed the scheme part of the URL,
+  also known as <span class="italic">protocol</span>.
+
+  This behavior is the main reasons, why the slash was chosen as the
+  default separator for data fields. Keeping the slashes is insecure, since some
+  of the data fields could contain double or triple slashes themselves.
+
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span>  The function feature was added with the Org-mode 6.26 release (commit
+        6a9acfa9a3ec4ad889951d02c9809f55ac7491fb).
+</pre>
+  </body>
+</html>

@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Python Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Gary Oberbrunner" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Python Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org48453ff">Introduction</a></li>
+<li><a href="#org1311b78">Requirements and Setup</a></li>
+<li><a href="#orgfdb725d">Org Mode Features for Python Source Code Blocks</a>
+<ul>
+<li><a href="#org542e192">Header Arguments</a></li>
+<li><a href="#org1e75d5a">Sessions</a></li>
+<li><a href="#orgf148bad">Return values</a></li>
+<li><a href="#org693d602">Graphics</a></li>
+<li><a href="#org930285a">Noweb</a></li>
+</ul>
+</li>
+<li><a href="#org62d19d7">Additional examples</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://python.org/">Python</a>
+</p>
+<p>
+<a href="http://python.org/">
+<img src="http://www.python.org/images/python-logo.gif"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-org48453ff" class="outline-2">
+<h2 id="org48453ff">Introduction</h2>
+<div class="outline-text-2" id="text-org48453ff">
+<p>
+Python is a high-level, readable, interpreted language which can be
+used for many common computing tasks.  It runs on most modern
+operating systems.  Python source code blocks are fully supported in
+Org Mode with a wide variety of Python-specific header arguments.
+</p>
+
+<p>
+Python source code blocks in Org Mode can be used to define functions,
+filter and analyze data, create graphics and figures, and produce
+reproducible research papers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1311b78" class="outline-2">
+<h2 id="org1311b78">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org1311b78">
+<p>
+Python source code blocks in Org Mode require a working python installation.
+Python is included in Mac OS X and often in Gnu/Linux, and is easily
+available for Windows.  Python installers are located at
+the <a href="http://www.python.org/download/">Python download site</a>.
+</p>
+
+<p>
+Org Mode supports graphical output for LaTeX and HTML documents using
+<a href="http://matplotlib.org/">Matplotlib</a>.
+</p>
+
+<p>
+To configure your emacs org-mode to use python, you&rsquo;ll need to ensure
+that <code>org-babel-load-languages</code> includes an entry for it.
+Typically, <code>org-babel-load-languages</code> will contain many entries.  The
+example below omits other languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>python . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfdb725d" class="outline-2">
+<h2 id="orgfdb725d">Org Mode Features for Python Source Code Blocks</h2>
+<div class="outline-text-2" id="text-orgfdb725d">
+</div>
+<div id="outline-container-org542e192" class="outline-3">
+<h3 id="org542e192">Header Arguments</h3>
+<div class="outline-text-3" id="text-org542e192">
+</div>
+<div id="outline-container-org99517c3" class="outline-4">
+<h4 id="org99517c3">Language-Specific Header Arguments</h4>
+<div class="outline-text-4" id="text-org99517c3">
+<ul class="org-ul">
+<li><code>:results {output, value}</code>: Output results come from whatever the
+python code prints on stdout. Value results are the value of the
+last expression evaluated in the code block. Value mode is the
+default (as with other languages).  In value mode you can use the
+following subtypes:
+<ul class="org-ul">
+<li><code>raw</code>: value is inserted directly</li>
+<li><code>pp</code>: value is pretty-printed by python using <code>pprint.pformat(%s)</code>, then inserted</li>
+<li><code>file</code>: value is interpreted as a filename to be interpolated
+when exporting; commonly used for graphics output.</li>
+</ul></li>
+<li><code>:return</code>: Appends a <code>return</code> statement to the end of the code
+block. Only when result-type is value, and not in session mode.</li>
+<li><code>:python</code>: Name of the command for executing Python code.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org357b89c" class="outline-4">
+<h4 id="org357b89c">Common Header Arguments</h4>
+<div class="outline-text-4" id="text-org357b89c">
+<ul class="org-ul">
+<li><code>:session [name]</code>: default is no session.</li>
+<li><code>:var data=data-table</code>: Variables can be passed into python from org-mode tables as
+scalars or lists.  See the org-mode manual for more details.</li>
+<li><code>:exports {code, results, both, none}</code>: Standard babel option for what to export.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1e75d5a" class="outline-3">
+<h3 id="org1e75d5a">Sessions</h3>
+<div class="outline-text-3" id="text-org1e75d5a">
+<p>
+Session mode is fully supported in python, including named sessions.
+In session mode, each block is run in the same long-running python
+interactive interpreter session.  You can have multiple sessions, all
+independent.
+</p>
+
+<p>
+Sessions can be used to define functions, set up variables, and share
+code between source blocks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf148bad" class="outline-3">
+<h3 id="orgf148bad">Return values</h3>
+<div class="outline-text-3" id="text-orgf148bad">
+<p>
+Session and non-session modes handle return values slightly
+differently.  In non-session mode, the python code block will be
+wrapped in a function, so to return a value (in <code>:results value</code> mode)
+you have to use a <code>return</code> statement.  In session mode, the last
+statement&rsquo;s value will be returned if it is a top-level expression;
+you should <span class="underline">not</span> use a <code>return</code> statement.
+</p>
+</div>
+
+<div id="outline-container-orgc561f6a" class="outline-4">
+<h4 id="orgc561f6a">Non-session mode example</h4>
+<div class="outline-text-4" id="text-orgc561f6a">
+<pre class="example">
+# use return statement
+# Entire source block will get indented and used as the body of main()
+#+begin_src python
+def foo(x):
+  if x&gt;0:
+    return x+1
+
+  else:
+    return x-1
+
+return foo(5)
+#+end_src
+
+#+RESULTS:
+: 6
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgde8a9bc" class="outline-4">
+<h4 id="orgde8a9bc">Session mode example</h4>
+<div class="outline-text-4" id="text-orgde8a9bc">
+<pre class="example">
+# don't use return statement
+#+begin_src python :session
+def foo(x):
+  if x&gt;0:
+    return x+1
+  else:
+    return x-1
+
+foo(1)
+#+end_src
+
+#+RESULTS:
+: 2
+</pre>
+
+<p>
+A limitation of session-mode return values is that the final statement
+must be a top-level expression, otherwise nothing is returned.
+</p>
+
+<p>
+For example, the code block below doesn&rsquo;t return anything, because the
+final expression is an indented if/else block, not a top-level
+expression:
+</p>
+
+<pre class="example">
+#+begin_src python :session :results value
+import random
+if random.randint(0,10) % 2 == 0:
+    "even"
+else:
+    "odd"
+#+end_src
+
+#+RESULTS:
+</pre>
+
+<p>
+To return the value of an indented block, assign the value to a
+variable, and return that variable as the final top-level expression:
+</p>
+
+<pre class="example">
+#+begin_src python :session :results value
+import random
+if random.randint(0,10) % 2 == 0:
+    ret = "even"
+else:
+    ret = "odd"
+ret
+#+end_src
+
+#+RESULTS:
+: even
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org693d602" class="outline-3">
+<h3 id="org693d602">Graphics</h3>
+<div class="outline-text-3" id="text-org693d602">
+<p>
+To return plots, save the figure to a file, return the filename, and
+set the header argument <code>:results file</code>.
+</p>
+
+<p>
+For example:
+</p>
+
+<pre class="example">
+#+begin_src python :session :results file
+import matplotlib
+import matplotlib.pyplot as plt
+fig=plt.figure(figsize=(3,2))
+plt.plot([1,3,2])
+fig.tight_layout()
+
+fname = 'images/myfig.pdf'
+plt.savefig(fname)
+fname # return this to org-mode
+#+end_src
+
+#+RESULTS:
+[[file:images/myfig.pdf]]
+</pre>
+
+<p>
+You can use noweb to reduce the boilerplate of saving and returning
+the filename; see the <a href="#org3c62fe4">example</a> below.
+</p>
+
+<p>
+If you are using matplotlib for graphics, you may have to set the
+backend explicitly to a PDF or PNG or other file-exporting backend
+when using session mode, for example by calling
+<code>matplotlib.use('Agg')</code>. See also <a href="#org62d19d7">Additional examples</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org930285a" class="outline-3">
+<h3 id="org930285a">Noweb</h3>
+<div class="outline-text-3" id="text-org930285a">
+<p>
+Noweb syntax allows references between code blocks.  One situation
+where this is useful is when you have some boilerplate code you need
+to repeat across many code blocks, and want to hide during export.
+</p>
+
+<p>
+Below are examples of how this can be useful for returning matplotlib
+figures and pandas dataframes.
+</p>
+</div>
+
+<div id="outline-container-org3c62fe4" class="outline-4">
+<h4 id="org3c62fe4">Plotting</h4>
+<div class="outline-text-4" id="text-org3c62fe4">
+<p>
+Returning a plot from a ob-python block requires saving the figure to
+a file and returning the filename. In the example below, we extract
+this to a separate block that can be referred to by other code
+blocks. The <code>:noweb strip-export</code> header argument means to allow noweb
+syntax, but to hide the inserted code during export.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+name: savefig</span>
+<span style="color: #696969;">#+begin_src python :var figname="plot.svg" width=5 height=5 :exports none</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">return</span><span style="background-color: #000000;"> f</span><span style="color: #e2c770; background-color: #000000;">"""plt.savefig('{figname}', width={width}, height={height})</span>
+<span style="color: #e2c770; background-color: #000000;">  '{figname}'"""</span>
+<span style="color: #696969;">#+end_src</span>
+
+<span style="color: #7f7f80;">#+header: :noweb strip-export</span>
+<span style="color: #696969;">#+begin_src python :results value file :session :exports both</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">import</span><span style="background-color: #000000;"> matplotlib, numpy</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">import</span><span style="background-color: #000000;"> matplotlib.pyplot </span><span style="color: #eb4509; background-color: #000000;">as</span><span style="background-color: #000000;"> plt</span>
+<span style="background-color: #000000;">  </span><span style="color: #fd971f; background-color: #000000;">fig</span><span style="background-color: #000000;">=plt.figure(figsize=(</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">4</span><span style="background-color: #000000;">,</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">2</span><span style="background-color: #000000;">))</span>
+<span style="background-color: #000000;">  </span><span style="color: #fd971f; background-color: #000000;">x</span><span style="background-color: #000000;">=numpy.linspace(-</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">15</span><span style="background-color: #000000;">,</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">15</span><span style="background-color: #000000;">)</span>
+<span style="background-color: #000000;">  plt.plot(numpy.sin(x)/x)</span>
+<span style="background-color: #000000;">  fig.tight_layout()</span>
+<span style="background-color: #000000;">  &lt;&lt;savefig(figname=</span><span style="color: #e2c770; background-color: #000000;">"plot.png"</span><span style="background-color: #000000;">, width=</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">10</span><span style="background-color: #000000;">, height=</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">5</span><span style="background-color: #000000;">)&gt;&gt;</span>
+<span style="color: #696969;">#+end_src</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a0f7f8" class="outline-4">
+<h4 id="org7a0f7f8">Pandas dataframes</h4>
+<div class="outline-text-4" id="text-org7a0f7f8">
+<p>
+In the below example, we use the external <a href="https://pypi.org/project/tabulate/">tabulate</a> package to convert
+a pandas Dataframe into org-mode format, but wrap it in a noweb block
+so we can hide the conversion during export.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+name: pd2org</span>
+<span style="color: #696969;">#+begin_src python :var df="df" :exports none</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">return</span><span style="background-color: #000000;"> f</span><span style="color: #e2c770; background-color: #000000;">"return tabulate({df}, headers={df}.columns, tablefmt='orgtbl')"</span>
+<span style="color: #696969;">#+end_src</span>
+
+<span style="color: #7f7f80;">#+header: :prologue from tabulate import tabulate</span>
+<span style="color: #7f7f80;">#+header: :noweb strip-export</span>
+<span style="color: #696969;">#+begin_src python :results value raw :exports both</span>
+<span style="background-color: #000000;">  </span><span style="color: #eb4509; background-color: #000000;">import</span><span style="background-color: #000000;"> pandas </span><span style="color: #eb4509; background-color: #000000;">as</span><span style="background-color: #000000;"> pd</span>
+<span style="background-color: #000000;">  </span><span style="color: #fd971f; background-color: #000000;">df</span><span style="background-color: #000000;"> = pd.DataFrame({</span>
+<span style="background-color: #000000;">      </span><span style="color: #e2c770; background-color: #000000;">"a"</span><span style="background-color: #000000;">: [</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">1</span><span style="background-color: #000000;">,</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">2</span><span style="background-color: #000000;">,</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">3</span><span style="background-color: #000000;">],</span>
+<span style="background-color: #000000;">      </span><span style="color: #e2c770; background-color: #000000;">"b"</span><span style="background-color: #000000;">: [</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">4</span><span style="background-color: #000000;">,</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">5</span><span style="background-color: #000000;">,</span><span style="color: #9c91e4; background-color: #000000; font-weight: bold;">6</span><span style="background-color: #000000;">]</span>
+<span style="background-color: #000000;">  })</span>
+<span style="background-color: #000000;">  &lt;&lt;pd2org(</span><span style="color: #e2c770; background-color: #000000;">"df"</span><span style="background-color: #000000;">)&gt;&gt;</span>
+<span style="color: #696969;">#+end_src</span>
+
+<span style="color: #7f7f80;">#+RESULTS:</span>
+<span style="color: #9c91e4;">|   | a | b |</span>
+<span style="color: #9c91e4;">|---+---+---|</span>
+<span style="color: #9c91e4;">| 0 | 1 | 4 |</span>
+<span style="color: #9c91e4;">| 1 | 2 | 5 |</span>
+<span style="color: #9c91e4;">| 2 | 3 | 6 |</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org62d19d7" class="outline-2">
+<h2 id="org62d19d7">Additional examples</h2>
+<div class="outline-text-2" id="text-org62d19d7">
+<ul class="org-ul">
+<li>Hello World!</li>
+</ul>
+<pre class="example">
+#+begin_src python :results output
+print("Hello, world!")
+#+end_src
+
+#+RESULTS:
+: Hello, world!
+
+</pre>
+
+<ul class="org-ul">
+<li>Inline calling:</li>
+</ul>
+<pre class="example">
+Two plus two equals src_python{return(2+2)}
+</pre>
+<p>
+when exported, e.g. to HTML or LaTeX/PDF, becomes:
+</p>
+<pre class="example">
+Two plus two equals 4
+</pre>
+
+
+<ul class="org-ul">
+<li>Extracting data from an org-mode table</li>
+</ul>
+<pre class="example">
+#+tblname: data_table
+| a | 1 |
+| b | 2 |
+| c | 3 |
+#+begin_src python :var val=1 :var data=data_table
+# Return row specified by val.
+# In non-session mode, use return to return results.
+return(data[val])
+#+end_src
+
+#+RESULTS:
+| b | 2 |
+
+</pre>
+
+<ul class="org-ul">
+<li>Plotting</li>
+</ul>
+<pre class="example">
+#+begin_src python :results file
+import matplotlib, numpy
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+fig=plt.figure(figsize=(4,2))
+x=numpy.linspace(-15,15)
+plt.plot(numpy.sin(x)/x)
+fig.tight_layout()
+plt.savefig('images/python-matplot-fig.png')
+return 'images/python-matplot-fig.png' # return filename to org-mode
+#+end_src
+
+#+RESULTS:
+[[file:images/python-matplot-fig.png]]
+
+</pre>
+
+<div class="figure">
+<p><img src="images/python-matplot-fig.png" alt="python-matplot-fig.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Gary Oberbrunner</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

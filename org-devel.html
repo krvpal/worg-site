@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ongoing Development of Org Additions?</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Ongoing Development of Org Additions?</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0ae34f7">Org Collector</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org0a767ca">Example Data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org94e4174">Fireforg, a Firefox extension for org interaction (EXPERIMENTAL)</a>
+<ul>
+<li><a href="#org44b02d1">Caveats</a></li>
+<li><a href="#orgee23b85">Installation</a>
+<ul>
+<li><a href="#org134ada5">Installation from a git clone</a></li>
+</ul>
+</li>
+<li><a href="#orgdea4859">Basic usage</a>
+<ul>
+<li><a href="#org027d69b">The status bar entry</a></li>
+<li><a href="#org7a9703d">Triggering store-link and remember</a></li>
+<li><a href="#org1e04dda">Mark links that occur in the agenda files in websites</a></li>
+<li><a href="#org1a08090">Context menu for links</a></li>
+</ul>
+</li>
+<li><a href="#orgc38e1c1">Import BibTeX using Zotero</a>
+<ul>
+<li><a href="#orgbe0d8f5">Digital Object Identifiers (DOI)</a></li>
+</ul>
+</li>
+<li><a href="#orgcf05e39">Preferences</a></li>
+<li><a href="#org3574916">Workaround for the inability to register a protocol in Firefox on the Mac</a></li>
+<li><a href="#org732acc2">Updating</a></li>
+<li><a href="#orgada4788">Bugreporting and discussion</a>
+<ul>
+<li><a href="#orgb69c9d0">A checklist for bug tracing</a></li>
+</ul>
+</li>
+<li><a href="#orge75a286">Technical note</a></li>
+</ul>
+</li>
+<li><a href="#org7c743bc">MEMO org-mail-htmlize: Create MIME messages based on Org</a>
+<ul>
+<li><a href="#orgc6b331f">Representing a MIME internet message</a></li>
+<li><a href="#orge2060a0">MIME delimiters of SEMI and mml</a></li>
+<li><a href="#orgb2e82e0">Generic function</a></li>
+<li><a href="#org8ea27c5">Open questions</a>
+<ul>
+<li><a href="#org48c8a31">How to handle charset information?</a></li>
+<li><a href="#org9d95332">How to attach files?</a></li>
+</ul>
+</li>
+<li><a href="#org8f1d65a">Quotes from the specs</a>
+<ul>
+<li><a href="#orgfc3811c">MIME multipart: Notion of structured, related body parts</a></li>
+<li><a href="#orgd7bf952">MIME multipart: order of entities inside a multipart</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5d5caa0">Org mode issue tracking library</a></li>
+</ul>
+</div>
+</div>
+<p>
+Some org-mode related project currently being developed in worg.
+</p>
+
+<div id="outline-container-org0ae34f7" class="outline-2">
+<h2 id="org0ae34f7">Org Collector</h2>
+<div class="outline-text-2" id="text-org0ae34f7">
+<p>
+Located in the <code>contrib/lisp/</code> directory of org-mode.
+</p>
+
+<p>
+A utility for collecting properties from the headers in an org file,
+running the properties through arbitrary elisp functions, and
+presenting the results in a table.
+</p>
+
+<p>
+The functionality of this tool is similar to the functionality of
+, but this has support for processing
+prior to the generation of the table.
+</p>
+
+<p>
+Here is a simple example application of this utility.
+</p>
+
+<p>
+
+</p>
+</div>
+
+<div id="outline-container-org0a767ca" class="outline-4">
+<h4 id="org0a767ca">Example Data</h4>
+<div class="outline-text-4" id="text-org0a767ca">
+</div>
+
+<ul class="org-ul">
+<li><a id="org2785897"></a>run1<br />
+<div class="outline-text-7" id="text-org2785897">
+</div>
+</li>
+
+
+<li><a id="orgf8ed19a"></a>run2<br />
+<div class="outline-text-7" id="text-orgf8ed19a">
+</div>
+</li>
+
+
+<li><a id="org917ead2"></a>run3<br />
+<div class="outline-text-7" id="text-org917ead2">
+</div>
+</li>
+
+
+<li><a id="org8a39467"></a>run4<br />
+<div class="outline-text-7" id="text-org8a39467">
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org94e4174" class="outline-2">
+<h2 id="org94e4174">Fireforg, a Firefox extension for org interaction (EXPERIMENTAL)</h2>
+<div class="outline-text-2" id="text-org94e4174">
+<p>
+<i>Note: The development of org-fireforg has ceased back in 2009</i>
+</p>
+
+<p>
+Fireforg is a Firefox extension, that interacts with Emacs Org-mode.
+</p>
+
+<p>
+For the displayed URL it shows the associated tags in the status bar
+and allows to show a list of annotations that can be instantly visited
+in Emacs.
+</p>
+
+<p>
+Additionally, in every website it marks all links that occur in the agenda files.
+</p>
+
+<p>
+For every link in the agenda files the previous heading and its tags
+are associated with it.
+</p>
+
+<p>
+For <b>scientific use</b>, it is possible to <b>send BibTeX entries</b> for
+sites supported by the Zotero plugin to Emacs. are
+necessary for this to work.
+</p>
+</div>
+
+<div id="outline-container-org44b02d1" class="outline-3">
+<h3 id="org44b02d1">Caveats</h3>
+<div class="outline-text-3" id="text-org44b02d1">
+<p>
+The following notes should be taken into consideration before using Fireforg:
+</p>
+<ul class="org-ul">
+<li>On the Emacs side a registry of all links in the agenda files will
+be generated and saved in plain text onto the harddrive.
+<ul class="org-ul">
+<li>The generation can take very a long time depending on the size of
+the agenda files and the number of links in them.</li>
+<li>The generated file can become quite large.</li>
+<li>When files are <b>encrypted</b> having some information from them in
+plain text on the harddrive might not be what you want.</li>
+</ul></li>
+<li>Firefox will read and look through the registry file for the
+currently viewed site. Depending on the size of the registry file
+and on the options <a href="#org8d51fa4">Lookup links on page load</a> and <a href="#orge24eda8">Prefetch links to extract DOI</a> 
+this might slow down the browsing experience.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgee23b85" class="outline-3">
+<h3 id="orgee23b85">Installation</h3>
+<div class="outline-text-3" id="text-orgee23b85">
+<ul class="org-ul">
+<li><p>
+Install org-protocol according to its <a href="org-contrib/org-protocol.html">manual</a> and <b>please verify
+that it&rsquo;s working</b> using either the bookmarks or by invoking it directly in the shell:
+</p>
+<pre class="example">
+emacsclient 'org-protocol://remember://w/http%3A%2F%2Forgmode.org%2F/Org-Mode%3A%20Your%20Life%20in%20Plain%20Text%20-%20Mozilla%20Firefox/'
+</pre></li>
+<li><p>
+Get org-fireforg.el from and put the following into your
+<code>.emacs</code> <b>after</b> the section that initializes org-protocol:
+</p>
+<pre class="example">
+(add-to-list 'load-path "~/path/to/org/fireforg/")
+(require 'org-fireforg)
+(org-fireforg-registry-insinuate)
+</pre>
+
+
+<p>
+and as the last line of the file:
+</p>
+<pre class="example">
+(org-fireforg-registry-initialize t)
+</pre>
+
+
+<p>
+Note that creating the registry can take a long time depending on
+the size of the agenda files and the number of links in them.
+</p></li>
+
+<li><p>
+Visit with Firefox, confirm installation of the extension and restart.
+</p>
+
+<p>
+(Windows users will have to adjust: org-fireforg-registry-file-xml  in Emacs
+and &ldquo;registry-file&rdquo; in Fireforgs preferences to be the same file.)
+</p></li>
+</ul>
+</div>
+
+<div id="outline-container-org134ada5" class="outline-4">
+<h4 id="org134ada5">Installation from a git clone</h4>
+<div class="outline-text-4" id="text-org134ada5">
+<p>
+<i>note: development seems to have ceased back in 2009. Use with caution.</i>
+</p>
+
+<p>
+It is also possible to clone the git repository first, using:
+</p>
+<pre class="example">
+git clone https://repo.or.cz/w/org-fireforg.git
+</pre>
+
+<p>
+, install lisp/org-fireforg.el according to the instructions above
+and add a file named <code>fireforg@burtzlaff.de</code> containing the path
+to the &ldquo;fireforg&rdquo; subdirectory into <code>~/.mozilla/firefox/&lt;your
+    profile&gt;/extensions/</code>.
+</p>
+
+<p>
+In my setup for example there is a file
+<code>~/.mozilla/firefox/4xyx9l73.default/extensions/fireforg@burtzlaff.de</code>
+containing
+</p>
+<pre class="example">
+/home/andy/projects/org-fireforg/fireforg
+</pre>
+
+
+<p>
+A restart of Firefox is required for this to work.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdea4859" class="outline-3">
+<h3 id="orgdea4859">Basic usage</h3>
+<div class="outline-text-3" id="text-orgdea4859">
+</div>
+<div id="outline-container-org027d69b" class="outline-4">
+<h4 id="org027d69b">The status bar entry</h4>
+<div class="outline-text-4" id="text-org027d69b">
+<p>
+If the currently viewed url is found in your agenda files, the number
+of occurrences together with all associated tags will be shown in the
+status bar. A left click on the status bar entry will show a list of
+all headings associated with the currently viewed url. Selecting one
+of them lets Emacs visit that heading.
+</p>
+
+<p>
+For example, this heading in one of your agenda files:
+</p>
+<pre class="example">
+* Greatest tool in the world [[https://orgmode.org/][Org mode]]    :Org:
+</pre>
+
+<p>
+will yield the following when visiting <a href="https://orgmode.org/">https://orgmode.org/</a> and left clicking:
+</p>
+
+
+<div class="figure">
+<p><img src="images/screenshots/org-fireforg-screenshot.png" alt="org-fireforg-screenshot.png" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7a9703d" class="outline-4">
+<h4 id="org7a9703d">Triggering store-link and remember</h4>
+<div class="outline-text-4" id="text-org7a9703d">
+<p>
+Right clicking on the status bar entry shows a menu that let&rsquo;s you
+trigger org-protocol&rsquo;s &ldquo;store-link&rdquo; and &ldquo;remember&rdquo;.
+</p>
+
+<p>
+There is an entry for every remember template listed in the .
+</p>
+
+<p>
+The entries in the submenu &ldquo;All tabs&rdquo; will call remember for every tab
+in the current window. This option only makes sense if a remember
+template is used, that stores the note automatically (&ldquo;%!&rdquo; in the template string), e.g.:
+</p>
+<pre class="example">
+* %:description \n %:link %!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1e04dda" class="outline-4">
+<h4 id="org1e04dda">Mark links that occur in the agenda files in websites</h4>
+<div class="outline-text-4" id="text-org1e04dda">
+<p>
+Whenever a site is loaded, Fireforg will alter the style of all links
+in it, that occur in the agenda files. The tooltip of those links is
+set to contain the annotations.
+</p>
+
+<p>
+This feature can be turned off using an in the <a href="#orgcf05e39">preferences
+dialog</a>.  used for marking the link and is also customizable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1a08090" class="outline-4">
+<h4 id="org1a08090">Context menu for links</h4>
+<div class="outline-text-4" id="text-org1a08090">
+<p>
+The context menu (accessible by right clicking on a link) has a
+submenu &ldquo;Fireforg&rdquo;, where all annotations for that link are listed:
+</p>
+
+
+<div class="figure">
+<p><img src="images/screenshots/org-fireforg-screenshot-context-menu.png" alt="org-fireforg-screenshot-context-menu.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc38e1c1" class="outline-3">
+<h3 id="orgc38e1c1">Import BibTeX using Zotero</h3>
+<div class="outline-text-3" id="text-orgc38e1c1">
+<p>
+Fireforg is able to retrieve BibTex entries for the all sites
+supported by <a href="http://www.zotero.org/">Zotero</a>. To achieve this the following additional steps
+are necessary:
+</p>
+<ul class="org-ul">
+<li>Install Zotero 1.0.10 from the <a href="http://www.zotero.org/">Zotero Website</a></li>
+<li><p>
+Set &ldquo;Inject Zotero&rdquo; in Fireforg&rsquo;s preference dialog
+<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.
+</p>
+
+<p>
+*Warning: On restart a small function is injected into Zotero to
+catch imported entries. The change to the code is minimal and
+non-permanent. In a worst case scenario Zotero&rsquo;s database might
+get corrupted, though that hasn&rsquo;t happened yet.*
+</p></li>
+
+<li><p>
+Restart Firefox
+</p>
+
+<p>
+Whenever a single entry (<b>not</b> a collection) is imported into Zotero - 
+e.g. by clicking the white &ldquo;document&rdquo; symbol that appears to the right
+in the url bar if Zotero supports importing the current site - it is
+automatically exported to BibTeX and sent to org mode using
+org-protocol. In Emacs it is put into the kill ring in a format
+depending on the variable <code>org-fireforg-received-bibtex-format</code>:
+</p></li>
+
+<li><code>nil</code>: The BibTeX entry is passed directly into the kill ring.</li>
+<li><p>
+<code>heading</code> (Default): A heading is generated with the BibTeX
+fields as properties with prefix &ldquo;BIB_&rdquo;:
+</p>
+<pre class="example">
+* [[&lt;link to site&gt;][&lt;Title&gt;]]
+ :PROPERTIES:
+  :CUSTOM_ID: &lt;BibTeX key&gt;
+  :BIB_entryType: &lt;article, ...&gt;
+  :BIB_author: ...
+  :BIB_title: ...
+  ...
+  :END:
+</pre></li>
+<li><code>headingWithPropsAndBibTeXContent</code>: a heading with properties as
+described above is generated and the entry in BibTeX format is
+appended.</li>
+<li><p>
+<code>headingWithBibTeXContent</code>: same as the previous one but without the properties
+</p>
+
+<p>
+If the &rsquo;url&rsquo; field is a <b>static URL</b>, the link to it will be highlighted
+in search results in every search engine. Otherwise the option
+<a href="#orgcf9b117">Match sites by comparing their DOI with saved bibliography entries</a> might help.
+</p>
+
+<p>
+To export BibTeX information from all headings in the current buffer
+with at least the &ldquo;BIB_entryType&rdquo; property call:
+</p></li>
+<li><code>org-fireforg-export-bibtex-to-file</code> to export to a file</li>
+<li><code>org-fireforg-export-bibtex-to-new-buffer</code> to export into a new buffer</li>
+</ul>
+</div>
+
+<div id="outline-container-orgbe0d8f5" class="outline-4">
+<h4 id="orgbe0d8f5">Digital Object Identifiers (DOI)</h4>
+<div class="outline-text-4" id="text-orgbe0d8f5">
+<p>
+If a BibTeX entry contains a field &rsquo;doi&rsquo;, a URL will be generated by
+prepending &ldquo;<a href="http://dx.doi.org/">http://dx.doi.org/</a>&rdquo; to the corresponding property
+&rsquo;BIB_doi&rsquo;. It will be handled as any other URL. There is a
+<a href="#orgcf9b117">corresponding functionality in the plugin</a> that allows to associated
+pages despite non-static URLs.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcf05e39" class="outline-3">
+<h3 id="orgcf05e39">Preferences</h3>
+<div class="outline-text-3" id="text-orgcf05e39">
+<p>
+Fireforg&rsquo;s preference dialogue is accessible in Firefox&rsquo;s menu
+under Tools-&gt;Add-ons-&gt;Fireforg-&gt;Preferences
+</p>
+</div>
+<ul class="org-ul">
+<li><a id="org5f1f9ac"></a>Registry file<br />
+<div class="outline-text-6" id="text-org5f1f9ac">
+<p>
+The file containing an xml tree with all link-headline associations
+generated from the agenda files. You should not need to change
+this. It has to be same as the customizable variable
+<code>org-fireforg-registry-file-xml</code> in Emacs.
+</p>
+</div>
+</li>
+<li><a id="org8d51fa4"></a>Lookup links on page load<br />
+<div class="outline-text-6" id="text-org8d51fa4">
+<p>
+When enabled, all links in a web page that have headlines
+associated with them are marked. This is achieve by adding the
+following CSS style string to the element:
+Depending on the size of the registry this <b>might slow Firefox down</b>.
+</p>
+</div>
+</li>
+<li><a id="org2b5eefb"></a>CSS style string for links with annotations<br />
+<div class="outline-text-6" id="text-org2b5eefb">
+<p>
+The string that is appended to the CSS <code>style</code> string of a link
+element, if annotations for it exist.
+</p>
+</div>
+</li>
+<li><a id="org09a279a"></a>Overwrite tooltip for links with annotations<br />
+<div class="outline-text-6" id="text-org09a279a">
+<p>
+If enabled, sets the tooltip for the links, for which
+annotations exist to contain those annotations.
+</p>
+</div>
+</li>
+<li><a id="org49df182"></a>Inject Zotero<br />
+<div class="outline-text-6" id="text-org49df182">
+<p>
+After restarting Firefox, a function in the Zotero code gets altered
+so that all BibtTeX entries (<b>not</b> collections) that are imported are
+sent using org-protocol and are handled in Emacs according to the
+variable <code>org-fireforg-received-bibtex-format</code> as described <a href="#orgc38e1c1">here</a>.  Due
+to <a href="#orge75a286">design choices in Zotero</a> this is a bit fragile and can yield errors
+and <b>might possibly even break Zotero&rsquo;s database</b>. It is not advisable
+to use Zotero for production when enabling this option in Fireforg.
+</p>
+</div>
+</li>
+<li><a id="orgcf9b117"></a>Match sites by comparing their DOI with saved bibliography entries<br />
+<div class="outline-text-6" id="text-orgcf9b117">
+<p>
+Extract the Digital Object Identifier (DOI) from a page, prepend
+&ldquo;<a href="http://dx.doi.org/">http://dx.doi.org/</a>&rdquo; to it and look up the resulting URL.
+</p>
+
+<p>
+If using a bibliography format <a href="#orgc38e1c1">with properties</a>, a <a href="#orgbe0d8f5">URL is
+generated in the same way from the value of the field &ldquo;BIB_doi&rdquo;
+if it exists</a>. Thus documents can be matched regardless of the
+possibly non-static URL.
+</p>
+</div>
+</li>
+<li><a id="orge24eda8"></a>Prefetch links to extract DOI<br />
+<div class="outline-text-6" id="text-orge24eda8">
+<p>
+<b>Prefetch all links in a page</b> after it is loaded, extract the
+DOIs - if any - and <a href="#orgbe0d8f5">use it to find annotations</a>. This requires
+the option <a href="#orgcf9b117">Match sites by comparing their DOI with saved
+bibliography entries</a> to be set.
+</p>
+
+<p>
+A site is only prefetched once in every Firefox session, because the
+associated URL mapping is saved until Firefox is restarted.
+</p>
+
+<p>
+<b>All links starting with &ldquo;http&rdquo; will be prefetched (except for
+files with extensions: PDF, GIF, PNG or SWF).</b> This option can
+also be toggled in the status bar menu.
+</p>
+
+<p>
+<b>This option will generate additional network traffic and might
+slow the browsing experience</b>
+</p>
+</div>
+</li>
+<li><a id="org990f002"></a>List of characters specifying available remember templates<br />
+<div class="outline-text-6" id="text-org990f002">
+<p>
+For every character in this list an entry in the will
+be generated, that triggers remember with the template
+associated with the character.
+</p>
+</div>
+</li>
+<li><a id="org6800fc2"></a>Enable workaround for Mac<br />
+<div class="outline-text-6" id="text-org6800fc2">
+<p>
+see <a href="#org3574916">here</a>
+</p>
+</div>
+</li>
+<li><a id="orgbcb0166"></a>Temporary file for Mac workaround<br />
+<div class="outline-text-6" id="text-orgbcb0166">
+<p>
+see <a href="#org3574916">here</a>
+</p>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org3574916" class="outline-3">
+<h3 id="org3574916">Workaround for the inability to register a protocol in Firefox on the Mac</h3>
+<div class="outline-text-3" id="text-org3574916">
+<p>
+A long known bug in Firefox on the Mac is reported to stop protocol
+registration from working. To work around this Fireforg is able to
+write the org-protocol urls to a temporary file, that is read every
+second and, if non empty, passed to emacsclient and emptied.
+</p>
+
+<p>
+To enable this:
+</p>
+<ul class="org-ul">
+<li>check &ldquo;Enable workaround for Mac&rdquo; in Fireforg&rsquo;s preference dialogue <sup><a id="fnr.1.100" class="footref" href="#fn.1">1</a></sup></li>
+<li>get pull.sh from <a href="https://repo.or.cz/w/org-fireforg.git">https://repo.or.cz/w/org-fireforg.git</a> and run it.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org732acc2" class="outline-3">
+<h3 id="org732acc2">Updating</h3>
+<div class="outline-text-3" id="text-org732acc2">
+<p>
+To avoid confusion, always update both org-fireforg.el and the plugin.
+</p>
+
+<p>
+The plugin has to be uninstalled and then reinstalled as described
+above. Automatic updating will be used when the testing phase is over.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgada4788" class="outline-3">
+<h3 id="orgada4788">Bugreporting and discussion</h3>
+<div class="outline-text-3" id="text-orgada4788">
+<ul class="org-ul">
+<li>Discussions go to the org-mode list.</li>
+<li>Bugreports are better not sent to the list, but rather directly to
+the <a href="mailto:andreas%20AT%20burtzlaff%20DOT%20de">author</a> (Please add &ldquo;[Fireforg]&rdquo; to the subject.).</li>
+</ul>
+</div>
+
+<div id="outline-container-orgb69c9d0" class="outline-4">
+<h4 id="orgb69c9d0">A checklist for bug tracing</h4>
+<div class="outline-text-4" id="text-orgb69c9d0">
+<p>
+To create a test case put:
+</p>
+<pre class="example">
+* Greatest tool in the world [[https://orgmode.org/][Org mode]]    :Org:
+</pre>
+
+<p>
+into one of your agenda files and save it.
+</p>
+
+<p>
+If problems arise please go through this checklist to locate the problem:
+</p>
+
+<ul class="org-ul">
+<li>Does the file &ldquo;~/.org-fireforg-registry.xml&rdquo; exist and does it contain &ldquo;orgmode.org&rdquo;?</li>
+<li><b>No on either</b>: Send me the last content of the Messages buffer in Emacs</li>
+<li><b>Yes</b>: In the Firefox menu: &ldquo;Tools&rdquo;-&gt;&ldquo;Error console&rdquo; look for
+errors containing: &ldquo;chrome://fireforg/&rdquo; and send them to me.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge75a286" class="outline-3">
+<h3 id="orge75a286">Technical note</h3>
+<div class="outline-text-3" id="text-orge75a286">
+<p>
+Different instances of Zotero&rsquo;s Translator object seem to share state
+in a non-obvious way. This makes coding very fragile and even lets
+some imports fail (silently) after Fireforg has injected its code. The
+failure when importing collections is somehow related to this.  While
+I find it a strange design choice, it is not in my power to change it.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org7c743bc" class="outline-2">
+<h2 id="org7c743bc">MEMO org-mail-htmlize: Create MIME messages based on Org</h2>
+<div class="outline-text-2" id="text-org7c743bc">
+</div>
+<div id="outline-container-orgc6b331f" class="outline-3">
+<h3 id="orgc6b331f">Representing a MIME internet message</h3>
+<div class="outline-text-3" id="text-orgc6b331f">
+<p>
+A MIME internet message consists of one or more MIME entities. Each
+MIME entity is of a distinct type and subtype, has a body and
+optional MIME headers related to its content.
+</p>
+
+<p>
+A MIME entity is represented as a list:
+</p>
+
+<p>
+(TYPE SUBTYPE BODY CONT-HEAD)
+</p>
+
+<dl class="org-dl">
+<dt>TYPE</dt><dd>Symbol of MIME media type (e.g. text, video, audio).</dd>
+
+<dt>SUBTYPE</dt><dd>Symbol of MIME media subtype (e.g. plain, html).</dd>
+
+<dt>BODY</dt><dd>String with entity body -or- list of other MIME entities.</dd>
+
+<dt>CONT-HEAD</dt><dd>List of cons with content related MIME header
+fields.  The name of the header field without the
+prefix &ldquo;Content-&rdquo; is car, the value cdr.</dd>
+</dl>
+
+<p>
+Example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span>text html <span style="color: #e2c770;">"&lt;h1&gt;Headline&lt;/h1&gt;"</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>disposition . inline<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+For messages of type multipart the body consists of a list of one
+or more MIME entities.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span>multipart alternative
+                 <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>text plain <span style="color: #e2c770;">"* Headline"</span><span style="color: #b6e63e;">)</span>
+                   <span style="color: #b6e63e;">(</span>text html <span style="color: #e2c770;">"&lt;h1&gt;headline&lt;/h1&gt;"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge2060a0" class="outline-3">
+<h3 id="orge2060a0">MIME delimiters of SEMI and mml</h3>
+<div class="outline-text-3" id="text-orge2060a0">
+<p>
+The MIME delimiters are defined in an association list with a
+symbol of the library&rsquo;s name as key and delimiter format strings as
+values.  For each library there are three formatstrings.
+</p>
+
+<p>
+(SYMBOL DELIM-SINGLE DELIM-SINGLE-CONT DELIM-MULTI)
+</p>
+
+<dl class="org-dl">
+<dt>DELIM-SINGLE</dt><dd><p>
+Denoting a single MIME entity.
+</p>
+
+<p>
+Strings are passed in this order:
+</p>
+
+<ol class="org-ol">
+<li>type</li>
+
+<li>subtype</li>
+
+<li>content header</li>
+
+<li>body</li>
+</ol></dd>
+
+<dt>DELIM-SINGLE-CONT</dt><dd><p>
+Format of content header strings.
+</p>
+
+<p>
+Strings are passed in this order:
+</p>
+
+<ol class="org-ol">
+<li>header field name</li>
+
+<li>header field value</li>
+</ol></dd>
+
+<dt>DELIM-MULTI</dt><dd><p>
+Enclosing parts of a multipart entity.
+</p>
+
+<p>
+Strings are passed in this order:
+</p>
+
+<ol class="org-ol">
+<li>subtype</li>
+
+<li>body</li>
+
+<li>subtype</li>
+</ol></dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-mail-htmlize-mime-delimiter-alist
+           <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>semi <span style="color: #e2c770;">"\n--[[%s/%s%s]]\n%s"</span> <span style="color: #e2c770;">"\ncontent-%s: %s"</span> <span style="color: #e2c770;">"\n--&lt;&lt;%s&gt;&gt;-{\n%s\n--}-&lt;&lt;%s&gt;&gt;"</span><span style="color: #b6e63e;">)</span>
+             <span style="color: #b6e63e;">(</span>mml <span style="color: #e2c770;">"\n&lt;#part type=\"%s/%s\"%s&gt;\n%s"</span> <span style="color: #e2c770;">" %s=\"%s\""</span> <span style="color: #e2c770;">"\n&lt;#multipart type=\"%s\"&gt;\n%s\n&lt;#/multipart&gt;"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb2e82e0" class="outline-3">
+<h3 id="orgb2e82e0">Generic function</h3>
+<div class="outline-text-3" id="text-orgb2e82e0">
+<p>
+This generic function returns a string representation with MIME
+delimiters depending on the variable <code>org-mail-htmlize-mime-lib</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-mail-htmlize-mime-lib <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">semi</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-mail-htmlize-mime-entity</span> <span style="color: #fd971f;">(</span>type subtype body
+                                               <span style="color: #66d9ef;">&amp;optional</span> cont-head<span style="color: #fd971f;">)</span>
+       <span style="color: #7f7f80;">"Return string representation of MIME entity.</span>
+<span style="color: #7f7f80;">     </span>
+<span style="color: #7f7f80;">     TYPE is the type of entity body.</span>
+<span style="color: #7f7f80;">     SUBTYPE is the subtype of body.</span>
+<span style="color: #7f7f80;">     BODY is the body of the entity.  Either a string with the body</span>
+<span style="color: #7f7f80;">     content or a list with one ore more MIME entities.</span>
+<span style="color: #7f7f80;">     Optional argument CONT-HEAD is a list of cons with content</span>
+<span style="color: #7f7f80;">     specific headers, name in car and value in cdr."</span>
+       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>delimlst <span style="color: #fd971f;">(</span><span style="color: #fd971f;">assoc</span> org-mail-htmlize-mime-lib
+                              org-mail-htmlize-mime-delimiter-alist<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">eq</span> type <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">multipart</span><span style="color: #eb4509;">)</span>
+             <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">3</span> delimlst<span style="color: #fd971f;">)</span> subtype
+                     <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapconcat</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>b<span style="color: #eb4509;">)</span>
+                                   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">apply</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-mail-htmlize-mime-entity</span>
+                                          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> b<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cadr</span> b<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cddr</span> b<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                                body <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span>
+                     subtype<span style="color: #eb4509;">)</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">1</span> delimlst<span style="color: #fd971f;">)</span>
+                   type subtype
+                   <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapconcat</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>h<span style="color: #eb4509;">)</span>
+                                 <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">2</span> delimlst<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> h<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cdr</span> h<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                              cont-head <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span>
+                   body<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8ea27c5" class="outline-3">
+<h3 id="org8ea27c5">Open questions</h3>
+<div class="outline-text-3" id="text-org8ea27c5">
+</div>
+<div id="outline-container-org48c8a31" class="outline-4">
+<h4 id="org48c8a31">How to handle charset information?</h4>
+</div>
+
+<div id="outline-container-org9d95332" class="outline-4">
+<h4 id="org9d95332">How to attach files?</h4>
+<div class="outline-text-4" id="text-org9d95332">
+<p>
+The generic function expects BODY either be a string or a list.
+Attaching binary file (image, etc.) requires to encode it so the
+message will pass the message system.  So we <i>might</i> use kind of a
+encoder (e.g. base64) on our own.
+</p>
+
+<p>
+Or, what seems a cleaner solution: Use attachment function of the
+respective MIME mode.  To achive this: Introduce third possibility
+for BODY: A cons with the filename in car and symbol of the
+function in cdr.
+</p>
+
+<p>
+(FILENAME . FUNCTION)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">      <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span>image jpeg <span style="color: #fd971f;">(</span><span style="color: #e2c770;">"/path/to/image"</span> . org-mail-htmlize-add-attachment<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+The function <code>org-mail-htmlize-add-attachment</code> is called with file
+name as argument and calls the appropriate function depending on
+<code>org-mail-htmlize-mime-lib</code> and returns a string
+</p>
+
+<ul class="org-ul">
+<li>with the encoded body</li>
+</ul>
+
+<p>
+-or-
+</p>
+
+<ul class="org-ul">
+<li>the complete MIME entity</li>
+</ul>
+
+<p>
+Side effect: The user might be prompted for attachment settings
+(e.g. encoding).  But, on the other hand: We delegate the job of
+creating the attachment to the library that is responsible for
+mime.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8f1d65a" class="outline-3">
+<h3 id="org8f1d65a">Quotes from the specs</h3>
+<div class="outline-text-3" id="text-org8f1d65a">
+</div>
+<div id="outline-container-orgfc3811c" class="outline-4">
+<h4 id="orgfc3811c">MIME multipart: Notion of structured, related body parts</h4>
+<div class="outline-text-4" id="text-orgfc3811c">
+<ul class="org-ul">
+<li><p>
+<a href="http://tools.ietf.org/html/rfc2046.html#section-5.1.1">RFC2046, 5.1.1</a>
+</p>
+
+<blockquote>
+<p>
+NOTE:  Conspicuously missing from the &ldquo;multipart&rdquo; type is a notion of
+structured, related body parts. It is recommended that those wishing
+to provide more structured or integrated multipart messaging
+facilities should define subtypes of multipart that are syntactically
+identical but define relationships between the various parts. For
+example, subtypes of multipart could be defined that include a
+distinguished part which in turn is used to specify the relationships
+between the other parts, probably referring to them by their
+Content-ID field.  Old implementations will not recognize the new
+subtype if this approach is used, but will treat it as
+multipart/mixed and will thus be able to show the user the parts that
+are recognized.
+</p>
+</blockquote></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgd7bf952" class="outline-4">
+<h4 id="orgd7bf952">MIME multipart: order of entities inside a multipart</h4>
+<div class="outline-text-4" id="text-orgd7bf952">
+<ul class="org-ul">
+<li><p>
+<a href="http://tools.ietf.org/html/rfc2046.html#section-5.1.3">RFC2046, 5.1.3</a>
+</p>
+
+<blockquote>
+<p>
+5.1.3.  Mixed Subtype
+</p>
+
+<p>
+The &ldquo;mixed&rdquo; subtype of &ldquo;multipart&rdquo; is intended for use when the body
+parts are independent and need to be bundled in a particular order.
+Any &ldquo;multipart&rdquo; subtypes that an implementation does not recognize
+must be treated as being of subtype &ldquo;mixed&rdquo;.
+</p>
+</blockquote></li>
+
+<li><p>
+<a href="http://tools.ietf.org/html/rfc2046.html#section-5.1.4">RFC2046, 5.1.4</a>
+</p>
+
+<blockquote>
+<p>
+5.1.4.  Alternative Subtype
+</p>
+
+<p>
+The &ldquo;multipart/alternative&rdquo; type is syntactically identical to
+&ldquo;multipart/mixed&rdquo;, but the semantics are different.  In particular,
+each of the body parts is an &ldquo;alternative&rdquo; version of the same
+information.
+</p>
+
+<p>
+Systems should recognize that the content of the various parts are
+interchangeable.  Systems should choose the &ldquo;best&rdquo; type based on the
+local environment and references, in some cases even through user
+interaction.  As with &ldquo;multipart/mixed&rdquo;, the order of body parts is
+significant.  In this case, the alternatives appear in an order of
+increasing faithfulness to the original content.  In general, the
+best choice is the LAST part of a type supported by the recipient
+system&rsquo;s local environment.
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+In general, user agents that compose &ldquo;multipart/alternative&rdquo; entities
+must place the body parts in increasing order of preference, that is,
+with the preferred format last.  For fancy text, the sending user
+agent should put the plainest format first and the richest format
+last.  Receiving user agents should pick and display the last format
+they are capable of displaying.  In the case where one of the
+alternatives is itself of type &ldquo;multipart&rdquo; and contains unrecognized
+sub-parts, the user agent may choose either to show that alternative,
+an earlier alternative, or both.
+</p>
+</blockquote></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org5d5caa0" class="outline-2">
+<h2 id="org5d5caa0">Org mode issue tracking library</h2>
+<div class="outline-text-2" id="text-org5d5caa0">
+<p>
+A collection of helper functions to maintain the <a href="org-issues.html">Issue file</a> from within
+Wanderlust and (partly) Gnus.
+</p>
+
+<p>
+You can download a current version of this file <a href="code/elisp/org-issue.el">here</a>.
+</p>
+
+<p>
+Currently following commands are provided:
+</p>
+
+<dl class="org-dl">
+<dt>&rsquo;org-issue-new&rsquo;</dt><dd><p>
+File a new issue for current message
+</p>
+
+<p>
+Creates a new TODO in &rsquo;org-issue-issue-file&rsquo; below the headline
+&ldquo;New Issues&rdquo; with keyword NEW.  If customization variable
+&rsquo;org-issue-message-flag&rsquo; is non-nil and flagging messages is
+supported, the message of this issue is flagged.
+</p></dd>
+
+<dt>&rsquo;org-issue-close&rsquo;</dt><dd>Close issue of current message.</dd>
+
+<dt>&rsquo;org-issue-tag&rsquo; </dt><dd>Tag issue of current message.</dd>
+
+<dt>&rsquo;org-issue-update-message-flag&rsquo;</dt><dd><p>
+Update message flag according
+to issue file.
+</p>
+
+<p>
+If the issue for current message is closed, the message flag is
+removed.
+</p></dd>
+
+<dt>&rsquo;org-issue-link-gmane&rsquo;</dt><dd>An Org mode web link pointing to current
+message on gmane is pushed to killring and clipboard.</dd>
+</dl>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">Fireforg&rsquo;s preference dialogue is accessible in
+Firefox&rsquo;s menu under Tools-&gt;Add-ons-&gt;Fireforg-&gt;Preferences</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

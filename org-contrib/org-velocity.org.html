@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-velocity.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>   <span class="org-document-title">org-velocity.el --- something like Notational Velocity for Org
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>    <span class="org-document-info">Paul M. Rodriguez
+</span>
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General
+</span>
+<span class="org-verbatim">org-velocity</span> implements an interface for Org inspired by the
+minimalist notetaking program Notational Velocity.  The idea is to
+allow you to amass and access brief notes on many subjects
+with minimal fuss.  
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to use it 
+</span>
+Org-velocity can be used in two ways: to store and access notes from
+anywhere in a universal bucket file; or to navigate any Org file.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> The interface
+</span>
+The central command, <span class="org-verbatim">org-velocity-read</span>, prompts for search terms.
+The result is a list of all entries where those search terms appear,
+either in the heading or in the text.
+
+If there is only one result, <span class="org-verbatim">org-velocity</span> offers to visit that entry
+in an indirect buffer.
+
+If there are no results, <span class="org-verbatim">org-velocity</span> offers to create a new entry
+using <span class="org-verbatim">org-rememember</span> and supplies the search terms to the Remember
+buffer as its heading.
+
+If there is more than one result, <span class="org-verbatim">org-velocity</span> displays a buffer
+with the headings of all matching entries.  An entry is selected
+either by clicking on it or typing the hint character beside it.  Once
+selected the entry is visited in an indirect buffer.
+
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Navigating Org files
+</span>
+The easiest way to try <span class="org-verbatim">org-velocity</span> is in an existing Org file.
+First <span class="org-link"><a href="Loading it (No surprises here)">load it</a></span>, then run:
+
+<span class="org-code">: M-x org-velocity-read
+</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Using a bucket file
+</span>
+You can set a bucket file with:
+
+<span class="org-code">: M-x customize-variable RET org-velocity-bucket RET 
+</span>
+Org-velocity will then use the bucket file as its target whenever it
+is called outside of Org.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Configuration
+</span>
+To configure <span class="org-verbatim">org-velocity</span>, do:
+
+<span class="org-code">: M-x customize-group RET org-velocity RET
+</span>
+You may also want to bind <span class="org-verbatim">org-velocity-read</span> to a key.  Add a line
+like this to your <span class="org-verbatim">.emacs</span>:
+
+<span class="org-code">: (global-set-key (kbd "C-c v") 'org-velocity-read)
+</span> 
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Loading it (No surprises here)
+</span>
+The easiest way is by 
+
+<span class="whitespace-tab">        </span>M-x customize-apropos org-modules
+
+Check the line for velocity.  This will cause it to be loaded every
+time you start org-mode.
+
+You'll still have to load it manually the first time.
+
+Of course, you can also just try it out by loading it manually.
+
+If you prefer to manually customize your emacs then make sure that the
+path to org's contrib directory is in your load-path and add the
+following to your <span class="org-verbatim">.emacs</span>.
+
+<span class="org-code">: (require 'org-velocity)
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Credits
+</span>
+  Paul M. Rodriguez wrote <span class="org-verbatim">org-velocity</span> incorporating suggestions
+  from Carsten Dominik and Bastien Guerry.
+</pre>
+  </body>
+</html>

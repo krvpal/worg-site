@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-watchdoc</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thorsten Jolitz" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org-watchdoc</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org033b4ec">org-watchdoc.el &#x2014; Watchdog for exported Org-mode trees</a>
+<ul>
+<li><a href="#org5180086">MetaData</a></li>
+<li><a href="#org0888886">Commentary</a></li>
+<li><a href="#org0a20e8c">Installation</a></li>
+<li><a href="#org0daaca1">Usage</a>
+<ul>
+<li><a href="#org91f8fa9">Commands</a></li>
+<li><a href="#orgce3f795">Interactive Use</a></li>
+<li><a href="#org6d3cfb4">Use with Outorg</a></li>
+<li><a href="#orgfc62063">Keybindings in Outshine</a></li>
+<li><a href="#orgf5d45b9">ChangeLog</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-org033b4ec" class="outline-2">
+<h2 id="org033b4ec">org-watchdoc.el &#x2014; Watchdog for exported Org-mode trees</h2>
+<div class="outline-text-2" id="text-org033b4ec">
+<pre class="example">
+EXPORT_OPTIONS: prop:nil
+wdoc_1992rwM: /home/tj/git/org-watchdoc/README.md /home/tj/git/org-watchdoc/export-templates/org-watchdoc-gh.org gfm
+wdoc_1992G_r: /home/tj/gitclone/worg/org-contrib/org-watchdoc.org /home/tj/git/org-watchdoc/export-templates/org-watchdoc-worg.org org
+wdoc_1992gas: /home/tj/git/org-watchdoc/targets/org-watchdoc.html /home/tj/git/org-watchdoc/export-templates/org-watchdoc-gh.org html
+wdoc_1992tky: /home/tj/git/org-watchdoc/targets/org-watchdoc.txt /home/tj/git/org-watchdoc/export-templates/org-watchdoc-gh.org ascii
+wdoc_1992fuB: /home/tj/git/org-watchdoc/targets/org-watchdoc.tex /home/tj/git/org-watchdoc/export-templates/org-watchdoc-gh.org latex
+</pre>
+
+<p>
+Copyright (C) from 2014 Thorsten Jolitz
+Author: Thorsten Jolitz &lt;tjolitz at gmail dot com&gt;
+Keywords: org-mode, exporter, propagate changes, documentation
+</p>
+</div>
+
+<div id="outline-container-org5180086" class="outline-3">
+<h3 id="org5180086">MetaData</h3>
+<div class="outline-text-3" id="text-org5180086">
+<pre class="example">
+copyright: Thorsten Jolitz
+copyright-years: 2014+
+version: 1.0
+licence: GPL 3 or later (free software)
+licence-url: http://www.gnu.org/licenses/
+part-of-emacs: no
+git-repo: https://github.com/tj64/org-watchdoc.git
+git-clone: git://github.com/tj64/org-watchdoc.git
+author: Thorsten Jolitz
+author_email: tjolitz AT gmail DOT com
+</pre>
+</div>
+</div>
+<div id="outline-container-org0888886" class="outline-3">
+<h3 id="org0888886">Commentary</h3>
+<div class="outline-text-3" id="text-org0888886">
+<p>
+This library implements functionality for keeping exported files
+associated with Org subtrees up-to-date.
+</p>
+
+<p>
+Its principal use case is writing the comment-section of Emacs
+Lisp (or other) source-code files only once (and in full Org-mode
+using outorg.el), export it as README documentation from the
+<b>outorg-edit-buffer</b> to html, ascii, latex/pdf,
+markdown-github-flavor or whatever, and keep the exported doc
+files automatically up-to-date when the original comment-section
+of the source-buffer is edited explicitly with outorg (via M-x
+outorg-edit-comments-and-propagate-changes).
+</p>
+
+<p>
+org-watchdoc is just a little toolbox that can be used
+independently from outorg too. All its functions are commands, so
+its functionality is available for interactive use too.
+</p>
+</div>
+</div>
+<div id="outline-container-org0a20e8c" class="outline-3">
+<h3 id="org0a20e8c">Installation</h3>
+<div class="outline-text-3" id="text-org0a20e8c">
+<p>
+Put this line in your init file
+</p>
+
+<div class="org-src-container">
+<pre class="src src-'emacs-lisp">  (require 'org-watchdoc)
+</pre>
+</div>
+
+<p>
+and make sure Emacs can find the file org-watchdoc.el.
+</p>
+
+<p>
+To take real advantage of org-watchdoc, outshine.el and outorg.el
+(and maybe navi-mode.el) should be installed and source-code
+buffers should be structured with outshine headers (outcommented
+Org-mode headers), taking care that the whole comment-section is
+one single outline tree that is the first headline in the
+source-code file. Use org-watchdoc.el itself as an example for
+this kind of file structuring.
+</p>
+</div>
+</div>
+<div id="outline-container-org0daaca1" class="outline-3">
+<h3 id="org0daaca1">Usage</h3>
+<div class="outline-text-3" id="text-org0daaca1">
+</div>
+<div id="outline-container-org91f8fa9" class="outline-4">
+<h4 id="org91f8fa9">Commands</h4>
+<div class="outline-text-4" id="text-org91f8fa9">
+<p>
+Since org-watchdoc is a toolbox and not a mode, no menu or keymap
+is specified. However, its commands can be used interactively:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">M-x org-watchdoc-</th>
+<th scope="col" class="org-left">action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">add-target</td>
+<td class="org-left">add target-combination to watchlist</td>
+</tr>
+
+<tr>
+<td class="org-left">remove-target</td>
+<td class="org-left">remove target-combination from watchlist</td>
+</tr>
+
+<tr>
+<td class="org-left">propagate-changes</td>
+<td class="org-left">if md5 changed reexport all combinations</td>
+</tr>
+
+<tr>
+<td class="org-left">set-md5</td>
+<td class="org-left">set org-watchdoc-md5 to current md5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-orgce3f795" class="outline-4">
+<h4 id="orgce3f795">Interactive Use</h4>
+<div class="outline-text-4" id="text-orgce3f795">
+<p>
+In interactive use, this would be the typical order of actions:
+</p>
+
+<ol class="org-ol">
+<li>Export first buffer tree to desired doc files (e.g. README-GH.md
+or README-WORG.html). Optional, since adding non-exiting
+target-files in step 2 will cause the exporter to write them the
+when exiting the edit-buffer.</li>
+
+<li><p>
+Add targets with point on first buffer headline.
+</p>
+
+<p>
+Targets are combinations of files the exporter writes to,
+export-template files to be inserted before the exporter does
+its work, and backends the exporter should export to, e.g.
+</p>
+
+<pre class="example">
+   "/home/me/proj/README-GH.md /home/me/proj/gh-tmpl.org gfm"
+   "/home/me/proj/README-WORG.html /home/me/proj/worg-tmpl.org html"
+</pre>
+
+<p>
+The three elements of such a combination are prompted from
+the user.
+</p></li>
+
+<li>Save and set md5 variable.</li>
+
+<li>Edit the (narrowed) first buffer tree and save</li>
+
+<li><p>
+Propagate changes.
+</p>
+
+<p>
+Since md5 has changed due to the edits, all registered target
+combinations are automatically re-exported.
+</p></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org6d3cfb4" class="outline-4">
+<h4 id="org6d3cfb4">Use with Outorg</h4>
+<div class="outline-text-4" id="text-org6d3cfb4">
+<p>
+Assuming outshine and outorg are installed and active, do once:
+</p>
+
+<ul class="org-ul">
+<li><p>
+Edit as Org
+</p>
+
+<p>
+In the <b>outorg-edit-buffer</b> do steps 1 and 2 described above
+for direct interactive use.
+</p></li>
+</ul>
+
+<pre class="example">
+M-x outorg-edit-comments-and-propagate-changes
+</pre>
+
+<p>
+Then whenever you want to edit the source-buffer&rsquo;s
+comment-section and propagate the changes to the watched doc
+files, do:
+</p>
+
+<pre class="example">
+M-x outorg-edit-comments-and-propagate-changes
+</pre>
+
+<p>
+instead of the usual 
+</p>
+
+<pre class="example">
+M-x outorg-edit-comment-as-org
+</pre>
+
+<p>
+This will
+</p>
+
+<ul class="org-ul">
+<li>Offer the first buffer tree for editing in the
+<b>outorg-edit-buffer</b></li>
+
+<li>Reset `org-watchdoc-md5&rsquo; immediately after edit-buffer setup</li>
+
+<li>Check if buffer md5 has changed when editing is quitted. If so,
+propagate the changes to the doc files registered in the subtrees
+watchlist.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgfc62063" class="outline-4">
+<h4 id="orgfc62063">Keybindings in Outshine</h4>
+<div class="outline-text-4" id="text-orgfc62063">
+<p>
+Here are the keybindings I added to outshine.el:
+</p>
+
+<pre class="example">
+;; edit comment-section with `outorg' and propagate changes
+
+;; best used with prefix-key 'C-c' 
+(define-key map "`" 'outorg-edit-comments-and-propagate-changes)
+
+;; best used with prefix-key 'M-#'
+(define-key map "\M-+" 'outorg-edit-comments-and-propagate-changes)
+(define-key map "+" 'outorg-edit-comments-and-propagate-changes)
+</pre>
+
+<p>
+So just like editing e.g. an Emacs Lisp buffer or subtree (with
+outshine activated) in full Org-mode only involves pressing M-# M-#
+once to start editing, and then M-# to exit the edit-buffer, edting
+the comment-section of such a source-buffer and propagating the
+changes to several export-targets only involves pressing M-# M-+ once
+to start editing, and then M-# to exit the edit buffer (when M-# was
+set as outline-minor-mode prefix). 
+</p>
+</div>
+</div>
+<div id="outline-container-orgf5d45b9" class="outline-4">
+<h4 id="orgf5d45b9">ChangeLog</h4>
+<div class="outline-text-4" id="text-orgf5d45b9">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">date</th>
+<th scope="col" class="org-left">author(s)</th>
+<th scope="col" class="org-right">version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">&lt;2014-04-09 Wed&gt;</span></span></td>
+<td class="org-left">Thorsten Jolitz</td>
+<td class="org-right">0.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: <span class="timestamp-wrapper"><span class="timestamp">&lt;2014-04-09 Wed&gt;</span></span> 2014-04-10</p>
+<p class="author">Author: Thorsten Jolitz</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

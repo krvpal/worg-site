@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-mode Build System</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Achim Gratz" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-mode Build System</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5d78b23">Introduction</a></li>
+<li><a href="#orge67a876">Build System Structure</a>
+<ul>
+<li><a href="#orgc41cd79">Top Level <code>Makefile</code></a></li>
+<li><a href="#orge051948">Local Customization <code>local.mk</code></a></li>
+<li><a href="#orgc5c0295">Second Level <code>Makefile</code></a></li>
+<li><a href="#org21ebb2b">Defaults <code>mk/default.mk</code></a></li>
+<li><a href="#orge178ddf">Make Targets <code>mk/targets.mk</code></a></li>
+<li><a href="#orga313e15">Utilities <code>mk/org-fixup.el</code></a></li>
+</ul>
+</li>
+<li><a href="#org31d245d">Make Targets</a>
+<ul>
+<li><a href="#org5bc3280">Help</a></li>
+<li><a href="#org6a0dafb">Configuration Check</a></li>
+<li><a href="#org4a447b5">Build</a></li>
+<li><a href="#orgb9df101">Test</a></li>
+<li><a href="#orgc2e2d15">Installation</a></li>
+<li><a href="#org589cdf2">Documentation</a></li>
+<li><a href="#orgc650c92">Cleaning</a></li>
+<li><a href="#orgcc33f51">Compatibility and Convenience</a></li>
+</ul>
+</li>
+<li><a href="#org5944fc7">Customization</a>
+<ul>
+<li><a href="#orge27d6ff">Simple Customization</a>
+<ul>
+<li><a href="#orgc595a92">Default target</a></li>
+<li><a href="#org3b33bf0">Including sources from <code>contrib/</code></a></li>
+<li><a href="#orgc7033c3">Non-standard Emacs location</a></li>
+<li><a href="#org81e6f78">XEmacs</a></li>
+<li><a href="#orgc57ddab">Emacs on Windows</a></li>
+</ul>
+</li>
+<li><a href="#org84c5fef">Advanced Customization</a>
+<ul>
+<li><a href="#org16e5ba5">Compilation Methods</a></li>
+<li><a href="#orgf8ae562">Multiple Emacsen</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org003f030">Selective Testing</a></li>
+<li><a href="#orgd25f256">Support for Installers</a></li>
+<li><a href="#org1a605c5">Support for Manual Build</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5d78b23" class="outline-2">
+<h2 id="org5d78b23">Introduction</h2>
+<div class="outline-text-2" id="text-org5d78b23">
+<p>
+Org can be run directly from sources, however usually it is
+byte-compiled and installed before use.  Also, the documentation needs
+to be rebuilt from their respective sources, registered and put into a
+place where it can be found.  Instead of you having to do all this by
+hand, a build system based on GNU make will do it for you.  The Org
+build system makes extensive use of GNU make features and requires at
+least version 3.81 (use of the latest released version is
+recommended).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge67a876" class="outline-2">
+<h2 id="orge67a876">Build System Structure</h2>
+<div class="outline-text-2" id="text-orge67a876">
+<p>
+The build system consists of these files:
+</p>
+
+<pre class="example">
+&lt;org-mode&gt;/Makefile
+&lt;org-mode&gt;/local.mk
+&lt;org-mode&gt;/doc/Makefile
+&lt;org-mode&gt;/etc/Makefile
+&lt;org-mode&gt;/lisp/Makefile
+&lt;org-mode&gt;/mk/default.mk
+&lt;org-mode&gt;/mk/targets.mk
+&lt;org-mode&gt;/mk/org-fixup.el
+</pre>
+
+
+<p>
+Additional files are present for the Orgmode server in the
+<code>&lt;org-mode&gt;/mk/</code> subdirectory.  An additional file
+<code>&lt;org-mode&gt;/mk/version.mk</code> is present in the distribution archives to
+record the version information that gets used when building from these
+sources.
+</p>
+</div>
+
+<div id="outline-container-orgc41cd79" class="outline-3">
+<h3 id="orgc41cd79">Top Level <code>Makefile</code></h3>
+<div class="outline-text-3" id="text-orgc41cd79">
+<p>
+This file provides only the help.  Short help can be requested by
+<code>make help</code>, while <code>make helpall</code> will list all documented targets.
+Undocumented targets may exist for internal purposes and can be
+changed or removed at any time.
+</p>
+
+<p>
+All other functionality of the build system is provided in separate
+files, which will either be explicitly included from the top level or
+implicitly read by GNU make.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge051948" class="outline-3">
+<h3 id="orge051948">Local Customization <code>local.mk</code></h3>
+<div class="outline-text-3" id="text-orge051948">
+<p>
+<b>Never push</b> <code>local.mk</code> <b>to any public branch!</b>
+</p>
+
+<p>
+The build system is an integral part of Org.  To allow easy local
+customization, that customization must never become part of the
+official Git repository.  On the other hand the build system must work
+even when no local customization has been applied.  Therefore when the
+file <code>local.mk</code> does not exist, a local customization template will be
+created that copies some settings that most commonly would need to be
+changed from <code>mk/default.mk</code>.  The template includes some comments
+that are hopefully self-documenting.  As long as all necessary
+programs are available, the customization should in most cases be
+limited to setting <code>prefix</code> correctly.
+</p>
+
+<p>
+If you need to do more extensive changes, copy the relevant parts from
+<code>mk/default.mk</code> to <code>local.mk</code> (or maybe even the whole file if that
+seems easier to you, but you&rsquo;ll have to remember to check <code>local.mk</code>
+whenever <code>default.mk</code> changes in the repository).  Please look at some
+of the <a href="#org5944fc7">Customization Examples</a> to get an idea of what is possible.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc5c0295" class="outline-3">
+<h3 id="orgc5c0295">Second Level <code>Makefile</code></h3>
+<div class="outline-text-3" id="text-orgc5c0295">
+<p>
+The <code>Makefile</code> in subdirectories can be invoked from the top level only
+since they rely on the definitions that have been made there.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org21ebb2b" class="outline-3">
+<h3 id="org21ebb2b">Defaults <code>mk/default.mk</code></h3>
+<div class="outline-text-3" id="text-org21ebb2b">
+<p>
+<b>Never change anything in</b> <code>mk/default.mk</code> <b>— always do your changes in</b>
+ <code>local.mk</code> <b>!</b>
+</p>
+
+<p>
+The defaults are designed to work on a typical GNU/Linux system.  For
+system-wide installation as assumed by the build system the user must
+be able to obtain administrative privileges via sudo.  If sudo is not
+available, the user running make must have the necessary privileges to
+do the install (i.e. full access to the build and install
+directories).  Besides Emacs, the following programs must be available
+in PATH:
+</p>
+
+<ul class="org-ul">
+<li>find</li>
+<li>install</li>
+<li>rm</li>
+</ul>
+
+<p>
+The following programs are optional when loss of functionality can be
+tolerated:
+</p>
+
+<ul class="org-ul">
+<li>install-info</li>
+<li>makeinfo</li>
+<li>texi2pdf</li>
+<li>sudo</li>
+<li>git</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge178ddf" class="outline-3">
+<h3 id="orge178ddf">Make Targets <code>mk/targets.mk</code></h3>
+<div class="outline-text-3" id="text-orge178ddf">
+<p>
+All targets that the Org build system can build are defined here.
+Most of the actual work will be handed off to the second level
+<code>Makefile</code> in their respective subdirectories.  It is possible to
+override some parts of the build system by defining some variables.
+This is largely untested and consequently unsupported, but may still
+be useful in some situations.  The following variables are considered
+stable:
+</p>
+
+<dl class="org-dl">
+<dt><code>TEST_NO_AUTOCLEAN</code></dt><dd>Define to a non-null value to keep the test
+directory around for inspection.  This is mostly useful for
+debugging the test suite.</dd>
+<dt><code>ORGVERSION</code></dt><dd>Can be used to override the automatic determination
+of the version strings.  If you find a need to do
+this, it is likely a bug someplace else.  <b>Never
+define this in a customization file!</b></dd>
+<dt><code>GITVERSION</code></dt><dd>See <code>ORGVERSION</code>.  Please do not define it to a
+value that could be confused with a real Git
+version string.</dd>
+<dt><code>GITSTATUS</code></dt><dd>See <code>GITVERSION</code>.  If this variable is defined
+non-null, the string &ldquo;.dirty&rdquo; will be appended to the
+Git version string, which indicates a locally
+modified version.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orga313e15" class="outline-3">
+<h3 id="orga313e15">Utilities <code>mk/org-fixup.el</code></h3>
+<div class="outline-text-3" id="text-orga313e15">
+<p>
+This is a collection of some Emacs Lisp routines that implement basic
+functionality of the build system.  This mainly eliminates the need
+for some external programs and thus reduces the number of external
+dependencies.
+</p>
+
+<p>
+A few of these functions have been designed to be used from the
+command line or even from within Emacs itself.  This is an aid for
+manually building a working Org installation when the external
+dependencies of the build system cannot be met.  See
+.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org31d245d" class="outline-2">
+<h2 id="org31d245d">Make Targets</h2>
+<div class="outline-text-2" id="text-org31d245d">
+<p>
+Each time you want GNU make to build something for you, you need to
+tell it what that is: this is called a <i>target</i> or <i>goal</i>.  For each
+<i>target</i>, make determines the <i>prerequisites</i> and then goes on to
+build them in the order of dependence.  A <i>target</i> can be an actual
+file that GNU make should build, but more commonly it is just a
+moniker (called a <i>phony target</i>) that has the files to build as
+<i>prerequisites</i>.
+</p>
+</div>
+
+<div id="outline-container-org5bc3280" class="outline-3">
+<h3 id="org5bc3280">Help</h3>
+<div class="outline-text-3" id="text-org5bc3280">
+<dl class="org-dl">
+<dt><code>help</code></dt><dd>Shows a brief list of the most commonly used <i>targets</i>
+with a short description of what they do.</dd>
+<dt><code>targets</code></dt><dd>This is an alias for <code>help</code>, mandated by GNU Makefile
+conventions.</dd>
+<dt><code>helpall</code></dt><dd>Shows (almost) all <i>targets</i> and a short description of
+what they do.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org6a0dafb" class="outline-3">
+<h3 id="org6a0dafb">Configuration Check</h3>
+<div class="outline-text-3" id="text-org6a0dafb">
+<dl class="org-dl">
+<dt><code>config-test</code></dt><dd>Show the test customization.</dd>
+<dt><code>config-cmd</code></dt><dd>Show what commands will be used.</dd>
+<dt><code>config-all</code></dt><dd>Show all customization.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org4a447b5" class="outline-3">
+<h3 id="org4a447b5">Build</h3>
+<div class="outline-text-3" id="text-org4a447b5">
+<dl class="org-dl">
+<dt><code>all</code></dt><dd>Build all of Org: byte-compile the source files and create
+all documentation.<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup></dd>
+<dt><code>compile</code></dt><dd>Ensure a clean source directory and then byte-compile
+the source files using the <a href="#org16e5ba5">compilation method</a> <code>dirall</code>
+by default.</dd>
+<dt><code>compile-dirty</code></dt><dd>Byte-compile just those sources that haven&rsquo;t been
+compiled already or are newer than their byte-compiled
+counterpart.<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup></dd>
+<dt><code>single</code></dt><dd>The same as <code>compile</code>, but uses the <a href="#org16e5ba5">compilation method</a>
+<code>single</code> (unless overridden by defining <code>ORGCM</code> on the
+command line).</dd>
+<dt><code>autoloads</code></dt><dd>Create just the autoload files, but do not
+byte-compile anything.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgb9df101" class="outline-3">
+<h3 id="orgb9df101">Test</h3>
+<div class="outline-text-3" id="text-orgb9df101">
+<dl class="org-dl">
+<dt><code>test</code></dt><dd>runs <code>compile</code> and then the full testsuite.<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup></dd>
+<dt><code>check</code></dt><dd>An alias for <code>test</code>, to be compatible with GNU style.</dd>
+<dt><code>test-dirty</code></dt><dd>Run the full testsuite on whatever currently is
+available, compiled or not.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgc2e2d15" class="outline-3">
+<h3 id="orgc2e2d15">Installation</h3>
+<div class="outline-text-3" id="text-orgc2e2d15">
+<dl class="org-dl">
+<dt><code>install</code></dt><dd>Build all of Org and install it.</dd>
+<dt><code>install-etc</code></dt><dd>Install only the <code>etc/</code> part of Org.</dd>
+<dt><code>install-lisp</code></dt><dd>Install only the <code>lisp/</code> part of Org.</dd>
+<dt><code>install-info</code></dt><dd>Build the documentation and install only the info
+documentation.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org589cdf2" class="outline-3">
+<h3 id="org589cdf2">Documentation</h3>
+<div class="outline-text-3" id="text-org589cdf2">
+<dl class="org-dl">
+<dt><code>doc</code></dt><dd>Create all documentation.<sup><a id="fnr.1.100" class="footref" href="#fn.1">1</a></sup></dd>
+<dt><code>docs</code></dt><dd>An alias for <code>doc</code>.</dd>
+<dt><code>info</code></dt><dd>Create only GNU Info documentation (requires GNU Makeinfo).</dd>
+<dt><code>pdf</code></dt><dd>Create only PDF documentation (requires PDFTeX).</dd>
+<dt><code>card</code></dt><dd>Create only the reference card (requires PDFTeX).</dd>
+<dt><code>refcard</code></dt><dd>An alias for <code>card</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgc650c92" class="outline-3">
+<h3 id="orgc650c92">Cleaning</h3>
+<div class="outline-text-3" id="text-orgc650c92">
+<dl class="org-dl">
+<dt><code>clean</code></dt><dd>Cleans in <code>lisp/</code> and <code>doc/</code>.</dd>
+<dt><code>cleanall</code></dt><dd>Cleans everything that can be cleaned, including
+several types of backup files, so do not use this when
+you have active edit sessions!</dd>
+<dt><code>clean-install</code></dt><dd>Removes a previous Org installation.<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup></dd>
+<dt><code>cleantest</code></dt><dd>Removes a test directory if it exists.<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcc33f51" class="outline-3">
+<h3 id="orgcc33f51">Compatibility and Convenience</h3>
+<div class="outline-text-3" id="text-orgcc33f51">
+<dl class="org-dl">
+<dt><code>up0</code></dt><dd>Updates the current Git branch from upstream by doing a
+<code>git pull</code>.</dd>
+<dt><code>up1</code></dt><dd>Does <code>up0</code> and then builds and checks Org.</dd>
+<dt><code>up2</code></dt><dd>Does <code>up1</code> and installs Org if there was no test error.</dd>
+<dt><code>update</code></dt><dd>Does <code>up0</code> and then builds Org.  Does not test.</dd>
+<dt><code>update2</code></dt><dd>Does <code>update</code> and then installs.  This is not
+recommended, since there is no way of telling whether
+the just built Org has errors.</dd>
+<dt><code>uncompiled</code></dt><dd>Removes any byte-compiled files and then creates the
+autoload files.  You can then use the Git worktree
+almost like an installed version of Org.  Not
+recommended for normal use of Org.</dd>
+<dt><code>local.mk</code></dt><dd>Create a customization template.  If one already
+exists, you need to rename or remove it first.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5944fc7" class="outline-2">
+<h2 id="org5944fc7">Customization</h2>
+<div class="outline-text-2" id="text-org5944fc7">
+<p>
+Changing the behaviour of the build system to conform to your local
+system rules is done by editing the file <code>local.mk</code>.  The standard
+template that is created when this file does not exist offers only the
+most common customization variables, but you are free to customize
+anything that <code>mk/default.mk</code> offers (but you really have to know what
+you are doing for some of this).  Remember to only change <code>local.mk</code>,
+please.
+</p>
+</div>
+
+<div id="outline-container-orge27d6ff" class="outline-3">
+<h3 id="orge27d6ff">Simple Customization</h3>
+<div class="outline-text-3" id="text-orge27d6ff">
+</div>
+<div id="outline-container-orgc595a92" class="outline-4">
+<h4 id="orgc595a92">Default target</h4>
+<div class="outline-text-4" id="text-orgc595a92">
+<p>
+The <i>default target</i> is what <code>make</code> tries to build when you don&rsquo;t give
+it anything else to do.  For compatibility with the old build system,
+a freshly created <code>local.mk</code> will have <code>oldorg</code> defined as the default
+target.  If you remove that line entirely from <code>local.mk</code>, <code>all</code> will
+become the default target.  But you can put any other target there
+that you want to become the default target or even define a new one
+(OK, that isn&rsquo;t simple customization anymore).
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3b33bf0" class="outline-4">
+<h4 id="org3b33bf0">Including sources from <code>contrib/</code></h4>
+<div class="outline-text-4" id="text-org3b33bf0">
+<p>
+If you just want to try out some of the things in <code>contrib/</code>, you can
+simply add the directory to <code>load-path</code>.  But if you want to include
+some files in an installed version of Org: simply specify in the
+customization variable <code>ORG_ADD_CONTRIB</code> which files you want
+included, then build and install in the usual way.  Your <code>local.mk</code>
+default customization template has a commented out example for
+including the new exporter, you just need to remove the comment
+marker:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile-gmake">  <span style="color: #696969;"># </span><span style="color: #696969;">Define if you want to include some (or all) files from contrib/lisp</span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">just the filename please (no path prefix, no .el suffix), maybe with globbing</span>
+  <span style="color: #fd971f;">ORG_ADD_CONTRIB</span> = ox-* <span style="color: #696969;"># </span><span style="color: #696969;">e.g. the contributed exporter</span>
+</pre>
+</div>
+
+<p>
+You just give the base name of the file to include (much like you do
+in a <code>require</code> form), only that you can use a shell globbing pattern
+to specify many similar names at ones.  You do not need to specify the
+path prefix <code>contrib/lisp/</code> nor the file suffix <code>.el</code>, these are added
+by the build system.  To include all of <code>contrib/lisp/</code> (some of these
+aren&rsquo;t really meant to be used together, so this isn&rsquo;t recommended)
+you&rsquo;d say:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile-gmake">  <span style="color: #fd971f;">ORG_ADD_CONTRIB</span> = org* ox*
+</pre>
+</div>
+
+<p>
+Or if that was just a one-time install (with quoting for a POSIX
+shell):
+</p>
+
+<pre class="example">
+make ORG_ADD_CONTRIB="ox-*" install
+</pre>
+
+
+<p>
+Note: A simple <code>*</code> would also include <code>htmlize.el</code>, which is currently
+bundled in contrib.  It is recommended to install that seperately, it
+is available for instance in GNU ELPA.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc7033c3" class="outline-4">
+<h4 id="orgc7033c3">Non-standard Emacs location</h4>
+<div class="outline-text-4" id="text-orgc7033c3">
+<p>
+Customization for using a self-compiled Emacs 24 installed in
+<code>/usr/local</code> and the default target changed to <code>up2</code>.  Additional
+customization to enable htmlize installed from ELPA in users&rsquo; home
+directory and ESS (for R) in the system <code>/usr/share/emacs/site-lisp/</code>
+and all Babel languages activated for testing.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile-gmake">  <span style="color: #268bd2;">up2</span>::   <span style="color: #696969;"># </span><span style="color: #696969;">default target</span>
+  <span style="color: #fd971f;">EMACS</span>   = /usr/local/bin/emacs-24.<span style="color: #9c91e4; font-weight: bold;">3</span>
+  <span style="color: #fd971f;">prefix</span>  = /usr/local/share
+  <span style="color: #fd971f;">lispdir</span> = $(<span style="color: #fd971f;">prefix</span>)/emacs/site-lisp/org
+  <span style="color: #fd971f;">datadir</span> = $(<span style="color: #fd971f;">prefix</span>)/emacs/etc/org
+  <span style="color: #fd971f;">infodir</span> = $(<span style="color: #fd971f;">prefix</span>)/info
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #fd971f;">BTEST_EXTRA</span> = ess-site 
+  <span style="color: #fd971f;">BTEST_OB_LANGUAGES</span> = awk C fortran maxima lilypond octave python sh R
+  <span style="color: #fd971f;">BTEST_POST</span> = -L ~/.emacs.d/elpa/htmlize-1.<span style="color: #9c91e4; font-weight: bold;">39</span> \
+               -L /usr/share/emacs/site-lisp/emacs-ess-12.<span style="color: #9c91e4; font-weight: bold;">04.4</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org81e6f78" class="outline-4">
+<h4 id="org81e6f78">XEmacs</h4>
+<div class="outline-text-4" id="text-org81e6f78">
+<p>
+Customization for using XEmacs 21.5, since there seems to be no ERT
+for XEmacs testing will not work and has been disabled.  The default
+target is set to <code>up0 doc uncompiled</code> (pull from Git and update
+documentation and autoload files).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile-gmake">  <span style="color: #268bd2;">.PHONY</span>: xemacs
+  <span style="color: #268bd2;">xemacs</span>: up0 doc uncompiled
+  <span style="color: #fd971f;">EMACS</span>   = xemacs
+  <span style="color: #fd971f;">prefix</span>  = /usr/local/share
+  <span style="color: #fd971f;">lispdir</span> = $(<span style="color: #fd971f;">prefix</span>)/xemacs/site-lisp/org
+  <span style="color: #fd971f;">datadir</span> = $(<span style="color: #fd971f;">prefix</span>)/xemacs/etc/org
+  <span style="color: #fd971f;">infodir</span> = $(<span style="color: #fd971f;">prefix</span>)/info
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #fd971f;">BTEST</span> = /bin/true
+  <span style="color: #fd971f;">BATCH</span> = $(<span style="color: #fd971f;">EMACS</span>) -batch -q -vanilla <span style="color: #696969;"># </span><span style="color: #696969;">XEmacs</span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">How to byte-compile the whole source directory</span>
+  <span style="color: #fd971f;">ELCDIR</span>  = $(<span style="color: #fd971f;">BATCH</span>) \
+                  --eval <span style="color: #e2c770;">'(add-to-list '"'"'load-path ".")'</span> \
+                  --eval <span style="color: #e2c770;">'(byte-recompile-directory "." 0)'</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc57ddab" class="outline-4">
+<h4 id="orgc57ddab">Emacs on Windows</h4>
+<div class="outline-text-4" id="text-orgc57ddab">
+<p>
+Customization for using vanilla Emacs 24 on Windows, with GNU make and
+other binaries provided by Cygwin.  Make sure the installation path(s)
+contain no spaces!  Use the 8.3 compatible names, e.g. <code>PROGRA~1</code>
+instead of &ldquo;Program Files&rdquo;, if you already installed the applications
+in such a location. Babel languages have been stripped down for
+testing and the default target is again set to <code>up2</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile-gmake">  <span style="color: #268bd2;">up2</span>::
+  <span style="color: #fd971f;">CYGWIN</span> += nodosfilewarning
+  <span style="color: #fd971f;">prefix</span>  = C:/Freeware/Emacs-24.<span style="color: #9c91e4; font-weight: bold;">3</span>
+  <span style="color: #fd971f;">EMACS</span>   = SHELL=sh $(<span style="color: #fd971f;">prefix</span>)/bin/emacs
+  <span style="color: #fd971f;">lispdir</span> = $(<span style="color: #fd971f;">prefix</span>)/site-lisp/org
+  <span style="color: #fd971f;">datadir</span> = $(<span style="color: #fd971f;">prefix</span>)/etc/org
+  <span style="color: #fd971f;">infodir</span> = $(<span style="color: #fd971f;">prefix</span>)/info
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #fd971f;">BTEST_OB_LANGUAGES</span> = octave
+  <span style="color: #fd971f;">SUDO</span> =
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84c5fef" class="outline-3">
+<h3 id="org84c5fef">Advanced Customization</h3>
+<div class="outline-text-3" id="text-org84c5fef">
+</div>
+<div id="outline-container-org16e5ba5" class="outline-4">
+<h4 id="org16e5ba5">Compilation Methods</h4>
+<div class="outline-text-4" id="text-org16e5ba5">
+<p>
+The default compilation method compiles all source files within the
+same Emacs process, simply because that is the fastest method.
+Unfortunately, Emacs does not isolate the side-effects of compilations
+from each other, so the byte compiler may not issue some errors or
+warnings (mostly about missing declarations or requires).  To enable
+developers to catch these errors, different compilation methods can be
+configured by defining <code>ORGCM</code> to one of these values (either
+permanently in <code>local.mk</code> or for a single invocation of <code>make</code>):
+</p>
+
+<dl class="org-dl">
+<dt><code>dirall</code></dt><dd>The default compilation method, invoked via <code>ELCDIR</code>.</dd>
+<dt><code>single</code></dt><dd>Uses a separate Emacs for each compilation, invoked via
+<code>ELC</code>.</dd>
+<dt><code>source</code></dt><dd>Uses a separate Emacs for each compilation invoked via
+<code>ELC</code>.  Removes all <code>*.elc</code> files before and each
+<code>*.elc</code> file directly after compilation so that all
+requires are also loaded from source.  Recompiles via
+<code>dirall</code> at the end so that all the <code>*.elc</code> files exist.</dd>
+<dt><code>slint1</code></dt><dd>First compiles using <code>dirall</code>, then compiles each file
+again using <code>single</code>.</dd>
+<dt><code>slint2</code></dt><dd>First compiles via <code>source</code> and then again via <code>slint1</code>.</dd>
+</dl>
+
+<p>
+Both <code>ELCDIR</code> and <code>ELC</code> are also customizable, but changing their
+definitions must not alter the semantics of compilation.  You have
+been warned.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf8ae562" class="outline-4">
+<h4 id="orgf8ae562">Multiple Emacsen</h4>
+<div class="outline-text-4" id="text-orgf8ae562">
+</div>
+<ul class="org-ul">
+<li><a id="orgeec49ad"></a>Method 1<br />
+<div class="outline-text-5" id="text-orgeec49ad">
+<p>
+If you&rsquo;re a developer (or a system administrator that serves a diverse
+set of users) you&rsquo;ll likely have to deal with the need to build and
+test Org for different versions of Emacs.  Having to copy or link the
+correct customization file to <code>local.mk</code> quickly loses the appeal and
+is error prone.  Here&rsquo;s a (hopefully better) suggestion: put each
+customization into a file named <code>local-&lt;pattern&gt;.mk</code> and create a
+<code>local.mk</code> that looks like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-makefile-gmake">  <span style="color: #eb4509;">ifdef</span> <span style="color: #fd971f;">LOCALMK</span>
+    <span style="color: #eb4509;">include</span> local-$(<span style="color: #fd971f;">LOCALMK</span>).mk
+  <span style="color: #eb4509;">else</span>
+    <span style="color: #eb4509;">include</span> <span style="color: #fd971f;">local-emacs24.mk</span>
+  <span style="color: #eb4509;">endif</span>
+</pre>
+</div>
+
+<p>
+Now switching between your different customizations is as easy as
+</p>
+<pre class="example">
+make LOCALMK=emacs23
+</pre>
+
+<p>
+(which assumes that there is a customization file <code>local-emacs23.mk</code>
+available).
+</p>
+</div>
+</li>
+
+<li><a id="orge3d6fe5"></a>Method 2<br />
+<div class="outline-text-5" id="text-orge3d6fe5">
+<p>
+If you need a more flexible structure, say to test different versions
+of Emacs with different configurations, then you quickly end up with
+lots of customization files.  Worse, if you then need to change a
+customization that has been copied into many such files, you&rsquo;ll have
+to remember to change it in all of them.  The idea from Method 1 can
+be extended to split the name into different parts and then use these
+parts seperately to customize a single aspect only.  To keep this
+tidy, you can put all of these files into a directory <code>localmk</code> under
+control of Git and maybe even register it as a submodule in your local
+branch of the Org repository.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 1: </span>local.mk</label><pre class="src src-makefile-gmake">  <span style="color: #fd971f;">LOCALMK</span> ?= loc
+  <span style="color: #696969;"># </span><span style="color: #696969;">split into words</span>
+  <span style="color: #fd971f;">_LMK_</span>:=$(<span style="color: #b6e63e;">subst</span><span style="color: #b6e63e;"> </span>-, ,$(<span style="color: #fd971f;">LOCALMK</span>))
+  <span style="color: #696969;"># </span><span style="color: #696969;">what's the current trunk?</span>
+  <span style="color: #fd971f;">_LMK_</span>:=$(<span style="color: #b6e63e;">subst</span><span style="color: #b6e63e;"> </span>trunk,<span style="color: #9c91e4; font-weight: bold;">24.3</span>.<span style="color: #9c91e4; font-weight: bold;">50</span>,$(<span style="color: #fd971f;">_LMK_</span>))
+  <span style="color: #696969;"># </span><span style="color: #696969;">specific Emacs version requested?</span>
+  <span style="color: #fd971f;">_VER_</span>:=$(<span style="color: #b6e63e;">filter</span><span style="color: #b6e63e;"> </span>2%,$(<span style="color: #fd971f;">_LMK_</span>))
+  <span style="color: #eb4509;">ifdef</span> <span style="color: #fd971f;">_VER_</span>
+    <span style="color: #fd971f;">_LMK_</span>:=$(<span style="color: #b6e63e;">subst</span><span style="color: #b6e63e;"> </span>$(<span style="color: #fd971f;">_VER_</span>),loc,$(<span style="color: #fd971f;">_LMK_</span>))
+    <span style="color: #fd971f;">_MAJ_</span>:=$(<span style="color: #b6e63e;">word</span><span style="color: #b6e63e;"> </span><span style="color: #9c91e4; font-weight: bold;">1</span>,$(<span style="color: #b6e63e;">subst</span><span style="color: #b6e63e;"> </span>., ,$(<span style="color: #fd971f;">_VER_</span>)))
+    <span style="color: #fd971f;">_VER_</span>:=$(<span style="color: #fd971f;">_VER_</span>:<span style="color: #fd971f;">2%</span>=-2%)
+  <span style="color: #eb4509;">else</span>
+    <span style="color: #fd971f;">_MAJ_</span>:=<span style="color: #9c91e4; font-weight: bold;">24</span>
+  <span style="color: #eb4509;">endif</span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">lets us just specify which emacs to use</span>
+  <span style="color: #eb4509;">ifeq</span> ($(<span style="color: #b6e63e;">words</span><span style="color: #b6e63e;"> </span>$(<span style="color: #fd971f;">_LMK_</span>)),<span style="color: #9c91e4; font-weight: bold;">1</span>)
+    <span style="color: #fd971f;">_LMK_+</span>=testall tmp extra
+  <span style="color: #eb4509;">endif</span>
+  <span style="color: #eb4509;">if</span><span style="color: #9c91e4; font-weight: bold;">n</span><span style="color: #eb4509;">eq</span> ($(<span style="color: #b6e63e;">origin</span><span style="color: #b6e63e;"> </span>DEBUG),undefined)
+    $(<span style="color: #b6e63e;">info</span><span style="color: #b6e63e;"> </span>LMK[$(<span style="color: #b6e63e;">words</span><span style="color: #b6e63e;"> </span>$(<span style="color: #fd971f;">_LMK_</span>))]: $(<span style="color: #fd971f;">_LMK_</span>))
+    $(<span style="color: #b6e63e;">info</span><span style="color: #b6e63e;"> </span>VER: $(<span style="color: #fd971f;">_VER_</span>) major $(<span style="color: #fd971f;">_MAJ_</span>))
+  <span style="color: #eb4509;">endif</span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">remember this file is used from the org-mode directory via link,</span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">so we have to prepend localmk/</span>
+  $(<span style="color: #b6e63e;">foreach</span><span style="color: #b6e63e;"> </span>part,$(<span style="color: #b6e63e;">subst</span><span style="color: #b6e63e;"> </span>-, ,$(<span style="color: #fd971f;">_LMK_</span>)),$(<span style="color: #b6e63e;">eval</span><span style="color: #b6e63e;"> </span>include localmk/$(<span style="color: #fd971f;">part</span>).mk))
+</pre>
+</div>
+
+<p>
+So, what does this do?  First, it splits <code>LOCALMK</code> on <code>-</code> characters.
+It then checks if something looks like an Emacs version number and
+tries to make sense of that, otherwise it&rsquo;s using a default version.
+If it only got an Emacs version to use, it tacks on a default set of
+standard customizations: <code>testall</code>, <code>tmp</code>, <code>extra</code>.  Finally, it
+includes each of the customization files it inferred from <code>LOCALMK</code> to
+arrive at the final customization.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 2: </span>loc.mk</label><pre class="src src-makefile-gmake">  <span style="color: #696969;"># </span><span style="color: #696969;">Name of your emacs binary</span>
+  <span style="color: #fd971f;">EMACS</span>   := /usr/local/bin/emacs$(<span style="color: #fd971f;">_VER_</span>)
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">Where local software is found</span>
+  <span style="color: #fd971f;">prefix</span>  := /usr/local/share
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">Where local lisp files go.</span>
+  <span style="color: #fd971f;">lispdir</span> := $(<span style="color: #fd971f;">prefix</span>)/emacs/site-lisp/org
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">Where local data files go.</span>
+  <span style="color: #fd971f;">datadir</span> := $(<span style="color: #fd971f;">prefix</span>)/emacs/etc/org
+<span style="background-color: #ff69b4;">  </span>
+  <span style="color: #696969;"># </span><span style="color: #696969;">Where info files go.</span>
+  <span style="color: #fd971f;">infodir</span> := $(<span style="color: #fd971f;">prefix</span>)/info
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 3: </span>testall.mk</label><pre class="src src-makefile-gmake">  <span style="color: #fd971f;">BTEST_OB_LANGUAGES</span> = perl awk C fortran maxima lilypond octave perl python sh
+  <span style="color: #fd971f;">BTEST_POST</span> = --eval <span style="color: #e2c770;">'(add-to-list '"'"'load-path "~/.emacs.d/elpa/htmlize-1.39")'</span>
+  <span style="color: #eb4509;">ifeq</span> ($(<span style="color: #fd971f;">_MAJ_</span>),<span style="color: #9c91e4; font-weight: bold;">24</span>)
+    <span style="color: #fd971f;">BTEST_EXTRA</span> += ess-site
+    <span style="color: #fd971f;">BTEST_OB_LANGUAGES</span> += R
+    <span style="color: #fd971f;">BTEST_POST</span> += --eval <span style="color: #e2c770;">'(add-to-list '"'"'load-path "/usr/share/emacs/site-lisp/emacs-ess-12.04.4")'</span>
+  <span style="color: #eb4509;">else</span>
+    <span style="color: #fd971f;">BTEST_PRE</span> += --eval <span style="color: #e2c770;">'(add-to-list '"'"'load-path "testing/ert")'</span>
+  <span style="color: #eb4509;">endif</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 4: </span>tmp.mk</label><pre class="src src-makefile-gmake">  <span style="color: #696969;"># </span><span style="color: #696969;">where to create temporary files for the testsuite</span>
+  <span style="color: #fd971f;">TMPDIR</span> ?= /tmp
+  <span style="color: #fd971f;">testdir</span> = $(<span style="color: #fd971f;">TMPDIR</span>)/tmp-orgtest
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 5: </span>extra</label><pre class="src src-makefile-gmake">  <span style="color: #696969;"># </span><span style="color: #696969;">extra targets</span>
+  <span style="color: #268bd2;">.PHONY</span>: testclean
+  <span style="color: #268bd2;">testclean</span>:      test clean
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><span class="listing-number">Listing 6: </span>testmin.mk</label><pre class="src src-makefile-gmake">  <span style="color: #fd971f;">BTEST_OB_LANGUAGES</span> = 
+  <span style="color: #fd971f;">BTEST_POST</span> = --eval <span style="color: #e2c770;">'(add-to-list '"'"'load-path "~/.emacs.d/elpa/htmlize-1.39")'</span>
+  <span style="color: #eb4509;">if</span><span style="color: #9c91e4; font-weight: bold;">n</span><span style="color: #eb4509;">eq</span> ($(<span style="color: #fd971f;">_MAJ_</span>),<span style="color: #9c91e4; font-weight: bold;">24</span>)
+    <span style="color: #fd971f;">BTEST_PRE</span> += --eval <span style="color: #e2c770;">'(add-to-list '"'"'load-path "testing/ert")'</span>
+  <span style="color: #eb4509;">endif</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org003f030" class="outline-2">
+<h2 id="org003f030">Selective Testing</h2>
+<div class="outline-text-2" id="text-org003f030">
+<p>
+Sometimes you only want to run a set of specific tests instead of all.
+This is especially useful if you are trying to bisect a large range of
+commits with a run script.  Instead of checking if the failing test
+was perhaps a different one than the one you wanted to check for,
+running just these test (or tests) makes that task much easier.  For
+instance,
+</p>
+<pre class="example">
+make BTEST_RE='^test-org/forward-element$' test-dirty
+</pre>
+
+<p>
+would run <span class="underline">only</span> the test for forward-element and nothing else, which
+is also much faster than running the almost 500 other tests as well.
+Keep in mind that the test selector is a regular expression, the
+default value of <code>\(org\|ob\)</code> matches all tests.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd25f256" class="outline-2">
+<h2 id="orgd25f256">Support for Installers</h2>
+<div class="outline-text-2" id="text-orgd25f256">
+<p>
+The Org build system supports staged installs via <code>DESTDIR</code>.  If
+<code>DESTDIR</code> is defined as a non-empty string (it really should be a
+leading path and end with a path separator), the actual installation
+paths are all prepended by the expansion of <code>DESTDIR</code>.  Except for
+install and testing, the build does not write outside the build
+directory and both of these can be customized to stay within the build
+directory also.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1a605c5" class="outline-2">
+<h2 id="org1a605c5">Support for Manual Build</h2>
+<div class="outline-text-2" id="text-org1a605c5">
+<p>
+Since GNU make or some programs used by the build system might not be
+available on some systems, the core functionality has been implemented
+or replicated in Emacs Lisp with no dependencies on external tools.  The
+supported functions are: <code>org-make-autoloads</code>,
+<code>org-make-autoloads-compile</code> and <code>org-make-autoloads-compile-force</code>.
+All other interfaces should be considered private and are subject to
+change without notice.  The commands assume that the current working
+directory is at the toplevel of the Org build directory (i.e. where
+you&rsquo;ll find <code>mk/default.mk</code>).
+</p>
+
+<p>
+To make the autoloads file:
+</p>
+<pre class="example">
+emacs -batch -Q -L lisp -l ../mk/org-fixup -f org-make-autoloads
+</pre>
+
+<p>
+To make the autoloads file and byte-compile Org:
+</p>
+<pre class="example">
+emacs -batch -Q -L lisp -l ../mk/org-fixup -f org-make-autoloads-compile
+</pre>
+
+<p>
+To make the autoloads file and byte-compile all of Org again:
+</p>
+<pre class="example">
+emacs -batch -Q -L lisp -l ../mk/org-fixup -f org-make-autoloads-compile-force
+</pre>
+
+
+<p>
+If <code>git</code> is also unavailable, fake version strings need to be provided.
+</p>
+<pre class="example">
+emacs -batch -Q -L lisp -l ../mk/org-fixup \
+--eval '(let ((org-fake-release "8.0.1")(org-fake-git-version "8.0.1-fake"))\
+(org-make-autoloads))'
+</pre>
+
+
+<p>
+The above assumes a POSIX shell for its quoting, Windows <code>CMD.exe</code> has
+quite different quoting rules and this won&rsquo;t work.  Also, users of
+Aquamacs have reported that the command line examples aren&rsquo;t working
+for them.  Your other option is to start Emacs like this
+</p>
+<pre class="example">
+emacs -Q -L lisp -l ../mk/org-fixup
+</pre>
+
+<p>
+then paste the following into the <code>*scratch*</code> buffer:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #696969;">; </span><span style="color: #696969;">replace the version strings with something sensible that can't be</span>
+  <span style="color: #696969;">; </span><span style="color: #696969;">confused with a real Git version</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>org-fake-release     <span style="color: #e2c770;">"8.0.1"</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>org-fake-git-version <span style="color: #e2c770;">"8.0.1-fake"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>org-make-autoloads<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Execute each form by placing the cursor after the closing paren on the
+last line and press <code>C-j</code> or <code>C-x C-e</code>.
+</p>
+
+<p>
+If the command line above is still spooking you: start Emacs like you
+normally do, then add <code>&lt;orgmode&gt;/lisp</code> to your load-path, then issue
+<code>M-x load-library</code>, answer the prompt with <code>../mk/org-fixup.el</code>, then
+do the same things in the scratch buffer as outlined above.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+The build systems&rsquo; notion of &ldquo;all documentation&rdquo; can be
+influenced via the configuration variable <code>ORG_MAKE_DOC</code>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+If you just want to re-compile all lisp sources without doing
+anything else, you can run <code>make cleanelc compile-dirty</code>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+The build systems&rsquo; notion of &ldquo;full testsuite&rdquo; can be configured
+with <code>BTEST_OB_LANGUAGES</code>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+The build system doesn&rsquo;t really know where your previous
+installation is, of course: it tries to remove Org from where it would
+install it, based on the current customization.  So if you want to
+move your Org installation, you need to first uninstall it using the
+old customization, then change the costomization and then do a fresh
+install.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
+The test directory is generally removed after testing, but this
+may not happen when there are test errors.  Also, the automatic
+removal of the test directory can be prevented (for debugging
+purposes) by defining a variable <code>TEST_NO_AUTOCLEAN</code>.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Achim Gratz</p>
+<p class="date">Created: 2021-06-15 Tue 18:22</p>
+</div>
+</body>
+</html>

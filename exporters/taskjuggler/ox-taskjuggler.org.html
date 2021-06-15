@@ -1,0 +1,911 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ox-taskjuggler.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .custom-1 {
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-footnote {
+        /* org-footnote */
+        color: #fd971f;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-quote {
+        /* org-quote */
+        color: #cfc0c5;
+        background-color: #212224;
+        font-style: italic;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Exporting Gantt charts with Taskjuggler v3 (tj3)
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">John Henderson
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">jw DOT hendy AT gmail DOT com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>
+This article discusses the use of <span class="kc-org-link-url"><a href="https://orgmode.org/">Org-mode</a></span> for project planning using <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/">Taskjuggler</a></span>,
+self-described as follows (from the project website):
+
+<span class="org-block-begin-line">#+begin_quote
+</span><span class="org-quote">TaskJuggler is a modern and powerful, Free and Open Source Software project management
+tool. Its new approach to project planning and tracking is more flexible and superior to
+the commonly used Gantt chart editing tools.
+</span><span class="org-block-end-line">#+end_quote
+</span>
+A <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-taskjuggler.html">tutorial already exists</a></span> for the use of Org-mode and Taskjuggler v2.4.3, the last release of the
+v2.x.x series. Taskjuggler Version 3 (often referred to as simply "tj3"), was rebuilt using <span class="kc-org-link-url"><a href="http://www.ruby-lang.org/en/">Ruby</a></span>, and no
+longer features the former <span class="kc-org-link-url"><a href="http://qt-project.org/">Qt</a></span>-based GUI for task/timeline management of a project.
+
+It should also be mentioned that the project is now <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/manual/change_log.html#version_1_0_0">10 years old</a></span>, and, as a result, is
+<span class="kc-org-link-url"><a href="http://taskjuggler.org/tj3/manual/toc.html">fantastically documented</a></span>.
+
+The manual used to cover Taskjuggler export to some extent, however
+the defaults assume the use of version 2.x.x. This tutorial will lay
+out the changes required to successfully export with tj3.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Installation and Setup
+</span>
+<span class="bold">Preface:</span> If you have not recently (and successfully) used tj3, it is recommended that you
+try compiling the example <span class="org-verbatim">.tjp</span> file as described below to rule out any issues with the
+tj3 installation itself before moving on integrating tj3 with Org mode.
+
+Please refer to the <span class="kc-org-link-url"><a href="http://taskjuggler.org/tj3/manual/Installation.html#Installation">installation section</a></span> of the Taskjuggler manual for instructions. For
+the high level overview, you will need to install <span class="org-verbatim">ruby</span> and possibly <span class="org-verbatim">ruby-gems</span>. The
+easiest method is probably to install <span class="org-verbatim">ruby-gems</span> and simply type, from a
+terminal/command-line interface (you may need to run this as the <span class="org-verbatim">root</span> user or with <span class="org-verbatim">sudo</span>):
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+gem install taskjuggler
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+For Linux users, you may have a distro-specific package available if you would rather choose that
+route. For example, the Arch Linux User Repository (<span class="kc-org-link-url"><a href="https://aur.archlinux.org/">AUR</a></span>) has a <span class="kc-org-link-url"><a href="https://aur.archlinux.org/packages/taskjuggler3/">Taskjuggler 3 package</a></span> available.
+
+Once installed, you should check functionality by typing:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+tj3 --version
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+If you just can't wait to see what tj3 can do, try compiling their <span class="kc-org-link-url"><a href="http://taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp">sample file</a></span>:
+
+<span class="org-list-dt">-</span> Copy/paste into a file called <span class="org-verbatim">something.tjp</span>. Alternatively,
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+<a href="http://taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp">http://taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp</a>
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+<span class="org-list-dt">-</span> Save the file and then issue:<span class="org-footnote">[fn:1]</span>
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+$ cd /path/to/something.tjp
+$ tj3 something.tjp
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+Now check out the generated <span class="org-verbatim">Overview.html</span> in a browser!
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Using tj3 with Org mode
+</span>
+To activate the Taskjuggler exporter in Org-mode, add this line to <span class="org-verbatim">~/.emacs</span>:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+(require 'ox-taskjuggler)
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+In addition, here are a list of current variables you can customize:
+
+<span class="org-list-dt">-</span> org-taskjuggler-default-global-header
+<span class="org-list-dt">-</span> org-taskjuggler-default-global-properties
+<span class="org-list-dt">-</span> org-taskjuggler-default-project-duration
+<span class="org-list-dt">-</span> org-taskjuggler-default-project-version
+<span class="org-list-dt">-</span> <span class="org-code">org-taskjuggler-default-reports</span>: sets a report file to use. This may be written in
+  text format (as in, the variable set to the full report text string), or (perhaps
+  easier) to a <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/include.properties.html">=.tji= file containing the report definition</a></span>.
+<span class="org-list-dt">-</span> org-taskjuggler-extension
+<span class="org-list-dt">-</span> org-taskjuggler-final-hook
+<span class="org-list-dt">-</span> org-taskjuggler-keep-project-as-task
+<span class="org-list-dt">-</span> org-taskjuggler-process-command
+<span class="org-list-dt">-</span> org-taskjuggler-project-tag
+<span class="org-list-dt">-</span> org-taskjuggler-report-tag
+<span class="org-list-dt">-</span> org-taskjuggler-reports-directory
+<span class="org-list-dt">-</span> org-taskjuggler-resource-tag
+<span class="org-list-dt">-</span> <span class="org-code">org-taskjuggler-target-version</span>: should be set to the output of the command <span class="org-verbatim">tj3
+  --version</span>, e.g. <span class="org-verbatim">(setq org-taskjuggler-target-version 3.4)</span>
+<span class="org-list-dt">-</span> org-taskjuggler-valid-report-attributes
+<span class="org-list-dt">-</span> org-taskjuggler-valid-resource-attributes
+<span class="org-list-dt">-</span> org-taskjuggler-valid-task-attributes
+
+After customizing variables (at least if changing them in .emacs vs. the
+<span class="org-verbatim">customize-variable</span> interface, restart Emacs or issue <span class="org-verbatim">M-x load-file RET ~/.emacs RET</span>
+and we're ready to create our project managment <span class="org-verbatim">.org</span> file!
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Familiarizing yourself with Taskjuggler
+</span>
+Before diving in, it would be helpful to familiarize yourself with Taskjuggler if you
+aren't already.
+
+<span class="org-list-dt">-</span> Take a look at their <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/examples/Tutorial/tutorial.tjp">example file</a></span> to get a sense for what a full Taskjuggler project
+  looks like in tj3 syntax. You may not understand it, but skimming the various commands
+  will give you an understanding for how the project is setup:
+  <span class="org-list-dt">-</span> Basic project information (start date, duration (<span class="org-verbatim">+4m</span>), date/time syntax, timezone, etc.)
+  <span class="org-list-dt">-</span> Accounts (not applicable if you aren't tracking finances)
+  <span class="org-list-dt">-</span> Available resources with wage, vacation, working-hours/day information, etc.
+  <span class="org-list-dt">-</span> Top level milestones
+  <span class="org-list-dt">-</span> Tasks, divided up by major project area
+  <span class="org-list-dt">-</span> A report definition
+
+In addition to the general format of a Taskjuggler file, understanding of the following is
+particularly helpful:
+<span class="org-list-dt">-</span> Task time definitions: <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/start.html">start</a></span>, <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/end.html">end</a></span>, <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/depends.html">depends</a></span>, <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/maxstart.html">maxstart</a></span>, and <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/maxend.html">maxend</a></span>
+<span class="org-list-dt">-</span> Task durations: <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/effort.html">effort</a></span>, <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/duration.html">duration</a></span>, <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/length.html">length</a></span>. For example, duration will use consecutive
+  days, length observes definitions of work weeks (so a length of <span class="org-verbatim">7d</span> with a 5-day work
+  week specified translates to <span class="org-verbatim">9d</span> calendar time. Effort requires at least one resource
+  defined and assigned to the task, and will use his/her available work time/day to figure
+  out how long the task will take.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Mapping of Taskjuggler syntax to Org-mode
+</span>
+If you are familiar with Taskjuggler, it may be helpful to understand how Taskjuggler
+syntax is mapped to Org-mode. This is done via <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Property-syntax.html#Property-syntax">property drawers</a></span>, a simple key-value pair
+beneath the headline to which the properties apply.
+
+The bulk of the actual Taskjuggler project consists of tasks, which can be given various
+attributes. You can view the full list of allowed attributes in the
+<span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/task.html">task syntax specification</a></span> in the tj3 manual. Thus, a task in Taskjuggler might look
+something like this:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom-1">
+task entry_door "Install entry door" {
+  depends buy_door
+  effort 4h
+}
+
+</span><span class="org-block-end-line">#+end_example
+</span>
+In this example <span class="org-verbatim">task</span> defines the following text as a task for Taskjuggler
+compilation. The text <span class="org-verbatim">entry_door</span> is the task's ID, which must be unique within the
+current subtree. The test within quotes is the "plain language" name for the task you
+would like to appear in your report.
+
+This task has two attributes: <span class="org-verbatim">depends</span> and <span class="org-verbatim">effort</span>. In this example, installing the
+door, <span class="org-verbatim">entry_door</span>, depends on another task, <span class="org-verbatim">buy_door</span>, and the estimated effort required
+is 4 hours.
+
+In Org-mode, the equivalent task would be created like so:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">
+,* Install entry door
+  </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+  </span><span class="org-block"><span class="org-special-keyword">:task_id:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">entry_door</span></span><span class="org-block">
+  </span><span class="org-block"><span class="org-special-keyword">:depends:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">buy_door</span></span><span class="org-block">
+  </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">4h</span></span><span class="org-block">
+  </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+
+Some attributes may be set via two methods. For example, the start of a task can be
+defined by a <span class="org-verbatim">SCHEDULED</span> tag or a <span class="org-verbatim">:start:</span> property; the following are equivalent:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">
+,* Install entry door
+   </span><span class="org-block"><span class="org-special-keyword">SCHEDULED:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-date"><span class="org-date">&lt;2013-07-15 Mon&gt;</span></span></span><span class="org-block">
+
+,* Install entry door
+  </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+  </span><span class="org-block"><span class="org-special-keyword">:start:</span></span><span class="org-block">    </span><span class="org-block"><span class="org-property-value">2013-07-15</span></span><span class="org-block">
+  </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Similarly <span class="org-verbatim">DEADLINE</span> timestamps and the <span class="org-verbatim">:end:</span> property function the same way.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Example
+</span>
+Let's begin with a simple example project consisting of a home renovation project. To
+start our file, we need a top level headline to tell Org-mode that this headline and
+everything inside it should be considered a taskjuggler project. Thus, we can create a new
+file, <span class="org-verbatim">home-renovation.org</span> and create a top level headline to contain our tasks:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">
+,* Home renovation </span><span class="whitespace-tab">                                     </span><span class="org-block">:taskjuggler_project:
+
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> References
+</span>
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="http://www.taskjuggler.org/tj3/manual/toc.html">Taskjuggler (tj3) user manual</a></span>
+
+<span class="org-list-dt">-</span> <span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-taskjuggler.html">Taskjuggler (v2) guide on Worg</a></span> (though some functionality is out of
+  date for using tj3, most of the specifications still work, and the
+  guide is excellent overall for getting a feel for using Org-mode
+  with Taskjuggler.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Footnotes
+</span>
+<span class="org-footnote">[fn:1]</span> You may run into compilation issues due to special characters
+in that file on lines 37 (a copyright symbol), 79, and 83 (two
+accented characters in resource names). If this happens, just replace
+those three characters with something else, or delete them, and the
+file should compile. <span class="kc-org-link-url"><a href="https://github.com/taskjuggler/TaskJuggler/issues/105">An issue has been filed</a></span> inquiring about whether
+or not this is a system setup issue and, if not, suggesting that the
+characters be replaced.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-level-1"><span class="custom">TODO</span></span><span class="org-level-1"> Fill in the details!</span><span class="whitespace-tab">                                     </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Plan your project
+</span>
+You start out as you normally would by breaking down the project into
+tasks. Let's take the following example where you have a project to
+create an accounting software:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">,* Accounting Software
+
+,** Specification
+
+,** Software Development
+,*** Database coupling
+,*** Back-End Functions
+,*** Graphical User Interface
+
+,** Software testing
+,*** Alpha Test
+,*** Beta Test
+
+,** Manual
+
+,** Milestones
+,*** Project start
+,*** Technology Preview
+,*** Beta version
+,*** Ship Product to Customer
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Estimate the effort
+</span>Now that you've figured out the tasks it's time to estimate the
+efforts for each task. By using column view this can be done very
+efficiently. It also helps to define the <span class="org-verbatim">COLUMNS</span> and default values
+for the Effort property as shown in the following screen shot:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Estimating effort using column view</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Estimating effort using column view"</span>
+<span class="error"><a href="file:../images/taskjuggler/effort-estimation.png">file:../images/taskjuggler/effort-estimation.png</a></span>
+
+Your resulting Org mode project file will look somewhat like the
+following:
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">,#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d
+,#+COLUMNS: %70ITEM(Task) %Effort
+
+,* Accounting Software
+
+,** Specification
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">20d</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Software Development
+
+,*** Database coupling
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">20d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Back-End Functions
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">30d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Graphical User Interface
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">35d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Software testing
+,*** Alpha Test
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">5d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Beta Test
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">20d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Manual
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">50d</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Milestones
+,*** Project start
+,*** Technology Preview
+,*** Beta version
+,*** Ship Product to Customer
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Generate a Gantt chart
+</span>Before you now export the project to TaskJuggler you need to tell the
+exporter in which tree it can find the tasks. You do this by adding
+the tag <span class="org-code">taskjuggler_project</span> to the node "Accounting Software"<span class="org-footnote">[fn:2]</span>.
+Do this by moving to the "Accounting Software" headline and typing the
+following:
+
+<span class="org-code">: C-c C-c taskjuggler_project RET
+</span>
+This allows you to have other nodes for this project such as an
+introduction or general notes.
+
+To export the project to TaskJuggler you simply type
+
+<span class="org-code">: M-x org-export-as-taskjuggler-and-open
+</span>
+This will open your project in TaskJugglerUI as illustrated below
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Gantt chart in TaskJugglerUI</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Gantt chart in TaskJugglerUI"</span>
+<span class="error"><a href="file:../images/taskjuggler/TaskJugglerUI1.png">file:../images/taskjuggler/TaskJugglerUI1.png</a></span>
+
+Since we have not assigned any resources to work on the project the
+exporter assumes that you will be the one working on it and has
+assigned all tasks to you. The tasks have been serialized so that you
+will not have to many things to do at once, i.e. the resources will be
+leveled.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Assign resources
+</span>The next step is to list all the resources working on the project and
+assign the tasks to them. Create a node for the resources. You can
+group the resources by creating hierarchies. Tag the resource tree
+with the tag <span class="org-code">taskjuggler_resource</span> so that the exporter knows where to
+look for resource definitions<span class="org-footnote">[fn:3]</span>.
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">,* Resources                                         :taskjuggler_resource:
+,** Developers
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">dev</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Paul Smith
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">paul</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** S&#233;bastien Bono
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">seb</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Klaus M&#252;ller
+
+,** Others
+,*** Peter Murphy
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">doc</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Dim Sung
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">test</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+As you'll note I also added some <span class="org-code">resource_id</span> properties to some of
+the resources (or resource groups). I will use these identifiers to
+allocate the resources to the tasks. The exporter will create unique
+ids for the resources automatically<span class="org-footnote">[fn:4]</span>, but if you want to use
+short forms it's better to define <span class="org-code">resource_id</span> properties for your
+resources. This will also allow you to define default values for the
+allocation as follows:
+
+<span class="org-code">: #+PROPERTY: allocate_ALL dev doc test
+</span>
+The easiest way to assign resources is again the column view mode.
+There is no need to allocate a resource to every task, as allocations
+are inherited in TaskJuggler<span class="org-footnote">[fn:5]</span>. You'll note in the screen shot
+below that some tasks have more than one resource assigned to them.
+TaskJuggler will calculate the duration of the task based on the
+effort and the resources working on this task.
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Assign resources</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Assign resources"</span>
+<span class="error"><a href="file:../images/taskjuggler/assign-resources.png">file:../images/taskjuggler/assign-resources.png</a></span>
+
+If we now export the project you'll see that TaskJuggler scheduled
+some tasks in parallel (as there are several resources now which can
+work in parallel). See the screen shot below:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Gantt Chart with multiple resources</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Gantt Chart with multiple resources"</span>
+<span class="error"><a href="file:../images/taskjuggler/TaskJugglerUI2.png">file:../images/taskjuggler/TaskJugglerUI2.png</a></span>
+
+Obviously we need to define dependencies between the tasks.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Define dependencies
+</span>There are several ways to define dependencies between tasks. When
+coming from an Org mode background you probably want to define them
+using the facilities provided by Org mode, which are either
+
+<span class="org-list-dt">-</span> The <span class="org-verbatim">ORDERED</span> property which allows you to state that the child
+  tasks have to be completed in the order they appear (top most
+  first).
+
+<span class="org-list-dt">-</span> The <span class="org-verbatim">BLOCKER</span> property which allows you to state that a task
+  depends on either
+  <span class="org-list-dt">-</span> a previous sibling ("previous-sibling") or
+  <span class="org-list-dt">-</span> any other task by stating the <span class="org-code">task_id</span> property of the
+    predecessor
+
+Again, it is probably easiest to define the dependencies using the
+column view as shown below in the screen shot:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Defining dependencies using column view</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Defining dependencies using column view"</span>
+<span class="error"><a href="file:../images/taskjuggler/define-dependencies.png">file:../images/taskjuggler/define-dependencies.png</a></span>
+
+Lastly there is also the <span class="org-code">depends</span> property which corresponds to the
+TaskJuggler terminology. It can be used the same way as the <span class="org-verbatim">BLOCKER</span>
+property. This is illustrated below where the "Software Development"
+for example is blocked by the task "Specification", i.e. it has to
+wait until the specification is done. The task "Software Development"
+is defined as <span class="org-verbatim">ORDERED</span>, i.e. all the subtasks of it have to be
+completed in sequence. Another example is the milestone "Ship Product
+to Customer" which is waiting until the Beta test and the Manual are
+done.
+
+<span class="org-block-begin-line">#+BEGIN_SRC org
+</span><span class="org-block">,#+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d
+,#+PROPERTY: allocate_ALL dev doc test
+,#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+
+,* Accounting Software                                        :taskjuggler_project:
+
+,** Specification
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">20d</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">start</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:allocate:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">dev</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Software Development
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:ORDERED:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">t</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">previous-sibling</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:priority:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">1000</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:allocate:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">dev</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Database coupling
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">20d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Back-End Functions
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">30d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:task_id:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">back_end</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Graphical User Interface
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">35d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:allocate:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">paul, seb</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Software testing
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:ORDERED:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">t</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">previous-sibling</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:allocate:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">test</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Alpha Test
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">5d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:task_id:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">alpha</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Beta Test
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">20d</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:task_id:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">beta</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:allocate:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">test, paul</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Manual
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:Effort:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">50d</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:task_id:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">manual</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">start</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:allocate:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">doc</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,** Milestones
+,*** Project start
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:task_id:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">start</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Technology Preview
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">back_end</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Beta version
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">alpha</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+,*** Ship Product to Customer
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block">  </span><span class="org-block"><span class="org-property-value">beta manual</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+
+,* Resources                                         :taskjuggler_resource:
+,** Developers
+   </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">dev</span></span><span class="org-block">
+   </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Paul Smith
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">paul</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** S&#233;bastien Bono
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">seb</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Klaus M&#252;ller
+
+,** Others
+,*** Peter Murphy
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">doc</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:limits:</span></span><span class="org-block">   </span><span class="org-block"><span class="org-property-value">{ dailymax 6.4h }</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+,*** Dim Sung
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-special-keyword">:resource_id:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">test</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+If you export the example above you'll TaskJuggler will schedule the
+tasks as shown in the screen shot below
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Gantt Chart with dependencies</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Gantt Chart with dependencies"</span>
+<span class="error"><a href="file:../images/taskjuggler/TaskJugglerUI3.png">file:../images/taskjuggler/TaskJugglerUI3.png</a></span>
+
+Also TaskJuggler will give you a overview how busy youre resources
+will be and what they are working on. See below for a screen shot:
+
+<span class="org-meta-line">#+CAPTION:</span> <span class="org-block">Resource usage chart</span>
+<span class="org-meta-line">#+ATTR_HTML: alt="Resource usage chart"</span>
+<span class="error"><a href="file:../images/taskjuggler/resource-graph.png">file:../images/taskjuggler/resource-graph.png</a></span>
+
+Finally you can generate <span class="error"><a href="file:../images/taskjuggler/project-plan.pdf">good-looking project plans</a></span> in PDF by printing
+from TaskJuggler. This will make any <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">Pointy-haired Boss</a></span> happy.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export of other properties
+</span>Generally the exporter writes a node property that is known to
+TaskJuggler (such as <span class="org-code">shift</span>, <span class="org-code">booking</span>, <span class="org-code">efficiency</span>, <span class="org-code">journalentry</span>,
+<span class="org-code">rate</span> for resources or <span class="org-code">account</span>, <span class="org-code">start</span>, <span class="org-code">note</span>, <span class="org-code">duration</span>, <span class="org-code">end</span>,
+<span class="org-code">journalentry</span>, <span class="org-code">milestone</span>, <span class="org-code">reference</span>, <span class="org-code">responsible</span>, <span class="org-code">scheduling</span>,
+etc for tasks) as is to the TaskJuggler file.
+
+Other properties such as completeness or priority are derived from
+implicit information in the Org mode file. The TODO state for example
+determines the completeness. A task will be exported with 100%
+complete (<span class="org-code">complete 100</span>) if it is marked as done. The priority of a
+task will be determined through its priority cookie.
+
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Old footnotes
+</span><span class="org-footnote">[fn:2]</span> You can customize this tag
+
+<span class="org-footnote">[fn:3]</span> Again, of course this tag can be customized
+
+<span class="org-footnote">[fn:4]</span> by downcasing the headline, replacing non-ascii characters with
+'_' and picking the first word if it is unique
+
+<span class="org-footnote">[fn:5]</span> In TaskJuggler the allocations are cumulative, the exporter
+however adds some code so that inherited allocation are ignored when
+explicitly assigning a resource.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-level-1"><span class="custom">TODO</span></span><span class="org-level-1"> Incorporate/update old material into this file</span><span class="whitespace-tab">           </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>
+This is from ./exporters/taskjuggler.org from Bastien and needs to be added into this
+document. It comes from the 7.9.3f version of the manual.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Introduction
+</span>
+<span class="kc-org-link-url"><a href="http://www.taskjuggler.org/">TaskJuggler</a></span> is a project management tool.  It provides an optimizing
+scheduler that computes your project time lines and resource assignments
+based on the project outline and the constraints that you have provided.
+
+The TaskJuggler exporter is a bit different from other exporters, such as
+the <span class="org-verbatim">HTML</span> and <span class="org-formula">@LaTeX{}</span> exporters for example, in that it does not export
+all the nodes of a document or strictly follow the order of the nodes in
+the document.
+
+Instead the TaskJuggler exporter looks for a tree that defines the tasks
+and optionally trees that define the resources and reports for this
+project.  It then creates a TaskJuggler file based on these trees and the
+attributes defined in all the nodes.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> TaskJuggler export commands
+</span>
+You need to have Org's <span class="org-verbatim">contrib/</span> in your Emacs <span class="org-verbatim">load-path</span> and to
+<span class="org-verbatim">(require 'ox-taskjuggler)</span> to add the TaskJuggler export.  See also the
+docstring of <span class="org-verbatim">org-export-backends</span> on how to add new backends by default.
+
+When ox-taskjuggler.el is loaded, it defines two new handlers within <span class="org-verbatim">C-c
+C-e</span> (<span class="org-verbatim">org-export-dispatch</span>):
+
+<span class="org-table">| Keybinding  |                                    |                                                                                                     |</span>
+<span class="org-table">|-------------+------------------------------------+-----------------------------------------------------------------------------------------------------|</span>
+<span class="org-table">| C-c C-e j J | org-export-as-taskjuggler          | Export as a TaskJuggler file                                                                        |</span>
+<span class="org-table">| C-c C-e j o | org-export-as-taskjuggler-and-open | Export as a TaskJuggler file and then open the file with TaskJugglerUI (only for TaskJugglerUI 2.x) |</span>
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Tasks
+</span>
+<span class="org-meta-line">#+index: org-export-taskjuggler-project-tag</span>
+
+Create your tasks as you usually do with Org mode.  Assign efforts to each
+task using properties (it is easiest to do this in the column view).  You
+should end up with something similar to the example by Peter Jones in
+<span class="kc-org-link-url"><a href="http://www.contextualdevelopment.com/static/artifacts/articles/2008/project-planning/project-planning.org">http://www.contextualdevelopment.com/static/artifacts/articles/2008/project-planning/project-planning.org</a></span>.
+Now mark the top node of your tasks with a tag named
+<span class="org-verbatim">:taskjuggler_project:</span> (or whatever you customized
+<span class="org-verbatim">org-export-taskjuggler-project-tag</span> to).  You are now ready to export the
+project plan with <span class="org-verbatim">C-c C-e J</span> which will export the project plan and
+open a gantt chart in TaskJugglerUI.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Resources
+</span>
+<span class="org-meta-line">#+index: org-export-taskjuggler-resource-tag</span>
+
+Next you can define resources and assign those to work on specific tasks.
+You can group your resources hierarchically.  Tag the top node of the
+resources with <span class="org-verbatim">:taskjuggler_resource:</span> (or whatever you customized
+<span class="org-verbatim">org-export-taskjuggler-resource-tag</span> to).  You can optionally assign an
+identifier (named <span class="org-code">resource_id</span>) to the resources (using the standard Org
+properties commands, see the <span class="kc-org-link-url"><a href="https://orgmode.org/org.html#Property-syntax">Property syntax</a></span> section of the manual) or you
+can let the exporter generate identifiers automatically (the exporter picks
+the first word of the headline as the identifier as long as it is
+unique---see the documentation of <span class="org-verbatim">org-taskjuggler-get-unique-id</span>).  Using
+that identifier you can then allocate resources to tasks.  This is again
+done with the <span class="org-code">allocate</span> property on the tasks.  Do this in column view or
+when on the task type <span class="org-verbatim">C-c C-x p allocate RET &lt;resource_id&gt; RET</span>.
+
+Once the allocations are done you can again export to TaskJuggler and check
+in the Resource Allocation Graph which person is working on what task at
+what time.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export of properties
+</span>
+The exporter also takes TODO state information into consideration, i.e., if
+a task is marked as done it will have the corresponding attribute in
+TaskJuggler (<span class="org-code">complete 100</span>).  Scheduling information is also taken into
+account to set start/end dates for tasks.
+
+The exporter will also export any property on a task resource or resource
+node which is known to TaskJuggler, such as <span class="org-code">limits</span>, <span class="org-code">vacation</span>, <span class="org-code">shift</span>,
+<span class="org-code">booking</span>, <span class="org-code">efficiency</span>, <span class="org-code">journalentry</span>, <span class="org-code">rate</span> for resources or <span class="org-code">account</span>,
+<span class="org-code">start</span>, <span class="org-code">note</span>, <span class="org-code">duration</span>, <span class="org-code">end</span>, <span class="org-code">journalentry</span>, <span class="org-code">milestone</span>,
+<span class="org-code">reference</span>, <span class="org-code">responsible</span>, <span class="org-code">scheduling</span>, etc.@: for tasks.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Dependencies
+</span>
+The exporter will handle dependencies that are defined in the tasks either
+with the <span class="org-code">ORDERED</span> attribute (@pxref{TODO dependencies}), with the
+<span class="org-code">BLOCKER</span> attribute (see <span class="org-formula">@file{org-depend</span>.el}) or alternatively with a
+<span class="org-code">depends</span> attribute.  Both the <span class="org-code">BLOCKER</span> and the <span class="org-code">depends</span> attribute can be
+either <span class="org-code">previous-sibling</span> or a reference to an identifier (named <span class="org-code">task_id</span>)
+which is defined for another task in the project.  <span class="org-code">BLOCKER</span> and the
+<span class="org-code">depends</span> attribute can define multiple dependencies separated by either
+space or comma.  You can also specify optional attributes on the dependency
+by simply appending it.  The following examples should illustrate this:
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE:
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Preparation
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:task_id:</span>  <span class="org-property-value">preparation</span>
+<span class="org-special-keyword">:ORDERED:</span>  <span class="org-property-value">t</span>
+<span class="org-drawer">:END:</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Training material
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:task_id:</span>  <span class="org-property-value">training_material</span>
+<span class="org-special-keyword">:ORDERED:</span>  <span class="org-property-value">t</span>
+<span class="org-drawer">:END:</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Markup Guidelines
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:Effort:</span>   <span class="org-property-value">2d</span>
+<span class="org-drawer">:END:</span>
+<span class="org-superstar-leading">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Workflow Guidelines
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:Effort:</span>   <span class="org-property-value">2d</span>
+<span class="org-drawer">:END:</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Presentation
+</span><span class="org-drawer">:PROPERTIES:</span>
+<span class="org-special-keyword">:Effort:</span>   <span class="org-property-value">2d</span>
+<span class="org-special-keyword">:BLOCKER:</span>  <span class="org-property-value">training_material </span><span class="org-property-value"><span class="org-formula">@{</span></span><span class="org-property-value"> gapduration 1d </span><span class="org-property-value"><span class="org-formula">@}</span></span><span class="org-property-value"> preparation</span>
+<span class="org-drawer">:END:</span>
+<span class="org-meta-line">#+END_EXAMPLE:</span>
+
+<span class="org-meta-line">#+index: org-export-taskjuggler-default-reports</span>
+
+TaskJuggler can produce many kinds of reports (e.g., gantt chart, resource
+allocation, etc).  The user defines what kind of reports should be
+generated for a project in the TaskJuggler file.  By default, the exporter
+will automatically insert some pre-set reports in the file.  These defaults
+are defined in <span class="org-verbatim">org-export-taskjuggler-default-reports</span>.  They can be
+modified using customize along with a number of other options.  For a more
+complete list, see <span class="org-verbatim">M-x customize-group RET org-export-taskjuggler RET</span>.
+
+Alternately, the user can tag a tree with
+<span class="org-verbatim">org-export-taskjuggler-report-tag</span>, and define reports in sub-nodes,
+similarly to what is done with tasks or resources.  The properties used for
+report generation are defined in
+<span class="org-verbatim">org-export-taskjuggler-valid-report-attributes</span>. In addition, a special
+property named <span class="org-code">report-kind</span> is used to define the kind of report one wants
+to generate (by default, a <span class="org-code">taskreport</span>).
+
+For more information and examples see the Org-taskjuggler tutorial at
+<span class="kc-org-link-url"><a href="https://orgmode.org/worg/org-tutorials/org-taskjuggler.html">https://orgmode.org/worg/org-tutorials/org-taskjuggler.html</a></span>.
+</pre>
+  </body>
+</html>

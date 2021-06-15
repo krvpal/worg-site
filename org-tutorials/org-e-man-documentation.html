@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Man Pages and PDF export</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Man Pages and PDF export</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org203ba5d">To use this feature</a></li>
+<li><a href="#orgb528b53">Header and sectioning structure</a></li>
+<li><a href="#org8e608e3">Man export commands</a></li>
+<li><a href="#org4b84ba3">Tables in Man export</a></li>
+<li><a href="#org6d2aca5">Source highlight in Man export</a></li>
+<li><a href="#org8587a78">Embedded Groff commands for Man exports.</a></li>
+<li><a href="#org6062af4">Man export limitations</a></li>
+</ul>
+</div>
+</div>
+<p>
+Org mode provides the ability to export files marked with the Groff
+Man Pages (-man) set. With additional processing it can turn these
+files into PDF files that can be used for general distribution.
+</p>
+
+<p>
+Groff is used for the generation of <code>man</code> pages. But writing those pages
+may be an intimidating task. With this export mode, Org mode
+structured editing and facilities are available to facilitate the
+creation of these pages.
+</p>
+
+<div id="outline-container-org203ba5d" class="outline-2">
+<h2 id="org203ba5d">To use this feature</h2>
+<div class="outline-text-2" id="text-org203ba5d">
+<p>
+Include <code>(require 'ox-man)</code> in your <code>.emacs</code> file.  This feature only
+works with the new <code>org-export</code> facility.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb528b53" class="outline-2">
+<h2 id="orgb528b53">Header and sectioning structure</h2>
+<div class="outline-text-2" id="text-orgb528b53">
+<p>
+There is only one type of document available to create man pages,
+therefore there are no classes. However the following customizations
+are available:
+</p>
+
+<ul class="org-ul">
+<li>The <code>#+TITLE:</code> line is used to set the name of the command in the Man
+page&rsquo;s title line.</li>
+
+<li>The <code>#+MAN_CLASS_OPTIONS:</code> line contains one available option:
+
+<dl class="org-dl">
+<dt>:section-id</dt><dd>Defines the section id to be placed in the Man
+Page.  Defaults to &ldquo;1&rdquo;. <i>(string)</i></dd>
+</dl></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8e608e3" class="outline-2">
+<h2 id="org8e608e3">Man export commands</h2>
+<div class="outline-text-2" id="text-org8e608e3">
+<dl class="org-dl">
+<dt>M-x org-man-export-to-man</dt><dd>Converts buffer to a man page the
+assumptions that it was Org mode syntax. For an Org file like
+<code>myfile.org</code> the Groff file will be <code>myfile.man</code>. The file will be
+overwritten without warning.</dd>
+
+<dt>M-x org-man-export-to-pdf</dt><dd>Converts buffer to a PDF file under
+the assumptions that it was Org mode syntax. It uses Groff as its
+typesetter engine.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org4b84ba3" class="outline-2">
+<h2 id="org4b84ba3">Tables in Man export</h2>
+<div class="outline-text-2" id="text-org4b84ba3">
+<p>
+Groff uses the <code>tbl</code> preprocessor for table exports but the Groff export
+process also supports the specification of labels, captions and table
+options with the use of the <code>#+ATTR_MAN:</code> line. The following options
+are available to modify table behavior.
+</p>
+
+<dl class="org-dl">
+<dt>:divider</dt><dd>Places vertical bars between the different
+columns. <i>(boolean)</i></dd>
+<dt>:placement</dt><dd>Defines where the table will be placed in the
+line. There are two possible values: center or left. <i>(symbol)</i></dd>
+<dt>:boxtype</dt><dd>Defines the box type. <i>(symbol)</i> The following values are
+supported:
+<dl class="org-dl">
+<dt>box</dt><dd>Creates a border only. Default</dd>
+<dt>doublebox</dt><dd>Creates a border with two lines.</dd>
+<dt>allbox</dt><dd>Creates a table in which all cells are divided.</dd>
+<dt>none</dt><dd>No borders.</dd>
+</dl></dd>
+<dt>:title-line</dt><dd>Forces the first row to be centered bold. <i>(boolean)</i></dd>
+<dt>:diable-caption</dt><dd>Captions are placed by default. This will disable
+its creation. <i>(boolean)</i></dd>
+<dt>:expand</dt><dd>Expands the table across the width of the page.</dd>
+</dl>
+
+<p>
+The Groff export will honor columns definitions placed on top of a
+given table in Org mode and propagates those definitions as <code>tbl</code>
+commands.
+</p>
+
+<p>
+Man pages do support the use of tables, however the definition in
+<i>man.conf</i> needs to invoke <code>tbl</code> when the <code>man</code> command is executed. This is
+to ensure that tables are rendered correctly.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6d2aca5" class="outline-2">
+<h2 id="org6d2aca5">Source highlight in Man export</h2>
+<div class="outline-text-2" id="text-org6d2aca5">
+<p>
+Man export supports source highlight. See <i>Source highlight in Groff
+export</i> for details on how to configure this feature in your system.
+</p>
+
+<p>
+One important difference is the name of the variable used to enable
+its use, the name is <code>org-e-man-source-highlight</code>. Albeit its name is
+analogous for the one used in the Groff export, the name indicates its
+used to be specific for Man pages.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8587a78" class="outline-2">
+<h2 id="org8587a78">Embedded Groff commands for Man exports.</h2>
+<div class="outline-text-2" id="text-org8587a78">
+<p>
+Groff commands can be exported literally by surrounding the text on a
+pair of <code>#+BEGIN_MAN/#+END_MAN</code> lines.  These are a couple of commands
+that can be useful during export to control the output.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">#+BEGIN_MAN</span>
+.bp
+<span style="color: #696969;">#+END_MAN</span>
+</pre>
+</div>
+
+<p>
+Page break. Skips to a new page. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">#+BEGIN_MAN</span>
+.DS C
+.EQ
+
+
+.EN
+.DE
+.EC
+<span style="color: #696969;">#+END_MAN</span>
+</pre>
+</div>
+
+<p>
+EQN escape. This is used to add equations in your exported
+document. The Groff export uses the <code>eqn</code> processor to add them in your
+output. EQN statements must be placed between .EQ and .EN.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">#+BEGIN_MAN</span>
+.EX
+
+.EE
+<span style="color: #696969;">#+END_MAN</span>
+</pre>
+</div>
+
+<p>
+Example start and end. Text must be placed between .EX and .EE. Using
+<code>#+BEGIN_EXAMPLE/#+END_EXAMPLE</code> or <code>#+begin_src dummy/#+end_src</code> does the
+same with commands that are compatible on all platforms.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6062af4" class="outline-2">
+<h2 id="org6062af4">Man export limitations</h2>
+<div class="outline-text-2" id="text-org6062af4">
+<p>
+The following items are partially or not supported during Man pages
+exports.
+</p>
+
+<dl class="org-dl">
+<dt>Images</dt><dd>Images are not supported.</dd>
+<dt>.EX/.EQ</dt><dd>These are not used on export. They are implemented using
+.nf/.fi pairs for compatibility with legacy systems. Use embedded
+Man Pages commands to use these.</dd>
+<dt>.UR/UE and .MT/ME</dt><dd>These are not used on export to ensure support
+with legacy systems. Use embedded Man Pages commands to use these.</dd>
+<dt>.SY/OP/YS</dt><dd>These are not used on export. Use embedded Man pages
+commands to use these.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

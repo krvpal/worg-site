@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-mac-iCal.el &#x2013; import Mac OS X iCal.app events into Emacs diary</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-mac-iCal.el &#x2013; import Mac OS X iCal.app events into Emacs diary</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5542e66">Installation</a></li>
+<li><a href="#org128d5e7">Usage</a>
+<ul>
+<li><a href="#orgfe15785">Customizable variables</a></li>
+<li><a href="#orgdd6db84">Examples of usage</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s contibutions index}</a>
+</p>
+
+<p>
+If you find iCal.app the most convenient way to manage your diary, but
+would still like to view your appointments in org agenda, then this
+module may help.
+</p>
+
+<p>
+<b>N.B.</b> org-mac-iCal.el has only been tested on OS X 10.5. Apple&rsquo;s
+handling of ics files changed between 10.4 and 10.5 to allow Spotlight
+to index events. Unfortunately, the author no longer has access to
+10.4 and 10.4 support is based entirely on his memory. The author
+would welcome reports of success or failure of org-mac-iCal.el with OS
+X 10.4 or earlier.
+</p>
+
+<div id="outline-container-org5542e66" class="outline-2">
+<h2 id="org5542e66">Installation</h2>
+<div class="outline-text-2" id="text-org5542e66">
+<ul class="org-ul">
+<li><p>
+To load org-mac-iCal.el by default:
+</p>
+
+<pre class="example">
+(add-to-list 'org-modules 'org-mac-iCal)
+</pre>
+
+
+<p>
+Note that <code>org-modules</code> must be set before org-mode is loaded.
+</p></li>
+
+<li><p>
+To view Emacs diary entries in the org agenda, ensure that 
+</p>
+
+<pre class="example">
+(setq org-agenda-include-diary t)
+</pre>
+
+
+<p>
+is set.
+</p></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org128d5e7" class="outline-2">
+<h2 id="org128d5e7">Usage</h2>
+<div class="outline-text-2" id="text-org128d5e7">
+<p>
+<code>(org-mac-iCal)</code> will import all <i>checked</i> iCal.app calendars into
+your Emacs diary when called either interactively or as part of
+another function.
+</p>
+
+<p>
+<b>Warning: (org-mac-iCal) is destructive and will overwrite the
+current contents of your Emacs diary.</b>
+</p>
+</div>
+
+<div id="outline-container-orgfe15785" class="outline-3">
+<h3 id="orgfe15785">Customizable variables</h3>
+<div class="outline-text-3" id="text-orgfe15785">
+<dl class="org-dl">
+<dt><code>org-mac-iCal-range</code></dt><dd><p>
+Sets the number of months (default: 2) of events imported from
+iCal.app calendars.
+</p>
+
+<p>
+Because all-day and multi-day events are imported into the Emacs
+diary as sexps, a large number of these can cause the Emacs
+calendar view to slow down unacceptably. <code>org-mac-iCal-range</code>
+sets how many months of events to import, <i>centred around the
+current day</i>. Thus the default value of 2 imports events from one
+month in the past to one month in the future.
+</p></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgdd6db84" class="outline-3">
+<h3 id="orgdd6db84">Examples of usage</h3>
+<div class="outline-text-3" id="text-orgdd6db84">
+<p>
+The following code creates a custom command in the agenda
+dispatcher to import iCal.app events and then display the agenda:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"I"</span> <span style="color: #e2c770;">"Import diary from iCal"</span> agenda <span style="color: #e2c770;">""</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-mode-hook</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">()</span>
+       <span style="color: #eb4509;">(</span>org-mac-iCal<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+A common problem with all-day and multi-day events in org agenda
+view is that they become separated from timed events and are placed
+below all <code>TODO</code> items. Likewise, additional fields such as
+<code>Location:</code> are orphaned from their parent events. The following
+hook will ensure that all events are correctly placed in the
+agenda:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-agenda-cleanup-fancy-diary-hook</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">save-excursion</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">while</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">re-search-forward</span> <span style="color: #e2c770;">"^[a-z]"</span> nil t<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">match-beginning</span> <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #e2c770;">"0:00-24:00 "</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">while</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">re-search-forward</span> <span style="color: #e2c770;">"^ [a-z]"</span> nil t<span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">match-beginning</span> <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">save-excursion</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">re-search-backward</span> <span style="color: #e2c770;">"^[0-9]+:[0-9]+-[0-9]+:[0-9]+ "</span> nil t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

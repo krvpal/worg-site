@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>README.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+Static MathJax v0.1 README
+<span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Jan B&#246;cker <a href="mailto:jan.boecker%40jboecker.de">&lt;jan.boecker@jboecker.de&gt;</a>
+</span>
+Static MathJax is a XULRunner application which loads a HTML input
+file that uses MathJax into a browser, waits until MathJax is done
+processing, and then writes the formatted result to an output HTML
+file.
+
+I have only tested exports from Emacs Org-mode as input files.  (As of
+2010-08-14, MathJax is used by default with HTML exports in the
+current Org development version.)
+
+Optionally, references to the math fonts used will be converted to
+"data:" URIs, thus embedding the font data into the HTML file itself.
+(see <span class="kc-org-link-url"><a href="https://en.wikipedia.org/wiki/Data_URI_scheme">https://en.wikipedia.org/wiki/Data_URI_scheme</a></span>)
+
+The code is licensed under the GNU General Public License version
+2, or, at your option, any later version.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Usage
+</span>  To run Static MathJax, an existing XULRunner installation is
+  required. From the directory to which you unpacked Static MathJax,
+  run:
+    
+  xulrunner application.ini &lt;--embed-fonts | --final-mathjax-url &lt;URL&gt;&gt;
+  &lt;input file&gt; &lt;output file&gt;
+
+  If you prefer to call "staticmathjax" instead of "xulrunner
+  application.ini", link xulrunner-stub into the directory:
+  ln /usr/lib/xulrunner-1.9.2.8/xulrunner-stub ./staticmathjax
+  
+  <span class="org-list-dt">-</span> <span class="org-list-dt">input file ::</span> 
+      name of the input file (the result of a HTML export
+      from Org-mode). It is assumed that this file uses the
+<span class="whitespace-tab">        </span>  UTF-8 character encoding.
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">output file ::</span>
+      name of the output file.
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">--embed-fonts ::</span> 
+      if specified, the math fonts will be embedded into
+<span class="whitespace-tab">        </span>  the output file using data: URIs
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">--final-mathjax-url &lt;URL&gt; ::</span> 
+<span class="whitespace-tab">        </span>  if --embed-fonts is not specified, this
+      must be the URL to a MathJax installation folder (e.g. "MathJax"
+      if MathJax is installed in a subdirectory, or
+      "<span class="kc-org-link-url"><a href="https://orgmode.org/mathjax">https://orgmode.org/mathjax</a></span>" to use the version hosted on the Org
+      website.
+<span class="whitespace-tab">        </span>  
+<span class="whitespace-tab">        </span>  All references to math fonts in the output file will point to
+<span class="whitespace-tab">        </span>  this directory.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Caveats
+</span>  
+  The input file must not use a MathJax installation on the
+  web. Otherwise, due to a security feature of Firefox, MathJax will
+  fallback to image fonts.  If you have unpacked MathJax to a
+  subdirectory "MathJax", specify the following in your Org file:
+  
+<span class="org-meta-line">  #+MathJax: path:"MathJax"</span>
+
+  The math is rendered in Firefox, so MathJax applies its
+  Firefox-specific settings. When viewing the output files in other
+  browsers, it will look slightly different than the result that
+  running MathJax in that browser would produce.
+
+  Internet Explorer does not use the correct font, because it only
+  supports the EOT font format. For all other browsers (including
+  Firefox), MathJax uses the OTF font format.
+  
+  Embedding fonts into the HTML file wastes some space due to the
+  base64 encoding used in data: URIs.
+
+  I have found no way to access stdout or set an exit code in an
+  XULRunner app, so any code which calls Static MathJax has no idea if
+  processing was successful and when an error occurs, graphical
+  message boxes are displayed.
+</pre>
+  </body>
+</html>

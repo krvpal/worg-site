@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>index.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .regexp-grouping-backslash {
+        /* font-lock-regexp-grouping-backslash */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .regexp-grouping-construct {
+        /* font-lock-regexp-grouping-construct */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+Title:</span> <span class="org-document-title">Org-Docco
+</span><span class="org-document-info-keyword">#+Author:</span> <span class="org-document-info">Eric Schulte
+</span><span class="org-meta-line">#+Style: &lt;link rel="stylesheet" href="docco.css" type="text/css"&gt;</span>
+<span class="org-meta-line">#+Property: tangle yes</span>
+
+The <span class="org-verbatim">docco</span> tool (see <span class="kc-org-link-url"><a href="https://jashkenas.github.com/docco/">https://jashkenas.github.com/docco/</a></span>) generates
+HTML from JavaScript source code providing an attractive side-by-side
+display of source code and comments.  This file (see <span class="kc-org-link-url"><a href="https://orgmode.org/cgit.cgi/org-mode.git/plain/contrib/scripts/org-docco.org">org-docco.org</a></span>)
+generates the same type of output from Org-mode documents with code
+embedded in code blocks.
+
+The way this works is an Org-mode document with embedded code blocks
+is exported to html using the standard Org-mode export functions.
+This file defines a new function named <span class="org-verbatim">org-docco-buffer</span> which, when
+added to the <span class="org-verbatim">org-export-html-final-hook</span>, will be run automatically
+as part of the Org-mod export process doccoizing your Org-mode
+document.
+
+A pure source code file can be extracted (or "<span class="italic">tangled</span>") from the
+Org-mode document using the normal <span class="org-verbatim">org-babel-tangle</span> function.  See
+<span class="kc-org-link-url"><a href="https://orgmode.org/manual/Working-With-Source-Code.html">Working With Source Code</a></span> chapter of the Org-mode manual for more
+information on using code blocks in Org-mode files.
+
+<span class="bold">Disclaimer</span>: this currently only works on <span class="italic">very</span> simple Org-mode
+files which have no headings but rather are just a collection of
+alternating text and code blocks.  It wouldn't be difficult to
+generalize the following code so that it could be run in particular
+sub-trees but I simply don't have the time to do so myself, and this
+version perfectly satisfies my own limit needs.  I make no promises to
+support this code moving forward.  <span class="italic">Caveat Emptor</span>
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :padline no
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">org-docco.el --- docco type html generation from Org-mode
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Copyright (C) 2012 Eric Schulte
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Author: Eric Schulte
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Keywords: org-mode, literate programming, html
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Homepage: <a href="https://orgmode.org/worg/org-contrib/org-mime.php">https://orgmode.org/worg/org-contrib/org-mime.php</a>
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Version: 0.01
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">This file is not part of GNU Emacs.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">License:
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">This program is free software; you can redistribute it and/or modify
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">it under the terms of the GNU General Public License as published by
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">the Free Software Foundation; either version 3, or (at your option)
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">any later version.
+</span></span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">This program is distributed in the hope that it will be useful,
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">but WITHOUT ANY WARRANTY; without even the implied warranty of
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">GNU General Public License for more details.
+</span></span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">You should have received a copy of the GNU General Public License
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">along with GNU Emacs; see the file COPYING.  If not, write to the
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+</span></span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Boston, MA 02110-1301, USA.
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Commentary:
+</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">&lt;- look over there
+</span></span><span class="org-block-end-line">#+end_src
+</span>
+The <span class="org-verbatim">cl</span> package provides all of the state-changing functions used
+below e.g., <span class="org-verbatim">push</span> and <span class="org-verbatim">incf</span>.  It looks like a namespace-safe version
+of <span class="org-verbatim">cl</span> may soon be permissible for use in official Emacs packages.
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">Code:
+</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">cl</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+This is a function which returns the buffer positions of matching
+regular expressions.  It has two special features...
+<span class="org-list-dt">1.</span> It only counts matched instances of <span class="org-verbatim">beg-re</span> and <span class="org-verbatim">end-re</span> which are
+   properly nested, so for example if <span class="org-verbatim">beg-re</span> and <span class="org-verbatim">end-re</span> are set to
+   <span class="org-verbatim">(</span> and <span class="org-verbatim">)</span> respectively and we run this against the following,
+   <span class="org-code">: 1    2       3 4   5     6
+</span>   <span class="org-code">: |    |       | |   |     |
+</span>   <span class="org-code">: v    v       v v   v     v
+</span>   <span class="org-code">: (foo (bar baz) (qux) quux)
+</span>   it will return 1 and 6 rather than 1 and 3.
+<span class="org-list-dt">2.</span> It uses <span class="org-link"><a href="www.gnu.org/s/emacs/manual/html_node/elisp/Markers.html">markers</a></span> which save their position in a buffer even as the
+   buffer is changed (e.g., by me adding in extra HTML text).
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-docco-balanced-re</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">beg-re end-re</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Return the beginning and of a balanced regexp."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">save-match-data</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">both-re </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">(</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"> beg-re </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">|</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"> end-re </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="string"><span class="regexp-grouping-backslash">\\</span></span></span><span class="org-block"><span class="string"><span class="regexp-grouping-construct">)</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">beg-count </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">end-count </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+            beg end</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> beg-re nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">match-beginning</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> beg </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">point-marker</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">incf</span></span><span class="org-block"> beg-count</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">match-end</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> end</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> both-re nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">match-beginning</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">cond</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">looking-at</span></span><span class="org-block"> beg-re</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">incf</span></span><span class="org-block"> beg-count</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">looking-at</span></span><span class="org-block"> end-re</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">incf</span></span><span class="org-block"> end-count</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="builtin">:otherwise</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">error</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"miss-matched"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">match-end</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">=</span></span><span class="org-block"> beg-count end-count</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> end </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-marker</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> end </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> beg end</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+This ugly large function does the actual conversion.  It wraps the
+entire main content <span class="org-verbatim">div</span> of the exported Org-mode html into a single
+large table.  Each row of the table has documentation on the left side
+and code on the right side.  This function has two parts.
+<span class="org-list-dt">1.</span> We use <span class="org-verbatim">(org-docco-balanced-re "&lt;div" "&lt;/div&gt;")</span> to find the
+   beginning and end of the main content div.  We then break up this
+   div at <span class="org-verbatim">&lt;pre&gt;&lt;/pre&gt;</span> boundaries with multiple calls to
+   <span class="org-verbatim">(org-docco-balanced-re "&lt;pre class\"src" "&lt;/pre&gt;")</span>.
+<span class="org-list-dt">2.</span> With all documentation/code boundaries in hand we step through the
+   buffer inserting the table html code at boundary locations.
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-docco-buffer</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Call from within an HTML buffer to doccoize it."</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">interactive</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">let</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">table-start </span><span class="org-block"><span class="string">"&lt;table&gt;\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">doc-row-start  </span><span class="org-block"><span class="string">"&lt;tr&gt;&lt;th class=\"docs\"&gt;\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">doc-row-end  </span><span class="org-block"><span class="string">"&lt;/th&gt;\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">code-row-start </span><span class="org-block"><span class="string">"    &lt;td class=\"code\"&gt;\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">code-row-end </span><span class="org-block"><span class="string">"&lt;/td&gt;&lt;/tr&gt;\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">table-end </span><span class="org-block"><span class="string">"&lt;/table&gt;"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+        pair transition-points next</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">save-excursion</span></span><span class="org-block">
+      </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">save-match-data</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">point-min</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">re-search-forward</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;div id=\"content\"&gt;"</span></span><span class="org-block"> nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">match-end</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">push</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">point-marker</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">match-beginning</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> pair </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-docco-balanced-re </span><span class="org-block"><span class="string">"&lt;div"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/div&gt;"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> next </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-docco-balanced-re </span><span class="org-block"><span class="string">"&lt;pre class=\"src"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/pre&gt;"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> next</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">push</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">car</span></span><span class="org-block"> next</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">push</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> next</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">cdr</span></span><span class="org-block"> pair</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">push</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">re-search-backward</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"&lt;/div&gt;"</span></span><span class="org-block"> nil t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">point-marker</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">collected transitions, so build the table
+</span></span><span class="org-block">          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> transition-points </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">nreverse</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">pop</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> table-start doc-row-start</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">while</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">&gt;</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">length</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">pop</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> doc-row-end code-row-start</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">pop</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> code-row-end doc-row-start</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">goto-char</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">pop</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">insert</span></span><span class="org-block"> code-row-end table-end</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">null</span></span><span class="org-block"> transition-points</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">error</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"leftover points"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+We'll use Emacs <span class="kc-org-link-url"><a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Specifying-File-Variables.html">File Local Variables</a></span> and the
+<span class="org-verbatim">org-export-html-final-hook</span> to control which buffers have
+<span class="org-verbatim">org-docco-buffer</span> run as part of their export process.
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defvar</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-docco-doccoize-me</span></span><span class="org-block"> nil
+    </span><span class="org-block"><span class="doc">"File local variable controlling if html export should be doccoized."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">make-local-variable</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-docco-doccoize-me</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+A simple function will conditionally process HTML output based on the
+value of this variable.
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">org-docco-buffer-maybe</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> org-docco-doccoize-me </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-docco-buffer</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Finally this function is added to the <span class="org-verbatim">org-export-html-final-hook</span>.
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">org-export-html-final-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="highlight-quoted-symbol"><span class="org-tag">org-docco-buffer-maybe</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-1"><span class="org-tag">)</span></span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+That's it.  To use this simply;
+<span class="org-list-dt">1.</span> Checkout this file from <span class="kc-org-link-url"><a href="https://github.com/eschulte/org-docco">https://github.com/eschulte/org-docco</a></span>,
+   <span class="org-code">: git clone git://github.com/eschulte/org-docco.git
+</span>   and open it using Emacs.
+<span class="org-list-dt">2.</span> Tangle <span class="org-verbatim">org-docco.el</span> out of this file by calling
+   <span class="org-verbatim">org-babel-tangle</span> or <span class="org-verbatim">C-c C-v t</span>.
+<span class="org-list-dt">3.</span> Load the resulting Emacs Lisp file.
+<span class="org-list-dt">4.</span> Execute the following in any Org-mode buffer to add file local
+   variable declarations which will enable post-processed with
+   <span class="org-verbatim">org-docco-buffer</span>.
+   <span class="org-code">: (add-file-local-variable 'org-export-html-postamble nil)
+</span>   <span class="org-code">: (add-file-local-variable 'org-export-html-style-include-default nil)
+</span>   <span class="org-code">: (add-file-local-variable 'org-docco-doccoize-me t)
+</span>   And add the following style declaration to make use of the
+   <span class="org-verbatim">docco.css</span> style sheet taken directly from
+   <span class="kc-org-link-url"><a href="https://github.com/jashkenas/docco">https://github.com/jashkenas/docco</a></span>.
+   <span class="org-code">: #+Style: &lt;link rel="stylesheet" href="docco.css" type="text/css"&gt;
+</span>
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">provide</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">org-docco</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="comment-delimiter">;;; </span></span><span class="org-block"><span class="comment">org-docco.el ends here
+</span></span><span class="org-block-end-line">#+end_src
+</span>
+<span class="comment"># Local Variables&#58;</span>
+<span class="comment"># org-export-html-postamble: nil</span>
+<span class="comment"># org-export-html-style-include-default: nil</span>
+<span class="comment"># org-docco-doccoize-me: t</span>
+<span class="comment"># End:</span>
+</pre>
+  </body>
+</html>

@@ -1,0 +1,1246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Library of Babel</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Org-mode People" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">The Library of Babel</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8718a64">Introduction</a></li>
+<li><a href="#orge45f0ad">Simple</a></li>
+<li><a href="#org6ec8885">File I/O</a>
+<ul>
+<li><a href="#org9861799">Reading and writing files</a></li>
+<li><a href="#org367cb62">Remote files</a>
+<ul>
+<li><a href="#orgcd3c7c3">json</a></li>
+<li><a href="#orgbe687c8">Google docs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org87155f8">Plotting code</a>
+<ul>
+<li><a href="#org39927fa">R</a></li>
+<li><a href="#org93dc8e6">Gnuplot</a></li>
+</ul>
+</li>
+<li><a href="#org3daf9b1">Org reference</a>
+<ul>
+<li><a href="#orgb48cc7e">Headline references</a></li>
+</ul>
+</li>
+<li><a href="#orgea9915d">Tables</a>
+<ul>
+<li><a href="#orgcb77bb6">LaTeX Table Export</a>
+<ul>
+<li><a href="#orgd8a40bb">booktabs</a></li>
+<li><a href="#org89f45d7">longtable</a></li>
+<li><a href="#org0915ebc">booktabs-notes</a></li>
+</ul>
+</li>
+<li><a href="#orgea86cf5">Elegant lisp for transposing a matrix</a></li>
+<li><a href="#org6729bb1">Convert every element of a table to a string</a></li>
+</ul>
+</li>
+<li><a href="#org612ec31">Misc</a>
+<ul>
+<li><a href="#org47a3519">File-specific Version Control logging</a></li>
+<li><a href="#orgb896af4">Trivial python code blocks</a></li>
+<li><a href="#orgf2dca12">Arithmetic</a></li>
+</ul>
+</li>
+<li><a href="#org4048838">GANTT Charts</a></li>
+<li><a href="#org5dcdde9">Available languages</a>
+<ul>
+<li><a href="#orga608e9c">From Org&rsquo;s core</a></li>
+<li><a href="#org8ffa57e">From Org&rsquo;s contrib/babel/langs</a></li>
+</ul>
+</li>
+<li><a href="#org0f9e909">Default result for block execution</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8718a64" class="outline-2">
+<h2 id="org8718a64">Introduction</h2>
+<div class="outline-text-2" id="text-org8718a64">
+<p>
+The Library of Babel is an extensible collection of ready-made and
+easily-shortcut-callable source-code blocks for handling common tasks.
+Org-babel comes pre-populated with the source-code blocks located in
+this file.  It is possible to add source-code blocks from any org-mode
+file to the library by calling <code>(org-babel-lob-ingest
+"path/to/file.org")</code>.
+</p>
+
+<p>
+This file is included in worg mainly less for viewing through the web
+interface, and more for contribution through the worg git repository.
+If you have code snippets that you think others may find useful please
+add them to this file and <a href="worg-about.html#org8a84f78">How to use git for Worg</a> to worg.
+</p>
+
+<p>
+The raw Org-mode text of this file can be downloaded at
+<a href="https://orgmode.org/worg/library-of-babel.org">library-of-babel.org</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge45f0ad" class="outline-2">
+<h2 id="orge45f0ad">Simple</h2>
+<div class="outline-text-2" id="text-orge45f0ad">
+<p>
+A collection of simple utility functions:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgb632b4d">  input
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ec8885" class="outline-2">
+<h2 id="org6ec8885">File I/O</h2>
+<div class="outline-text-2" id="text-org6ec8885">
+</div>
+<div id="outline-container-org9861799" class="outline-3">
+<h3 id="org9861799">Reading and writing files</h3>
+<div class="outline-text-3" id="text-org9861799">
+<p>
+Read the contents of the file at <code>file</code>.  The <code>:results vector</code> and
+<code>:results scalar</code> header arguments can be used to read the contents of
+file as either a table or a string.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgde81459">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> format <span style="color: #e2c770;">"csv"</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-table-import</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">expand-file-name</span> file<span style="color: #eb4509;">)</span> nil<span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-table-to-lisp</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">insert-file-contents</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">expand-file-name</span> file<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">buffer-string</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Write <code>data</code> to a file at <code>file</code>.  If <code>data</code> is a list, then write it
+as a table in traditional Org-mode table syntax.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org859eb19">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">flet</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>echo <span style="color: #eb4509;">(</span>r<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> r<span style="color: #fd971f;">)</span> r <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> r<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-file</span> file
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">case</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">and</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> data<span style="color: #fd971f;">)</span>
+                 <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> ext <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">intern</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">file-name-extension</span> file<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">tsv</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">orgtbl-to-tsv</span> data <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">:fmt</span> echo<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">csv</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">orgtbl-to-csv</span> data <span style="color: #9c91e4;">'</span><span style="color: #eb4509;">(</span><span style="color: #fd971f;">:fmt</span> echo<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span>t    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-babel-insert-result</span> data<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  nil
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org367cb62" class="outline-3">
+<h3 id="org367cb62">Remote files</h3>
+<div class="outline-text-3" id="text-org367cb62">
+</div>
+<div id="outline-container-orgcd3c7c3" class="outline-4">
+<h4 id="orgcd3c7c3">json</h4>
+<div class="outline-text-4" id="text-orgcd3c7c3">
+<p>
+Read local or remote file in <a href="http://www.json.org/">json</a> format into emacs-lisp objects.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org0b0d89c">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">json</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">cond</span>
+   <span style="color: #fd971f;">(</span>file
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">org-babel-with-temp-filebuffer</span> file
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">json-read</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+   <span style="color: #fd971f;">(</span>url
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">w3m</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+      <span style="color: #eb4509;">(</span>w3m-retrieve url<span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">json-read</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe687c8" class="outline-4">
+<h4 id="orgbe687c8">Google docs</h4>
+<div class="outline-text-4" id="text-orgbe687c8">
+<p>
+The following code blocks make use of the <a href="http://code.google.com/p/googlecl/">googlecl</a> Google command line
+tool.  This tool provides functionality for accessing Google services
+from the command line, and the following code blocks use <i>googlecl</i>
+for reading from and writing to Google docs with Org-mode code blocks.
+</p>
+</div>
+
+<ul class="org-ul">
+<li><a id="orgb1d989f"></a>Read a document from Google docs<br />
+<div class="outline-text-5" id="text-orgb1d989f">
+<p>
+The <code>google</code> command seems to be throwing &ldquo;Moved Temporarily&rdquo; errors
+when trying to download textual documents, but this is working fine
+for spreadsheets.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org4556c1b">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>file <span style="color: #eb4509;">(</span><span style="color: #fd971f;">concat</span> title <span style="color: #e2c770;">"."</span> format<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span>cmd <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"google docs get --format %S --title %S"</span> format title<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> cmd<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">shell-command-to-string</span> cmd<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">prog1</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> format <span style="color: #e2c770;">"csv"</span><span style="color: #eb4509;">)</span>
+               <span style="color: #eb4509;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+                 <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-table-import</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">shell-quote-argument</span> file<span style="color: #b6e63e;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #9c91e4; font-weight: bold;">4</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                 <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-table-to-lisp</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+             <span style="color: #eb4509;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+               <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert-file-contents</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">shell-quote-argument</span> file<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #fd971f;">buffer-string</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">delete-file</span> file<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+For example, a line like the following can be used to read the
+contents of a spreadsheet named <code>num-cells</code> into a table.
+</p>
+<pre class="example">
+#+call: gdoc-read(title="num-cells"")
+</pre>
+
+
+<p>
+A line like the following can be used to read the contents of a
+document as a string.
+</p>
+
+<pre class="example">
+#+call: gdoc-read(title="loremi", :format "txt")
+</pre>
+</div>
+</li>
+
+<li><a id="org6ba450a"></a>Write a document to a Google docs<br />
+<div class="outline-text-5" id="text-org6ba450a">
+<p>
+Write <code>data</code> to a google document named <code>title</code>.  If <code>data</code> is tabular
+it will be saved to a spreadsheet, otherwise it will be saved as a
+normal document.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org0733d27">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> data<span style="color: #fd971f;">)</span> <span style="color: #e2c770;">"csv"</span> <span style="color: #e2c770;">"txt"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span>tmp-file <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">make-temp-file</span> <span style="color: #e2c770;">"org-babel-google-doc"</span> nil <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"."</span> format<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+         <span style="color: #b6e63e;">(</span>cmd <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"google docs upload --title %S %S"</span> title tmp-file<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-file</span> tmp-file
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">insert</span>
+       <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> data<span style="color: #fd971f;">)</span>
+           <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">orgtbl-to-csv</span>
+            data <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:fmt</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span>el<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">stringp</span> el<span style="color: #b6e63e;">)</span> el <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> el<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+         <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">stringp</span> data<span style="color: #b6e63e;">)</span> data <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> data<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> cmd<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">prog1</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">shell-command-to-string</span> cmd<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">delete-file</span> tmp-file<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+example usage
+</p>
+<pre class="example">
+#+name: fibs
+#+begin_src emacs-lisp :var n=8
+  (flet ((fib (m) (if (&lt; m 2) 1 (+ (fib (- m 1)) (fib (- m 2))))))
+    (mapcar (lambda (el) (list el (fib el))) (number-sequence 0 (- n 1))))
+#+end_src
+
+#+call: gdoc-write(title="fibs", data=fibs(n=10))
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org87155f8" class="outline-2">
+<h2 id="org87155f8">Plotting code</h2>
+<div class="outline-text-2" id="text-org87155f8">
+</div>
+<div id="outline-container-org39927fa" class="outline-3">
+<h3 id="org39927fa">R</h3>
+<div class="outline-text-3" id="text-org39927fa">
+<p>
+Plot column 2 (y axis) against column 1 (x axis). Columns 3 and
+beyond, if present, are ignored.
+</p>
+
+<p>
+Running this code will create a file <code>Rplots.pdf</code> in the current working directory.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="orgff81c52">plot(data)
+</pre>
+</div>
+
+<table id="orga1135cc" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">9</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">16</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">25</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org93dc8e6" class="outline-3">
+<h3 id="org93dc8e6">Gnuplot</h3>
+</div>
+</div>
+
+<div id="outline-container-org3daf9b1" class="outline-2">
+<h2 id="org3daf9b1">Org reference</h2>
+<div class="outline-text-2" id="text-org3daf9b1">
+</div>
+<div id="outline-container-orgb48cc7e" class="outline-3">
+<h3 id="orgb48cc7e">Headline references</h3>
+<div class="outline-text-3" id="text-orgb48cc7e">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org7da7045">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">save-excursion</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> file <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">get-file-buffer</span> file<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-open-link-from-string</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-make-link-string</span> headline<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">save-restriction</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-narrow-to-subtree</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">buffer-string</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgea9915d" class="outline-2">
+<h2 id="orgea9915d">Tables</h2>
+<div class="outline-text-2" id="text-orgea9915d">
+</div>
+<div id="outline-container-orgcb77bb6" class="outline-3">
+<h3 id="orgcb77bb6">LaTeX Table Export</h3>
+<div class="outline-text-3" id="text-orgcb77bb6">
+</div>
+<div id="outline-container-orgd8a40bb" class="outline-4">
+<h4 id="orgd8a40bb">booktabs</h4>
+<div class="outline-text-4" id="text-orgd8a40bb">
+<p>
+This source block can be used to wrap a table in the latex <code>booktabs</code>
+environment. The source block adds a <code>toprule</code> and <code>bottomrule</code> (so
+don&rsquo;t use <code>hline</code> at the top or bottom of the table).  The <code>hline</code>
+after the header is replaced with a <code>midrule</code>.
+</p>
+
+<p>
+Note that this function bypasses the Org-mode LaTeX exporter and calls
+<code>orgtbl-to-generic</code> to create the output table.  This means that the
+entries in the table are not translated from Org-mode to LaTeX.
+</p>
+
+<p>
+It takes the following arguments &#x2013; all but the first two are
+optional.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">arg</th>
+<th scope="col" class="org-left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">table</td>
+<td class="org-left">a reference to the table</td>
+</tr>
+
+<tr>
+<td class="org-left">align</td>
+<td class="org-left">alignment string</td>
+</tr>
+
+<tr>
+<td class="org-left">env</td>
+<td class="org-left">optional environment, default to &ldquo;tabular&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">width</td>
+<td class="org-left">optional width specification string</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org3d2b3bd">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">flet</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>to-tab <span style="color: #eb4509;">(</span>tab<span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">orgtbl-to-generic</span>
+                  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>lis<span style="color: #eb4509;">)</span>
+                            <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> lis<span style="color: #fd971f;">)</span>
+                                <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>el<span style="color: #eb4509;">)</span>
+                                          <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> el<span style="color: #fd971f;">)</span>
+                                              el
+                                            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> el<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">lis</span><span style="color: #fd971f;">)</span>
+                              lis<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">tab</span><span style="color: #fd971f;">)</span>
+                  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span> <span style="color: #fd971f;">:lend</span> <span style="color: #e2c770;">" \\\\"</span> <span style="color: #fd971f;">:sep</span> <span style="color: #e2c770;">" &amp; "</span> <span style="color: #fd971f;">:hline</span> <span style="color: #e2c770;">"\\hline"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-fill-template</span>
+     <span style="color: #e2c770;">"</span>
+<span style="color: #e2c770;">  \\begin{%env}%width%align</span>
+<span style="color: #e2c770;">  \\toprule</span>
+<span style="color: #e2c770;">  %table</span>
+<span style="color: #e2c770;">  \\bottomrule</span>
+<span style="color: #e2c770;">  \\end{%env}\n"</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">list</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"env"</span>       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> env <span style="color: #e2c770;">"table"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"width"</span>     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> width <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"{%s}"</span> width<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"align"</span>     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> align <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"{%s}"</span> align<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"table"</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">only use \midrule if it looks like there are column headers</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">second</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #eb4509;">(</span>to-tab <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">first</span> table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                        <span style="color: #e2c770;">"\n\\midrule\n"</span>
+                        <span style="color: #eb4509;">(</span>to-tab <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cddr</span> table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span>to-tab table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org89f45d7" class="outline-4">
+<h4 id="org89f45d7">longtable</h4>
+<div class="outline-text-4" id="text-org89f45d7">
+<p>
+This block can be used to wrap a table in the latex <code>longtable</code>
+environment, it takes the following arguments &#x2013; all but the first two
+are optional.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">arg</th>
+<th scope="col" class="org-left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">table</td>
+<td class="org-left">a reference to the table</td>
+</tr>
+
+<tr>
+<td class="org-left">align</td>
+<td class="org-left">optional alignment string</td>
+</tr>
+
+<tr>
+<td class="org-left">width</td>
+<td class="org-left">optional width specification string</td>
+</tr>
+
+<tr>
+<td class="org-left">hline</td>
+<td class="org-left">the string to use as hline separator, defaults to &ldquo;\\hline&rdquo;</td>
+</tr>
+
+<tr>
+<td class="org-left">head</td>
+<td class="org-left">optional &ldquo;head&rdquo; string</td>
+</tr>
+
+<tr>
+<td class="org-left">firsthead</td>
+<td class="org-left">optional &ldquo;firsthead&rdquo; string</td>
+</tr>
+
+<tr>
+<td class="org-left">foot</td>
+<td class="org-left">optional &ldquo;foot&rdquo; string</td>
+</tr>
+
+<tr>
+<td class="org-left">lastfoot</td>
+<td class="org-left">optional &ldquo;lastfoot&rdquo; string</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orge12bf53">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-fill-template</span>
+   <span style="color: #e2c770;">"</span>
+<span style="color: #e2c770;">  \\begin{longtable}%width%align</span>
+<span style="color: #e2c770;">  %firsthead</span>
+<span style="color: #e2c770;">  %head</span>
+<span style="color: #e2c770;">  %foot</span>
+<span style="color: #e2c770;">  %lastfoot</span>
+
+<span style="color: #e2c770;">  %table</span>
+<span style="color: #e2c770;">  \\end{longtable}\n"</span>
+   <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"width"</span>     <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> width <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"{%s}"</span> width<span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"align"</span>     <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> align <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"{%s}"</span> align<span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"firsthead"</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> firsthead <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> firsthead <span style="color: #e2c770;">"\n\\endfirsthead\n"</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"head"</span>      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> head <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> head <span style="color: #e2c770;">"\n\\endhead\n"</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"foot"</span>      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> foot <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> foot <span style="color: #e2c770;">"\n\\endfoot\n"</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"lastfoot"</span>  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> lastfoot <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> lastfoot <span style="color: #e2c770;">"\n\\endlastfoot\n"</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"table"</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">orgtbl-to-generic</span>
+                   <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>lis<span style="color: #eb4509;">)</span>
+                             <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> lis<span style="color: #fd971f;">)</span>
+                                 <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>el<span style="color: #eb4509;">)</span>
+                                           <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> el<span style="color: #fd971f;">)</span>
+                                               el
+                                             <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> el<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">lis</span><span style="color: #fd971f;">)</span>
+                               lis<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">table</span><span style="color: #fd971f;">)</span>
+                   <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span> <span style="color: #fd971f;">:lend</span> <span style="color: #e2c770;">" \\\\"</span> <span style="color: #fd971f;">:sep</span> <span style="color: #e2c770;">" &amp; "</span> <span style="color: #fd971f;">:hline</span> hline<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0915ebc" class="outline-4">
+<h4 id="org0915ebc">booktabs-notes</h4>
+<div class="outline-text-4" id="text-org0915ebc">
+<p>
+This source block builds on <a href="#org3d2b3bd">1</a>.  It accepts two additional
+arguments, both of which are optional.
+</p>
+
+<table id="org3762a69" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">arg</th>
+<th scope="col" class="org-left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">notes</td>
+<td class="org-left">an org-mode table with footnotes</td>
+</tr>
+
+<tr>
+<td class="org-left">lspace</td>
+<td class="org-left">if non-nil, insert <code>addlinespace</code> after <code>bottomrule</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+An example footnote to the <code>arguments</code> table specifies the column
+span. Note the use of LaTeX, rather than Org-mode, markup.
+</p>
+
+<table id="org8985cd7" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">\multicolumn{2}{l}{This is a footnote to the \emph{arguments} table.}</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orga85b9be">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">flet</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>to-tab <span style="color: #eb4509;">(</span>tab<span style="color: #eb4509;">)</span>
+                 <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">orgtbl-to-generic</span>
+                  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>lis<span style="color: #eb4509;">)</span>
+                            <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> lis<span style="color: #fd971f;">)</span>
+                                <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>el<span style="color: #eb4509;">)</span>
+                                          <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> el<span style="color: #fd971f;">)</span>
+                                              el
+                                            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%S"</span> el<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">lis</span><span style="color: #fd971f;">)</span>
+                              lis<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">tab</span><span style="color: #fd971f;">)</span>
+                  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span> <span style="color: #fd971f;">:lend</span> <span style="color: #e2c770;">" \\\\"</span> <span style="color: #fd971f;">:sep</span> <span style="color: #e2c770;">" &amp; "</span> <span style="color: #fd971f;">:hline</span> <span style="color: #e2c770;">"\\hline"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">org-fill-template</span>
+     <span style="color: #e2c770;">"</span>
+<span style="color: #e2c770;">    \\begin{%env}%width%align</span>
+<span style="color: #e2c770;">    \\toprule</span>
+<span style="color: #e2c770;">    %table</span>
+<span style="color: #e2c770;">    \\bottomrule%spacer</span>
+<span style="color: #e2c770;">    %notes</span>
+<span style="color: #e2c770;">    \\end{%env}\n"</span>
+     <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">list</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"env"</span>       <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> env <span style="color: #e2c770;">"table"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"width"</span>     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> width <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"{%s}"</span> width<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"align"</span>     <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> align <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"{%s}"</span> align<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"spacer"</span>    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> lspace <span style="color: #e2c770;">"\\addlinespace"</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"table"</span>
+            <span style="color: #696969;">;; </span><span style="color: #696969;">only use \midrule if it looks like there are column headers</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">equal</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">hline</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">second</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #eb4509;">(</span>to-tab <span style="color: #fd971f;">(</span><span style="color: #fd971f;">list</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">first</span> table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                        <span style="color: #e2c770;">"\n\\midrule\n"</span>
+                        <span style="color: #eb4509;">(</span>to-tab <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cddr</span> table<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span>to-tab table<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #e2c770;">"notes"</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> notes <span style="color: #b6e63e;">(</span>to-tab notes<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgea86cf5" class="outline-3">
+<h3 id="orgea86cf5">Elegant lisp for transposing a matrix</h3>
+<div class="outline-text-3" id="text-orgea86cf5">
+<table id="org4b6ad2a" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orga2f9ca9">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">apply</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">mapcar*</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">list</span> table<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<table id="org37be062" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">5</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org6729bb1" class="outline-3">
+<h3 id="org6729bb1">Convert every element of a table to a string</h3>
+<div class="outline-text-3" id="text-org6729bb1">
+<table id="org40b34d1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">2</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">a</td>
+<td class="org-right">b</td>
+<td class="org-right">c</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org87df876">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">all-to-string</span> <span style="color: #fd971f;">(</span>tbl<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">listp</span> tbl<span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">all-to-string</span> tbl<span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">stringp</span> tbl<span style="color: #eb4509;">)</span>
+          tbl
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%s"</span> tbl<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span>all-to-string tbl<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>row<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span>cell<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> cell<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> row<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> tbl<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<table id="org4ba99e1" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">nil</td>
+<td class="org-left">nil</td>
+<td class="org-left">nil</td>
+</tr>
+
+<tr>
+<td class="org-left">t</td>
+<td class="org-left">t</td>
+<td class="org-left">t</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">(</span>row<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapcar</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span>cell<span style="color: #fd971f;">)</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">stringp</span> cell<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> row<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> tbl<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<table id="org506ba4b" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">t</td>
+<td class="org-left">t</td>
+<td class="org-left">t</td>
+</tr>
+
+<tr>
+<td class="org-left">t</td>
+<td class="org-left">t</td>
+<td class="org-left">t</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org612ec31" class="outline-2">
+<h2 id="org612ec31">Misc</h2>
+<div class="outline-text-2" id="text-org612ec31">
+</div>
+<div id="outline-container-org47a3519" class="outline-3">
+<h3 id="org47a3519">File-specific Version Control logging</h3>
+<div class="outline-text-3" id="text-org47a3519">
+<p>
+This function will attempt to retrieve the entire commit log for the
+file associated with the current buffer and insert this log into the
+export. The function uses the Emacs VC commands to interface to the
+local version control system, but has only been tested to work with
+Git. &rsquo;limit&rsquo; is currently unsupported.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org9b871c8">  <span style="color: #696969;">;; </span><span style="color: #696969;">Most of this code is copied from vc.el vc-print-log</span>
+  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">vc</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">vc-find-backend-function</span>
+         <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">vc-backend</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">buffer-file-name</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">get-buffer</span> buf<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">print-log</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>limit <span style="color: #9c91e4; font-weight: bold;">-1</span><span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span>vc-fileset nil<span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span>backend nil<span style="color: #eb4509;">)</span>
+          <span style="color: #eb4509;">(</span>files nil<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">get-buffer</span> buf<span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> vc-fileset <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">vc-deduce-fileset</span> t<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #e74c3c; font-weight: bold;">FIXME:</span><span style="color: #696969;"> Why t? --Stef</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> backend <span style="color: #fd971f;">(</span><span style="color: #fd971f;">car</span> vc-fileset<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> files <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">cadr</span> vc-fileset<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-temp-buffer</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>status <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">vc-call-backend</span>
+                       backend <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">print-log</span> files <span style="color: #fd971f;">(</span><span style="color: #fd971f;">current-buffer</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">processp</span> status<span style="color: #eb4509;">)</span>   <span style="color: #696969;">; </span><span style="color: #696969;">Make sure status is a process</span>
+                     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">=</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">process-exit-status</span> status<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">which has not terminated</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">while</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">not</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">eq</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">exit</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">process-status</span> status<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">sit-for</span> <span style="color: #9c91e4; font-weight: bold;">1</span> t<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">buffer-string</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb896af4" class="outline-3">
+<h3 id="orgb896af4">Trivial python code blocks</h3>
+<div class="outline-text-3" id="text-orgb896af4">
+<div class="org-src-container">
+<pre class="src src-python" id="orgea82758">a
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-python" id="org26450a0">a + b
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf2dca12" class="outline-3">
+<h3 id="orgf2dca12">Arithmetic</h3>
+<div class="outline-text-3" id="text-orgf2dca12">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org3468fed">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">+</span> a b<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgeaecf93">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">-</span> a b<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgbd8b905">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">*</span> a b<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="orgd2f68ac">  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">/</span> a b<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4048838" class="outline-2">
+<h2 id="org4048838">GANTT Charts</h2>
+<div class="outline-text-2" id="text-org4048838">
+<p>
+The <code>elispgantt</code> source block was sent to the mailing list by Eric
+Fraga.  It was modified slightly by Tom Dye.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp" id="org243194c">  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>dates <span style="color: #e2c770;">""</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>entries <span style="color: #eb4509;">(</span><span style="color: #fd971f;">nthcdr</span> <span style="color: #9c91e4; font-weight: bold;">2</span> table<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>milestones <span style="color: #e2c770;">""</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>nmilestones <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>ntasks <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>projecttime <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>tasks <span style="color: #e2c770;">""</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span>xlength <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"Initial: %s\n"</span> table<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"Entries: %s\n"</span> entries<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">while</span> entries
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>entry <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">first</span> entries<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">listp</span> entry<span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>id <span style="color: #fd971f;">(</span><span style="color: #fd971f;">first</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>type <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">1</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>label <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">2</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>task <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">3</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>dependencies <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">4</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>start <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">5</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>duration <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">6</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>end <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">7</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span>alignment <span style="color: #fd971f;">(</span><span style="color: #fd971f;">nth</span> <span style="color: #9c91e4; font-weight: bold;">8</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">&gt;</span> start projecttime<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> projecttime start<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> type <span style="color: #e2c770;">"task"</span><span style="color: #eb4509;">)</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>end <span style="color: #eb4509;">(</span><span style="color: #fd971f;">+</span> start duration<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                        <span style="color: #b6e63e;">(</span>textposition <span style="color: #eb4509;">(</span><span style="color: #fd971f;">+</span> start <span style="color: #fd971f;">(</span><span style="color: #fd971f;">/</span> duration <span style="color: #9c91e4; font-weight: bold;">2</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                        <span style="color: #b6e63e;">(</span>flush <span style="color: #e2c770;">""</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> alignment <span style="color: #e2c770;">"left"</span><span style="color: #b6e63e;">)</span>
+                        <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">progn</span>
+                          <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> textposition start<span style="color: #eb4509;">)</span>
+                          <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> flush <span style="color: #e2c770;">"[left]"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> alignment <span style="color: #e2c770;">"right"</span><span style="color: #eb4509;">)</span>
+                          <span style="color: #eb4509;">(</span><span style="color: #eb4509;">progn</span>
+                            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> textposition end<span style="color: #fd971f;">)</span>
+                            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> flush <span style="color: #e2c770;">"[right]"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> tasks
+                          <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%s  \\gantttask{%s}{%s}{%d}{%d}{%d}{%s}\n"</span>
+                                  tasks label task start end textposition flush<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> ntasks <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">+</span> <span style="color: #9c91e4; font-weight: bold;">1</span> ntasks<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">&gt;</span> end projecttime<span style="color: #b6e63e;">)</span>
+                        <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> projecttime end<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+                <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> type <span style="color: #e2c770;">"milestone"</span><span style="color: #fd971f;">)</span>
+                    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">progn</span>
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> milestones
+                            <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span>
+                             <span style="color: #e2c770;">"%s  \\ganttmilestone{$\\begin{array}{c}\\mbox{%s}\\\\ \\mbox{%s}\\end{array}$}{%d}\n"</span>
+                             milestones label task start<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> nmilestones <span style="color: #eb4509;">(</span><span style="color: #fd971f;">+</span> <span style="color: #9c91e4; font-weight: bold;">1</span> nmilestones<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> type <span style="color: #e2c770;">"date"</span><span style="color: #b6e63e;">)</span>
+                      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> dates <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"%s  \\ganttdateline{%s}{%d}\n"</span>
+                                          dates label start<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"Ignoring entry with type %s\n"</span> type<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"Ignoring non-list entry %s\n"</span> entry<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">end if list entry</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> entries <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cdr</span> entries<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>  <span style="color: #696969;">; </span><span style="color: #696969;">end while entries left</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\\pgfdeclarelayer{background}</span>
+<span style="color: #e2c770;">  \\pgfdeclarelayer{foreground}</span>
+<span style="color: #e2c770;">  \\pgfsetlayers{background,foreground}</span>
+<span style="color: #e2c770;">  \\renewcommand{\\ganttprojecttime}{%d}</span>
+<span style="color: #e2c770;">  \\renewcommand{\\ganttntasks}{%d}</span>
+<span style="color: #e2c770;">  \\noindent</span>
+<span style="color: #e2c770;">  \\begin{tikzpicture}[y=-0.75cm,x=0.75\\textwidth]</span>
+<span style="color: #e2c770;">    \\begin{pgfonlayer}{background}</span>
+<span style="color: #e2c770;">      \\draw[very thin, red!10!white] (0,1+\\ganttntasks) grid [ystep=0.75cm,xstep=1/\\ganttprojecttime] (1,0);</span>
+<span style="color: #e2c770;">      \\draw[\\ganttdatelinecolour] (0,0) -- (1,0);</span>
+<span style="color: #e2c770;">      \\draw[\\ganttdatelinecolour] (0,1+\\ganttntasks) -- (1,1+\\ganttntasks);</span>
+<span style="color: #e2c770;">    \\end{pgfonlayer}</span>
+<span style="color: #e2c770;">  %s</span>
+<span style="color: #e2c770;">  %s</span>
+<span style="color: #e2c770;">  %s</span>
+<span style="color: #e2c770;">  \\end{tikzpicture}"</span> projecttime ntasks tasks milestones dates<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5dcdde9" class="outline-2">
+<h2 id="org5dcdde9">Available languages</h2>
+<div class="outline-text-2" id="text-org5dcdde9">
+</div>
+
+<div id="outline-container-orga608e9c" class="outline-3">
+<h3 id="orga608e9c">From Org&rsquo;s core</h3>
+<div class="outline-text-3" id="text-orga608e9c">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Language</th>
+<th scope="col" class="org-left">Identifier</th>
+<th scope="col" class="org-left">Language</th>
+<th scope="col" class="org-left">Identifier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Asymptote</td>
+<td class="org-left">asymptote</td>
+<td class="org-left">Awk</td>
+<td class="org-left">awk</td>
+</tr>
+
+<tr>
+<td class="org-left">Emacs Calc</td>
+<td class="org-left">calc</td>
+<td class="org-left">C</td>
+<td class="org-left">C</td>
+</tr>
+
+<tr>
+<td class="org-left">C++</td>
+<td class="org-left">C++</td>
+<td class="org-left">Clojure</td>
+<td class="org-left">clojure</td>
+</tr>
+
+<tr>
+<td class="org-left">CSS</td>
+<td class="org-left">css</td>
+<td class="org-left">ditaa</td>
+<td class="org-left">ditaa</td>
+</tr>
+
+<tr>
+<td class="org-left">Graphviz</td>
+<td class="org-left">dot</td>
+<td class="org-left">Emacs Lisp</td>
+<td class="org-left">emacs-lisp</td>
+</tr>
+
+<tr>
+<td class="org-left">gnuplot</td>
+<td class="org-left">gnuplot</td>
+<td class="org-left">Haskell</td>
+<td class="org-left">haskell</td>
+</tr>
+
+<tr>
+<td class="org-left">Javascript</td>
+<td class="org-left">js</td>
+<td class="org-left">LaTeX</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">Ledger</td>
+<td class="org-left">ledger</td>
+<td class="org-left">Lisp</td>
+<td class="org-left">lisp</td>
+</tr>
+
+<tr>
+<td class="org-left">Lilypond</td>
+<td class="org-left">lilypond</td>
+<td class="org-left">MATLAB</td>
+<td class="org-left">matlab</td>
+</tr>
+
+<tr>
+<td class="org-left">Mscgen</td>
+<td class="org-left">mscgen</td>
+<td class="org-left">Objective Caml</td>
+<td class="org-left">ocaml</td>
+</tr>
+
+<tr>
+<td class="org-left">Octave</td>
+<td class="org-left">octave</td>
+<td class="org-left">Org-mode</td>
+<td class="org-left">org</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Perl</td>
+<td class="org-left">perl</td>
+</tr>
+
+<tr>
+<td class="org-left">Plantuml</td>
+<td class="org-left">plantuml</td>
+<td class="org-left">Python</td>
+<td class="org-left">python</td>
+</tr>
+
+<tr>
+<td class="org-left">R</td>
+<td class="org-left">R</td>
+<td class="org-left">Ruby</td>
+<td class="org-left">ruby</td>
+</tr>
+
+<tr>
+<td class="org-left">Sass</td>
+<td class="org-left">sass</td>
+<td class="org-left">Scheme</td>
+<td class="org-left">scheme</td>
+</tr>
+
+<tr>
+<td class="org-left">GNU Screen</td>
+<td class="org-left">screen</td>
+<td class="org-left">shell</td>
+<td class="org-left">sh</td>
+</tr>
+
+<tr>
+<td class="org-left">SQL</td>
+<td class="org-left">sql</td>
+<td class="org-left">SQLite</td>
+<td class="org-left">sqlite</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org8ffa57e" class="outline-3">
+<h3 id="org8ffa57e">From Org&rsquo;s contrib/babel/langs</h3>
+<div class="outline-text-3" id="text-org8ffa57e">
+<ul class="org-ul">
+<li>ob-oz.el, by Torsten Anders and Eric Schulte</li>
+<li>ob-fomus.el, by Torsten Anders</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0f9e909" class="outline-2">
+<h2 id="org0f9e909">Default result for block execution</h2>
+<div class="outline-text-2" id="text-org0f9e909">
+<p>
+When a source code block has no <code>:result</code> parameter, the default
+behavior is to use the <i>functional value</i> of the execution as the
+result.  However, some languages use an option to deviate from
+this default behavior.  Below is a list of such options:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Org Babel file</th>
+<th scope="col" class="org-left">Default result</th>
+<th scope="col" class="org-left">Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">ob-shell.el</td>
+<td class="org-left">output</td>
+<td class="org-left">org-babel-shell-results-defaults-to-output</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Org-mode People</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

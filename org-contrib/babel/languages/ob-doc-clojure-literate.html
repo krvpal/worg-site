@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org-babel-clojure Literate Programming</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="stardiviner" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org-babel-clojure Literate Programming</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd6f37a9">Motivation</a></li>
+<li><a href="#org0337015">Configuration</a>
+<ul>
+<li><a href="#org3b11ed2">my sample confguration</a></li>
+</ul>
+</li>
+<li><a href="#orged750a3">Auto Start CIDER REPL</a></li>
+<li><a href="#org6ea1aa3">Specify and use default CIDER session</a></li>
+<li><a href="#org6492687">Support auto initiate session</a></li>
+<li><a href="#orgc8e9e23">Support insert an inline image as result</a></li>
+<li><a href="#org376a100">More functions</a></li>
+<li><a href="#orga43c803">Release History</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org-babel support for
+<a href="http://clojure.org/">Clojure</a>
+</p>
+<p>
+<a href="http://clojure.org/">
+<img src="http://clojure.org/images/clojure-logo-120b.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-orgd6f37a9" class="outline-2">
+<h2 id="orgd6f37a9">Motivation</h2>
+<div class="outline-text-2" id="text-orgd6f37a9">
+<p>
+Setup scaffold for Clojure Literate Programming in Org-mode.
+</p>
+
+<p>
+I like Emacs Org-mode “Literate Programming” very much. It’s a kind of paradigm.
+I can apply this idea on many places. Now Clojure is my favourite programming
+language. I hope to combine them together. But ob-clojure does not suitable for
+Literate Programming very much like other language babel (like Python) supports.
+</p>
+
+<p>
+So I decide to solve this problem in my way.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0337015" class="outline-2">
+<h2 id="org0337015">Configuration</h2>
+<div class="outline-text-2" id="text-org0337015">
+</div>
+<div id="outline-container-org3b11ed2" class="outline-3">
+<h3 id="org3b11ed2">my sample confguration</h3>
+<div class="outline-text-3" id="text-org3b11ed2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ob-clojure-literate</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">ob-clojure-literate-auto-jackin-p</span> t<span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;;; </span><span style="color: #696969;">no project, CIDER jack-in outside of project.</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">ISSUE: can't use `</span><span style="color: #fd971f;">clj-refactor</span><span style="color: #696969;">'</span>
+<span style="color: #696969;">;; </span><span style="color: #696969;">(setq ob-clojure-literate-project-location nil)</span>
+<span style="color: #696969;">;;; </span><span style="color: #696969;">use `</span><span style="color: #fd971f;">ob-clojure/</span><span style="color: #696969;">' as ob-clojure-literate project.</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> ob-clojure-literate-project-location
+      <span style="color: #fd971f;">(</span><span style="color: #fd971f;">expand-file-name</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #fd971f;">user-emacs-directory</span> <span style="color: #e2c770;">"Org-mode/"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> ob-clojure-literate-default-session <span style="color: #e2c770;">"*cider-repl ob-clojure*"</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #696969;">;; </span><span style="color: #696969;">(add-hook 'org-mode-hook #'ob-clojure-literate-mode)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">define-key</span> <span style="color: #fd971f;">org-babel-map</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">kbd</span> <span style="color: #e2c770;">"M-c"</span><span style="color: #fd971f;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">ob-clojure-literate-mode</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged750a3" class="outline-2">
+<h2 id="orged750a3">Auto Start CIDER REPL</h2>
+<div class="outline-text-2" id="text-orged750a3">
+<p>
+Set option <code>ob-clojure-literate-auto-jackin-p</code> to <code>t</code>, and if
+<code>ob-clojure-literate</code> minor mode is enabled, it will auto launch CIDER
+REPL if not exist yet.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">ob-clojure-literate-auto-jackin-p</span> t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6ea1aa3" class="outline-2">
+<h2 id="org6ea1aa3">Specify and use default CIDER session</h2>
+<div class="outline-text-2" id="text-org6ea1aa3">
+<p>
+You can specify a default CIDER session name by option <code>ob-clojure-literate-default-session</code>.
+Its value default is <code>"*cider-repl ob-clojure*"</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">#+begin_src clojure :session "*cider-repl ob-clojure*" :results output</span>
+(prn *<span style="font-weight: bold;">ns</span>*)
+<span style="color: #696969;">#+end_src</span>
+
+<span style="color: #7f7f80;">#+RESULTS:</span>
+<span style="color: #dfd05e;">: </span><span style="color: #e2c770;">#namespace[user]</span>
+</pre>
+</div>
+
+<p>
+There is a command (<code>ob-clojure-literate-specify-session-header-argument</code>) to insert this session
+name header argument. You can bind it to a keybinding.
+</p>
+
+<p>
+It is smart enough to auto choose from exist sessions if there are more than one.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6492687" class="outline-2">
+<h2 id="org6492687">Support auto initiate session</h2>
+<div class="outline-text-2" id="text-org6492687">
+<p>
+ob-clojure-literate has support for auto initiate session with
+ob-core.el built-in function <code>org-babel-initiate-session</code>, which is used
+by commands like <code>org-babel-switch-to-session</code> / ([C-c C-v C-z]).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc8e9e23" class="outline-2">
+<h2 id="orgc8e9e23">Support insert an inline image as result</h2>
+<div class="outline-text-2" id="text-orgc8e9e23">
+<p>
+ob-clojure by default does not support generate graphics file link as
+inline image result like other Babel languages. Like ob-gnuplot, ob-R
+etc support this behavior.
+</p>
+
+<p>
+Currently ob-clojure-literate only support Incanter. Use this feature like this:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #696969;">#+begin_src clojure :dir "data/images" :results graphics :file "incanter-plot.png"</span>
+(use '(incanter core stats datasets charts io pdf))
+
+(def incanter-plot (histogram (sample-normal 1000)))
+<span style="color: #696969;">#+end_src</span>
+
+<span style="color: #7f7f80;">#+RESULTS:</span>
+[[<span style="color: #e74c3c;"><a href="file:data/images/incanter-plot.png">file:data/images/incanter-plot.png</a></span>
+</pre>
+</div>
+
+<p>
+Currently (when I write this document), CIDER is going to add
+content-type result which will support display image. The discussion and PR is at here:
+</p>
+
+<ul class="org-ul">
+<li><a href="https://github.com/clojure-emacs/cider/issues/1510">https://github.com/clojure-emacs/cider/issues/1510</a></li>
+<li><a href="https://github.com/clojure-emacs/cider/pull/2248/files">https://github.com/clojure-emacs/cider/pull/2248/files</a></li>
+<li>old prototype project: <a href="https://github.com/technomancy/nrepl-discover">https://github.com/technomancy/nrepl-discover</a></li>
+<li>a nice try demo:
+<ul class="org-ul">
+<li><a href="https://github.com/clojure-emacs/cider/issues/1510#issuecomment-373988901">https://github.com/clojure-emacs/cider/issues/1510#issuecomment-373988901</a></li>
+<li><a href="https://github.com/clojure-emacs/cider/pull/2248">https://github.com/clojure-emacs/cider/pull/2248</a></li>
+</ul></li>
+<li><a href="https://github.com/clojure-emacs/cider-nrepl/pull/517">https://github.com/clojure-emacs/cider-nrepl/pull/517</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org376a100" class="outline-2">
+<h2 id="org376a100">More functions</h2>
+<div class="outline-text-2" id="text-org376a100">
+<p>
+There are some functions inside this library that I have not
+represented here. I might update this document someday.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga43c803" class="outline-2">
+<h2 id="orga43c803">Release History</h2>
+<div class="outline-text-2" id="text-orga43c803">
+<p>
+Original this package is on GitHub (<a href="https://github.com/stardiviner/ob-clojure-literate">https://github.com/stardiviner/ob-clojure-literate</a>).
+If you&rsquo;re interested in this project, PR welcome. or contact me.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: stardiviner</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

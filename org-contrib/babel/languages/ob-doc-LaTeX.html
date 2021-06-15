@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LaTeX Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Tom Dye" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">LaTeX Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0496cbc">Introduction</a></li>
+<li><a href="#orge1df690">Requirements and Setup</a></li>
+<li><a href="#orgd31a614">Org Mode Features for LaTeX Source Code Blocks</a>
+<ul>
+<li><a href="#org35ede11">Header Arguments</a></li>
+<li><a href="#org2327347">Sessions</a></li>
+<li><a href="#orgbc29e0a">Result Types</a></li>
+<li><a href="#org542da04">Other</a></li>
+</ul>
+</li>
+<li><a href="#orgeaa08e0">Examples of Use</a>
+<ul>
+<li><a href="#orgad1dbf7">&ldquo;Hello World&rdquo;</a></li>
+<li><a href="#orgc783178">Andreas Leha</a></li>
+<li><a href="#org7b88758">Backend dependent execution &#x2013; conditionally export tikz to SVG on HTML export</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+  <p>
+    Org Mode support for <a href="http://www.tug.org/">LaTeX</a>
+    Source Code Blocks
+  </p>
+  <p>
+    <a href="http://www.tug.org/">
+      <img src="images/latex-logo-for-banner.png"/>
+    </a>
+  </p>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #eb4509;">\LaTeX</span>
+</pre>
+</div>
+
+<div class="latex">
+
+<div class="figure">
+<p><img src="latex-logo.png" alt="latex-logo.png" />
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-org0496cbc" class="outline-2">
+<h2 id="org0496cbc">Introduction</h2>
+<div class="outline-text-2" id="text-org0496cbc">
+<p>
+LaTeX is a document markup language and a document preparation system
+for the TeX typesetting program.  The TeX program was developed by
+Donald Knuth at Stanford University to typeset complex mathematics.
+LaTeX is an extensible set of TeX macros designed to ease preparation
+of documents such as letters, articles, reports, and books.  The
+current version is LaTeX2e.  An ambitious update, LaTeX3, has been in
+the works for some time.
+</p>
+
+<p>
+Org Mode is able to export LaTeX directly<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. LaTeX code embedded
+in an Org Mode file (not within source code blocks) is exported
+correctly to a number of the export backends<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+</p>
+
+<p>
+LaTeX source code blocks can be used to tangle a LaTeX source file, or
+to create bitmap images or pdf snippets of arbitrary LaTeX code.
+Typically, this latter use involves mathematics, but it conceivably
+extends to any TeX output<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>. The LaTeX logo at the top of this
+page is a bitmap image generated from a simple LaTeX source code
+block.  The complex example provided by , below, uses the
+TikZ package to create a graphics image.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge1df690" class="outline-2">
+<h2 id="orge1df690">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orge1df690">
+<p>
+In order to use LaTeX source code blocks to their full capacity, a
+working LaTeX installation is required.<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> LaTeX systems are
+distributed widely through various channels and one should be
+available for your computer system.  A good place to find one is the
+<a href="http://www.tug.org">TeX Users Group</a>.
+</p>
+
+<p>
+Once LaTeX is installed and is working correctly, you will need to
+tell Emacs where to find the various LaTeX executable files.  The
+location of these files is likely distribution dependent: my MacTeX
+distribution places them in the <code>/usr/texbin</code> subdirectory.
+Accordingly, I have this in <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> <span style="color: #fd971f;">exec-path</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"/usr/texbin"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Org Mode can generate <a href="http://www.w3.org/Press/PNG-fact.html">Portable Network Graphics</a> (png) bitmaps from
+LaTeX source code blocks, which it does with the <code>dvipng</code> program that
+comes with most LaTeX distributions.  If you want to generate bitmaps
+in other file formats, then you will need to install <a href="http://www.imagemagick.org/script/index.php">ImageMagick</a>, a
+software suite to create, edit, compose or convert bitmap images.
+Ensure that the ImageMagick executables are installed somewhere on the
+Emacs <code>exec-path</code>.
+</p>
+
+<p>
+If you plan to edit LaTeX source code blocks separately, with <code>C-c</code> &rsquo;,
+or want to control the size of pdf snippets, then it is highly
+recommended that <a href="http://www.gnu.org/software/auctex/">AucTeX</a> be installed, as well.  AucTeX is an
+extensible package for writing and formatting TeX files.  Assuming
+that AucTeX is installed properly, the following line in <code>.emacs</code> will
+ensure that AucTeX is loaded.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">load</span> <span style="color: #e2c770;">"auctex.el"</span> nil t t<span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Also highly recommended is <a href="http://www.gnu.org/software/auctex/reftex.html">RefTeX</a>, a cross-reference, bibliography,
+glossary, and index manager initially written by the creator of Org
+Mode, Carsten Dominik.  Add the following line to <code>.emacs</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">LaTeX-mode-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">turn-on-reftex</span><span style="color: #eb4509;">)</span> 
+</pre>
+</div>
+
+<p>
+Finally, you&rsquo;ll need to ensure that <code>org-babel-load-languages</code> includes
+an entry for LaTeX.  Typically, <code>org-babel-load-languages</code> will contain
+many entries.  The example below omits other languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+   <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>latex . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd31a614" class="outline-2">
+<h2 id="orgd31a614">Org Mode Features for LaTeX Source Code Blocks</h2>
+<div class="outline-text-2" id="text-orgd31a614">
+</div>
+<div id="outline-container-org35ede11" class="outline-3">
+<h3 id="org35ede11">Header Arguments</h3>
+<div class="outline-text-3" id="text-org35ede11">
+<p>
+LaTeX source code blocks set default values for two standard header
+arguments.  In addition, several LaTeX-specific header arguments are
+defined to control creation of bitmap images and pdf snippets.
+</p>
+</div>
+
+<div id="outline-container-org4624489" class="outline-4">
+<h4 id="org4624489">LaTeX-specific Default Values</h4>
+<div class="outline-text-4" id="text-org4624489">
+<p>
+The LaTeX-specific default value of the <a href="https://orgmode.org/manual/results.html#results"><code>:results</code> header argument</a> is
+&ldquo;latex&rdquo;, which wraps the results in a <code>#+BEGIN_LaTeX ... #+END_LaTeX</code>
+block.
+</p>
+
+<p>
+The LaTeX-specific default value of the <a href="https://orgmode.org/manual/exports.html#exports"><code>:exports</code> header argument</a> is
+&ldquo;results&rdquo;.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7b378b9" class="outline-4">
+<h4 id="org7b378b9">LaTeX-specific Header Arguments</h4>
+<div class="outline-text-4" id="text-org7b378b9">
+<p>
+The standard <a href="https://orgmode.org/manual/file.html#file"><code>:file</code> header argument</a> associated with a LaTeX source
+code block by itself can take the name of either a Portable Network
+Graphics (png) or a Portable Document Format (pdf) file.  File names
+for other bitmap file types can be supplied in conjunction with the
+<code>:imagemagick</code> header argument, described below.
+</p>
+
+<p>
+The <code>:buffer</code> header argument is a LaTeX-specific header argument that
+takes the values <code>yes</code> or <code>no</code>.  It is consulted when a bitmap image has
+been requested using the <code>:file</code> header argument.  If <code>:buffer yes</code>, the
+default, then Org Mode consults the values of <code>org-format-latex-options</code>
+and passes these to the <code>dvipng</code> program.  If <code>:buffer no</code>, then Org Mode
+takes background and foreground colors from the Emacs buffer.
+</p>
+
+<p>
+Several LaTeX-specfic header arguments control production of pdf
+snippets.  The LaTeX-specific <code>:headers</code> header argument takes a Lisp
+list that specifies entries for the LaTeX preamble, e.g.,
+&rsquo;(&ldquo;\\usepackage{tikz}&rdquo;).  The <code>:fit</code> header argument invokes the <a href="http://www.ctan.org/tex-archive/macros/latex/contrib/preview">LaTeX
+preview package</a>, which is developed and distributed along with AucTeX.
+The <code>:border</code> header argument takes a <a href="http://en.wikibooks.org/wiki/LaTeX/Useful_Measurement_Macros#Length_.27macros.27">LaTeX length</a>, which should be
+greater than <code>0.50001bp</code>, or half a usual PostScript point.  This can be
+used to make pdf pages larger than they are by default.  The header
+arguments <code>:pdfheight</code> and <code>:pdfwidth</code> set the dimensions of the pdf page.
+They can be passed a valid LaTeX length.
+</p>
+
+<p>
+Andreas Leha added the ability to produce bitmaps in formats other
+than png, using the LaTeX-specific <code>:imagemagick</code> header argument.
+Quoting Andreas&rsquo; notice sent to the Org Mode list<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup>.
+</p>
+
+<p>
+LaTeX source blocks now have three new options:
+</p>
+<dl class="org-dl">
+<dt><code>:imagemagick</code></dt><dd>When not nil the source block is processed to pdf and the pdf is
+converted with ImageMagick to whatever is given as <code>:file</code>.
+Thus, the format is not limited to png.</dd>
+<dt><code>:iminoptions</code></dt><dd>This is passed to ImageMagick before the pdf file.</dd>
+<dt><code>:imoutoptions</code></dt><dd>This is passed to ImageMagick before the output file.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2327347" class="outline-3">
+<h3 id="org2327347">Sessions</h3>
+<div class="outline-text-3" id="text-org2327347">
+<p>
+LaTeX does not support sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbc29e0a" class="outline-3">
+<h3 id="orgbc29e0a">Result Types</h3>
+<div class="outline-text-3" id="text-orgbc29e0a">
+<p>
+The default result type is <code>latex</code>, which wraps the results in a
+<code>#+BEGIN_LaTeX ... #+END_LaTeX</code> block.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org542da04" class="outline-3">
+<h3 id="org542da04">Other</h3>
+<div class="outline-text-3" id="text-org542da04">
+<p>
+LaTeX source code blocks are a special case because their
+functionality largely overlaps with the export facilities in Org Mode.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeaa08e0" class="outline-2">
+<h2 id="orgeaa08e0">Examples of Use</h2>
+<div class="outline-text-2" id="text-orgeaa08e0">
+</div>
+<div id="outline-container-orgad1dbf7" class="outline-3">
+<h3 id="orgad1dbf7">&ldquo;Hello World&rdquo;</h3>
+<div class="outline-text-3" id="text-orgad1dbf7">
+<p>
+At its simplest, Org Mode evaluation of LaTeX source code blocks with
+<code>C-c C-c</code> wraps the results in a <code>#+BEGIN_LaTeX ... #+END_LaTeX</code> block.
+</p>
+
+<pre class="example">
+#+name: hello-world
+#+BEGIN_SRC latex
+\LaTeX
+#+END_SRC
+</pre>
+
+
+<pre class="example">
+#+RESULTS: hello-world
+#+BEGIN_LaTeX
+\LaTeX
+#+END_LaTeX
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc783178" class="outline-3">
+<h3 id="orgc783178">Andreas Leha</h3>
+<div class="outline-text-3" id="text-orgc783178">
+<p>
+This complex example was posted to the Org Mode list by Andreas Leha.
+It depends on a working installation of the R statistical
+software.<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup> The code makes use of R sessions to preserve state
+between R source code blocks.
+</p>
+
+<p>
+The first source code block loads the <a href="http://www.texample.net/tikz/resources/">TikZ package</a>, which defines a
+language to produce vector graphics from a geometric/algebraic
+description.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">  library("tikzDevice")
+</pre>
+</div>
+
+<p>
+A simple plot is generated and output as LaTeX code by the TikZ device
+in R.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R" id="orga8335f3">  tikz(console=TRUE, width=4, height=4)
+  plot(rnorm(100), rnorm(100))
+  dummy &lt;- dev.off()
+</pre>
+</div>
+
+<p>
+The LaTeX output of this R code is processed by a LaTeX source code
+block, using Org Mode&rsquo;s noweb syntax.  Note the various <code>#+header:</code>
+lines and their settings, which serve to configure ImageMagick.  In
+this case, a png file is being produced outside the usual Org Mode
+path through <code>dvipng</code>.  Note that the header presented here has been
+simplified somewhat.  Interested readers might want to review Andreas&rsquo;
+original post.
+</p>
+
+<pre class="example">
+#+name: test_plot_png
+#+header: :exports results :file test.png 
+#+header: :imagemagick yes :iminoptions -density 600 :imoutoptions -geometry 400 
+#+header: :fit yes :noweb yes :headers '("\\usepackage{tikz}")
+#+begin_src latex :exports results :file test.png 
+  &lt;&lt;test_plot()&gt;&gt;
+#+end_src
+</pre>
+
+
+<p>
+With this header, the LaTeX output of the TikZ device in R yields a
+graph of the random number generation.
+</p>
+
+
+<div class="figure">
+<p><img src="images/test.png" alt="test.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Results of evaluating a LaTeX source code block.</p>
+</div>
+
+<p>
+If the header is changed so the results are not written to a file,
+then the LaTeX code generated by the TikZ device is written to the Org
+Mode buffer.  The results shown below have been shortened somewhat for
+illustrative purposes.
+</p>
+
+<pre class="example">
+#+name: test_plot_tikz
+#+begin_src latex :noweb yes :exports results
+  &lt;&lt;test_plot()&gt;&gt;
+#+end_src
+</pre>
+
+
+<pre class="example">
+#+BEGIN_LaTeX
+% Created by tikzDevice version 0.6.2 on 2012-02-08 21:28:07
+% !TEX encoding = UTF-8 Unicode
+\begin{tikzpicture}[x=1pt,y=1pt]
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+\definecolor[named]{fillColor}{rgb}{1.00,1.00,1.00}
+\fill[color=fillColor,fill opacity=0.00,] (0,0) rectangle (289.08,289.08);
+\begin{scope}
+\path[clip] ( 49.20, 61.20) rectangle (263.88,239.88);
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (184.34, 99.14) circle (  2.25);
+
+...
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] (143.44,134.70) circle (  2.25);
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (289.08,289.08);
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 75.29, 61.20) -- (250.80, 61.20);
+
+\draw[color=drawColor,line cap=round,line join=round,fill opacity=0.00,] ( 49.20, 61.20) --
+</pre>
+
+<p>
+:	(263.88, 61.20) &#x2013;
+:	(263.88,239.88) &#x2013;
+:	( 49.20,239.88) &#x2013;
+:	( 49.20, 61.20);
+</p>
+<pre class="example">
+\end{scope}
+\begin{scope}
+\path[clip] (  0.00,  0.00) rectangle (289.08,289.08);
+\definecolor[named]{drawColor}{rgb}{0.00,0.00,0.00}
+
+\node[color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at (156.54, 13.20) {rnorm(100)};
+
+\node[rotate= 90.00,color=drawColor,anchor=base,inner sep=0pt, outer sep=0pt, scale=  1.00] at ( 13.20,150.54) {rnorm(100)};
+\end{scope}
+\end{tikzpicture}
+#+END_LaTeX
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7b88758" class="outline-3">
+<h3 id="org7b88758">Backend dependent execution &#x2013; conditionally export tikz to SVG on HTML export</h3>
+<div class="outline-text-3" id="text-org7b88758">
+<p>
+This example demonstrates the handling of a LaTeX code block
+differently depending on the export backend.  If the following file is
+exported to HTML the tikz code block will be converted to an SVG
+images, while on export to pdf (through LaTeX) the tikz code will
+simply be inserted into the document verbatim.
+</p>
+
+<pre class="example">
+#+LATEX_HEADER: \usepackage{tikz}
+
+First execute the second code block, to define the convenience macro
+and to set the required new variables in ob-latex.el.  Then export to
+HTML and to pdf to see the tree exported as an SVG image and as
+embedded tikz respectively.
+
+* Tikz test
+Here's a tree, exported to both html and pdf.
+
+#+header: :file (by-backend (html "tree.svg") (t 'nil))
+#+header: :imagemagick
+#+header: :results (by-backend (pdf "latex") (t "raw"))
+#+begin_src latex
+  \usetikzlibrary{trees}
+  \begin{tikzpicture}
+    \node [circle, draw, fill=red!20] at (0,0) {1}
+    child { node [circle, draw, fill=blue!30] {2}
+      child { node [circle, draw, fill=green!30] {3} }
+      child { node [circle, draw, fill=yellow!30] {4} }};
+  \end{tikzpicture}
+#+end_src
+
+* COMMENT setup
+#+begin_src emacs-lisp :results silent
+  (setq org-babel-latex-htlatex "htlatex")
+  (defmacro by-backend (&amp;rest body)
+    `(case (if (boundp 'backend) (org-export-backend-name backend) nil) ,@body))
+#+end_src
+</pre>
+
+
+<p>
+This allows for the automatic composition of beautiful scalable
+graphics across both HTML and pdf from a single document and image
+source.
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+See <a href="https://orgmode.org/manual/LaTeX-export.html#LaTeX-export">LaTeX export</a> instructions in the manual.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+See <a href="https://orgmode.org/manual/Embedded-LaTeX.html#Embedded-LaTeX">https://orgmode.org/manual/Embedded-LaTeX.html#Embedded-LaTeX</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+See <a href="http://www.tug.org/texshowcase/">http://www.tug.org/texshowcase/</a> for a showcase of TeX examples.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+You can tangle a LaTeX file without a working LaTeX
+installation, but it won&rsquo;t be possible to compile this file.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
+See <a href="http://lists.gnu.org/archive/html/emacs-orgmode/2011-02/msg01297.html">http://lists.gnu.org/archive/html/emacs-orgmode/2011-02/msg01297.html</a>.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6">6</a></sup> <div class="footpara"><p class="footpara">
+See <a href="https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-R.html">https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-R.html</a>
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Tom Dye</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tracking Habits with Org-mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Matt Lundin" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Tracking Habits with Org-mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgaa9615c">Introduction</a>
+<ul>
+<li><a href="#org08fe02f">Note: New Module (org-habit)</a></li>
+</ul>
+</li>
+<li><a href="#orgd3fd68f">Repeating Tasks</a></li>
+<li><a href="#org60db1ed">Tracking Completion</a></li>
+<li><a href="#org3f8e545">Monitoring Progress</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgaa9615c" class="outline-2">
+<h2 id="orgaa9615c">Introduction</h2>
+<div class="outline-text-2" id="text-orgaa9615c">
+<p>
+Task management systems such as GTD are good for keeping track of
+projects and todos, as well as periodically recurring tasks. But what
+is the best way for remembering the daily tasks that one wants to
+develop as habits? Exercise, relaxation, household cleaning, diet,
+kindness to others&#x2014;such habitual obligations can often get lost in
+the constant clamor of urgent todos. In the midst of everything else,
+how can you learn to stop biting your nails?
+</p>
+
+<p>
+Though the ultimate aim of developing good habits is to internalize
+them so deeply that one needs no reminders (because they become
+&ldquo;second nature&rdquo;), the most difficult stage is the month or so it takes
+to learn a new habit. Success often depends both on a commitment to
+develop a habit <i>and</i> some external means of monitoring one&rsquo;s
+progress.
+</p>
+
+<p>
+This tutorial offers a couple of ideas of how to use org-mode to track
+habits&#x2014;with the ultimate aim, of course, of kicking bad habits and
+learning good ones. A program as powerful as org-mode, of course, has
+multiple routes to the same end, but these are a few of the techniques
+that I have found helpful.
+</p>
+</div>
+
+<div id="outline-container-org08fe02f" class="outline-3">
+<h3 id="org08fe02f">Note: New Module (org-habit)</h3>
+<div class="outline-text-3" id="text-org08fe02f">
+<p>
+John Wiegley has written a new module for org-mode that provides a
+much more robust means of tracking habits than the rather ad-hoc
+methods outlined below. Check back here soon for more details about
+the new module.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd3fd68f" class="outline-2">
+<h2 id="orgd3fd68f">Repeating Tasks</h2>
+<div class="outline-text-2" id="text-orgd3fd68f">
+<p>
+A habit is often something you&rsquo;d like to do every day (or, in some
+cases, every other day or every week). Org-mode makes scheduling such
+repeating tasks very easy. To create a recurring task in org-mode,
+simply schedule the task for the day you&rsquo;d like to start and add a
+&ldquo;repeater&rdquo; such as <code>+1d</code> for every day, <code>+2d</code> for every other day,
+<code>+1w</code> for every week, and so on. Here&rsquo;s an example:
+</p>
+
+<pre class="example">
+** TODO Lift weights
+   SCHEDULED: &lt;2009-01-18 Sun +2d&gt;
+</pre>
+
+
+<p>
+Now the agenda will remind you to lift weights every other day. When
+you mark the item DONE, it will be reactivated as a TODO and
+pushed two days into the future (in this case to January 20).
+</p>
+
+<p>
+(If you are procrastinating often, you can add a period in front of
+the repeater, such as <code>.+2d</code> which will reschedule the completed item
+two days <i>after it is completed</i>.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org60db1ed" class="outline-2">
+<h2 id="org60db1ed">Tracking Completion</h2>
+<div class="outline-text-2" id="text-org60db1ed">
+<p>
+Scheduling a habitual task is only a small step on the path to
+internalizing it. You also need to provide yourself with some
+incentive to learn the habit. Without such incentive, it is easy to
+procrastinate, rescheduling the daily habits&#x2014;the least urgent
+todos&#x2014;to tomorrow&#x2026;and tomorrow&#x2026;and tomorrow.
+</p>
+
+<p>
+Some productivity guides suggest an simple method for learning a
+habit. Let&rsquo;s say you want to exercise daily. Take a calendar and cross
+out each day you exercise. Your goal is to keep the chain of X&rsquo;s
+going.
+</p>
+
+<p>
+Org-mode can provide similar tracking for recurring tasks via the
+variable <code>org-log-repeat</code>. If this variable is set to &ldquo;time&rdquo;, then a
+timestamp will be recorded each time the item is marked done. For the
+example above, the results would look like this:
+</p>
+
+<pre class="example">
+** TODO Lift weights
+   SCHEDULED: &lt;2009-01-22 Thu +2d&gt; 
+   - State "DONE"       [2009-01-16 Fri 23:14]
+   - State "DONE"       [2009-01-14 Wed 17:25]
+</pre>
+
+
+<p>
+You can see whether you&rsquo;ve &ldquo;broken the chain&rdquo; by reviewing the log of
+when you completed the item. If you want even more detailed tracking
+(or want to leave yourself encouraging notes), you can set
+<code>org-log-repeat</code> to &ldquo;note&rdquo;. Then, each time you complete a recurring
+task, you will be prompted to enter a note.
+</p>
+
+<p>
+If you want to enable such logging only for particular tasks, then you
+can do so via properties:
+</p>
+
+<pre class="example">
+** TODO Lift weights
+   SCHEDULED: &lt;2009-01-20 Tue +2d&gt;
+   - State "DONE"       [2009-01-18 Sun 23:22] \\
+     Way to go!
+  :PROPERTIES:
+  :LOGGING:  lognoterepeat
+  :END:
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3f8e545" class="outline-2">
+<h2 id="org3f8e545">Monitoring Progress</h2>
+<div class="outline-text-2" id="text-org3f8e545">
+<p>
+It&rsquo;s nice to have a record of how well you&rsquo;re learning your new habit.
+But it&rsquo;s especially nice to get a visual representation that gives you
+a quick overview of how often you&rsquo;ve &ldquo;broken the chain&rdquo;&#x2014;i.e., let
+the new habit slip.
+</p>
+
+<p>
+One easy way to get a visual representation of a habit is to keep a
+quick chart in a table. If you want to make sure you exercise every
+day, you could type the following:
+</p>
+
+<pre class="example">
+| Week Starting | Mon | Tues | Wed | Thurs | Fri | Sat | Sun 
+</pre>
+
+
+<p>
+And then press tab to create a nice table that you can fill in:
+</p>
+
+<pre class="example">
+| Week Starting | Mon | Tues | Wed | Thurs | Fri | Sat | Sun |
+|---------------+-----+------+-----+-------+-----+-----+-----|
+| Jan 12        | x   | x    | x   | x     |     | x   | x   |
+| Jan 20        | x   | x    | x   |       | x   | x   | x   |
+</pre>
+
+
+<p>
+Ooops. I forgot to exercise a couple of times.
+</p>
+
+<p>
+For a more robust habit tracking, I use the following technique:
+</p>
+
+<p>
+For each daily habit I want to develop, I create a recurring task. I
+also add a special tag &ldquo;DAILY&rdquo;. Then I make sure to check the task as
+DONE each day I complete it:
+</p>
+
+<pre class="example">
+* Habits
+** TODO Do dishes							 :DAILY:
+   SCHEDULED: &lt;2009-01-22 Thu +1d&gt; 
+   - State "DONE"       [2009-01-20 Tue 12:59]
+   - State "DONE"       [2009-01-21 Wed 20:10]
+** TODO Exercise							 :DAILY:
+   SCHEDULED: &lt;2009-01-22 Thu +1d&gt; 
+   - State "DONE"       [2009-01-19 Mon 19:59]
+   - State "DONE"       [2009-01-21 Wed 07:58]
+** TODO Floss								 :DAILY:
+  SCHEDULED: &lt;2009-01-22 Thu +1d&gt; 
+  - State "DONE"       [2009-01-19 Mon 17:15]
+  - State "DONE"       [2009-01-20 Tue 11:05]
+</pre>
+
+
+<p>
+In my agenda view I can quickly filter for daily habits using a
+secondary query:
+</p>
+
+<pre class="example">
+C-c a / DAILY
+</pre>
+
+
+<p>
+Or I can filter out DAILY tasks to unclutter the agenda view:
+</p>
+
+<pre class="example">
+C-c a / - DAILY
+</pre>
+
+
+<p>
+Finally, I can see how well I&rsquo;ve kept up with my habits by using a
+custom agenda command:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-agenda-custom-commands</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"h"</span> <span style="color: #e2c770;">"Daily habits"</span> 
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>agenda <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+   <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-show-log</span> t<span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span>org-agenda-ndays <span style="color: #9c91e4; font-weight: bold;">7</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-log-mode-items</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>state<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-agenda-skip-function</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>org-agenda-skip-entry-if <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">notregexp</span> <span style="color: #e2c770;">":DAILY:"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+  <span style="color: #696969;">;; </span><span style="color: #696969;">other commands here</span>
+  <span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+This command gives me a weekly view of whether and when I accomplished my
+daily goals:
+</p>
+
+<pre class="example">
+Week-agenda (W04):
+Monday     19 January 2009 W04
+  habits:     17:15...... State:     (DONE) TODO Floss                   :DAILY:
+  habits:     19:59...... State:     (DONE) TODO Exercise                :DAILY:
+Tuesday    20 January 2009
+  habits:     11:05...... State:     (DONE) TODO Floss                   :DAILY:
+  habits:     12:59...... State:     (DONE) TODO Do dishes               :DAILY:
+Wednesday  21 January 2009
+  habits:      7:58...... State:     (DONE) TODO Exercise                :DAILY:
+  habits:     20:10...... State:     (DONE) TODO Do dishes               :DAILY:
+Thursday   22 January 2009
+  habits:     Scheduled:  TODO Do dishes                                 :DAILY:
+  habits:     Scheduled:  TODO Exercise                                  :DAILY:
+  habits:     Scheduled:  TODO Floss                                     :DAILY:
+Friday     23 January 2009
+Saturday   24 January 2009
+Sunday     25 January 2009
+</pre>
+
+
+<p>
+Again, these are just a couple of ways that I use org-mode to keep
+track of regular habits. I hope this brief tutorial gives a few more
+ideas about how to use this wonderful time management program.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Matt Lundin</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>orgtbl-ascii-plot.el &#x2013; plots in ascii-art</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">orgtbl-ascii-plot.el &#x2013; plots in ascii-art</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4f686f3">A few examples</a></li>
+<li><a href="#orgf6c16cb">How to</a></li>
+<li><a href="#org9298c96">Additional details</a></li>
+<li><a href="#orge4a20e6">Lisp code (pure ascii)</a></li>
+<li><a href="#org0fe8cc1">Example of extension: unicode characters</a></li>
+<li><a href="#org3916b01">Related work</a></li>
+<li><a href="#org2464cf7">License (GNU GPL)</a></li>
+</ul>
+</div>
+</div>
+<p>
+What about text-only plots in tables ?
+</p>
+
+<p>
+All in Emacs, without any external package.
+</p>
+
+<div id="outline-container-org4f686f3" class="outline-2">
+<h2 id="org4f686f3">A few examples</h2>
+<div class="outline-text-2" id="text-org4f686f3">
+<pre class="example">
+| ! |  x |    sin(x/4) |              |
+|---+----+-------------+--------------|
+| # |  0 |           0 | WWWWWW       |
+| # |  1 |  0.32719470 | WWWWWWWW     |
+| # |  2 |  0.61836980 | WWWWWWWWWh   |
+| # |  3 |  0.84147098 | WWWWWWWWWWW  |
+| # |  4 |  0.97193790 | WWWWWWWWWWWV |
+| # |  5 |  0.99540796 | WWWWWWWWWWWW |
+| # |  6 |  0.90929743 | WWWWWWWWWWWu |
+| # |  7 |  0.72308588 | WWWWWWWWWW-  |
+| # |  8 |  0.45727263 | WWWWWWWWh    |
+| # |  9 |  0.14112001 | WWWWWWV      |
+| # | 10 | -0.19056796 | WWWWH        |
+| # | 11 | -0.50127705 | WWW          |
+| # | 12 | -0.75680250 | Wu           |
+| # | 13 | -0.92901450 | ;            |
+| # | 14 | -0.99895492 |              |
+| # | 15 | -0.95892427 | :            |
+| # | 16 | -0.81332939 | W.           |
+| # | 17 | -0.57819824 | WWu          |
+| # | 18 | -0.27941550 | WWWW-        |
+| # | 19 | 0.050127010 | WWWWWW-      |
+| # | 20 |  0.37415123 | WWWWWWWW:    |
+| # | 21 |  0.65698660 | WWWWWWWWWH   |
+| # | 22 |  0.86749687 | WWWWWWWWWWW: |
+| # | 23 |  0.98250779 | WWWWWWWWWWWH |
+| # | 24 |  0.98935825 | WWWWWWWWWWWH |
+| # | 25 |  0.88729411 | WWWWWWWWWWW- |
+| # | 26 |  0.68755122 | WWWWWWWWWW.  |
+| # | 27 |  0.41211849 | WWWWWWWWu    |
+| # | 28 | 0.091317236 | WWWWWWu      |
+| # | 29 | -0.23953677 | WWWWl        |
+| # | 30 | -0.54402111 | WWh          |
+| # | 31 | -0.78861628 | W-           |
+#+TBLFM: $3=sin($x/3);R::$4='(orgtbl-ascii-draw $3 -1 1)
+</pre>
+
+
+<pre class="example">
+| ! |  x | x^2 |              |
+|---+----+-----+--------------|
+| # |  0 |   0 |              |
+| # |  1 |   1 | .            |
+| # |  2 |   4 | :            |
+| # |  3 |   9 | u            |
+| # |  4 |  16 | W            |
+| # |  5 |  25 | Wu           |
+| # |  6 |  36 | WW:          |
+| # |  7 |  49 | WWH          |
+| # |  8 |  64 | WWWV         |
+| # |  9 |  81 | WWWWH        |
+| # | 10 | 100 | WWWWWW       |
+| # | 11 | 121 | WWWWWWW-     |
+| # | 12 | 144 | WWWWWWWWl    |
+| # | 13 | 169 | WWWWWWWWWW.  |
+| # | 14 | 196 | WWWWWWWWWWWV |
+#+TBLFM: $3=$x*$x::$4='(orgtbl-ascii-draw $3 0 200)
+</pre>
+
+
+<pre class="example">
+| ! |  x |   sqrt(x) |              |
+|---+----+-----------+--------------|
+| # |  0 |         0 |              |
+| # |  1 |         1 | WWW          |
+| # |  2 | 1.4142136 | WWWW:        |
+| # |  3 | 1.7320508 | WWWWW:       |
+| # |  4 |         2 | WWWWWW       |
+| # |  5 | 2.2360680 | WWWWWWh      |
+| # |  6 | 2.4494897 | WWWWWWW-     |
+| # |  7 | 2.6457513 | WWWWWWWH     |
+| # |  8 | 2.8284271 | WWWWWWWWu    |
+| # |  9 |         3 | WWWWWWWWW    |
+| # | 10 | 3.1622777 | WWWWWWWWWu   |
+| # | 11 | 3.3166248 | WWWWWWWWWH   |
+| # | 12 | 3.4641016 | WWWWWWWWWW;  |
+| # | 13 | 3.6055513 | WWWWWWWWWWV  |
+| # | 14 | 3.7416574 | WWWWWWWWWWW: |
+| # | 15 | 3.8729833 | WWWWWWWWWWWl |
+| # | 16 |         4 | WWWWWWWWWWWW |
+#+TBLFM: $3=sqrt($x)::$4='(orgtbl-ascii-draw $3 0 4)
+</pre>
+
+
+<pre class="example">
+| ! |  x |         1/x |              |
+|---+----+-------------+--------------|
+| # |  1 |           1 | WWWWWWWWWWWW |
+| # |  2 |         0.5 | WWWWWW       |
+| # |  3 |  0.33333333 | WWWW         |
+| # |  4 |        0.25 | WWW          |
+| # |  5 |         0.2 | WW;          |
+| # |  6 |  0.16666667 | WW           |
+| # |  7 |  0.14285714 | Wh           |
+| # |  8 |       0.125 | Wu           |
+| # |  9 |  0.11111111 | W-           |
+| # | 10 |         0.1 | W:           |
+| # | 11 | 0.090909091 | W.           |
+| # | 12 | 0.083333333 | W            |
+| # | 13 | 0.076923077 | H            |
+| # | 14 | 0.071428571 | H            |
+| # | 15 | 0.066666667 | V            |
+| # | 16 |      0.0625 | V            |
+| # | 17 | 0.058823529 | h            |
+#+TBLFM: $3=1/$x::$4='(orgtbl-ascii-draw $3 0 1)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgf6c16cb" class="outline-2">
+<h2 id="orgf6c16cb">How to</h2>
+<div class="outline-text-2" id="text-orgf6c16cb">
+<p>
+1- Install it.
+</p>
+<ul class="org-ul">
+<li><p>
+Through ELPA (Emacs package system). Add the repository to your <code>.emacs</code>:
+</p>
+<pre class="example">
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+</pre>
+
+<p>
+List all packages with <code>M-x packages-list-packages</code>,
+look for <code>orgtbl-ascii-plot</code> and install it.
+</p></li>
+<li>Alternatively, download the lisp file
+<a href="https://github.com/tbanel/orgtblasciiplot/blob/master/orgtbl-ascii-plot.el">https://github.com/tbanel/orgtblasciiplot/blob/master/orgtbl-ascii-plot.el</a>
+and load it (for example by typing
+<code>M-x load-file RET orgtbl-ascii-plot.el RET</code>)</li>
+</ul>
+
+<p>
+2- Put the cursor on the column to plot.
+</p>
+
+<p>
+3- Type
+</p>
+<ul class="org-ul">
+<li>either <code>C-c " a</code></li>
+<li>or <code>M-x orgtbl-ascii-plot</code></li>
+</ul>
+<p>
+This adds a new ascii-art column.
+</p>
+
+<p>
+4- The width in characters of the plot may be specified
+   with a numeric prefix:
+</p>
+<ul class="org-ul">
+<li><code>Esc 30 C-c " a</code></li>
+<li><code>Esc 30 M-x orgtbl-ascii-plot</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9298c96" class="outline-2">
+<h2 id="org9298c96">Additional details</h2>
+<div class="outline-text-2" id="text-org9298c96">
+<p>
+The column containing the plot has a column formula.
+When the data column changes, refresh the plot with <code>C-u C-c *</code>.
+</p>
+
+<p>
+The plotting column may be handled in the same way as any other:
+</p>
+<ul class="org-ul">
+<li>remove with <code>M-S-left</code></li>
+<li>moved left with <code>M-left</code></li>
+<li>moved right with <code>M-right</code></li>
+</ul>
+
+<p>
+The column formula may be changed. Here is how it works:
+</p>
+<pre class="example">
+'(orgtbl-ascii-draw $3 15 75 12)
+</pre>
+
+<ul class="org-ul">
+<li><code>$3</code> is the reference to the data column, here the third column.</li>
+<li><code>15</code> is the minimum value to be displayed
+(values lower than that will display &ldquo;too small&rdquo;)</li>
+<li><code>75</code> is the maximum value to be displayed
+(values higher than that will display &ldquo;too large&rdquo;)</li>
+<li><code>12</code> is the width of the column,
+it is optional, and defaults to <code>12</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge4a20e6" class="outline-2">
+<h2 id="orge4a20e6">Lisp code (pure ascii)</h2>
+<div class="outline-text-2" id="text-orge4a20e6">
+<p>
+Moved here:
+<a href="https://github.com/tbanel/orgtblasciiplot/blob/master/orgtbl-ascii-plot.el">https://github.com/tbanel/orgtblasciiplot/blob/master/orgtbl-ascii-plot.el</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0fe8cc1" class="outline-2">
+<h2 id="org0fe8cc1">Example of extension: unicode characters</h2>
+<div class="outline-text-2" id="text-org0fe8cc1">
+<p>
+Here are two examples of different styles.
+</p>
+
+<p>
+Unicode block characters are used to give a smooth effect.
+See <a href="https://en.wikipedia.org/wiki/Block_Elements">https://en.wikipedia.org/wiki/Block_Elements</a>.
+Use one of those drawing functions:
+</p>
+<ul class="org-ul">
+<li><code>orgtbl-ascii-draw</code>   (the default ascii)</li>
+<li><code>orgtbl-uc-draw-grid</code> (unicode with a grid effect)</li>
+<li><code>orgtbl-uc-draw-cont</code> (smooth unicode)</li>
+</ul>
+
+<p>
+This is best viewed with the &ldquo;DejaVu Sans Mono&rdquo; font (use <code>M-x set-default-font</code>).
+</p>
+
+<p>
+Be aware that unicode support is not available everywhere.
+For instance, LaTex export will not work.
+If you plan to export your Org document,
+either draw pure ascii plots,
+or use ascii plots only for quick and throwable visualization.
+</p>
+
+<pre class="example">
+| ! |  x |    sin(x/4) | ascii        | uc grid      | uc cont      |
+|---+----+-------------+--------------+--------------+--------------|
+| # |  0 |           0 | WWWWWW       | ▉▉▉▉▉▉       | ██████       |
+| # |  1 |  0.32719470 | WWWWWWWH     | ▉▉▉▉▉▉▉▊     | ███████▉     |
+| # |  2 |  0.61836980 | WWWWWWWWWh   | ▉▉▉▉▉▉▉▉▉▋   | █████████▋   |
+| # |  3 |  0.84147098 | WWWWWWWWWWW  | ▉▉▉▉▉▉▉▉▉▉▉  | ███████████  |
+| # |  4 |  0.97193790 | WWWWWWWWWWWV | ▉▉▉▉▉▉▉▉▉▉▉▊ | ███████████▊ |
+| # |  5 |  0.99540796 | WWWWWWWWWWWW | ▉▉▉▉▉▉▉▉▉▉▉▉ | ████████████ |
+| # |  6 |  0.90929743 | WWWWWWWWWWW; | ▉▉▉▉▉▉▉▉▉▉▉▍ | ███████████▍ |
+| # |  7 |  0.72308588 | WWWWWWWWWW-  | ▉▉▉▉▉▉▉▉▉▉▎  | ██████████▎  |
+| # |  8 |  0.45727263 | WWWWWWWWh    | ▉▉▉▉▉▉▉▉▋    | ████████▊    |
+| # |  9 |  0.14112001 | WWWWWWV      | ▉▉▉▉▉▉▊      | ██████▊      |
+| # | 10 | -0.19056796 | WWWWV        | ▉▉▉▉▊        | ████▊        |
+| # | 11 | -0.50127705 | WWH          | ▉▉▊          | ██▉          |
+| # | 12 | -0.75680250 | W;           | ▉▍           | █▍           |
+| # | 13 | -0.92901450 | ;            | ▎            | ▍            |
+| # | 14 | -0.99895492 |              |              |              |
+| # | 15 | -0.95892427 | :            | ▏            | ▏            |
+| # | 16 | -0.81332939 | W.           | ▉            | █            |
+| # | 17 | -0.57819824 | WWu          | ▉▉▍          | ██▌          |
+| # | 18 | -0.27941550 | WWWW-        | ▉▉▉▉▎        | ████▎        |
+| # | 19 | 0.050127010 | WWWWWW-      | ▉▉▉▉▉▉▎      | ██████▎      |
+| # | 20 |  0.37415123 | WWWWWWWW:    | ▉▉▉▉▉▉▉▉▏    | ████████▎    |
+| # | 21 |  0.65698660 | WWWWWWWWWH   | ▉▉▉▉▉▉▉▉▉▊   | █████████▉   |
+| # | 22 |  0.86749687 | WWWWWWWWWWW: | ▉▉▉▉▉▉▉▉▉▉▉▏ | ███████████▏ |
+| # | 23 |  0.98250779 | WWWWWWWWWWWH | ▉▉▉▉▉▉▉▉▉▉▉▊ | ███████████▉ |
+| # | 24 |  0.98935825 | WWWWWWWWWWWH | ▉▉▉▉▉▉▉▉▉▉▉▊ | ███████████▉ |
+| # | 25 |  0.88729411 | WWWWWWWWWWW- | ▉▉▉▉▉▉▉▉▉▉▉▎ | ███████████▎ |
+| # | 26 |  0.68755122 | WWWWWWWWWW.  | ▉▉▉▉▉▉▉▉▉▉▏  | ██████████▏  |
+| # | 27 |  0.41211849 | WWWWWWWW;    | ▉▉▉▉▉▉▉▉▍    | ████████▍    |
+| # | 28 | 0.091317236 | WWWWWWu      | ▉▉▉▉▉▉▍      | ██████▌      |
+| # | 29 | -0.23953677 | WWWWu        | ▉▉▉▉▍        | ████▌        |
+| # | 30 | -0.54402111 | WWh          | ▉▉▋          | ██▋          |
+| # | 31 | -0.78861628 | W:           | ▉▏           | █▎           |
+#+TBLFM: $3=sin($x/3);R::$5='(orgtbl-uc-draw-grid $3 -0.99895492 0.99540796 12)::$6='(orgtbl-uc-draw-cont $3 -0.99895492 0.99540796 12)::$4='(orgtbl-ascii-draw $3 -0.99895492 0.99540796 12)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org3916b01" class="outline-2">
+<h2 id="org3916b01">Related work</h2>
+<div class="outline-text-2" id="text-org3916b01">
+<p>
+Below is a unicode ASCII art solution with Zach Holman&rsquo;s shell script
+package Spark: <a href="https://github.com/holman/spark">https://github.com/holman/spark</a>
+</p>
+
+<pre class="example">
+| Measurement | t0 | t1 | t2 | t3 |  t4 | t5 | t6 | t7 | Sparkline |
+|-------------+----+----+----+----+-----+----+----+----+-----------|
+|           1 |  1 | 20 | 12 | 13 | 141 | 13 | 24 | 90 | ▁▁▁▁█▁▂▅  |
+|           2 |  0 |  1 |  2 |  3 |   4 |  5 |  6 |  7 | ▁▂▃▄▅▆▇█  |
+|           3 |  0 |  2 |  4 |  6 |   8 | 10 | 12 | 14 | ▁▂▃▄▅▆▇█  |
+|           4 | -7 | -6 | -5 | -4 |  -3 | -2 | -1 |  0 | ▁▂▃▄▅▆▇█  |
+|           5 |  0 |  0 |  0 |  0 |   0 |  0 |  0 |  0 | ▅▅▅▅▅▅▅▅  |
+#+TBLFM: $10 = '(org-trim (shell-command-to-string "spark $2..$9")); L
+</pre>
+
+
+<p>
+An ongoing discussion <span class="timestamp-wrapper"><span class="timestamp">[2015-01-08 Thu] </span></span> is taking place on the Org mailing list about
+<i>sparlines</i> (<a href="https://en.wikipedia.org/wiki/Sparkline">https://en.wikipedia.org/wiki/Sparkline</a>) by Willem Rein
+Oudshoorn and Michael Brand which could end in yet another way of
+plotting Org tables.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2464cf7" class="outline-2">
+<h2 id="org2464cf7">License (GNU GPL)</h2>
+<div class="outline-text-2" id="text-org2464cf7">
+<p>
+Copyright (C) 2013-2014 Thierry Banel, Michael Brand
+</p>
+
+<p>
+Authors: Thierry Banel, Michael Brand
+</p>
+
+<p>
+Keywords: table, plot, ascii, unicode
+</p>
+
+<p>
+orgtbl-ascii-plot.el is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation, either version 3 of
+the License, or (at your option) any later version.
+</p>
+
+<p>
+orgtbl-ascii-plot.el is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+</p>
+
+<p>
+the GNU General Public License can be obtained here:
+<a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org configuration(s)</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org configuration(s)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgc4a89fa">GTD setups</a></li>
+<li><a href="#orgd3cd242">General Configuration/Customization</a>
+<ul>
+<li><a href="#org4fbd7ea">Some useful keybindings</a></li>
+<li><a href="#org867498e">iimage in org (display images in org files)</a></li>
+<li><a href="#org1bd877b">Capture templates</a>
+<ul>
+<li><a href="#org1a087da">Capture a TODO task to make a phone call to a BBDB contact</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc4a89fa" class="outline-2">
+<h2 id="orgc4a89fa">GTD setups</h2>
+<div class="outline-text-2" id="text-orgc4a89fa">
+<ul class="org-ul">
+<li>David O&rsquo;Toole <a href="https://orgmode.org/worg/code/elisp/dto-org-gtd.el">GTD configuration file</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd3cd242" class="outline-2">
+<h2 id="orgd3cd242">General Configuration/Customization</h2>
+<div class="outline-text-2" id="text-orgd3cd242">
+</div>
+<div id="outline-container-org4fbd7ea" class="outline-3">
+<h3 id="org4fbd7ea">Some useful keybindings</h3>
+<div class="outline-text-3" id="text-org4fbd7ea">
+<p>
+Here is a subset of my personal org-mode key-bindings that others may find
+useful.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-mode-hook</span> 
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\M-n"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">outline-next-visible-heading</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\M-p"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">outline-previous-visible-heading</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #696969;">;; </span><span style="color: #696969;">table</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\C-\M-w"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-table-copy-region</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\C-\M-y"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-table-paste-rectangle</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\C-\M-l"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-table-sort-lines</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #696969;">;; </span><span style="color: #696969;">display images</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\M-I"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-toggle-iimage-in-org</span><span style="color: #b6e63e;">)</span>
+              <span style="color: #696969;">;; </span><span style="color: #696969;">fix tab</span>
+              <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">local-set-key</span> <span style="color: #e2c770;">"\C-y"</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">yank</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+References and explanations of the above:
+</p>
+
+<ul class="org-ul">
+<li>see for an explanation of
+the <code>org-toggle-iimage-in-org</code> function (inline images in org-mode
+files).</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org867498e" class="outline-3">
+<h3 id="org867498e">iimage in org (display images in org files)</h3>
+<div class="outline-text-3" id="text-org867498e">
+<p>
+Thanks to many on the mailing list for this great addition to
+Org-Mode.  See <a href="http://www.netlaputa.ne.jp/~kose/Emacs/iimage.html">iimage</a> for information on <code>iimage-minor-mode</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">  <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">iimage-mode-image-regex-alist</span>
+               <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"\\[\\[file:</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">~?"</span> iimage-mode-image-filename-regex
+                             <span style="color: #e2c770;">"</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">\\]"</span><span style="color: #b6e63e;">)</span>  <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  
+  <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-toggle-iimage-in-org</span> <span style="color: #fd971f;">()</span>
+    <span style="color: #7f7f80;">"display images in your org file"</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">face-underline-p</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-link</span><span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">set-face-underline-p</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-link</span> nil<span style="color: #b6e63e;">)</span>
+        <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">set-face-underline-p</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">org-link</span> t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+    <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">iimage-mode</span> <span style="color: #e2c770;">&#8216;</span>toggle<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1bd877b" class="outline-3">
+<h3 id="org1bd877b">Capture templates</h3>
+<div class="outline-text-3" id="text-org1bd877b">
+</div>
+<div id="outline-container-org1a087da" class="outline-4">
+<h4 id="org1a087da">Capture a TODO task to make a <a href="https://gist.github.com/PhilHudson/a6dd1b7e0b606799cc5d">phone call to a BBDB contact</a></h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

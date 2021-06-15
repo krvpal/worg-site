@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-dot.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* font-lock-warning-face */
+        color: #e2c770;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Dot Source Code Blocks in Org Mode
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Thomas S. Dye
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">tsd[at]tsdye[dot]com
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.graphviz.org/">http://www.graphviz.org/</a>"</span></span><span class="org-block">&gt;Dot&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://language-site/">http://language-site/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.graphviz.org/app.png&quot;/">http://www.graphviz.org/app.png"</a></span></span><span class="org-block"><a href="http://www.graphviz.org/app.png&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-done">[12/12]</span></span><span class="org-level-1">                                       </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Other">Other</a></span></span><span class="org-headline-done"> differences from supported languages
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span><span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span><span class="org-verbatim">Dot</span> is one of six layout programs in the <span class="org-verbatim">Graphviz</span> open source
+graph visualization software, created at AT&amp;T. The <span class="org-verbatim">Graphviz</span> layout
+programs take simple text graph descriptions and make useful diagrams
+in a variety of formats. <span class="org-verbatim">Dot</span> source code blocks call the <span class="org-verbatim">dot</span>
+layout program by default, but can be configured to call any of the
+other five <span class="org-verbatim">Graphviz</span> layout programs.
+
+Graph visualization has applications in many technical domains, where
+it is often used to explore large data sets. A typical use in <span class="org-verbatim">Org
+mode</span> chains the <span class="org-verbatim">dot</span> source code block to a source code block in
+another language that is responsible for converting a data table into
+source code for one of the <span class="org-verbatim">Graphviz</span> layout languages.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span><span class="org-verbatim">Graphviz</span> is distributed on an open source basis under <span class="kc-org-link-url"><a href="http://www.eclipse.org/legal/eplfaq.php">The Eclipse
+Public License</a></span>.  <span class="kc-org-link-url"><a href="http://www.graphviz.org/Download..php">Executable packages</a></span> from AT&amp;T are available for
+Linux, Solaris, Windows, and Mac.
+
+You can configure Org mode to execute <span class="org-verbatim">dot</span> source code blocks by
+adding a line to <span class="org-verbatim">org-babel-load-languages</span>:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+     </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+     </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">dot . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">this line activates dot
+</span></span><span class="org-block-end-line">#+END_SRC
+</span>
+Optionally, <span class="kc-org-link-url"><a href="http://users.skynet.be/ppareit/projects/graphviz-dot-mode/graphviz-dot-mode.html">graphviz-dot-mode</a></span> offers font locking, indentation, and
+preview of graphs. The variable <span class="org-verbatim">org-src-lang-modes</span> can be customized
+to contain an entry that associates <span class="org-verbatim">dot</span> files with
+<span class="org-verbatim">graphviz-dot-mode</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for </span><span class="org-level-1"><span class="org-verbatim">Dot</span></span><span class="org-level-1"> Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span><span class="org-verbatim">Dot</span> source code blocks produce graphics files. The default value for
+the <span class="org-verbatim">:results</span> header argument is "file" and for the <span class="org-verbatim">:exports</span> header
+argument it is "results".
+
+There are two <span class="org-verbatim">dot</span> specific header arguments that can be used to
+               tailor the command line.  They are:
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:cmd</span></span><span class="org-list-dt"> ::</span> this header argument can be used to change the layout
+               program from the default "dot".  <span class="kc-org-link-url"><a href="http://www.graphviz.org/Home.php">Sensible values</a></span>
+               are "neato", "fdp", "sfdp", "twopi", and "circo".
+   <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">:cmdline</span></span><span class="org-list-dt"> ::</span> the default sets the <span class="org-verbatim">dot</span> flag <span class="org-verbatim">-T</span> to the
+                   extension of the output file in order to indicate
+                   the output format. <span class="org-verbatim">Graphviz</span> recognizes three
+                   dozen <span class="kc-org-link-url"><a href="http://www.graphviz.org/content/output-formats">output formats</a></span>. <span class="kc-org-link-url"><a href="http://www.graphviz.org/content/command-line-invocation">Other flags</a></span> that can be set
+                   with <span class="org-verbatim">:cmdline</span> control default graph, node, and
+                   edge attributes, among other functionality.
+
+The <span class="org-verbatim">:file</span> header argument is required for <span class="org-verbatim">dot</span> source code blocks.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span><span class="org-verbatim">Dot</span> does not support sessions.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span><span class="org-verbatim">Dot</span> source code blocks produce graphic files, so the default value
+"file" is the only sensible type of result.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Other
+</span><span class="org-verbatim">Dot</span> source code blocks currently do not evaluate variables.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span>A typical use of a <span class="org-verbatim">dot</span> source code block is to produce a graph
+visualization of a data set.  In this example, the following input
+table 
+
+<span class="org-meta-line">#+name: dot-eg-table</span>
+<span class="org-table">| a | Hello  |</span>
+<span class="org-table">| b | World! |</span>
+
+is passed to a source code block that is responsible for producing
+valid <span class="org-verbatim">dot</span> code 
+
+<span class="org-meta-line">#+name: make-dot</span>
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp :var table=dot-eg-table :results output :exports none
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">mapcar</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote"><span class="org-tag">#'</span></span></span><span class="org-block"><span class="rainbow-delimiters-depth-2"><span class="org-tag">(</span></span></span><span class="org-block"><span class="org-tag">lambda</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">x</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">princ</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s [label =\"%s\", shape = \"box\"];\n"</span></span><span class="org-block">
+                             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">second</span></span><span class="org-block"> x</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="warning">table</span></span><span class="org-block"><span class="warning"><span class="rainbow-delimiters-depth-1">)</span></span></span><span class="org-block">
+              </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">princ</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%s -- %s;\n"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">first</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">second</span></span><span class="org-block"> table</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">,#+name: make-dot
+,#+BEGIN_SRC emacs-lisp :var table=dot-eg-table :results output :exports none
+  (mapcar </span><span class="custom"><span class="org-tag">#'(lambda</span></span><span class="custom"> (x)
+              (princ (format "%s [label =\"%s\", shape = \"box\"];\n"
+                             (first x) (second x)))) table)
+              (princ (format "%s -- %s;\n" (first (first table)) (first (second table))))
+,#+END_SRC
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+and this is chained to a <span class="org-verbatim">dot</span> source code block 
+
+<span class="org-block-begin-line">#+BEGIN_EXAMPLE
+</span><span class="custom">,#+BEGIN_SRC dot :file images/test-dot.png :var input=make-dot :exports results
+graph {
+ $input
+}
+,#+END_SRC
+</span><span class="org-block-end-line">#+END_EXAMPLE
+</span>
+that wraps the input in a <span class="org-verbatim">graph{}</span> command to produce the following
+graphic output
+
+<span class="org-block-begin-line">#+BEGIN_SRC dot :file images/test-dot.png :var input=make-dot :exports results
+</span><span class="org-block">graph {
+ $input
+}
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-meta-line">#+RESULTS:</span>
+<span class="org-link"><a href="file:images/test-dot.png">file:images/test-dot.png</a></span>
+
+An example of chaining source code blocks to produce a <span class="org-verbatim">dot</span> graph is
+provided by Schulte et al. in <span class="kc-org-link-url"><a href="http://www.jstatsoft.org/v46/i03">A Multi-Language Computing Environment
+for Literate Programming and Reproducible Research</a></span>.
+</pre>
+  </body>
+</html>

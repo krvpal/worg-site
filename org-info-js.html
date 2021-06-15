@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-info-js</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-info-js</h1>
+
+<div id="outline-container-orgda57504" class="outline-2">
+<h2 id="orgda57504">org-info-js by Sebastian Rose</h2>
+<div class="outline-text-2" id="text-orgda57504">
+<p>
+org-info-js is a great javascript tool to navigate through a HTML page
+(as exported by Org) the way you navigate through an Org or an info
+manual, i.e. supporting folding, previous/next buttons, etc.
+</p>
+</div>
+
+<div id="outline-container-org7a87dac" class="outline-3">
+<h3 id="org7a87dac">org-info-js as powerpoint</h3>
+<div class="outline-text-3" id="text-org7a87dac">
+<p>
+It was <a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg07820.html">noticed</a> that files exported by org-info-js were similar to <a href="http://meyerweb.com/eric/tools/s5/">s5</a>
+the simple standards-based Slide Show System.  After some hacking,
+Sebastian Rose added some features to allow org-mode and org-info-js
+to be used to create simple slide shows and presentations.
+</p>
+
+<p>
+An example org-info-js presentation can be found <a href="code/org-info-js/org-slides">here</a>
+</p>
+</div>
+
+<div id="outline-container-orgf5d1fc2" class="outline-4">
+<h4 id="orgf5d1fc2"><span class="todo SUGGESTION">SUGGESTION</span> #+TITLE&rsquo;s shouldn&rsquo;t display on every slide by default</h4>
+<div class="outline-text-4" id="text-orgf5d1fc2">
+<p>
+The title for each slide should (by default) be the slides heading.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1656805" class="outline-4">
+<h4 id="org1656805"><span class="todo SUGGESTION">SUGGESTION</span> Name for org-info-js slide show extension(s)</h4>
+<div class="outline-text-4" id="text-org1656805">
+<p>
+Some suggested names for this functionality.
+</p>
+
+<ul class="org-ul">
+<li>org-present</li>
+<li>org-point</li>
+<li>org-note (as in keynote)</li>
+<li>present-org</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4470b25" class="outline-4">
+<h4 id="org4470b25"><span class="todo SUGGESTION">SUGGESTION</span> Use properties to reveal bullet points</h4>
+<div class="outline-text-4" id="text-org4470b25">
+<p>
+To have bullet points reveal themselves one by one in org-info-js you
+need to replicate the slide many times, e.g.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Overview</span>
+
+  <span style="color: #e2c770;">+</span> The first point
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Overview</span>
+
+  <span style="color: #e2c770;">+</span> The first point
+  <span style="color: #e2c770;">+</span> The second point revealed
+
+<span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Overview</span>
+
+  <span style="color: #e2c770;">+</span> The first point
+  <span style="color: #e2c770;">+</span> The second point revealed
+  <span style="color: #e2c770;">+</span> The third point (note the duplication of the slide)
+</pre>
+</div>
+
+<p>
+Rather than this, we might (assuming properties can be exported) be
+able to support a syntax like the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #eb4509; font-weight: bold;">*</span><span style="color: #eb4509; font-weight: bold;"> Overview</span>
+  <span style="color: #cd3278;">:PROPERTIES:</span>
+  <span style="color: #7f7f80;">:reveal:</span>   <span style="color: #7f7f80;">t</span>
+  <span style="color: #cd3278;">:END:</span>
+
+  <span style="color: #e2c770;">+</span> Revealed properties
+  <span style="color: #e2c770;">+</span> Appear one after the other
+  <span style="color: #e2c770;">+</span> But this time only need to be stated once!
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

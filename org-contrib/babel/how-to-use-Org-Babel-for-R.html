@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to Use Emacs Org-Babel Mode to Write Literate Programming Document in R Language</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Feiming Chen" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">How to Use Emacs Org-Babel Mode to Write Literate Programming Document in R Language</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1e6b9c2">Introduction</a></li>
+<li><a href="#org23874ce">How to Use</a>
+<ul>
+<li><a href="#org5474f21">Installation</a></li>
+<li><a href="#orgada8b68">Keyboard Shortcuts</a></li>
+<li><a href="#orgdc4061c">Emacs Customization Settings</a></li>
+<li><a href="#org62f5350">A Complete Example</a></li>
+<li><a href="#org02221eb">Caveats</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1e6b9c2" class="outline-2">
+<h2 id="org1e6b9c2">Introduction</h2>
+<div class="outline-text-2" id="text-org1e6b9c2">
+<p>
+We introduce the use of emacs org-babel model in this document.  Emacs
+Org-Babel mode is a literate programming tool (aka. active document), which
+can embed multiple programming languages, inlcuding R, in one document.
+Another popular literate programming tool for statisticians is the Sweave
+document, which can embed only R code.
+</p>
+
+<p>
+First we clarify the following terminologies:
+</p>
+
+<dl class="org-dl">
+<dt><a href="http://www.gnu.org/software/emacs/">Emacs</a></dt><dd>The extensible, customizable, self-documenting real-time
+display editor.</dd>
+
+<dt><a href="http://www.gnu.org/software/emacs/">Org-mode</a></dt><dd>An Emacs Mode for keeping notes, maintaining ToDo lists,
+doing project planning, and authoring with a fast and
+effective plain-text system.</dd>
+
+<dt><a href="https://orgmode.org/worg/org-contrib/babel/">Babel</a></dt><dd>It is Org-mode&rsquo;s ability to execute source code within
+Org-mode documents.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org23874ce" class="outline-2">
+<h2 id="org23874ce">How to Use</h2>
+<div class="outline-text-2" id="text-org23874ce">
+</div>
+<div id="outline-container-org5474f21" class="outline-3">
+<h3 id="org5474f21">Installation</h3>
+<div class="outline-text-3" id="text-org5474f21">
+<p>
+(August 5, 2011) <code>Babel</code> is available after Org-mode version 7.0, while
+Emacs version 23.2.1 still only has Org-mode version 6.33x.  Thus you need
+to update Org-mode (currenly at version 7.7) from <a href="https://orgmode.org">Org Home Page</a>.  You can
+use Emacs Package Manager to install Org-mode easily following <a href="https://orgmode.org/worg/org-faq.html#installing-via-elpa">this
+instruction. </a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgada8b68" class="outline-3">
+<h3 id="orgada8b68">Keyboard Shortcuts</h3>
+<div class="outline-text-3" id="text-orgada8b68">
+<p>
+To write a code block in a <code>.org</code> file, you can simple type <code>&lt;s</code>
+followed by TAB key.  Then a skeleton like the following is
+automatically inserted:
+</p>
+
+<pre class="example">
+#+begin_src 
+
+#+end_src
+</pre>
+
+<p>
+All you need to do next is type a single letter <code>R</code> in the header and
+begin typing R code:
+</p>
+
+<pre class="example">
+#+begin_src R
+  ## Edit Your R Code Here.
+  x &lt;- rnorm(100)
+  summary(x)
+#+end_src
+</pre>
+
+<p>
+I recommend you to edit R code in <a href="http://ess.r-project.org/">ESS</a> (Emacs Speaks Statistics) mode by
+typing <code>C-c '</code> (i.e. C-c and single quote) within the code block, which
+brings up a separate window with ESS enabled. After editing, you can type
+<code>C-c '</code> again to return to the main file buffer.
+</p>
+
+<p>
+Once you finish writing the code, you can execute them immediately by
+pressing <code>C-c C-c</code> and see the R output being inserted into the document.
+Alternatively, you can press <code>C-c C-o</code> to see the R output in a separate
+window.
+</p>
+
+<p>
+To generate (export to) HTML document, press <code>C-c C-e b</code>.  Note other
+document options are available upon pressing <code>C-c C-e</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdc4061c" class="outline-3">
+<h3 id="orgdc4061c">Emacs Customization Settings</h3>
+<div class="outline-text-3" id="text-orgdc4061c">
+<p>
+The Org-Babel mode can be customized through the emacs menu item &ldquo;Org&rdquo;,
+which can be saved to your &ldquo;.emacs&rdquo; file for future use. Some useful
+Org-Babel settings for statisticians are:
+</p>
+
+<pre class="example">
+(custom-set-variables
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (R . t))))
+ '(org-confirm-babel-evaluate nil))
+</pre>
+
+<p>
+which specifies <code>R</code> language to be loaded and R code to be evaluated
+without prompt.
+</p>
+
+<p>
+I also specify a &ldquo;skeleton&rdquo; in my &ldquo;.emacs&rdquo; file so as to start writing
+Org file quickly:
+</p>
+
+<pre class="example">
+(define-skeleton org-skeleton
+  "Header info for a emacs-org file."
+  "Title: "
+  "#+TITLE:" str " \n"
+  "#+AUTHOR: Your Name\n"
+  "#+email: your-email@server.com\n"
+  "#+INFOJS_OPT: \n"
+  "#+BABEL: :session *R* :cache yes :results output graphics :exports both :tangle yes \n"
+  "-----"
+ )
+(global-set-key [C-S-f4] 'org-skeleton)
+</pre>
+
+<p>
+where
+</p>
+
+<ul class="org-ul">
+<li>The <code>#+INFOJS_OPT</code> option will generat a HTML document that is
+foldable and follows the style of <code>GNU/INFO</code> document.</li>
+<li>The <code>:session *R*</code> option makes sure all the R code is run in the
+same session so objects generated in one code block can be accessed
+from other code blocks.</li>
+<li>the <code>:cache yes</code> option is used to avoid re-evaluating unchanged
+code blocks.  This can save significant time when you revise a
+document with a lot of R code frequently.</li>
+<li>The <code>:results output graphics :exports both</code> option will put both
+the R code and its text and graphics output in the generated
+document.</li>
+<li>The <code>:tangle yes</code> option allows the document to be &ldquo;tangled&rdquo; to
+generate pure code file.  The short-cut key for tangling is <code>C-c C-v
+  t</code>, which generates a <code>.R</code> file with all the R code extracted.</li>
+<li>Note the &ldquo;&#x2013;&#x2014;&rdquo; string will generate a horizontal line in HTML
+file.</li>
+<li>Finally, a hotkey <code>C-S-f4</code> (while pressing Ctrl and Shift keys,
+press F4 key) is assigned to invoke this skeleton quickly.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org62f5350" class="outline-3">
+<h3 id="org62f5350">A Complete Example</h3>
+<div class="outline-text-3" id="text-org62f5350">
+<p>
+We use the following file <code>test-for-how-to-use-Org-Babel-for-R.org</code> as an
+example file.
+</p>
+
+<pre class="example">
+#+TITLE: Test
+#+AUTHOR: Your Name
+#+EMAIL: your-email@server.com
+#+PROPERTY: session *R* 
+#+PROPERTY: cache yes 
+#+PROPERTY: results graphics 
+#+PROPERTY: exports both 
+#+PROPERTY: tangle yes 
+
+# This file is released by its authors and contributors under the GNU
+# Free Documentation license v1.3 or later, code examples are released
+# under the GNU General Public License v3 or later.
+
+* Example of Org-Babel for R Literate Programming
+** R text output
+A simple summary. 
+#+begin_src R 
+  x &lt;- rnorm(10)
+  summary(x)
+#+end_src
+
+** R graphics output
+Note we use the object =x= generated in previous code block, thanks to
+the header option =:session *R*=.  The output graphics file is
+=a.png=. 
+
+#+begin_src R  :file a.png
+  y &lt;- rnorm(10)
+  plot(x, y)
+#+end_src
+
+Same plot with larger dimension:
+
+#+begin_src R  :file b.png :width 800 :height 800
+  plot(x, y)
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org02221eb" class="outline-3">
+<h3 id="org02221eb">Caveats</h3>
+<div class="outline-text-3" id="text-org02221eb">
+<ul class="org-ul">
+<li>Keep the code block indented correctly. Otherwise the graph will not
+be embedded in the HTML export file.</li>
+<li>Always have the contents and plots under a section heading to avoid
+certain exporting errors.</li>
+<li>It makes things easier if the working directory in <b>R</b> session
+buffer is the same as the directory of the .org file that
+you are writing.  In this way, the plot files can easily be found.</li>
+<li><p>
+The macro option (<code>#+MACRO:</code>) cannot be used to save the typing
+of header options for code blocks.  For example, it does NOT work if
+you try to use
+</p>
+
+<pre class="example">
+  #+MACRO: p  :file $1.png :width 1000 :height 800
+</pre>
+
+<p>
+to shorten the header to
+</p>
+
+<pre class="example">
+  #+begin_src R {{{p(plot)}}}
+</pre></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Feiming Chen</p>
+<p class="date">Created: 2021-06-15 Tue 18:22</p>
+</div>
+</body>
+</html>

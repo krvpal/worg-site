@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>slides.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+        /* (:foreground "#07CA00" :weight bold :underline t) */
+        color: #07CA00;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .custom-1 {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-4 {
+        /* org-level-4 */
+        color: #5ca8dd;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+STARTUP: align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-document-info-keyword">#+TITLE:</span> <span class="org-document-title">Slides with Org-Mode and JavaScript
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Sebastian Rose
+</span><span class="org-document-info-keyword">#+EMAIL:</span> <span class="org-document-info">sebastian_rose@gmx.de
+</span><span class="org-meta-line">#+LANGUAGE: en</span>
+<span class="org-meta-line">#+OPTIONS:   H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t TeX:t LaTeX:nil skip:nil d:t tags:not-in-toc</span>
+<span class="org-meta-line">#+INFOJS_OPT: path:../org-info.js</span>
+<span class="org-meta-line">#+INFOJS_OPT: toc:nil ltoc:nil view:slide mouse:underline</span>
+<span class="org-meta-line">#+INFOJS_OPT: up:<a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+INFOJS_OPT: home:<a href="https://orgmode.org">https://orgmode.org</a> buttons:nil</span>
+
+
+<span class="org-level-1">* Welcome to Org-mode and Slides
+</span>
+  + Navigate back and and forth on doubleclick and click.
+  + Use all the navigation and text facilities of org-info.js in your
+    presentations.
+  + Remove warnings on click.
+  + No warnings when navigating with the mouse.
+  + Simple lists are shown item by item automatically.
+
+<span class="org-level-1">* Overview
+</span>
+  + Create the Org-mode file
+  + Export the Org-mode file to XHTML
+  + Create a stylesheet for slides
+
+<span class="org-level-1">* Create the Org-mode file
+</span>
+  <span class="bold">Structure for slides</span>
+
+  <span class="org-code">: * Overview
+</span>  <span class="org-code">:
+</span>  <span class="org-code">:   + Create the Org-mode file
+</span>  <span class="org-code">:
+</span>  <span class="org-code">: * Overview
+</span>  <span class="org-code">:
+</span>  <span class="org-code">:   + Create the Org-mode file
+</span>  <span class="org-code">:   + Export the Org-mode file to XHTML
+</span>
+<span class="org-level-1">* Export the Org-mode file to XHTML
+</span>
+  <span class="org-verbatim">view:slide</span>
+
+  <span class="org-code">: #+INFOJS_OPT: toc:nil ltoc:nil view:slide mouse:underline
+</span>  <span class="org-code">:
+</span>  <span class="org-code">:
+</span>  <span class="org-code">: * COMMENT html style specifications
+</span>  <span class="org-code">: # Local Variables&#58;
+</span>  <span class="org-code">: # org-export-html-style: "&lt;link rel=\"stylesheet\" \
+</span>  <span class="org-code">: #                type=\"text/css\" href=\"slides.css\" /&gt;"
+</span>  <span class="org-code">: # End:
+</span>
+
+<span class="org-level-1">* Create a stylesheet for slides
+</span>
+  + Stylesheets for slides are different.
+  + The body uses the whole width.
+  + Use the same style for all headlines.
+  + The postamble will be hidden automatically.
+  + Position org-info.js's window.
+
+<span class="org-hide">*</span><span class="org-level-2">* CSS - body
+</span>
+   Choose a big font!
+
+   <span class="org-code">: body
+</span>   <span class="org-code">: {
+</span>   <span class="org-code">:   width:100%;
+</span>   <span class="org-code">:   padding:0px 0px 0px 0px;
+</span>   <span class="org-code">:   margin:0px 0px 0px 0px;
+</span>   <span class="org-code">:   background-image:url(img/bg.gif);
+</span>   <span class="org-code">:   background-<a href="attachment:fixed">attachment:fixed</a>;
+</span>   <span class="org-code">:   background-repeat:repeat-x;
+</span>   <span class="org-code">:   /* ... etc. */
+</span>   <span class="org-code">: }
+</span>
+<span class="org-hide">*</span><span class="org-level-2">* CSS - headlines
+</span>
+   Set all headlines to the same size:
+
+   <span class="org-code">: h1,h2,h3,h4,h5,h6
+</span>   <span class="org-code">: {
+</span>   <span class="org-code">:   font-size: 18pt;
+</span>   <span class="org-code">:   font-weight:bold;
+</span>   <span class="org-code">:   color:#104d8c;
+</span>   <span class="org-code">:   /* ... etc. */
+</span>   <span class="org-code">: }
+</span>
+<span class="org-hide">*</span><span class="org-level-2">* CSS - org-info-js
+</span>
+   Position the org-info.js window.
+
+   <span class="org-code">: #org-info-js-window
+</span>   <span class="org-code">: {
+</span>   <span class="org-code">:   position:absolute;
+</span>   <span class="org-code">:   top:140px;
+</span>   <span class="org-code">:   left:20%;
+</span>   <span class="org-code">: }
+</span>
+
+<span class="org-level-1">* TODOS
+</span>
+<span class="org-hide">***</span><span class="org-level-4">* </span><span class="org-level-4"><span class="custom-1">TODO</span></span><span class="org-level-4"> More features.
+</span><span class="org-hide">***</span><span class="org-level-4">* </span><span class="org-level-4"><span class="custom-1">TODO</span></span><span class="org-level-4"> Load stylsheets dynamically.
+</span><span class="org-hide">***</span><span class="org-level-4">* </span><span class="org-level-4"><span class="custom-1">TODO</span></span><span class="org-level-4"> Drop lot's of mails with bugs and wishes.
+</span>
+     ------
+
+<span class="org-hide">***</span><span class="org-level-4">* </span><span class="org-level-4"><span class="custom-1">TODO</span></span><span class="org-level-4"> Have Fun with Org-mode and all the tools around.
+</span>
+<span class="org-level-1">* </span><span class="org-level-1"><span class="custom">DONE</span></span><span class="org-level-1">
+</span>
+  That's all folks.
+
+<span class="org-level-1">* </span><span class="org-special-keyword">COMMENT</span><span class="org-level-1"> html style specifications
+</span><span class="comment"># Local Variables&#58;</span>
+<span class="comment"># org-export-html-style: "&lt;link rel=\"stylesheet\" type=\"text/css\" href=\"slides.css\" /&gt;"</span>
+<span class="comment"># End:</span>
+</pre>
+  </body>
+</html>

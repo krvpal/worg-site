@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:23 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to edit Worg files?</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">How to edit Worg files?</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#worg-conventions">Conventions</a>
+<ul>
+<li><a href="#orgecf0ff9">To-do keywords</a></li>
+<li><a href="#org0e0f1f5">Tags</a></li>
+<li><a href="#org898dedd">Encoding</a></li>
+<li><a href="#org33c80cd">Properties</a></li>
+<li><a href="#org2d1a72f">Link abbrevations</a></li>
+<li><a href="#conventions-about-content">Conventions about content?</a></li>
+<li><a href="#org5067d82">How rigid are these conventions?</a></li>
+</ul>
+</li>
+<li><a href="#creating-links">How do I link to other Worg files?</a></li>
+<li><a href="#org880c9ad">What is the default header for new files?</a></li>
+<li><a href="#org7ee97d5">How do I create a file?</a></li>
+<li><a href="#orgc861376">What about dynamic blocks</a></li>
+<li><a href="#org8b7d2c5">What about macros</a></li>
+<li><a href="#org0291992">How do I link to the Org version of the file?</a></li>
+</ul>
+</div>
+</div>
+<p>
+Since Worg is just starting now, these conventions are just suggestions,
+not recommendations.  Please improve this.
+</p>
+
+<div id="outline-container-worg-conventions" class="outline-2">
+<h2 id="worg-conventions">Conventions</h2>
+<div class="outline-text-2" id="text-worg-conventions">
+</div>
+<div id="outline-container-orgecf0ff9" class="outline-3">
+<h3 id="orgecf0ff9">To-do keywords</h3>
+<div class="outline-text-3" id="text-orgecf0ff9">
+<p>
+Here is a table with default to-do keywords and their meaning.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">To-do keyword</th>
+<th scope="col" class="org-left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">TODO(t)</td>
+<td class="org-left">Things to do</td>
+</tr>
+
+<tr>
+<td class="org-left">INPROGRESS(i)</td>
+<td class="org-left">Thing being in the process of being done</td>
+</tr>
+
+<tr>
+<td class="org-left">WAITING(w@)</td>
+<td class="org-left">Tasks stuck at some point</td>
+</tr>
+
+<tr>
+<td class="org-left">DONE(d)</td>
+<td class="org-left">Completed task</td>
+</tr>
+
+<tr>
+<td class="org-left">CANCELED(c@)</td>
+<td class="org-left">Canceled task</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Feel free to discuss the relevance of these keywords and propose
+changes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0e0f1f5" class="outline-3">
+<h3 id="org0e0f1f5">Tags</h3>
+<div class="outline-text-3" id="text-org0e0f1f5">
+<pre class="example">
+Write(w) Update(u) Fix(f) Check(c)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org898dedd" class="outline-3">
+<h3 id="org898dedd">Encoding</h3>
+</div>
+<div id="outline-container-org33c80cd" class="outline-3">
+<h3 id="org33c80cd">Properties</h3>
+</div>
+<div id="outline-container-org2d1a72f" class="outline-3">
+<h3 id="org2d1a72f">Link abbrevations</h3>
+</div>
+<div id="outline-container-conventions-about-content" class="outline-3">
+<h3 id="conventions-about-content">Conventions about content?</h3>
+<div class="outline-text-3" id="text-conventions-about-content">
+<p>
+Where you want to follow a documentation convention you may consider the
+<a href="https://code.orgmode.org/bzg/org-mode/raw/master/doc/Documentation_Standards.org">Org documentation standards</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5067d82" class="outline-3">
+<h3 id="org5067d82">How rigid are these conventions?</h3>
+<div class="outline-text-3" id="text-org5067d82">
+<p>
+(Suggestion: the farther from the index page you are, the more flexible
+the conventions should perhaps be.)
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-creating-links" class="outline-2">
+<h2 id="creating-links">How do I link to other Worg files?</h2>
+<div class="outline-text-2" id="text-creating-links">
+<p>
+Links to other Worg pages should have the following format:
+</p>
+
+<pre class="example">
+[[file:index.org][Worg's home page]]
+</pre>
+
+
+<p>
+This link will converted to a relative html link on export that looks
+like this:
+</p>
+
+<p>
+<a href="index.html">Worg&rsquo;s home page</a>
+</p>
+
+<p>
+The filename should be a relative path. Thus, if you are creating a
+link to the index from within the org-tutorials directory, you should
+enter the path as follows:
+</p>
+
+<pre class="example">
+[[file:../index.org][Worg's home page]]
+</pre>
+
+
+<p>
+The easiest way to create links to files is by typing <code>C-c C-l</code> while
+editing an org file. This will prompt you for both components of the
+link. (Be sure to enter <code>file:</code> before the path; this indicates the
+type of link.)
+</p>
+
+<p>
+To enter file links more easily, you can simply type <code>C-u C-c C-l</code>. This
+will allow you to locate the file using emacs&rsquo; built-in completion
+facilities and will automatically add the <code>file:</code> prefix.
+</p>
+
+<p>
+One note of caution here: the path of the resulting link created
+depends on the setting of <code>org-link-file-path-type</code>. To ensure that you
+always use relative links, you can add the following to your <code>.emacs</code>
+file:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-link-file-path-type</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">relative</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+See also: in the Org manual for details on how to link
+to a specific location within another Worg page.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org880c9ad" class="outline-2">
+<h2 id="org880c9ad">What is the default header for new files?</h2>
+<div class="outline-text-2" id="text-org880c9ad">
+<p>
+You can find a default header here: <a href="worg-header.html">worg-header.org</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7ee97d5" class="outline-2">
+<h2 id="org7ee97d5">How do I create a file?</h2>
+<div class="outline-text-2" id="text-org7ee97d5">
+<p>
+Just create it.  Before committing changes in Worg, make sure you add
+the file to the repository index with <code>git add *.org</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc861376" class="outline-2">
+<h2 id="orgc861376">What about dynamic blocks</h2>
+<div class="outline-text-2" id="text-orgc861376">
+<p>
+If you are using dynamic blocks in Worg, please don&rsquo;t forget to add the
+relevant code in the <a href="code/elisp/worg.el">code/elisp/worg.el</a> file.  See for example the dynamic
+block for the timestamp in the <a href="index.html">index</a> page.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8b7d2c5" class="outline-2">
+<h2 id="org8b7d2c5">What about macros</h2>
+<div class="outline-text-2" id="text-org8b7d2c5">
+<p>
+If you are using macros, please add them to <code>macros.setupfile</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0291992" class="outline-2">
+<h2 id="org0291992">How do I link to the Org version of the file?</h2>
+<div class="outline-text-2" id="text-org0291992">
+<p>
+The raw Org versions of the files are published <a href="https://orgmode.org/worg/sources/">here</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:23</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-custom-agenda-commands.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+      .warning {
+        /* warning */
+        color: #e2c770;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Custom Agenda Commands
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Matt Lundin
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">mdl at imapmail dot org
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>  <span class="org-drawer">:PROPERTIES:</span>
+  <span class="org-special-keyword">:ID:</span>       <span class="org-property-value">846f8b04-3012-48c9-bab1-3a618099d977</span>
+  <span class="org-drawer">:END:</span>
+  
+Org-mode's built-in agenda commands are powerful tools for searching
+your notes and for gathering, sorting, filtering, and displaying your
+tasks. As you become familiar with the power of the agenda commands,
+you may want to:
+
+<span class="org-list-dt">-</span> create shortcuts for frequent agenda searches (e.g., a search for
+  all TODOs with the tag "@computer").
+<span class="org-list-dt">-</span> combine different different searches into a single <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Block-agenda.html#Block-agenda">block agenda</a></span>.
+  (e.g., a daily agenda plus all TODO items with the tag "@work" and
+  the tag "@computer").
+<span class="org-list-dt">-</span> change the query and display options for specific agenda searches
+  (sorting, appearance, files used, etc.).
+<span class="org-list-dt">-</span> set up automatic export of custom agenda views to a variety of
+  formats (html, ps, txt).
+<span class="org-list-dt">-</span> call user-defined functions from the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Agenda-dispatcher.html#Agenda-dispatcher">agenda dispatcher</a></span>.
+
+All of these things can be accomplished with the variable
+org-agenda-custom-commands.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to create custom agenda commands 
+</span>
+The <span class="kc-org-link-url"><a href="https://orgmode.org/manual/index.html">org-mode manual</a></span> provides a <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views">comprehensive explanation</a></span> of custom
+agenda commands. This tutorial is meant to supplement the manual by
+exploring some of the uses and benefits of such customization.
+
+If you have not previously created a custom agenda command, the
+easiest way to get started is to type:
+
+<span class="org-code">: M-x customize-variable RET org-agenda-custom-commands
+</span>
+The customization buffer for the variable provides a nice interface
+for setting custom commands as well as a full explanation of the
+different components of the setting.
+
+As the documentation explains, the configuration for each custom
+command is a list consisting of the following:
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">1) Key ::</span> The shortcut for invoking the command in the agenda
+            dispatcher ("h", "J", etc.).
+<span class="org-list-dt">-</span> <span class="org-list-dt">2) Description (optional) ::</span> The description of the command that
+                    will be displayed in the agenda dispatcher
+                    (optional).
+<span class="org-list-dt">-</span> <span class="org-list-dt">3) Type of search ::</span> The desired agenda display/search. The options
+     include agenda, todo, search, tags, alltodo, tags-todo,
+     todo-tree, tags-tree, occur-tree, or a user-defined function.
+<span class="org-list-dt">-</span> <span class="org-list-dt">4) Search term ::</span> Depending on the type of search, this will be a
+                    TODO keyword, a tag (or property), a word, or a
+                    regular expression.
+<span class="org-list-dt">-</span> <span class="org-list-dt">5) Settings (optional) ::</span> How the agenda command should search and
+     display information. These are local settings, active only for
+     the command in which they are set.
+<span class="org-list-dt">-</span> <span class="org-list-dt">6) Export files (optional) ::</span> If you want the agenda view to be
+     automatically exported when you type C-c a e, then you can
+     include the path to the exported file here. The file extension
+     will determine the export format.
+     
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sample customization
+</span>   
+Here is a sample custom agenda command as one might set it in an
+.emacs file:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block"> 
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"c"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Desk Work"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"computer"</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(1) (2) (3) (4)
+</span></span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"~/org/widgets.org"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/org/clients.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(5)
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-sorting-strategy</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">priority-up effort-down</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(5) cont.
+</span></span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="string">"~/computer.html"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(6)
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span><span class="whitespace-tab">        </span> 
+The first line in this custom command contains: 
+
+<span class="org-list-dt">1.</span> the key to trigger the search ("c")
+<span class="org-list-dt">2.</span> a description of the search for the agenda dispatcher ("Desk Work")
+<span class="org-list-dt">3.</span> the type of search (todo items matching a tag)
+<span class="org-list-dt">4.</span> the tag to search for ("computer")
+
+The next two lines (5) set local options for this agenda command only.
+Any options you set here will not interfere with your global agenda
+settings. In this particular command, the files widgets.org and
+clients.org will be searched and the agenda display will sort the
+todos first by priority (highest priority last), then by estimated
+effort (highest effort first)---regardless or your global
+org-agenda-sorting-strategy.
+
+The last line (6) specifies that this agenda view should be exported
+as HTML to "~/computer.html" when the agenda export function is called
+(C-c a e).
+
+And here is what the setting above looks like in an emacs
+customization buffer:
+
+<span class="org-link"><a href="file:../images/mdl/org-custom-agenda-commands-1.png">file:../images/mdl/org-custom-agenda-commands-1.png</a></span>
+
+Of course, you need not include all of these components in every
+custom command. A more minimalistic set of instructions might look
+like this:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"w"</span></span><span class="org-block"> todo </span><span class="org-block"><span class="string">"STARTED"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(1) (3) (4)
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+This will produce a list of all tasks with the todo keyword
+STARTED.[1]
+
+[1] If you omit a description the agenda dispatcher will simply show
+the search type and search string in place of a description.
+
+In addition to agenda views, custom agenda commands can also be used
+to store commonly used searches, such as sparse trees and occur trees.
+See the <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Sparse-trees.html#Sparse-trees">manual's section on sparse trees</a></span> for further information.
+
+As the examples above illustrate, agenda commands can range from
+simple stored searches to elaborate agenda views that diverge
+substantially from your normal agenda settings (different agenda
+files, different sorting strategies, different display options, etc.).
+
+Now, let's look at a few usage scenarios.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> A use scenario: block agenda views
+</span>
+Perhaps the most common use of custom commands is to save the results
+of frequent agenda searches and (optionally) to combine multiple
+searches together in a single view.
+
+Let's imagine you've just settled in at your office desk in the
+morning, ready for a good day's labor. You want to review your work
+before you get started. As part of your typical routine, you'd like to
+see:
+
+<span class="org-list-dt">1.</span> your scheduled tasks and upcoming deadlines
+<span class="org-list-dt">2.</span> any urgent tasks with the priority "A"
+<span class="org-list-dt">3.</span> any tasks you can do at your computer or in your office or on the
+   phone
+<span class="org-list-dt">4.</span> any headlines tagged "project" for which CATEGORY="elephants"
+<span class="org-list-dt">5.</span> any headlines tagged "review" in the file "circuspeanuts.org"
+<span class="org-list-dt">6.</span> any items that have the todo keyword "WAITING"
+
+You could do a number of agenda searches by hand, first calling the
+agenda, then the tag-todo search (twice), then a tag search, then a
+tag search restricted to the file circuspeanuts.org, and finally the
+todo keyword search. In other words:
+
+<span class="org-code">: C-c a a
+: C-c a M +PRIORITY="A"
+: C-c a M computer|office|phone
+: C-c a m project+CATEGORY="elephants"
+: C-x b circuspeanuts.org
+: C-c a &lt; m review
+: C-c a T WAITING
+</span>
+That would be a lot of manual labor before you had even begun your
+work. You could make your life easier by combining these searches into
+a single agenda command that compiles the results of all the searches:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"O"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Office block agenda"</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">              </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">limits the agenda display to a single day
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"+PRIORITY=\"A\""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"computer|office|phone"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags </span><span class="org-block"><span class="string">"project+CATEGORY=\"elephants\""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags </span><span class="org-block"><span class="string">"review"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"~/org/circuspeanuts.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">                  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">limits the tag search to the file circuspeanuts.org
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">todo </span><span class="org-block"><span class="string">"WAITING"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-compact-blocks</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">options set here apply to the entire block
+</span></span><span class="org-block">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC 
+</span><span class="whitespace-tab">        </span>
+You'll notice that you can configure local settings for each of the
+searches in a block agenda. This powerful option enables fine-grained
+control of the agenda display. You could, for instance, create a block
+agenda that displays all headlines tagged "office" in the file
+"widgets.org", followed by all headlines tagged "computer" in the file
+"clients.org", and so on.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> An example: GTD weekly review 
+</span>   
+If you're into GTD, you can use org-agenda-custom-commands to create
+block views for the weekly review, such as:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"W"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Weekly Review"</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">7</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">review upcoming deadlines and appointments
+</span></span><span class="whitespace-tab">        </span><span class="org-block">                                   </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">type "l" in the agenda to review logged items 
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">stuck </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">review stuck projects as designated by org-stuck-projects
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">todo </span><span class="org-block"><span class="string">"PROJECT"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">review all projects (assuming you use todo keywords to designate projects)
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">todo </span><span class="org-block"><span class="string">"MAYBE"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">review someday/maybe items
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">todo </span><span class="org-block"><span class="string">"WAITING"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">review waiting items
+</span></span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC 
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Making the most of local settings
+</span>   
+Agenda commands can be used for much more than managing workload. They
+are also powerful ways to search and display notes in org files.
+
+One use of custom agenda commands is to create different sets of
+search options. Let's say, for instance, that you have three separate
+directories of org-files:
+
+  <span class="org-list-dt">-</span> "~/org/" for your project files
+  <span class="org-list-dt">-</span> "~/website/" for your published files 
+  <span class="org-list-dt">-</span> "~/archive/" for old projects and notes
+
+Most of the time, you only want to search your project files, so you
+set the global option appropriately:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">file-expand-wildcards</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/org/*.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+But there are no doubt times when you need to search your website or
+your archive files. To make this possible, you could create the
+following commands:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"Q"</span></span><span class="org-block"> . </span><span class="org-block"><span class="string">"Custom queries"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">gives label to "Q" 
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"Qa"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Archive search"</span></span><span class="org-block"> search </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">file-expand-wildcards</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/archive/*.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> 
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"Qw"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Website search"</span></span><span class="org-block"> search </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">file-expand-wildcards</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/website/*.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"Qb"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Projects and Archive"</span></span><span class="org-block"> search </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-text-search-extra-files</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">file-expand-wildcards</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/archive/*.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">searches both projects and archive directories
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"QA"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Archive tags search"</span></span><span class="org-block"> org-tags-view </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> 
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-files</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">file-expand-wildcards</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"~/archive/*.org"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Now you are only a key command away from searching different sets of
+org files.
+
+Note that the key triggers in the example above consist of two
+characters. If you have numerous custom agenda commands, this is a
+nice way to organize the agenda dispatcher into subpages. Only "Q"
+will appear on the main dispatcher view, the commands themselves will
+appear in a second view after you press "Q".
+
+First view:
+
+<span class="org-link"><a href="file:../images/mdl/org-custom-agenda-commands-2.png">file:../images/mdl/org-custom-agenda-commands-2.png</a></span>
+
+Second view (after pressing "Q"):
+
+<span class="org-link"><a href="file:../images/mdl/org-custom-agenda-commands-3.png">file:../images/mdl/org-custom-agenda-commands-3.png</a></span>
+
+The possibilities for using local search settings are myriad. One
+could, for instance, tweak display options for sparse tree searches
+via the variables org-show-hierarchy-above and org-show-entry-below
+(see <span class="kc-org-link-url"><a href="https://orgmode.org/manual/Setting-options.html#Setting-options">this section of the manual</a></span>). Or, as Carsten explained in <span class="kc-org-link-url"><a href="https://orgmode.org/list/537DBEBB-18DC-4FB9-8CC7-26D6338946FA@uva.nl">this
+mailing list post</a></span>, one can create custom agenda commands that default
+to a column view:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"x"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"With deadline columns"</span></span><span class="org-block"> alltodo </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-overriding-columns-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%20ITEM %DEADLINE"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-view-columns-initially</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Speeding up custom agenda commands
+</span>
+The most recent versions of org-mode (the git repo or versions greater
+than 6.35) have a new variable that helps to speed up certain types of
+agenda commands. The variable is <span class="org-verbatim">org-agenda-entry-types</span> and it can
+be set <span class="bold">locally</span> within custom agenda commands via the customize
+interface.
+
+As always, you can learn more about the variable by typing <span class="org-verbatim">M-x
+describe-variable [RET] org-agenda-entry-types</span>. According to the
+<span class="org-link"><a href="file:../org-glossary.org::#docstring">docstring</a></span>, the value <span class="org-verbatim">org-agenda-entry-types</span> is a list that consists
+of any or all of the following items:
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:timestamp ::</span> List items containing a date stamp or date range
+                  matching the selected date. This includes sexp
+                  entries in angular brackets.
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:sexp ::</span> List entries resulting from plain diary-like sexps.
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:deadline ::</span> List deadline due on that date. When the date is
+                 today, also list any deadlines past due, or due
+                 within `org-deadline-warning-days'. `:deadline' must
+                 appear before `:scheduled' if the setting of
+                 `org-agenda-skip-scheduled-if-deadline-is-shown' is
+                 to have any effect.
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">:scheduled ::</span> List all items which are scheduled for the given
+                  date. The diary for <span class="bold">today</span> also contains items
+                  which were scheduled earlier and are not yet marked
+                  DONE.
+
+By default, the daily/weekly agenda includes all of these items in its
+results. Sometimes, however, you might want to construct agenda views
+that consist only of certain types of entries, such as a list of
+upcoming deadlines or a weekly or monthly calendar that includes only
+timestamps and diary sexps. The variable <span class="org-verbatim">org-agenda-entry-types</span>
+allows you to search for such a subset of items quite efficiently
+(without bothering with the other items).
+
+Here is an example of a weekly calendar using
+<span class="org-verbatim">org-agenda-entry-types</span>.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"c"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Calendar"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">7</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">                          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">[1]
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-start-on-weekday</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">0</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">               </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">[2]
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-time-grid</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">                    
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-agenda-repeating-timestamp-show-all t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">   </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">[3]
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-entry-types</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:timestamp</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:sexp</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">[4]
+</span></span><span class="org-block">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">other commands go here
+</span></span><span class="org-block">          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+The options above create (1) a weekly calendar that (2) starts on
+Sunday and (3) includes all instances of repeating timestamps.
+Moreover, the calendar is generated quite quickly because the agenda
+command (4) only searches for timestamps and diary sexps and does not
+bother with deadlines and scheduling timestamps.
+
+Another example might arise if one wants an overview of all deadlines
+due within the next 365 days:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"d"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Upcoming deadlines"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> 
+                  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-time-grid</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-deadline-warning-days</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">365</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">[1]
+</span></span><span class="org-block">                   </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-entry-types</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:deadline</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">[2]
+</span></span><span class="org-block">                   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">other commands go here
+</span></span><span class="org-block">         </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+This custom command shows all deadlines that (1) fall due within the
+upcoming year. It does so quite efficiently by (2) looking for
+deadlines and nothing else. 
+
+Tip: if you want to exclude all agenda entry types, just set
+<span class="org-verbatim">org-agenda-entry-types</span> to nil.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Other configuration ideas
+</span>
+This section is for additional ideas for configuring
+org-agenda-custom-commands. Feel free to add your own configurations
+here.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> GTD contexts
+</span>   
+Keyboard shortcuts to search by GTD contexts. 
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"g"</span></span><span class="org-block"> . </span><span class="org-block"><span class="string">"GTD contexts"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"go"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Office"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"office"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"gc"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Computer"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"computer"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"gp"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Phone"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"phone"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"gh"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Home"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"home"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"ge"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Errands"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"errands"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"G"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"GTD Block Agenda"</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"office"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"computer"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"phone"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"home"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tags-todo </span><span class="org-block"><span class="string">"errands"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> nil                      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">i.e., no local settings
+</span></span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="string">"~/next-actions.html"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">exports block to this file with C-c a e
+</span></span><span class="org-block">       </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">..other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span><span class="whitespace-tab">        </span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Priorities 
+</span>   
+Shortcuts to display tasks by priority level:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+      </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"p"</span></span><span class="org-block"> . </span><span class="org-block"><span class="string">"Priorities"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"pa"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"A items"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"+PRIORITY=\"A\""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"pb"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"B items"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"+PRIORITY=\"B\""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"pc"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"C items"</span></span><span class="org-block"> tags-todo </span><span class="org-block"><span class="string">"+PRIORITY=\"C\""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Calendar style views
+</span>
+The following code is useful if you want to see a weekly planner
+containing only appointments---that is, with deadlines and scheduled
+items omitted:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+</span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"c"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Weekly schedule"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+</span><span class="whitespace-tab">        </span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">7</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="whitespace-tab">           </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">agenda will start in week view
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">org-agenda-repeating-timestamp-show-all t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">   </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">ensures that repeating events appear on all relevant dates
+</span></span><span class="whitespace-tab">        </span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-skip-function</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">org-agenda-skip-entry-if </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">deadline</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">scheduled</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">  
+</span><span class="whitespace-tab">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">limits agenda view to timestamped items
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="whitespace-tab">        </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span>
+Another example: you could use the following custom command to see
+deadlines due within the next 60 days:
+
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"d"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Upcoming deadlines"</span></span><span class="org-block"> agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-entry-types</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="builtin">:deadline</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">a slower way to do the same thing
+</span></span><span class="org-block">            </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">(org-agenda-skip-function '(org-agenda-skip-entry-if 'notdeadline))
+</span></span><span class="org-block">            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-deadline-warning-days</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">60</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-time-grid</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">...other commands here
+</span></span><span class="org-block">          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span><span class="whitespace-tab">        </span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Printed agenda
+</span>   
+Here's a fairly complex example of an agenda. The command below will
+create a black-and-white block agenda that lists:
+
+<span class="org-list-dt">1.</span> An overview of appointments for the next seven days.
+   <span class="org-list-dt">-</span> I.e., timestamped items but not deadlines or scheduled tasks
+<span class="org-list-dt">2.</span> A compact daily agenda.
+<span class="org-list-dt">3.</span> A list of todos sorted by context.
+
+The sorted todos look like this:
+
+<span class="org-code">: [ ] errands:  Wash car
+: [ ] errands:  Grocery shopping
+: [ ] home:  Do laundry
+: [ ] home:  Take out trash
+</span>
+And the entire agenda will be saved in a two-column, landscape
+postscript file when you type <span class="org-verbatim">C-c a e</span>.
+
+Here's the code:
+ 
+<span class="org-block-begin-line">#+BEGIN_SRC emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">org-agenda-custom-commands</span></span><span class="org-block">
+        </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="string">"P"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"Printed agenda"</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">7</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">                      </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">overview of appointments
+</span></span><span class="org-block">                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-start-on-weekday</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">         </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">calendar begins today
+</span></span><span class="org-block">                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block">org-agenda-repeating-timestamp-show-all t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-entry-types</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="builtin">:timestamp</span></span><span class="org-block"> </span><span class="org-block"><span class="builtin">:sexp</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">agenda </span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-span</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">                      </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">daily agenda
+</span></span><span class="org-block">                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-deadline-warning-days</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-numbers-number">7</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">            </span><span class="org-block"><span class="comment-delimiter">; </span></span><span class="org-block"><span class="comment">7 day advanced warning for deadlines
+</span></span><span class="org-block">                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-todo-keyword-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"[ ]"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-scheduled-leaders</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">""</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                        </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-prefix-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"%t%s"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">todo </span><span class="org-block"><span class="string">"</span></span><span class="org-block"><span class="bold"><span class="warning">TODO</span></span></span><span class="org-block"><span class="string">"</span></span><span class="org-block">                                          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">todos sorted by context
+</span></span><span class="org-block">                  </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-prefix-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"[ ] %T: "</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-sorting-strategy</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">tag-up priority-down</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-todo-keyword-format</span></span><span class="org-block"> </span><span class="org-block"><span class="string">""</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+                   </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="variable-name">org-agenda-overriding-header</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\nTasks by Context\n------------------\n"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-with-colors</span></span><span class="org-block"> nil</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-compact-blocks</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="variable-name">org-agenda-remove-tags</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+            </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">ps-number-of-columns </span><span class="org-block"><span class="highlight-numbers-number">2</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+             </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block">ps-landscape-mode t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="string">"~/agenda.ps"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+          </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">other commands go here
+</span></span><span class="org-block">          </span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+END_SRC
+</span></pre>
+  </body>
+</html>

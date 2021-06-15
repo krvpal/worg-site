@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>project-plan.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Merge Tool for Org-Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Andrew Young
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">youngar17 at gmail dot com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:  <a href="https://orgmode.org/worg/org-faq.html">https://orgmode.org/worg/org-faq.html</a></span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Project Plan
+</span><span class="italic">This is only a preliminary plan, as outlined in the project proposal</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Introductory Period
+</span>(April 23 &#8211; May 21)
+
+During this period I will review previous art, and become fully
+familiar with OrgMode files and any addons and plugins which may
+influence my work (Babel, MobileOrg, etc.). This includes research
+into object representation, and command language representation. A
+quick proof of concept be created. The project page, code repository,
+and other framework will be created.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org-Mode Data Representation 
+</span>(May 22 - 27)
+
+The deliverable for this part of the project is to create a
+representation of org-mode files, and a data manipulation language for
+working with them. The completness and thoroughness of this
+deliverable is to be decided according to the determined potential
+usefullness to other users. The data representation may vary greatly
+with the language used. Fundamental to this stage will be the use of
+org-element.el, which is a parser and interface for Org-Mode data.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org-Mode File Processor Parser 
+</span>(May 28 - 31) 
+
+The deliverable for this stage is a program (algorithm) which will
+turn an Org-Mode file into a set of objects and relationships. The
+parser will create objects using the OrgMode Data Representation
+above.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Create Basic Modification Guesser 
+</span>(June 1 - 15) 
+
+This stage will create a list of modification actions which a user
+might perform on an OrgMode file. The deliverable will be a
+modification guesser which tries to create a list of
+modifications. The modifications actually detected at this stage will
+be very basic. This step should lay the ground work for defining more
+modification types, and advanced detection methods.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Create Modification Merger 
+</span>(June 16 &#8211; June 30) 
+
+The deliverable for this stage is a program which takes a list of
+object modifications and objects, and combines them together. This
+step will combine all modification actions into a single file. It will
+generate conflicts for unmergable modifications.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Enhance Modification Guesser 
+</span>(July 1 &#8211; July 16) 
+
+This is the really complicated stage of the whole project. At this
+stage, the modification guesser will be enhanced to be able to
+recognize a greater amount of modifications. For example, and 'remove'
+and 'add' action of an identical heading may be recognized as a 'move'
+action. The modification merger will have to be modified to properly
+handle new modification types. At this stage, the modification guesser
+will only mark modifications it is sure of.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Further Modification Guesser Enhancements
+</span>(July 16 &#8211; July 29)
+
+At this stage, the modification guesser will be extended to use fuzzy
+logic to guess at modifications. For example, calculate the
+probability that a tree is just a modified version of another tree,
+and if probable enough, add the modification (if not probable they
+will be considered seperate 'add's and 'remove's possibly causing a
+conflict in the final merge).
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Further Enhancements
+</span>(July 30 &#8211; August 5)
+
+ This stage will include all optional features thought up as the
+project progresses. It could include Emacs mode that generates a
+modification list, so the merger program does not have to guess at the
+modifications, or the automatic use of IDs created by MobileOrg to
+recognize nodes.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Project Finish
+</span>(August 6 - 13)
+
+This stage will be for final review and testing. It is expected during
+this stage to make an official release. This stage is meant to handle
+all finishing touches needed for a release.
+
+The project should end seven days before August 20, which is the day
+of &#8220;Firm Pencils Down&#8221;.
+</pre>
+  </body>
+</html>

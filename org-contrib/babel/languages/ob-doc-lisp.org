@@ -1,0 +1,93 @@
+# Created 2021-06-15 Tue 18:20
+#+OPTIONS: H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Common Lisp Source Code Blocks in Org Mode
+#+AUTHOR: Thomas S. Dye
+#+startup: align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+language: en
+#+html_link_up: index.html
+#+html_link_home: https://orgmode.org/worg/
+#+exclude_tags: noexport
+
+* Introduction
+According to [[http://en.wikiquote.org/wiki/Lisp_programming_language][John Foderaro]], Lisp is a programmable programming language.
+
+* Requirements and Setup
+
+By default Common Lisp source code blocks are evaluated by Babel with
+the Superior Lisp Interaction Mode for Emacs, or [[http://common-lisp.net/project/slime/][SLIME]].  [[http://common-lisp.net/project/slime/][SLIME]]
+supports many Common Lisp implementations and is compatible with GNU
+Emacs version 21 and later and with XEmacs version 21.
+
+Optionally, Sylvester the Cat's Common Lisp IDE, or [[https://github.com/capitaomorte/sly][SLY]] can be used
+for evaluation.  Specify SLY by setting =org-babel-lisp-eval-fn= to
+"sly-eval". 
+
+You'll need a working installation one of the many Common Lisp
+implementations supported by [[http://common-lisp.net/project/slime/][SLIME]] or [[https://github.com/capitaomorte/sly][SLY]], and [[http://common-lisp.net/project/slime/][SLIME]] or [[https://github.com/capitaomorte/sly][SLY]]. Consult the
+installation instructions for the Common Lisp implementation of your
+choice. [[http://common-lisp.net/project/slime/doc/html/Installation.html#Installation][SLIME installation]] requires just a few lines in =.emacs=, as
+does [[https://github.com/capitaomorte/sly][SLY]].
+
+To configure Common Lisp source code blocks in Org mode, add the
+appropriate dotted pair to =org-babel-load-languages=:
+
+#+begin_src emacs-lisp :exports code
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((lisp . t)))
+#+end_src
+
+* Org Mode Features for Common Lisp Source Code Blocks
+** Header Arguments
+There are no language-specific default values for header arguments
+to Common Lisp source code blocks.
+
+A single language-specific header argument is defined for Common Lisp
+source code blocks:
+
+- :package :: a string that names a Common Lisp package within which
+     to execute the source code block. The default value is
+     =:any=, which will execute the source code block in the
+     current package.
+** Sessions
+
+By their nature, Common Lisp interpreters always run "sessions."
+
+** Result Types
+All result types are supported.
+** Other
+
+The SLIME session must be running when the Common Lisp source code
+block is executed.
+
+* Examples of Use
+
+Start SLIME: =M-x slime <RET>=.
+
+#+begin_example
+,#+name: hello-world
+,#+header: :var message="Hello World!"
+,#+begin_src lisp
+  (princ message)
+,#+end_src
+#+end_example
+
+Execute the source code block with =C-c C-c= to yield this result:
+#+name: hello-world
+#+header: :exports results
+#+header: :var message="Hello World!"
+#+begin_src lisp
+(princ message)
+#+end_src
+
+#+results: hello-world
+: Hello World!
+
+
+* Links to Tutorials and Other Resources
+
+On-line Lisp books include an [[http://www.lisperati.com/casting.html][introductory comic book]], a [[http://www.gigamonkeys.com/book/][dead-sexy
+introduction and tutorial]], and a [[http://paulgraham.com/onlisp.html][comprehensive study of advanced Lisp
+techniques]].  Highly recommended.

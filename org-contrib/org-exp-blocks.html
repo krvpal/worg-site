@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-exp-blocks.el &#x2014; pre-process blocks when exporting org files</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-exp-blocks.el &#x2014; pre-process blocks when exporting org files</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf5b47bd">General</a></li>
+<li><a href="#org6e2e469">How to use it</a>
+<ul>
+<li><a href="#orgf30737f">Quick Examples</a></li>
+<li><a href="#org5e2b497">Loading it (No surprises here)</a></li>
+<li><a href="#org4102004">Adding new source-code types</a></li>
+</ul>
+</li>
+<li><a href="#orgf5d5ac5">Credits</a></li>
+<li><a href="#orgf496cb5">Additional Block Types</a>
+<ul>
+<li><a href="#org1c3e17b">Asymptote</a></li>
+<li><a href="#org533ef17">Dot with EPS</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf5b47bd" class="outline-2">
+<h2 id="orgf5b47bd">General</h2>
+<div class="outline-text-2" id="text-orgf5b47bd">
+<p>
+<code>org-exp-blocks</code> can be used to pre-process blocks when exporting org
+files.  An extensible framework for block exportation is provided, as
+well as block exporters for <a href="http://ditaa.sourceforge.net/">ditaa</a>, <a href="http://www.graphviz.org/">dot</a>, comments.
+</p>
+
+<p>
+Note: the ability to evaluate <a href="http://www.r-project.org/">R</a> blocks with org-exp-blocks has been
+removed. Please use <a href="babel/index.html">org-babel</a> for this purpose.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6e2e469" class="outline-2">
+<h2 id="org6e2e469">How to use it</h2>
+<div class="outline-text-2" id="text-org6e2e469">
+</div>
+<div id="outline-container-orgf30737f" class="outline-3">
+<h3 id="orgf30737f">Quick Examples</h3>
+<div class="outline-text-3" id="text-orgf30737f">
+<p>
+To use <code>org-exp-blocks</code> first <a href="#org5e2b497">load it</a> as described below.  Then try
+one of the following.
+</p>
+</div>
+
+<div id="outline-container-org085dcf0" class="outline-4">
+<h4 id="org085dcf0">ditaa</h4>
+<div class="outline-text-4" id="text-org085dcf0">
+<p>
+<a href="http://ditaa.sourceforge.net/">ditaa</a> is a tool for converting ASCII images into actual images.  I
+believe ditaa is distributed with newer versions of org-mode.  To make
+sure that you have ditaa installed check the value of
+`org-ditaa-jar-path&rsquo;, it should point to a <code>ditaa.jar</code> file.  Once
+ditaa is installed and the `org-ditaa-jar-path&rsquo; variable is set
+appropriately copy the following block in an org-mode file
+</p>
+
+<pre class="example">
+#+begin_ditaa blue.png -r -S
++---------+
+| cBLU    |
+|         |
+|    +----+
+|    |cPNK|
+|    |    |
++----+----+
+#+end_ditaa
+</pre>
+
+
+<p>
+Then export that file to HTML or LaTeX.  You should see an image like
+the following appear in the exported file.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-exp-blocks/blue.png" alt="blue.png" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0a88370" class="outline-4">
+<h4 id="org0a88370">dot</h4>
+<div class="outline-text-4" id="text-org0a88370">
+<p>
+dot is a language for representing structural information as diagrams
+of abstract graphs and networks.  It is part of <a href="http://www.graphviz.org/">Graphviz</a>.  To try out
+<code>org-exp-blocks</code> dot export install the <code>dot</code> shell command on your
+system, copy the following into an org-mode file
+</p>
+
+<pre class="example">
+#+begin_dot dot.png -Tpng
+digraph data_relationships {
+  "org-mode"
+  "org-exp-blocks"
+  "dot"
+  "ditaa"
+  "HTML" [shape=Mrecord, label="{HTML|publish on the web\l}"]
+  "LaTeX" [shape=Mrecord, label="{LaTeX|publish in PDF\l}"]
+  "org-mode" -&gt; "org-exp-blocks"
+  "dot" -&gt; "org-mode"
+  "ditaa" -&gt; "org-mode"
+  "org-exp-blocks" -&gt; "HTML"
+  "org-exp-blocks" -&gt; LaTeX
+}
+#+end_dot
+</pre>
+
+
+<p>
+Then export that file to HTML or LaTeX.  You should see an image like
+the following appear in the exported file.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/org-exp-blocks/dot.png" alt="dot.png" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org5e2b497" class="outline-3">
+<h3 id="org5e2b497">Loading it (No surprises here)</h3>
+<div class="outline-text-3" id="text-org5e2b497">
+<p>
+The easiest way is by 
+</p>
+
+<p>
+M-x customize-apropos org-modules
+</p>
+
+<p>
+Check the line for exp-blocks.  This will cause it to be loaded every
+time you start org-mode.
+</p>
+
+<p>
+You&rsquo;ll still have to load it manually the first time.
+</p>
+
+<p>
+Of course, you can also just try it out by loading it manually.
+</p>
+
+<p>
+If you prefer to manually customize your emacs then make sure that the
+path to org&rsquo;s contrib directory is in your load-path and add the
+following to your <code>.emacs</code>.
+</p>
+
+<pre class="example">
+(require 'org-exp-blocks)
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org4102004" class="outline-3">
+<h3 id="org4102004">Adding new source-code types</h3>
+<div class="outline-text-3" id="text-org4102004">
+<p>
+<code>org-exp-blocks</code> is extensible.  If you would like to add a new block
+type code to <code>org-exp-blocks</code> you may do so by defining an export
+function for that block which will be called by
+`org-export-blocks-preprocess&rsquo;.  Then add the block name, and the name
+of the function to the `org-export-blocks&rsquo; variable.
+</p>
+
+<p>
+If you add a new block type, and get it working please share your
+changes with the mailing list or post them <a href="#org0db3bab">here</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf5d5ac5" class="outline-2">
+<h2 id="orgf5d5ac5">Credits</h2>
+<div class="outline-text-2" id="text-orgf5d5ac5">
+<p>
+<code>org-exp-blocks</code> was developed by Eric Schulte with much-appreciated
+help from Carsten Dominik.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf496cb5" class="outline-2">
+<h2 id="orgf496cb5">Additional Block Types</h2>
+<div class="outline-text-2" id="text-orgf496cb5">
+<p>
+#<a id="org0db3bab"></a>
+</p>
+</div>
+
+<div id="outline-container-org1c3e17b" class="outline-3">
+<h3 id="org1c3e17b">Asymptote</h3>
+<div class="outline-text-3" id="text-org1c3e17b">
+<p>
+Asymptote is a &ldquo;powerful descriptive vector graphics language for
+technical drawing&rdquo;.  For more information see
+<a href="http://asymptote.sourceforge.net/">http://asymptote.sourceforge.net/</a>.
+</p>
+</div>
+
+<div id="outline-container-org676d2f3" class="outline-4">
+<h4 id="org676d2f3">Installation</h4>
+<div class="outline-text-4" id="text-org676d2f3">
+<p>
+The following can be used to add asymptote support to
+<code>org-exp-blocks</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-export-blocks
+      <span style="color: #fd971f;">(</span><span style="color: #fd971f;">cons</span> <span style="color: #9c91e4;">'</span><span style="color: #b6e63e;">(</span>asy org-export-blocks-format-asy<span style="color: #b6e63e;">)</span> org-export-blocks<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-export-blocks-format-asy</span> <span style="color: #fd971f;">(</span>body <span style="color: #66d9ef;">&amp;rest</span> headers<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Pass block BODY to the asy utility creating an image.</span>
+<span style="color: #7f7f80;">Specify the path at which the image should be saved as the first</span>
+<span style="color: #7f7f80;">element of headers, any additional elements of headers will be</span>
+<span style="color: #7f7f80;">passed to the asy utility as command line arguments. The default</span>
+<span style="color: #7f7f80;">output format is pdf, but you can specify any format supported by</span>
+<span style="color: #7f7f80;">Imagemagick convert program with '-f outformat'."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"asy-formatting..."</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>out-file <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> headers <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> headers<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">".+\\.</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">.+</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">"</span> out-file<span style="color: #eb4509;">)</span>
+                          <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">match-string</span> <span style="color: #9c91e4; font-weight: bold;">1</span> out-file<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                     <span style="color: #e2c770;">"pdf"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>args <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cdr</span> headers<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapconcat</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">identity</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cdr</span> headers<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">" "</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>data-file <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">make-temp-file</span> <span style="color: #e2c770;">"org-asy"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">setq</span> body <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"^</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">:</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">|</span><span style="color: #e2c770;">:[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;"> ]</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">"</span> body<span style="color: #fd971f;">)</span>
+                   body
+                 <span style="color: #fd971f;">(</span><span style="color: #fd971f;">mapconcat</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #eb4509;">(</span>x<span style="color: #eb4509;">)</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">substring</span> x <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">&gt;</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">length</span> x<span style="color: #eb4509;">)</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span> <span style="color: #9c91e4; font-weight: bold;">2</span> <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+                            <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-split-string</span> body <span style="color: #e2c770;">"\n"</span><span style="color: #b6e63e;">)</span>
+                            <span style="color: #e2c770;">"\n"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span> 
+     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> htmlp latexp<span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-file</span> data-file <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">insert</span> body<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"asy -globalwrite -f "</span> format <span style="color: #e2c770;">" -o "</span> out-file <span style="color: #e2c770;">" "</span> args <span style="color: #e2c770;">" "</span> data-file<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">shell-command</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"asy -globalwrite -f "</span> format <span style="color: #e2c770;">" -o "</span> out-file <span style="color: #e2c770;">" "</span> args <span style="color: #e2c770;">" "</span> data-file<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\n[[file:%s]]\n"</span> out-file<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span>t <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span>
+         <span style="color: #e2c770;">"\n#+BEGIN_EXAMPLE\n"</span>
+         body <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"\n$"</span> body<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">""</span> <span style="color: #e2c770;">"\n"</span><span style="color: #b6e63e;">)</span>
+         <span style="color: #e2c770;">"#+END_EXAMPLE\n"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7f21f56" class="outline-4">
+<h4 id="org7f21f56">Example</h4>
+<div class="outline-text-4" id="text-org7f21f56">
+<p>
+Here is a simple asymptote block :
+</p>
+
+<pre class="example">
+#+begin_asy out.png
+import graph;
+
+size(0,4cm);
+
+real f(real t) {return 1+cos(t);}
+
+path g=polargraph(f,0,2pi,operator ..)--cycle;
+filldraw(g,pink);
+
+xaxis("$x$",above=true);
+yaxis("$y$",above=true);
+
+dot("$(a,0)$",(1,0),N);
+dot("$(2a,0)$",(2,0),N+E);
+#+end_asy
+</pre>
+
+
+<p>
+The output should be <img src="../images/org-exp-blocks/cardioid.png" alt="cardioid.png" />
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf98b5d2" class="outline-4">
+<h4 id="orgf98b5d2">Credit</h4>
+<div class="outline-text-4" id="text-orgf98b5d2">
+<p>
+Thanks to Nicolas Goaziou for adding support for asymptote.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org533ef17" class="outline-3">
+<h3 id="org533ef17">Dot with EPS</h3>
+<div class="outline-text-3" id="text-org533ef17">
+<p>
+While dot is capable of generating pdf images directly the results are
+more pleasing when <code>dot</code> is used to generate an eps file and
+<code>epstopdf</code> is used to generate the actual pdf.
+</p>
+
+<p>
+The following block type takes the name of a file, and generates both
+and EPS and a PDF file at that base name.
+</p>
+</div>
+
+<div id="outline-container-org2ca1ba6" class="outline-4">
+<h4 id="org2ca1ba6">Installation</h4>
+<div class="outline-text-4" id="text-org2ca1ba6">
+<p>
+The following can be used to add <code>dot-and-eps</code> block support to
+<code>org-exp-blocks</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-export-blocks-format-dot-and-eps</span> <span style="color: #fd971f;">(</span>body <span style="color: #66d9ef;">&amp;rest</span> headers<span style="color: #fd971f;">)</span>
+  <span style="color: #7f7f80;">"Pass block BODY to the dot graphing utility creating an eps</span>
+<span style="color: #7f7f80;">file which is then processed by eps to create a pdf.  Specify the</span>
+<span style="color: #7f7f80;">path at which the final pdf image should be created as the first</span>
+<span style="color: #7f7f80;">element of headers, any additional elements of headers will be</span>
+<span style="color: #7f7f80;">passed to the dot utility as command line arguments.</span>
+
+<span style="color: #7f7f80;">#+begin_dot_and_eps duh</span>
+<span style="color: #7f7f80;">digraph test {</span>
+<span style="color: #7f7f80;">a -&gt; { b c d e };</span>
+<span style="color: #7f7f80;">e -&gt; { f g h i };</span>
+<span style="color: #7f7f80;">};</span>
+<span style="color: #7f7f80;">#+end_dot"</span>
+  <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"dot-and-eps-formatting..."</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>out-file <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> headers <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> headers<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span>args <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">cdr</span> headers<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">mapconcat</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">identity</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">cdr</span> headers<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">" "</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+  <span style="color: #eb4509;">(</span>data-file <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">make-temp-file</span> <span style="color: #e2c770;">"org-dot"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">cond</span>
+     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> htmlp latexp docbookp<span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #eb4509;">with-temp-file</span> data-file <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">insert</span> body<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">shell-command</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"dot -Teps "</span> data-file <span style="color: #e2c770;">" "</span> args <span style="color: #e2c770;">" -o "</span> out-file <span style="color: #e2c770;">".eps"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">shell-command</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"epstopdf "</span> out-file <span style="color: #e2c770;">".eps"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+      <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"\n[[file:%s.pdf]]\n"</span> out-file<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span>t <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span>
+   <span style="color: #e2c770;">"\n#+BEGIN_EXAMPLE\n"</span>
+   body <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"\n$"</span> body<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">""</span> <span style="color: #e2c770;">"\n"</span><span style="color: #b6e63e;">)</span>
+   <span style="color: #e2c770;">"#+END_EXAMPLE\n"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span>org-export-blocks-add-block <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>dot-and-eps org-export-blocks-format-dot-and-eps nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5ef448" class="outline-4">
+<h4 id="orga5ef448">Example</h4>
+<div class="outline-text-4" id="text-orga5ef448">
+<p>
+Here is an example <code>dot-and-eps</code> block
+</p>
+
+<pre class="example">
+#+begin_dot-and-eps out-w-eps
+digraph test {
+a -&gt; { b c d e };
+e -&gt; { f g h i };
+};
+#+end_dot-and-eps
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org16cef50" class="outline-4">
+<h4 id="org16cef50">Credit</h4>
+<div class="outline-text-4" id="text-org16cef50">
+<p>
+Thanks to Russell Adams for noticing this need, and supplying the
+command lines.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

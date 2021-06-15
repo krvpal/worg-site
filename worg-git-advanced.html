@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Advanced usage of git for Worg</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Worg people" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Advanced usage of git for Worg</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org52b4dbd">Shall I create a branch?</a></li>
+<li><a href="#org2398625">I just want to send patches!</a>
+<ul>
+<li><a href="#orge3d8440">Use git format-patch</a></li>
+<li><a href="#org57ca4cc">Use git send-email</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This page answer various questions on how to use git for editing Worg.
+</p>
+
+<p>
+If you&rsquo;re looking for a quick introduction on how to use git to
+contribute to Worg, please read <a href="worg-about.html#org8a84f78">this section</a> instead.
+</p>
+
+<div id="outline-container-org52b4dbd" class="outline-2">
+<h2 id="org52b4dbd">Shall I create a branch?</h2>
+<div class="outline-text-2" id="text-org52b4dbd">
+<p>
+Yes, it&rsquo;s cleaner.
+</p>
+
+<pre class="example">
+~$ git checkout -b t/my-topic-branch 
+~$ git commit -a -m "A line describing my change"
+</pre>
+
+
+<p>
+From here, either you are a registered Worg contributor and want to
+merge the branch before pushing to Worg&rsquo;s repo, either you just want to
+send patches.
+</p>
+
+<p>
+If you want to merge the branch and push to Worg:
+</p>
+
+<pre class="example">
+~$ git checkout master
+~$ git merge t/my-topic-branch
+~$ git push
+</pre>
+
+
+<p>
+If you just want to send patches, see below.
+</p>
+
+<p>
+When you&rsquo;re done with a branch, you can delete it with:
+</p>
+
+<pre class="example">
+~$ git branch -D t/my-topic-branch
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2398625" class="outline-2">
+<h2 id="org2398625">I just want to send patches!</h2>
+<div class="outline-text-2" id="text-org2398625">
+<p>
+It&rsquo;s okay.
+</p>
+
+<p>
+You can either either prepare patches with <a href="http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html">git format-patch</a> or send them
+directly with <a href="http://www.kernel.org/pub/software/scm/git/docs/git-send-email.html">git send-email</a>.
+</p>
+</div>
+
+<div id="outline-container-orge3d8440" class="outline-3">
+<h3 id="orge3d8440">Use git format-patch</h3>
+<div class="outline-text-3" id="text-orge3d8440">
+<p>
+We suppose you are in a branch called <code>t/my-topic-branch</code> and that you
+committed your changes.
+</p>
+
+<pre class="example">
+~$ git format-patch origin
+</pre>
+
+
+<p>
+will create a separate mbox file for each commit, ready to be sent.
+</p>
+
+<pre class="example">
+~$ git format-patch -3
+</pre>
+
+
+<p>
+will create three separate files for the last three commits you did in
+this branch.
+</p>
+
+<p>
+See the documentation of <a href="http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html">git format-patch</a> to set the value of the
+various headers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org57ca4cc" class="outline-3">
+<h3 id="org57ca4cc">Use git send-email</h3>
+<div class="outline-text-3" id="text-org57ca4cc">
+<p>
+If your Worg repo is in <code>~/git/Worg</code> and if your emails are sent through
+the <code>sendmail</code> command, please add this to <code>~/git/Worg/.git/config</code>:
+</p>
+
+<pre class="example">
+[sendemail]
+	to = bzg AT gnu DOT org
+</pre>
+
+
+<p>
+(Replace <code>AT</code> and <code>DOT</code> by the <code>@</code> and <code>.</code>)
+</p>
+
+<p>
+Then the <code>git send-email</code> command will send the patches directly to
+Bastien.
+</p>
+
+<p>
+Use <code>git send-email</code> like this:
+</p>
+
+<pre class="example">
+~$ git send-email --annotate -3
+</pre>
+
+
+<p>
+to review and annotate the last three commits in the current branch
+before sending them.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Worg people</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

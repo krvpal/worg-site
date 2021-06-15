@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>J Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Oleh Krehel" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">J Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgdc624b5">Introduction</a></li>
+<li><a href="#orgef84bb4">Requirements and Setup</a></li>
+<li><a href="#org3d86e9d">Org Mode Features for J Source Code Blocks</a>
+<ul>
+<li><a href="#org9262914">Header Arguments</a></li>
+<li><a href="#org8a4ab3c">Sessions</a></li>
+<li><a href="#org6c89553">Result Types</a></li>
+</ul>
+</li>
+<li><a href="#org1861fee">Examples of Use</a>
+<ul>
+<li><a href="#org6e61d23">Hello World!</a></li>
+<li><a href="#orgb75558a">Common uses</a></li>
+<li><a href="#org292ba87">Links to tutorials and other resources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://www.jsoftware.com/">J</a>
+</p>
+<p>
+<a href="http://www.jsoftware.com/">
+<img src="http://www.jsoftware.com/jwiki/moin_static194/common/jwlogo.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-orgdc624b5" class="outline-2">
+<h2 id="orgdc624b5">Introduction</h2>
+<div class="outline-text-2" id="text-orgdc624b5">
+<p>
+J is a modern, high-level, general-purpose, high-performance
+programming language. J is portable and runs on Windows, Unix, Mac,
+both as a GUI and in a console. J systems can be installed and
+distributed for free.
+</p>
+
+<p>
+J source code blocks in Org Mode can be used to perform calculations,
+plot graphs and produce reproducible research papers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgef84bb4" class="outline-2">
+<h2 id="orgef84bb4">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orgef84bb4">
+<p>
+J source code blocks in Org Mode require a working J installation.
+Precompiled binary distributions for Gnu/Linux, Mac OS X, and Windows
+are available at the <a href="http://www.jsoftware.com/stable.htm">http://www.jsoftware.com/stable.htm</a>.
+The source can be found at <a href="http://www.jsoftware.com/source.htm">http://www.jsoftware.com/source.htm</a>.
+After the installation, make sure that <code>jconsole</code> executable is in
+your path (and that it&rsquo;s actually the J console, not some Java thing).
+</p>
+
+<p>
+For :session evaluation, <code>j-mode</code> package is required.
+It&rsquo;s available in MELPA and links to <a href="https://github.com/zellio/j-mode">https://github.com/zellio/j-mode</a>.
+Note that the package in Marmalade is different at the moment.
+</p>
+
+<p>
+Finally, you&rsquo;ll need to ensure that <code>org-babel-load-languages</code>
+includes an entry for J.  Typically, <code>org-babel-load-languages</code>
+will contain many entries.  The example below omits other languages.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>J . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3d86e9d" class="outline-2">
+<h2 id="org3d86e9d">Org Mode Features for J Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org3d86e9d">
+</div>
+<div id="outline-container-org9262914" class="outline-3">
+<h3 id="org9262914">Header Arguments</h3>
+<div class="outline-text-3" id="text-org9262914">
+<p>
+There are no J-specific default header arguments.
+</p>
+
+<p>
+There are no J-specific header arguments.
+</p>
+</div>
+</div>
+<div id="outline-container-org8a4ab3c" class="outline-3">
+<h3 id="org8a4ab3c">Sessions</h3>
+<div class="outline-text-3" id="text-org8a4ab3c">
+<p>
+Sessions are fully supported by J source code blocks.  They can be
+used as one way to preserve state accessed by several source code
+blocks.  Sessions are also useful for debugging, since it is possible
+to view the values of variables created during the session.
+</p>
+</div>
+</div>
+<div id="outline-container-org6c89553" class="outline-3">
+<h3 id="org6c89553">Result Types</h3>
+<div class="outline-text-3" id="text-org6c89553">
+<p>
+Only basic text output is supported.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1861fee" class="outline-2">
+<h2 id="org1861fee">Examples of Use</h2>
+<div class="outline-text-2" id="text-org1861fee">
+</div>
+<div id="outline-container-org6e61d23" class="outline-3">
+<h3 id="org6e61d23">Hello World!</h3>
+<div class="outline-text-3" id="text-org6e61d23">
+<pre class="example">
+#+begin_src J :exports both
+'Hello , World!'
+#+end_src
+</pre>
+
+
+<pre class="example">
+#+RESULTS:
+: Hello , World!
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb75558a" class="outline-3">
+<h3 id="orgb75558a">Common uses</h3>
+<div class="outline-text-3" id="text-orgb75558a">
+</div>
+<div id="outline-container-orgfc2f72a" class="outline-4">
+<h4 id="orgfc2f72a">plot a graph</h4>
+<div class="outline-text-4" id="text-orgfc2f72a">
+<p>
+Note that in order for this to work, <code>plot</code> libarary has to be
+installed. You can install it on Linux by running <code>jgtk</code> and selecting
+the menu Tools/Package Manager. Afterwards, the experience is similar
+to <code>synaptic</code>.
+This should plot a sine. On my system, it creates a <i>plot.png</i> file
+and opens it in a browser.
+</p>
+
+<pre class="example">
+#+begin_src J
+load 'plot'
+plot 1 o. 0.1 * i.200
+#+end_src
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6cbb3b7" class="outline-4">
+<h4 id="org6cbb3b7">mini-SQL</h4>
+<div class="outline-text-4" id="text-org6cbb3b7">
+<p>
+Suppose we have two tables
+</p>
+
+<pre class="example">
+#+begin_src SQL
+CREATE TABLE Customers (ID INT, Name TEXT, Age INT, Salary INT)
+CREATE TABLE Orders (OID INT,  Date  DATETIME,  CustomerID INT, Amount INT)
+#+end_src
+</pre>
+
+
+<p>
+And here&rsquo;s the query that we&rsquo;d like to perform:
+</p>
+
+<pre class="example">
+#+begin_src SQL
+SELECT * FROM Orders o
+INNER JOIN Customers c ON o.CustomerID = c.ID AND o.Amount &lt; 2000
+#+end_src
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><a id="org5488aa3"></a>API implementation<br />
+<div class="outline-text-5" id="text-org5488aa3">
+<pre class="example">
+#+begin_src J :session
+createTable =: [:|:,.&amp;a:
+union =: ([:{.[),:[:([:&lt;[:;]#~~:&amp;a:)"1([:{:[),.([:{:]){~([:{.])i.[:{.[
+insert =: [union[:({.,:([:([:&lt;[:(]$~[:1&amp;,#)&gt;)"0{:))[:|:[:&gt;]
+rows =: {.([:&lt;,:)"1 1[:|:[:([:&lt;"1[:,.&gt;)"0{:
+value =: [:(]`{.@.([:1&amp;=#))[:,[:&gt;[((([:&lt;[)=[:{.])#[:{:])[:&gt;]
+pr =: [:,[:(([:&gt;[)(([:&lt;([:&gt;[),.[:&gt;])"0 0)"0 1[:&gt;])/[:([:&lt;[:rows&gt;)"0]
+join =: 1 : '((([:{.[:&gt;{.),:[:([:&lt;(&gt;"0))"1[:{:[:1 2 0&amp;|:[:&gt;([:,u"0)#]) (pr y))'
+#+end_src
+</pre>
+</div>
+</li>
+
+<li><a id="orgfc9b055"></a>Create and fill the tables<br />
+<div class="outline-text-5" id="text-orgfc9b055">
+<pre class="example">
+#+begin_src J :session :exports both
+[Customers =: createTable 'ID';'Name';'Age';'Salary'
+[Orders =: createTable 'OID';'Date';'CustomerID';'Amount'
+
+Customers =: Customers insert (&lt;'ID'; 1),(&lt;'Name'; 'Ramesh'),(&lt;'Age'; 32),(&lt;'Salary'; 2000)
+Customers =: Customers insert (&lt;'ID'; 2),(&lt;'Name'; 'Khilan'),(&lt;'Age'; 25),(&lt;'Salary'; 1500)
+Customers =: Customers insert (&lt;'ID'; 3),(&lt;'Name'; 'kaushik'),(&lt;'Age'; 23),(&lt;'Salary'; 2000)
+Customers =: Customers insert (&lt;'ID'; 4),(&lt;'Name'; 'Chaitali'),(&lt;'Age'; 25),(&lt;'Salary'; 6500)
+Customers =: Customers insert (&lt;'ID'; 5),(&lt;'Name'; 'Hardik'),(&lt;'Age'; 27),(&lt;'Salary'; 8500)
+Customers =: Customers insert (&lt;'ID'; 6),(&lt;'Name'; 'Komal'),(&lt;'Age'; 22),(&lt;'Salary'; 4500)
+Customers =: Customers insert (&lt;'ID'; 7),(&lt;'Name'; 'Muffy'),(&lt;'Age'; 24),(&lt;'Salary'; 10000)
+
+Orders =: Orders insert (&lt;'OID'; 102),(&lt;'Date'; '2009-10-08'),(&lt;'CustomerID'; 3),(&lt;'Amount'; 3000)
+Orders =: Orders insert (&lt;'OID'; 100),(&lt;'Date'; '2009-10-08'),(&lt;'CustomerID'; 3),(&lt;'Amount'; 1500)
+Orders =: Orders insert (&lt;'OID'; 101),(&lt;'Date'; '2009-11-20'),(&lt;'CustomerID'; 2),(&lt;'Amount'; 1560)
+Orders =: Orders insert (&lt;'OID'; 103),(&lt;'Date'; '2008-05-20'),(&lt;'CustomerID'; 4),(&lt;'Amount'; 2060)
+Customers
+Orders
+#+end_src
+</pre>
+
+
+<pre class="example">
+#+RESULTS:
+#+begin_example
+┌──┬────┬───┬──────┐
+│ID│Name│Age│Salary│
+├──┼────┼───┼──────┤
+│  │    │   │      │
+└──┴────┴───┴──────┘
+
+┌───┬────┬──────────┬──────┐
+│OID│Date│CustomerID│Amount│
+├───┼────┼──────────┼──────┤
+│   │    │          │      │
+└───┴────┴──────────┴──────┘
+
+┌──┬────────┬───┬──────┐
+│ID│Name    │Age│Salary│
+├──┼────────┼───┼──────┤
+│1 │Ramesh  │32 │ 2000 │
+│2 │Khilan  │25 │ 1500 │
+│3 │kaushik │23 │ 2000 │
+│4 │Chaitali│25 │ 6500 │
+│5 │Hardik  │27 │ 8500 │
+│6 │Komal   │22 │ 4500 │
+│7 │Muffy   │24 │10000 │
+└──┴────────┴───┴──────┘
+
+┌───┬──────────┬──────────┬──────┐
+│OID│Date      │CustomerID│Amount│
+├───┼──────────┼──────────┼──────┤
+│102│2009-10-08│3         │3000  │
+│100│2009-10-08│3         │1500  │
+│101│2009-11-20│2         │1560  │
+│103│2008-05-20│4         │2060  │
+└───┴──────────┴──────────┴──────┘
+#+end_example
+</pre>
+</div>
+</li>
+
+<li><a id="org7f68188"></a>The query<br />
+<div class="outline-text-5" id="text-org7f68188">
+<pre class="example">
+#+begin_src J :session :exports both
+(([:2000&amp;&gt;'Amount'&amp;value)*.'CustomerID'&amp;value='ID'&amp;value) join Customers; &lt; Orders
+#+end_src
+</pre>
+
+
+<pre class="example">
+#+RESULTS:
+┌──┬────────┬───┬──────┬───┬──────────┬──────────┬──────┐
+│ID│Name    │Age│Salary│OID│Date      │CustomerID│Amount│
+├──┼────────┼───┼──────┼───┼──────────┼──────────┼──────┤
+│2 │Khilan  │25 │1500  │101│2009-11-20│2         │1560  │
+│3 │kaushik │23 │2000  │100│2009-10-08│3         │1500  │
+└──┴────────┴───┴──────┴───┴──────────┴──────────┴──────┘
+</pre>
+</div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-org415d36b" class="outline-4">
+<h4 id="org415d36b">Sudoku solver</h4>
+<div class="outline-text-4" id="text-org415d36b">
+<p>
+Note that this takes a few seconds to solve.  Hence this example not
+suitable for :session use, since session has a set limit of 0.1
+seconds to wait for jconsole to print something and then copy that
+output to org.
+</p>
+<pre class="example">
+#+begin_src J :exports both
+i =: ,((,|:)i.9 9),,./,./i.4$3
+c =: (#=[:#~.)@-.&amp;0
+t =: [:(([:*/_9:c\])"1#])i&amp;{+"1 1(&gt;:i.9)*/[:i&amp;=i.&amp;0
+r =: [:,`$:@.(0:e.,)[:;(&lt;@t)"1
+s =: 9 9&amp;$@r@,
+]m =: 9 9 $"."0'200370009009200007001004002050000800008000900006000040900100500800007600400089001'
+s m
+#+end_src
+</pre>
+
+
+<pre class="example">
+#+RESULTS:
+#+begin_example
+2 0 0 3 7 0 0 0 9
+0 0 9 2 0 0 0 0 7
+0 0 1 0 0 4 0 0 2
+0 5 0 0 0 0 8 0 0
+0 0 8 0 0 0 9 0 0
+0 0 6 0 0 0 0 4 0
+9 0 0 1 0 0 5 0 0
+8 0 0 0 0 7 6 0 0
+4 0 0 0 8 9 0 0 1
+
+2 8 4 3 7 5 1 6 9
+6 3 9 2 1 8 4 5 7
+5 7 1 9 6 4 3 8 2
+1 5 2 4 9 6 8 7 3
+3 4 8 7 5 2 9 1 6
+7 9 6 8 3 1 2 4 5
+9 6 7 1 4 3 5 2 8
+8 1 3 5 2 7 6 9 4
+4 2 5 6 8 9 7 3 1
+#+end_example
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org292ba87" class="outline-3">
+<h3 id="org292ba87">Links to tutorials and other resources</h3>
+<div class="outline-text-3" id="text-org292ba87">
+</div>
+<div id="outline-container-org021080d" class="outline-4">
+<h4 id="org021080d">J tutorials/books</h4>
+<div class="outline-text-4" id="text-org021080d">
+<ul class="org-ul">
+<li><a href="http://www.jsoftware.com/docs/help701/primer/contents.htm">http://www.jsoftware.com/docs/help701/primer/contents.htm</a></li>
+<li><a href="http://www.jsoftware.com/docs/help701/learning/contents.htm">http://www.jsoftware.com/docs/help701/learning/contents.htm</a></li>
+<li><a href="http://www.jsoftware.com/help/learning/lj.pdf">http://www.jsoftware.com/help/learning/lj.pdf</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbd6911a" class="outline-4">
+<h4 id="orgbd6911a">Emacs packages for J</h4>
+<div class="outline-text-4" id="text-orgbd6911a">
+<ul class="org-ul">
+<li><a href="https://github.com/zellio/j-mode">https://github.com/zellio/j-mode</a></li>
+<li><a href="https://github.com/abo-abo/helm-j-cheatsheet">https://github.com/abo-abo/helm-j-cheatsheet</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Oleh Krehel</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

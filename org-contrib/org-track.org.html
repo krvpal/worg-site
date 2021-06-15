@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-track.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>   <span class="org-document-title">org-track.el -- Keep current with Org-mode development: M-x org-track-update
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's contibutions index}</a></span>
+
+<span class="bold">Note that this package might need to be updated to work with the new
+Org repo starting 2018. See </span><span class="kc-org-link-url"><span class="bold"><a href="http://lists.gnu.org/r/emacs-orgmode/2017-12/msg00578.html">here</a></span></span><span class="bold"> for the announcement.</span>
+
+<span class="org-verbatim">org-track.el</span> aims to add a simple interface to track Org-mode's git
+repository on <span class="kc-org-link-url"><a href="https://code.orgmode.org/bzg/org-mode.git">https://code.orgmode.org/bzg/org-mode.git</a></span>. For non-git
+users, an <span class="org-verbatim">org-latest.tar.gz</span> archive is provided and will be downloaded
+from <span class="kc-org-link-url"><a href="https://orgmode.org/org-latest.tar.gz">https://orgmode.org/org-latest.tar.gz</a></span>.
+
+The idea was born in a thread on the emacs-orgmode mailing list on <span class="kc-org-link-url"><a href="https://orgmode.org/list/D5AB1A81-4B00-4B4F-9A1C-A2995AE297FA@nf.mpg.de">a
+request from Stefan Vollmar</a></span>.
+
+If you run into trouble, drop us a mail on the <span class="org-link"><a href="mailto:emacs-orgmode@gnu.org">emacs-orgmode mailing
+list</a></span>.
+
+<span class="comment"># &lt;&lt;usage&gt;&gt;</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Usage
+</span>
+  You will need an initial version of the Org-mode distribution in
+  your load path:
+
+<span class="org-block-begin-line">  #+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">load-path</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"/path/to/org-mode/lisp"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="constant">org</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="constant">org-track</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">  #+end_src
+</span>
+  You will also need to clone the <span class="org-verbatim">org-contrib</span> repository from <span class="kc-org-link-url"><a href="https://git.sr.ht/~bzg/org-contrib">here</a></span>,
+  and to require <span class="org-verbatim">org-track</span>:
+
+<span class="org-block-begin-line">  #+begin_src emacs-lisp
+</span><span class="org-block">    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">load-path</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"/path/to/org-contrib/lisp"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+    </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="constant">org-track</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">  #+end_src
+</span>
+  Adjust at least the variable <span class="org-verbatim">org-track-directory</span>. You can use
+  customize for this:
+
+  <span class="org-code">: M-x customize-variable RET org-track-directory RET
+</span>
+  From now on, to update and compile the current development version
+  of Org-mode is just a matter of typing:
+
+  <span class="org-code">: M-x org-track-update RET
+</span>
+  This will download the current <span class="org-verbatim">org-latest.tar.gz</span> and (optionally) compile the sources.
+
+<span class="comment"># &lt;&lt;org-git-directory&gt;&gt;</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> org-track-directoy Layout
+</span>
+  The <span class="org-verbatim">org-track-directory</span> is the only variable you'll need to
+  adjust. This is the directory where your local copy of Org-mode will
+  live. I.e., a sub directory 'org-mode/' will be added here. Also the
+  file <span class="org-verbatim">org-latest.tar.gz</span> will be put here (and deleted after updates):
+
+  <span class="org-code">: org-track-directory
+</span>  <span class="org-code">:         |-- org-latest.tar.gz (if you download archives)
+</span>  <span class="org-code">:         `-- org-mode
+</span>  <span class="org-code">:             |-- ...
+</span>  <span class="org-code">:             |-- lisp          (add this dir to your loadpath)
+</span>  <span class="org-code">:             |-- contrib
+</span>  <span class="org-code">:             |   `-- lisp       (add this dir to your loadpath)
+</span>  <span class="org-code">:             `-- ...
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Fine-tuning
+</span>
+  To see and/or change all the related variables, do:
+
+  <span class="org-code">: M-x customize-group RET org-track RET
+</span>
+  Here is a list of all variables the script uses:
+
+  <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-track-directory</span></span><span class="org-list-dt"> ::</span> The directory, where the sub-directory
+    <span class="org-verbatim">org-mode/</span> lives. Default: <span class="org-verbatim">~/.emacs.d/org/lisp</span>
+  <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-track-compile-sources</span></span><span class="org-list-dt"> ::</span> Compile the sources after
+    downloading? Defaults to <span class="org-verbatim">t</span>.
+  <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-track-org-url</span></span><span class="org-list-dt"> ::</span> The package is downloaded from this URL. This
+    denotes the folder actually (i.e. the URL without the basename
+    <span class="org-verbatim">org-latest.tar.gz</span>).
+  <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-track-org-package</span></span><span class="org-list-dt"> ::</span> The name the package itself. Default:
+    <span class="org-verbatim">org-latest.tar.gz</span>.
+  <span class="org-list-dt">-</span> <span class="org-verbatim"><span class="org-list-dt">org-track-remove-package</span></span><span class="org-list-dt"> ::</span> Remove the downloaded package after
+    unpacking?  The default is to keep the archive.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How it works
+</span>
+  The `*.tar.gz' version is extracted without external dependencies
+  (tar-mode).  To make sure that <span class="org-verbatim">org-latest.tar.gz</span> is opened in
+  tar-mode, the code modifies your `auto-mode-alist':
+
+<span class="org-block-begin-line">  #+begin_src emacs-lisp
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">auto-mode-alist</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="string">"org-latest\\.tar\\.gz\\'"</span></span><span class="org-block"> . tar-mode</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">  #+end_src
+</span>
+  The downloaded package can be removed. See the option
+  <span class="org-verbatim">org-git-remove-package</span>.  Default is not to remove <span class="org-verbatim">org-latest.tar.gz</span>.
+</pre>
+  </body>
+</html>

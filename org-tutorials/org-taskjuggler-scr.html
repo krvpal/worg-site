@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="scr" xml:lang="scr">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Кreiranje Gantt grafikona izvozom do TaskJuggler</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Jovana Milutinovich" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Кreiranje Gantt grafikona izvozom do TaskJuggler</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org89c58aa">Uvod</a></li>
+<li><a href="#org5343b03">Planirajte svoj projekat</a></li>
+<li><a href="#org7574720">Proceniti napor</a></li>
+<li><a href="#org197061f">Generisati Gantt grafikone</a></li>
+<li><a href="#orge55d4b9">Dodeljivanje resursa</a></li>
+<li><a href="#org31622de">Odrediti zavisnosti</a></li>
+<li><a href="#orgaa3d76f">Export of other properties</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="index.html">{{Nazad do Workq”s indeksa index}}</a>
+</p>
+
+<p>
+<i>Thanks to Jovana Milutinovich (<code>jovanam AT webhostinggeeks DOT com</code>) for the translation.</i>
+</p>
+
+<div id="outline-container-org89c58aa" class="outline-2">
+<h2 id="org89c58aa">Uvod</h2>
+<div class="outline-text-2" id="text-org89c58aa">
+<p>
+<a href="https://orgmode.org/">Org mod</a> је odličan dodatak za projektno planiranje , kao što je Peter Jones
+pokazao u svom članku o <a href="http://www.contextualdevelopment.com/articles/2008/project-planning">projektnom planiranju</a>. On prvo podeli projekat na
+karakteristike i zadatke, zatim procenjuje efekt i trud i iz toga
+prezentuje projektni plan. U ovom vodiču ćemo ići još jedan korak napred,
+dodelićemo resurse zadacima, zatim napraviti raspored zadataka i kreirati
+odgovarajući gantt grafikon za ovaj projekat.
+</p>
+
+<p>
+Koristićemo <a href="http://www.taskjuggler.org/">TaskJuggler</a> da bi rukovodili sa rasporedom zadataka,
+nivelisanjem izvora i kreiranjem bezbroj grafikona (kao <a href="https://en.wikipedia.org/wiki/Gantt_chart">Gantt grafikoni</a>) za
+vašu mušteriju na vašem <a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">Pointy-haired Boss</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5343b03" class="outline-2">
+<h2 id="org5343b03">Planirajte svoj projekat</h2>
+<div class="outline-text-2" id="text-org5343b03">
+<p>
+Startujete kao i obično tako što se projekat podeli na zadatke. Hajde da
+uzmemo sledeći primer gde imamo da kreiramo projetak u vezi sa
+računovodstvom (softver):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Accounting Software
+  ,
+  ** Specification
+  ,
+  ** Software Development
+  <span style="font-weight: bold;">*</span> Database coupling
+  <span style="font-weight: bold;">*</span> Back-End Functions
+  <span style="font-weight: bold;">*</span> Graphical User Interface
+  ,
+  ** Software testing
+  <span style="font-weight: bold;">*</span> Alpha Test
+  <span style="font-weight: bold;">*</span> Beta Test
+  ,
+  ** Manual
+  ,
+  ** Milestones
+  <span style="font-weight: bold;">*</span> Project start
+  <span style="font-weight: bold;">*</span> Technology Preview
+  <span style="font-weight: bold;">*</span> Beta version
+  <span style="font-weight: bold;">*</span> Ship Product to Customer
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7574720" class="outline-2">
+<h2 id="org7574720">Proceniti napor</h2>
+<div class="outline-text-2" id="text-org7574720">
+<p>
+Sada kada ste odgonetnuli zadatke, vreme je da procenimo napor za svaki
+pojedinačni zadatak. Koristeći kolonu pregleda ovo može da se završi vrlo
+efikasno i brzo. Takođe , pomaže da se definišu <code>COLUMNS</code> i standardne
+vrednosti za “Effort property” kao što je pokazano na sledećoj slici:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/effort-estimation.png" alt="effort-estimation.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Procenjujemo napor pomoću kolone pregleda</p>
+</div>
+
+<p>
+Rezultat vašeg projekta Org moda će izgledati nešto slično kao sledeće:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d</span>
+<span style="color: #7f7f80;">  #+COLUMNS: %70ITEM(Task) %Effort</span>
+  ,
+  * Accounting Software
+  ,
+  ** Specification
+  ,   :PROPERTIES:
+  ,   :Effort:   20d
+  ,   :END:
+  ,
+  ** Software Development
+  ,
+  <span style="font-weight: bold;">*</span> Database coupling
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Back-End Functions
+  ,    :PROPERTIES:
+  ,    :Effort:   30d
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Graphical User Interface
+  ,    :PROPERTIES:
+  ,    :Effort:   35d
+  ,    :END:
+  ,
+  ** Software testing
+  <span style="font-weight: bold;">*</span> Alpha Test
+  ,    :PROPERTIES:
+  ,    :Effort:   5d
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Beta Test
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :END:
+  ,
+  ** Manual
+  ,   :PROPERTIES:
+  ,   :Effort:   50d
+  ,   :END:
+  ,
+  ** Milestones
+  <span style="font-weight: bold;">*</span> Project start
+  <span style="font-weight: bold;">*</span> Technology Preview
+  <span style="font-weight: bold;">*</span> Beta version
+  <span style="font-weight: bold;">*</span> Ship Product to Customer
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org197061f" class="outline-2">
+<h2 id="org197061f">Generisati Gantt grafikone</h2>
+<div class="outline-text-2" id="text-org197061f">
+<p>
+Sada, pre nego što eksportujete projekat do TaskJuggler-a, treba da kažete
+izvozniku na kom drvetu može pronaći zadatke. Ovo radite tako što dodajete
+tag do <code>taskjuggler_project</code> do člana “Accounting Softvare"<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Uradite ovo
+pomeranjem do “Accounting Softvare” naslova i kucajte sledeće:
+</p>
+
+<pre class="example">
+C-c C-c taskjuggler_project RET
+</pre>
+
+
+<p>
+Оvo vam dozvoljava da imate i druge članove za ovaj projekat kao što su
+uvod i opšte napomene.
+</p>
+
+<p>
+Za izvoz projekta do TaskJuggler-a jednostavno ukucajte sledeće:
+</p>
+
+<pre class="example">
+M-x org-export-as-taskjuggler-and-open
+</pre>
+
+
+<p>
+Оvo će vam otvoriti projekat u TaskJuggler-u kao što je i prikazano ispod.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/TaskJugglerUI1.png" alt="TaskJugglerUI1.png" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Gantt grafikoni u TaskJuggler-UI</p>
+</div>
+
+<p>
+Kako nismo dodelili nijedan resurs za rad na ovom projektu, izvoznik
+pretpostavlja da ćete vi biti ti koji rade na projektu i dodeliće sve
+zadatke vama. Zadatak je serijalizovan, tj. izlazi u serijama tako da
+nećete imati da radite mnogo posla u isto vreme i resursi će biti
+nivelisani.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge55d4b9" class="outline-2">
+<h2 id="orge55d4b9">Dodeljivanje resursa</h2>
+<div class="outline-text-2" id="text-orge55d4b9">
+<p>
+Sledeći korak je da napravite listu svih resursa koji rade na projektu i
+dodeliti im zadatke. Kreirajte član za svaki resurs. Možete grupisati
+resurse kreiranjem hijerarhije. Označite drvo resursa sa oznakom
+<code>taskjuggler_resource</code> tako da izvoznik zna gde da gleda za resurs
+definicije<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org">  * Resources                          :taskjuggler_resource:
+  ** Developers
+  ,   :PROPERTIES:
+  ,   :resource_id: dev
+  ,   :END:
+  <span style="font-weight: bold;">*</span> Paul Smith
+  ,    :PROPERTIES:
+  ,    :resource_id: paul
+  ,    :END:
+  <span style="font-weight: bold;">*</span> S&#233;bastien Bono
+  ,    :PROPERTIES:
+  ,    :resource_id: seb
+  ,    :END:
+  <span style="font-weight: bold;">*</span> Klaus M&#252;ller
+  ,
+  ** Others
+  <span style="font-weight: bold;">*</span> Peter Murphy
+  ,    :PROPERTIES:
+  ,    :resource_id: doc
+  ,    :END:
+  <span style="font-weight: bold;">*</span> Dim Sung
+  ,    :PROPERTIES:
+  ,    :resource_id: test
+  ,    :END:
+</pre>
+</div>
+
+<p>
+Kao što ćete i primetiti, takođe sam dodao <code>resource_id</code> properties za neke
+resurse (grupe resursa). Koristiću te identifikatore za dodelu resursa
+zadacima. Izvoznik će kreirati jedinstveni ids za resurse automatski<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>,
+ali ako želite da koristite kratke forme bolje je da definišete
+<code>resource_id</code> properties za vaše resurse. Ovo će vam takođe omogućiti da
+definišete standardne vrednosti za dodelu kao što sledi:
+</p>
+
+<pre class="example">
+#+PROPERTY: allocate_ALL dev doc test
+</pre>
+
+
+<p>
+Najlakši način za dodeljivanje resursa, je ponovo kolumna pregleda. Nema
+potrebe za dodeljivanjem resursa za svaki zadatak, jer je dodeljivanje
+nasledno u TaskJuggler<sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>. Primetićete na ekranu ispod da neki zadaci
+imaju više nego jedan resurs dodeljen. TaskJuggler će izračunati trajanje
+svakog zadatka, baziranom na naporu i resursu koji rade na ovom zadatku.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/assign-resources.png" alt="assign-resources.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>Dodeljivanje resursa</p>
+</div>
+
+<p>
+Ako sada izvezemo projekat videćemo da je TaskJuggler organizovao neke
+zadatke paralelno (jer postoji nekoliko resursa koji mogu raditi
+paralelno).  Pogledajte sliku ispod:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/TaskJugglerUI2.png" alt="TaskJugglerUI2.png" />
+</p>
+<p><span class="figure-number">Figure 4: </span>Gantt grafikoni sa višestrukim resursima</p>
+</div>
+
+<p>
+Očigledno moramo da definišemo zavisnosti između zadataka.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org31622de" class="outline-2">
+<h2 id="org31622de">Odrediti zavisnosti</h2>
+<div class="outline-text-2" id="text-org31622de">
+<p>
+Ima nekoliko načina za definisanje zavisnosti između zadataka. Kada dolaze
+iz Org mod pozadine, vi ćete verovatno želeti da ih definišete koristeći
+postrojenja obezbeđena od strane Org moda, koji su ili:
+</p>
+
+<ul class="org-ul">
+<li>The <code>ORDERED</code> imovina koja vam dozvoljava i navodi vas da dečiji zadaci
+moraju biti kompletirani po tome kako se pojavljuju</li>
+
+<li>The <code>BLOCKER</code> imovina, koja vam dozvoljava i navodi vas da zadatak
+zavisi od
+
+<ul class="org-ul">
+<li>od prethodnog siblinga (prethodni-sibling)</li>
+<li>od bilo kog drugog zadatka, startujući <code>task_id</code> property od
+prethodnika</li>
+</ul></li>
+</ul>
+
+<p>
+Ponovo, ovo je verovatno najlakši način za definisanje zavisnosti koristeći
+kolumnu pregleda kao što je prikazano na ekranu ispod:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/define-dependencies.png" alt="define-dependencies.png" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Definisanje zavisnosti korišćenjem kolumne pregleda</p>
+</div>
+
+<p>
+Na kraju, takođe postoji i zavisnost imovine koja je u korespodenciji sa
+TaskJuggler terminologijom.  Može se koristiti na isti način kao <code>BLOCKER</code>
+imovina. Ovo je ilustrovano ispod gde je uzet primer “Softvare Development”
+koji je blokiran od strane zadatka “Specification”, gde mora da čeka dok se
+specifikacija ne završi.  Zadatak “Softvare Development” je definisan kao
+<code>ORDERED</code>, i svi podzadaci moraju biti kompletirani u sekvencama. Drugi
+primer je prekretnica “Ship Product to Customer” koji čeka dok se ne završe
+Beta i Ručni test.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">  #+PROPERTY: Effort_ALL 2d 5d 10d 20d 30d 35d 50d</span>
+<span style="color: #7f7f80;">  #+PROPERTY: allocate_ALL dev doc test</span>
+<span style="color: #7f7f80;">  #+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED</span>
+  ,
+  * Accounting Software                 :taskjuggler_project:
+  ,
+  ** Specification
+  ,   :PROPERTIES:
+  ,   :Effort:   20d
+  ,   :BLOCKER:  start
+  ,   :allocate: dev
+  ,   :END:
+  ,
+  ** Software Development
+  ,   :PROPERTIES:
+  ,   :ORDERED:  t
+  ,   :BLOCKER:  previous-sibling
+  ,   :priority: 1000
+  ,   :allocate: dev
+  ,   :END:
+  ,
+  <span style="font-weight: bold;">*</span> Database coupling
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Back-End Functions
+  ,    :PROPERTIES:
+  ,    :Effort:   30d
+  ,    :task_id:  back_end
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Graphical User Interface
+  ,    :PROPERTIES:
+  ,    :Effort:   35d
+  ,    :allocate: paul, seb
+  ,    :END:
+  ,
+  ** Software testing
+  ,   :PROPERTIES:
+  ,   :ORDERED:  t
+  ,   :BLOCKER:  previous-sibling
+  ,   :allocate: test
+  ,   :END:
+  <span style="font-weight: bold;">*</span> Alpha Test
+  ,    :PROPERTIES:
+  ,    :Effort:   5d
+  ,    :task_id:  alpha
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Beta Test
+  ,    :PROPERTIES:
+  ,    :Effort:   20d
+  ,    :task_id:  beta
+  ,    :allocate: test, paul
+  ,    :END:
+  ,
+  ** Manual
+  ,   :PROPERTIES:
+  ,   :Effort:   50d
+  ,   :task_id:  manual
+  ,   :BLOCKER:  start
+  ,   :allocate: doc
+  ,   :END:
+  ,
+  ** Milestones
+  <span style="font-weight: bold;">*</span> Project start
+  ,    :PROPERTIES:
+  ,    :task_id:  start
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Technology Preview
+  ,    :PROPERTIES:
+  ,    :BLOCKER:  back_end
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Beta version
+  ,    :PROPERTIES:
+  ,    :BLOCKER:  alpha
+  ,    :END:
+  ,
+  <span style="font-weight: bold;">*</span> Ship Product to Customer
+  ,    :PROPERTIES:
+  ,    :BLOCKER:  beta manual
+  ,    :END:
+  ,
+  ,
+  * Resources                          :taskjuggler_resource:
+  ** Developers
+  ,   :PROPERTIES:
+  ,   :resource_id: dev
+  ,   :END:
+  <span style="font-weight: bold;">*</span> Paul Smith
+  ,    :PROPERTIES:
+  ,    :resource_id: paul
+  ,    :END:
+  <span style="font-weight: bold;">*</span> S&#233;bastien Bono
+  ,    :PROPERTIES:
+  ,    :resource_id: seb
+  ,    :END:
+  <span style="font-weight: bold;">*</span> Klaus M&#252;ller
+  ,
+  ** Others
+  <span style="font-weight: bold;">*</span> Peter Murphy
+  ,    :PROPERTIES:
+  ,    :resource_id: doc
+  ,    :limits:   { dailymax 6.4h }
+  ,    :END:
+  <span style="font-weight: bold;">*</span> Dim Sung
+  ,    :PROPERTIES:
+  ,    :resource_id: test
+  ,    :END:
+</pre>
+</div>
+
+<p>
+Ако izvozite primer iznad, TaskJuggler će napraviti raspored zadataka kao
+što je pokazano na ekranu ispod.
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/TaskJugglerUI3.png" alt="TaskJugglerUI3.png" />
+</p>
+<p><span class="figure-number">Figure 6: </span>Gantt grafikoni za zavisnostima</p>
+</div>
+
+<p>
+Takođe TaskJuggler će vam dati pregled koliko će uposleni biti resursi i na
+čemu rade. Pogledajte ispod sliku:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/taskjuggler/resource-graph.png" alt="resource-graph.png" />
+</p>
+<p><span class="figure-number">Figure 7: </span>Grafikon upotrebe resursa</p>
+</div>
+
+<p>
+Na posletku, možete generisati <a href="../images/taskjuggler/project-plan.pdf">good-lookin project plans</a> u PDF fajlove
+štampanjem iz TaskJuggler-a.Ovo će usrećiti svakog <a href="https://en.wikipedia.org/wiki/Pointy-haired_Boss">pointy-haired Boss</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgaa3d76f" class="outline-2">
+<h2 id="orgaa3d76f">Export of other properties</h2>
+<div class="outline-text-2" id="text-orgaa3d76f">
+<p>
+Obično, izvoznik upisuje imovinu člana koja je već poznata TaskJuggler-u
+(kao smene, bukiranja, efikasnost, start, knjiženje,odgovornost, reference,
+raspored, trajanje, prekretnica, beleške, kraj, itd&#x2026; za zadatke) kao i
+TaskJuggler fajlu.
+</p>
+
+<p>
+Оstala svojstva kao kompletnost ili prioritet su izvedene iz obuhvatnih
+informacija iz Org mod fajla. TODO izjava je pravi primer kompletnosti.
+Prioritet zadatka će biti determinisan kroz prioritet cookie.
+</p>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Možete kustomizirati tagove.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+Оpet, naravno, ovaj tag može biti kustomiziran.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+Preko downcasing naslova, zamene ne-ascii znakova sa “ i biranjem
+prve reči kao da je jedinstvena.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
+U TaskJuggler-u dodeljivanja su kumulativna, izvoznik međutim,
+dodaje neke kodove tako da su nasleđena dodeljivanja ignorisana kada se
+eksplicitno dodeljuju resursu.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">Author: Jovana Milutinovich</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

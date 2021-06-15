@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Colophon for the Org site</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="kcorg" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Colophon for the Org site</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd09a2c8">Org all the things</a></li>
+<li><a href="#org2fd785f">Creating the features screenshots</a></li>
+<li><a href="#org0fc1157">Development</a></li>
+<li><a href="#org5f05042">Local deployment</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd09a2c8" class="outline-2">
+<h2 id="orgd09a2c8">Org all the things</h2>
+<div class="outline-text-2" id="text-orgd09a2c8">
+<p>
+<a href="https://orgmode.org">The website</a> is created from org-mode documents. Just change the <code>.html</code>
+extension of a page to <code>.org.html</code> to see the org source 😃.
+</p>
+</div>
+</div>
+<div id="outline-container-org2fd785f" class="outline-2">
+<h2 id="org2fd785f">Creating the features screenshots</h2>
+<div class="outline-text-2" id="text-org2fd785f">
+<p>
+To produce the screenshots/screencasts in , I did the following:
+</p>
+<ul class="org-ul">
+<li>Use the <a href="https://github.com/hlissner/emacs-doom-themes/tree/screenshots#doom-one-light">doom-one-light</a> theme</li>
+<li>Use 24pt <a href="https://github.com/adobe-fonts/source-code-pro">Source Code Pro</a></li>
+<li>Use a frame 50 columns wide, and 10&#x2013;20 lines tall</li>
+<li>No <code>org-superstar</code></li>
+<li><code>(prettify-symbols-mode -1)</code></li>
+<li><code>(setq org-pretty-entities nil)</code></li>
+<li><code>(setq org-hide-leading-stars nil)</code></li>
+<li><code>(setq org-link-descriptive nil)</code></li>
+<li><code>(org-restart-font-lock)</code></li>
+</ul>
+
+<p>
+From here, I either use <a href="https://gitlab.com/ambrevar/emacs-gif-screencast">emacs-gif-screencast</a> or the following function:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-screenshot-svg</span> <span style="color: #fd971f;">()</span>
+  <span style="color: #7f7f80;">"Save a screenshot of the current frame as an SVG image.</span>
+<span style="color: #7f7f80;">Saves to a file in ~/Pictures/Org and puts the filename in the kill ring."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>filename <span style="color: #fd971f;">(</span><span style="color: #fd971f;">expand-file-name</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">format-time-string</span> <span style="color: #e2c770;">"~/Pictures/Org/%H:%M.svg"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>data <span style="color: #fd971f;">(</span><span style="color: #fd971f;">x-export-frames</span> nil <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">svg</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-temp-file</span> filename
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span> data<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">kill-new</span> filename<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> filename<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0fc1157" class="outline-2">
+<h2 id="org0fc1157">Development</h2>
+<div class="outline-text-2" id="text-org0fc1157">
+<p>
+For easy development, there are some little snippets which make SASS
+recompilation, HTML exporting, and <code>rsync</code> all happen automatically.
+The <code>"DESTINATION"</code> needs customising for your particular environment.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">bulk-save</span> nil<span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">batch-export</span> nil<span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">org-website-folder</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">file-name-directory</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">buffer-file-name</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-website-sync</span> <span style="color: #fd971f;">()</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>file-name <span style="color: #fd971f;">(</span><span style="color: #fd971f;">buffer-file-name</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">when</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">and</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">s-contains-p</span> <span style="color: #e2c770;">"orgweb"</span> file-name<span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #fd971f;">not</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">and</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">s-contains-p</span> <span style="color: #e2c770;">"html"</span> file-name<span style="color: #eb4509;">)</span>
+                         <span style="color: #eb4509;">(</span><span style="color: #fd971f;">file-exists-p</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">s-replace</span> <span style="color: #e2c770;">".html"</span> <span style="color: #e2c770;">".org"</span> file-name<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #fd971f;">not</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">s-contains-p</span> <span style="color: #e2c770;">".git"</span> file-name<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+               <span style="color: #fd971f;">(</span><span style="color: #fd971f;">not</span> batch-export<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">s-contains-p</span> <span style="color: #e2c770;">".scss"</span> file-name<span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> sassc-output <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">shell-command-to-string</span>
+                            <span style="color: #eb4509;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"sassc %s %s"</span>
+                                    file-name
+                                    <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-name-sans-extension</span> file-name<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">".css"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">string-empty-p</span> sassc-output<span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"Sassc error: %s"</span> sassc-output<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">s-contains-p</span> <span style="color: #e2c770;">".org"</span> file-name<span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">file-name-base</span> file-name<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">"setup"</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-html-style-default</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span>
+                <span style="color: #fd971f;">(</span><span style="color: #fd971f;">org-html-scripts</span> <span style="color: #e2c770;">""</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+            <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-html-export-to-html</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">htmlize-file</span> file-name <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> file-name <span style="color: #e2c770;">".html"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">unless</span> bulk-save
+        <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"= Performing bulk save (triggerd by %s."</span> file-name<span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>bulk-save t<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">save-some-buffers</span> t<span style="color: #b6e63e;">)</span>
+
+          <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">temp-buffer-window-show</span>
+           <span style="color: #eb4509;">(</span><span style="color: #fd971f;">get-buffer-create</span> <span style="color: #e2c770;">"*orgweb rsync*"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">set-process-sentinel</span>
+           <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">start-process</span>
+            <span style="color: #e2c770;">"rsync"</span>
+            <span style="color: #fd971f;">(</span><span style="color: #fd971f;">get-buffer</span> <span style="color: #e2c770;">"*orgweb rsync*"</span><span style="color: #fd971f;">)</span>
+            <span style="color: #e2c770;">"rsync"</span>
+            <span style="color: #e2c770;">"-avz"</span> <span style="color: #e2c770;">"--delete"</span> org-website-folder <span style="color: #e2c770;">"DESTINATION"</span><span style="color: #eb4509;">)</span>
+           <span style="color: #eb4509;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #fd971f;">(</span>p e<span style="color: #fd971f;">)</span>
+             <span style="color: #fd971f;">(</span><span style="color: #eb4509;">when</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">=</span> <span style="color: #9c91e4; font-weight: bold;">0</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">process-exit-status</span> p<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+               <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">delete-window</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">get-buffer-window</span> <span style="color: #e2c770;">"*orgweb rsync*"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">after-save-hook</span> <span style="color: #9c91e4;">#'</span><span style="color: #66d9ef;">org-website-sync</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">org-website-batch-export</span> <span style="color: #fd971f;">()</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">interactive</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>batch-export t<span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span>files <span style="color: #fd971f;">(</span><span style="color: #fd971f;">directory-files</span> org-website-folder t <span style="color: #e2c770;">"\\.org$"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span>errors nil<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #eb4509;">(</span>file files<span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"exporting: %s"</span> file<span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">with-current-buffer</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">find-file-noselect</span> file<span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">condition-case</span> nil
+            <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-html-export-to-html</span><span style="color: #b6e63e;">)</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">error</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> errors <span style="color: #fd971f;">(</span><span style="color: #fd971f;">append</span> errors file<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"finished exporting. Experienced errors with:%s"</span> <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> errors <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"\n - "</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">s-join</span> <span style="color: #e2c770;">"\n - "</span> errors<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span> <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5f05042" class="outline-2">
+<h2 id="org5f05042">Local deployment</h2>
+<div class="outline-text-2" id="text-org5f05042">
+<p>
+We use a little shell hack to immediately call Emacs on the file
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #696969;">#</span><span style="color: #696969;">!/usr/bin/</span><span style="color: #eb4509;">env</span><span style="color: #696969;"> sh</span>
+<span style="color: #e2c770;">":"</span>; <span style="color: #eb4509;">exec</span> emacs --quick --script <span style="color: #e2c770;">"</span><span style="color: #fd971f;">$</span><span style="color: #fd971f;">0</span><span style="color: #e2c770;">"</span> -- <span style="color: #e2c770;">"</span><span style="color: #fd971f;">$</span><span style="color: #fd971f;">@</span><span style="color: #e2c770;">"</span> <span style="color: #696969;"># </span><span style="color: #696969;">-*- mode: emacs-lisp; lexical-binding: t; -*-</span>
+</pre>
+</div>
+<p>
+Then we can execute some Elisp. This requires the <code>htmlize</code> package, and
+<code>ignore-headlines</code> from <code>ox-extra</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-html</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">load</span> <span style="color: #e2c770;">"~/.emacs.d/.local/straight/repos/emacs-htmlize/htmlize.el"</span> t t<span style="color: #eb4509;">)</span> <span style="color: #696969;">; </span><span style="color: #696969;">system-dependant</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">htmlize</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">load</span> <span style="color: #e2c770;">"~/.emacs.d/.local/straight/repos/org-mode/contrib/lisp/ox-extra.el"</span> t t<span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-extra</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span>ox-extras-activate <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span>ignore-headlines<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span>
+ <span style="color: #fd971f;">org-html-style-default</span> <span style="color: #e2c770;">""</span>
+ <span style="color: #fd971f;">org-html-scripts</span> <span style="color: #e2c770;">""</span>
+ <span style="color: #fd971f;">org-html-htmlize-output-type</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">css</span>
+ <span style="color: #fd971f;">org-html-doctype</span> <span style="color: #e2c770;">"html5"</span>
+ <span style="color: #fd971f;">org-html-html5-fancy</span> t
+ <span style="color: #fd971f;">org-html-validation-link</span> nil
+ <span style="color: #fd971f;">org-html-postamble</span> t
+ <span style="color: #fd971f;">org-html-postamble-format</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"en"</span> <span style="color: #e2c770;">"&lt;p class=\"author\"&gt;Made with &lt;a href=\"https://orgmode.org/worg/org-site-colophon.html\"&gt;&#129294;&lt;/a&gt; by &lt;a href=\"https://github.com/tecosaur/\" style=\"font-weight: bold; font-size: 0.9em; letter-spacing: 1px\"&gt;TEC&lt;/a&gt;&lt;/p&gt;</span>
+<span style="color: #e2c770;">&lt;p xmlns:dct=\"http://purl.org/dc/terms/\" xmlns:cc=\"http://creativecommons.org/ns#\" class=\"license-text\" style=\"color: #aaa\"&gt;licensed under &lt;a rel=\"license\" href=\"https://creativecommons.org/licenses/by-sa/4.0/\"&gt;&lt;img class=\"inline\" src=\"/resources/img/external/cc-by-sa.svg\" title=\"CC-BY-SA 4.0\" alt=\"CC-BY-SA\"/&gt;&lt;/a&gt;&lt;/p&gt;"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+ <span style="color: #fd971f;">make-backup-files</span> nil
+ <span style="color: #fd971f;">debug-on-error</span> t<span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>scss-files <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">directory-files-recursively</span> <span style="color: #fd971f;">default-directory</span> <span style="color: #e2c770;">"\\.scss$"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span>org-files <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">directory-files-recursively</span> <span style="color: #fd971f;">default-directory</span> <span style="color: #e2c770;">"\\.org$"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">executable-find</span> <span style="color: #e2c770;">"sassc"</span><span style="color: #b6e63e;">)</span>
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #eb4509;">(</span>scss-file scss-files<span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">let</span> <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>sassc-out
+               <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">shell-command-to-string</span>
+                <span style="color: #fd971f;">(</span><span style="color: #fd971f;">format</span> <span style="color: #e2c770;">"sassc %s %s"</span>
+                        scss-file <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">file-name-sans-extension</span> scss-file<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">".css"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"\033[0;35m&#8226; %s%s\033[0m"</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">file-relative-name</span> scss-file <span style="color: #fd971f;">default-directory</span><span style="color: #b6e63e;">)</span>
+                   <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">if</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #e2c770;">""</span> sassc-out<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">""</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">":\033[31m\n"</span> sassc-out<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"No sassc executable found"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #b6e63e;">(</span>org-file org-files<span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"\033[0;34m&#8226; %s\033[90m"</span> <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">file-relative-name</span> org-file <span style="color: #fd971f;">default-directory</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">find-file-literally</span> org-file<span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">condition-case</span> err
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">progn</span> <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">org-html-export-to-html</span><span style="color: #b6e63e;">)</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">htmlize-file</span> org-file <span style="color: #eb4509;">(</span><span style="color: #fd971f;">concat</span> org-file <span style="color: #e2c770;">".html"</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">error</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"  \033[0;31m%s\033[90m"</span>  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">error-message-string</span> err<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">message</span> <span style="color: #e2c770;">"\033[0m"</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #fd971f;">kill-emacs</span> <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2020-10-26</p>
+<p class="author">Author: kcorg</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

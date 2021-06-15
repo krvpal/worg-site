@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-owncloud.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .custom {
+        /* (:foreground "#f0c613" :weight bold :underline t) */
+        color: #f0c613;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Connecting your Org files with Owncloud
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Gim&#233;nez, Christian Nelson
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-link"><a href="file:index.org">{Back to Worg's index}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> </span><span class="org-level-1"><span class="custom">TODO</span></span><span class="org-level-1"> Fast and simple
+</span>  This section is for people in a hurry. 
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Downloading from Owncloud
+</span>Here I will explain how to download the ICS files and translate it into Org file
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Downloading 
+</span>   Using WGet or Curl at the following URL:
+
+   <span class="kc-org-link-url"><a href="https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME">https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME</a></span>
+
+   Take a look at the <span class="org-link"><a href="*sync-download.sh">sync-download script</a></span>.
+   
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Translating ICalendar to Org
+</span>   Using ics2org AWK script into the directory pointed by the <span class="org-code">org-directory</span> variable or some other place.
+   
+   You may need to tune this (for example, <span class="org-code">max_age= -1;</span> instead the default value). 
+
+   Take a look at the <span class="org-link"><a href="*sync-download.sh">sync-download script</a></span>.
+
+   There's a <span class="org-link"><a href="*ics2org%20-%20modified%20version">modified version</a></span> that you can use for distinguish between past jobs and futures by translating differents TODO states.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Integrating everything
+</span>   
+   We must create a simple script for calling the <span class="org-link"><a href="*sync-download.sh">sync-download script</a></span> with all the required information. This will be necessary for adding into the cron process and updating for every 15 or more minutes.
+
+   This script must be edited with your username, password, the location of the sync-download script and the url needed.
+
+   You may like to add more actions like moving or copying the file into your own org directory.
+
+   You can use the <span class="org-link"><a href="*integration%20script%20for%20downloading">integration script</a></span> as a model.
+   
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Cron
+</span>   
+   Tell cron to execute the <span class="org-link"><a href="*integration%20script%20for%20downloading">integration bash script</a></span> every 15 minutes or more: 
+   
+   <span class="org-code">: crontab -e 
+</span>   
+   Add the following line:
+
+   <span class="org-code">: */15 * * * * $HOME/path-to-script/sync-owncloud.sh
+</span>   
+   Save and check with <span class="org-code">crontab -l</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Uploading to Owncloud
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Basics Concepts
+</span>   CalDav stores all the ICalendar files into a directory, there you can change and manipulate everything you need.
+
+   Usually the URL is <span class="kc-org-link-url"><a href="https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME">https://the-server-site.com/owncloud/remote.php/caldav/calendars/USERNAME/CALENDAR-NAME</a></span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Export using the org-export command
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Some Variables First
+</span>   <span class="org-code">org-icalendars</span> needs some variables sets before starting, and you have to test that the exporting goes well.
+
+   This are the variable needed: 
+   
+   <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">org-icalendar-include-todo</span></span><span class="org-list-dt"> ::</span> You must set this to <span class="org-code">t</span> if you want the TODOs entries exported.
+   <span class="org-list-dt">-</span> <span class="org-code"><span class="org-list-dt">org-icalendar-store-UID</span></span><span class="org-list-dt"> ::</span> This is needed for exporting the same VEVENT/VTODO and don't create duplicates entries into the calendars.
+
+   You can set this variables using the "file-local variables" feature (use <span class="org-code">M-x add-file-local-variable</span> or <span class="org-code">M-x add-file-local-variable-prop-line</span>) or pasting this at the end of your org file
+
+<span class="org-block-begin-line">#+BEGIN_SRC: org
+</span># Local Variables&#58;
+# org-icalendar-include-todo: t
+# org-icalendar-store-UID: t
+# End:
+<span class="org-block-end-line">#+END_SRC
+</span><span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Exporting
+</span>    Open your org file and press <span class="org-code">C-c C-e i</span> for exporting the current file, or use the <span class="org-code">org-export-icalendar-this-file</span> interactive function.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Importing with Kontact
+</span>    Kontact, the KDE personal information manager, can import ICS and combine it with the current calendar. If you have configured the program to sync with owncloud, you can use this for manual importing. 
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> From the Terminal
+</span>    Remember that Emacs can execute elisp scripts for terminal with one of these parameters:
+    
+    <span class="org-list-dt">-</span> <span class="org-code">--eval</span> to eval an expresino given by parameter.
+    <span class="org-list-dt">-</span> <span class="org-code">--load</span> to load a file.
+    <span class="org-list-dt">-</span> <span class="org-code">--script</span> to run a file as an emacs script.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Correcting the ICS file
+</span>   Owncloud doesn't accept a lot of things:
+
+   <span class="org-list-dt">-</span> Owncloud don't know what a VTODO is.
+   <span class="org-list-dt">-</span> DUE neither, it should be changed into DTEND
+   <span class="org-list-dt">-</span> DTSTART is exported by org into the actual date and time, it should be changed to the same of the DUE(DTEND) date. It cannot be ignored or deleted.
+
+   The <span class="org-link"><a href="*correct-ical.awk">correct-ical.awk</a></span> script can be used for solve all these problems automatically.
+     
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Spliting the ICS file
+</span>   
+   Owncloud only accepts ICS files with only one event inside. The script <span class="org-link"><a href="*split-ics.awk">split-ics.awk</a></span> can be used for this purpose: it separates each event into a new file.
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Renaming ICS files
+</span>   Each file has to have its own name, and what is a better choice than the UID of each event?
+   
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Uploading files
+</span>   
+   Using <span class="org-code">cadaver</span> you can upload and download files. You need to upload the ics file into the server by the "PUT" HTTP request.
+
+   Remember to set the username and password writing it at the .cadaverrc file.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Automatic
+</span>   
+   Using the sync-pull-owncloud
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Scripts needed
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> sync-download.sh
+</span>   
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> ics2org - modified version
+</span>
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> correct-ical.awk
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> split-ics.awk
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> integration script for downloading
+</span></pre>
+  </body>
+</html>

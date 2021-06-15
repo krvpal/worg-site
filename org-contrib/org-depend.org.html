@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-depend.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .bold {
+        /* bold */
+        font-weight: bold;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .doc {
+        /* font-lock-doc-face */
+        color: #7f7f80;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .highlight-quoted-symbol {
+        /* highlight-quoted-symbol */
+        color: #66d9ef;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-drawer {
+        /* org-drawer */
+        color: #cd3278;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-property-value {
+        /* org-property-value */
+        color: #7f7f80;
+      }
+      .org-special-keyword {
+        /* org-special-keyword */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-depend.el -- TODO dependencies for Org-mode
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General
+</span>
+<span class="italic">org-depend.el</span> demonstrates a mechanism for creating TODO
+dependencies.  Note that Org-mode does already have <span class="kc-org-link-url"><a href="https://orgmode.org/manual/TODO-dependencies.html#TODO-dependencies">built-in local
+dependencies</a></span> which are simpler and cover most of what one usually
+wants to do.  However, the built-in implementation covers only the
+following two concepts:
+
+<span class="org-list-dt">-</span> blocking an entry from changing its state to DONE while it still has
+  children that are not done, or checkboxes that are unchecked
+<span class="org-list-dt">-</span> blocking an entry from changing its state to DONE while it still has
+  un-done siblings above it, in this way enforcing sequential work on
+  the siblings
+
+<span class="italic">org-depend.el</span> was originally a proof-of-concept implementation of
+TODO dependencies, using two special hooks, <span class="org-verbatim">org-blocker-hook</span> and
+<span class="org-verbatim">org-trigger-hook</span>.  It remains in the distribution as an example on
+how more complex dependencies between entries can be implemented.  In
+particular it shows how to implement the following:
+
+<span class="org-list-dt">-</span> Dependencies on remote entries identified by ID.  These entries do
+  not have to be near-by and may even be located in a different file.
+<span class="org-list-dt">-</span> The possibility to <span class="italic">trigger</span> actions in other entries.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> What is implemented?
+</span>
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Triggering
+</span>
+<span class="org-list-dt">1)</span> If an entry contains a TRIGGER property that contains the string
+   <span class="org-verbatim">chain-siblings(KEYWORD)</span>, then switching that entry to DONE does
+   do the following:
+   <span class="org-list-dt">-</span> The sibling following this entry switched to todo-state KEYWORD.
+   <span class="org-list-dt">-</span> The sibling also gets a TRIGGER property <span class="org-verbatim">chain-sibling(KEYWORD)</span>,
+     property, to make sure that, when <span class="bold">it</span> is DONE, the chain will
+     continue.
+
+<span class="org-list-dt">2)</span> If an entry contains a TRIGGER property that contains the string
+   <span class="org-verbatim">chain-siblings-scheduled</span>, then switching that entry to DONE does
+   the following actions, similarly to <span class="org-verbatim">chain-siblings(KEYWORD)</span>:
+   <span class="org-list-dt">-</span> The sibling receives the same scheduled time as the entry
+     marked as DONE (or, in the case, in which there is no scheduled
+     time, the sibling does not get any either).
+   <span class="org-list-dt">-</span> The sibling also gets the same TRIGGER property
+     <span class="org-verbatim">chain-siblings-scheduled</span>, so the chain can continue.
+
+<span class="org-list-dt">3)</span> If the TRIGGER property contains the string
+   <span class="org-verbatim">chain-find-next(KEYWORD[,OPTIONS])</span>, then switching that entry
+   to DONE do the following:
+   <span class="org-list-dt">-</span> All siblings are of the entry are collected into a temporary
+     list and then filtered and sorted according to <span class="org-verbatim">OPTIONS</span>
+   <span class="org-list-dt">-</span> The first sibling on the list is changed into <span class="org-verbatim">KEYWORD</span> state
+   <span class="org-list-dt">-</span> The sibling also gets the same TRIGGER property
+     <span class="org-verbatim">chain-find-next</span>, so the chain can continue.
+
+   OPTIONS should be a comma separated string without spaces, and can
+   contain following options:
+
+   <span class="org-list-dt">-</span> <span class="org-verbatim">from-top</span> the candidate list is all of the siblings in the
+     current subtree
+   <span class="org-list-dt">-</span> <span class="org-verbatim">from-bottom</span> candidate list are all siblings from bottom up
+   <span class="org-list-dt">-</span> <span class="org-verbatim">from-current</span> candidate list are all siblings from current item
+     until end of subtree, then wrapped around from first sibling
+   <span class="org-list-dt">-</span> <span class="org-verbatim">no-wrap</span> candidate list are siblings from current one down
+   <span class="org-list-dt">-</span> <span class="org-verbatim">todo-only</span> Only consider siblings that have a todo keyword
+   <span class="org-list-dt">-</span> <span class="org-verbatim">todo-and-done-only</span> Same as above but also include done items.
+   <span class="org-list-dt">-</span> <span class="org-verbatim">priority-up</span>   sort by highest priority
+   <span class="org-list-dt">-</span> <span class="org-verbatim">priority-down</span> sort by lowest priority
+   <span class="org-list-dt">-</span> <span class="org-verbatim">effort-up</span>     sort by highest effort
+   <span class="org-list-dt">-</span> <span class="org-verbatim">effort-down</span>   sort by lowest effort
+
+   There is also customizable variable <span class="org-verbatim">org-depend-find-next-options</span>
+   that contains default options if none are specified. Its default
+   value is <span class="org-verbatim">from-current,todo-only,priority-up</span>
+
+<span class="org-list-dt">4)</span> If the TRIGGER property contains any other words like
+   <span class="org-verbatim">XYZ(KEYWORD)</span>, these are treated as entry IDs with keywords.
+   That means, Org-mode will search for an entry with the ID property
+   XYZ and switch that entry to KEYWORD as well.
+
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Blocking
+</span>
+<span class="org-list-dt">1)</span> If an entry contains a BLOCKER property that contains the word
+   <span class="org-verbatim">previous-sibling</span>, the sibling above the current entry is
+   checked when you try to mark it DONE.  If it is still in a TODO
+   state, the current state change is blocked.
+
+<span class="org-list-dt">2)</span> If the BLOCKER property contains any other words, these are
+   treated as entry IDs.  That means, Org-mode will search for an
+   entry with the ID property exactly equal to this word.  If any
+   of these entries is not yet marked DONE, the current state change
+   will be blocked.
+
+<span class="org-list-dt">3)</span> Whenever a state change is blocked, an org-mark is pushed, so that
+   you can find the offending entry with <span class="org-verbatim">C-c &amp;</span>.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Example
+</span>
+When trying this example, make sure that the settings for TODO keywords
+have been activated, i.e. include the following line and press C-c C-c
+on the line before working with the example:
+
+<span class="org-block-begin-line">#+begin_example
+</span><span class="custom">  #+TYP_TODO: TODO NEXT | DONE
+</span><span class="org-block-end-line">#+end_example
+</span>
+OK, here is the example.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,* TODO Win a million in Las Vegas
+    </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+      </span><span class="org-block"><span class="org-special-keyword">:ID:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">I-cannot-do-it-without-money</span></span><span class="org-block">
+    </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+    The "third" TODO (see above) cannot become a TODO without this money.
+
+
+  ,* Do this by doing a chain of TODOs
+  ,** NEXT This is the first in this chain
+     </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+       </span><span class="org-block"><span class="org-special-keyword">:TRIGGER:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">chain-siblings(NEXT)</span></span><span class="org-block">
+     </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+  ,** This is the second in this chain
+
+  ,** This is the third in this chain
+     </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+       </span><span class="org-block"><span class="org-special-keyword">:BLOCKER:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">I-cannot-do-it-without-money</span></span><span class="org-block">
+     </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+  ,** This is the forth in this chain
+     </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+       </span><span class="org-block"><span class="org-special-keyword">:TRIGGER:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">XYZ-is-my-id(TODO)</span></span><span class="org-block">
+     </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+
+     When this is DONE, we will also trigger entry XYZ-is-my-id
+
+  ,** This is the fifth in this chain
+
+  ,* Start writing report
+     </span><span class="org-block"><span class="org-drawer">:PROPERTIES:</span></span><span class="org-block">
+       </span><span class="org-block"><span class="org-special-keyword">:ID:</span></span><span class="org-block"> </span><span class="org-block"><span class="org-property-value">XYZ-is-my-id</span></span><span class="org-block">
+     </span><span class="org-block"><span class="org-drawer">:END:</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Advanced Triggerring Example
+</span>
+In advanced example we will add a hook to automatically insert
+<span class="org-verbatim">chain-find-next</span> TRIGGER when entry is changed to NEXT and
+automatically remove it otherwise.
+
+First evaluate the following lisp code:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">defun</span></span><span class="org-block"> </span><span class="org-block"><span class="function-name">mm/org-insert-trigger</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">()</span></span><span class="org-block">
+  </span><span class="org-block"><span class="doc">"Automatically insert chain-find-next trigger when entry becomes NEXT"</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">cond</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">equal</span></span><span class="org-block"> org-state </span><span class="org-block"><span class="string">"NEXT"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">unless</span></span><span class="org-block"> org-depend-doing-chain-find-next
+           </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">org-set-property</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"TRIGGER"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"chain-find-next(NEXT,from-current,priority-up,effort-down)"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+        </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">member</span></span><span class="org-block"> org-state </span><span class="org-block"><span class="variable-name">org-done-keywords</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+         </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-delete-property</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"TRIGGER"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-after-todo-state-change-hook</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="highlight-quoted-symbol">mm/org-insert-trigger</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Now in the following org file, try changing item TODO state to
+NEXT. You should see properties drawer appear with the TRIGGER
+property inside.
+
+Try marking the NEXT item DONE. The next item should automatically
+become NEXT.
+
+Change priority of one of the items to <span class="error"><span class="org-verbatim">[#A]</span></span>, then mark the NEXT item
+DONE. The highest priority item will automatically become NEXT.
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block"><span class="org-meta-line">#+TYP_TODO: TODO NEXT | DONE</span></span><span class="org-block">
+
+,* Auto-NEXT example
+,** TODO Make me NEXT, then mark me DONE
+,** TODO Second item
+,** TODO Third item
+,** Plain item
+,** TODO Change my priority
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Usage Examples
+</span>
+<span class="kc-org-link-url"><a href="http://karl-voit.at/2016/12/18/org-depend/">Here is a blog article</a></span> that shows the usage of org-depend in
+combination with <span class="kc-org-link-url"><a href="https://github.com/joaotavora/yasnippet">yasnipet</a></span> or <span class="kc-org-link-url"><a href="https://github.com/Kungsgeten/yankpad">yankpad</a></span>.
+
+An advanced workflow with dependencies is auto-generated from a
+template snippet using the <span class="org-verbatim">BLOCKER</span> and <span class="org-verbatim">TRIGGER</span> keywords.
+
+Some of those things were demonstrated in <span class="kc-org-link-url"><a href="http://karl-voit.at/2014/12/03/emacs-chat/">an Emacs Chat by Sacha Chua
+with Karl Voit</a></span>.
+
+<span class="kc-org-link-url"><a href="http://karl-voit.at/2016/12/18/org-depend/">The blog article</a></span> further discusses some ideas on how to improve the
+<span class="org-verbatim">org-depend</span> functionality with an ID picker, a mnemonic ID
+auto-generator, a workflow assistent, advanced <span class="org-verbatim">TRIGGER</span> commands to
+add scheduled dates, and inheritance of todo-cancelation.
+</pre>
+  </body>
+</html>

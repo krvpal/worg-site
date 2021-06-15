@@ -1,0 +1,1609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:22 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org Syntax (draft)</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Org Syntax (draft)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#Headlines_and_Sections">Headlines and Sections</a></li>
+<li><a href="#Affiliated_keywords">Affiliated Keywords</a></li>
+<li><a href="#Greater_Elements">Greater Elements</a>
+<ul>
+<li><a href="#Greater_Blocks">Greater Blocks</a></li>
+<li><a href="#Drawers">Drawers and Property Drawers</a></li>
+<li><a href="#Dynamic_Blocks">Dynamic Blocks</a></li>
+<li><a href="#Footnote_Definitions">Footnote Definitions</a></li>
+<li><a href="#Inlinetasks">Inlinetasks</a></li>
+<li><a href="#Plain_Lists_and_Items">Plain Lists and Items</a></li>
+<li><a href="#Property_Drawers">Property Drawers</a></li>
+<li><a href="#Tables">Tables</a></li>
+</ul>
+</li>
+<li><a href="#Elements">Elements</a>
+<ul>
+<li><a href="#Babel_Call">Babel Call</a></li>
+<li><a href="#Blocks">Blocks</a></li>
+<li><a href="#Clock,_Diary_Sexp_and_Planning">Clock, Diary Sexp and Planning</a></li>
+<li><a href="#Comments">Comments</a></li>
+<li><a href="#Fixed_Width_Areas">Fixed Width Areas</a></li>
+<li><a href="#Horizontal_Rules">Horizontal Rules</a></li>
+<li><a href="#Keywords">Keywords</a></li>
+<li><a href="#LaTeX_Environments">LaTeX Environments</a></li>
+<li><a href="#Node_Properties">Node Properties</a></li>
+<li><a href="#Paragraphs">Paragraphs</a></li>
+<li><a href="#Table_Rows">Table Rows</a></li>
+</ul>
+</li>
+<li><a href="#Objects">Objects</a>
+<ul>
+<li><a href="#Entities_and_LaTeX_Fragments">Entities and LaTeX Fragments</a></li>
+<li><a href="#Export_Snippets">Export Snippets</a></li>
+<li><a href="#Footnote_References">Footnote References</a></li>
+<li><a href="#Inline_Babel_Calls_and_Source_Blocks">Inline Babel Calls and Source Blocks</a></li>
+<li><a href="#Line_Breaks">Line Breaks</a></li>
+<li><a href="#Links">Links</a></li>
+<li><a href="#Macros">Macros</a></li>
+<li><a href="#Targets_and_Radio_Targets">Targets and Radio Targets</a></li>
+<li><a href="#Statistics_Cookies">Statistics Cookies</a></li>
+<li><a href="#Subscript_and_Superscript">Subscript and Superscript</a></li>
+<li><a href="#Table_Cells">Table Cells</a></li>
+<li><a href="#Timestamp">Timestamps</a></li>
+<li><a href="#Emphasis_Markers">Text Markup</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p>
+This document describes and comments Org syntax as it is currently
+read by its parser (Org Elements) and, therefore, by the export
+framework.  It also includes a few comments on that syntax.
+</p>
+
+<p>
+A core concept in this syntax is that only headlines, sections,
+planning lines and property drawers are context-free<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup><sup>, </sup><sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+Every other syntactical part only exists within specific environments.
+</p>
+
+<p>
+Three categories are used to classify these environments: &ldquo;Greater
+elements&rdquo;, &ldquo;elements&rdquo;, and &ldquo;objects&rdquo;, from the broadest scope to the
+narrowest.  The word &ldquo;element&rdquo; is used for both Greater and non-Greater
+elements, the context should make that clear.
+</p>
+
+<p>
+The paragraph is the unit of measurement.  An element defines
+syntactical parts that are at the same level as a paragraph,
+i.e. which cannot contain or be included in a paragraph.  An object is
+a part that could be included in an element.  Greater elements are all
+parts that can contain an element.
+</p>
+
+<p>
+Empty lines belong to the largest element ending before them.  For
+example, in a list, empty lines between items are part of the
+item before them, but empty lines at the end of a list belong to the
+plain list element.
+</p>
+
+<p>
+Unless specified otherwise, case is not significant.
+</p>
+
+<div id="outline-container-Headlines_and_Sections" class="outline-2">
+<h2 id="Headlines_and_Sections">Headlines and Sections</h2>
+<div class="outline-text-2" id="text-Headlines_and_Sections">
+<p>
+A headline is defined as:
+</p>
+
+<pre class="example">
+  STARS KEYWORD PRIORITY TITLE TAGS
+</pre>
+
+<p>
+STARS is a string starting at column 0, containing at least one
+asterisk (and up to <code>org-inlinetask-min-level</code> if <code>org-inlinetask</code>
+library is loaded) and ended by a space character.  The number of
+asterisks is used to define the level of the headline.  It&rsquo;s the
+sole compulsory part of a headline.
+</p>
+
+<p>
+KEYWORD is a TODO keyword, which has to belong to the list defined
+in <code>org-todo-keywords-1</code>.  Case is significant.
+</p>
+
+<p>
+PRIORITY is a priority cookie, i.e. a single letter preceded by
+a hash sign # and enclosed within square brackets.
+</p>
+
+<p>
+TITLE can be made of any character but a new line.  Though, it will
+match after every other part have been matched.
+</p>
+
+<p>
+TAGS is made of words containing any alpha-numeric character,
+underscore, at sign, hash sign or percent sign, and separated with
+colons.
+</p>
+
+<p>
+Examples of valid headlines include:
+</p>
+
+<pre class="example">
+  * 
+
+  ** DONE
+
+  *** Some e-mail
+
+  **** TODO [#A] COMMENT Title :tag:a2%:
+</pre>
+
+<p>
+If the first word appearing in the title is &ldquo;COMMENT&rdquo;, the headline
+will be considered as &ldquo;commented&rdquo;.  Case is significant.
+</p>
+
+<p>
+If its title is <code>org-footnote-section</code>, it will be considered as
+a &ldquo;footnote section&rdquo;.  Case is significant.
+</p>
+
+<p>
+If &ldquo;ARCHIVE&rdquo; is one of its tags, it will be considered as
+&ldquo;archived&rdquo;.  Case is significant.
+</p>
+
+<p>
+A headline contains directly one section (optionally), followed by
+any number of deeper level headlines.
+</p>
+
+<p>
+A section contains directly any greater element or element.  Only
+a headline can contain a section.  As an exception, text before the
+first headline in the document also belongs to a section.
+</p>
+
+<p>
+As an example, consider the following document:
+</p>
+
+<pre class="example">
+  An introduction.
+
+  * A Headline
+
+    Some text.
+
+  ** Sub-Topic 1
+
+  ** Sub-Topic 2
+
+  *** Additional entry
+</pre>
+
+<p>
+Its internal structure could be summarized as:
+</p>
+
+<pre class="example">
+  (document
+   (section)
+   (headline
+    (section)
+    (headline)
+    (headline
+     (headline))))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-Affiliated_keywords" class="outline-2">
+<h2 id="Affiliated_keywords">Affiliated Keywords</h2>
+<div class="outline-text-2" id="text-Affiliated_keywords">
+<p>
+With the exception of <a href="#Comments">comment</a>, <a href="#Clock,_Diary_Sexp_and_Planning">clocks</a>, <a href="#Headlines_and_Sections">headlines</a>, <a href="#Inlinetasks">inlinetasks</a>,
+<a href="#Plain_Lists_and_Items">items</a>, <a href="#Node_Properties">node properties</a>, <a href="#Clock,_Diary_Sexp_and_Planning">planning</a>, <a href="#Property_Drawers">property drawers</a>, <a href="#Headlines_and_Sections">sections</a>, and
+<a href="#Table_Rows">table rows</a>, every other element type can be assigned attributes.
+</p>
+
+<p>
+This is done by adding specific keywords, named &ldquo;affiliated
+keywords&rdquo;, just above the element considered, no blank line
+allowed.
+</p>
+
+<p>
+Affiliated keywords are built upon one of the following patterns:
+</p>
+
+<pre class="example">
+  #+KEY: VALUE
+  #+KEY[OPTIONAL]: VALUE
+  #+ATTR_BACKEND: VALUE
+</pre>
+
+<p>
+KEY is either &ldquo;CAPTION&rdquo;, &ldquo;HEADER&rdquo;, &ldquo;NAME&rdquo;, &ldquo;PLOT&rdquo; or &ldquo;RESULTS&rdquo;
+string.
+</p>
+
+<p>
+BACKEND is a string constituted of alpha-numeric characters, hyphens
+or underscores.
+</p>
+
+<p>
+OPTIONAL and VALUE can contain any character but a new line.  Only
+&ldquo;CAPTION&rdquo; and &ldquo;RESULTS&rdquo; keywords can have an optional value.
+</p>
+
+<p>
+An affiliated keyword can appear more than once if KEY is either
+&ldquo;CAPTION&rdquo; or &ldquo;HEADER&rdquo; or if its pattern is &ldquo;#+ATTR_BACKEND: VALUE&rdquo;.
+</p>
+
+<p>
+&ldquo;CAPTION&rdquo;, &ldquo;AUTHOR&rdquo;, &ldquo;DATE&rdquo; and &ldquo;TITLE&rdquo; keywords can contain objects
+in their value and their optional value, if applicable.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Greater_Elements" class="outline-2">
+<h2 id="Greater_Elements">Greater Elements</h2>
+<div class="outline-text-2" id="text-Greater_Elements">
+<p>
+Unless specified otherwise, greater elements can contain directly
+any other element or greater element except:
+</p>
+
+<ul class="org-ul">
+<li>elements of their own type,</li>
+<li><a href="#Node_Properties">node properties</a>, which can only be found in <a href="#Property_Drawers">property drawers</a>,</li>
+<li><a href="#Plain_Lists_and_Items">items</a>, which can only be found in <a href="#Plain_Lists_and_Items">plain lists</a>.</li>
+</ul>
+</div>
+
+<div id="outline-container-Greater_Blocks" class="outline-3">
+<h3 id="Greater_Blocks">Greater Blocks</h3>
+<div class="outline-text-3" id="text-Greater_Blocks">
+<p>
+Greater blocks consist in the following pattern:
+</p>
+
+<pre class="example">
+   #+BEGIN_NAME PARAMETERS
+   CONTENTS
+   #+END_NAME
+</pre>
+
+<p>
+NAME can contain any non-whitespace character.
+</p>
+
+<p>
+PARAMETERS can contain any character other than new line, and can
+be omitted.
+</p>
+
+<p>
+If NAME is &ldquo;CENTER&rdquo;, it will be a &ldquo;center block&rdquo;.  If it is
+&ldquo;QUOTE&rdquo;, it will be a &ldquo;quote block&rdquo;.
+</p>
+
+<p>
+If the block is neither a center block, a quote block or a <a href="#Blocks">block
+element</a>, it will be a &ldquo;special block&rdquo;.
+</p>
+
+<p>
+CONTENTS can contain any element, except a line <code>#+END_NAME</code> on
+its own.  Also lines beginning with STARS must be quoted by
+a comma.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Drawers" class="outline-3">
+<h3 id="Drawers">Drawers and Property Drawers</h3>
+<div class="outline-text-3" id="text-Drawers">
+<p>
+Pattern for drawers is:
+</p>
+
+<pre class="example">
+   :NAME:
+   CONTENTS
+   :END:
+</pre>
+
+<p>
+NAME can contain word-constituent characters, hyphens and
+underscores.
+</p>
+
+<p>
+CONTENTS can contain any element but another drawer.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Dynamic_Blocks" class="outline-3">
+<h3 id="Dynamic_Blocks">Dynamic Blocks</h3>
+<div class="outline-text-3" id="text-Dynamic_Blocks">
+<p>
+Pattern for dynamic blocks is:
+</p>
+
+<pre class="example">
+   #+BEGIN: NAME PARAMETERS
+   CONTENTS
+   #+END:
+</pre>
+
+<p>
+NAME cannot contain any whitespace character.
+</p>
+
+<p>
+PARAMETERS can contain any character and can be omitted.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Footnote_Definitions" class="outline-3">
+<h3 id="Footnote_Definitions">Footnote Definitions</h3>
+<div class="outline-text-3" id="text-Footnote_Definitions">
+<p>
+Pattern for footnote definitions is:
+</p>
+
+<pre class="example">
+   [fn:LABEL] CONTENTS
+</pre>
+
+<p>
+It must start at column 0.
+</p>
+
+<p>
+LABEL is either a number or follows the pattern &ldquo;fn:WORD&rdquo;, where
+word can contain any word-constituent character, hyphens and
+underscore characters.
+</p>
+
+<p>
+CONTENTS can contain any element excepted another footnote
+definition.  It ends at the next footnote definition, the next
+headline, two consecutive empty lines or the end of buffer.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Inlinetasks" class="outline-3">
+<h3 id="Inlinetasks">Inlinetasks</h3>
+<div class="outline-text-3" id="text-Inlinetasks">
+<p>
+Inlinetasks are defined by <code>org-inlinetask-min-level</code> contiguous
+asterisk characters starting at column 0, followed by a whitespace
+character.
+</p>
+
+<p>
+Optionally, inlinetasks can be ended with a string constituted of
+<code>org-inlinetask-min-level</code> contiguous asterisk characters starting
+at column 0, followed by a space and the &ldquo;END&rdquo; string.
+</p>
+
+<p>
+Inlinetasks are recognized only after <code>org-inlinetask</code> library is
+loaded.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Plain_Lists_and_Items" class="outline-3">
+<h3 id="Plain_Lists_and_Items">Plain Lists and Items</h3>
+<div class="outline-text-3" id="text-Plain_Lists_and_Items">
+<p>
+Items are defined by a line starting with the following pattern:
+&ldquo;BULLET COUNTER-SET CHECK-BOX TAG&rdquo;, in which only BULLET is
+mandatory.
+</p>
+
+<p>
+BULLET is either an asterisk, a hyphen, a plus sign character or
+follows either the pattern &ldquo;COUNTER.&rdquo; or &ldquo;COUNTER)&rdquo;.  In any case,
+BULLET is follwed by a whitespace character or line ending.
+</p>
+
+<p>
+COUNTER can be a number or a single letter.
+</p>
+
+<p>
+COUNTER-SET follows the pattern [@COUNTER].
+</p>
+
+<p>
+CHECK-BOX is either a single whitespace character, a &ldquo;X&rdquo; character
+or a hyphen, enclosed within square brackets.
+</p>
+
+<p>
+TAG follows &ldquo;TAG-TEXT ::&rdquo; pattern, where TAG-TEXT can contain any
+character but a new line.
+</p>
+
+<p>
+An item ends before the next item, the first line less or equally
+indented than its starting line, or two consecutive empty lines.
+Indentation of lines within other greater elements do not count,
+neither do inlinetasks boundaries.
+</p>
+
+<p>
+A plain list is a set of consecutive items of the same indentation.
+It can only directly contain items.
+</p>
+
+<p>
+If first item in a plain list has a counter in its bullet, the
+plain list will be an &ldquo;ordered plain-list&rdquo;.  If it contains a tag,
+it will be a &ldquo;descriptive list&rdquo;.  Otherwise, it will be an
+&ldquo;unordered list&rdquo;.  List types are mutually exclusive.
+</p>
+
+<p>
+For example, consider the following excerpt of an Org document:
+</p>
+
+<pre class="example">
+   1. item 1
+   2. [X] item 2
+      - some tag :: item 2.1
+</pre>
+
+<p>
+Its internal structure is as follows:
+</p>
+
+<pre class="example">
+   (ordered-plain-list
+    (item)
+    (item
+     (descriptive-plain-list
+      (item))))
+</pre>
+</div>
+</div>
+
+<div id="outline-container-Property_Drawers" class="outline-3">
+<h3 id="Property_Drawers">Property Drawers</h3>
+<div class="outline-text-3" id="text-Property_Drawers">
+<p>
+Property drawers are a special type of drawer containing properties
+attached to a headline.  They are located right after a <a href="#Headlines_and_Sections">headline</a>
+and its <a href="#Clock,_Diary_Sexp_and_Planning">planning</a> information.
+</p>
+
+<pre class="example">
+   HEADLINE
+   PROPERTYDRAWER
+
+   HEADLINE
+   PLANNING
+   PROPERTYDRAWER
+</pre>
+
+<p>
+PROPERTYDRAWER follows the pattern
+</p>
+
+<pre class="example">
+   :PROPERTIES:
+   CONTENTS
+   :END:
+</pre>
+
+<p>
+where CONTENTS consists of zero or more <a href="#Node_Properties">node properties</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Tables" class="outline-3">
+<h3 id="Tables">Tables</h3>
+<div class="outline-text-3" id="text-Tables">
+<p>
+Tables start at lines beginning with either a vertical bar or the
+&ldquo;+-&rdquo; string followed by plus or minus signs only, assuming they are
+not preceded with lines of the same type.  These lines can be
+indented.
+</p>
+
+<p>
+A table starting with a vertical bar has &ldquo;org&rdquo; type.  Otherwise it
+has &ldquo;table.el&rdquo; type.
+</p>
+
+<p>
+Org tables end at the first line not starting with a vertical bar.
+Table.el tables end at the first line not starting with either
+a vertical line or a plus sign.  Such lines can be indented.
+</p>
+
+<p>
+An org table can only contain table rows.  A table.el table does
+not contain anything.
+</p>
+
+<p>
+One or more &ldquo;#+TBLFM: FORMULAS&rdquo; lines, where &ldquo;FORMULAS&rdquo; can contain
+any character, can follow an org table.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Elements" class="outline-2">
+<h2 id="Elements">Elements</h2>
+<div class="outline-text-2" id="text-Elements">
+<p>
+Elements cannot contain any other element.
+</p>
+
+<p>
+Only <a href="#Keywords">keywords</a> whose name belongs to
+<code>org-element-document-properties</code>, <a href="#Blocks">verse blocks</a> , <a href="#Paragraphs">paragraphs</a> and
+<a href="#Table_Rows">table rows</a> can contain objects.
+</p>
+</div>
+
+<div id="outline-container-Babel_Call" class="outline-3">
+<h3 id="Babel_Call">Babel Call</h3>
+<div class="outline-text-3" id="text-Babel_Call">
+<p>
+Pattern for babel calls is:
+</p>
+
+<pre class="example">
+   #+CALL: VALUE
+</pre>
+
+<p>
+VALUE is optional.  It can contain any character but a new line.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Blocks" class="outline-3">
+<h3 id="Blocks">Blocks</h3>
+<div class="outline-text-3" id="text-Blocks">
+<p>
+Like <a href="#Greater_Blocks">greater blocks</a>, pattern for blocks is:
+</p>
+
+<pre class="example">
+   #+BEGIN_NAME DATA
+   CONTENTS
+   #+END_NAME
+</pre>
+
+<p>
+NAME cannot contain any whitespace character.
+</p>
+
+<p>
+If NAME is &ldquo;COMMENT&rdquo;, it will be a &ldquo;comment block&rdquo;.  If it is
+&ldquo;EXAMPLE&rdquo;, it will be an &ldquo;example block&rdquo;.  If it is &ldquo;EXPORT&rdquo;, it
+will be an &ldquo;export block&rdquo;.  If it is &ldquo;SRC&rdquo;, it will be a &ldquo;source
+block&rdquo;.  If it is &ldquo;VERSE&rdquo;, it will be a &ldquo;verse block&rdquo;.
+</p>
+
+<p>
+DATA can contain any character but a new line.  It can be ommitted,
+unless the block is either a &ldquo;source block&rdquo; or an &ldquo;export block&rdquo;.
+</p>
+
+<p>
+In the latter case, it should be constituted of a single word.
+</p>
+
+<p>
+In the former case, it must follow the pattern &ldquo;LANGUAGE SWITCHES
+ARGUMENTS&rdquo;, where SWITCHES and ARGUMENTS are optional.
+</p>
+
+<p>
+LANGUAGE cannot contain any whitespace character.
+</p>
+
+<p>
+SWITCHES is made of any number of &ldquo;SWITCH&rdquo; patterns, separated by
+blank lines.
+</p>
+
+<p>
+A SWITCH pattern is either &ldquo;-l &rdquo;FORMAT&ldquo;&rdquo;, where FORMAT can contain
+any character but a double quote and a new line, &ldquo;-S&rdquo; or &ldquo;+S&rdquo;,
+where S stands for a single letter.
+</p>
+
+<p>
+ARGUMENTS can contain any character but a new line.
+</p>
+
+<p>
+CONTENTS can contain any character, including new lines.  Though it
+will only contain Org objects if the block is a verse block.
+Otherwise, CONTENTS will not be parsed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Clock,_Diary_Sexp_and_Planning" class="outline-3">
+<h3 id="Clock,_Diary_Sexp_and_Planning">Clock, Diary Sexp and Planning</h3>
+<div class="outline-text-3" id="text-Clock,_Diary_Sexp_and_Planning">
+<p>
+A clock follows either of the patterns below:
+</p>
+
+<pre class="example">
+   CLOCK: INACTIVE-TIMESTAMP
+   CLOCK: INACTIVE-TIMESTAMP-RANGE DURATION
+</pre>
+
+<p>
+INACTIVE-TIMESTAMP, resp. INACTIVE-TIMESTAMP-RANGE, is an inactive,
+resp. inactive range, <a href="#Timestamp">timestamp</a> object.
+</p>
+
+<p>
+DURATION follows the pattern:
+</p>
+
+<pre class="example">
+   =&gt; HH:MM
+</pre>
+
+<p>
+HH is a number containing any number of digits.  MM is a two digit
+numbers.
+</p>
+
+<p>
+A diary sexp is a line starting at column 0 with &ldquo;%%(&rdquo; string.  It
+can then contain any character besides a new line.
+</p>
+
+<p>
+A planning is an element with the following pattern:
+</p>
+
+<pre class="example">
+   HEADLINE
+   PLANNING
+</pre>
+
+<p>
+where HEADLINE is a <a href="#Headlines_and_Sections">headline</a> element and PLANNING is a line filled
+with INFO parts, where each of them follows the pattern:
+</p>
+
+<pre class="example">
+   KEYWORD: TIMESTAMP
+</pre>
+
+<p>
+KEYWORD is either &ldquo;DEADLINE&rdquo;, &ldquo;SCHEDULED&rdquo; or &ldquo;CLOSED&rdquo;.  TIMESTAMP
+is a <a href="#Timestamp">timestamp</a> object.
+</p>
+
+<p>
+In particular, no blank line is allowed between PLANNING and
+HEADLINE.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Comments" class="outline-3">
+<h3 id="Comments">Comments</h3>
+<div class="outline-text-3" id="text-Comments">
+<p>
+A &ldquo;comment line&rdquo; starts with zero or more whitespace characters,
+followed by a hash sign and a whitespace character or an end of
+line.
+</p>
+
+<p>
+Comments consist of one or more consecutive comment lines.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Fixed_Width_Areas" class="outline-3">
+<h3 id="Fixed_Width_Areas">Fixed Width Areas</h3>
+<div class="outline-text-3" id="text-Fixed_Width_Areas">
+<p>
+A &ldquo;fixed-width line&rdquo; start with a colon character and a whitespace
+or an end of line.
+</p>
+
+<p>
+Fixed width areas can contain any number of consecutive fixed-width
+lines.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Horizontal_Rules" class="outline-3">
+<h3 id="Horizontal_Rules">Horizontal Rules</h3>
+<div class="outline-text-3" id="text-Horizontal_Rules">
+<p>
+A horizontal rule is a line made of at least 5 consecutive hyphens.
+It can be indented.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Keywords" class="outline-3">
+<h3 id="Keywords">Keywords</h3>
+<div class="outline-text-3" id="text-Keywords">
+<p>
+Keywords follow the syntax:
+</p>
+
+<pre class="example">
+   #+KEY: VALUE
+</pre>
+
+<p>
+KEY can contain any non-whitespace character, but it cannot be
+equal to &ldquo;CALL&rdquo; or any affiliated keyword.
+</p>
+
+<p>
+VALUE can contain any character excepted a new line.
+</p>
+
+<p>
+If KEY belongs to <code>org-element-document-properties</code>, VALUE can
+contain objects.
+</p>
+</div>
+</div>
+
+<div id="outline-container-LaTeX_Environments" class="outline-3">
+<h3 id="LaTeX_Environments">LaTeX Environments</h3>
+<div class="outline-text-3" id="text-LaTeX_Environments">
+<p>
+Pattern for LaTeX environments is:
+</p>
+
+<pre class="example">
+   \begin{NAME} CONTENTS \end{NAME}
+</pre>
+
+<p>
+NAME is constituted of alpha-numeric or asterisk characters.
+</p>
+
+<p>
+CONTENTS can contain anything but the &ldquo;\end{NAME}&rdquo; string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Node_Properties" class="outline-3">
+<h3 id="Node_Properties">Node Properties</h3>
+<div class="outline-text-3" id="text-Node_Properties">
+<p>
+Node properties can only exist in <a href="#Property_Drawers">property drawers</a>.  Their pattern
+is any of the following
+</p>
+
+<pre class="example">
+   :NAME: VALUE
+
+   :NAME+: VALUE
+
+   :NAME:
+
+   :NAME+:
+</pre>
+
+<p>
+NAME can contain any non-whitespace character but cannot end with
+a plus sign.  It cannot be the empty string.
+</p>
+
+<p>
+VALUE can contain anything but a newline character.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Paragraphs" class="outline-3">
+<h3 id="Paragraphs">Paragraphs</h3>
+<div class="outline-text-3" id="text-Paragraphs">
+<p>
+Paragraphs are the default element, which means that any
+unrecognized context is a paragraph.
+</p>
+
+<p>
+Empty lines and other elements end paragraphs.
+</p>
+
+<p>
+Paragraphs can contain every type of object.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Table_Rows" class="outline-3">
+<h3 id="Table_Rows">Table Rows</h3>
+<div class="outline-text-3" id="text-Table_Rows">
+<p>
+A table rows is either constituted of a vertical bar and any number
+of <a href="#Table_Cells">table cells</a> or a vertical bar followed by a hyphen.
+</p>
+
+<p>
+In the first case the table row has the &ldquo;standard&rdquo; type.  In the
+second case, it has the &ldquo;rule&rdquo; type.
+</p>
+
+<p>
+Table rows can only exist in <a href="#Tables">tables</a>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-Objects" class="outline-2">
+<h2 id="Objects">Objects</h2>
+<div class="outline-text-2" id="text-Objects">
+<p>
+Objects can only be found in the following locations:
+</p>
+
+<ul class="org-ul">
+<li><a href="#Affiliated_keywords">affiliated keywords</a> defined in <code>org-element-parsed-keywords</code>,</li>
+<li><a href="#Keywords">document properties</a>,</li>
+<li><a href="#Headlines_and_Sections">headline</a> titles,</li>
+<li><a href="#Inlinetasks">inlinetask</a> titles,</li>
+<li><a href="#Plain_Lists_and_Items">item</a> tags,</li>
+<li><a href="#Paragraphs">paragraphs</a>,</li>
+<li><a href="#Table_Cells">table cells</a>,</li>
+<li><a href="#Table_Rows">table rows</a>, which can only contain table cell
+objects,</li>
+<li><a href="#Blocks">verse blocks</a>.</li>
+</ul>
+
+<p>
+Most objects cannot contain objects.  Those which can will be
+specified.
+</p>
+</div>
+
+<div id="outline-container-Entities_and_LaTeX_Fragments" class="outline-3">
+<h3 id="Entities_and_LaTeX_Fragments">Entities and LaTeX Fragments</h3>
+<div class="outline-text-3" id="text-Entities_and_LaTeX_Fragments">
+<p>
+An entity follows the pattern:
+</p>
+
+<pre class="example">
+   \NAME POST
+</pre>
+
+<p>
+where NAME has a valid association in either <code>org-entities</code> or
+<code>org-entities-user</code>.
+</p>
+
+<p>
+POST is the end of line, &ldquo;{}&rdquo; string, or a non-alphabetical
+character.  It isn&rsquo;t separated from NAME by a whitespace character.
+</p>
+
+<p>
+A LaTeX fragment can follow multiple patterns:
+</p>
+
+<pre class="example">
+   \NAME BRACKETS
+   \(CONTENTS\)
+   \[CONTENTS\]
+   $$CONTENTS$$
+   PRE$CHAR$POST
+   PRE$BORDER1 BODY BORDER2$POST
+</pre>
+
+<p>
+NAME contains alphabetical characters only and must not have an
+association in either <code>org-entities</code> or <code>org-entities-user</code>.
+</p>
+
+<p>
+BRACKETS is optional, and is not separated from NAME with white
+spaces.  It may contain any number of the following patterns:
+</p>
+
+<pre class="example">
+   [CONTENTS1]
+   {CONTENTS2}
+</pre>
+
+<p>
+where CONTENTS1 can contain any characters excepted &ldquo;{&rdquo; &ldquo;}&rdquo;, &ldquo;[&rdquo;
+&ldquo;]&rdquo; and newline and CONTENTS2 can contain any character excepted
+&ldquo;{&rdquo;, &ldquo;}&rdquo; and newline.
+</p>
+
+<p>
+CONTENTS can contain any character but cannot contain &ldquo;\)&rdquo; in the
+second template or &ldquo;\]&rdquo; in the third one.
+</p>
+
+<p>
+PRE is either the beginning of line or a character different from
+<code>$</code>.
+</p>
+
+<p>
+CHAR is a non-whitespace character different from <code>.</code>, <code>,</code>, <code>?</code>,
+<code>;</code>, <code>'</code> or a double quote.
+</p>
+
+<p>
+POST is any punctuation (including parentheses and quotes) or space
+character, or the end of line.
+</p>
+
+<p>
+BORDER1 is a non-whitespace character different from <code>.</code>, <code>,</code>, <code>;</code>
+and <code>$</code>.
+</p>
+
+<p>
+BODY can contain any character excepted <code>$</code>, and may not span over
+more than 3 lines.
+</p>
+
+<p>
+BORDER2 is any non-whitespace character different from <code>,</code>, <code>.</code> and
+<code>$</code>.
+</p>
+
+<hr />
+
+<blockquote>
+<p>
+It would introduce incompatibilities with previous Org versions,
+but support for <code>$...$</code> (and for symmetry, <code>$$...$$</code>) constructs
+ought to be removed.
+</p>
+
+<p>
+They are slow to parse, fragile, redundant and imply false
+positives.  &#x2014; ngz
+</p>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-Export_Snippets" class="outline-3">
+<h3 id="Export_Snippets">Export Snippets</h3>
+<div class="outline-text-3" id="text-Export_Snippets">
+<p>
+Patter for export snippets is:
+</p>
+
+<pre class="example">
+   @@NAME:VALUE@@
+</pre>
+
+<p>
+NAME can contain any alpha-numeric character and hyphens.
+</p>
+
+<p>
+VALUE can contain anything but &ldquo;@@&rdquo; string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Footnote_References" class="outline-3">
+<h3 id="Footnote_References">Footnote References</h3>
+<div class="outline-text-3" id="text-Footnote_References">
+<p>
+There are four patterns for footnote references:
+</p>
+
+<pre class="example">
+   [fn:LABEL]
+   [fn:LABEL:DEFINITION]
+   [fn::DEFINITION]
+</pre>
+
+<p>
+LABEL can contain any word constituent character, hyphens and
+underscores.
+</p>
+
+<p>
+DEFINITION can contain any character.  Though opening and closing
+square brackets must be balanced in it.  It can contain any object
+encountered in a paragraph, even other footnote references.
+</p>
+
+<p>
+If the reference follows the second pattern, it is called an
+&ldquo;inline footnote&rdquo;.  If it follows the third one, i.e. if LABEL is
+omitted, it is an &ldquo;anonymous footnote&rdquo;.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Inline_Babel_Calls_and_Source_Blocks" class="outline-3">
+<h3 id="Inline_Babel_Calls_and_Source_Blocks">Inline Babel Calls and Source Blocks</h3>
+<div class="outline-text-3" id="text-Inline_Babel_Calls_and_Source_Blocks">
+<p>
+Inline Babel calls follow any of the following patterns:
+</p>
+
+<pre class="example">
+   call_NAME(ARGUMENTS)
+   call_NAME[HEADER](ARGUMENTS)[HEADER]
+</pre>
+
+<p>
+NAME can contain any character besides <code>(</code>, <code>)</code> and &ldquo;\n&rdquo;.
+</p>
+
+<p>
+HEADER can contain any character besides <code>]</code> and &ldquo;\n&rdquo;.
+</p>
+
+<p>
+ARGUMENTS can contain any character besides <code>)</code> and &ldquo;\n&rdquo;.
+</p>
+
+<p>
+Inline source blocks follow any of the following patterns:
+</p>
+
+<pre class="example">
+   src_LANG{BODY}
+   src_LANG[OPTIONS]{BODY}
+</pre>
+
+<p>
+LANG can contain any non-whitespace character.
+</p>
+
+<p>
+OPTIONS and BODY can contain any character but &ldquo;\n&rdquo;.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Line_Breaks" class="outline-3">
+<h3 id="Line_Breaks">Line Breaks</h3>
+<div class="outline-text-3" id="text-Line_Breaks">
+<p>
+A line break consists in &ldquo;\\SPACE&rdquo; pattern at the end of an
+otherwise non-empty line.
+</p>
+
+<p>
+SPACE can contain any number of tabs and spaces, including 0.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Links" class="outline-3">
+<h3 id="Links">Links</h3>
+<div class="outline-text-3" id="text-Links">
+<p>
+There are 4 major types of links:
+</p>
+
+<pre class="example">
+   PRE1 RADIO POST1          ("radio" link)
+   &lt;PROTOCOL:PATH&gt;           ("angle" link)
+   PRE2 PROTOCOL:PATH2 POST2 ("plain" link)
+   [[PATH3]DESCRIPTION]      ("regular" link)
+</pre>
+
+<p>
+PRE1 and POST1, when they exist, are non alphanumeric characters.
+</p>
+
+<p>
+RADIO is a string matched by some <a href="#Targets_and_Radio_Targets">radio target</a>.  It may contain
+<a href="#Entities_and_LaTeX_Fragments">entities</a>, <a href="#Entities_and_LaTeX_Fragments">latex fragments</a>, <a href="#Subscript_and_Superscript">subscript</a> and <a href="#Subscript_and_Superscript">superscript</a>.
+</p>
+
+<p>
+PROTOCOL is a string among <code>org-link-types</code>.
+</p>
+
+<p>
+PATH can contain any character but <code>]</code>, <code>&lt;</code>, <code>&gt;</code> and <code>\n</code>.
+</p>
+
+<p>
+PRE2 and POST2, when they exist, are non word constituent
+characters.
+</p>
+
+<p>
+PATH2 can contain any non-whitespace character excepted <code>(</code>, <code>)</code>,
+<code>&lt;</code> and <code>&gt;</code>.  It must end with a word-constituent character, or any
+non-whitespace non-punctuation character followed by <code>/</code>.
+</p>
+
+<p>
+DESCRIPTION must be enclosed within square brackets.  It can
+contain any character but square brackets.  It can contain any
+object found in a paragraph excepted a <a href="#Footnote_References">footnote reference</a>, a <a href="#Targets_and_Radio_Targets">radio
+target</a> and a <a href="#Line_Breaks">line break</a>.  It cannot contain another link either,
+unless it is a plain or angular link.
+</p>
+
+<p>
+DESCRIPTION is optional.
+</p>
+
+<p>
+PATH3 is built according to the following patterns:
+</p>
+
+<pre class="example">
+   FILENAME           ("file" type)
+   PROTOCOL:PATH4     ("PROTOCOL" type)
+   PROTOCOL://PATH4   ("PROTOCOL" type)
+   id:ID              ("id" type)
+   #CUSTOM-ID         ("custom-id" type)
+   (CODEREF)          ("coderef" type)
+   FUZZY              ("fuzzy" type)
+</pre>
+
+<p>
+FILENAME is a file name, either absolute or relative.
+</p>
+
+<p>
+PATH4 can contain any character besides square brackets.
+</p>
+
+<p>
+ID is constituted of hexadecimal numbers separated with hyphens.
+</p>
+
+<p>
+PATH4, CUSTOM-ID, CODEREF and FUZZY can contain any character
+besides square brackets.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Macros" class="outline-3">
+<h3 id="Macros">Macros</h3>
+<div class="outline-text-3" id="text-Macros">
+<p>
+Macros follow the pattern:
+</p>
+
+<pre class="example">
+   {{{NAME(ARGUMENTS)}}}
+</pre>
+
+<p>
+NAME must start with a letter and can be followed by any number of
+alpha-numeric characters, hyphens and underscores.
+</p>
+
+<p>
+ARGUMENTS can contain anything but &ldquo;}}}&rdquo; string.  Values within
+ARGUMENTS are separated by commas.  Non-separating commas have to
+be escaped with a backslash character.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Targets_and_Radio_Targets" class="outline-3">
+<h3 id="Targets_and_Radio_Targets">Targets and Radio Targets</h3>
+<div class="outline-text-3" id="text-Targets_and_Radio_Targets">
+<p>
+Radio targets follow the pattern:
+</p>
+
+<pre class="example">
+   &lt;&lt;&lt;CONTENTS&gt;&gt;&gt;
+</pre>
+
+<p>
+CONTENTS can be any character besides <code>&lt;</code>, <code>&gt;</code> and &ldquo;\n&rdquo;.  It cannot
+start or end with a whitespace character.  As far as objects go, it
+can contain <a href="#Emphasis_Markers">text markup</a>, <a href="#Entities_and_LaTeX_Fragments">entities</a>, <a href="#Entities_and_LaTeX_Fragments">latex fragments</a>, <a href="#Subscript_and_Superscript">subscript</a> and
+<a href="#Subscript_and_Superscript">superscript</a> only.
+</p>
+
+<p>
+Targets follow the pattern:
+</p>
+
+<pre class="example">
+   &lt;&lt;TARGET&gt;&gt;
+</pre>
+
+<p>
+TARGET can contain any character besides <code>&lt;</code>, <code>&gt;</code> and &ldquo;\n&rdquo;.  It
+cannot start or end with a whitespace character.  It cannot contain
+any object.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Statistics_Cookies" class="outline-3">
+<h3 id="Statistics_Cookies">Statistics Cookies</h3>
+<div class="outline-text-3" id="text-Statistics_Cookies">
+<p>
+Statistics cookies follow either pattern:
+</p>
+
+<pre class="example">
+   [PERCENT%]
+   [NUM1/NUM2]
+</pre>
+
+<p>
+PERCENT, NUM1 and NUM2 are numbers or the empty string.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Subscript_and_Superscript" class="outline-3">
+<h3 id="Subscript_and_Superscript">Subscript and Superscript</h3>
+<div class="outline-text-3" id="text-Subscript_and_Superscript">
+<p>
+Pattern for subscript is:
+</p>
+
+<pre class="example">
+   CHAR_SCRIPT
+</pre>
+
+<p>
+Pattern for superscript is:
+</p>
+
+<pre class="example">
+   CHAR^SCRIPT
+</pre>
+
+<p>
+CHAR is any non-whitespace character.
+</p>
+
+<p>
+SCRIPT can be <code>*</code> or an expression enclosed in parenthesis
+(respectively curly brackets), possibly containing balanced
+parenthesis (respectively curly brackets).
+</p>
+
+<p>
+SCRIPT can also follow the pattern:
+</p>
+
+<pre class="example">
+   SIGN CHARS FINAL
+</pre>
+
+<p>
+SIGN is either a plus sign, a minus sign, or an empty string.
+</p>
+
+<p>
+CHARS is any number of alpha-numeric characters, commas,
+backslashes and dots, or an empty string.
+</p>
+
+<p>
+FINAL is an alpha-numeric character.
+</p>
+
+<p>
+There is no white space between SIGN, CHARS and FINAL.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Table_Cells" class="outline-3">
+<h3 id="Table_Cells">Table Cells</h3>
+<div class="outline-text-3" id="text-Table_Cells">
+<p>
+Table cells follow the pattern:
+</p>
+
+<pre class="example">
+   CONTENTS SPACES|
+</pre>
+
+<p>
+CONTENTS can contain any character excepted a vertical bar.
+</p>
+
+<p>
+SPACES contains any number of space characters, including zero.  It
+can be used to align properly the table.
+</p>
+
+<p>
+The final bar may be replaced with a newline character for the last
+cell in row.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Timestamp" class="outline-3">
+<h3 id="Timestamp">Timestamps</h3>
+<div class="outline-text-3" id="text-Timestamp">
+<p>
+There are seven possible patterns for timestamps:
+</p>
+
+<pre class="example">
+   &lt;%%(SEXP)&gt;                                                     (diary)
+   &lt;DATE TIME REPEATER-OR-DELAY&gt;                                  (active)
+   [DATE TIME REPEATER-OR-DELAY]                                  (inactive)
+   &lt;DATE TIME REPEATER-OR-DELAY&gt;--&lt;DATE TIME REPEATER-OR-DELAY&gt;   (active range)
+   &lt;DATE TIME-TIME REPEATER-OR-DELAY&gt;                             (active range)
+   [DATE TIME REPEATER-OR-DELAY]--[DATE TIME REPEATER-OR-DELAY]   (inactive range)
+   [DATE TIME-TIME REPEATER-OR-DELAY]                             (inactive range)
+</pre>
+
+<p>
+SEXP can contain any character excepted <code>&gt;</code> and <code>\n</code>.
+</p>
+
+<p>
+DATE follows the pattern:
+</p>
+
+<pre class="example">
+   YYYY-MM-DD DAYNAME
+</pre>
+
+<p>
+<code>Y</code>, <code>M</code> and <code>D</code> are digits.  DAYNAME can contain any non
+whitespace-character besides <code>+</code>, <code>-</code>, <code>]</code>, <code>&gt;</code>, a digit or <code>\n</code>.
+</p>
+
+<p>
+TIME follows the pattern <code>H:MM</code>.  <code>H</code> can be one or two digit long
+and can start with 0.
+</p>
+
+<p>
+REPEATER-OR-DELAY follows the pattern:
+</p>
+
+<pre class="example">
+   MARK VALUE UNIT
+</pre>
+
+<p>
+MARK is <code>+</code> (cumulate type), <code>++</code> (catch-up type) or <code>.+</code> (restart
+type) for a repeater, and <code>-</code> (all type) or <code>--</code> (first type) for
+warning delays.
+</p>
+
+<p>
+VALUE is a number.
+</p>
+
+<p>
+UNIT is a character among <code>h</code> (hour), <code>d</code> (day), <code>w</code> (week), <code>m</code>
+(month), <code>y</code> (year).
+</p>
+
+<p>
+MARK, VALUE and UNIT are not separated by whitespace characters.
+</p>
+
+<p>
+There can be two REPEATER-OR-DELAY in the timestamp: one as
+a repeater and one as a warning delay.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Emphasis_Markers" class="outline-3">
+<h3 id="Emphasis_Markers">Text Markup</h3>
+<div class="outline-text-3" id="text-Emphasis_Markers">
+<p>
+Text markup follows the pattern:
+</p>
+
+<pre class="example">
+   PRE MARKER CONTENTS MARKER POST
+</pre>
+
+<p>
+PRE is a whitespace character, <code>-</code>, <code>(</code>, <code>{</code> <code>'</code> or <code>"</code>.  It can
+also be a beginning of line.
+</p>
+
+<p>
+MARKER is a character among <code>*</code> (bold), <code>=</code> (verbatim), <code>/</code>
+(italic), <code>+</code> (strike-through), <code>_</code> (underline), <code>~</code> (code).
+</p>
+
+<p>
+CONTENTS is a string following the pattern:
+</p>
+
+<pre class="example">
+   BORDER BODY BORDER
+</pre>
+
+<p>
+BORDER can be any non-whitespace character.
+</p>
+
+<p>
+BODY can contain contain any character but may not span over more
+than 3 lines.
+</p>
+
+<p>
+BORDER and BODY are not separated by whitespaces.
+</p>
+
+<p>
+CONTENTS can contain any object encountered in a paragraph when
+markup is &ldquo;bold&rdquo;, &ldquo;italic&rdquo;, &ldquo;strike-through&rdquo; or &ldquo;underline&rdquo;.
+</p>
+
+<p>
+POST is a whitespace character, <code>-</code>, <code>.</code>, <code>,</code>, <code>;</code>, <code>:</code>, <code>!</code>, <code>?</code>,
+<code>'</code>, <code>)</code>, <code>}</code>, <code>[</code> or <code>"</code>.  It can also be an end of line.
+</p>
+
+<p>
+PRE, MARKER, CONTENTS, MARKER and POST are not separated by
+whitespace characters.
+</p>
+
+<hr />
+
+<blockquote>
+<p>
+All of this is wrong if <code>org-emphasis-regexp-components</code> or
+<code>org-emphasis-alist</code> are modified.
+</p>
+
+<p>
+This should really be simplified.
+</p>
+
+<p>
+Also, CONTENTS should be anything within code and verbatim
+emphasis, by definition.  &#x2014; ngz
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+In particular, the parser requires stars at column 0 to be
+quoted by a comma when they do not define a headline.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+It also means that only headlines and sections can be
+recognized just by looking at the beginning of the line.  Planning
+lines and property drawers can be recognized by looking at one or two
+lines above.
+</p>
+
+<p class="footpara">
+As a consequence, using <code>org-element-at-point</code> or
+<code>org-element-context</code> will move up to the parent headline, and parse
+top-down from there until context around original location is found.
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:22</p>
+</div>
+</body>
+</html>

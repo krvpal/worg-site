@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-checklist.el &#x2014; org functions for checklist handling</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-checklist.el &#x2014; org functions for checklist handling</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3c30dc6">General</a></li>
+<li><a href="#org7245169">How to use it</a>
+<ul>
+<li><a href="#orgcd77181">Quick example</a></li>
+<li><a href="#org5ba00c8">Loading it</a></li>
+<li><a href="#org3cc16ee">Configurable options</a></li>
+</ul>
+</li>
+<li><a href="#org9c3c038">Credits</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3c30dc6" class="outline-2">
+<h2 id="org3c30dc6">General</h2>
+<div class="outline-text-2" id="text-org3c30dc6">
+<p>
+<code>org-checklist</code> provides two actions which can be triggered when a task is
+marked done. These are:
+</p>
+
+<ol class="org-ol">
+<li>Clearing the state of all checkboxes in the task.</li>
+
+<li>Creating, and optionally printing, a file containing a copy of the task
+with all items in the checked state removed.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org7245169" class="outline-2">
+<h2 id="org7245169">How to use it</h2>
+<div class="outline-text-2" id="text-org7245169">
+</div>
+<div id="outline-container-orgcd77181" class="outline-3">
+<h3 id="orgcd77181">Quick example</h3>
+<div class="outline-text-3" id="text-orgcd77181">
+<p>
+Load <code>org-checklist</code> as described in the <a href="#org5ba00c8">next section</a>. You will then need to
+create a recurring task.
+</p>
+
+<pre class="example">
+* Morning routine
+  SCHEDULED: &lt;2009-02-19 Thu 08:00 +1d&gt;
+  - [ ] Shower
+  - [ ] Brush teeth
+  - [ ] Get dressed
+  - [ ] Eat breakfast
+  - [ ] Check email
+</pre>
+
+
+<p>
+Then add the property <code>RESET_CHECK_BOXES</code> with a value of <code>t</code>. When the item
+is marked done,
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5ba00c8" class="outline-3">
+<h3 id="org5ba00c8">Loading it</h3>
+<div class="outline-text-3" id="text-org5ba00c8">
+<p>
+<code>org-checklist</code> requires <code>a2ps</code>.
+</p>
+
+<p>
+Ensure the org contrib directory is in <code>load-path</code> and add <code>(require
+   'org-checklist)</code> to your <code>.emacs</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3cc16ee" class="outline-3">
+<h3 id="org3cc16ee">Configurable options</h3>
+<div class="outline-text-3" id="text-org3cc16ee">
+<p>
+<code>org-checklist</code> has four main configurable options:
+</p>
+
+<dl class="org-dl">
+<dt><code>org-checklist-time-format</code></dt><dd>the format of the timestamp added to the
+export file. See <code>format-time-string</code> for valid % escapes.</dd>
+
+<dt><code>org-checklist-export-function</code></dt><dd>org export function to use to create the
+printable version of the export file. Any of the org export functions will
+work. The default is <code>org-export-as-ascii</code>.</dd>
+
+<dt><code>org-checklist-export-params</code></dt><dd>parameters for the export function. See
+the docs for the exporter you are using for useful values.</dd>
+
+<dt><code>org-checklist-a2ps-params</code></dt><dd>parameters for a2ps-print. If you choose to
+print the exported file, these parameters will be used in place of a2ps-switches.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c3c038" class="outline-2">
+<h2 id="org9c3c038">Credits</h2>
+<div class="outline-text-2" id="text-org9c3c038">
+<p>
+<code>org-checklist</code> was written by James TD Smith
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

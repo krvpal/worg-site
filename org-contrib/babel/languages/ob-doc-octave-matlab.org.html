@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-octave-matlab.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .builtin {
+        /* font-lock-builtin-face */
+        color: #fd971f;
+      }
+      .highlight-numbers-number {
+        /* highlight-numbers-number */
+        color: #9c91e4;
+        font-weight: bold;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-formula {
+        /* org-formula */
+        color: #66d9ef;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span><span class="org-document-title">Org-babel-octave-matlab
+</span><span class="org-document-info-keyword">#+AUTHOR:</span> <span class="org-document-info">Dan Davison
+</span><span class="org-document-info-keyword">#+EMAIL:</span>  <span class="org-document-info">davison at stats dot ox dot ac dot uk
+</span><span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+This file contains notes on using Matlab and Octave with Org-babel.
+
+An example of an octave block in Org-babel is
+
+<span class="org-block-begin-line">#+begin_src org
+</span><span class="org-block">  ,#+begin_src octave :exports results
+  ,n = [1:10];
+  ,x = 5*n+4;
+  ,ans = x
+  ,#+end_src
+  
+  ,#+results:
+  ,| 9 | 14 | 19 | 24 | 29 | 34 | 39 | 44 | 49 | 54 |
+</span><span class="org-block-end-line">#+end_src
+</span>
+Notice that the final line is "ans = x". Finishing the block with the
+simple statement "x" will not work. In Org-babel, Matlab and Octave
+return the result of the special variable "ans", which (in Octave at
+least) is automatically updated with "The most recently computed
+result that was not explicitly assigned to a variable". Therefore,
+both "ans =x" and "x + 0" would result in the desired result being
+returned, "x" alone will not.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Graphical output
+</span>In order to get graphical output without leaving open graph windows
+during evaluation, the following can be used:
+
+<span class="org-block-begin-line">#+begin_src octave :results file
+</span><span class="org-block">figure( </span><span class="org-block"><span class="highlight-numbers-number">1</span></span><span class="org-block"><span class="builtin">,</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"visible"</span></span><span class="org-block"><span class="builtin">,</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"off"</span></span><span class="org-block"> )</span><span class="org-block"><span class="builtin">;</span></span><span class="org-block">
+sombrero</span><span class="org-block"><span class="builtin">;</span></span><span class="org-block">
+print </span><span class="org-block"><span class="builtin">-</span></span><span class="org-block">dpng chart.png</span><span class="org-block"><span class="builtin">;</span></span><span class="org-block">
+ans </span><span class="org-block"><span class="builtin">=</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"chart.png"</span></span><span class="org-block"><span class="builtin">;</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+The <span class="org-verbatim">figure</span> command opens an invisible graph window where the next plot commands should act.
+
+Then, the <span class="org-verbatim">print</span> command exports the graph to a file.
+
+:results file says to interpret the result as a file path.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org config</span><span class="whitespace-tab">                                                    </span><span class="org-level-1">   </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil </span><span class="org-meta-line"><span class="org-formula">@:t</span></span><span class="org-meta-line"> ::t |:t ^:{} -:t f:t *:t TeX:t LaTeX:t skip:nil d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+STYLE:      &lt;style type="text/css"&gt;#outline-container-introduction{ clear:both; }&lt;/style&gt;</span>
+</pre>
+  </body>
+</html>

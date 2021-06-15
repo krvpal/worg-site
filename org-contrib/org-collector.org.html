@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-collector.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-date {
+        /* org-date */
+        color: #a020f0;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">org-collector.el --- collect properties into tables
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Eric Schulte
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">schulte.eric at gmail dot com
+</span><span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:3 \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) </span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> General 
+</span>
+<span class="org-verbatim">org-collector</span> collects headline properties into tables with optional
+pre-processing.
+
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> How to use it
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Quick Examples
+</span>
+As a quick demonstration of use of <span class="org-verbatim">org-collector</span> first <span class="org-link"><a href="Loading it (No surprises here)">load it</a></span> as
+described below.  Then download this <span class="kc-org-link-url"><a href="https://orgmode.org/worg/sources/org-contrib/org-collector-example.org">example file</a></span>, which contains the
+following headlines/properties.
+
+<span class="org-link"><a href="file:../images/org-collector/dec-spending.png">file:../images/org-collector/dec-spending.png</a></span>
+
+This property information can then be collected into tables.
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Simple Example
+</span>
+Lets look at the following org-collector block.
+
+<span class="org-code">: #+BEGIN: propview :id "december" :conds ((string= SPENDTYPE "food")) :cols (ITEM AMOUNT)
+: #+END:
+</span>
+To evaluate this block press <span class="org-verbatim">\C-c\C-c</span> with your cursor on the
+<span class="org-verbatim">#+BEGIN</span> line of the block.  Evaluation will result in the following
+
+<span class="org-code">: #+BEGIN: propview :id "december" :conds ((string= SPENDTYPE "food")) :cols (ITEM AMOUNT)
+: | "ITEM"                           | "amount" |
+: |----------------------------------+----------|
+: | "Grocery Store </span><span class="org-code"><span class="org-date">[2008-12-01 Mon]</span></span><span class="org-code">" |    56.77 |
+: | "Restaurant </span><span class="org-code"><span class="org-date">[2008-12-08 Mon]</span></span><span class="org-code">"    |    30.67 |
+: |----------------------------------+----------|
+: |                                  |          |
+: #+END:
+</span>
+Lets look at the arguments one by one.
+
+<span class="org-list-dt">-</span> <span class="org-list-dt">:id "december" ::</span>
+  The <span class="org-verbatim">:id</span> argument has the effect of limiting the search to headers
+  under the header with the id of "december".
+<span class="org-list-dt">-</span> <span class="org-list-dt">:conds ((string= SPENDTYPE "food")) ::</span>
+  The <span class="org-verbatim">:conds</span> argument accepts a list of e-lisp expressions.  Only
+  headlines which match all of these expressions will be displayed in
+  the table.  The names of properties of a headline, in upper cases,
+  can be used as variables in the expressions.  This particular
+  expression only returns true when the <span class="org-verbatim">SPENDTYPE</span> property of a
+  headline is equal to "food".
+<span class="org-list-dt">-</span> <span class="org-list-dt">:cols (ITEM AMOUNT) ::</span>
+  The <span class="org-verbatim">:cols</span> property controls what each row of the table should look
+  like.  In this case we are showing <span class="org-verbatim">ITEM</span> which shows the actual
+  text of the headline as well as <span class="org-verbatim">AMOUNT</span> which show the value of the
+  <span class="org-verbatim">AMOUNT</span> property of each headline.
+
+
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> More Complex Example
+</span>
+This example demonstrates a couple of new headline arguments for
+<span class="org-verbatim">org-collector</span>.
+
+<span class="org-code">: #+BEGIN: propview :cols (ITEM (+ 400 AMOUNT)) :scope tree :match "example"
+: | "ITEM"                                                                          | "(+ 400 AMOUNT)" |
+: |---------------------------------------------------------------------------------+------------------|
+: | "December Spending                                                   :example:" |                0 |
+: | "Week One"                                                                      |                0 |
+: | "Grocery Store </span><span class="org-code"><span class="org-date">[2008-12-01 Mon]</span></span><span class="org-code">"                                                |           456.77 |
+: | "Athletic club </span><span class="org-code"><span class="org-date">[2008-12-02 Tue]</span></span><span class="org-code">"                                                |            475.0 |
+: | "Week Two "                                                                     |                0 |
+: | "Restaurant </span><span class="org-code"><span class="org-date">[2008-12-08 Mon]</span></span><span class="org-code">"                                                   |           430.67 |
+: |---------------------------------------------------------------------------------+------------------|
+: |                                                                                 |                  |
+: #+END:
+</span>
+<span class="org-list-dt">-</span> <span class="org-list-dt">:cols (ITEM (+ 400 AMOUNT)) ::</span>
+  Notice that the <span class="org-verbatim">:cols</span> list in this example contains an elisp
+  expression for one of the column values.  It is possible to run
+  arbitrary elisp over the header properties the results of which will
+  be used when building the resulting table.
+<span class="org-list-dt">-</span> <span class="org-list-dt">:scope "tree" :match "example" ::</span> 
+  The <span class="org-verbatim">:scope tree</span> and <span class="org-verbatim">:match</span> header arguments limits the included
+  headlines to those which have a tag matching "example" or their
+  descendents.
+
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Loading it (No surprises here)
+</span>
+The easiest way is by
+
+<span class="org-code">: M-x customize-variables RET org-modules
+</span>
+Check the line for collector.  This will cause it to be loaded every
+time you start org-mode.
+
+You'll still have to load it manually the first time.
+
+Of course, you can also just try it out by loading it manually.
+
+If you prefer to manually customize your emacs then make sure that the
+path to org's contrib directory is in your load-path and add the
+following to your <span class="org-verbatim">.emacs</span>.
+
+<span class="org-code">: (require 'org-collector)
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Credits
+</span>
+<span class="org-verbatim">org-collector</span> was developed by Eric Schulte with much-appreciated help
+from Carsten Dominik.
+</pre>
+  </body>
+</html>

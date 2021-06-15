@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>org-mac-maillink.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .error {
+        /* error */
+        color: #e74c3c;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-superstar-leading {
+        /* org-superstar-leading */
+        color: #bebebe;
+        background-color: #010000;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>     <span class="org-document-title">Org Link  -- create Org-mode hyperlinks to Entourage mail messages
+</span><span class="org-meta-line">#+OPTIONS:   ^:{} author:nil</span>
+<span class="org-meta-line">#+STARTUP: odd</span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+<span class="error"><a href="file:org-mac.org">{Back to Worg's Org and Mac OS X page}</a></span>
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Purpose
+</span>
+  This hack allows the user to easily copy and paste links to messages
+  from the Entourage mail app into an org-mode file.
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Installation &amp; Setup
+</span><span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Create and Save Script In Entourage Scripts Menu Folder
+</span>
+   Installation is simple. Create a new Applescript application using the following code:
+
+   <span class="org-code">: tell application "Microsoft Entourage"
+</span>   <span class="org-code">:    set selectedMessages to current messages
+</span>   <span class="org-code">:    if selectedMessages is {} then
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">return
+</span>   <span class="org-code">:    end if
+</span>   <span class="org-code">:    repeat with theMessage in selectedMessages
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set theName to subject of theMessage
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set theSender to display name of sender of theMessage
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set theContent to content of theMessage
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set theID to ID of theMessage as string
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set theCommand to "mdfind com_microsoft_entourage_recordID==" &amp; theID &amp; " | sed 's/ /\\%20/'"
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set theMDfile to the first item of paragraphs of (do shell script theCommand)
+</span>   <span class="org-code">:    </span><span class="whitespace-tab">        </span><span class="org-code">set the clipboard to "<a href="file:&quot; &amp; theMDfile &amp; &quot;">[[file:" &amp; theMDfile &amp; "][" &amp; theName &amp; "]]</a>" as string
+</span>   <span class="org-code">:    end repeat
+</span>   <span class="org-code">: end tell
+</span>
+   and save it into your personal Entourage Scripts Menu Folder.  It's
+   file path should be something like:
+   
+   <span class="org-code">: ~/user/Documents/Microsoft User Data/Entourage Script Menu Items
+</span>   
+   You can also locate this folder by opening Entourage and selecting
+   the Applescript/Automator icon from the main toolbar (looks like a
+   scroll / on the far right).  If you select "About This Menu..." and
+   click on the "Open Folder" dialog button it will open the
+   "Entourage Script Menu Items" folder in Finder.
+
+   The exact file name will be used as the menu option so if you want it to look pretty be sure and
+   use something like "Copy Org Link" as the file name.
+
+   Once you've completed this step you should be able to run the
+   script by selecting the "&lt;file name&gt;" option from the
+   Applescript/Automator icon drop menu.
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Create Entourage Shortcut Key
+</span>
+   After the first step you should already be able to use the script
+   (see usage below); however, it will probably be easier to use if
+   you assign it a hot key (like the cut and paste shortcut keys).
+
+   In order to assign it a hot key, open "System Preferences" and
+   navigate to the following location:
+
+   <span class="org-code">: Hardware/Keyboard &amp; Mouse/Keyboard Shortcuts
+</span>
+   Scroll to the bottom of the window, highlight "Application
+   Keyboard Shortcuts", and click the "+" sign just to the lower left
+   of the window.
+
+   This should open a dialog box.  Use the drop menu to select
+   "Entourage" as the application, then enter the exact name that
+   appears in the Entourage script menu.  The default is
+   "copy-org-link". Then enter the exact key combination that you
+   would like to use as a shortcut in the "Keyboard Shortcut" window.
+   My default is "&lt;command&gt; l".
+
+   When you go back to the scripts menu in Entourage you should now
+   see the shortcut next to the name of the script.
+<span class="org-superstar-leading">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Enable Entourage Message Indexing In Spotlight
+</span>
+   In order for the hack to work the user must have enabled the
+   Entourage application preference that allows OS X's built-in
+   Spotlight search engine to index the contents of the Entourage
+   database.
+
+   To enable this preference open Entourage and select the following
+   menu items:
+
+   <span class="org-code">: Preferences/General Preferences/Spotlight/
+</span>
+   Then, simply check the box next to "Include Entourage items in Spotlight search
+   results" to instruct Spotlight to index your messages.
+
+   If you haven't previously had this feature enabled it may take it a
+   few minutes to index your messages, but once it has finished you
+   should be able to run the script successfully.
+
+   NOTE: This step is required because of the way that Entourage
+   stores its messages (in a single monolithic database). When
+   Spotlight indexes the messages it creates separate files that can
+   be referenced and contain sufficient metadata to link back to the
+   original message in Entoura
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Usage
+</span>
+  Once the hack has been setup simply highlight a message line in the
+  message list window, hold down the &lt;command&gt; key, and press the
+  assigned key.  This action will run the Applescript macro which will
+  copy a properly formatted link to the message onto the
+  clipboard. Simply paste the text from the clipboard into a .org
+  document to create the link.
+
+  Because of the way Spotlight indexes messages (it assigns each a
+  unique identifier that never changes) the link should still work no
+  matter where you move the original email within Entourage.
+</pre>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+# Created 2021-06-15 Tue 18:22
+#+OPTIONS: H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Bastien's Worg page
+#+AUTHOR: Bastien
+#+startup: align fold nodlcheck hidestars oddeven lognotestate
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c)
+#+language: en
+#+priorities: A C B
+#+category: worg
+
+[[https://orgmode.org/index.html][{Back to Worg's index}]]
+
+Here I store thoughts and code about Org, along with links to some
+tutorials I wrote.
+
+* Webpages published with Org
+
+- My [[http://bzg.fr][homepage]]
+
+* Some tutorials
+
+- [[https://orgmode.org/worg/org-tutorials/org-column-screencast.html][Org Column screencast]]
+- [[https://orgmode.org/worg/org-tutorials/org-column-view-tutorial.html][Org Column Tutorial]]
+- [[https://orgmode.org/worg/org-tutorials/org-spreadsheet-intro.html][Introduction to Org spreadsheet system]]
+- [[https://orgmode.org/worg/org-tutorials/orgtutorial_dto-fr.html][Translation of David O'Toole tutorial]]
+- [[https://orgmode.org/worg/org-tutorials/tables.html][Introduction to tables in Org]]
+- [[http://bzg.fr/org-playing-with-lists-screencast.html]["Playing with plain lists" screencast]]
+
+* Remarks on "What makes a good GTD list manager?"
+
+I've read this inspiring article by Kelly Forrister: [[http://www.davidco.com/blogs/kelly/archives/2008/04/what_makes_a_go.html]["What makes a
+good GTD list manager?"]]  Let's see how Org-mode qualifies:
+
+: Sorting lists by context - many programs have a "category" feature that
+: will easily support this.
+
+
+*Yes.* Sorting by contexts is at heart of Org-mode, and can be
+implemented in various ways.  Context can be set as a [[https://orgmode.org/manual/Tags.html][tag]], a [[https://orgmode.org/manual/Categories.html][category]],
+or any other [[https://orgmode.org/manual/Properties-and-columns.html][property]] of an item: you can then easily narrow your org
+file to a view where only selected tags are presented, or define an
+agenda view to only present what is relevant to the context.
+
+: Ability to assign a due date - not forcing it on all of them, but allowing
+: it for those that need it.
+
+
+=C-c C-d= assigns a due date in =org-mode= buffers or in agenda views.
+You can also select several items in an agenda view and change the due
+date of all of them in one keystroke.
+
+: Portable for on the go access - can be synched to a handheld or printed.
+
+
+Check MobileOrg -- both for Android and iPhone.
+
+: Easily accessible - less than 60 seconds to get something in/out.
+
+
+Emacs starts quite fast these days.  So I guess the 60 seconds test is
+okay with Org.
+
+: More attractive to you than repelling - you've got to like the system
+: you're entrusting your brain to.
+
+
+Subjective, of course, but I like Org.
+
+: Doesn't force priority codes - if you know GTD, you know that forcing
+: priority codes is old news and rarely accurate anyway.
+
+
+Org doesn't force anything.  Priority codes are easy to add and
+remove, and it's easy to sort agenda view (or items in a subtree)
+depending on priority cookies, but you're not forced to.
+
+: Place to capture additional notes - attached to an item to capture relevant
+: info related to the item.
+
+
+Check out =C-c C-z= to add a note to an item from an =org-mode= buffer
+(=org-add-note=) or from an agenda view (=org-agenda-add-note=).  This
+comes as a complement to the general =org-capture= mechanism (see the
+[[https://orgmode.org/manual/Capture.html#Capture][manual]]).  Notes can also be added depending on the TODO state change:
+check =org-log-*= variables: check the [[https://orgmode.org/manual/In_002dbuffer-settings.html][summary of in-buffer settings]]
+and the family of =logdone, lognotedone, ...= options.
+
+: Ability to search and sort in various ways.
+
+
+Well, it's so central in Org it doesn't really need a comment.  Only
+check out this [[https://orgmode.org/worg/org-tutorials/advanced-searching.html][great documentation page]] by Matt Lundin.
+
+: Robust enough to handle all of your stuff.
+
+
+Org is as robust as any plain text file.  Do this qualify?  :)
+
+* My configuration
+
+You can check my full .emacs file [[http://bzg.fr/emacs.html][here]].

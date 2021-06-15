@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>ob-doc-R.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .comment-delimiter {
+        /* font-lock-comment-delimiter-face */
+        color: #696969;
+      }
+      .constant {
+        /* font-lock-constant-face */
+        color: #fd971f;
+      }
+      .custom {
+      }
+      .function-name {
+        /* font-lock-function-name-face */
+        color: #b6e63e;
+      }
+      .highlight-quoted-quote {
+        /* highlight-quoted-quote */
+        color: #9c91e4;
+      }
+      .italic {
+        /* italic */
+        font-style: italic;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .keyword {
+        /* font-lock-keyword-face */
+        color: #eb4509;
+      }
+      .org-block {
+        /* org-block */
+        background-color: #000000;
+      }
+      .org-block-begin-line {
+        /* org-block-begin-line */
+        color: #696969;
+      }
+      .org-block-end-line {
+        /* org-block-end-line */
+        color: #696969;
+      }
+      .org-checkbox {
+        /* org-checkbox */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-done {
+        /* org-checkbox-statistics-done */
+        color: #555556;
+        font-weight: bold;
+      }
+      .org-checkbox-statistics-todo {
+        /* org-checkbox-statistics-todo */
+        color: #e2c770;
+        font-weight: bold;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-headline-done {
+        /* org-headline-done */
+        color: #555556;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-level-3 {
+        /* org-level-3 */
+        color: #8ec298;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-list-dt {
+        /* org-list-dt */
+        color: #e2c770;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-table {
+        /* org-table */
+        color: #9c91e4;
+      }
+      .org-tag {
+        /* org-tag */
+        color: #e2c770;
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .rainbow-delimiters-depth-1 {
+        /* rainbow-delimiters-depth-1-face */
+        color: #eb4509;
+      }
+      .rainbow-delimiters-depth-2 {
+        /* rainbow-delimiters-depth-2-face */
+        color: #fd971f;
+      }
+      .rainbow-delimiters-depth-3 {
+        /* rainbow-delimiters-depth-3-face */
+        color: #b6e63e;
+      }
+      .string {
+        /* font-lock-string-face */
+        color: #e2c770;
+      }
+      .variable-name {
+        /* font-lock-variable-name-face */
+        color: #fd971f;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate hideblocks</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c) noexport(n)</span>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">R Source Code Blocks in Org Mode
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Eric Schulte, Dan Davison, Tom Dye, Tyler Smith
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">schulte.eric at gmail dot com, davison at stats dot ox dot ac dot uk, tyler at plantarum dot ca
+</span><span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+<span class="org-meta-line">#+EXCLUDE_TAGS: noexport</span>
+
+<span class="org-meta-line">#+name: banner</span>
+<span class="org-block-begin-line">#+begin_export html
+</span><span class="org-block">  &lt;</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">id</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"subtitle"</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">style</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"float: center; text-align: center;"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  Org Mode support for &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.r-project.org/">http://www.r-project.org/</a>"</span></span><span class="org-block">&gt;R&lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">href</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.r-project.org/">http://www.r-project.org/</a>"</span></span><span class="org-block">&gt;
+  &lt;</span><span class="org-block"><span class="function-name">img</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">src</span></span><span class="org-block">=</span><span class="org-block"><span class="string">"<a href="http://www.r-project.org/Rlogo.jpg&quot;/">http://www.r-project.org/Rlogo.jpg"</a></span></span><span class="org-block"><a href="http://www.r-project.org/Rlogo.jpg&quot;/">/</a>&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">a</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">p</span></span><span class="org-block">&gt;
+  &lt;/</span><span class="org-block"><span class="function-name">div</span></span><span class="org-block">&gt;
+</span><span class="org-block-end-line">#+end_export
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Template Checklist </span><span class="org-level-1"><span class="org-checkbox-statistics-todo">[14/15]</span></span><span class="org-level-1">                           </span><span class="org-level-1"><span class="org-tag">:noexport:</span></span><span class="org-level-1">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise #+TITLE:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Indicate #+AUTHOR:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add #+EMAIL:
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Revise banner source block </span><span class="org-checkbox-statistics-done"><span class="org-headline-done">[3/3]</span></span><span class="org-headline-done">
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Add link to a useful language web site
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name
+</span>    <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Find a suitable graphic and use it to link to the language
+</span>      web site
+  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Write an </span><span class="org-link"><span class="org-headline-done"><a href="Introduction">Introduction</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Requirements%20and%20Setup">Requirements and Setup</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Replace "Language" with language name in </span><span class="org-link"><span class="org-headline-done"><a href="Org%20Mode%20Features%20for%20Language%20Source%20Code%20Blocks">Org Mode Features for Language Source Code Blocks</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Header%20Arguments">Header Arguments</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe support for </span><span class="org-link"><span class="org-headline-done"><a href="Sessions">Sessions</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Result%20Types">Result Types</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Describe </span><span class="org-link"><span class="org-headline-done"><a href="Other">Other</a></span></span><span class="org-headline-done"> differences from supported languages
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Provide brief </span><span class="org-link"><span class="org-headline-done"><a href="Examples%20of%20Use">Examples of Use</a></span></span><span class="org-headline-done">
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Update how-to output graphics
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox"><span class="org-headline-done">[X]</span></span><span class="org-headline-done"> Update requirements
+</span>  <span class="org-list-dt">-</span> <span class="org-checkbox">[ ]</span> Update Examples of Use
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Introduction
+</span>R is a free software environment for statistical computing and
+graphics.  R source code blocks are fully supported in Org Mode with a
+wide variety of R-specific header arguments.
+
+R source code blocks in Org Mode can be used to create R packages,
+carry out statistical analyses, create graphic displays, and produce
+reproducible research papers.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Requirements and Setup
+</span>R source code blocks in Org Mode require a working R installation.
+Precompiled binary distributions for Gnu/Linux, Mac OS X, and Windows
+are available at the <span class="kc-org-link-url"><a href="http://cran.r-project.org">Comprehensive R Archive Network</a></span>, which also makes
+available the source code for compilation on other platforms.
+
+The Emacs mode, <span class="kc-org-link-url"><a href="http://ess.r-project.org/">Emacs Speaks Statistics (ESS)</a></span>, is required for
+session-based evaluation.  ESS is designed to support editing of
+scripts and interaction with various statistical analysis programs
+such as R, S-Plus, SAS, Stata, and JAGS. 
+
+You can install ESS from the <span class="kc-org-link-url"><a href="https://melpa.org/">MELPA repository</a></span>, using Emacs' package
+facility. This is usually the easiest way to install it; if you need
+to, instructions for installing from source are found at the <span class="kc-org-link-url"><a href="https://ess.r-project.org/index.php?Section=download">ESS
+website</a></span>.
+
+To install from Melpa, you need to add it to your
+<span class="org-code">package-archives</span>. The MELPA maintainers recommend the following
+code:
+
+<span class="org-block-begin-line">#+begin_src elisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">require</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="constant">package</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">let*</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">no-ssl </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">and</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">memq</span></span><span class="org-block"> </span><span class="org-block"><span class="variable-name">system-type</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">windows-nt ms-dos</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+                    </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">not</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">gnutls-available-p</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block">
+       </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">proto </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">if</span></span><span class="org-block"> no-ssl </span><span class="org-block"><span class="string">"http"</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"https"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="keyword">when</span></span><span class="org-block"> no-ssl </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="function-name">warn</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"\
+Your version of Emacs does not support SSL connections,
+which is unsafe because it allows man-in-the-middle attacks.
+There are two things you can do about this warning:
+</span></span><span class="org-list-dt"><span class="org-block"><span class="string">1.</span></span></span><span class="org-block"><span class="string"> Install an Emacs version that does support SSL and be safe.
+</span></span><span class="org-list-dt"><span class="org-block"><span class="string">2.</span></span></span><span class="org-block"><span class="string"> Remove this warning from your init file so you won't see it again."</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">package-archives</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"melpa"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> proto </span><span class="org-block"><span class="string">"://melpa.org/packages/"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block">
+  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;; </span></span><span class="org-block"><span class="comment">and `package-pinned-packages`. Most users will not need or want to do this.
+</span></span><span class="org-block">  </span><span class="org-block"><span class="comment-delimiter">;;</span></span><span class="org-block"><span class="comment">(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+</span></span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">package-initialize</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Note that the minimal requirement is just to have the line 
+
+<span class="org-block-begin-line">#+begin_src elisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">add-to-list</span></span><span class="org-block"> </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">package-archives</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="constant">cons</span></span><span class="org-block"> </span><span class="org-block"><span class="string">"melpa"</span></span><span class="org-block"> </span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block"><span class="constant">concat</span></span><span class="org-block"> proto </span><span class="org-block"><span class="string">"://melpa.org/packages/"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"> t</span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+at the appropriate place in your configuration (i.e., before you call
+<span class="org-code">package-initialize</span>).
+
+You also need to ensure that <span class="org-verbatim">org-babel-load-languages</span> includes an
+entry for R. Typically, <span class="org-verbatim">org-babel-load-languages</span> will contain many
+entries. The example below omits other languages.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp :tangle yes
+</span><span class="org-block">  </span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="function-name">org-babel-do-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="variable-name">org-babel-load-languages</span></span><span class="org-block">
+   </span><span class="org-block"><span class="highlight-quoted-quote">'</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">(</span></span><span class="org-block"><span class="rainbow-delimiters-depth-3">(</span></span><span class="org-block">R . t</span><span class="org-block"><span class="rainbow-delimiters-depth-3">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-2">)</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Note for Windows Users
+</span>Additional steps may be necessary on Windows. See <span class="kc-org-link-url"><a href="http://www.mail-archive.com/emacs-orgmode@gnu.org/msg57159.html">this Org-mode mailing list
+thread</a></span> for background information. If when trying to execute R source code from
+Org-mode one encouters the message <span class="org-verbatim">The system cannot find the path specified</span>, it
+may be necessary to set the variable <span class="org-verbatim">org-babel-R-command</span> in
+.emacs. Note the addition of <span class="org-verbatim">--slave --no-save</span> to the custom path, which are
+the R defaults for Babel.
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-babel-R-command </span><span class="org-block"><span class="string">"C:/Progra~1/R/R-2.15.0/bin/R --slave --no-save"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+Adjust the path appropriately based on your R installation.
+
+For 64bit Windows users, the R installation process may have installed
+both 32bit and 64bit binaries. The above path points to the 32bit paths; for
+64bit operating systems the analog is:
+
+<span class="org-block-begin-line">#+begin_src emacs-lisp
+</span><span class="org-block"><span class="rainbow-delimiters-depth-1">(</span></span><span class="org-block"><span class="keyword">setq</span></span><span class="org-block"> org-babel-R-command </span><span class="org-block"><span class="string">"C:/Progra~1/R/R-2.15.0/bin/x64/R --slave --no-save"</span></span><span class="org-block"><span class="rainbow-delimiters-depth-1">)</span></span><span class="org-block">
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Org Mode Features for R Source Code Blocks
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Header Arguments
+</span>
+There are no R-specific <span class="italic">default</span> header arguments.
+
+If a <span class="org-verbatim">:file filename.ext</span> header argument is provided to an R source
+block, then the output from the source block will go to the named
+file. What that output is depends on the value of the <span class="org-verbatim">:results</span>
+header argument.
+
+If the value is <span class="org-verbatim">:results file graphics</span> then "base" graphics output
+is captured to the file specified by the <span class="org-code">:file</span> argument. A link to
+the file is inserted into the Org Mode buffer. **NB: as of org version
+9.3, the <span class="org-code">:results</span> argument must include both <span class="org-code">file</span> and <span class="org-code">graphics</span>;
+earlier versions only required the <span class="org-code">graphics</span> argument**. An attempt
+is made to find an R graphics device corresponding to the file
+extension. Currently, the following extensions are recognized: <span class="org-verbatim">.png</span>,
+<span class="org-verbatim">.jpg</span>, <span class="org-verbatim">.jpeg</span>, <span class="org-verbatim">.tiff</span>, <span class="org-verbatim">.bmp</span>, <span class="org-verbatim">.pdf</span>, <span class="org-verbatim">.ps</span>, <span class="org-verbatim">.postscript</span>,
+<span class="org-verbatim">.tex</span>, and <span class="org-verbatim">.svg</span>. If the extension of the file name passed to
+<span class="org-verbatim">:file</span> is not recognized, PNG format output is created by default.
+
+If the source code block uses grid-based R graphics, e.g., the lattice
+and ggplot2 packages, then care must be taken either to print() the
+graphics object, specify <span class="org-verbatim">:results output</span>, or run the code in a
+<span class="org-verbatim">:session</span>.  This is because the graphics functions from lattice and
+ggplot2 return objects that must be explicitly printed to see them,
+using the print function.  This happens automatically when run
+interactively, e.g., <span class="org-verbatim">:session</span>, but when called inside another
+function, it does not.  
+
+Some years ago, Erik Iverson summarized the different ways of getting
+this working. His summary, updated to reflect a change in Org
+Babel syntax, follows:
+
+<span class="org-code">: * does /not/ work; produces a file, but it does 
+: * not contain a valid graphics format
+: #+begin_src R :file 1.png :results file graphics
+: library(lattice)
+: xyplot(1:10 ~ 1:10)
+: #+end_src
+</span>
+<span class="org-code">: * does produce a file, by printing object
+: #+begin_src R :file 2.png :results graphics file
+: library(lattice)
+: print(xyplot(1:10 ~ 1:10))
+: #+end_src
+</span>
+<span class="org-code">: * does produce a file, by using :results output
+: #+begin_src R :file 3.png :results output graphics file
+: library(lattice)
+: xyplot(1:10 ~ 1:10)
+: #+end_src
+</span>
+<span class="org-code">: * does produce a file, by evaluating in :session
+: #+begin_src R :file 4.png :session :results graphics file
+: library(lattice)
+: xyplot(1:10 ~ 1:10)
+: #+end_src
+</span>
+<span class="comment"># For further clarification of =:file= and =:results=, see <a href="https://orgmode.org/list/m1y67jdsgw.fsf@94.196.16.201.threembb.co.uk">this thread</a>.</span>
+
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Graphics Header Arguments
+</span>There are many R-specific header arguments used to configure R graphics
+devices.  They include:
+
+  <span class="org-list-dt">-</span> <span class="org-list-dt">width ::</span> the width of the graphics region, default value is 7
+             (inches) or 480 (pixels)
+  <span class="org-list-dt">-</span> <span class="org-list-dt">height ::</span> the height of the graphics region, default value is 7
+              (inches) or 480 (pixels)
+  <span class="org-list-dt">-</span> <span class="org-list-dt">units ::</span> the units in which width and height are given -- <span class="org-verbatim">px</span>,
+             <span class="org-verbatim">in</span>, <span class="org-verbatim">cm</span>, or <span class="org-verbatim">mm</span>. Note that the default units are set
+             by the file type: <span class="org-verbatim">in</span> for pdf and ps, <span class="org-verbatim">px</span> for jpeg,
+             bmp, png, tiff
+  <span class="org-list-dt">-</span> <span class="org-list-dt">bg ::</span> the background color defaults to "transparent"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">fg ::</span> the foreground color defaults to "black"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">pointsize ::</span> the default point size in the graphics defaults to 12
+  <span class="org-list-dt">-</span> <span class="org-list-dt">quality ::</span> the quality of a JPEG image as a percentage
+  <span class="org-list-dt">-</span> <span class="org-list-dt">compression ::</span> the type of compression to be used
+  <span class="org-list-dt">-</span> <span class="org-list-dt">res ::</span> the nominal resolution in pixels per inch
+  <span class="org-list-dt">-</span> <span class="org-list-dt">type ::</span> the bitmap type, one of "Xlib", "quartz", or "cairo"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">antialias ::</span> the type of antialiasing to be used when <span class="org-verbatim">type</span> =
+                 "cairo" or <span class="org-verbatim">type</span> = "quartz"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">family ::</span> in normal use, one of "AvantGarde", "Bookman",
+              "Courier", "Helvetica" (default), "Helvetica-Narrow",
+              "NewCenturySchoolbook", "Palatino", or "Times" 
+  <span class="org-list-dt">-</span> <span class="org-list-dt">title ::</span> string to embed as the /Title field in the file defaults
+             to "R Graphics Output"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">fonts ::</span> an R graphics font family name -- "sans", "serif", or "mono"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">version ::</span> string describing the PDF version required to view the
+               output defaults to "1.4"
+  <span class="org-list-dt">-</span> <span class="org-list-dt">paper ::</span> the target paper size -- "special" (default), "default",
+             "a4", "letter", "legal", "us", "executive", "a4r", or
+             "USr", where the latter two are rotated to landscape orientation
+  <span class="org-list-dt">-</span> <span class="org-list-dt">encoding ::</span> the name of an encoding file 
+  <span class="org-list-dt">-</span> <span class="org-list-dt">pagecentre ::</span> if paper != "special" then a logical that defaults
+                  to true and determines whether the graphic device
+                  region is centered on the page
+  <span class="org-list-dt">-</span> <span class="org-list-dt">colormodel ::</span> a character string describing the color model,
+                  "srgb" (default), "gray", "grey", or "cmyk".
+  <span class="org-list-dt">-</span> <span class="org-list-dt">useDingbats ::</span> if TRUE (default) small circles will be rendered
+                   with the Dingbats font
+  <span class="org-list-dt">-</span> <span class="org-list-dt">horizontal ::</span> for the postscript device, a logical that defaults
+                  to true and dtermines the orientation of the printed
+                  image
+  <span class="org-list-dt">-</span> <span class="org-list-dt">R-dev-args ::</span> for graphics parameters not directly supported by
+                  Org Mode (see below)
+
+ See the R help page for the graphics devices (e.g., using <span class="org-verbatim">?png</span>,
+ <span class="org-verbatim">?pdf</span>, <span class="org-verbatim">?postscript</span> in an R session) for additional information on
+ these arguments.
+
+ Arguments to the R graphics device can also be passed as a string in
+ R argument syntax, using the header arg <span class="org-verbatim">:R-dev-args</span>.  This is
+ useful for graphics device arguments that don't have an Org Mode
+ header argument counterpart.
+    
+ The following example source block illustrates use of <span class="org-verbatim">:R-dev-args</span>
+ to pass background and foreground colors.  Note that both of these
+ arguments can also be passed directly as header args, using <span class="org-verbatim">:fg</span> and
+ <span class="org-verbatim">:bg</span>.
+
+<span class="org-block-begin-line">#+begin_src org :exports code
+</span><span class="org-block">  ,#+header: :width 8 :height 8 :R-dev-args bg="olivedrab", fg="hotpink"
+  ,#+begin_src R :file z.pdf :results graphics file
+  ,plot(matrix(rnorm(100), ncol=2), type="l")
+  ,#+end_src
+</span><span class="org-block-end-line">#+end_src
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Sessions
+</span>Sessions are fully supported by R source code blocks. They can be used
+as one way to preserve state accessed by several source codeblocks. Sessions are also useful for debugging, since it is possible
+to view the values of variables created during the session.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Result Types
+</span>
+R source code blocks can return text or graphical results.
+
+The <span class="kc-org-link-url"><a href="http://cran.r-project.org/web/packages/ascii/index.html">ascii package</a></span> coerces R objects to Org Mode, among other markup
+languages.  The <span class="kc-org-link-url"><a href="http://cran.r-project.org/web/packages/Hmisc/index.html">Hmisc</a></span>, <span class="kc-org-link-url"><a href="http://cran.r-project.org/web/packages/xtable/index.html">xtable</a></span> and <span class="kc-org-link-url"><a href="http://cran.r-project.org/web/packages/tables/index.html">tables</a></span> packages contain functions to
+write R objects into LaTeX representations.
+
+R is capable of creating graphical displays in several formats.  The
+outputs supported by R source code blocks in Org Mode include:
+
+   <span class="org-list-dt">-</span> <span class="org-list-dt">bmp ::</span> bitmap image file format commonly used on Microsoft
+            Windows and OS/2
+   <span class="org-list-dt">-</span> <span class="org-list-dt">jpg, jpeg ::</span> Joint Photographics Expert Group method of lossy
+            compression for digital photography widely used in a
+            number of raster image file formats
+   <span class="org-list-dt">-</span> <span class="org-list-dt">tex ::</span> output tikz graphics language which can be typeset by
+            LaTeX so the fonts for text in the plot match the fonts
+            used in the LaTeX document
+   <span class="org-list-dt">-</span> <span class="org-list-dt">tiff ::</span> a sophisticated raster image format that allows multiple
+             pages in a document
+   <span class="org-list-dt">-</span> <span class="org-list-dt">png ::</span> Portable Network Graphics is a lossless raster image file format
+   <span class="org-list-dt">-</span> <span class="org-list-dt">svg ::</span> Scalable Vector Graphics is an open standard vector format
+            that can be embedded in web pages and readily edited in
+            open source software applications such as <span class="kc-org-link-url"><a href="http://inkscape.org/">Inkscape</a></span>
+   <span class="org-list-dt">-</span> <span class="org-list-dt">pdf ::</span> Portable Document Format can faithfully produce anything R
+            graphics can output
+   <span class="org-list-dt">-</span> <span class="org-list-dt">ps, postscript ::</span> PostScript is a predecessor of PDF that does
+                       not support semitransparent colors or
+                       hyperlinking
+
+When using R to produce graphical displays, you will typically set
+<span class="org-verbatim">:results graphics file</span>.  However, if you use the <span class="kc-org-link-url"><a href="http://had.co.nz/ggplot/">ggplot implementation of
+the grammar of graphics in R</a></span>, then you will need to set <span class="org-verbatim">:results
+output graphics file</span> (see above).
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Examples of Use
+</span><span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Debugging
+</span>   This section contains some tips on how to proceed if your R code is
+   not doing what you had hoped.
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Use </span><span class="org-level-3"><span class="org-verbatim">:session</span></span><span class="org-level-3">
+</span>    Evaluate your code using the <span class="org-verbatim">:session</span> header argument, then
+    visit the R buffer (i.e. the buffer containing the "inferior ESS"
+    process). Then you can inspect the objects that have been created,
+    and try out some lines of code. Useful R functions for inspecting
+    objects include (in R, type a "?" followed by the name of the
+    function, or use <span class="org-code">C-c C-v</span> to use ESS's help browser, to get help
+    with the function)
+    <span class="org-list-dt">-</span> str
+    <span class="org-list-dt">-</span> dim
+    <span class="org-list-dt">-</span> summary
+<span class="org-hide">**</span><span class="org-level-3"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-3"> Use ESS to step through evaluation line-by-line
+</span>    <span class="org-list-dt">1.</span> Use C-c ' to visit the edit buffer for your code block
+    <span class="org-list-dt">2.</span> Use <span class="org-verbatim">ess-eval-line-and-step</span> to evaluate each line in turn
+
+In addition to <span class="org-verbatim">ess-eval-line-and-step</span>, there are several other ESS
+functions with names beginning <span class="org-verbatim">ess-eval-*</span>. They evaluate lines and
+regions in different ways; it's worth looking at their descriptions
+(C-h f).
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Org Mode Output from R
+</span>David Hajage's <span class="kc-org-link-url"><a href="http://cran.r-project.org/web/packages/ascii/index.html">ascii</a></span> R package creates appropriate plain text
+representations of many R objects. It features an option to specify
+that the plain text representations should be in Org format. This can
+be particularly useful for retrieving non-tabular R data structures in
+Org Mode for export.
+
+In R:
+<span class="org-block-begin-line">#+begin_example 
+</span><span class="custom">&gt; library(ascii)
+&gt; options(asciiType = "org")
+&gt; library(Hmisc)
+&gt; ascii(describe(esoph))
+#+CAPTION: esoph
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 5 Variable
+</span><span class="org-list-dt"><span class="custom">-</span></span><span class="custom"> 88 Observations
+
+*agegp*
+|  n | missing | unique |
+| 88 |       0 |      6 |
+
+|           | 25-34 | 35-44 | 45-54 | 55-64 | 65-74 | 75+ |
+| Frequency |    15 |    15 |    16 |    16 |    15 |  11 |
+| %         |    17 |    17 |    18 |    18 |    17 |  12 |
+
+*alcgp*
+|  n | missing | unique |
+| 88 |       0 |      4 |
+
+ 0-39g/day (23, 26%), 40-79 (23, 26%), 80-119 (21, 24%), 120+ (21, 24%)
+
+*tobgp*
+|  n | missing | unique |
+| 88 |       0 |      4 |
+
+ 0-9g/day (24, 27%), 10-19 (24, 27%), 20-29 (20, 23%), 30+ (20, 23%)
+
+*ncases*
+|  n | missing | unique |  Mean | .05 | .10 | .25 | .50 | .75 | .90 | .95 |
+| 88 |       0 |     10 | 2.273 | 0.0 | 0.0 | 0.0 | 1.0 | 4.0 | 5.3 | 6.0 |
+
+|           |  0 |  1 |  2 |  3 | 4 | 5 | 6 | 8 | 9 | 17 |
+| Frequency | 29 | 16 | 11 |  9 | 8 | 6 | 5 | 1 | 2 |  1 |
+| %         | 33 | 18 | 12 | 10 | 9 | 7 | 6 | 1 | 2 |  1 |
+
+*ncontrols*
+|  n | missing | unique |  Mean | .05 | .10 | .25 | .50 |  .75 |  .90 |  .95 |
+| 88 |       0 |     30 | 11.08 | 1.0 | 1.0 | 3.0 | 6.0 | 14.0 | 29.1 | 40.0 |
+
+ lowest:  1  2  3  4  5, highest: 40 46 48 49 60
+</span><span class="org-block-end-line">#+end_example
+</span>
+
+The Org Mode source code block specifies <span class="org-verbatim">:results org</span> so the output
+is wrapped in <span class="org-verbatim">#+BEGIN_ORG</span> ... <span class="org-verbatim">#+END_ORG</span>.  This way, arbitrary
+output can be included and easily replaced on subsequent evaluations
+of the source code block.
+
+
+<span class="org-code">: #+begin_src R :results output org
+:   library(ascii)
+:   options(asciiType="org")
+:   ascii(summary(table(1:4, 1:4)))
+: #+end_src
+:
+: #+results:
+: #+BEGIN_ORG
+: - Number of cases in table: 4 
+: - Number of factors: 2 
+: - Test for independence of all factors:
+:   - Chisq = 12, df = 9, p-value = 0.2133
+:   - Chi-squared approximation may be incorrect
+: #+END_ORG
+</span>
+The results in this case are exported as a nested list structure:
+<span class="org-meta-line">#+results:</span>
+<span class="org-block-begin-line">#+BEGIN_ORG
+</span><span class="org-list-dt">-</span> Number of cases in table: 4 
+<span class="org-list-dt">-</span> Number of factors: 2 
+<span class="org-list-dt">-</span> Test for independence of all factors:
+  <span class="org-list-dt">-</span> Chisq = 12, df = 9, p-value = 0.2133
+  <span class="org-list-dt">-</span> Chi-squared approximation may be incorrect
+<span class="org-block-end-line">#+END_ORG
+</span>
+
+The <span class="org-verbatim">caption</span>, <span class="org-verbatim">header</span>, and <span class="org-verbatim">include.colnames</span> options are useful.
+
+
+<span class="org-code">: #+BEGIN_SRC R :results output org
+:  library(ascii)
+:  a &lt;- runif(100)
+:  c &lt;- "Quantiles of 100 random numbers"
+:  b &lt;- ascii(quantile(a),header=T,include.colnames=T,caption=c)
+:  print(b,type="org")
+:  rm(a,b,c)
+: #+END_SRC
+:
+: #+RESULTS:
+: #+BEGIN_ORG
+: #+CAPTION: Quantiles of 100 random numbers
+: | 0%   | 25%  | 50%  | 75%  | 100% |
+: |------+------+------+------+------|
+: | 0.03 | 0.28 | 0.52 | 0.74 | 1.00 |
+: #+END_ORG
+</span>
+The output exported to HTML can be quite nice.
+
+<span class="org-meta-line">#+RESULTS:</span>
+<span class="org-block-begin-line">#+BEGIN_ORG
+</span>#+CAPTION: Quantiles of 100 random numbers
+<span class="org-table">|   0% |  25% |  50% |  75% | 100% |</span>
+<span class="org-table">|------+------+------+------+------|</span>
+<span class="org-table">| 0.03 | 0.28 | 0.52 | 0.74 | 1.00 |</span>
+<span class="org-block-end-line">#+END_ORG
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> LaTeX code from R
+</span>This example summarises a linear regression fit. Usually the Org Mode
+user should not have to be involved in LaTeX code generation, because
+this is the responsibility of Org Mode's LaTeX export engine. In this
+example, neither the printed representation, nor the value of
+<span class="org-verbatim">summary(lm(y ~ x))</span> is tabular, and it would therefore require some
+work to get the information in to an Org Mode table. However, the
+<span class="org-verbatim">xtable</span> package can be used to output a LaTeX table. Using <span class="org-verbatim">:results
+latex</span> as a header argument to the R source code block ensures that
+this is returned as a LaTeX block in the Org Mode buffer and thus can be
+included correctly in LaTex-based export targets.
+
+<span class="org-code">: #+begin_src R :results output latex
+: library(xtable)
+: x &lt;- rnorm(100)
+: y &lt;- x + rnorm(100)
+: xtable(summary(lm(y ~ x)))
+: #+end_src
+</span>
+<span class="org-code">: #+results:
+: #+BEGIN_LaTeX
+: % latex table generated in R 2.9.2 by xtable 1.5-5 package
+: % Wed Dec  9 17:17:53 2009
+: \begin{table}[ht]
+: \begin{center}
+: \begin{tabular}{rrrrr}
+:   \hline
+:  &amp; Estimate &amp; Std. Error &amp; t value &amp; Pr($&gt;$$|$t$|$) \\ 
+:   \hline
+: (Intercept) &amp; -0.0743 &amp; 0.0969 &amp; -0.77 &amp; 0.4454 \\ 
+:   x &amp; 1.0707 &amp; 0.0923 &amp; 11.60 &amp; 0.0000 \\ 
+:    \hline
+: \end{tabular}
+: \end{center}
+: \end{table}
+: #+END_LaTeX
+</span>
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> </span><span class="org-level-2"><span class="org-verbatim">ess-switch-to-end-of-ESS</span></span><span class="org-level-2">
+</span> When in an Org Mode R code edit buffer with an associated R session,
+ <span class="org-verbatim">M-x ess-switch-to-end-of-ESS</span> will bring the R session buffer into
+ view and place point at the prompt. ESS binds this to <span class="org-verbatim">C-c C-z</span> and
+ <span class="org-verbatim">C-M-r</span> by default.
+
+</pre>
+  </body>
+</html>

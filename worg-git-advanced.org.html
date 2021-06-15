@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!-- Created by htmlize-1.56 in css mode. -->
+<html>
+  <head>
+    <title>worg-git-advanced.org</title>
+    <style type="text/css">
+    <!--
+      body {
+        color: #d6d6d4;
+        background-color: #161719;
+      }
+      .comment {
+        /* font-lock-comment-face */
+        color: #696969;
+      }
+      .kc-org-link-url {
+        /* kc-org-link-url */
+        color: #d02090;
+        text-decoration: underline;
+      }
+      .org-code {
+        /* org-code */
+        color: #dfd05e;
+      }
+      .org-document-info {
+        /* org-document-info */
+        color: #fd971f;
+      }
+      .org-document-info-keyword {
+        /* org-document-info-keyword */
+        color: #555556;
+      }
+      .org-document-title {
+        /* org-document-title */
+        color: #fd971f;
+        font-weight: bold;
+      }
+      .org-hide {
+        /* org-hide */
+        color: #161719;
+      }
+      .org-level-1 {
+        /* org-level-1 */
+        color: #eb4509;
+        font-weight: bold;
+      }
+      .org-level-2 {
+        /* org-level-2 */
+        color: #f0b144;
+        font-weight: bold;
+      }
+      .org-link {
+        /* org-link */
+        color: #fd971f;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      .org-meta-line {
+        /* org-meta-line */
+        color: #7f7f80;
+      }
+      .org-superstar-header-bullet {
+      }
+      .org-verbatim {
+        /* org-verbatim */
+        color: #b6e63e;
+      }
+      .whitespace-tab {
+        /* whitespace-tab */
+        color: #4e4e4e;
+        background-color: #2d2e2e;
+      }
+
+      a {
+        color: inherit;
+        background-color: inherit;
+        font: inherit;
+        text-decoration: inherit;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    -->
+    </style>
+  </head>
+  <body>
+    <pre>
+<span class="org-document-info-keyword">#+TITLE:</span>      <span class="org-document-title">Advanced usage of git for Worg
+</span><span class="org-document-info-keyword">#+AUTHOR:</span>     <span class="org-document-info">Worg people
+</span><span class="org-document-info-keyword">#+EMAIL:</span>      <span class="org-document-info">mdl AT imapmail DOT org
+</span><span class="org-meta-line">#+STARTUP:    align fold nodlcheck hidestars oddeven lognotestate</span>
+<span class="org-meta-line">#+SEQ_TODO:   TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)</span>
+<span class="org-meta-line">#+TAGS:       Write(w) Update(u) Fix(f) Check(c)</span>
+<span class="org-meta-line">#+LANGUAGE:   en</span>
+<span class="org-meta-line">#+PRIORITIES: A C B</span>
+<span class="org-meta-line">#+CATEGORY:   worg</span>
+<span class="org-meta-line">#+OPTIONS:    H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc</span>
+<span class="org-meta-line">#+HTML_LINK_UP:    index.html</span>
+<span class="org-meta-line">#+HTML_LINK_HOME:  <a href="https://orgmode.org/worg/">https://orgmode.org/worg/</a></span>
+
+<span class="comment"># This file is released by its authors and contributors under the GNU</span>
+<span class="comment"># Free Documentation license v1.3 or later, code examples are released</span>
+<span class="comment"># under the GNU General Public License v3 or later.</span>
+
+This page answer various questions on how to use git for editing Worg.
+
+If you're looking for a quick introduction on how to use git to
+contribute to Worg, please read <span class="org-link"><a href="file:worg-about.org::*How to use git for Worg">this section</a></span> instead.
+
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> Shall I create a branch?
+</span>
+Yes, it's cleaner.
+
+<span class="org-code">: ~$ git checkout -b t/my-topic-branch 
+: ~$ git commit -a -m "A line describing my change"
+</span>
+From here, either you are a registered Worg contributor and want to
+merge the branch before pushing to Worg's repo, either you just want to
+send patches.
+
+If you want to merge the branch and push to Worg:
+
+<span class="org-code">: ~$ git checkout master
+: ~$ git merge t/my-topic-branch
+: ~$ git push
+</span>
+If you just want to send patches, see below.
+
+When you're done with a branch, you can delete it with:
+
+<span class="org-code">: ~$ git branch -D t/my-topic-branch
+</span>
+<span class="org-level-1"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-1"> I just want to send patches!
+</span>
+It's okay.
+
+You can either either prepare patches with <span class="kc-org-link-url"><a href="http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html">git format-patch</a></span> or send them
+directly with <span class="kc-org-link-url"><a href="http://www.kernel.org/pub/software/scm/git/docs/git-send-email.html">git send-email</a></span>.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Use git format-patch
+</span>
+We suppose you are in a branch called <span class="org-verbatim">t/my-topic-branch</span> and that you
+committed your changes.
+
+<span class="org-code">: ~$ git format-patch origin
+</span>
+will create a separate mbox file for each commit, ready to be sent.
+
+<span class="org-code">: ~$ git format-patch -3
+</span>
+will create three separate files for the last three commits you did in
+this branch.
+
+See the documentation of <span class="kc-org-link-url"><a href="http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html">git format-patch</a></span> to set the value of the
+various headers.
+
+<span class="org-hide">*</span><span class="org-level-2"><span class="org-superstar-header-bullet">*</span></span><span class="org-level-2"> Use git send-email
+</span>
+If your Worg repo is in <span class="org-verbatim">~/git/Worg</span> and if your emails are sent through
+the <span class="org-verbatim">sendmail</span> command, please add this to <span class="org-verbatim">~/git/Worg/.git/config</span>:
+
+<span class="org-code">: [sendemail]
+: </span><span class="whitespace-tab">      </span><span class="org-code">to = bzg AT gnu DOT org
+</span>
+(Replace <span class="org-verbatim">AT</span> and <span class="org-verbatim">DOT</span> by the <span class="org-verbatim">@</span> and <span class="org-verbatim">.</span>)
+
+Then the <span class="org-verbatim">git send-email</span> command will send the patches directly to
+Bastien.
+
+Use <span class="org-verbatim">git send-email</span> like this:
+
+<span class="org-code">: ~$ git send-email --annotate -3
+</span>
+to review and annotate the last three commits in the current branch
+before sending them.
+
+
+
+
+
+
+</pre>
+  </body>
+</html>

@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PicoLisp Source Code Blocks in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Thorsten Jolitz" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">PicoLisp Source Code Blocks in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9798e82">Introduction</a>
+<ul>
+<li><a href="#org59c62a3">Brief description of PicoLisp</a></li>
+<li><a href="#org7ac8304">Range of typical uses within Org Mode</a></li>
+</ul>
+</li>
+<li><a href="#orge3eb4a9">Requirements and Setup</a>
+<ul>
+<li><a href="#orgc0ec33a">Installation and configuration of PicoLisp software</a></li>
+<li><a href="#org5fe9f46">Emacs configuration</a></li>
+<li><a href="#org64d06ce">Org-mode configuration (org-babel-do-load-languages)</a></li>
+</ul>
+</li>
+<li><a href="#org5b0c470">Org Mode Features for PicoLisp Source Code Blocks</a>
+<ul>
+<li><a href="#org4430fa7">Sessions</a></li>
+<li><a href="#org77aa2f7">Header Arguments and Result Types</a></li>
+<li><a href="#orgdd8b6cd">Other</a></li>
+</ul>
+</li>
+<li><a href="#orgbd5b4ae">Examples of Use</a>
+<ul>
+<li><a href="#org208d63f">Hello World!</a></li>
+<li><a href="#org3e1a9eb">Common uses</a></li>
+<li><a href="#orga2d0e6f">Links to tutorials and other resources</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://picolisp.com/5000/!wiki?home/">PicoLisp</a>
+</p>
+<p>
+<a href="http://picolisp.com/5000/!wiki?home/">
+<img src="http://picolisp.com/5000/wiki/logo.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-org9798e82" class="outline-2">
+<h2 id="org9798e82">Introduction</h2>
+<div class="outline-text-2" id="text-org9798e82">
+</div>
+<div id="outline-container-org59c62a3" class="outline-3">
+<h3 id="org59c62a3">Brief description of PicoLisp</h3>
+<div class="outline-text-3" id="text-org59c62a3">
+<p>
+PicoLisp is a minimal and pure Lisp dialect created by Alexander
+Burger. First of all, PicoLisp is a virtual machine architecture,
+and then a programming language. It is the result of a language
+design study, trying to answer the question &ldquo;What is a minimal but
+useful architecture for a virtual machine?&rdquo;
+</p>
+
+<p>
+However, PicoLisp is no academic exercise in language design. It has
+been used in several commercial and research programming projects
+since 1988. Its internal structures are simple enough, allowing an
+experienced programmer always to fully understand what&rsquo;s going on
+under the hood, and its language features, efficiency and
+extensibility make it suitable for almost any practical programming
+task. Some of the outstanding features of PicoLisp are:
+</p>
+
+<dl class="org-dl">
+<dt>Integrated Database</dt><dd><p>
+Database functionality is built into the core
+of the language. PicoLisp is a database query and manipulation
+language.
+</p>
+
+<p>
+Database entities are first class objects. They are called
+&ldquo;external symbols&rdquo;, because they are automatically fetched from
+database files when accessed, but otherwise behave like normal
+symbols.
+</p>
+
+<p>
+This fetching from external files is completely transparent, the
+symbols &ldquo;are just there&rdquo;, and there is no need (or even a
+function) to read or write them explicitly. Pilog (a built-in
+Prolog engine) is used as a query language.
+</p>
+
+<p>
+It is possible with PicoLisp to build large multi-user databases,
+distributed across many machines or in a cloud. Such a database
+system can be optimally fine-tuned, because all its levels are
+under the developer&rsquo;s control.
+</p></dd>
+
+<dt>Equivalence of Code and Data</dt><dd><p>
+This is actually a feature of Lisp in
+general. However, PicoLisp really lives it. It makes it easy to write
+things like the HTML, PostScript or TeX libraries, exploring a syntax
+of nested function calls. This results in very succinct and precisely
+expressed programs.
+</p>
+
+<p>
+For a closer explanation, see the article <a href="http://picolisp.com/5000/!wiki?EquivalenceCodeData">The Equivalence of Code
+and Data</a>. 
+</p></dd>
+
+<dt>Expressiveness</dt><dd><p>
+PicoLisp is a very expressive language. Programs are
+often much shorter and concise than equivalent programs written in
+other languages.
+</p>
+
+<p>
+Examples of various programming tasks and their solutions can be
+found at <a href="http://rosettacode.org/wiki/Category:PicoLisp">Rosettacode</a>.
+</p></dd>
+
+<dt>Efficiency</dt><dd><p>
+PicoLisp uses (at least when compared to other Lisps)
+very little memory, on disk as well as in memory (heap space).
+</p>
+
+<p>
+For example, the installation size in the OpenWRT distribution is
+only 575 kB (uncompressed), where the statically linked
+interpreter with 296 kB takes the largest part. Yet, it includes
+the full runtime system with interpreter, database, HTTP server,
+XHTML and JavaScript application framework, watchdog, and the
+debugger, PostScript and XML libraries.
+</p>
+
+<p>
+PicoLisp has no compiler, everything starts up very quickly, and
+code dynamically loaded at runtime (e.g. GUI pages) is
+immediately ready. Yet, the interpreter is quite fast, usually
+three times a fast as Python, for example.
+</p></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org7ac8304" class="outline-3">
+<h3 id="org7ac8304">Range of typical uses within Org Mode</h3>
+<div class="outline-text-3" id="text-org7ac8304">
+<p>
+At first sight, it might not be obvious why Org Mode users should
+use anything else but Emacs Lisp when writing lisp code blocks. But
+Picolisp offers at least two features that make it a valuable Org
+Babel language: its object-oriented database, and its highly
+efficient framework for interactive web-applications.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge3eb4a9" class="outline-2">
+<h2 id="orge3eb4a9">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-orge3eb4a9">
+</div>
+<div id="outline-container-orgc0ec33a" class="outline-3">
+<h3 id="orgc0ec33a">Installation and configuration of PicoLisp software</h3>
+<div class="outline-text-3" id="text-orgc0ec33a">
+<p>
+PicoLisp can be downloaded from this <a href="http://software-lab.de/down.html">download page</a>. There is a
+32-bit version written in C, and a 64-bit version written in
+assembler. Some GNU/Linux distributions ship with PicoLisp
+packages, so you might be able to use your package manager for
+installation. A pure Java version (Ersatz PicoLisp) and a minimal
+version (Mini PicoLisp) are available too.
+</p>
+
+<p>
+Detailed and comprehensive installation instructions can be found
+in the <a href="http://software-lab.de/INSTALL">INSTALL</a> file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5fe9f46" class="outline-3">
+<h3 id="org5fe9f46">Emacs configuration</h3>
+<div class="outline-text-3" id="text-org5fe9f46">
+<p>
+The original author of PicoLisp, Alexander Burger, does all his
+programming work using xterm and vi. PicoLisp is really living
+the old Unix tradition of simplicity and minimalism.
+</p>
+
+<p>
+However, there are no editor-wars going on in the PicoLisp
+community. Several PicoLisp programmers are Emacs users and
+contributed to Emacs to enable it as PicoLisp editor.
+</p>
+
+<p>
+After installing PicoLisp, you find the elisp files that constitute
+the Emacs picolisp-mode in the directory <i>picolisp/lib/el</i>. There
+is a picolisp.el and an inferior-picolisp.el as well as a paredit
+patch.
+</p>
+
+<p>
+There is another file called tsm.el. It makes PicoLisp&rsquo;s
+transient symbols appear in a special way in the source code,
+reminding the programmer that they look like Strings and are used
+as Strings, but are not really Strings but just (transient)
+Symbols.
+</p>
+
+<p>
+The README file in the same directory gives the necesary
+instructions for configuring the PicoLisp mode for Emacs. Since it
+is not very long, I cite it here:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #696969;">;; </span><span style="color: #696969;">In order to get the picolisp-mode working correctly you have to</span>
+     <span style="color: #696969;">;; </span><span style="color: #696969;">add the following expressions to your .emacs and adapt them </span>
+     <span style="color: #696969;">;; </span><span style="color: #696969;">according to your set-up: </span>
+     
+     <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">load-path</span> <span style="color: #e2c770;">"&lt;path-to&gt;/picoLisp/lib/el"</span><span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">load</span> <span style="color: #e2c770;">"tsm.el"</span><span style="color: #eb4509;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">Picolisp TransientSymbolsMarkup (*Tsm)</span>
+     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">autoload</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">run-picolisp</span> <span style="color: #e2c770;">"inferior-picolisp"</span><span style="color: #eb4509;">)</span>
+     <span style="color: #eb4509;">(</span><span style="color: #fd971f;">autoload</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">picolisp-mode</span> <span style="color: #e2c770;">"picolisp"</span> <span style="color: #7f7f80;">"Major mode for editing</span>
+<span style="color: #7f7f80;">      Picolisp."</span> t<span style="color: #eb4509;">)</span>
+     <span style="color: #696969;">;; </span><span style="color: #696969;">pil is more modern than plmod</span>
+     <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> picolisp-program-name <span style="color: #e2c770;">"&lt;path-to&gt;/picoLisp/plmod"</span><span style="color: #eb4509;">)</span> 
+     
+     <span style="color: #696969;">;; </span><span style="color: #696969;">If you have also SLIME installed, it will suck all possible lisp</span>
+     <span style="color: #696969;">;; </span><span style="color: #696969;">extensions up (greedy bastard). </span>
+     <span style="color: #696969;">;; </span><span style="color: #696969;">So in order to get the correct file-association for picolisp </span>
+     <span style="color: #696969;">;; </span><span style="color: #696969;">files you'll have to also add this:</span>
+     
+     <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-to-list</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">auto-mode-alist</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #e2c770;">"\\.l$"</span> . picolisp-mode<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+     
+     <span style="color: #696969;">;; </span><span style="color: #696969;">If you want, you can add a few hooks for convenience:</span>
+     
+     <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">add-hook</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">picolisp-mode-hook</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">lambda</span> <span style="color: #b6e63e;">()</span>
+           <span style="color: #b6e63e;">(</span>paredit-mode <span style="color: #9c91e4; font-weight: bold;">+1</span><span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">Loads paredit mode automatically</span>
+           <span style="color: #b6e63e;">(</span>tsm-mode<span style="color: #b6e63e;">)</span> <span style="color: #696969;">;; </span><span style="color: #696969;">Enables TSM</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">define-key</span> picolisp-mode-map <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">kbd</span> <span style="color: #e2c770;">"RET"</span><span style="color: #eb4509;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">newline-and-indent</span><span style="color: #b6e63e;">)</span>
+           <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">define-key</span> picolisp-mode-map <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">kbd</span> <span style="color: #e2c770;">"C-h"</span><span style="color: #eb4509;">)</span> <span style="color: #9c91e4;">'</span><span style="color: #66d9ef;">paredit-backward-delete</span><span style="color: #b6e63e;">)</span> <span style="color: #fd971f;">)</span> <span style="color: #eb4509;">)</span>
+     
+     
+     <span style="color: #696969;">;; </span><span style="color: #696969;">By the way, don't forget to patch your paredit.el (v21) with the</span>
+     <span style="color: #696969;">;;  </span><span style="color: #696969;">patch provided to get a smoother editing. </span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org64d06ce" class="outline-3">
+<h3 id="org64d06ce">Org-mode configuration (org-babel-do-load-languages)</h3>
+<div class="outline-text-3" id="text-org64d06ce">
+<p>
+The ob-picolisp.el file is part of Emacs now. To activate PicoLisp
+as an org-babel language, simply add (picolisp . t) to the
+org-babel-do-load-languages function in your Emacs configuration
+file, like shown below: 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">     <span style="color: #696969;">;; </span><span style="color: #696969;">activating picolisp as org babel language</span>
+     <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">quote</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>emacs-lisp . t<span style="color: #eb4509;">)</span>
+                                         <span style="color: #eb4509;">(</span>picolisp . t<span style="color: #eb4509;">)</span>
+                                         <span style="color: #eb4509;">(</span>R . t<span style="color: #eb4509;">)</span>
+                                         <span style="color: #eb4509;">(</span>python . t<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b0c470" class="outline-2">
+<h2 id="org5b0c470">Org Mode Features for PicoLisp Source Code Blocks</h2>
+<div class="outline-text-2" id="text-org5b0c470">
+</div>
+<div id="outline-container-org4430fa7" class="outline-3">
+<h3 id="org4430fa7">Sessions</h3>
+<div class="outline-text-3" id="text-org4430fa7">
+</div>
+<div id="outline-container-org523b69a" class="outline-4">
+<h4 id="org523b69a">Support or not</h4>
+<div class="outline-text-4" id="text-org523b69a">
+<p>
+ob-picolisp supports external evaluation as well as session-based
+evaluation of PicoLisp source blocks. 
+</p>
+</div>
+</div>
+<div id="outline-container-org1fe4803" class="outline-4">
+<h4 id="org1fe4803">Typical use for sessions</h4>
+<div class="outline-text-4" id="text-org1fe4803">
+<p>
+Sessions preserve state, therefore the use of sessions in PicoLisp
+just like in Emacs Lisp makes sense whenever the computations rely
+on changing state. 
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org77aa2f7" class="outline-3">
+<h3 id="org77aa2f7">Header Arguments and Result Types</h3>
+<div class="outline-text-3" id="text-org77aa2f7">
+</div>
+<div id="outline-container-orgda97c18" class="outline-4">
+<h4 id="orgda97c18">Language-specific default values</h4>
+<div class="outline-text-4" id="text-orgda97c18">
+<p>
+Depending on the kind of table data you work with, it might be
+convenient to set the following default header argument:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">      <span style="color: #696969;">;; </span><span style="color: #696969;">optionally declare default header arguments for this language</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">defvar</span> <span style="color: #fd971f;">org-babel-default-header-args:picolisp</span>
+        <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #fd971f;">:colnames</span> . <span style="color: #e2c770;">"no"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+        <span style="color: #7f7f80;">"Default arguments for evaluating a picolisp source block."</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf497636" class="outline-4">
+<h4 id="orgf497636">Language-specific header arguments</h4>
+<div class="outline-text-4" id="text-orgf497636">
+<p>
+There are no language specific header arguments for PicoLisp.     
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8d0ab3d" class="outline-4">
+<h4 id="org8d0ab3d">Combinations of header-args and result types</h4>
+<div class="outline-text-4" id="text-org8d0ab3d">
+<p>
+Many combinations of header arguments and result types are
+supported by ob-picolisp. Like always in combinatorics, the number
+of possible combinations increases rapidly when there are several
+factors with several levels each that can be freely combined.
+</p>
+
+<p>
+The following table shows combinations of header arguments and
+result types that might make sense for a language like PicoLisp.
+Many (but nor all) of them have been tried successfully with
+ob-picolisp source blocks. 
+</p>
+
+<table id="orgda678c3" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">evaluation</th>
+<th scope="col" class="org-left">collection</th>
+<th scope="col" class="org-left">type</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-left">(:session)</th>
+<th scope="col" class="org-left">(:results)</th>
+<th scope="col" class="org-left">(:results)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">external</td>
+<td class="org-left">value</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">output</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+
+<tr>
+<td class="org-left">session</td>
+<td class="org-left">value</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">output</td>
+<td class="org-left">table (vector)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">scalar (verbatim)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">file</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">raw (org)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">html</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">latex</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">code</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">pp</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+More special header arguments and their possible values are
+summarized in the next table:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">header-arg</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">values</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">:results</td>
+<td class="org-left">silent</td>
+<td class="org-left">replace</td>
+<td class="org-left">append</td>
+<td class="org-left">prepend</td>
+</tr>
+
+<tr>
+<td class="org-left">(handling)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:exports</td>
+<td class="org-left">code</td>
+<td class="org-left">results</td>
+<td class="org-left">both</td>
+<td class="org-left">none</td>
+</tr>
+
+<tr>
+<td class="org-left">:comments</td>
+<td class="org-left">yes</td>
+<td class="org-left">(no?)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:noweb</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:tangle</td>
+<td class="org-left">yes</td>
+<td class="org-left">no</td>
+<td class="org-left">filename</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:no-expand</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:file</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:dir</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:cache</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:var</td>
+<td class="org-left">x=y</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:hlines</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:colnames</td>
+<td class="org-left">nil</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:rownames</td>
+<td class="org-left">no</td>
+<td class="org-left">yes</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:shebang</td>
+<td class="org-left">&ldquo;string&rdquo;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">:eval</td>
+<td class="org-left">never</td>
+<td class="org-left">query</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgdd8b6cd" class="outline-3">
+<h3 id="orgdd8b6cd">Other</h3>
+<div class="outline-text-3" id="text-orgdd8b6cd">
+</div>
+<div id="outline-container-org09d5070" class="outline-4">
+<h4 id="org09d5070">Differences from other supported languages</h4>
+<div class="outline-text-4" id="text-org09d5070">
+<p>
+    PicoLisp as an Org Babel language works quite similar like its
+close relatives Emacs Lisp and Scheme, for example.
+</p>
+
+<p>
+However, there is one characteristic that really sets it aparts from
+other supported languages: PicoLisp is not only a language, it <span class="underline">is</span> a
+(object-oriented) database and a web-framework. Unlike other
+languages, that <span class="underline">have</span> (external) frameworks and database drivers,
+these features are deeply integrated inside the PicoLisp application
+server framework. 
+</p>
+
+<p>
+As Alexander Burger describes it in <a href="http://software-lab.de/dbui.html">A Unifying
+Language for Database And User Interface Development</a>:
+</p>
+
+<blockquote>
+<pre class="example">
+Databases and user interfaces are separate
+worlds: Existing class libraries are concerned about
+visual effects and event handling, but not about
+application logic and database maintenance. It is the
+programmer's responsibility to write glue code that
+displays data in corresponding GUI fields, detects
+modifications by the user, validates them, writes changes
+back to the database, and does other housekeeping.
+                 
+[PicoLisp is] a language and programming
+environment that closes [this] semantic gap, by unifying
+database and user interface into a single application
+server framework.
+</pre>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd5b4ae" class="outline-2">
+<h2 id="orgbd5b4ae">Examples of Use</h2>
+<div class="outline-text-2" id="text-orgbd5b4ae">
+</div>
+<div id="outline-container-org208d63f" class="outline-3">
+<h3 id="org208d63f">Hello World!</h3>
+<div class="outline-text-3" id="text-org208d63f">
+<p>
+The <a href="http://software-lab.de/doc/tut.html">PicoLisp Tutorial</a> has two versions of the notorious &ldquo;Hello World&rdquo;
+function, one without arguments, the other with one argument:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-picolisp">  # no arguments
+  (de hello-no-args ()
+     (prinl "Hello World"))
+  
+  (hello-no-args)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-picolisp">  # with one argument
+  (de hello-one-arg (X)
+     (prinl "Hello " X) )
+  
+  (hello-one-arg "Argument")
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3e1a9eb" class="outline-3">
+<h3 id="org3e1a9eb">Common uses</h3>
+<div class="outline-text-3" id="text-org3e1a9eb">
+<p>
+PicoLisp can be used, just like Emacs Lisp, as an efficient
+scripting language inside of Org Mode documents. Due to its smart
+and powerfull abstractions, much can be achieved in a few lines of
+code.
+</p>
+
+<p>
+From a PicoLisp programmer&rsquo;s point of view, the integration of the
+language into Org Babel might be usefull for literate programming
+(e.g. writing well documented PicoLisp libraries or PicoLisp
+related papers) or for convenient database report building (making
+use of Org Mode&rsquo;s multi-language environment and export
+facilities).
+</p>
+
+<p>
+From an Org Mode user&rsquo;s and/or Emacs Lisp programmer&rsquo;s point of
+view, two use cases might be of special interest:
+</p>
+
+<ul class="org-ul">
+<li>use PicoLisp as a <span class="underline">real</span> (object-oriented) database replacement
+for things like bbdb and eieio, i.e. as a tool for
+object-oriented lisp programming that can handle <span class="underline">big</span> (even
+replicated) databases, offers a powerfull prolog-based query
+language (Pilog) and <span class="underline">speed</span> (see <a href="http://picolisp.com/5000/!wiki?NeedForSpeed">The Need for Speed</a>).</li>
+<li>use the PicoLisp application server framework to enable
+interactive web-development with Org Mode, i.e. combine the
+static html-export facilities of Org Mode with PicoLisp&rsquo;s ability
+to produce html-forms that communicate directly with an
+underlying PicoLisp database.</li>
+</ul>
+
+<p>
+These two use cases are still a bit theoretical, some investigation
+and experimentation has to be done that hopefully lead to the
+production of related tutorials on Worg in the future.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga2d0e6f" class="outline-3">
+<h3 id="orga2d0e6f">Links to tutorials and other resources</h3>
+<div class="outline-text-3" id="text-orga2d0e6f">
+<p>
+Although not all aspects of PicoLisp are documented and the (often
+surprinsingly short) source code must be used as ultimate reference in
+some cases, there are many interesting and well written documents
+available.
+</p>
+
+<p>
+The one-stop-shop for everything with regards to PicoLisp is the
+<a href="http://picolisp.com/5000/!wiki?home">PicoLisp Wiki</a>. There is a <a href="mailto:picolisp@software-lab.de?subject%3DSubscribe">PicoLisp Mailing List</a> too, as well as an IRC
+channel (#picolisp). 
+</p>
+
+<p>
+For programmers who want to learn more about PicoLisp, I would suggest
+to first read Paul Graham&rsquo;s essay <a href="http://paulgraham.com/hundred.html">The Hundred-Year Language</a>, to get
+the general idea what PicoLisp is all about. Then, a <a href="http://software-lab.de/radical.pdf">A Radical Approach
+to Application Development (PDF)</a> and <a href="http://software-lab.de/dbui.html">A Unifying Language for Database
+And User Interface Development</a> are the next logical steps to learn
+more about the philosophy behind PicoLisp.
+</p>
+
+<p>
+The <a href="http://software-lab.de/doc/ref.html">PicoLisp Reference</a> and the <a href="http://software-lab.de/doc/tut.html">PicoLisp Tutorial</a> are the main
+references when it comes to &rsquo;hands on&rsquo; experience with the language.
+Henrik Sarvell&rsquo;s introduction <a href="http://www.prodevtips.com/2008/03/28/pico-lisp/">&ldquo;At a First Glance&rdquo;</a> is a very helpfull
+beginners guide too. 
+</p>
+
+<p>
+The <a href="http://software-lab.de/doc/app.html">PicoLisp Application Development</a> guide explains in great detail,
+how amazingly easy and efficient web-programming with PicoLisp can be.
+There is much more information available, just have a look at the
+PicoLisp wiki yourself.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Thorsten Jolitz</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

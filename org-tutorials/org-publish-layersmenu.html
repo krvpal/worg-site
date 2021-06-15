@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Publishing Treemenus for Org-files</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Sebastian Rose" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Publishing Treemenus for Org-files</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcc31f6b">Introduction</a></li>
+<li><a href="#org94c4158">How the menus work</a></li>
+<li><a href="#org4238fee">Creating the menu structure when publishing</a></li>
+<li><a href="#org45a1b49"><code>my-org-notes-sitemap-complete</code></a></li>
+<li><a href="#orgdcb17b8">Include the menu in existing pages</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="../index.html">{Back to Worg&rsquo;s index}</a>
+</p>
+
+<div id="outline-container-orgcc31f6b" class="outline-2">
+<h2 id="orgcc31f6b">Introduction</h2>
+<div class="outline-text-2" id="text-orgcc31f6b">
+<p>
+You should be comfortable with publishing Org-mode fiels to HTML already when
+you read this. Make sure, to create the tree-style sitemap-file on export.
+</p>
+
+<p>
+This Tutorial describes a simple technique to include published content into
+other web applications. I use an external JavaScript treemenu library publish
+by Marco Pratesi. This treemenu is fast and runs in all Browsers I&rsquo;m aware
+of. The techniqe could as well be adopted to other menu libs.
+</p>
+
+<p>
+You might as well use the Menu as kind of sitemap or top menu.
+</p>
+
+<ul class="org-ul">
+<li>The homepage of Phplaymenu is here: <a href="http://sourceforge.net/projects/phplayersmenu/">http://sourceforge.net/projects/phplayersmenu/</a></li>
+<li>A demo can be found on <a href="http://phplayersmenu.sourceforge.net/demo.php">http://phplayersmenu.sourceforge.net/demo.php</a></li>
+</ul>
+
+<p>
+Here is a screenshot of a treemenu:
+</p>
+
+
+<div class="figure">
+<p><img src="../images/sr/phplayermenu-example-tree.png" alt="phplayermenu-example-tree.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Example phplayersmenu treemenu</p>
+</div>
+
+<p>
+<div class="org-info-box"><img src="/worg/images/icons/info.png" alt="NOTE" /><p> <b>Note:</b> Prior to Org-mode commit
+<a href="https://code.orgmode.org/bzg/org-mode/commit/4892c8899e5b99d041836749fb2d1458971be55d">4892c8899e5b99d041836749fb2d1458971be55d</a> (version 6.34trans), <code>sitemap-file</code>
+<code>auto-sitemap</code> a.s.o. where called <code>index-file</code>, <code>auto-index</code> and similar. I you
+have to work with a version released before 25th of February 2010, just
+replace <code>sitemap</code> with <code>index</code> throughout this file.
+</p><br style="clear:left;height:1px;" /></div><br />
+</p>
+</div>
+</div>
+
+<div id="outline-container-org94c4158" class="outline-2">
+<h2 id="org94c4158">How the menus work</h2>
+<div class="outline-text-2" id="text-org94c4158">
+<p>
+The menus are read from a string of a special structure. While it is beyond
+this tutorial to explain the usage of the menus in details, the structure of
+this string is important.
+</p>
+
+<p>
+Each line of the string consists of these elements:
+</p>
+
+<pre class="example">
+[dots]|[text]|[link]|[title]|[icon]|[target]|[expanded]
+</pre>
+
+
+<p>
+Everything in brackets is optional. So are any trailing bars, if empty.
+</p>
+
+<p>
+The tree structure is represented by prepended dots.
+</p>
+
+<p>
+Example:
+</p>
+
+<pre class="example">
+.|Top level directory without link
+..|Article 1|articles/article1.html|||main
+..|Article 2|articles/article2.html|||main
+.|Snippets
+..|C++|snippets/c++.html|||main
+..|Perl|snippets/Perl.html|||main
+</pre>
+
+
+<p>
+will result in either in a tree menu like this here (<code>[F]</code> is an optional
+folder icon:
+</p>
+
+<pre class="example">
+- [F] Top level directory without link
+   |
+   +-- Article 1
+   `-- Article 2
+
+- [F] Snippets
+   |
+   +-- C++
+   `-- Perl
+</pre>
+
+
+<p>
+&#x2026;or a menubar like this:
+</p>
+
+<pre class="example">
+.__________________________________.__________.
+| Top level directory without link | Snippets |
+`----------------------------------|          |
+                                   | C++      |
+                                   | Perl     |
+                                   `----------'
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4238fee" class="outline-2">
+<h2 id="org4238fee">Creating the menu structure when publishing</h2>
+<div class="outline-text-2" id="text-org4238fee">
+<p>
+To create the menu structure, I use a modified version of the elisp function
+<code>org-publish-org-sitemap</code>, defined in <code>Org-mode/lisp/org-publish.el</code>, that generates
+the sitemap for HTML export. The function is called
+<code>sr-org-notes-sitemap-complete</code> and defined in one of my emacs setup files.
+</p>
+
+<p>
+Fortunately, Org-mode makes it possible to call a function after the
+publishing process has fineshed. To make use of <code>sr-org-notes-sitemap-complete</code>,
+add this to your publishing project&rsquo;s definition:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #fd971f;">require</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">ox-publish</span><span style="color: #eb4509;">)</span>
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> <span style="color: #fd971f;">org-publish-project-alist</span>
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"org-notes"</span>
+         <span style="color: #fd971f;">:base-directory</span> <span style="color: #e2c770;">"~/org/notes/"</span>
+
+         <span style="color: #696969;">;; </span><span style="color: #696969;">...</span>
+
+         <span style="color: #696969;">;; </span><span style="color: #696969;">Important:</span>
+         <span style="color: #fd971f;">:auto-sitemap</span> t <span style="color: #696969;">; </span><span style="color: #696969;">generate sitemap.org automagically</span>
+         <span style="color: #fd971f;">:sitemap-filename</span> <span style="color: #e2c770;">"sitemap.org"</span> <span style="color: #696969;">; </span><span style="color: #696969;">this is the default</span>
+         <span style="color: #fd971f;">:sitemap-style</span> <span style="color: #e2c770;">"tree"</span>
+
+         <span style="color: #696969;">;; </span><span style="color: #696969;">Layersmenu:</span>
+         <span style="color: #fd971f;">:completion-function</span> sr-org-notes-sitemap-complete
+         <span style="color: #fd971f;">:menu/structure-file</span> <span style="color: #e2c770;">"~/path/to/menu-structure-file.txt"</span>
+         <span style="color: #fd971f;">:menu/link-target</span> <span style="color: #e2c770;">"mitte"</span> <span style="color: #696969;">;; </span><span style="color: #696969;">optional</span>
+
+         <span style="color: #696969;">;; </span><span style="color: #696969;">...</span>
+
+         <span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+Once you re-publish your project, the menu-structure file will be created.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org45a1b49" class="outline-2">
+<h2 id="org45a1b49"><code>my-org-notes-sitemap-complete</code></h2>
+<div class="outline-text-2" id="text-org45a1b49">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">sr-org-notes-sitemap-complete</span> <span style="color: #fd971f;">()</span>
+  <span style="color: #7f7f80;">"Take the sitemap-file and turn it into the menu-structure</span>
+<span style="color: #7f7f80;">file for Marco Pratesi's phplayersmenu."</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let*</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>base-dir <span style="color: #fd971f;">(</span><span style="color: #fd971f;">file-name-as-directory</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> project-plist <span style="color: #fd971f;">:base-directory</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>orig <span style="color: #fd971f;">(</span><span style="color: #fd971f;">expand-file-name</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> base-dir <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> project-plist <span style="color: #fd971f;">:sitemap-filename</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>strip-suffix <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> project-plist <span style="color: #fd971f;">:base-extension</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"org"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>add-suffix <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> project-plist <span style="color: #fd971f;">:html-extension</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"html"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>link-target <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> project-plist <span style="color: #fd971f;">:menu/link-target</span><span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"_blank"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>menu-file <span style="color: #fd971f;">(</span><span style="color: #eb4509;">or</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">plist-get</span> project-plist <span style="color: #fd971f;">:menu/structure-file</span><span style="color: #b6e63e;">)</span> nil<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+         <span style="color: #eb4509;">(</span>visiting <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">find-buffer-visiting</span> orig<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>visiting-output <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">find-buffer-visiting</span> menu-file<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+         <span style="color: #eb4509;">(</span>input-buffer <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">find-file</span> orig<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>output-buffer <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">find-file</span> menu-file<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+         <span style="color: #eb4509;">(</span>old-ndots <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>sub <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span>
+         <span style="color: #eb4509;">(</span>old-sub <span style="color: #e2c770;">""</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">unless</span> menu-file
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">throw</span> <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">sr-org-note-kb-completion-error</span>
+             <span style="color: #e2c770;">"No menu structure file provided. Giving up."</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> output-buffer
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">erase-buffer</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> input-buffer
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">widen</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #fd971f;">goto-char</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">point-min</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+      <span style="color: #eb4509;">(</span><span style="color: #eb4509;">while</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">re-search-forward</span> <span style="color: #fd971f;">org-bracket-link-analytic-regexp</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">point-max</span><span style="color: #b6e63e;">)</span> t<span style="color: #fd971f;">)</span>
+        <span style="color: #fd971f;">(</span><span style="color: #eb4509;">let</span> <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">(</span>link <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">match-string-no-properties</span> <span style="color: #9c91e4; font-weight: bold;">3</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span>text <span style="color: #fd971f;">(</span><span style="color: #b6e63e;">match-string-no-properties</span> <span style="color: #9c91e4; font-weight: bold;">5</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span>pos <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span>ndots <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+      <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> output-buffer
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">if</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span> <span style="color: #e2c770;">"</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">"</span> strip-suffix <span style="color: #e2c770;">"</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">$"</span><span style="color: #b6e63e;">)</span> link<span style="color: #fd971f;">)</span>
+            <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> link <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">replace-match</span> add-suffix t t link<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">while</span> <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> pos <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"/"</span> link pos<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> ndots <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">+</span> ndots <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> pos <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">+</span> pos <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">when</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">&lt;</span> <span style="color: #9c91e4; font-weight: bold;">1</span> ndots<span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">(</span><span style="color: #e2c770;">/[</span><span style="color: #9c91e4; font-weight: bold;">^</span><span style="color: #e2c770;">/]*</span><span style="color: #9c91e4; font-weight: bold;">\\</span><span style="color: #9c91e4; font-weight: bold;">)</span><span style="color: #e2c770;">$"</span> link<span style="color: #fd971f;">)</span>
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> sub <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">replace-match</span> <span style="color: #e2c770;">""</span> t t link<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+
+          <span style="color: #fd971f;">(</span><span style="color: #eb4509;">unless</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string=</span> sub old-sub<span style="color: #b6e63e;">)</span>
+            <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">let</span> <span style="color: #eb4509;">(</span><span style="color: #fd971f;">(</span>ds <span style="color: #9c91e4; font-weight: bold;">0</span><span style="color: #fd971f;">)</span>
+                  <span style="color: #fd971f;">(</span>subs <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">split-string</span> sub <span style="color: #e2c770;">"/"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                  <span style="color: #fd971f;">(</span>old-subs <span style="color: #b6e63e;">(</span><span style="color: #b6e63e;">split-string</span> old-sub <span style="color: #e2c770;">"/"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #eb4509;">while</span> <span style="color: #fd971f;">(</span><span style="color: #fd971f;">string=</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> old-subs<span style="color: #b6e63e;">)</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">car</span> subs<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> ds <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">+</span> ds <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                <span style="color: #fd971f;">(</span><span style="color: #eb4509;">pop</span> old-subs<span style="color: #fd971f;">)</span>
+                <span style="color: #fd971f;">(</span><span style="color: #eb4509;">pop</span> subs<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #eb4509;">dolist</span> <span style="color: #fd971f;">(</span>d subs<span style="color: #fd971f;">)</span>
+                <span style="color: #fd971f;">(</span><span style="color: #eb4509;">setq</span> ds <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">+</span> ds <span style="color: #9c91e4; font-weight: bold;">1</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span>
+                <span style="color: #fd971f;">(</span><span style="color: #fd971f;">insert</span>
+                 <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">concat</span>
+                  <span style="color: #eb4509;">(</span><span style="color: #fd971f;">make-string</span> ds ?.<span style="color: #eb4509;">)</span> <span style="color: #e2c770;">"|"</span> d <span style="color: #e2c770;">"\n"</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+              <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> old-sub sub<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">insert</span>
+         <span style="color: #fd971f;">(</span><span style="color: #fd971f;">concat</span>
+          <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">make-string</span> ndots ?.<span style="color: #b6e63e;">)</span> <span style="color: #e2c770;">"|"</span> text <span style="color: #e2c770;">"|"</span> link <span style="color: #e2c770;">"|||"</span> link-target <span style="color: #e2c770;">"\n"</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+        <span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> old-ndots ndots<span style="color: #eb4509;">)</span>
+        <span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> visiting <span style="color: #eb4509;">(</span><span style="color: #fd971f;">kill-buffer</span> input-buffer<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">with-current-buffer</span> output-buffer
+      <span style="color: #eb4509;">(</span><span style="color: #b6e63e;">save-buffer</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+    <span style="color: #b6e63e;">(</span><span style="color: #eb4509;">or</span> visiting-output <span style="color: #eb4509;">(</span><span style="color: #fd971f;">kill-buffer</span> output-buffer<span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdcb17b8" class="outline-2">
+<h2 id="orgdcb17b8">Include the menu in existing pages</h2>
+<div class="outline-text-2" id="text-orgdcb17b8">
+<p>
+To actually use the result, download the Phplayersmenu library and unpack
+it. Move the following subfolders to your webroot:
+</p>
+
+<ul class="org-ul">
+<li><code>phplayersmenu-3.2.0/lib/</code></li>
+<li><code>phplayersmenu-3.2.0/libjs/</code></li>
+<li><code>phplayersmenu-3.2.0/menuimages/</code></li>
+</ul>
+
+<p>
+Also choose one of the stylesheets in <code>phplayersmenu-3.2.0/</code>. In the example
+below, the <code>layerstreemenu.css</code> is used.
+</p>
+
+<p>
+Adjust the file(s) you want to include the menu in. Here is an example:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"><span class="linenr"> 1: </span> &lt;<span style="color: #b6e63e;">html</span>&gt;
+<span class="linenr"> 2: </span>  &lt;<span style="color: #b6e63e;">head</span>&gt;
+<span class="linenr"> 3: </span>   &lt;<span style="color: #b6e63e;">script</span> <span style="color: #fd971f;">type</span>=<span style="color: #e2c770;">"text/javascript"</span>&gt;
+<span class="linenr"> 4: </span>    &lt;<span style="color: #eb4509;">?php</span> include ("libjs/layersmenu-browser_detection.js"); ?&gt;
+<span class="linenr"> 5: </span>   &lt;/<span style="color: #b6e63e;">script</span>&gt;
+<span id="coderef-tree1" class="coderef-off"><span class="linenr"> 6: </span>   &lt;<span style="color: #b6e63e;">link</span> <span style="color: #fd971f;">rel</span>=<span style="color: #e2c770;">"stylesheet"</span> <span style="color: #fd971f;">href</span>=<span style="color: #e2c770;">"layerstreemenu.css"</span> <span style="color: #fd971f;">type</span>=<span style="color: #e2c770;">"text/css"</span>&gt;&lt;/<span style="color: #b6e63e;">link</span>&gt;</span>
+<span class="linenr"> 7: </span>   &lt;<span style="color: #b6e63e;">script</span> <span style="color: #fd971f;">type</span>=<span style="color: #e2c770;">"text/javascript"</span> <span style="color: #fd971f;">src</span>=<span style="color: #e2c770;">"libjs/layerstreemenu-cookies.js"</span>&gt;&lt;/<span style="color: #b6e63e;">script</span>&gt;
+<span class="linenr"> 8: </span>  &lt;/<span style="color: #b6e63e;">head</span>&gt;
+<span class="linenr"> 9: </span>  &lt;<span style="color: #b6e63e;">body</span>&gt;
+<span class="linenr">10: </span>
+<span class="linenr">11: </span>    ...
+<span class="linenr">12: </span>
+<span class="linenr">13: </span>    &lt;<span style="color: #b6e63e;">div</span>&gt;
+<span class="linenr">14: </span> &lt;<span style="color: #eb4509;">?php</span>
+<span class="linenr">15: </span>    include ("lib/PHPLIB.php");   // taken from PHPLib
+<span class="linenr">16: </span>    include ("lib/layersmenu-common.inc.php");
+<span id="coderef-tree2" class="coderef-off"><span class="linenr">17: </span>    include ("lib/treemenu.inc.php");</span>
+<span class="linenr">18: </span>    if ( @ is_file ("../intranet/navigations/org.txt") )
+<span class="linenr">19: </span>    {
+<span id="coderef-tree3" class="coderef-off"><span class="linenr">20: </span>      $mid = new TreeMenu();</span>
+<span class="linenr">21: </span>      $mid-&gt;setMenuStructureFile("navigations/org.txt");
+<span id="coderef-url1" class="coderef-off"><span class="linenr">22: </span>      $mid-&gt;setPrependedUrl("../org-notes/");</span>
+<span class="linenr">23: </span>      $mid-&gt;parseStructureForMenu("treemenu1");
+<span id="coderef-tree4" class="coderef-off"><span class="linenr">24: </span>      print $mid-&gt;newTreeMenu("treemenu1");</span>
+<span class="linenr">25: </span>    }
+<span class="linenr">26: </span> ?&gt;
+<span class="linenr">27: </span>    &lt;/<span style="color: #b6e63e;">div</span>&gt;
+<span class="linenr">28: </span>  &lt;/<span style="color: #b6e63e;">body</span>&gt;
+<span class="linenr">29: </span> &lt;/<span style="color: #b6e63e;">html</span>&gt;
+</pre>
+</div>
+
+<p>
+What makes your menu a tree-menu, are
+</p>
+
+<ul class="org-ul">
+<li>the stylesheet (<a href="#coderef-tree1" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-tree1');" onmouseout="CodeHighlightOff(this, 'coderef-tree1');">line 6</a>),</li>
+<li>theinclusion of treemenu.inc.php (<a href="#coderef-tree2" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-tree2');" onmouseout="CodeHighlightOff(this, 'coderef-tree2');">in line 17</a>),</li>
+<li>the constructor used (<a href="#coderef-tree3" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-tree3');" onmouseout="CodeHighlightOff(this, 'coderef-tree3');">line 20</a>),</li>
+<li>and the <code>newTreeMenu()</code> method (<a href="#coderef-tree4" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-tree4');" onmouseout="CodeHighlightOff(this, 'coderef-tree4');">called in line 24</a>).</li>
+</ul>
+
+<p>
+The (optional) <a href="#coderef-url1" class="coderef" onmouseover="CodeHighlightOn(this, 'coderef-url1');" onmouseout="CodeHighlightOff(this, 'coderef-url1');">URL provided in line 22</a> is prepended to all the URLs found
+in the menu-structure file.
+</p>
+
+<p>
+See the Phplayersmenu docs on how to create horizontal and vertical menus from
+the same structure file.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Sebastian Rose</p>
+<p class="date">Created: 2021-06-15 Tue 18:25</p>
+</div>
+</body>
+</html>

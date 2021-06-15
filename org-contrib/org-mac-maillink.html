@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org Link  &#x2013; create Org-mode hyperlinks to Entourage mail messages</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Org Link  &#x2013; create Org-mode hyperlinks to Entourage mail messages</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf9d901f">Purpose</a></li>
+<li><a href="#orgd077c90">Installation &amp; Setup</a>
+<ul>
+<li><a href="#org851b456">Create and Save Script In Entourage Scripts Menu Folder</a></li>
+<li><a href="#orge32ea74">Create Entourage Shortcut Key</a></li>
+<li><a href="#orge0e6372">Enable Entourage Message Indexing In Spotlight</a></li>
+</ul>
+</li>
+<li><a href="#orge0c6699">Usage</a></li>
+</ul>
+</div>
+</div>
+<p>
+<a href="org-mac.html">{Back to Worg&rsquo;s Org and Mac OS X page}</a>
+</p>
+
+<div id="outline-container-orgf9d901f" class="outline-2">
+<h2 id="orgf9d901f">Purpose</h2>
+<div class="outline-text-2" id="text-orgf9d901f">
+<p>
+This hack allows the user to easily copy and paste links to messages
+from the Entourage mail app into an org-mode file.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd077c90" class="outline-2">
+<h2 id="orgd077c90">Installation &amp; Setup</h2>
+<div class="outline-text-2" id="text-orgd077c90">
+</div>
+<div id="outline-container-org851b456" class="outline-3">
+<h3 id="org851b456">Create and Save Script In Entourage Scripts Menu Folder</h3>
+<div class="outline-text-3" id="text-org851b456">
+<p>
+Installation is simple. Create a new Applescript application using the following code:
+</p>
+
+<pre class="example">
+tell application "Microsoft Entourage"
+   set selectedMessages to current messages
+   if selectedMessages is {} then
+   	return
+   end if
+   repeat with theMessage in selectedMessages
+   	set theName to subject of theMessage
+   	set theSender to display name of sender of theMessage
+   	set theContent to content of theMessage
+   	set theID to ID of theMessage as string
+   	set theCommand to "mdfind com_microsoft_entourage_recordID==" &amp; theID &amp; " | sed 's/ /\\%20/'"
+   	set theMDfile to the first item of paragraphs of (do shell script theCommand)
+   	set the clipboard to "[[file:" &amp; theMDfile &amp; "][" &amp; theName &amp; "]]" as string
+   end repeat
+end tell
+</pre>
+
+
+<p>
+and save it into your personal Entourage Scripts Menu Folder.  It&rsquo;s
+file path should be something like:
+</p>
+
+<pre class="example">
+~/user/Documents/Microsoft User Data/Entourage Script Menu Items
+</pre>
+
+
+<p>
+You can also locate this folder by opening Entourage and selecting
+the Applescript/Automator icon from the main toolbar (looks like a
+scroll / on the far right).  If you select &ldquo;About This Menu&#x2026;&rdquo; and
+click on the &ldquo;Open Folder&rdquo; dialog button it will open the
+&ldquo;Entourage Script Menu Items&rdquo; folder in Finder.
+</p>
+
+<p>
+The exact file name will be used as the menu option so if you want it to look pretty be sure and
+use something like &ldquo;Copy Org Link&rdquo; as the file name.
+</p>
+
+<p>
+Once you&rsquo;ve completed this step you should be able to run the
+script by selecting the &ldquo;&lt;file name&gt;&rdquo; option from the
+Applescript/Automator icon drop menu.
+</p>
+</div>
+</div>
+<div id="outline-container-orge32ea74" class="outline-3">
+<h3 id="orge32ea74">Create Entourage Shortcut Key</h3>
+<div class="outline-text-3" id="text-orge32ea74">
+<p>
+After the first step you should already be able to use the script
+(see usage below); however, it will probably be easier to use if
+you assign it a hot key (like the cut and paste shortcut keys).
+</p>
+
+<p>
+In order to assign it a hot key, open &ldquo;System Preferences&rdquo; and
+navigate to the following location:
+</p>
+
+<pre class="example">
+Hardware/Keyboard &amp; Mouse/Keyboard Shortcuts
+</pre>
+
+
+<p>
+Scroll to the bottom of the window, highlight &ldquo;Application
+Keyboard Shortcuts&rdquo;, and click the &ldquo;+&rdquo; sign just to the lower left
+of the window.
+</p>
+
+<p>
+This should open a dialog box.  Use the drop menu to select
+&ldquo;Entourage&rdquo; as the application, then enter the exact name that
+appears in the Entourage script menu.  The default is
+&ldquo;copy-org-link&rdquo;. Then enter the exact key combination that you
+would like to use as a shortcut in the &ldquo;Keyboard Shortcut&rdquo; window.
+My default is &ldquo;&lt;command&gt; l&rdquo;.
+</p>
+
+<p>
+When you go back to the scripts menu in Entourage you should now
+see the shortcut next to the name of the script.
+</p>
+</div>
+</div>
+<div id="outline-container-orge0e6372" class="outline-3">
+<h3 id="orge0e6372">Enable Entourage Message Indexing In Spotlight</h3>
+<div class="outline-text-3" id="text-orge0e6372">
+<p>
+In order for the hack to work the user must have enabled the
+Entourage application preference that allows OS X&rsquo;s built-in
+Spotlight search engine to index the contents of the Entourage
+database.
+</p>
+
+<p>
+To enable this preference open Entourage and select the following
+menu items:
+</p>
+
+<pre class="example">
+Preferences/General Preferences/Spotlight/
+</pre>
+
+
+<p>
+Then, simply check the box next to &ldquo;Include Entourage items in Spotlight search
+results&rdquo; to instruct Spotlight to index your messages.
+</p>
+
+<p>
+If you haven&rsquo;t previously had this feature enabled it may take it a
+few minutes to index your messages, but once it has finished you
+should be able to run the script successfully.
+</p>
+
+<p>
+NOTE: This step is required because of the way that Entourage
+stores its messages (in a single monolithic database). When
+Spotlight indexes the messages it creates separate files that can
+be referenced and contain sufficient metadata to link back to the
+original message in Entoura
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge0c6699" class="outline-2">
+<h2 id="orge0c6699">Usage</h2>
+<div class="outline-text-2" id="text-orge0c6699">
+<p>
+Once the hack has been setup simply highlight a message line in the
+message list window, hold down the &lt;command&gt; key, and press the
+assigned key.  This action will run the Applescript macro which will
+copy a properly formatted link to the message onto the
+clipboard. Simply paste the text from the clipboard into a .org
+document to create the link.
+</p>
+
+<p>
+Because of the way Spotlight indexes messages (it assigns each a
+unique identifier that never changes) the link should still work no
+matter where you move the original email within Entourage.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

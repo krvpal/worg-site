@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:20 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Perl in Org Mode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Daniel M. German" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="index.html"> UP </a>
+ |
+ <a accesskey="H" href="https://orgmode.org/worg/"> HOME </a>
+</div><div id="content">
+<h1 class="title">Perl in Org Mode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org76491f7">Introduction</a></li>
+<li><a href="#org93d08e9">Requirements and Setup</a></li>
+<li><a href="#org4732404">Org Mode Features for Perl Code Blocks</a>
+<ul>
+<li><a href="#org03f0a0a">Header Arguments</a></li>
+<li><a href="#org46aeb74">Result Types</a></li>
+<li><a href="#org8d98d72">Support for sessions</a></li>
+<li><a href="#org4125ab8">var</a></li>
+</ul>
+</li>
+<li><a href="#org1bbab73">Examples of Use</a></li>
+<li><a href="#org6645fa2">Other types of output</a></li>
+<li><a href="#orgb76d68b">Using tables as input</a></li>
+<li><a href="#org981dfa2">Links to Tutorials and Other Resources</a></li>
+</ul>
+</div>
+</div>
+<div id="subtitle" style="float: center; text-align: center;">
+<p>
+Org Mode support for <a href="http://www.perl.org/">Perl</a>
+</p>
+<p>
+<a href="http://www.perl.org/">
+<img src="./images/perl5raptor.png"/>
+</a>
+</p>
+</div>
+
+<div id="outline-container-org76491f7" class="outline-2">
+<h2 id="org76491f7">Introduction</h2>
+<div class="outline-text-2" id="text-org76491f7">
+<p>
+This document is a short introduction to using Perl within Org mode.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org93d08e9" class="outline-2">
+<h2 id="org93d08e9">Requirements and Setup</h2>
+<div class="outline-text-2" id="text-org93d08e9">
+<p>
+The only requirement is installed in the computer where Org Babel is
+executing the scripts.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #b6e63e;">org-babel-do-load-languages</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">org-babel-load-languages</span>
+ <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span>lisp . t<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4732404" class="outline-2">
+<h2 id="org4732404">Org Mode Features for Perl Code Blocks</h2>
+<div class="outline-text-2" id="text-org4732404">
+</div>
+<div id="outline-container-org03f0a0a" class="outline-3">
+<h3 id="org03f0a0a">Header Arguments</h3>
+<div class="outline-text-3" id="text-org03f0a0a">
+<p>
+The support of Perl in Babel is basic. There are no language-specific
+arguments for Perl code blocks.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org46aeb74" class="outline-3">
+<h3 id="org46aeb74">Result Types</h3>
+<div class="outline-text-3" id="text-org46aeb74">
+<p>
+The only supported type is <code>value</code>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8d98d72" class="outline-3">
+<h3 id="org8d98d72">Support for sessions</h3>
+<div class="outline-text-3" id="text-org8d98d72">
+<p>
+There is no support for sessions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4125ab8" class="outline-3">
+<h3 id="org4125ab8">var</h3>
+<div class="outline-text-3" id="text-org4125ab8">
+<p>
+It is possible ot pass several variables to Perl, including table
+variables. See below.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1bbab73" class="outline-2">
+<h2 id="org1bbab73">Examples of Use</h2>
+<div class="outline-text-2" id="text-org1bbab73">
+<p>
+These are two simple examples:
+</p>
+
+<pre class="example">
+#+BEGIN_SRC perl :results value
+"hello world";
+#+END_SRC
+
+#+RESULTS:
+: hello world
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-perl"><span style="color: #9c91e4; font-weight: bold;">10</span> * <span style="color: #9c91e4; font-weight: bold;">20</span> + <span style="color: #9c91e4; font-weight: bold;">5</span>;
+</pre>
+</div>
+
+<pre class="example">
+205
+</pre>
+
+<p>
+#+end_example
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6645fa2" class="outline-2">
+<h2 id="org6645fa2">Other types of output</h2>
+<div class="outline-text-2" id="text-org6645fa2">
+<p>
+Perl scripts might generate data that is parsed by Org. Unfortunately
+its current support is not very powerful. Currently there is only one
+method to receive data: <code>:results value</code>. This is the default.  The
+result of the code block (the value of the last expression evaluated)
+if returned to Org. If the result is an array (up to two dimensions)
+it is interpreted as a table. Some examples below:
+</p>
+
+
+<pre class="example">
+#+BEGIN_SRC perl :results value
+[[1,2],[2,4]]
+#+END_SRC
+
+#+RESULTS:
+| 1 | 2 |
+| 2 | 4 |
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-perl"><span style="color: #9c91e4; font-weight: bold;">10</span> + <span style="color: #9c91e4; font-weight: bold;">20</span>
+</pre>
+</div>
+
+<pre class="example">
+30
+</pre>
+
+<p>
+When returning an array, it is important to return a reference to the array. Otherwise it is interpreted as an scalar.
+</p>
+
+<p>
+For example, this returns the size of the array:
+</p>
+
+<pre class="example">
+#+BEGIN_SRC perl :results value
+my @result ;
+$i = 0;
+for $j ('a'..'e')  {
+   $result[$i] = $j;
+   $i ++;
+}
+@result;
+#+END_SRC
+
+#+RESULTS:
+: 5
+</pre>
+<p>
+But this returns the values of the array and creates the corresponding table
+</p>
+
+<pre class="example">
+#+BEGIN_SRC perl :results value
+my @result ;
+$i = 0;
+for $j ('a'..'e')  {
+   $result[$i] = $j;
+   $i ++;
+}
+\@result;
+#+END_SRC
+
+#+RESULTS:
+| a |
+| b |
+| c |
+| d |
+| e |
+</pre>
+
+<pre class="example">
+#+BEGIN_SRC perl :results value
+my @result ;
+for $i (0..3) {
+   for $j (0..2) {
+      $result[$i][$j] = $j*$i+$j;
+   }
+}
+\@result;
+#+END_SRC
+
+#+RESULTS:
+| 0 | 1 | 2 |
+| 0 | 2 | 4 |
+| 0 | 3 | 6 |
+| 0 | 4 | 8 |
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb76d68b" class="outline-2">
+<h2 id="orgb76d68b">Using tables as input</h2>
+<div class="outline-text-2" id="text-orgb76d68b">
+<p>
+The most useful feature of using Perl within Org is the ability to use
+tables as input to scripts.
+</p>
+
+<p>
+Let us assume we have the following table:
+</p>
+
+<pre class="example">
+#+NAME:exampletable
+| 1 | a |
+| 2 | b |
+| 3 | c |
+| 4 | d |
+</pre>
+
+<p>
+We want to use this table as input. Org passes a table to Perl as
+a reference to an array of anonymous one-dimension arrays. In
+a nutshell, you can access an element of a table using
+<code>$$nameTable[row][column]</code>. Remember, in Perl indexes are zero based:
+For instance, this block simply returns the input table. Please note
+that because data is already a reference we can simply return it.
+</p>
+
+<pre class="example">
+#+name: example1usingTable
+#+begin_src perl :var data=exampletable :results table :type value
+$data
+#+end_src
+
+#+RESULTS: example1usingTable
+| 1 | a |
+| 2 | b |
+| 3 | c |
+| 4 | d |
+</pre>
+
+<p>
+One challenge, however, is to know how big the table is. Perl does not have
+native two dimensional arrays. Instead, it uses arrays of arrays (each sub-array
+can have any size). In the block below we use a function (<code>org_table_size</code>) to
+return the number of columns and rows in a table.
+</p>
+
+<pre class="example">
+#+name: example2usingTable
+#+begin_src perl :results value :var data=exampletable
+# first we need to define two functions that will make our life easier
+sub org_table_size
+{
+    # return the number of columns and rows in a table
+    my ($table) = @_;
+    my $y = $$table[0];
+    return (scalar(@$y), scalar (@$table));
+}
+
+my @result ;
+
+my ($cols, $rows) = org_table_size($data);
+
+## transpose the input table
+
+for my $i ($0..$cols-1) {
+    for my $j (0 .. $rows-1) {
+        $result[$i][$j] = $$data[$j][$i];
+    }
+}
+\@result;
+#+end_src
+
+#+RESULTS: example2usingTable
+| 1 | 2 | 3 | 4 |
+| a | b | c | d |
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org981dfa2" class="outline-2">
+<h2 id="org981dfa2">Links to Tutorials and Other Resources</h2>
+<div class="outline-text-2" id="text-org981dfa2">
+<p>
+The best resource for Perl is <a href="https://perldoc.perl.org">The Perl programming documentation</a>
+project.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Daniel M. German</p>
+<p class="date">Created: 2021-06-15 Tue 18:20</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-06-15 Tue 18:21 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>org-feed.el &#x2013; add RSS feed items to Org files</title>
+<meta name="generator" content="Org mode" />
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/htmlize.css"/>
+ <link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/readtheorg.css"/>
+ <script type="text/javascript" src="src/lib/js/jquery.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/bootstrap.min.js"></script>
+ <script type="text/javascript" src="src/lib/js/jquery.stickytableheaders.min.js"></script>
+ <script type="text/javascript" src="src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">org-feed.el &#x2013; add RSS feed items to Org files</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orga4aa67c">Example</a></li>
+<li><a href="#org2c2e760">Keeping track of previously added entries</a></li>
+<li><a href="#org95edac4">Detailed description of <code>org-feed-alist</code></a></li>
+<li><a href="#org20b82db">Acknowledgments</a></li>
+</ul>
+</div>
+</div>
+<p>
+This module allows to create and change entries in an Org-mode
+file triggered by items in an RSS feed.  The basic functionality is
+geared toward simply adding new items found in a feed as outline nodes
+to an Org file.  Using hooks, arbitrary actions can be triggered for
+new or changed items.
+</p>
+
+<div id="outline-container-orga4aa67c" class="outline-2">
+<h2 id="orga4aa67c">Example</h2>
+<div class="outline-text-2" id="text-orga4aa67c">
+<p>
+This module is configured through a single variable, <code>org-feed-alist</code>.
+Here is an example, using a notes/tasks feed from reQall.com.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-feed-alist
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"ReQall"</span>
+   <span style="color: #e2c770;">"http://www.reqall.com/user/feeds/rss/a1b2c3....."</span>
+   <span style="color: #e2c770;">"~/org/feeds.org"</span> <span style="color: #e2c770;">"ReQall Entries"</span><span style="color: #b6e63e;">)</span>
+</pre>
+</div>
+
+<p>
+With this setup, the command <code>M-x org-feed-update-all</code> will
+collect new entries in the feed at the given URL and create
+entries as subheadings under the &ldquo;ReQall Entries&rdquo; heading in the
+file &ldquo;~/org-feeds.org&rdquo;.  Each feed needs to have its own heading.
+</p>
+
+<p>
+Besides these standard elements that need to be specified for each
+feed,, keyword-value pairs can set additional options.  For example,
+to de-select transitional entries with a title containing <i>reQall is
+typing what you said</i> you could use the <code>:filter</code> argument:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #eb4509;">(</span><span style="color: #eb4509;">setq</span> org-feed-alist
+      <span style="color: #9c91e4;">'</span><span style="color: #fd971f;">(</span><span style="color: #b6e63e;">(</span><span style="color: #e2c770;">"ReQall"</span>
+   <span style="color: #e2c770;">"http://www.reqall.com/user/feeds/rss/a1b2c3....."</span>
+   <span style="color: #e2c770;">"~/org/feeds.org"</span> <span style="color: #e2c770;">"ReQall Entries"</span>
+   <span style="color: #fd971f;">:filter</span> my-reqall-filter<span style="color: #b6e63e;">)</span><span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+
+<span style="color: #eb4509;">(</span><span style="color: #eb4509;">defun</span> <span style="color: #b6e63e;">my-reqall-filter</span> <span style="color: #fd971f;">(</span>e<span style="color: #fd971f;">)</span>
+  <span style="color: #fd971f;">(</span><span style="color: #eb4509;">if</span> <span style="color: #b6e63e;">(</span><span style="color: #fd971f;">string-match</span> <span style="color: #e2c770;">"reQall is typing what you said"</span>
+        <span style="color: #eb4509;">(</span><span style="color: #fd971f;">plist-get</span> e <span style="color: #fd971f;">:title</span><span style="color: #eb4509;">)</span><span style="color: #b6e63e;">)</span>
+      nil
+    e<span style="color: #fd971f;">)</span><span style="color: #eb4509;">)</span>
+</pre>
+</div>
+
+<p>
+See the docstring for <code>org-feed-alist</code> for more details.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2c2e760" class="outline-2">
+<h2 id="org2c2e760">Keeping track of previously added entries</h2>
+<div class="outline-text-2" id="text-org2c2e760">
+<p>
+Since Org allows you to delete, archive, or move outline nodes,
+org-feed.el needs to keep track of which feed items have been handled
+before, so that they will not be handled again.  For this, org-feed.el
+stores information in a special drawer, FEEDSTATUS, under the heading
+that received the input of the feed.  You should add FEEDSTATUS
+to your list of drawers in the files that receive feed input:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #7f7f80;">#+DRAWERS: PROPERTIES LOGBOOK FEEDSTATUS</span>
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org95edac4" class="outline-2">
+<h2 id="org95edac4">Detailed description of <code>org-feed-alist</code></h2>
+<div class="outline-text-2" id="text-org95edac4">
+<p>
+Alist specifying RSS feeds that should create inputs for Org.
+Each entry in this list specified an RSS feed tat should be queried
+to create inbox items in Org.  Each entry is a list with the following items:
+</p>
+
+
+<dl class="org-dl">
+<dt>name    </dt><dd>a custom name for this feed</dd>
+<dt>URL     </dt><dd>the Feed URL</dd>
+<dt>file    </dt><dd>the target Org file where entries should be listed</dd>
+<dt>headline</dt><dd>the headline under which entries should be listed</dd>
+</dl>
+
+<p>
+Additional arguments can be given using keyword-value pairs.  Many of
+these specify functions that receive one or a list of &ldquo;entries&rdquo; as
+their single argument.  An entry is a property list that describes a
+feed item.  The property list has properties for each field in the
+item, for example <code>:title</code> for the <code>&lt;title&gt;</code> field and <code>:pubDate</code> for
+the publication date.  In addition, it contains the following
+properties:
+</p>
+
+<dl class="org-dl">
+<dt><code>:item-full-text</code></dt><dd>the full text in the <code>&lt;item&gt;</code> tag</dd>
+<dt><code>:guid-permalink</code></dt><dd>t when the guid property is a permalink</dd>
+</dl>
+
+<p>
+Here are the keyword-value elements that can be configured
+</p>
+
+<dl class="org-dl">
+<dt>:drawer drawer-name</dt><dd>The name of the drawer for storing feed
+information.  The default is &ldquo;FEEDSTATUS&rdquo;.  Using different
+drawers for different feeds allows several feeds to target the
+same inbox heading.</dd>
+
+<dt>:filter filter-function</dt><dd>A function to select interesting entries
+in the feed.  It gets a single entry as parameter.  It should
+return the entry if it is relevant, or nil if it is not.</dd>
+
+<dt>:template template-string</dt><dd>The default action on new items in the
+feed is to add them as children under the headline for the feed.
+The template describes how the entry should be formatted.  If not
+given, it defaults to <code>org-feed-default-template</code>.</dd>
+
+<dt>:formatter formatter-function</dt><dd>Instead of relying on a template,
+you may specify a function to format the outline node to be
+inserted as a child.  This function gets passed a property list
+describing a single feed item, and it should return a string that
+is a properly formatted Org outline node of level 1.</dd>
+
+<dt>:new-handler function</dt><dd>If adding new items as children to the
+outline is not what you want to do with new items, define a
+handler function that is called with a list of all new items in
+the feed, each one represented as a property list.  The handler
+should do what needs to be done, and org-feed will mark all items
+given to this handler as \&ldquo;handled\&rdquo;, i.e. they will not be
+passed to this handler again in future readings of the feed.
+When the handler is called, point will be at the feed headline.</dd>
+
+<dt>:changed-handler function</dt><dd>This function gets passed a list of all
+entries that have been handled before, but are now still in the
+feed and have <b>changed</b> since last handled (as evidenced by a
+different sha1 hash).  When the handler is called, point will be
+at the feed headline.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org20b82db" class="outline-2">
+<h2 id="org20b82db">Acknowledgments</h2>
+<div class="outline-text-2" id="text-org20b82db">
+<p>
+<i>org-feed.el</i> is based on ideas by Brad Bozarth who implemented a
+similar mechanism using shell and awk scripts.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Created: 2021-06-15 Tue 18:21</p>
+</div>
+</body>
+</html>

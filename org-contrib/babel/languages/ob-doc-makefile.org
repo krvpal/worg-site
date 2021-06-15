@@ -1,0 +1,55 @@
+# Created 2021-06-15 Tue 18:20
+#+OPTIONS: H:3 num:nil toc:2 \n:nil ::t |:t ^:{} -:t f:t *:t tex:t d:(HIDE) tags:not-in-toc
+#+TITLE: Makefile Source Code Blocks in Org Mode
+#+AUTHOR: Thomas S. Dye
+#+startup: align fold nodlcheck hidestars oddeven lognotestate hideblocks
+#+seq_todo: TODO(t) INPROGRESS(i) WAITING(w@) | DONE(d) CANCELED(c@)
+#+tags: Write(w) Update(u) Fix(f) Check(c) noexport(n)
+#+language: en
+#+html_link_up: index.html
+#+html_link_home: https://orgmode.org/worg/
+#+exclude_tags: noexport
+
+* Introduction
+The =make= program is a dependency-tracking build utility that is
+distributed with *nix systems.  There are several =make= programs,
+but they each generally look for a file named =makefile= or
+=Makefile=, which contains rules for building one or more targets.
+=ob-makefile.el= helps the =Org mode= user tangle a =makefile= using
+source code blocks.
+
+Currently, =ob-makefile.el= is useful only for tangling a
+=makefile=.  Hopefully, at some point in the future it will support
+variables. 
+* Requirements and Setup
+
+The =make= program is a somewhat unusual *nix utility because the
+=TAB= character is an important part of the syntax.
+
+Emacs includes a [[http://www.emacswiki.org/emacs/MakefileMode][makefile-mode]] for editing the =makefile= code.
+
+For tangling to work, the variable =org-src-preserve-indentation= must
+be non-nil, so that tabs aren't lost in the Org mode buffer.
+
+#+begin_src emacs-lisp :exports code
+  (setq org-src-preserve-indentation t)
+#+end_src
+
+Currently, there is no need to activate makefile with
+=org-babel-do-load-languages=, but it won't hurt to do so.
+
+#+begin_src emacs-lisp :exports code
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((makefile . t)))
+#+end_src
+
+* Org Mode Features for Makefile Source Code Blocks
+** Header Arguments
+There are no language-specific default values or header arguments for =makefile=.
+** Sessions
+=makefile= doesn't support sessions.
+
+** Result Types
+=makefile= source code blocks currently don't return results. They
+exist solely for tangling.
